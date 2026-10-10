@@ -70,12 +70,12 @@
 .public _Z12sub_02007254ll
 .public _ZN17UnkClass_020074D4C1EPKcmm
 .public _ZN17UnkClass_020074D4C1EP19NNSG2dCharacterData
-.public _ZN17UnkClass_020074D4D2Ev
+.public _ZN17UnkClass_020074D4D1Ev
 .public _ZN17UnkClass_020074D412sub_020076B0Ev
 .public _ZN17UnkClass_020074D412sub_020076E8Em
 .public sub_02007AC0
 .public _ZN17UnkClass_02007AA4C1EP17NNSG2dPaletteData
-.public sub_02007B28
+.public _ZN17UnkClass_02007AA4D1Ev
 .public sub_02007BC4
 .public _ZN17UnkClass_02007AA412sub_02007BFCEm
 .public _ZN17UnkClass_02008788C1Ev

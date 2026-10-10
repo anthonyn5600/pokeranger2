@@ -18,20 +18,9 @@ void sub_02044B48(UnkStruct_02044464 *vm, void *stack, u32 stackSize);
 void sub_02044B78(UnkStruct_02044464 *vm);
 int sub_02044C9C(UnkStruct_02044464 *vm, u32 steps);
 int sub_02045A18(UnkStruct_02044464 *vm, void *script, const char *name);
-void ov0_0212F86C(UnkClass_0212F82C *obj, void *data);
-void ov0_0212FE54(UnkClass_0212F82C *obj, int fps);
-void ov0_0212FF30(UnkClass_0212FEDC *obj, void *data);
-void ov0_02130030(UnkClass_0212FEDC *obj, int fps);
-void ov0_021300C8(UnkClass_0212FEDC *obj);
-void ov0_0213033C(UnkClass_021302BC *tex, UnkClass_020074D4 *image, NNSGfdTexKey key);
-void ov0_02130404(UnkClass_021302BC *tex, UnkClass_02007AA4 *palette, NNSGfdPlttKey key, void *data);
 }
 
 extern CFieldMap *MAIN_BSS_0210CA54;
-
-// The original TU also has the chunk tags ("TEX", "TXIF", "RLCN", "MLY", "PLA", "MPIF", "CTA", "RGCN", "LYR") as
-// 4-byte strings in .rodata, right after the "MTP" initializer. Nothing references them and their source form is
-// unknown, so they're still at the start of the next asm file's .rodata.
 
 CFieldMap::CFieldMap()
 {
@@ -152,14 +141,14 @@ void CFieldMap::ov0_021251D8(BOOL runScript, int fps)
     if (unk_14 > 0 && unk_10 != NULL) {
         for (int i = 0; i < unk_14; i++) {
             if (unk_10[i] != NULL) {
-                ov0_0212FE54(unk_10[i], fps);
+                unk_10[i]->Update(fps);
             }
         }
     }
     if (unk_1C > 0 && unk_18 != NULL) {
         for (int i = 0; i < unk_1C; i++) {
             if (unk_18[i] != NULL) {
-                ov0_02130030(unk_18[i], fps);
+                unk_18[i]->Update(fps);
             }
         }
     }
@@ -242,7 +231,7 @@ UnkClass_021302BC *CFieldMap::ov0_0212550C(void *data, int id)
                     NNSGfdTexKey key = NNS_GfdAllocLnkTexVram(image->unk_38, FALSE, 0);
                     image->sub_020076E8(NNS_GfdGetTexKeyAddr(key));
                     image->sub_020076B0();
-                    ov0_0213033C(tex, image, key);
+                    tex->AddImage(image, key);
                     NNS_G2dGetImageLocation(&image->unk_08, NNS_G2D_VRAM_TYPE_3DMAIN);
                 } else {
                     NNSG2dCharacterData block = *chr;
@@ -261,7 +250,7 @@ UnkClass_021302BC *CFieldMap::ov0_0212550C(void *data, int id)
                             NNSGfdTexKey key = NNS_GfdAllocLnkTexVram(image->unk_38, FALSE, 0);
                             image->sub_020076E8(NNS_GfdGetTexKeyAddr(key));
                             image->sub_020076B0();
-                            ov0_0213033C(tex, image, key);
+                            tex->AddImage(image, key);
                             NNS_G2dGetImageLocation(&image->unk_08, NNS_G2D_VRAM_TYPE_3DMAIN);
                         }
                     }
@@ -281,7 +270,7 @@ UnkClass_021302BC *CFieldMap::ov0_0212550C(void *data, int id)
                         UnkClass_02007AA4 *palette = new UnkClass_02007AA4(pal);
                         NNSGfdPlttKey key = NNS_GfdAllocLnkPlttVram(palette->unk_04->szByte, FALSE, 0);
                         palette->sub_02007BFC(NNS_GfdGetPlttKeyAddr(key));
-                        ov0_02130404(tex, palette, key, buf);
+                        tex->AddPalette(palette, key, buf);
                         NNS_G2dGetImagePaletteLocation(&palette->unk_08, NNS_G2D_VRAM_TYPE_3DMAIN);
                     }
                     FS_CloseFile(&fsFile);
@@ -408,21 +397,23 @@ CFieldMapLayerBase *CFieldMap::ov0_02125904(void *data, int group, int index)
 UnkClass_0212F82C *CFieldMap::ov0_02125CA8(void *data, int index)
 {
     UnkClass_0212F82C *obj = new UnkClass_0212F82C();
-    obj->unk_00 = unk_04;
-    ov0_0212F86C(obj, data);
+    obj->m_textures = unk_04;
+    obj->Load(data);
     return obj;
 }
 
 UnkClass_0212FEDC *CFieldMap::ov0_02125CE8(void *data, int index)
 {
     UnkClass_0212FEDC *obj = new UnkClass_0212FEDC();
-    obj->unk_00 = unk_04;
-    ov0_0212FF30(obj, data);
+    obj->m_textures = unk_04;
+    obj->Load(data);
     return obj;
 }
 
 BOOL CFieldMap::ov0_02125D28(u8 group, const char *name, u32 heapId)
 {
+    // Unused, but its initializer is what puts the chunk tags in .rodata right after "MTP".
+    char tags[9][4] = { "TEX", { 'T', 'X', 'I', 'F' }, { 'R', 'L', 'C', 'N' }, "MLY", "PLA", { 'M', 'P', 'I', 'F' }, "CTA", { 'R', 'G', 'C', 'N' }, "LYR" };
     ov0_02124EE4();
     CBinaryFile *texFile = NULL;
     unk_00 = FALSE;
@@ -638,7 +629,7 @@ void CFieldMap::ov0_02126658()
     if (unk_1C > 0 && unk_18 != NULL) {
         for (int i = 0; i < unk_1C; i++) {
             if (unk_18[i] != NULL) {
-                ov0_021300C8(unk_18[i]);
+                unk_18[i]->Apply();
             }
         }
     }

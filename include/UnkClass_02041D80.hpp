@@ -45,7 +45,8 @@ struct UnkStruct_02041D80 {
     u8 unk_42;
     u8 unk_43[0x3];
     u8 unk_46;
-    u8 unk_47[0xD];
+    u8 unk_47[0x9];
+    int unk_50;
 };
 
 class UnkClass_02041D80;

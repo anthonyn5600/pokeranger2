@@ -47,7 +47,7 @@
 .public _Z17LinearInterpolatellll
 .public _Z12sub_02007254ll
 .public _ZN17UnkClass_020074D4C1EPKcmm
-.public _ZN17UnkClass_020074D4D2Ev
+.public _ZN17UnkClass_020074D4D1Ev
 .public _ZN17UnkClass_020074D412sub_020076B0Ev
 .public _ZN17UnkClass_020074D412sub_020076E8Em
 .public _ZN17UnkClass_0200777012sub_020077CCEP17UnkClass_020074D4
@@ -55,7 +55,7 @@
 .public _ZN17UnkClass_0200777012sub_020078E4Et
 .public _ZN17UnkClass_0200777012sub_02007A94Em
 .public sub_02007AC0
-.public sub_02007B28
+.public _ZN17UnkClass_02007AA4D1Ev
 .public sub_02007BC4
 .public _ZN17UnkClass_02007AA412sub_02007BFCEm
 .public _ZN6CSceneC2Ev

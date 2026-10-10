@@ -4521,8 +4521,8 @@ ov27_021205AC: ; 0x021205AC
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #4
 	mov r4, r0
-	ldr ip, _021205F0 ; =sub_0203C068
-	ldr r3, _021205F4 ; =sub_0203BFD4
+	ldr ip, _021205F0 ; =_ZN11CFieldActorD1Ev
+	ldr r3, _021205F4 ; =_ZN11CFieldActorC1Ev
 	add r0, r4, #0x30
 	mov r1, #2
 	mov r2, #0xe0
@@ -4536,8 +4536,8 @@ ov27_021205AC: ; 0x021205AC
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
-_021205F0: .word sub_0203C068
-_021205F4: .word sub_0203BFD4
+_021205F0: .word _ZN11CFieldActorD1Ev
+_021205F4: .word _ZN11CFieldActorC1Ev
 	arm_func_end ov27_021205AC
 
 	arm_func_start ov27_021205F8
@@ -4547,7 +4547,7 @@ ov27_021205F8: ; 0x021205F8
 	bl ov27_02120758
 	add r0, r4, #0x1f4
 	bl _ZN17UnkClass_02040F34D1Ev
-	ldr r3, _02120628 ; =sub_0203C068
+	ldr r3, _02120628 ; =_ZN11CFieldActorD1Ev
 	add r0, r4, #0x30
 	mov r1, #2
 	mov r2, #0xe0
@@ -4555,7 +4555,7 @@ ov27_021205F8: ; 0x021205F8
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02120628: .word sub_0203C068
+_02120628: .word _ZN11CFieldActorD1Ev
 	arm_func_end ov27_021205F8
 
 	arm_func_start ov27_0212062C

@@ -117,6 +117,12 @@ public:
         unk_001E = pos.y >> FX32_SHIFT;
     }
 
+    inline void SetUnk0020(Point2D pos)
+    {
+        unk_0020 = pos.x >> FX32_SHIFT;
+        unk_0022 = pos.y >> FX32_SHIFT;
+    }
+
     // Per-map 4-bit states of the field's actors; mapId < 0 means the current map.
     static inline BOOL IsValidMapId(int mapId)
     {
@@ -214,7 +220,8 @@ public:
     u16 unk_001A;
     s16 unk_001C;
     s16 unk_001E;
-    u8 unk_0020[0x4];
+    s16 unk_0020;
+    s16 unk_0022;
     u16 unk_0024;
     s16 unk_0026;
     u8 unk_0028[0x8];

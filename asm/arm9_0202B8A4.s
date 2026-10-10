@@ -2229,10 +2229,10 @@ _0202D384:
 _0202D38C: .word MAIN_BSS_020B26A0
 _0202D390: .word 0x00000FFF
 
-	arm_func_start sub_0202D394
-sub_0202D394: ; 0x0202D394
+	arm_func_start _ZN11CFieldActor12sub_0202D394Ev
+_ZN11CFieldActor12sub_0202D394Ev: ; 0x0202D394
 	bx lr
-	arm_func_end sub_0202D394
+	arm_func_end _ZN11CFieldActor12sub_0202D394Ev
 
 	arm_func_start sub_0202D398
 sub_0202D398: ; 0x0202D398
@@ -2584,8 +2584,8 @@ _0202D7D8:
 	mov r0, #0
 	ldmia sp!, {r3, pc}
 
-	arm_func_start sub_0202D7E0
-sub_0202D7E0: ; 0x0202D7E0
+	arm_func_start _ZN11CFieldActor12sub_0202D7E0Ev
+_ZN11CFieldActor12sub_0202D7E0Ev: ; 0x0202D7E0
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #8]
@@ -2604,7 +2604,7 @@ sub_0202D7E0: ; 0x0202D7E0
 	strneb r0, [r1, #0x1e1]
 	mov r0, #0
 	str r0, [r4, #0x94]
-	arm_func_end sub_0202D7E0
+	arm_func_end _ZN11CFieldActor12sub_0202D7E0Ev
 _0202D828:
 	ldr r0, [r4, #8]
 	cmp r0, #0
@@ -2937,8 +2937,8 @@ _0202DC4C:
 	mov r0, #0
 	ldmia sp!, {r4, pc}
 
-	arm_func_start sub_0202DC54
-sub_0202DC54: ; 0x0202DC54
+	arm_func_start _ZN11CFieldActor12sub_0202DC54Eii
+_ZN11CFieldActor12sub_0202DC54Eii: ; 0x0202DC54
 	stmdb sp!, {r3, lr}
 	ldr r0, [r0, #8]
 	cmp r0, #0
@@ -2947,7 +2947,7 @@ sub_0202DC54: ; 0x0202DC54
 	ldmeqia sp!, {r3, pc}
 	bl sub_02012114
 	ldmia sp!, {r3, pc}
-	arm_func_end sub_0202DC54
+	arm_func_end _ZN11CFieldActor12sub_0202DC54Eii
 
 	arm_func_start sub_0202DC74
 sub_0202DC74: ; 0x0202DC74
@@ -3731,11 +3731,11 @@ _0202E674:
 	.align 2, 0
 _0202E688: .word MAIN_BSS_020B26A0
 
-	arm_func_start sub_0202E68C
-sub_0202E68C: ; 0x0202E68C
+	arm_func_start _ZN11CFieldActor12sub_0202E68CEi
+_ZN11CFieldActor12sub_0202E68CEi: ; 0x0202E68C
 	str r1, [r0, #0x14]
 	bx lr
-	arm_func_end sub_0202E68C
+	arm_func_end _ZN11CFieldActor12sub_0202E68CEi
 
 	arm_func_start sub_0202E694
 sub_0202E694: ; 0x0202E694
@@ -5482,11 +5482,11 @@ _0202FBD4:
 	mov r0, r5
 	str lr, [sp, #0x20]
 	str ip, [sp, #0x24]
-	bl ov0_02132F14
+	bl _ZN12CFieldPlayer12ov0_02132F14Ehih
 	add r0, r4, #0x8000
 	ldrb r1, [r0, #0x802]
 	mov r0, r5
-	bl ov0_02132FA0
+	bl _ZN12CFieldPlayer12ov0_02132FA0Eh
 	ldr r4, [r5, #8]
 	cmp r4, #0
 	ldrne r0, [r4, #0xc]
@@ -5607,11 +5607,11 @@ _0202FD88:
 	mov r0, r5
 	str lr, [sp, #0x20]
 	str ip, [sp, #0x24]
-	bl ov0_02132F14
+	bl _ZN12CFieldPlayer12ov0_02132F14Ehih
 	add r0, r4, #0x8000
 	ldrb r1, [r0, #0x802]
 	mov r0, r5
-	bl ov0_02132FA0
+	bl _ZN12CFieldPlayer12ov0_02132FA0Eh
 	ldr r4, [r5, #8]
 	cmp r4, #0
 	ldrne r0, [r4, #0xc]
@@ -9088,7 +9088,7 @@ sub_02032768: ; 0x02032768
 	cmp r0, #0
 	beq _02032788
 	ldmia r2, {r1, r2}
-	bl ov0_0213690C
+	bl _ZN17CFieldEnemyManage12ov0_0213690CEii
 	arm_func_end sub_02032768
 _02032788:
 	mov r0, #0
@@ -9103,7 +9103,7 @@ sub_02032794: ; 0x02032794
 	ldr r0, [r0]
 	cmp r0, #0
 	beq _020327AC
-	bl ov0_02136968
+	bl _ZN17CFieldEnemyManage12ov0_02136968Ev
 	arm_func_end sub_02032794
 _020327AC:
 	mov r0, #0
@@ -9342,10 +9342,10 @@ _02032A3C:
 	mov r0, #0
 	ldmia sp!, {r3, pc}
 
-	arm_func_start sub_02032A44
-sub_02032A44: ; 0x02032A44
+	arm_func_start _ZN11CFieldActor12sub_02032A44Ei
+_ZN11CFieldActor12sub_02032A44Ei: ; 0x02032A44
 	bx lr
-	arm_func_end sub_02032A44
+	arm_func_end _ZN11CFieldActor12sub_02032A44Ei
 
 	arm_func_start sub_02032A48
 sub_02032A48: ; 0x02032A48
@@ -20635,8 +20635,8 @@ sub_0203BF20: ; 0x0203BF20
 _0203BF3C: .word 0x000FFFFF
 	arm_func_end sub_0203BF20
 
-	arm_func_start sub_0203BF40
-sub_0203BF40: ; 0x0203BF40
+	arm_func_start _ZN11CFieldActorC2Ev
+_ZN11CFieldActorC2Ev: ; 0x0203BF40
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	ldr r1, _0203BFCC ; =ptr_FUN_0203c068_0208dcb0
@@ -20675,10 +20675,10 @@ sub_0203BF40: ; 0x0203BF40
 	.align 2, 0
 _0203BFCC: .word ptr_FUN_0203c068_0208dcb0
 _0203BFD0: .word DAT_02084d58
-	arm_func_end sub_0203BF40
+	arm_func_end _ZN11CFieldActorC2Ev
 
-	arm_func_start sub_0203BFD4
-sub_0203BFD4: ; 0x0203BFD4
+	arm_func_start _ZN11CFieldActorC1Ev
+_ZN11CFieldActorC1Ev: ; 0x0203BFD4
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	ldr r1, _0203C060 ; =ptr_FUN_0203c068_0208dcb0
@@ -20717,10 +20717,10 @@ sub_0203BFD4: ; 0x0203BFD4
 	.align 2, 0
 _0203C060: .word ptr_FUN_0203c068_0208dcb0
 _0203C064: .word DAT_02084d58
-	arm_func_end sub_0203BFD4
+	arm_func_end _ZN11CFieldActorC1Ev
 
-	arm_func_start sub_0203C068
-sub_0203C068: ; 0x0203C068
+	arm_func_start _ZN11CFieldActorD1Ev
+_ZN11CFieldActorD1Ev: ; 0x0203C068
 	stmdb sp!, {r4, lr}
 	ldr r1, _0203C0CC ; =ptr_FUN_0203c068_0208dcb0
 	mov r4, r0
@@ -20733,7 +20733,7 @@ sub_0203C068: ; 0x0203C068
 	ldr r1, [r0]
 	ldr r1, [r1, #4]
 	blx r1
-	arm_func_end sub_0203C068
+	arm_func_end _ZN11CFieldActorD1Ev
 _0203C098:
 	mov r0, #0
 	str r0, [r4, #0xdc]
@@ -20754,8 +20754,8 @@ _0203C0BC:
 _0203C0CC: .word ptr_FUN_0203c068_0208dcb0
 _0203C0D0: .word MAIN_BSS_0210CA60
 
-	arm_func_start sub_0203C0D4
-sub_0203C0D4: ; 0x0203C0D4
+	arm_func_start _ZN11CFieldActorD0Ev
+_ZN11CFieldActorD0Ev: ; 0x0203C0D4
 	stmdb sp!, {r4, lr}
 	ldr r1, _0203C140 ; =ptr_FUN_0203c068_0208dcb0
 	mov r4, r0
@@ -20768,7 +20768,7 @@ sub_0203C0D4: ; 0x0203C0D4
 	ldr r1, [r0]
 	ldr r1, [r1, #4]
 	blx r1
-	arm_func_end sub_0203C0D4
+	arm_func_end _ZN11CFieldActorD0Ev
 _0203C104:
 	mov r0, #0
 	str r0, [r4, #0xdc]
@@ -20791,8 +20791,8 @@ _0203C128:
 _0203C140: .word ptr_FUN_0203c068_0208dcb0
 _0203C144: .word MAIN_BSS_0210CA60
 
-	arm_func_start sub_0203C148
-sub_0203C148: ; 0x0203C148
+	arm_func_start _ZN11CFieldActorD2Ev
+_ZN11CFieldActorD2Ev: ; 0x0203C148
 	stmdb sp!, {r4, lr}
 	ldr r1, _0203C1AC ; =ptr_FUN_0203c068_0208dcb0
 	mov r4, r0
@@ -20805,7 +20805,7 @@ sub_0203C148: ; 0x0203C148
 	ldr r1, [r0]
 	ldr r1, [r1, #4]
 	blx r1
-	arm_func_end sub_0203C148
+	arm_func_end _ZN11CFieldActorD2Ev
 _0203C178:
 	mov r0, #0
 	str r0, [r4, #0xdc]
@@ -20826,8 +20826,8 @@ _0203C19C:
 _0203C1AC: .word ptr_FUN_0203c068_0208dcb0
 _0203C1B0: .word MAIN_BSS_0210CA60
 
-	arm_func_start sub_0203C1B4
-sub_0203C1B4: ; 0x0203C1B4
+	arm_func_start _ZN11CFieldActor12sub_0203C1B4EPv
+_ZN11CFieldActor12sub_0203C1B4EPv: ; 0x0203C1B4
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r0, [r5, #0xdc]
@@ -20840,7 +20840,7 @@ sub_0203C1B4: ; 0x0203C1B4
 	beq _0203C1E4
 	mov r1, #0x40
 	bl sub_0203BD5C
-	arm_func_end sub_0203C1B4
+	arm_func_end _ZN11CFieldActor12sub_0203C1B4EPv
 _0203C1E4:
 	str r0, [r5, #0xdc]
 	str r4, [r0, #0x2c]
@@ -20851,8 +20851,8 @@ _0203C1F4:
 	mov r0, #1
 	ldmia sp!, {r3, r4, r5, pc}
 
-	arm_func_start sub_0203C1FC
-sub_0203C1FC: ; 0x0203C1FC
+	arm_func_start _ZN11CFieldActor12sub_0203C1FCEv
+_ZN11CFieldActor12sub_0203C1FCEv: ; 0x0203C1FC
 	ldr r3, [r0, #0xdc]
 	cmp r3, #0
 	bne _0203C218
@@ -20860,7 +20860,7 @@ sub_0203C1FC: ; 0x0203C1FC
 	strne r1, [r0, #0xdc]
 	strne r2, [r1, #0x2c]
 	bne _0203C224
-	arm_func_end sub_0203C1FC
+	arm_func_end _ZN11CFieldActor12sub_0203C1FCEv
 _0203C218:
 	str r2, [r3, #0x2c]
 	mov r0, #0
@@ -20869,8 +20869,8 @@ _0203C224:
 	mov r0, #1
 	bx lr
 
-	arm_func_start sub_0203C22C
-sub_0203C22C: ; 0x0203C22C
+	arm_func_start _ZN11CFieldActor12sub_0203C22CEPKc
+_ZN11CFieldActor12sub_0203C22CEPKc: ; 0x0203C22C
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r0, [r5, #0xdc]
@@ -20890,7 +20890,7 @@ sub_0203C22C: ; 0x0203C22C
 	bl strcpy
 	mov r0, #1
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end sub_0203C22C
+	arm_func_end _ZN11CFieldActor12sub_0203C22CEPKc
 _0203C278:
 	mov r0, #0
 	strb r0, [r5, #0x7f]
@@ -20898,8 +20898,8 @@ _0203C280:
 	mov r0, #0
 	ldmia sp!, {r3, r4, r5, pc}
 
-	arm_func_start sub_0203C288
-sub_0203C288: ; 0x0203C288
+	arm_func_start _ZN11CFieldActor12sub_0203C288Ev
+_ZN11CFieldActor12sub_0203C288Ev: ; 0x0203C288
 	stmdb sp!, {r3, lr}
 	mov r1, #0
 	strb r1, [r0, #0x7f]
@@ -20910,7 +20910,7 @@ sub_0203C288: ; 0x0203C288
 	ldr r1, [r1, #0xc]
 	blx r1
 	mov r1, r0
-	arm_func_end sub_0203C288
+	arm_func_end _ZN11CFieldActor12sub_0203C288Ev
 _0203C2B0:
 	mov r0, r1
 	ldmia sp!, {r3, pc}
@@ -20927,8 +20927,8 @@ sub_0203C2B8: ; 0x0203C2B8
 	ldmia sp!, {r3, pc}
 	arm_func_end sub_0203C2B8
 
-	arm_func_start sub_0203C2D8
-sub_0203C2D8: ; 0x0203C2D8
+	arm_func_start _ZN11CFieldActor12sub_0203C2D8Ev
+_ZN11CFieldActor12sub_0203C2D8Ev: ; 0x0203C2D8
 	stmdb sp!, {r3, lr}
 	mov r1, r0
 	ldr r0, [r1, #0xdc]
@@ -20943,7 +20943,7 @@ sub_0203C2D8: ; 0x0203C2D8
 	blx r3
 	mov r0, #1
 	ldmia sp!, {r3, pc}
-	arm_func_end sub_0203C2D8
+	arm_func_end _ZN11CFieldActor12sub_0203C2D8Ev
 
 	arm_func_start sub_0203C310
 sub_0203C310: ; 0x0203C310
@@ -22299,8 +22299,8 @@ _0203D564:
 	add sp, sp, #0x10
 	bx lr
 
-	arm_func_start sub_0203D578
-sub_0203D578: ; 0x0203D578
+	arm_func_start _ZN11CFieldActor12sub_0203D578Ev
+_ZN11CFieldActor12sub_0203D578Ev: ; 0x0203D578
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #0x40
 	mov r6, r0
@@ -22312,7 +22312,7 @@ sub_0203D578: ; 0x0203D578
 	cmp r0, #2
 	beq _0203D710
 	b _0203D878
-	arm_func_end sub_0203D578
+	arm_func_end _ZN11CFieldActor12sub_0203D578Ev
 _0203D5A4:
 	ldr r1, [r6, #8]
 	cmp r1, #0
@@ -22657,14 +22657,14 @@ sub_0203DA10: ; 0x0203DA10
 _0203DA34: .word MAIN_BSS_0210CA60
 	arm_func_end sub_0203DA10
 
-	arm_func_start sub_0203DA38
-sub_0203DA38: ; 0x0203DA38
+	arm_func_start _ZN11CFieldActor12sub_0203DA38Ev
+_ZN11CFieldActor12sub_0203DA38Ev: ; 0x0203DA38
 	mov r0, #1
 	bx lr
-	arm_func_end sub_0203DA38
+	arm_func_end _ZN11CFieldActor12sub_0203DA38Ev
 
-	arm_func_start sub_0203DA40
-sub_0203DA40: ; 0x0203DA40
+	arm_func_start _ZN11CFieldActor12sub_0203DA40EP9CFieldMap
+_ZN11CFieldActor12sub_0203DA40EP9CFieldMap: ; 0x0203DA40
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r4, r1
@@ -22673,13 +22673,13 @@ sub_0203DA40: ; 0x0203DA40
 	mov r1, r4
 	bl sub_0203C87C
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end sub_0203DA40
+	arm_func_end _ZN11CFieldActor12sub_0203DA40EP9CFieldMap
 
-	arm_func_start sub_0203DA60
-sub_0203DA60: ; 0x0203DA60
+	arm_func_start _ZN11CFieldActor12sub_0203DA60Em
+_ZN11CFieldActor12sub_0203DA60Em: ; 0x0203DA60
 	str r1, [r0, #0x58]
 	bx lr
-	arm_func_end sub_0203DA60
+	arm_func_end _ZN11CFieldActor12sub_0203DA60Em
 
 	arm_func_start sub_0203DA68
 sub_0203DA68: ; 0x0203DA68
@@ -24211,8 +24211,8 @@ _ZN17CFieldActorManageD2Ev: ; 0x0203EFBC
 _0203EFE0: .word PTR_LAB_0208ddc0
 	arm_func_end _ZN17CFieldActorManageD2Ev
 
-	arm_func_start sub_0203EFE4
-sub_0203EFE4: ; 0x0203EFE4
+	arm_func_start _ZN17CFieldActorManage12sub_0203EFE4Ei
+_ZN17CFieldActorManage12sub_0203EFE4Ei: ; 0x0203EFE4
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r2, [r0]
 	mov r5, r0
@@ -24227,7 +24227,7 @@ sub_0203EFE4: ; 0x0203EFE4
 	mov r2, #0
 	ldmleia sp!, {r3, r4, r5, pc}
 	mov r1, r2
-	arm_func_end sub_0203EFE4
+	arm_func_end _ZN17CFieldActorManage12sub_0203EFE4Ei
 _0203F01C:
 	ldr r0, [r5, #8]
 	str r1, [r0, r2, lsl #2]
@@ -24236,8 +24236,8 @@ _0203F01C:
 	blt _0203F01C
 	ldmia sp!, {r3, r4, r5, pc}
 
-	arm_func_start sub_0203F034
-sub_0203F034: ; 0x0203F034
+	arm_func_start _ZN17CFieldActorManage12sub_0203F034Ev
+_ZN17CFieldActorManage12sub_0203F034Ev: ; 0x0203F034
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r4, r0
 	ldr r1, [r4, #4]
@@ -24250,7 +24250,7 @@ sub_0203F034: ; 0x0203F034
 	mov r6, #0
 	ble _0203F09C
 	mov r5, r6
-	arm_func_end sub_0203F034
+	arm_func_end _ZN17CFieldActorManage12sub_0203F034Ev
 _0203F064:
 	ldr r0, [r4, #8]
 	ldr r0, [r0, r6, lsl #2]
@@ -24280,8 +24280,8 @@ _0203F0B4:
 	str r0, [r4, #4]
 	ldmia sp!, {r4, r5, r6, pc}
 
-	arm_func_start sub_0203F0C0
-sub_0203F0C0: ; 0x0203F0C0
+	arm_func_start _ZN17CFieldActorManage12sub_0203F0C0Ev
+_ZN17CFieldActorManage12sub_0203F0C0Ev: ; 0x0203F0C0
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r3, [r5, #4]
@@ -24293,7 +24293,7 @@ sub_0203F0C0: ; 0x0203F0C0
 	cmp r3, #0
 	mov r4, #0
 	ble _0203F13C
-	arm_func_end sub_0203F0C0
+	arm_func_end _ZN17CFieldActorManage12sub_0203F0C0Ev
 _0203F0EC:
 	ldr r0, [ip, r4, lsl #2]
 	cmp r0, #0
@@ -24322,8 +24322,8 @@ _0203F13C:
 	mov r0, #0
 	ldmia sp!, {r3, r4, r5, pc}
 
-	arm_func_start sub_0203F144
-sub_0203F144: ; 0x0203F144
+	arm_func_start _ZN17CFieldActorManage12sub_0203F144Ev
+_ZN17CFieldActorManage12sub_0203F144Ev: ; 0x0203F144
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r0, [r5, #8]
@@ -24336,7 +24336,7 @@ sub_0203F144: ; 0x0203F144
 	ldr r1, [r0]
 	ldr r1, [r1, #4]
 	blx r1
-	arm_func_end sub_0203F144
+	arm_func_end _ZN17CFieldActorManage12sub_0203F144Ev
 _0203F174:
 	ldr r0, [r5, #8]
 	mov r1, #0
@@ -24348,8 +24348,8 @@ _0203F188:
 	mov r0, #0
 	ldmia sp!, {r3, r4, r5, pc}
 
-	arm_func_start sub_0203F190
-sub_0203F190: ; 0x0203F190
+	arm_func_start _ZN17CFieldActorManage12sub_0203F190Ev
+_ZN17CFieldActorManage12sub_0203F190Ev: ; 0x0203F190
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r4, r0
 	ldr r1, [r4, #4]
@@ -24361,7 +24361,7 @@ sub_0203F190: ; 0x0203F190
 	subs r6, r1, #1
 	bmi _0203F1EC
 	mov r5, #0
-	arm_func_end sub_0203F190
+	arm_func_end _ZN17CFieldActorManage12sub_0203F190Ev
 _0203F1BC:
 	ldr r0, [r4, #8]
 	ldr r0, [r0, r6, lsl #2]
@@ -24384,8 +24384,8 @@ _0203F1F4:
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
 
-	arm_func_start sub_0203F1FC
-sub_0203F1FC: ; 0x0203F1FC
+	arm_func_start _ZN17CFieldActorManage12sub_0203F1FCEv
+_ZN17CFieldActorManage12sub_0203F1FCEv: ; 0x0203F1FC
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	ldr ip, [r0, #4]
 	mov r5, r2
@@ -24413,7 +24413,7 @@ sub_0203F1FC: ; 0x0203F1FC
 	cmp r0, #0
 	strne r5, [r0, #0x18]
 	strne r4, [r0, #0x1c]
-	arm_func_end sub_0203F1FC
+	arm_func_end _ZN17CFieldActorManage12sub_0203F1FCEv
 _0203F268:
 	mov r0, #1
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
@@ -24421,8 +24421,8 @@ _0203F270:
 	mov r0, #0
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 
-	arm_func_start sub_0203F278
-sub_0203F278: ; 0x0203F278
+	arm_func_start _ZN17CFieldActorManage12sub_0203F278Ev
+_ZN17CFieldActorManage12sub_0203F278Ev: ; 0x0203F278
 	ldr ip, [r0, #4]
 	cmp r1, ip
 	bge _0203F2A8
@@ -24435,13 +24435,13 @@ sub_0203F278: ; 0x0203F278
 	str r3, [r0, #0x1c]
 	mov r0, #1
 	bx lr
-	arm_func_end sub_0203F278
+	arm_func_end _ZN17CFieldActorManage12sub_0203F278Ev
 _0203F2A8:
 	mov r0, #0
 	bx lr
 
-	arm_func_start sub_0203F2B0
-sub_0203F2B0: ; 0x0203F2B0
+	arm_func_start _ZN17CFieldActorManage12sub_0203F2B0EP9CFieldMapi
+_ZN17CFieldActorManage12sub_0203F2B0EP9CFieldMapi: ; 0x0203F2B0
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
 	mov sb, r0
 	ldr r0, [sb, #8]
@@ -24455,7 +24455,7 @@ sub_0203F2B0: ; 0x0203F2B0
 	ldmleia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
 	mov r4, r6
 	mov r5, #1
-	arm_func_end sub_0203F2B0
+	arm_func_end _ZN17CFieldActorManage12sub_0203F2B0EP9CFieldMapi
 _0203F2E4:
 	ldr r0, [sb, #8]
 	ldr r0, [r0, r6, lsl #2]
@@ -24485,8 +24485,8 @@ _0203F334:
 	blt _0203F2E4
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
 
-	arm_func_start sub_0203F348
-sub_0203F348: ; 0x0203F348
+	arm_func_start _ZN17CFieldActorManage12sub_0203F348EP17UnkClass_0211E3FCP17UnkClass_020416AC
+_ZN17CFieldActorManage12sub_0203F348EP17UnkClass_0211E3FCP17UnkClass_020416AC: ; 0x0203F348
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
 	mov r8, r0
 	ldr r0, [r8, #8]
@@ -24500,7 +24500,7 @@ sub_0203F348: ; 0x0203F348
 	ldmleia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
 	mov sb, r5
 	mov r4, #1
-	arm_func_end sub_0203F348
+	arm_func_end _ZN17CFieldActorManage12sub_0203F348EP17UnkClass_0211E3FCP17UnkClass_020416AC
 _0203F37C:
 	ldr r0, [r8, #8]
 	ldr r0, [r0, r5, lsl #2]
@@ -24595,8 +24595,8 @@ _0203F4A4:
 	blt _0203F46C
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 
-	arm_func_start sub_0203F4B8
-sub_0203F4B8: ; 0x0203F4B8
+	arm_func_start _ZN17CFieldActorManage12sub_0203F4B8Ev
+_ZN17CFieldActorManage12sub_0203F4B8Ev: ; 0x0203F4B8
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
 	ldr r4, [r0, #8]
 	cmp r4, #0
@@ -24610,7 +24610,7 @@ sub_0203F4B8: ; 0x0203F4B8
 	mov lr, r6
 	mov ip, r6
 	mov sb, r6
-	arm_func_end sub_0203F4B8
+	arm_func_end _ZN17CFieldActorManage12sub_0203F4B8Ev
 _0203F4EC:
 	ldr r7, [r0, #8]
 	ldr r7, [r7, r6, lsl #2]
@@ -24654,8 +24654,8 @@ _0203F578:
 	blt _0203F4EC
 	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
 
-	arm_func_start sub_0203F58C
-sub_0203F58C: ; 0x0203F58C
+	arm_func_start _ZN17CFieldActorManage12sub_0203F58CEv
+_ZN17CFieldActorManage12sub_0203F58CEv: ; 0x0203F58C
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r2, [r0, #8]
 	cmp r2, #0
@@ -24666,7 +24666,7 @@ sub_0203F58C: ; 0x0203F58C
 	ldmleia sp!, {r3, r4, r5, pc}
 	mov r3, lr
 	mov ip, #1
-	arm_func_end sub_0203F58C
+	arm_func_end _ZN17CFieldActorManage12sub_0203F58CEv
 _0203F5B4:
 	ldr r2, [r0, #8]
 	ldr r5, [r2, lr, lsl #2]
@@ -24690,8 +24690,8 @@ _0203F5F0:
 	blt _0203F5B4
 	ldmia sp!, {r3, r4, r5, pc}
 
-	arm_func_start sub_0203F604
-sub_0203F604: ; 0x0203F604
+	arm_func_start _ZN17CFieldActorManage12sub_0203F604Ev
+_ZN17CFieldActorManage12sub_0203F604Ev: ; 0x0203F604
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r2, [r0, #8]
 	cmp r2, #0
@@ -24703,7 +24703,7 @@ sub_0203F604: ; 0x0203F604
 	mov lr, r5
 	mov r4, #1
 	mov r3, r5
-	arm_func_end sub_0203F604
+	arm_func_end _ZN17CFieldActorManage12sub_0203F604Ev
 _0203F630:
 	ldr r2, [r0, #8]
 	ldr r6, [r2, r5, lsl #2]
@@ -24729,8 +24729,8 @@ _0203F674:
 	blt _0203F630
 	ldmia sp!, {r4, r5, r6, pc}
 
-	arm_func_start sub_0203F688
-sub_0203F688: ; 0x0203F688
+	arm_func_start _ZN17CFieldActorManage12sub_0203F688Ev
+_ZN17CFieldActorManage12sub_0203F688Ev: ; 0x0203F688
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r2, [r0, #8]
 	cmp r2, #0
@@ -24741,7 +24741,7 @@ sub_0203F688: ; 0x0203F688
 	ldmleia sp!, {r3, r4, r5, pc}
 	mov r3, lr
 	mov ip, #1
-	arm_func_end sub_0203F688
+	arm_func_end _ZN17CFieldActorManage12sub_0203F688Ev
 _0203F6B0:
 	ldr r2, [r0, #8]
 	ldr r5, [r2, lr, lsl #2]
@@ -24765,8 +24765,8 @@ _0203F6EC:
 	blt _0203F6B0
 	ldmia sp!, {r3, r4, r5, pc}
 
-	arm_func_start sub_0203F700
-sub_0203F700: ; 0x0203F700
+	arm_func_start _ZN17CFieldActorManage12sub_0203F700Ev
+_ZN17CFieldActorManage12sub_0203F700Ev: ; 0x0203F700
 	ldr r1, [r0, #8]
 	cmp r1, #0
 	bxeq lr
@@ -24775,7 +24775,7 @@ sub_0203F700: ; 0x0203F700
 	cmp r1, #0
 	bxle lr
 	mov r2, r3
-	arm_func_end sub_0203F700
+	arm_func_end _ZN17CFieldActorManage12sub_0203F700Ev
 _0203F720:
 	ldr r1, [r0, #8]
 	ldr r1, [r1, r3, lsl #2]
@@ -24791,8 +24791,8 @@ _0203F720:
 	blt _0203F720
 	bx lr
 
-	arm_func_start sub_0203F754
-sub_0203F754: ; 0x0203F754
+	arm_func_start _ZN17CFieldActorManage12sub_0203F754Ev
+_ZN17CFieldActorManage12sub_0203F754Ev: ; 0x0203F754
 	ldr r1, [r0, #8]
 	cmp r1, #0
 	bxeq lr
@@ -24800,7 +24800,7 @@ sub_0203F754: ; 0x0203F754
 	mov r3, #0
 	cmp r1, #0
 	bxle lr
-	arm_func_end sub_0203F754
+	arm_func_end _ZN17CFieldActorManage12sub_0203F754Ev
 _0203F770:
 	ldr r1, [r0, #8]
 	ldr r1, [r1, r3, lsl #2]
@@ -24818,8 +24818,8 @@ _0203F770:
 	blt _0203F770
 	bx lr
 
-	arm_func_start sub_0203F7AC
-sub_0203F7AC: ; 0x0203F7AC
+	arm_func_start _ZN17CFieldActorManage12sub_0203F7ACEv
+_ZN17CFieldActorManage12sub_0203F7ACEv: ; 0x0203F7AC
 	ldr r1, [r0, #8]
 	cmp r1, #0
 	bxeq lr
@@ -24827,7 +24827,7 @@ sub_0203F7AC: ; 0x0203F7AC
 	mov r3, #0
 	cmp r1, #0
 	bxle lr
-	arm_func_end sub_0203F7AC
+	arm_func_end _ZN17CFieldActorManage12sub_0203F7ACEv
 _0203F7C8:
 	ldr r1, [r0, #8]
 	ldr r2, [r1, r3, lsl #2]
@@ -25647,8 +25647,8 @@ _02040370:
 	add sp, sp, #0x10
 	bx lr
 
-	arm_func_start sub_02040384
-sub_02040384: ; 0x02040384
+	arm_func_start _ZN17CFieldActorManage12sub_02040384Ev
+_ZN17CFieldActorManage12sub_02040384Ev: ; 0x02040384
 	stmdb sp!, {r0, r1, r2, r3}
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
 	sub sp, sp, #8
@@ -25663,7 +25663,7 @@ sub_02040384: ; 0x02040384
 	ldr r8, [sp, #0x2c]
 	ldr r7, [sp, #0x30]
 	add r4, sp, #0x2c
-	arm_func_end sub_02040384
+	arm_func_end _ZN17CFieldActorManage12sub_02040384Ev
 _020403BC:
 	ldr r0, [r6, #8]
 	ldr r0, [r0, r5, lsl #2]
@@ -25694,14 +25694,14 @@ _02040408:
 	add sp, sp, #0x10
 	bx lr
 
-	arm_func_start sub_02040428
-sub_02040428: ; 0x02040428
+	arm_func_start _ZN17CFieldActorManage12sub_02040428Ev
+_ZN17CFieldActorManage12sub_02040428Ev: ; 0x02040428
 	ldr r1, [r0, #4]
 	mov r3, #0
 	cmp r1, #0
 	bxle lr
 	mov r2, #2
-	arm_func_end sub_02040428
+	arm_func_end _ZN17CFieldActorManage12sub_02040428Ev
 _0204043C:
 	ldr r1, [r0, #8]
 	ldr r1, [r1, r3, lsl #2]
@@ -25713,8 +25713,8 @@ _0204043C:
 	blt _0204043C
 	bx lr
 
-	arm_func_start sub_02040460
-sub_02040460: ; 0x02040460
+	arm_func_start _ZN17CFieldActorManage12sub_02040460Ev
+_ZN17CFieldActorManage12sub_02040460Ev: ; 0x02040460
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r4, r0
 	ldr r0, [r4, #4]
@@ -25722,7 +25722,7 @@ sub_02040460: ; 0x02040460
 	cmp r0, #0
 	ldmleia sp!, {r3, r4, r5, r6, r7, pc}
 	mov r5, r6
-	arm_func_end sub_02040460
+	arm_func_end _ZN17CFieldActorManage12sub_02040460Ev
 _0204047C:
 	ldr r0, [r4, #8]
 	ldr r7, [r0, r6, lsl #2]
@@ -27264,7 +27264,7 @@ sub_02041870: ; 0x02041870
 	beq _020418A0
 	beq _02041898
 	mov r0, r5
-	bl _ZN17UnkClass_020074D4D2Ev
+	bl _ZN17UnkClass_020074D4D1Ev
 	mov r0, r5
 	bl _ZdlPv
 	arm_func_end sub_02041870
@@ -27277,7 +27277,7 @@ _020418A0:
 	beq _020418C8
 	beq _020418C0
 	mov r0, r5
-	bl sub_02007B28
+	bl _ZN17UnkClass_02007AA4D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _020418C0:
@@ -28124,7 +28124,7 @@ _0204237C:
 	beq _020423A4
 	beq _0204239C
 	mov r0, r5
-	bl _ZN17UnkClass_020074D4D2Ev
+	bl _ZN17UnkClass_020074D4D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _0204239C:
@@ -28136,7 +28136,7 @@ _020423A4:
 	beq _020423CC
 	beq _020423C4
 	mov r0, r5
-	bl sub_02007B28
+	bl _ZN17UnkClass_02007AA4D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _020423C4:

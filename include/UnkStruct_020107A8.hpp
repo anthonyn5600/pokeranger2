@@ -5,9 +5,20 @@
 
 // Record returned by sub_020107A8 (from the table at CGame::unk_1434)
 struct UnkStruct_020107A8 {
-    u8 unk_00[0x5];
+    u16 unk_00;
+    u8 unk_02;
+    u8 unk_03[0x2];
     u8 unk_05;
     u8 unk_06;
+    s8 unk_07;
+    s8 unk_08;
+    u8 unk_09;
+    s8 unk_0A;
+    s8 unk_0B;
+    s8 unk_0C;
+    s8 unk_0D;
+    s8 unk_0E;
+    s8 unk_0F;
 };
 
 extern "C" {

@@ -19,7 +19,7 @@ public:
     virtual void sub_0203F034();
     virtual void sub_0203F0C0();
     virtual void sub_0203F144();
-    virtual void sub_0203F190();
+    virtual BOOL sub_0203F190();
     virtual void sub_0203F2B0(CFieldMap *map, BOOL update);
     virtual void sub_0203F1FC();
     virtual void sub_0203F278();
@@ -72,6 +72,20 @@ public:
             CFieldActor *actor = m_actors[i];
             if (actor != NULL && id == actor->unk_58) {
                 return actor;
+            }
+        }
+        return NULL;
+    }
+
+    // Find, but the match is read again for the result. Through a CFieldActor *const view, or mwcc reuses the
+    // first read.
+    inline CFieldActor *FindTarget(u32 id)
+    {
+        int count = m_count;
+        for (int i = 0; i < count; i++) {
+            CFieldActor *actor = m_actors[i];
+            if (actor != NULL && id == actor->unk_58) {
+                return ((CFieldActor *const *)m_actors)[i];
             }
         }
         return NULL;

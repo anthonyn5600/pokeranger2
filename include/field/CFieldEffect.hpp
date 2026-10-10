@@ -19,6 +19,12 @@ public:
     virtual void ov0_02142380();
     virtual void ov0_021421F0(int arg0, int arg1, int arg2);
     virtual void ov0_02142240(int arg0);
+    virtual void ov0_02142264();
+    virtual void ov0_02142344();
+    virtual void ov0_0214239C();
+    virtual void ov0_02142398();
+    virtual void ov0_0214234C();
+    virtual void sub_0203312C(int param, int value);
 
 public:
     u8 unk_04[0x18];

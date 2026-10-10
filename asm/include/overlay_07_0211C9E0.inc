@@ -81,7 +81,7 @@
 .public sub_02034C44
 .public sub_02034C5C
 .public sub_02034CF4
-.public sub_0203BFD4
+.public _ZN11CFieldActorC1Ev
 .public sub_0203C418
 .public sub_0203D404
 .public sub_0203EF40

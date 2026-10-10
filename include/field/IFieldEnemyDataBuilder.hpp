@@ -6,7 +6,7 @@
 // Defined in ov0
 class IFieldEnemyDataBuilder {
 public:
-    virtual void func0() = 0;
+    virtual void BuildData(void *buf, int size) = 0;
 };
 
 #endif // POKERANGER2_FIELD_IFIELDENEMYDATABUILDER_HPP

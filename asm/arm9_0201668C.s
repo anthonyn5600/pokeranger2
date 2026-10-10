@@ -2961,7 +2961,7 @@ sub_02018D04: ; 0x02018D04
 	beq _02018D34
 	beq _02018D2C
 	mov r0, r4
-	bl _ZN17UnkClass_020074D4D2Ev
+	bl _ZN17UnkClass_020074D4D1Ev
 	mov r0, r4
 	bl _ZdlPv
 	arm_func_end sub_02018D04
@@ -2974,7 +2974,7 @@ _02018D34:
 	beq _02018D5C
 	beq _02018D54
 	mov r0, r4
-	bl sub_02007B28
+	bl _ZN17UnkClass_02007AA4D1Ev
 	mov r0, r4
 	bl _ZdlPv
 _02018D54:
@@ -3355,11 +3355,11 @@ _020191C8:
 	mov r0, r5
 	str lr, [sp, #0x20]
 	str ip, [sp, #0x24]
-	bl ov0_02132F14
+	bl _ZN12CFieldPlayer12ov0_02132F14Ehih
 	add r0, r4, #0x8000
 	ldrb r1, [r0, #0x802]
 	mov r0, r5
-	bl ov0_02132FA0
+	bl _ZN12CFieldPlayer12ov0_02132FA0Eh
 	ldr r4, [r5, #8]
 	cmp r4, #0
 	ldrne r0, [r4, #0xc]
@@ -5353,7 +5353,7 @@ _0201ACFC:
 	beq _0201AD24
 	beq _0201AD1C
 	mov r0, r5
-	bl sub_02007B28
+	bl _ZN17UnkClass_02007AA4D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _0201AD1C:
@@ -5365,7 +5365,7 @@ _0201AD24:
 	beq _0201AD4C
 	beq _0201AD44
 	mov r0, r5
-	bl _ZN17UnkClass_020074D4D2Ev
+	bl _ZN17UnkClass_020074D4D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _0201AD44:
@@ -22398,7 +22398,7 @@ sub_020293A0: ; 0x020293A0
 	beq _020293D4
 	beq _020293CC
 	mov r0, r4
-	bl _ZN17UnkClass_020074D4D2Ev
+	bl _ZN17UnkClass_020074D4D1Ev
 	mov r0, r4
 	bl _ZdlPv
 	arm_func_end sub_020293A0
@@ -22490,7 +22490,7 @@ sub_020294C0: ; 0x020294C0
 	str r1, [r4]
 	bl sub_02029540
 	add r0, r4, #4
-	bl sub_02007B28
+	bl _ZN17UnkClass_02007AA4D1Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
@@ -22505,7 +22505,7 @@ sub_020294E8: ; 0x020294E8
 	str r1, [r4]
 	bl sub_02029540
 	add r0, r4, #4
-	bl sub_02007B28
+	bl _ZN17UnkClass_02007AA4D1Ev
 	mov r0, r4
 	bl _ZdlPv
 	mov r0, r4
@@ -22522,7 +22522,7 @@ sub_02029518: ; 0x02029518
 	str r1, [r4]
 	bl sub_02029540
 	add r0, r4, #4
-	bl sub_02007B28
+	bl _ZN17UnkClass_02007AA4D1Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0

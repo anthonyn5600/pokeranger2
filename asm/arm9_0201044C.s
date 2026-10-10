@@ -4590,7 +4590,7 @@ sub_02013CD4: ; 0x02013CD4
 	beq _02013D90
 	beq _02013D88
 	mov r0, r6
-	bl _ZN17UnkClass_020074D4D2Ev
+	bl _ZN17UnkClass_020074D4D1Ev
 	mov r0, r6
 	bl _ZdlPv
 	arm_func_end sub_02013CD4
@@ -4710,7 +4710,7 @@ sub_02013E78: ; 0x02013E78
 	beq _02013F38
 	beq _02013F30
 	mov r0, r5
-	bl _ZN17UnkClass_020074D4D2Ev
+	bl _ZN17UnkClass_020074D4D1Ev
 	mov r0, r5
 	bl _ZdlPv
 	arm_func_end sub_02013E78
@@ -4800,7 +4800,7 @@ sub_02014034: ; 0x02014034
 	beq _02014064
 	beq _0201405C
 	mov r0, r5
-	bl sub_02007B28
+	bl _ZN17UnkClass_02007AA4D1Ev
 	mov r0, r5
 	bl _ZdlPv
 	arm_func_end sub_02014034
@@ -4833,7 +4833,7 @@ _02014088:
 	beq _020140E4
 	beq _020140D0
 	mov r0, sl
-	bl _ZN17UnkClass_020074D4D2Ev
+	bl _ZN17UnkClass_020074D4D1Ev
 	mov r0, sl
 	bl _ZdlPv
 _020140D0:
@@ -5787,7 +5787,7 @@ sub_02014CEC: ; 0x02014CEC
 	beq _02014DA8
 	beq _02014DA0
 	mov r0, r6
-	bl _ZN17UnkClass_020074D4D2Ev
+	bl _ZN17UnkClass_020074D4D1Ev
 	mov r0, r6
 	bl _ZdlPv
 	arm_func_end sub_02014CEC
@@ -5913,7 +5913,7 @@ sub_02014EA4: ; 0x02014EA4
 	beq _02014F64
 	beq _02014F5C
 	mov r0, r5
-	bl _ZN17UnkClass_020074D4D2Ev
+	bl _ZN17UnkClass_020074D4D1Ev
 	mov r0, r5
 	bl _ZdlPv
 	arm_func_end sub_02014EA4

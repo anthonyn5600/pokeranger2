@@ -88,5 +88,5 @@
 .public _ZTVN10__cxxabiv120__si_class_type_infoE
 .public _ZN6CScene5func4Ev
 .public _ZN6CScene5func3Ev
-.public sub_0203BFD4
-.public sub_0203C068
+.public _ZN11CFieldActorC1Ev
+.public _ZN11CFieldActorD1Ev

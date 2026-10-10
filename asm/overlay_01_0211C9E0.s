@@ -7747,7 +7747,7 @@ ov1_021235E8: ; 0x021235E8
 	beq _02123624
 	beq _02123618
 	mov r0, r5
-	bl _ZN17UnkClass_020074D4D2Ev
+	bl _ZN17UnkClass_020074D4D1Ev
 	mov r0, r5
 	bl _ZdlPv
 	arm_func_end ov1_021235E8
@@ -7762,7 +7762,7 @@ _02123624:
 	beq _02123654
 	beq _02123648
 	mov r0, r5
-	bl sub_02007B28
+	bl _ZN17UnkClass_02007AA4D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _02123648:
@@ -9418,7 +9418,7 @@ ov1_02124DEC: ; 0x02124DEC
 	beq _02124E44
 	beq _02124E38
 	mov r0, r5
-	bl _ZN17UnkClass_020074D4D2Ev
+	bl _ZN17UnkClass_020074D4D1Ev
 	mov r0, r5
 	bl _ZdlPv
 	arm_func_end ov1_02124DEC
@@ -9433,7 +9433,7 @@ _02124E44:
 	beq _02124E74
 	beq _02124E68
 	mov r0, r5
-	bl sub_02007B28
+	bl _ZN17UnkClass_02007AA4D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _02124E68:
@@ -12372,7 +12372,7 @@ ov1_02127654: ; 0x02127654
 	beq _02127684
 	beq _0212767C
 	mov r0, r5
-	bl _ZN17UnkClass_020074D4D2Ev
+	bl _ZN17UnkClass_020074D4D1Ev
 	mov r0, r5
 	bl _ZdlPv
 	arm_func_end ov1_02127654
@@ -12385,7 +12385,7 @@ _02127684:
 	beq _021276AC
 	beq _021276A4
 	mov r0, r5
-	bl sub_02007B28
+	bl _ZN17UnkClass_02007AA4D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _021276A4:
@@ -12706,7 +12706,7 @@ ov1_02127A90: ; 0x02127A90
 	beq _02127AC0
 	beq _02127AB8
 	mov r0, r5
-	bl _ZN17UnkClass_020074D4D2Ev
+	bl _ZN17UnkClass_020074D4D1Ev
 	mov r0, r5
 	bl _ZdlPv
 	arm_func_end ov1_02127A90
@@ -12719,7 +12719,7 @@ _02127AC0:
 	beq _02127AE8
 	beq _02127AE0
 	mov r0, r5
-	bl sub_02007B28
+	bl _ZN17UnkClass_02007AA4D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _02127AE0:
@@ -13383,7 +13383,7 @@ ov1_0212835C: ; 0x0212835C
 	beq _0212838C
 	beq _02128384
 	mov r0, r5
-	bl _ZN17UnkClass_020074D4D2Ev
+	bl _ZN17UnkClass_020074D4D1Ev
 	mov r0, r5
 	bl _ZdlPv
 	arm_func_end ov1_0212835C
@@ -13396,7 +13396,7 @@ _0212838C:
 	beq _021283B4
 	beq _021283AC
 	mov r0, r5
-	bl sub_02007B28
+	bl _ZN17UnkClass_02007AA4D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _021283AC:
@@ -13720,7 +13720,7 @@ ov1_021287A8: ; 0x021287A8
 	beq _021287D8
 	beq _021287D0
 	mov r0, r5
-	bl _ZN17UnkClass_020074D4D2Ev
+	bl _ZN17UnkClass_020074D4D1Ev
 	mov r0, r5
 	bl _ZdlPv
 	arm_func_end ov1_021287A8
@@ -13733,7 +13733,7 @@ _021287D8:
 	beq _02128800
 	beq _021287F8
 	mov r0, r5
-	bl sub_02007B28
+	bl _ZN17UnkClass_02007AA4D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _021287F8:
@@ -14434,7 +14434,7 @@ _021290F0:
 	beq _02129114
 	beq _02129110
 	mov r0, sl
-	bl _ZN17UnkClass_020074D4D2Ev
+	bl _ZN17UnkClass_020074D4D1Ev
 	mov r0, sl
 	bl _ZdlPv
 _02129110:
@@ -14446,7 +14446,7 @@ _02129114:
 	beq _02129140
 	beq _02129138
 	mov r0, sl
-	bl sub_02007B28
+	bl _ZN17UnkClass_02007AA4D1Ev
 	mov r0, sl
 	bl _ZdlPv
 _02129138:
@@ -14841,7 +14841,7 @@ ov1_02129638: ; 0x02129638
 	beq _02129668
 	beq _02129660
 	mov r0, r4
-	bl _ZN17UnkClass_020074D4D2Ev
+	bl _ZN17UnkClass_020074D4D1Ev
 	mov r0, r4
 	bl _ZdlPv
 	arm_func_end ov1_02129638
@@ -14854,7 +14854,7 @@ _02129668:
 	beq _02129690
 	beq _02129688
 	mov r0, r4
-	bl sub_02007B28
+	bl _ZN17UnkClass_02007AA4D1Ev
 	mov r0, r4
 	bl _ZdlPv
 _02129688:
@@ -15077,7 +15077,7 @@ ov1_0212993C: ; 0x0212993C
 	beq _0212996C
 	beq _02129964
 	mov r0, r4
-	bl _ZN17UnkClass_020074D4D2Ev
+	bl _ZN17UnkClass_020074D4D1Ev
 	mov r0, r4
 	bl _ZdlPv
 	arm_func_end ov1_0212993C
@@ -15090,7 +15090,7 @@ _0212996C:
 	beq _02129994
 	beq _0212998C
 	mov r0, r4
-	bl sub_02007B28
+	bl _ZN17UnkClass_02007AA4D1Ev
 	mov r0, r4
 	bl _ZdlPv
 _0212998C:
@@ -15384,7 +15384,7 @@ ov1_02129D1C: ; 0x02129D1C
 	beq _02129D4C
 	beq _02129D44
 	mov r0, r5
-	bl _ZN17UnkClass_020074D4D2Ev
+	bl _ZN17UnkClass_020074D4D1Ev
 	mov r0, r5
 	bl _ZdlPv
 	arm_func_end ov1_02129D1C
@@ -15397,7 +15397,7 @@ _02129D4C:
 	beq _02129D74
 	beq _02129D6C
 	mov r0, r5
-	bl sub_02007B28
+	bl _ZN17UnkClass_02007AA4D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _02129D6C:
@@ -30524,7 +30524,7 @@ ov1_02136678: ; 0x02136678
 	beq _021366A8
 	beq _021366A0
 	mov r0, r5
-	bl _ZN17UnkClass_020074D4D2Ev
+	bl _ZN17UnkClass_020074D4D1Ev
 	mov r0, r5
 	bl _ZdlPv
 	arm_func_end ov1_02136678
@@ -30537,7 +30537,7 @@ _021366A8:
 	beq _021366D0
 	beq _021366C8
 	mov r0, r5
-	bl sub_02007B28
+	bl _ZN17UnkClass_02007AA4D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _021366C8:
@@ -33573,7 +33573,7 @@ ov1_02138F5C: ; 0x02138F5C
 	beq _02138F8C
 	beq _02138F84
 	mov r0, r4
-	bl _ZN17UnkClass_020074D4D2Ev
+	bl _ZN17UnkClass_020074D4D1Ev
 	mov r0, r4
 	bl _ZdlPv
 	arm_func_end ov1_02138F5C
@@ -33586,7 +33586,7 @@ _02138F8C:
 	beq _02138FB4
 	beq _02138FAC
 	mov r0, r4
-	bl sub_02007B28
+	bl _ZN17UnkClass_02007AA4D1Ev
 	mov r0, r4
 	bl _ZdlPv
 _02138FAC:

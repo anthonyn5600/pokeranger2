@@ -1438,7 +1438,7 @@ _0211DCDC:
 	bl _Znwm
 	movs r5, r0
 	beq _0211DD64
-	bl sub_0203BFD4
+	bl _ZN11CFieldActorC1Ev
 	mov r5, r0
 _0211DD64:
 	mov r0, r5

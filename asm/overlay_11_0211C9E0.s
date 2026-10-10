@@ -291,11 +291,11 @@ ov11_0211CD60: ; 0x0211CD60
 ov11_0211CD68: ; 0x0211CD68
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #4
-	ldr ip, _0211CDB4 ; =sub_0203C068
+	ldr ip, _0211CDB4 ; =_ZN11CFieldActorD1Ev
 	mov r6, r0
 	mov r5, r1
 	mov r4, r2
-	ldr r3, _0211CDB8 ; =sub_0203BFD4
+	ldr r3, _0211CDB8 ; =_ZN11CFieldActorC1Ev
 	str ip, [sp]
 	add r0, r6, #0xa0
 	mov r1, #6
@@ -309,8 +309,8 @@ ov11_0211CD68: ; 0x0211CD68
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, r5, r6, pc}
 	.align 2, 0
-_0211CDB4: .word sub_0203C068
-_0211CDB8: .word sub_0203BFD4
+_0211CDB4: .word _ZN11CFieldActorD1Ev
+_0211CDB8: .word _ZN11CFieldActorC1Ev
 	arm_func_end ov11_0211CD68
 
 	arm_func_start ov11_0211CDBC
@@ -318,7 +318,7 @@ ov11_0211CDBC: ; 0x0211CDBC
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl ov11_0211CF40
-	ldr r3, _0211CDE4 ; =sub_0203C068
+	ldr r3, _0211CDE4 ; =_ZN11CFieldActorD1Ev
 	add r0, r4, #0xa0
 	mov r1, #6
 	mov r2, #0xe0
@@ -326,7 +326,7 @@ ov11_0211CDBC: ; 0x0211CDBC
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0211CDE4: .word sub_0203C068
+_0211CDE4: .word _ZN11CFieldActorD1Ev
 	arm_func_end ov11_0211CDBC
 
 	arm_func_start ov11_0211CDE8

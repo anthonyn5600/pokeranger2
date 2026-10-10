@@ -211,8 +211,8 @@
 .public sub_02034B58
 .public sub_02034C44
 .public sub_02034C5C
-.public sub_0203BFD4
-.public sub_0203C068
+.public _ZN11CFieldActorC1Ev
+.public _ZN11CFieldActorD1Ev
 .public sub_0203C418
 .public sub_0203C87C
 .public _ZN17UnkClass_02040F34C1Ev

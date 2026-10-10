@@ -262,9 +262,7 @@ BOOL CFieldMapLayerStatic::Load(void *data)
                 p += 8;
                 tex = m_textures[texIndex];
                 imagesPerRow = tex->m_images[0]->unk_32 / cellSize;
-                // Read through a void ** so mwcc reloads images[0] here instead of reusing the load above, as
-                // the original does (it doesn't merge loads of different pointer types).
-                image = &((UnkClass_020074D4 *)((void **)tex->m_images)[0])->unk_08;
+                image = &(*tex->m_images.begin())->unk_08;
                 if (!(tex->unk_3C & 1)) {
                     G3C_TexImageParam(&dl, image->attr.fmt, GX_TEXGEN_TEXCOORD, image->attr.sizeS, image->attr.sizeT, GX_TEXREPEAT_ST, GX_TEXFLIP_NONE, image->attr.plttUse, NNS_G2dGetImageLocation(image, NNS_G2D_VRAM_TYPE_3DMAIN));
                 }

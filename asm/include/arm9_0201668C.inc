@@ -132,8 +132,8 @@
 .public _ll_div
 .public _s32_div_f
 .public _u32_div_f
-.public ov0_02132F14
-.public ov0_02132FA0
+.public _ZN12CFieldPlayer12ov0_02132F14Ehih
+.public _ZN12CFieldPlayer12ov0_02132FA0Eh
 .public ptr_FUN_0201933c_0208b864
 .public ptr_FUN_02027cf0_0208c1a4
 .public ptr_FUN_020294c0_0208c4a4
@@ -334,12 +334,12 @@
 .public _ZN18CPrimitiveTRIANGLEC1Ev
 .public _Z17LinearInterpolatellll
 .public _ZN17UnkClass_020074D4C1EPKcmm
-.public _ZN17UnkClass_020074D4D2Ev
+.public _ZN17UnkClass_020074D4D1Ev
 .public _ZN17UnkClass_020074D412sub_020076B0Ev
 .public _ZN17UnkClass_020074D412sub_020076E8Em
 .public _ZN17UnkClass_020074D412sub_02007714Em
 .public sub_02007AC0
-.public sub_02007B28
+.public _ZN17UnkClass_02007AA4D1Ev
 .public sub_02007BC4
 .public _ZN17UnkClass_02007AA412sub_02007BFCEm
 .public sub_02007C34

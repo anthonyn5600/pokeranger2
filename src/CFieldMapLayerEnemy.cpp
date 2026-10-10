@@ -11,7 +11,6 @@
 extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
 
 extern "C" {
-int ov0_02135E30(CFieldEnemyManage *manage, int slot, int arg2, int arg3, int arg4);
 BOOL sub_02015434(UnkClass_020B26A0 *save, int mapId, int idx);
 }
 
@@ -22,7 +21,7 @@ BOOL CFieldMapLayerEnemy::Load(void *data)
     if (manage != NULL) {
         int base = manage->CountActors();
         for (int i = 0; i < m_count; i++) {
-            int slot = ov0_02135E30(manage, base + i, m_entries[i].unk_06, m_entries[i].unk_08, 0);
+            int slot = manage->ov0_02135E30(base + i, m_entries[i].unk_06, m_entries[i].unk_08, 0);
             if (slot >= 0) {
                 u16 dir = (m_entries[i].dir + 1) << 14;
                 CFieldEnemy *enemy = (CFieldEnemy *)manage->Get(slot);
@@ -33,7 +32,7 @@ BOOL CFieldMapLayerEnemy::Load(void *data)
                 enemy->sub_020128EC_(dir);
                 enemy->unk_158.x = FX_CosIdx(dir);
                 enemy->unk_158.y = FX_SinIdx(dir);
-                enemy->unk_198 = enemy->GetUnk158();
+                enemy->unk_168.unk_30 = enemy->GetUnk158();
                 enemy->sub_0201287C_();
                 enemy->unk_256 = dir;
                 fx32 x = m_entries[i].x << FX32_SHIFT;

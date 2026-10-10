@@ -11,6 +11,7 @@ class UnkClass_02007AA4 {
 public:
     UnkClass_02007AA4();
     UnkClass_02007AA4(NNSG2dPaletteData *data);
+    ~UnkClass_02007AA4();
 
     void sub_02007BFC(u32 addr);
 

@@ -48,14 +48,14 @@ _ZN17UnkClass_02007AA4C1EP17NNSG2dPaletteData: ; 0x02007AFC
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end _ZN17UnkClass_02007AA4C1EP17NNSG2dPaletteData
 
-	arm_func_start sub_02007B28
-sub_02007B28: ; 0x02007B28
+	arm_func_start _ZN17UnkClass_02007AA4D1Ev
+_ZN17UnkClass_02007AA4D1Ev: ; 0x02007B28
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl sub_02007BC4
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	arm_func_end sub_02007B28
+	arm_func_end _ZN17UnkClass_02007AA4D1Ev
 
 	arm_func_start sub_02007B3C
 sub_02007B3C: ; 0x02007B3C

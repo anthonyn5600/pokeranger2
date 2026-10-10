@@ -305,8 +305,8 @@ void CFieldScene::func6()
     unk_0010 = new CFieldMap();
 
     unk_0014 = new CFieldPlayer();
-    ov0_02132F14(unk_0014, save->unk_0000, (save->unk_0003 >> 4) & 0xF, mapInfo->unk_04);
-    ov0_02132FA0(unk_0014, save->unk_8802);
+    unk_0014->ov0_02132F14(save->unk_0000, (save->unk_0003 >> 4) & 0xF, mapInfo->unk_04);
+    unk_0014->ov0_02132FA0(save->unk_8802);
     if (flag2) {
         unk_0014->sub_flag2();
     }
@@ -569,7 +569,7 @@ void CFieldScene::func6()
         sub_020234F0(unk_0058);
     }
     ov0_021434F0(unk_0028);
-    ov0_02136878(unk_0018);
+    unk_0018->ov0_02136878();
 }
 
 void CFieldScene::func7()
@@ -686,9 +686,6 @@ void sub_02023198(UnkClass_02022404 *obj, int arg1);
 void sub_0202251C(UnkClass_02022404 *obj);
 BOOL sub_02035ECC(UnkClass_0211D850 *obj, int arg1);
 void sub_0203580C(UnkClass_0211D850 *obj, int fps);
-void ov0_021333A0(CFieldPlayer *player, int arg1, int arg2, int arg3, int arg4, int arg5);
-void ov0_021307B0(CFieldPlayer *player, UnkClass_02001C04 *arg1, CTouchPanel *touch, UnkClass_02003718 *camera, CFieldMap *map, u32 flags);
-void ov0_021341E0(CFieldPlayer *player);
 int ov0_0213FFC4(UnkClass_0213FF64 *obj, CFieldScene *scene, UnkClass_02001C04 *arg2, CTouchPanel *touch);
 void ov0_0213A96C(CFieldPartnerManage *mgr, int arg1, int arg2, int arg3);
 void ov0_0213A050(CFieldPartnerManage *mgr, u32 id);
@@ -829,7 +826,7 @@ u32 CFieldScene::func0()
                     }
                     if (sub_02035ECC(unk_002C, 5)) {
                         if ((save->unk_8BC0 + 2) % 300 < 2) {
-                            ov0_021333A0(unk_0014, 0, 0, 0, 1, 0);
+                            unk_0014->ov0_021333A0(0, 0, 0, 1, 0);
                         }
                     }
                 }
@@ -1146,9 +1143,9 @@ u32 CFieldScene::func0()
             if (doUpdate) {
                 u32 playerFlags = (updateActors ? 1 : 0) | (save->unk_8B64 == 1 ? 2 : 0);
                 if (unk_0078 == 0) {
-                    ov0_021307B0(unk_0014, pad, held ? NULL : touch, unk_0008, unk_0010, playerFlags);
+                    unk_0014->ov0_021307B0(pad, held ? NULL : touch, unk_0008, unk_0010, playerFlags);
                 } else {
-                    ov0_021307B0(unk_0014, NULL, NULL, unk_0008, unk_0010, playerFlags);
+                    unk_0014->ov0_021307B0(NULL, NULL, unk_0008, unk_0010, playerFlags);
                 }
                 Point2D pos = unk_0014->GetPos();
                 Point2D tile;
@@ -1522,7 +1519,7 @@ u32 CFieldScene::func0()
             }
             unk_0014->ResetMove();
             unk_0014->sub_show();
-            ov0_021341E0(unk_0014);
+            unk_0014->ov0_021341E0();
             unk_0078 = 0;
             ov0_0212451C();
             ov0_02139F98(unk_001C, x, y, unk_0014->unk_14);
@@ -1615,7 +1612,6 @@ void sub_02015AAC(UnkClass_020B26A0 *save, int idx, int mapId);
 BOOL sub_02015434(UnkClass_020B26A0 *save, int mapId, int idx);
 void sub_02035D38(UnkClass_0211D850 *obj, u8 bgm);
 void sub_02035DA0(UnkClass_0211D850 *obj, u8 arg1, int arg2, int arg3, int arg4);
-void ov0_02136384(CFieldEnemyManage *mgr);
 void sub_02041A60(UnkClass_020416AC *hud, u8 arg1);
 void ov0_02143410(UnkClass_02142428 *obj);
 void sub_02010868(void *record);
@@ -1642,7 +1638,6 @@ extern UnkStruct_0210C228 MAIN_BSS_0210C228;
 extern "C" {
 void sub_0202A4A0(UnkStruct_0210C1C0 *obj);
 void sub_0202A4D8(UnkStruct_0210C228 *obj);
-BOOL ov0_0213416C(CFieldPlayer *player);
 void sub_0203F3C8(CFieldActorManage *mgr);
 void sub_020176BC(UnkClass_020B26A0 *save, int arg1);
 void ov0_02139E9C(CFieldPartnerManage *mgr);
@@ -1940,7 +1935,7 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
                 } else {
                     save->unk_8802 = FALSE;
                 }
-                ov0_02132FA0(unk_0014, save->unk_8802);
+                unk_0014->ov0_02132FA0(save->unk_8802);
             }
         }
         if (newInfo->unk_00 != oldInfo->unk_00) {
@@ -2093,7 +2088,7 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
     unk_0080 = 0;
     unk_0084 = 0;
     ov0_0212419C();
-    ov0_02136384(unk_0018);
+    unk_0018->ov0_02136384();
     sub_02034C2C(m_game->m_audioEngine, 0);
     if (info->unk_02 == 0xFF) {
         OS_SPrintf(name, "m%03d/m%03d_%03d.fsb", info->unk_00, info->unk_00, info->unk_01);
@@ -2339,7 +2334,7 @@ void CFieldScene::ov0_02123AEC(int state, int arg)
 void CFieldScene::ov0_02123E58(int flags)
 {
     if (unk_0014 != NULL && (flags & 1)) {
-        if (!ov0_0213416C(unk_0014)) {
+        if (!unk_0014->ov0_0213416C()) {
             unk_0014->sub_0202D7E0();
         }
         CFieldPlayer *player = unk_0014;
@@ -2617,11 +2612,11 @@ int CFieldScene::ov0_02124604()
 void CFieldScene::ov0_021247E4()
 {
     unk_00D0 |= 8;
-    if (unk_0014 != NULL && !ov0_0213416C(unk_0014)) {
+    if (unk_0014 != NULL && !unk_0014->ov0_0213416C()) {
         unk_0014->sub_show();
         unk_0014->sub_0201287C_();
         unk_0014->ResetMove();
-        ov0_021341E0(unk_0014);
+        unk_0014->ov0_021341E0();
     }
     unk_0078 = 0;
     ov0_0212451C();
