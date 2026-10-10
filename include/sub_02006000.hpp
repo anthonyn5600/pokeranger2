@@ -9,7 +9,7 @@ struct Point2D {
     fx32 x;
     fx32 y;
 
-    inline Point2D operator+(Point2D other)
+    inline Point2D operator+(Point2D other) const
     {
         return (Point2D) {
             .x = x + other.x,
@@ -17,6 +17,9 @@ struct Point2D {
         };
     }
 
+    // Both overloads are needed for matching: mwcc doesn't CSE or forward a read through the const `this`
+    // with plain reads of the same field (Attribute::Sweep needs that, sub_02006764 and Collision::CollideFine
+    // must not have it).
     inline Point2D operator-(Point2D other)
     {
         return (Point2D) {
@@ -25,12 +28,36 @@ struct Point2D {
         };
     }
 
+    inline Point2D operator-(Point2D other) const
+    {
+        return (Point2D) {
+            .x = x - other.x,
+            .y = y - other.y,
+        };
+    }
+
+    inline Point2D &operator+=(Point2D other)
+    {
+        x += other.x;
+        y += other.y;
+
+        return *this;
+    }
+
     inline Point2D &operator-=(Point2D other)
     {
         x -= other.x;
         y -= other.y;
 
         return *this;
+    }
+
+    inline Point2D operator*(fx64 other) const
+    {
+        return (Point2D) {
+            .x = FX32_MUL(x, other),
+            .y = FX32_MUL(y, other),
+        };
     }
 
     inline Point2D &operator*=(fx32 other)

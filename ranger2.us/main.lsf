@@ -123,7 +123,20 @@ Overlay overlay0
 {
     After main
     Object main.nef.p/src_CFieldScene.cpp.o
-    Object main.nef.p/asm_overlay_00_02124CDC.s.o
+    Object main.nef.p/src_CFieldMap.cpp.o
+    Object main.nef.p/src_CFieldMapLayerStatic.cpp.o
+    Object main.nef.p/src_CFieldMapLayerCollision.cpp.o
+    Object main.nef.p/src_CFieldMapLayerNormalView.cpp.o
+    Object main.nef.p/src_CFieldMapLayerCharaTrans.cpp.o
+    Object main.nef.p/src_CFieldMapLayerNpc.cpp.o
+    Object main.nef.p/src_CFieldMapLayerEnemy.cpp.o
+    Object main.nef.p/src_CFieldMapLayerObject.cpp.o
+    Object main.nef.p/src_CFieldMapLayerEventRect.cpp.o
+    Object main.nef.p/src_CFieldMapLayerAttribute.cpp.o
+    Object main.nef.p/src_CFieldMapLayerMultiScroll.cpp.o
+    Object main.nef.p/src_CFieldMapLayerUVScroll.cpp.o
+    Object main.nef.p/src_CFieldMapLayerColorAnime.cpp.o
+    Object main.nef.p/asm_overlay_00_0212F82C.s.o
 }
 
 Overlay overlay1

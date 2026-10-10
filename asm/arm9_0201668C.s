@@ -2913,7 +2913,7 @@ _02018C48:
 	mov r1, r1, lsl #0x10
 	ldr r0, [r4, #4]
 	mov r1, r1, lsr #0xd
-	bl sub_02007BFC
+	bl _ZN17UnkClass_02007AA412sub_02007BFCEm
 	ldr r0, [r4, #4]
 	bl sub_02007BC4
 	mov r0, #0x40
@@ -5280,7 +5280,7 @@ _0201ABF0:
 	mov r1, r1, lsl #0x10
 	ldr r0, [r5, #4]
 	mov r1, r1, lsr #0xd
-	bl sub_02007BFC
+	bl _ZN17UnkClass_02007AA412sub_02007BFCEm
 	ldr r0, [r5, #4]
 	bl sub_02007BC4
 	ldr r0, [sp, #0x2c]
@@ -22584,7 +22584,7 @@ sub_020295B0: ; 0x020295B0
 	beq _02029600
 	mov r1, r1, lsl #0x10
 	mov r1, r1, lsr #0xd
-	bl sub_02007BFC
+	bl _ZN17UnkClass_02007AA412sub_02007BFCEm
 	b _0202960C
 	arm_func_end sub_020295B0
 _02029600:

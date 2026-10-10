@@ -33,8 +33,8 @@ sub_02007AC0: ; 0x02007AC0
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	arm_func_end sub_02007AC0
 
-	arm_func_start sub_02007AFC
-sub_02007AFC: ; 0x02007AFC
+	arm_func_start _ZN17UnkClass_02007AA4C1EP17NNSG2dPaletteData
+_ZN17UnkClass_02007AA4C1EP17NNSG2dPaletteData: ; 0x02007AFC
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r2, #0
@@ -46,7 +46,7 @@ sub_02007AFC: ; 0x02007AFC
 	bl sub_02007BAC
 	mov r0, r5
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end sub_02007AFC
+	arm_func_end _ZN17UnkClass_02007AA4C1EP17NNSG2dPaletteData
 
 	arm_func_start sub_02007B28
 sub_02007B28: ; 0x02007B28
@@ -124,8 +124,8 @@ _02007BF0:
 	str r0, [r4, #4]
 	ldmia sp!, {r4, pc}
 
-	arm_func_start sub_02007BFC
-sub_02007BFC: ; 0x02007BFC
+	arm_func_start _ZN17UnkClass_02007AA412sub_02007BFCEm
+_ZN17UnkClass_02007AA412sub_02007BFCEm: ; 0x02007BFC
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	add r0, r5, #8
@@ -140,7 +140,7 @@ sub_02007BFC: ; 0x02007BFC
 	mov r0, #1
 	strb r0, [r5, #0x20]
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end sub_02007BFC
+	arm_func_end _ZN17UnkClass_02007AA412sub_02007BFCEm
 
 	arm_func_start sub_02007C34
 sub_02007C34: ; 0x02007C34

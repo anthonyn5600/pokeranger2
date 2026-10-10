@@ -9,7 +9,8 @@
 // Defined in ov0
 class CFieldTargetObject : public CFieldActor {
 public:
-    u8 unk_E0[0x8];
+    int unk_E0;
+    int unk_E4;
     int unk_E8;
 };
 

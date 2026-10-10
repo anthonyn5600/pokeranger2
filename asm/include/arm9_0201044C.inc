@@ -74,10 +74,10 @@
 .public _ZN17UnkClass_020074D412sub_020076B0Ev
 .public _ZN17UnkClass_020074D412sub_020076E8Em
 .public sub_02007AC0
-.public sub_02007AFC
+.public _ZN17UnkClass_02007AA4C1EP17NNSG2dPaletteData
 .public sub_02007B28
 .public sub_02007BC4
-.public sub_02007BFC
+.public _ZN17UnkClass_02007AA412sub_02007BFCEm
 .public _ZN17UnkClass_02008788C1Ev
 .public _ZN17UnkClass_02008788D1Ev
 .public sub_02008844

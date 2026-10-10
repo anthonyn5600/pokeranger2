@@ -27,7 +27,7 @@ class UnkClass_02041D80;
 class UnkClass_020416AC;
 class UnkClass_0211D850;
 class UnkClass_0211E3FC;
-class UnkClass_02124CDC;
+class CFieldMap;
 class UnkClass_0213D624;
 class UnkClass_0213DDCC;
 class UnkClass_0213F918;
@@ -89,7 +89,7 @@ public:
     CGame *m_game;
     UnkClass_02003718 *unk_0008;
     UnkClass_02003718 *unk_000C;
-    UnkClass_02124CDC *unk_0010;
+    CFieldMap *unk_0010;
     CFieldPlayer *unk_0014;
     CFieldEnemyManage *unk_0018;
     CFieldPartnerManage *unk_001C;

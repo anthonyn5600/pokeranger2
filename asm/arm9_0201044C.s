@@ -4981,7 +4981,7 @@ sub_0201429C: ; 0x0201429C
 	ldr r0, [r0, #0xc]
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
-	bl sub_02007BFC
+	bl _ZN17UnkClass_02007AA412sub_02007BFCEm
 	ldmia sp!, {r3, pc}
 	arm_func_end sub_0201429C
 
@@ -5379,7 +5379,7 @@ _0201474C:
 	cmp r0, #0
 	beq _020147B0
 	ldr r1, [sp, #0x14]
-	bl sub_02007AFC
+	bl _ZN17UnkClass_02007AA4C1EP17NNSG2dPaletteData
 _020147B0:
 	str r0, [r6, #0xc]
 	b _020147DC

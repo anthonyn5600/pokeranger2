@@ -7607,7 +7607,7 @@ _021233D0:
 	ldr r0, [r1, #0x41c]
 	mov r1, r2, lsl #0x10
 	mov r1, r1, lsr #0xd
-	bl sub_02007BFC
+	bl _ZN17UnkClass_02007AA412sub_02007BFCEm
 	add r0, r5, #0x6000
 	ldr r0, [r0, #0x41c]
 	bl sub_02007BC4
@@ -9295,7 +9295,7 @@ _02124C30:
 	ldr r0, [r1, #0x490]
 	mov r1, r2, lsl #0x10
 	mov r1, r1, lsr #0xd
-	bl sub_02007BFC
+	bl _ZN17UnkClass_02007AA412sub_02007BFCEm
 	add r0, r6, #0x6000
 	ldr r0, [r0, #0x490]
 	bl sub_02007BC4
@@ -12321,7 +12321,7 @@ _02127590:
 	mov r1, r1, lsl #0x10
 	ldr r0, [r4, #4]
 	mov r1, r1, lsr #0xd
-	bl sub_02007BFC
+	bl _ZN17UnkClass_02007AA412sub_02007BFCEm
 	ldr r0, [r4, #4]
 	bl sub_02007BC4
 	mov r0, #0xbc
@@ -12655,7 +12655,7 @@ _021279CC:
 	mov r1, r1, lsl #0x10
 	ldr r0, [r4, #4]
 	mov r1, r1, lsr #0xd
-	bl sub_02007BFC
+	bl _ZN17UnkClass_02007AA412sub_02007BFCEm
 	ldr r0, [r4, #4]
 	bl sub_02007BC4
 	mov r0, #0xbc
@@ -13332,7 +13332,7 @@ _02128298:
 	mov r1, r1, lsl #0x10
 	ldr r0, [r4, #4]
 	mov r1, r1, lsr #0xd
-	bl sub_02007BFC
+	bl _ZN17UnkClass_02007AA412sub_02007BFCEm
 	ldr r0, [r4, #4]
 	bl sub_02007BC4
 	mov r0, #0xbc
@@ -13669,7 +13669,7 @@ _021286E4:
 	mov r1, r1, lsl #0x10
 	ldr r0, [r4, #4]
 	mov r1, r1, lsr #0xd
-	bl sub_02007BFC
+	bl _ZN17UnkClass_02007AA412sub_02007BFCEm
 	ldr r0, [r4, #4]
 	bl sub_02007BC4
 	mov r0, #0xbc
@@ -14357,7 +14357,7 @@ _02128FC0:
 	ldr r1, [r1, #0x64]
 	mov r1, r1, lsl #0x10
 	mov r1, r1, lsr #0xd
-	bl sub_02007BFC
+	bl _ZN17UnkClass_02007AA412sub_02007BFCEm
 	add r0, sl, sb, lsl #2
 	ldr r0, [r0, #0x14]
 	bl sub_02007BC4
@@ -14802,7 +14802,7 @@ _021295A0:
 	mov r1, r1, lsl #0x10
 	ldr r0, [r4, #4]
 	mov r1, r1, lsr #0xd
-	bl sub_02007BFC
+	bl _ZN17UnkClass_02007AA412sub_02007BFCEm
 	ldr r0, [r4, #4]
 	bl sub_02007BC4
 	mov r0, #0xbc
@@ -15038,7 +15038,7 @@ _021298A4:
 	mov r1, r1, lsl #0x10
 	ldr r0, [r4, #4]
 	mov r1, r1, lsr #0xd
-	bl sub_02007BFC
+	bl _ZN17UnkClass_02007AA412sub_02007BFCEm
 	ldr r0, [r4, #4]
 	bl sub_02007BC4
 	mov r0, #0xbc
@@ -15333,7 +15333,7 @@ _02129C58:
 	mov r1, r1, lsl #0x10
 	ldr r0, [r4, #4]
 	mov r1, r1, lsr #0xd
-	bl sub_02007BFC
+	bl _ZN17UnkClass_02007AA412sub_02007BFCEm
 	ldr r0, [r4, #4]
 	bl sub_02007BC4
 	mov r0, #0xbc
@@ -30463,7 +30463,7 @@ _02136590:
 	mov r1, r1, lsl #0x10
 	ldr r0, [r4, #4]
 	mov r1, r1, lsr #0xd
-	bl sub_02007BFC
+	bl _ZN17UnkClass_02007AA412sub_02007BFCEm
 	ldr r0, [r4, #4]
 	bl sub_02007BC4
 	mov r0, #0xbc
@@ -33534,7 +33534,7 @@ _02138EC4:
 	mov r1, r1, lsl #0x10
 	ldr r0, [r4, #0xb10]
 	mov r1, r1, lsr #0xd
-	bl sub_02007BFC
+	bl _ZN17UnkClass_02007AA412sub_02007BFCEm
 	ldr r0, [r4, #0xb10]
 	bl sub_02007BC4
 	mov r0, #0xbc

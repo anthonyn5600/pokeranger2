@@ -29,7 +29,7 @@ fx32 sub_020072F8(Point2D *arg0, Point2D *arg1)
     return FX32_MUL(arg0->x, arg1->y) - FX32_MUL(arg0->y, arg1->x);
 }
 
-void sub_0200732C(Point2D *arg0, Circle *arg1, Point2D *arg2)
+Point2D sub_0200732C(Circle *arg1, Point2D *arg2)
 {
     Point2D v0 = arg1->pos - *arg2;
     Point2D v1;
@@ -66,5 +66,5 @@ void sub_0200732C(Point2D *arg0, Circle *arg1, Point2D *arg2)
         }
     }
 
-    *arg0 = v1;
+    return v1;
 }

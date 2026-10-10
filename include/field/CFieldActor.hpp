@@ -313,7 +313,8 @@ public:
     UnkStruct_0203BF40 *unk_08;
     u8 unk_0C[0x8];
     int unk_14;
-    u8 unk_18[0x8];
+    fx32 unk_18;
+    fx32 unk_1C;
     u8 unk_20;
     u8 unk_21[0x3];
     Rectangle unk_24;

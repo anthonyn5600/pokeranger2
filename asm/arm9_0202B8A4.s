@@ -21406,7 +21406,7 @@ _0203C928:
 	beq _0203C964
 	mov r1, r6
 	mov r2, r7
-	bl ov0_0212E1B4
+	bl _ZN23CFieldMapLayerAttribute12GetCellAtPosEll
 	mov r4, r0
 _0203C964:
 	ldr r0, [r8, #0xc8]
@@ -21920,11 +21920,11 @@ _0203CFFC:
 	mov r2, r6
 	beq _0203D054
 	str ip, [sp]
-	bl ov0_0212A3A0
+	bl _ZN23CFieldMapLayerCollision9SweepFineEP11PointPair2DlP7Point2Dm
 	b _0203D05C
 _0203D054:
 	str ip, [sp]
-	bl ov0_02128308
+	bl _ZN23CFieldMapLayerCollision5SweepEP11PointPair2DlP7Point2Dm
 _0203D05C:
 	cmp r0, #0
 	beq _0203D078
@@ -21952,7 +21952,7 @@ _0203D078:
 	add r1, sp, #0xc
 	mov r2, r6
 	str r5, [sp]
-	bl ov0_0212E1F0
+	bl _ZN23CFieldMapLayerAttribute5SweepEP11PointPair2DlmP7Point2D
 	cmp r0, #0
 	beq _0203D0E0
 	ldr r1, [sp, #4]
@@ -22042,7 +22042,7 @@ _0203D1B4:
 	beq _0203D224
 	str r2, [sp]
 	ldmia r1, {r1, r2}
-	bl ov0_0212BBF8
+	bl _ZN23CFieldMapLayerCollision19IsCircleBlockedFineE7Point2Dlm
 	cmp r0, #0
 	beq _0203D248
 	add sp, sp, #4
@@ -22053,7 +22053,7 @@ _0203D1B4:
 _0203D224:
 	str r2, [sp]
 	ldmia r1, {r1, r2}
-	bl ov0_0212BA38
+	bl _ZN23CFieldMapLayerCollision15IsCircleBlockedE7Point2Dlm
 	cmp r0, #0
 	addne sp, sp, #4
 	movne r0, #1
@@ -22079,7 +22079,7 @@ _0203D248:
 	beq _0203D2B0
 	str r2, [sp]
 	ldmia r1, {r1, r2}
-	bl ov0_0212EDCC
+	bl _ZN23CFieldMapLayerAttribute19IsCircleBlockedFineE7Point2Dlm
 	cmp r0, #0
 	beq _0203D2D4
 	add sp, sp, #4
@@ -22090,7 +22090,7 @@ _0203D248:
 _0203D2B0:
 	str r2, [sp]
 	ldmia r1, {r1, r2}
-	bl ov0_0212ECF0
+	bl _ZN23CFieldMapLayerAttribute15IsCircleBlockedE7Point2Dlm
 	cmp r0, #0
 	addne sp, sp, #4
 	movne r0, #1
@@ -25262,7 +25262,7 @@ _0203FDB4:
 	add r0, sp, #0xb8
 	add r1, sp, #0x120
 	add r2, sp, #0xd0
-	bl _Z12sub_0200732CP7Point2DP6CircleS0_
+	bl _Z12sub_0200732CP6CircleP7Point2D
 	ldr r1, [sp, #0xb8]
 	ldr r0, [sp, #0xb68]
 	str r1, [r0]
@@ -25464,7 +25464,7 @@ _02040004:
 	add r0, sp, #0xa0
 	add r1, sp, #0xf8
 	add r2, sp, #0xd0
-	bl _Z12sub_0200732CP7Point2DP6CircleS0_
+	bl _Z12sub_0200732CP6CircleP7Point2D
 	ldr r1, [sp, #0xa0]
 	ldr r0, [sp, #0xb68]
 	str r1, [r0]
@@ -26231,7 +26231,7 @@ _02040AC0:
 	cmp r0, #0
 	beq _02040B1C
 	ldr r1, [sp, #0x10]
-	bl sub_02007AFC
+	bl _ZN17UnkClass_02007AA4C1EP17NNSG2dPaletteData
 _02040B1C:
 	str r0, [r8, #0xc]
 _02040B20:
@@ -26956,7 +26956,7 @@ _02041428:
 	cmp r0, #0
 	beq _02041484
 	ldr r1, [sp, #0x10]
-	bl sub_02007AFC
+	bl _ZN17UnkClass_02007AA4C1EP17NNSG2dPaletteData
 _02041484:
 	str r0, [sl, #0xc]
 _02041488:
@@ -27210,7 +27210,7 @@ _0204179C:
 	mov r1, r1, lsl #0x10
 	ldr r0, [r4, #4]
 	mov r1, r1, lsr #0xd
-	bl sub_02007BFC
+	bl _ZN17UnkClass_02007AA412sub_02007BFCEm
 	ldr r0, [r4, #4]
 	bl sub_02007BC4
 	mov r0, #0x40
@@ -28033,7 +28033,7 @@ _02042224:
 	mov r1, r1, lsl #0x10
 	ldr r0, [r5, #0xc]
 	mov r1, r1, lsr #0xd
-	bl sub_02007BFC
+	bl _ZN17UnkClass_02007AA412sub_02007BFCEm
 	ldr r0, [r5, #0xc]
 	bl sub_02007BC4
 	ldrb r2, [r5]

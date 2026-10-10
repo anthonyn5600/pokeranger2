@@ -7,7 +7,7 @@
 #include "common.hpp"
 #include "field/CFieldActor.hpp"
 
-class UnkClass_02124CDC;
+class CFieldMap;
 class UnkClass_0211E3FC;
 class UnkClass_020416AC;
 
@@ -20,7 +20,7 @@ public:
     virtual void sub_0203F0C0();
     virtual void sub_0203F144();
     virtual void sub_0203F190();
-    virtual void sub_0203F2B0(UnkClass_02124CDC *map, BOOL update);
+    virtual void sub_0203F2B0(CFieldMap *map, BOOL update);
     virtual void sub_0203F1FC();
     virtual void sub_0203F278();
     virtual void sub_02040460();
@@ -41,6 +41,17 @@ public:
             return NULL;
         }
         return m_actors[i];
+    }
+
+    inline int CountActors()
+    {
+        int count = 0;
+        for (int i = 0; i < m_count; i++) {
+            if (m_actors[i] != NULL) {
+                count++;
+            }
+        }
+        return count;
     }
 
     inline CFieldActor *FindLeader()

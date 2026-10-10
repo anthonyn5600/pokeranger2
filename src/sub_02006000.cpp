@@ -172,7 +172,7 @@ BOOL sub_02006610(PointPair2D arg0, PointPair2D arg1, Point2D *arg2)
     return sub_02006350(arg0, arg1, arg2, FALSE);
 }
 
-BOOL sub_02006764(PointPair2D arg0, Circle arg1, Point2D *arg2, s32 arg3)
+BOOL sub_02006764(const PointPair2D arg0, const Circle arg1, Point2D *arg2, s32 arg3)
 {
     Point2D v0 = arg1.pos - arg0.p1;
     Point2D v1 = arg0.p2 - arg0.p1;

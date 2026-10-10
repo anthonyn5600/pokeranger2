@@ -4,8 +4,11 @@
 #include <nitro.h>
 
 #include "common.hpp"
+#include "field/CFieldEventRect.hpp"
 
-class UnkClass_0213D84C;
+class UnkClass_0213DDCC;
+
+extern UnkClass_0213DDCC *MAIN_BSS_0210CA58;
 
 // Defined in ov0
 class UnkClass_0213DDCC {
@@ -13,7 +16,7 @@ public:
     UnkClass_0213DDCC();
     ~UnkClass_0213DDCC();
 
-    inline UnkClass_0213D84C *Get(int i)
+    inline CFieldEventRect *Get(int i)
     {
         if (m_count < i) {
             return NULL;
@@ -21,9 +24,21 @@ public:
         return m_items[i];
     }
 
+    inline int Add(CFieldEventRect *rect)
+    {
+        for (int i = 0; i < m_count; i++) {
+            if (m_items[i] == NULL) {
+                m_items[i] = rect;
+                rect->SetIndex(i);
+                return i;
+            }
+        }
+        return -1;
+    }
+
 public:
     int m_count;
-    UnkClass_0213D84C **m_items;
+    CFieldEventRect **m_items;
     u8 unk_08[0x4];
 };
 

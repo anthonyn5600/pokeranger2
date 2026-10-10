@@ -20,9 +20,7 @@
 #include "UnkClass_020B26A0.hpp"
 #include "UnkClass_0211D850.hpp"
 #include "UnkClass_0211E3FC.hpp"
-#include "UnkClass_02124CDC.hpp"
 #include "UnkClass_0213D624.hpp"
-#include "UnkClass_0213D84C.hpp"
 #include "UnkClass_0213DDCC.hpp"
 #include "UnkClass_0213F918.hpp"
 #include "UnkClass_0213FF64.hpp"
@@ -38,6 +36,8 @@
 #include "field/CFieldEffect.hpp"
 #include "field/CFieldEnemy.hpp"
 #include "field/CFieldEnemyManage.hpp"
+#include "field/CFieldMap.hpp"
+#include "field/CFieldMapLayer.hpp"
 #include "field/CFieldNpc.hpp"
 #include "field/CFieldNpcManage.hpp"
 #include "field/CFieldPartner.hpp"
@@ -302,7 +302,7 @@ void CFieldScene::func6()
     unk_0054 = new UnkClass_02022404(m_game);
     unk_0058 = new UnkClass_020233C8(m_game);
     unk_005C = new UnkClass_0215994C();
-    unk_0010 = new UnkClass_02124CDC();
+    unk_0010 = new CFieldMap();
 
     unk_0014 = new CFieldPlayer();
     ov0_02132F14(unk_0014, save->unk_0000, (save->unk_0003 >> 4) & 0xF, mapInfo->unk_04);
@@ -523,9 +523,9 @@ void CFieldScene::func6()
         }
     }
 
-    void *mapData = unk_0010->Get(unk_0014->unk_14);
-    if (mapData != NULL) {
-        int result = ov0_0212E1B4(mapData, unk_0014->GetX(), unk_0014->GetY());
+    CFieldMapLayerAttribute *attrLayer = unk_0010->GetAttributeLayer(unk_0014->unk_14);
+    if (attrLayer != NULL) {
+        int result = attrLayer->GetCellAtPos(unk_0014->GetX(), unk_0014->GetY());
         if (result == 0xE || result == 0x17) {
             if (unk_001C != NULL) {
                 ov0_0213A7FC(unk_001C, 0);
@@ -687,7 +687,7 @@ void sub_0202251C(UnkClass_02022404 *obj);
 BOOL sub_02035ECC(UnkClass_0211D850 *obj, int arg1);
 void sub_0203580C(UnkClass_0211D850 *obj, int fps);
 void ov0_021333A0(CFieldPlayer *player, int arg1, int arg2, int arg3, int arg4, int arg5);
-void ov0_021307B0(CFieldPlayer *player, UnkClass_02001C04 *arg1, CTouchPanel *touch, UnkClass_02003718 *camera, UnkClass_02124CDC *map, u32 flags);
+void ov0_021307B0(CFieldPlayer *player, UnkClass_02001C04 *arg1, CTouchPanel *touch, UnkClass_02003718 *camera, CFieldMap *map, u32 flags);
 void ov0_021341E0(CFieldPlayer *player);
 int ov0_0213FFC4(UnkClass_0213FF64 *obj, CFieldScene *scene, UnkClass_02001C04 *arg2, CTouchPanel *touch);
 void ov0_0213A96C(CFieldPartnerManage *mgr, int arg1, int arg2, int arg3);
@@ -702,7 +702,6 @@ int ov0_0213DEE8(UnkClass_0213DDCC *obj, Point2D *tile, int dir, BOOL arg3);
 void ov0_02159D7C(UnkClass_0215994C *obj);
 void sub_0201A018(UnkClass_02019284 *obj, u8 arg1);
 void sub_02029D4C(UnkClass_02029800 *obj);
-void ov0_021251D8(UnkClass_02124CDC *obj, int arg1, int fps);
 void ov0_021428EC(UnkClass_02142428 *obj, int fps, BOOL paused);
 void ov0_021433D0(UnkClass_02142428 *obj);
 void sub_02041920(UnkClass_020416AC *obj);
@@ -1354,7 +1353,7 @@ u32 CFieldScene::func0()
             save->unk_8BC0 += 60 / fps;
         }
         if (unk_0010 != NULL) {
-            ov0_021251D8(unk_0010, 1, fps);
+            unk_0010->ov0_021251D8(1, fps);
         }
         if (unk_0028 != NULL) {
             ov0_021428EC(unk_0028, fps, !updateActors);
@@ -1575,20 +1574,16 @@ u32 CFieldScene::func0()
 
 extern "C" {
 void sub_02041D58(UnkClass_02041D80 *obj, u32 arg1);
-BOOL ov0_02128308(void *layer, PointPair2D *line, fx32 arg2, Point2D *out, BOOL arg4);
 void ov0_02148480(UnkClass_021480E4 *obj, Point2D *pos, Point2D *target);
 void ov0_021481EC(UnkClass_021480E4 *obj, int fps);
-int ov0_02127B1C(void *layer, fx32 x, fx32 y);
 void ov0_0214FD00(UnkClass_0214FB28 *obj, UnkClass_02003718 *camera);
 void ov0_0214FF20(UnkClass_0214FD4C *obj, UnkClass_02003718 *camera);
 void sub_0203C590(CFieldPlayer *player, UnkClass_0211E3FC *renderLists, UnkClass_020416AC *hud);
 void ov0_02159DB4(UnkClass_0215994C *obj, UnkClass_0211E3FC *renderLists, UnkClass_020416AC *hud);
 void ov0_02143380(UnkClass_02142428 *obj, UnkClass_0211E3FC *renderLists);
-int ov0_0212546C(UnkClass_02124CDC *map, int layer);
 int sub_02009188(UnkClass_0211E3FC *renderList, UnkClass_02003718 *camera, int budget);
 void sub_02041924(UnkClass_020416AC *hud, UnkClass_02003718 *camera, int layer, int budget);
 int ov0_0214336C(UnkClass_02142428 *obj, int layer, int budget);
-void ov0_02125338(UnkClass_02124CDC *map, UnkClass_02003718 *camera);
 void ov0_02142D88(UnkClass_02142428 *obj, UnkClass_02003718 *camera);
 void sub_020358AC(UnkClass_0211D850 *obj, UnkClass_02003718 *camera);
 void ov0_0216D62C(UnkClass_0216D5F4 *obj, int time, int arg2, UnkClass_02003718 *camera);
@@ -1602,17 +1597,14 @@ void sub_02022714(UnkClass_02022404 *obj);
 void sub_02023470(UnkClass_020233C8 *obj);
 void sub_020227AC(UnkClass_02022404 *obj);
 void sub_02007D98(void);
-void ov0_02126658(UnkClass_02124CDC *map);
 void ov0_02142F08(UnkClass_02142428 *obj);
 void sub_02035998(UnkClass_0211D850 *obj);
 void sub_020359FC(UnkClass_0211D850 *obj);
 void ov0_02159D70(UnkClass_0215994C *obj);
-void ov0_02124EE4(UnkClass_02124CDC *map);
 void sub_0201668C(UnkClass_020B26A0 *save);
 void sub_020342A0(void *scriptManager);
 void sub_020171B8(UnkClass_020B26A0 *save);
 void sub_02017948(UnkClass_020B26A0 *save, int arg1);
-void ov0_02125D28(UnkClass_02124CDC *map, u8 group, char *name, u32 arg3);
 void sub_02015714(UnkClass_020B26A0 *save, int idx, int mapId);
 void sub_0201577C(UnkClass_020B26A0 *save, int idx, int mapId);
 BOOL sub_02015690(UnkClass_020B26A0 *save, int idx, int mapId);
@@ -1624,10 +1616,8 @@ BOOL sub_02015434(UnkClass_020B26A0 *save, int mapId, int idx);
 void sub_02035D38(UnkClass_0211D850 *obj, u8 bgm);
 void sub_02035DA0(UnkClass_0211D850 *obj, u8 arg1, int arg2, int arg3, int arg4);
 void ov0_02136384(CFieldEnemyManage *mgr);
-void ov0_02124D98(UnkClass_02124CDC *map, char *name);
 void sub_02041A60(UnkClass_020416AC *hud, u8 arg1);
 void ov0_02143410(UnkClass_02142428 *obj);
-void ov0_02124E48(UnkClass_02124CDC *map);
 void sub_02010868(void *record);
 void sub_020109C0(void *record, u16 arg1, int arg2);
 }
@@ -1683,9 +1673,9 @@ void CFieldScene::ov0_02121758(int fps)
             touchPos.x = (touch->unk_0A.x - 0x80) << FX32_SHIFT;
             touchPos.y = (touch->unk_0A.y - 0x60) << FX32_SHIFT;
             touchPos -= cam;
-            void *layer = unk_0010->GetLayer(unk_0014->unk_14);
+            CFieldMapLayerCollision *layer = unk_0010->GetLayer(unk_0014->unk_14);
             PointPair2D line = { pos, touchPos };
-            if (ov0_02128308(layer, &line, 0x4000, &hit, TRUE)) {
+            if (layer->Sweep(&line, 0x4000, &hit, 1)) {
                 touchPos = hit;
             }
             ov0_02148480(unk_00DC, &pos, &touchPos);
@@ -1709,11 +1699,11 @@ void CFieldScene::func1()
             printer->sub_020028A4(0, 0, "");
             if (unk_00E4->unk_00 & 1) {
                 s32 layerNo = unk_0014->unk_14;
-                void *layer = unk_0010->GetLayer(layerNo);
-                void *collision = unk_0010->Get(layerNo);
-                int attr = layer != NULL ? ov0_02127B1C(layer, unk_0014->GetX(), unk_0014->GetY()) : -1;
-                int hit = collision != NULL ? ov0_0212E1B4(collision, unk_0014->GetX(), unk_0014->GetY()) : -1;
-                printer->sub_020028A4(0, 0, "FIELD (%d,%d,%d) : (%d,%d)", unk_0014->GetX() >> FX32_SHIFT, unk_0014->GetY() >> FX32_SHIFT, layerNo, attr, hit);
+                CFieldMapLayerCollision *layer = unk_0010->GetLayer(layerNo);
+                CFieldMapLayerAttribute *attrLayer = unk_0010->GetAttributeLayer(layerNo);
+                int cell = layer != NULL ? layer->GetCellAtPos(unk_0014->GetX(), unk_0014->GetY()) : -1;
+                int attr = attrLayer != NULL ? attrLayer->GetCellAtPos(unk_0014->GetX(), unk_0014->GetY()) : -1;
+                printer->sub_020028A4(0, 0, "FIELD (%d,%d,%d) : (%d,%d)", unk_0014->GetX() >> FX32_SHIFT, unk_0014->GetY() >> FX32_SHIFT, layerNo, cell, attr);
                 if (unk_0084 == 4) {
                     printer->sub_020028A4(0, 1, "InTargetClearEvent");
                 } else if (unk_0084 == 8) {
@@ -1772,7 +1762,7 @@ void CFieldScene::func1()
             }
             ov0_02143380(unk_0028, unk_003C);
             for (int i = 0; i < 4; i++) {
-                int budget = ov0_0212546C(unk_0010, i);
+                int budget = unk_0010->ov0_0212546C(i);
                 UnkClass_0211E3FC *list = &unk_003C[i];
                 int count = sub_02009188(list, unk_0008, budget);
                 sub_020091DC(list);
@@ -1785,7 +1775,7 @@ void CFieldScene::func1()
                 total += count;
                 unk_0010->SetPolygonCount(i, total);
             }
-            ov0_02125338(unk_0010, unk_0008);
+            unk_0010->ov0_02125338(unk_0008);
             ov0_02142D88(unk_0028, unk_0008);
 
             G3_Identity();
@@ -1860,7 +1850,7 @@ void CFieldScene::func4()
 void CFieldScene::ov0_021220AC(void *arg0)
 {
     if (MAIN_BSS_0210CA40 != NULL) {
-        ov0_02126658(MAIN_BSS_0210CA40->unk_0010);
+        MAIN_BSS_0210CA40->unk_0010->ov0_02126658();
     }
 }
 
@@ -1903,7 +1893,7 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
         save->unk_81B0 = 0;
     }
 
-    ov0_02124EE4(unk_0010);
+    unk_0010->ov0_02124EE4();
     UnkStruct_02041D80 *newInfo = sub_02041D80(unk_0038, mapId);
     if (unk_00CC >= 0) {
         u8 oldMode = GetMapMode(save->unk_8B64);
@@ -1978,10 +1968,10 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
     } else {
         strcpy(name, "test");
     }
-    ov0_02125D28(unk_0010, nameGroup, name, m_game->unk_14A8);
+    unk_0010->ov0_02125D28(nameGroup, name, m_game->unk_14A8);
 
     for (int i = 0; i < unk_0030->m_count; i++) {
-        UnkClass_0213D84C *item = unk_0030->Get(i);
+        CFieldEventRect *item = unk_0030->Get(i);
         if (item != NULL) {
             if (save->GetUnk0030State(mapId, i) == 0) {
                 if (item->unk_18 != 0) {
@@ -2110,7 +2100,7 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
     } else {
         OS_SPrintf(name, "m%03d/m%03d_%03d%c.fsb", info->unk_00, info->unk_00, info->unk_01, info->unk_02 + 'a');
     }
-    ov0_02124D98(unk_0010, name);
+    unk_0010->ov0_02124D98(name);
     sub_02041A60(unk_0048, info->unk_05);
     ov0_02143410(unk_0028);
     return TRUE;
@@ -2118,7 +2108,7 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
 
 BOOL CFieldScene::ov0_02122EF4()
 {
-    ov0_02124E48(unk_0010);
+    unk_0010->ov0_02124E48();
     return TRUE;
 }
 
@@ -2469,7 +2459,7 @@ void CFieldScene::ov0_02124210()
     int mapId = save->unk_001A;
 
     for (int i = 0; i < unk_0030->m_count; i++) {
-        UnkClass_0213D84C *item = unk_0030->Get(i);
+        CFieldEventRect *item = unk_0030->Get(i);
         if (item != NULL) {
             if (item->unk_18 != 0) {
                 sub_02015714(save, i, -1);
@@ -2557,9 +2547,9 @@ int CFieldScene::ov0_02124604()
     int attr = 0;
     if (unk_0010 != NULL && unk_0014 != NULL) {
         Point2D pos = unk_0014->GetPos();
-        void *collision = unk_0010->Get(unk_0014->unk_14);
-        if (collision != NULL) {
-            attr = ov0_0212E1B4(collision, pos.x, pos.y);
+        CFieldMapLayerAttribute *attrLayer = unk_0010->GetAttributeLayer(unk_0014->unk_14);
+        if (attrLayer != NULL) {
+            attr = attrLayer->GetCellAtPos(pos.x, pos.y);
         }
     }
     switch (attr) {
@@ -2707,12 +2697,12 @@ BOOL CFieldScene::ov0_02124C30(Point2D *pos)
             pos->y = FX32_CONST(96);
             clamped = TRUE;
         }
-        if (pos->x > (unk_0010->unk_3C - 128) << FX32_SHIFT) {
-            pos->x = (unk_0010->unk_3C - 128) << FX32_SHIFT;
+        if (pos->x > (unk_0010->m_info.size.width - 128) << FX32_SHIFT) {
+            pos->x = (unk_0010->m_info.size.width - 128) << FX32_SHIFT;
             clamped = TRUE;
         }
-        if (pos->y > (unk_0010->unk_40 - 96) << FX32_SHIFT) {
-            pos->y = (unk_0010->unk_40 - 96) << FX32_SHIFT;
+        if (pos->y > (unk_0010->m_info.size.height - 96) << FX32_SHIFT) {
+            pos->y = (unk_0010->m_info.size.height - 96) << FX32_SHIFT;
             clamped = TRUE;
         }
         pos->x &= ~(FX32_ONE - 1);

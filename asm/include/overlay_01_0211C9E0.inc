@@ -57,7 +57,7 @@
 .public sub_02007AC0
 .public sub_02007B28
 .public sub_02007BC4
-.public sub_02007BFC
+.public _ZN17UnkClass_02007AA412sub_02007BFCEm
 .public _ZN6CSceneC2Ev
 .public _ZN6CSceneD2Ev
 .public _ZN17UnkClass_02008788C1Ev
