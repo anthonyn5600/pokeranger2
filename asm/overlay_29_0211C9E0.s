@@ -145,7 +145,7 @@ ov29_0211CB54: ; 0x0211CB54
 	ldr r0, [r0]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x490]
-	bl _ZN17UnkClass_020091E812sub_0200AB28Elm
+	bl _ZN17UnkClass_020091E812sub_0200AB28El
 	ldr r0, _0211CC40 ; =s_game
 	ldr r0, [r0]
 	add r0, r0, #0x1000
@@ -157,7 +157,7 @@ ov29_0211CB54: ; 0x0211CB54
 	mov r2, #0
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x4bc]
-	bl sub_0200E0E0
+	bl _ZN17UnkClass_0200E0B412sub_0200E0E0Ett
 	mov r3, #1
 	str r3, [sp]
 	mov r1, #0
@@ -202,7 +202,7 @@ _0211CC8C: .word s_game
 ov29_0211CC90: ; 0x0211CC90
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl sub_02007CC0
+	bl _ZN6CSceneD2Ev
 	mov r0, r4
 	bl _ZdlPv
 	mov r0, r4
@@ -219,7 +219,7 @@ ov29_0211CCAC: ; 0x0211CCAC
 ov29_0211CCB4: ; 0x0211CCB4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl sub_02007CC0
+	bl _ZN6CSceneD2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	arm_func_end ov29_0211CCB4
@@ -232,7 +232,7 @@ ov29_0211CCB4: ; 0x0211CCB4
 DAT_overlay_29_0211CCE0: ; 0x0211CCE0
     .word _ZTVN10__cxxabiv120__si_class_type_infoE+8
     .word DAT_overlay_29_0211CCEC
-    .word PTR_ptr_FUN_02083578_0208a804
+    .word _ZTI6CScene
 
     .global DAT_overlay_29_0211CCEC
 DAT_overlay_29_0211CCEC: ; 0x0211CCEC
@@ -249,9 +249,9 @@ CCardAccessErrorScene_vtable: ; 0x0211CD0C
     .word ov29_0211CC90
     .word ov29_0211C9E0
     .word ov29_0211C9E8
-    .word sub_02007CD4
-    .word sub_02007CE0
-    .word sub_02007CC4
+    .word _ZN6CScene5func2Ev
+    .word _ZN6CScene5func3Ev
+    .word _ZN6CScene5func4Ev
     .word ov29_0211C9EC
     .word ov29_0211CB54
     .word ov29_0211CC44

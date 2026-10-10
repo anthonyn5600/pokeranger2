@@ -1,6 +1,6 @@
 #pragma once
 .public _ZdlPv
-.public sub_02007CC0
+.public _ZN6CSceneD2Ev
 .public sub_020107A8
 .public sub_02010BB0
 .public sub_02015520
@@ -23,5 +23,5 @@
 .public sub_02034F20
 .public strcpy
 .public MAIN_BSS_020B26A0
-.public PTR_ptr_FUN_02083578_0208a804
+.public _ZTI6CScene
 .public _ZTVN10__cxxabiv120__si_class_type_infoE

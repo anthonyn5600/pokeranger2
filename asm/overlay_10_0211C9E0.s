@@ -18,7 +18,7 @@ ov10_0211C9E4: ; 0x0211C9E4
 ov10_0211C9EC: ; 0x0211C9EC
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl sub_02007CC0
+	bl _ZN6CSceneD2Ev
 	mov r0, r4
 	bl _ZdlPv
 	mov r0, r4
@@ -65,7 +65,7 @@ ov10_0211CA20: ; 0x0211CA20
 ov10_0211CA28: ; 0x0211CA28
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl sub_02007CC0
+	bl _ZN6CSceneD2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	arm_func_end ov10_0211CA28
@@ -82,7 +82,7 @@ PTR_ptr_FUN_020835bc_overlay_10_0211ca40: ; 0x0211CA40
     .global ptr_FUN_overlay_26_0211ca4c_overlay_10_0211ca44
 ptr_FUN_overlay_26_0211ca4c_overlay_10_0211ca44: ; 0x0211CA44
 	.word s_17CFieldToMenuScene_overlay_10_0211ca4c
-	.word PTR_ptr_FUN_02083578_0208a804
+	.word _ZTI6CScene
 
     .global s_17CFieldToMenuScene_overlay_10_0211ca4c
 s_17CFieldToMenuScene_overlay_10_0211ca4c: ; 0x0211CA4C

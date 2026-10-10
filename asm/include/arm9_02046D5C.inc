@@ -43,10 +43,10 @@
 .public _ZN15CSoftwareSpriteD1Ev
 .public sub_020051DC
 .public _ZN15CSoftwareSprite6RenderEP21CPrimitive_Render_arg
-.public sub_02007CAC
-.public sub_02007CC4
-.public sub_02007CD4
-.public sub_02007CE0
+.public _ZN6CSceneD0Ev
+.public _ZN6CScene5func4Ev
+.public _ZN6CScene5func2Ev
+.public _ZN6CScene5func3Ev
 .public sub_020091D4
 .public _ZN12CPowerManage4InitEv
 .public _ZN12CPowerManage12sub_0200F8BCEv
@@ -687,9 +687,10 @@
 .public sub_0204692C
 .public sub_0200FA58
 .public _ZN10CPrimitiveD1Ev
-.public sub_02007CA8
+.public _ZN6CSceneD1Ev
 .public sub_020130B8
 .public sub_020130E0
 .public sub_02039E0C
 .public _ZTI11CBinaryFile
 .public _ZTI10CPrimitive
+.public _ZTI6CScene

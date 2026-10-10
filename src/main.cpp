@@ -16,9 +16,6 @@
 extern "C" {
 void sub_02008D7C(u16 *);
 void sub_0200FA48(u32);
-u32 sub_0200E310(u32);
-u32 sub_0200E324(u32);
-u32 sub_0200E91C(UnkClass_0200E330 *);
 void sub_0200FA2C(u32);
 void sub_0200FA0C(u32);
 void sub_0201002C(void);
@@ -46,8 +43,8 @@ void NitroMain(void)
     CScene *v3;
     u32 v6;
     u32 v4;
-    u32 v7;
-    u32 v8;
+    UnkClass_0200E0B4 *v7;
+    UnkClass_0200E0B4 *v8;
     UnkClass_0200E330 *v9;
     UnkClass_0200E330 *v10;
     u32 v11;
@@ -85,16 +82,16 @@ void NitroMain(void)
 
     while (1) {
         if (
-            (sub_0200E310(v7) != 0)
-            || (sub_0200E324(v7) == 2)
-            || (sub_0200E324(v7) == 4)
-            || (sub_0200E310(v8) != 0)
-            || (sub_0200E324(v8) == 2)
-            || (sub_0200E324(v8) == 4)
+            (v7->sub_0200E310() != 0)
+            || (v7->sub_0200E324() == 2)
+            || (v7->sub_0200E324() == 4)
+            || (v8->sub_0200E310() != 0)
+            || (v8->sub_0200E324() == 2)
+            || (v8->sub_0200E324() == 4)
             || (v9->func0() != FALSE)
-            || (sub_0200E91C(v9) != 0)
+            || (v9->sub_0200E91C() != 0)
             || (v10->func0() != FALSE)
-            || (sub_0200E91C(v10) != 0)) {
+            || (v10->sub_0200E91C() != 0)) {
             sub_0200FA2C(1);
         } else {
             sub_0200FA0C(1);

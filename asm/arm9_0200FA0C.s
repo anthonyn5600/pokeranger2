@@ -305,7 +305,7 @@ _0200FDBC:
 	cmp r0, #0
 	beq _0200FDDC
 	mov r1, #1
-	bl sub_0200CFF4
+	bl _ZN17UnkClass_0200CFF4C1Em
 _0200FDDC:
 	add r1, r4, #0x1000
 	str r0, [r1, #0x4ac]
@@ -333,7 +333,7 @@ _0200FE14:
 	ldr r3, [r1, #0x4ac]
 	ldr r2, [r1, #0x4b0]
 	add r1, r3, #0x14
-	bl sub_0200C38C
+	bl _ZN17UnkClass_0200C38CC1EPK10NNSG2dFontPv
 _0200FE40:
 	add r1, r4, #0x1000
 	str r0, [r1, #0x494]
@@ -345,7 +345,7 @@ _0200FE40:
 	ldr r3, [r1, #0x4ac]
 	ldr r2, [r1, #0x4b0]
 	add r1, r3, #0x14
-	bl sub_0200CAB4
+	bl _ZN17UnkClass_0200CAB4C1EPK10NNSG2dFontPv
 _0200FE6C:
 	add r1, r4, #0x1000
 	str r0, [r1, #0x498]
@@ -376,7 +376,7 @@ _0200FE90:
 	cmp r0, #0
 	beq _0200FEE0
 	mov r1, #0
-	bl sub_0200D3F8
+	bl _ZN17UnkClass_0200D3F8C1EP25UnkStruct_0200D3F8_Target
 _0200FEE0:
 	add r1, r4, #0x1000
 	str r0, [r1, #0x4b8]
@@ -386,7 +386,7 @@ _0200FEE0:
 	beq _0200FF04
 	mov r1, #1
 	mov r2, #0x10
-	bl sub_0200E0B4
+	bl _ZN17UnkClass_0200E0B4C1Ehi
 _0200FF04:
 	add r1, r4, #0x1000
 	str r0, [r1, #0x4bc]
@@ -396,7 +396,7 @@ _0200FF04:
 	beq _0200FF28
 	mov r1, #2
 	mov r2, #0x10
-	bl sub_0200E0B4
+	bl _ZN17UnkClass_0200E0B4C1Ehi
 _0200FF28:
 	add r1, r4, #0x1000
 	str r0, [r1, #0x4c0]
@@ -405,7 +405,7 @@ _0200FF28:
 	cmp r0, #0
 	beq _0200FF48
 	mov r1, #1
-	bl sub_0200E330
+	bl _ZN17UnkClass_0200E330C1Eh
 _0200FF48:
 	add r1, r4, #0x1000
 	str r0, [r1, #0x4c4]
@@ -414,7 +414,7 @@ _0200FF48:
 	cmp r0, #0
 	beq _0200FF68
 	mov r1, #2
-	bl sub_0200E330
+	bl _ZN17UnkClass_0200E330C1Eh
 _0200FF68:
 	add r1, r4, #0x1000
 	str r0, [r1, #0x4c8]
@@ -509,16 +509,16 @@ _02010080:
 _02010098:
 	add r0, r5, #0x1000
 	ldr r0, [r0, #0x4bc]
-	bl sub_0200E2D4
+	bl _ZN17UnkClass_0200E0B412sub_0200E2D4Ev
 	add r0, r5, #0x1000
 	ldr r0, [r0, #0x4c0]
-	bl sub_0200E2D4
+	bl _ZN17UnkClass_0200E0B412sub_0200E2D4Ev
 	add r0, r5, #0x1000
 	ldr r0, [r0, #0x4c4]
-	bl sub_0200E4A8
+	bl _ZN17UnkClass_0200E33012sub_0200E4A8Ev
 	add r0, r5, #0x1000
 	ldr r0, [r0, #0x4c8]
-	bl sub_0200E4A8
+	bl _ZN17UnkClass_0200E33012sub_0200E4A8Ev
 	add r0, r5, #0x6c
 	ldr r1, _020100E0 ; =0x04000006
 	add r0, r0, #0x1400
@@ -562,13 +562,13 @@ sub_02010124: ; 0x02010124
 	bl _ZN17UnkClass_020091E812sub_0200A118Ev
 	add r0, r4, #0x1000
 	ldr r0, [r0, #0x4b8]
-	bl sub_0200D9CC
+	bl _ZN17UnkClass_0200D3F812sub_0200D9CCEv
 	add r0, r4, #0x1000
 	ldr r0, [r0, #0x4c4]
-	bl sub_0200E44C
+	bl _ZN17UnkClass_0200E33012sub_0200E44CEv
 	add r0, r4, #0x1000
 	ldr r0, [r0, #0x4c8]
-	bl sub_0200E44C
+	bl _ZN17UnkClass_0200E33012sub_0200E44CEv
 	add r0, r4, #0x1000
 	ldr r0, [r0, #0x48c]
 	bl thunk_FUN_0205b9f0

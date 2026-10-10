@@ -17,6 +17,29 @@ public:
     void sub_0200381C();
     BOOL sub_020038A8(Rectangle *arg0, fx32 arg1);
 
+    inline const Point2D &GetOffset()
+    {
+        return *(Point2D *)&unk_1C;
+    }
+
+    inline void SetOffset(fx32 x, fx32 y)
+    {
+        unk_1C = x;
+        unk_20 = y;
+    }
+
+    inline void SetOffset(const Point2D &offset)
+    {
+        unk_1C = offset.x;
+        unk_20 = offset.y;
+    }
+
+    inline void SetOrigin(fx32 x, fx32 y)
+    {
+        unk_1C = 1 - x;
+        unk_20 = 1 - y;
+    }
+
 public:
     fx32 unk_00;
     fx32 unk_04;

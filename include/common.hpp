@@ -11,4 +11,16 @@
 
 #define STATIC_SIZE_ASSERT(sym, size) STATIC_ASSERT(sizeof(sym) == size, "size of " #sym " must be " #size)
 
+#define SAFE_DELETE(ptr) \
+    if ((ptr) != NULL) { \
+        delete (ptr);    \
+        (ptr) = NULL;    \
+    }
+
+#define SAFE_DELETE_ARRAY(ptr) \
+    if ((ptr) != NULL) {       \
+        delete[] (ptr);        \
+        (ptr) = NULL;          \
+    }
+
 #endif // POKERANGER2_COMMON_HPP

@@ -25,6 +25,14 @@ struct Point2D {
         };
     }
 
+    inline Point2D &operator-=(Point2D other)
+    {
+        x -= other.x;
+        y -= other.y;
+
+        return *this;
+    }
+
     inline Point2D &operator*=(fx32 other)
     {
         x = FX32_MUL(x, other);

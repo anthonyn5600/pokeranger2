@@ -516,7 +516,7 @@ _0211D104: .word MAIN_BSS_020B26A0
 ov2_0211D108: ; 0x0211D108
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl sub_02007CC0
+	bl _ZN6CSceneD2Ev
 	mov r0, r4
 	bl _ZdlPv
 	mov r0, r4
@@ -563,7 +563,7 @@ ov2_0211D13C: ; 0x0211D13C
 ov2_0211D144: ; 0x0211D144
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl sub_02007CC0
+	bl _ZN6CSceneD2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	arm_func_end ov2_0211D144
@@ -576,7 +576,7 @@ ov2_0211D144: ; 0x0211D144
 PTR_ptr_FUN_020835bc_overlay_2_0211d160: ; 0x0211D160
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word s_19CBattleToFieldScene_overlay_2_0211d16c
-	.word PTR_ptr_FUN_02083578_0208a804
+	.word _ZTI6CScene
 
     .global s_19CBattleToFieldScene_overlay_2_0211d16c
 s_19CBattleToFieldScene_overlay_2_0211d16c: ; 0x0211D16C

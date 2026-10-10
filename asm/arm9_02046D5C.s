@@ -1221,40 +1221,6 @@ ptr_FUN_020841e4_0208a36c: ; 0x0208A36C
 
     .data
 
-	.global s_6CScene_0208a7fc
-s_6CScene_0208a7fc: ; 0x0208A7FC
-	.asciz "6CScene"
-
-	.global PTR_ptr_FUN_02083578_0208a804
-PTR_ptr_FUN_02083578_0208a804: ; 0x0208A804
-	.word _ZTVN10__cxxabiv117__class_type_infoE+8
-	.word s_6CScene_0208a7fc
-	.byte 0x00, 0x00, 0x00, 0x00
-	.word PTR_ptr_FUN_02083578_0208a804
-
-	.global PTR_LAB_0208a814
-PTR_LAB_0208a814: ; 0x0208A814
-	.word sub_02007CA8
-
-	.global ptr_FUN_02007cac_0208a818
-ptr_FUN_02007cac_0208a818: ; 0x0208A818
-	.word sub_02007CAC
-	.byte 0x00, 0x00, 0x00, 0x00
-	.byte 0x00, 0x00, 0x00, 0x00
-
-	.global ptr_thunk_FUN_02001210_0208a824
-ptr_thunk_FUN_02001210_0208a824: ; 0x0208A824
-	.word sub_02007CD4
-
-	.global ptr_FUN_02007ce0_0208a828
-ptr_FUN_02007ce0_0208a828: ; 0x0208A828
-	.word sub_02007CE0
-
-	.global ptr_FUN_02007cc4_0208a82c
-ptr_FUN_02007cc4_0208a82c: ; 0x0208A82C
-	.word sub_02007CC4
-	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-
 	.global DAT_0208a840
 DAT_0208a840: ; 0x0208A840
 	.byte 0x3C, 0x00, 0x00, 0x00
@@ -6413,7 +6379,7 @@ _0208E10F:
 PTR_ptr_FUN_020835bc_0208e110: ; 0x0208E110
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word s_26CDownloadMissionStartScene_0208e12c
-	.word PTR_ptr_FUN_02083578_0208a804
+	.word _ZTI6CScene
 
 	.global DAT_0208e11c
 DAT_0208e11c: ; 0x0208E11C
@@ -6449,11 +6415,11 @@ ptr_FUN_02042548_0208e15c: ; 0x0208E15C
 
 	.global ptr_FUN_02007ce0_0208e168
 ptr_FUN_02007ce0_0208e168: ; 0x0208E168
-	.word sub_02007CE0
+	.word _ZN6CScene5func3Ev
 
 	.global ptr_FUN_02007cc4_0208e16c
 ptr_FUN_02007cc4_0208e16c: ; 0x0208E16C
-	.word sub_02007CC4
+	.word _ZN6CScene5func4Ev
 
 	.global ptr_FUN_02042f84_0208e170
 ptr_FUN_02042f84_0208e170: ; 0x0208E170
@@ -6472,7 +6438,7 @@ ptr_FUN_020424f4_0208e178: ; 0x0208E178
 PTR_ptr_FUN_020835bc_0208e180: ; 0x0208E180
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word s_24CDownloadMissionEndScene_0208e18c
-	.word PTR_ptr_FUN_02083578_0208a804
+	.word _ZTI6CScene
 
 	.global s_24CDownloadMissionEndScene_0208e18c
 s_24CDownloadMissionEndScene_0208e18c: ; 0x0208E18C
@@ -6500,11 +6466,11 @@ ptr_FUN_0204338c_0208e1b8: ; 0x0208E1B8
 
 	.global ptr_FUN_02007ce0_0208e1c4
 ptr_FUN_02007ce0_0208e1c4: ; 0x0208E1C4
-	.word sub_02007CE0
+	.word _ZN6CScene5func3Ev
 
 	.global ptr_FUN_02007cc4_0208e1c8
 ptr_FUN_02007cc4_0208e1c8: ; 0x0208E1C8
-	.word sub_02007CC4
+	.word _ZN6CScene5func4Ev
 
 	.global ptr_FUN_02043880_0208e1cc
 ptr_FUN_02043880_0208e1cc: ; 0x0208E1CC
@@ -6523,7 +6489,7 @@ ptr_FUN_02043338_0208e1d4: ; 0x0208E1D4
 PTR_ptr_FUN_020835bc_0208e1dc: ; 0x0208E1DC
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word s_28CDownloadMissionRestartScene_0208e1e8
-	.word PTR_ptr_FUN_02083578_0208a804
+	.word _ZTI6CScene
 
 	.global s_28CDownloadMissionRestartScene_0208e1e8
 s_28CDownloadMissionRestartScene_0208e1e8: ; 0x0208E1E8
@@ -6554,11 +6520,11 @@ ptr_FUN_02043afc_0208e218: ; 0x0208E218
 
 	.global ptr_FUN_02007ce0_0208e224
 ptr_FUN_02007ce0_0208e224: ; 0x0208E224
-	.word sub_02007CE0
+	.word _ZN6CScene5func3Ev
 
 	.global ptr_FUN_02007cc4_0208e228
 ptr_FUN_02007cc4_0208e228: ; 0x0208E228
-	.word sub_02007CC4
+	.word _ZN6CScene5func4Ev
 
 	.global ptr_FUN_02043fc8_0208e22c
 ptr_FUN_02043fc8_0208e22c: ; 0x0208E22C

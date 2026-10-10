@@ -45,10 +45,20 @@ Static main
     Object main.nef.p/src_UnkClass_020074D4.cpp.o
     Object main.nef.p/src_UnkClass_02007770.cpp.o
     Object main.nef.p/asm_arm9_02007AA4.s.o
+    Object main.nef.p/src_CScene.cpp.o
+    Object main.nef.p/asm_arm9_02007CF0.s.o
     Object main.nef.p/src_UnkClass_020091E8.cpp.o
     Object main.nef.p/src_UnkClass_0200BBC0.cpp.o
     Object main.nef.p/src_UnkClass_0200BBC8.cpp.o
-    Object main.nef.p/asm_arm9_0200C38C.s.o
+    Object main.nef.p/src_UnkClass_0200C38C.cpp.o
+    Object main.nef.p/src_UnkClass_0200CAB4.cpp.o
+    Object main.nef.p/src_UnkClass_0200CFF4.cpp.o
+    Object main.nef.p/src_UnkClass_0200D114.cpp.o
+    Object main.nef.p/src_UnkClass_0200D3F8.cpp.o
+    Object main.nef.p/src_UnkClass_0200E0B4.cpp.o
+    Object main.nef.p/src_UnkClass_0200E330.cpp.o
+    Object main.nef.p/src_UnkClass_0200E960.cpp.o
+    Object main.nef.p/src_UnkClass_0200ECD0.cpp.o
     Object main.nef.p/src_CPowerManage.cpp.o
     Object main.nef.p/asm_arm9_0200FA0C.s.o
     Object main.nef.p/src_CGame.cpp.o
@@ -112,7 +122,8 @@ Autoload DTCM
 Overlay overlay0
 {
     After main
-    Object main.nef.p/asm_overlay_00_0211C9E0.s.o
+    Object main.nef.p/src_CFieldScene.cpp.o
+    Object main.nef.p/asm_overlay_00_02124CDC.s.o
 }
 
 Overlay overlay1
@@ -235,7 +246,7 @@ Overlay overlay19
 Overlay overlay20
 {
     After main
-    Object main.nef.p/asm_overlay_20_0211C9E0.s.o
+    Object main.nef.p/src_CAutoSaveScene.cpp.o
 }
 
 Overlay overlay21

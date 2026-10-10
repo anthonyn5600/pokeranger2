@@ -995,7 +995,7 @@ void UnkClass_020091E8::sub_0200AA84(u32 arg0, u32 arg1, u32 arg2, u32 arg3, u32
     }
 }
 
-void UnkClass_020091E8::sub_0200AB28(s32 arg0, u32 arg1)
+void UnkClass_020091E8::sub_0200AB28(s32 arg0)
 {
     if (unk_004 != NULL) {
         if (unk_018 == arg0) {
@@ -1078,7 +1078,7 @@ void UnkClass_020091E8::sub_0200AD34(u32 arg0, u32 arg1, u32 arg2, u32 arg3)
     unk_154 = arg0;
 }
 
-void UnkClass_020091E8::sub_0200AD80(s32 arg0, u32 arg1)
+void UnkClass_020091E8::sub_0200AD80(s32 arg0)
 {
     if (unk_008 != NULL) {
         if (unk_01C == arg0) {
@@ -1239,7 +1239,7 @@ void UnkClass_020091E8::sub_0200B1D0(u32 arg0, u32 arg1, u32 arg2, u32 arg3)
     unk_154 = arg0;
 }
 
-void UnkClass_020091E8::sub_0200B21C(s32 arg0, u32 arg1)
+void UnkClass_020091E8::sub_0200B21C(s32 arg0)
 {
     if (unk_010 != NULL) {
         if (unk_024 == arg0) {

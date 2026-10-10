@@ -26,7 +26,7 @@ _0211CA14: .word PTR_LAB_overlay_24_0211ca18_overlay_24_0211d2e4
 ov24_0211CA18: ; 0x0211CA18
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl sub_02007CC0
+	bl _ZN6CSceneD2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	arm_func_end ov24_0211CA18
@@ -35,7 +35,7 @@ ov24_0211CA18: ; 0x0211CA18
 ov24_0211CA2C: ; 0x0211CA2C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl sub_02007CC0
+	bl _ZN6CSceneD2Ev
 	mov r0, r4
 	bl _ZdlPv
 	mov r0, r4
@@ -69,14 +69,14 @@ _0211CA90:
 	ldr r0, [r0]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x4bc]
-	bl sub_0200E310
+	bl _ZN17UnkClass_0200E0B412sub_0200E310Ev
 	cmp r0, #0
 	bne _0211CFE4
 	ldr r0, _0211CFF0 ; =s_game
 	ldr r0, [r0]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x4c0]
-	bl sub_0200E310
+	bl _ZN17UnkClass_0200E0B412sub_0200E310Ev
 	cmp r0, #0
 	bne _0211CFE4
 	mov r3, #1
@@ -136,7 +136,7 @@ _0211CB90:
 	cmp r0, #0
 	beq _0211CBA8
 	mov r1, #1
-	bl sub_02027FE8
+	bl _ZN17UnkClass_02027FE8C1Em
 _0211CBA8:
 	mov r1, #0
 	str r0, [r4, #0x10]
@@ -146,7 +146,7 @@ _0211CBA8:
 	b _0211CFE4
 _0211CBC0:
 	ldr r0, [r4, #0x10]
-	bl sub_0202841C
+	bl _ZN17UnkClass_02027FE812sub_0202841CEv
 	cmp r0, #0
 	beq _0211CFE4
 	tst r0, #0x80
@@ -176,14 +176,14 @@ _0211CBC0:
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x4bc]
 	mov r2, #0x1e
-	bl sub_0200E0E0
+	bl _ZN17UnkClass_0200E0B412sub_0200E0E0Ett
 	ldr r0, _0211CFF0 ; =s_game
 	mov r1, #4
 	ldr r0, [r0]
 	mov r2, #0x1e
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x4c0]
-	bl sub_0200E0E0
+	bl _ZN17UnkClass_0200E0B412sub_0200E0E0Ett
 	mov r0, #1
 	str r0, [r4, #0xc]
 	mov r0, #0xa
@@ -242,7 +242,7 @@ _0211CD10:
 	b _0211CFE4
 _0211CD28:
 	ldr r0, [r4, #0x10]
-	bl sub_0202841C
+	bl _ZN17UnkClass_02027FE812sub_0202841CEv
 	movs r5, r0
 	beq _0211CFE4
 	ldr r6, [r4, #0x10]
@@ -250,7 +250,7 @@ _0211CD28:
 	beq _0211CD60
 	beq _0211CD58
 	mov r0, r6
-	bl sub_02028054
+	bl _ZN17UnkClass_02027FE8D1Ev
 	mov r0, r6
 	bl _ZdlPv
 _0211CD58:
@@ -284,14 +284,14 @@ _0211CD60:
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x4bc]
 	mov r2, #0x1e
-	bl sub_0200E0E0
+	bl _ZN17UnkClass_0200E0B412sub_0200E0E0Ett
 	ldr r0, _0211CFF0 ; =s_game
 	mov r1, #4
 	ldr r0, [r0]
 	mov r2, #0x1e
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x4c0]
-	bl sub_0200E0E0
+	bl _ZN17UnkClass_0200E0B412sub_0200E0E0Ett
 	mov r0, #1
 	str r0, [r4, #0xc]
 	mov r0, #0xa
@@ -375,14 +375,14 @@ _0211CEEC:
 	mov r2, #0x1e
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x4bc]
-	bl sub_0200E0E0
+	bl _ZN17UnkClass_0200E0B412sub_0200E0E0Ett
 	ldr r0, _0211CFF0 ; =s_game
 	mov r1, #4
 	ldr r0, [r0]
 	mov r2, #0x1e
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x4c0]
-	bl sub_0200E0E0
+	bl _ZN17UnkClass_0200E0B412sub_0200E0E0Ett
 	mov r0, #0x11
 	str r0, [r4, #0xc]
 	mov r0, #0xa
@@ -393,14 +393,14 @@ _0211CF54:
 	ldr r0, [r0]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x4bc]
-	bl sub_0200E310
+	bl _ZN17UnkClass_0200E0B412sub_0200E310Ev
 	cmp r0, #0
 	bne _0211CFE4
 	ldr r0, _0211CFF0 ; =s_game
 	ldr r0, [r0]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x4c0]
-	bl sub_0200E310
+	bl _ZN17UnkClass_0200E0B412sub_0200E310Ev
 	cmp r0, #0
 	bne _0211CFE4
 	add r0, sp, #0x18
@@ -568,21 +568,21 @@ ov24_0211D134: ; 0x0211D134
 	ldr r0, [r0]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x490]
-	bl _ZN17UnkClass_020091E812sub_0200AB28Elm
+	bl _ZN17UnkClass_020091E812sub_0200AB28El
 	ldr r0, _0211D21C ; =s_game
 	mov r1, #3
 	ldr r0, [r0]
 	mov r2, #0x1e
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x4bc]
-	bl sub_0200E0E0
+	bl _ZN17UnkClass_0200E0B412sub_0200E0E0Ett
 	ldr r0, _0211D21C ; =s_game
 	mov r1, #3
 	ldr r0, [r0]
 	mov r2, #0x1e
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x4c0]
-	bl sub_0200E0E0
+	bl _ZN17UnkClass_0200E0B412sub_0200E0E0Ett
 	add sp, sp, #0x18
 	ldmia sp!, {r4, pc}
 	.align 2, 0
@@ -599,7 +599,7 @@ ov24_0211D224: ; 0x0211D224
 	beq _0211D254
 	beq _0211D24C
 	mov r0, r4
-	bl sub_02028054
+	bl _ZN17UnkClass_02027FE8D1Ev
 	mov r0, r4
 	bl _ZdlPv
 	arm_func_end ov24_0211D224
@@ -642,7 +642,7 @@ ov24_0211D29C: ; 0x0211D29C
 PTR_ptr_FUN_020835bc_overlay_24_0211d2c0: ; 0x0211D2C0
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word s_11CRetryScene_overlay_24_0211d2cc
-	.word PTR_ptr_FUN_02083578_0208a804
+	.word _ZTI6CScene
 
     .global s_11CRetryScene_overlay_24_0211d2cc
 s_11CRetryScene_overlay_24_0211d2cc: ; 0x0211D2CC
@@ -669,11 +669,11 @@ ptr_FUN_overlay_24_0211ca48_overlay_24_0211d2ec: ; 0x0211D2EC
 
     .global ptr_FUN_02007ce0_overlay_24_0211d2f8
 ptr_FUN_02007ce0_overlay_24_0211d2f8: ; 0x0211D2F8
-	.word sub_02007CE0
+	.word _ZN6CScene5func3Ev
 
     .global ptr_FUN_02007cc4_overlay_24_0211d2fc
 ptr_FUN_02007cc4_overlay_24_0211d2fc: ; 0x0211D2FC
-	.word sub_02007CC4
+	.word _ZN6CScene5func4Ev
 
     .global ptr_FUN_overlay_24_0211d010_overlay_24_0211d300
 ptr_FUN_overlay_24_0211d010_overlay_24_0211d300: ; 0x0211D300
