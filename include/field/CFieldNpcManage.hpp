@@ -27,6 +27,8 @@ public:
 
     virtual void sub_0203EFE4(int capacity);
     virtual void sub_0203F034();
+
+    int ov0_0213C66C(int slot, int type, u16 kind, u16 script, int arg5);
 };
 
 STATIC_SIZE_ASSERT(CFieldNpcManage, 0x10);

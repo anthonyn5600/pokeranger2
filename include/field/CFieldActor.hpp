@@ -494,7 +494,9 @@ public:
     u8 unk_20;
     u8 unk_21[0x3];
     Rectangle unk_24;
-    u8 unk_34[0x20];
+    Rectangle unk_34;
+    Circle unk_44;
+    int unk_50;
     int unk_54;
     u32 unk_58;
     u32 unk_5C;

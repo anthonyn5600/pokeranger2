@@ -146,7 +146,7 @@
 .public _ZN14CPrimitiveRECTC1Ev
 .public _ZN14CPrimitiveRECTD1Ev
 .public _ZN15CFieldEventRect8SetIndexEi
-.public _ZN15CFieldNpcManageD0Ev
+.public _ZN15CFieldNpcManage12ov0_0213C66CEiitti
 .public _ZN15CSoftwareSpriteC1Ev
 .public _ZN15CSoftwareSpriteD1Ev
 .public _ZN17CFieldActorManage12sub_0203EFE4Ei
@@ -208,8 +208,6 @@
 .public _ZN23CFieldMapLayerCollision6IsWallEi
 .public _ZN23CFieldMapLayerCollision9GetCellAtEii
 .public _ZN24CFieldTargetObjectManageD0Ev
-.public _ZN9CFieldNpc10LoadScriptEi
-.public _ZN9CFieldNpcC1Ev
 .public _ZN9CNCERFileC1EPKcmmm
 .public _ZTI10CPrimitive
 .public _ZTI11CFieldActor
@@ -382,8 +380,6 @@
 .public sub_02041A70
 .public sub_02041C14
 .public sub_02041C1C
-.public sub_02041D44
-.public sub_02041D58
 .public sub_02041D6C
 .public sub_02041D80
 .public sub_02041D98

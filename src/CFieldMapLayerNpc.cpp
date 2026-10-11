@@ -10,10 +10,6 @@
 
 extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
 
-extern "C" {
-int ov0_0213C66C(CFieldNpcManage *manage, int slot, int arg2, int arg3, int arg4, int arg5);
-}
-
 int CFieldMapLayerNpc::Draw(UnkClass_02003718 *camera)
 {
     return 0;
@@ -60,7 +56,7 @@ BOOL CFieldMapLayerNpc::Load(void *data)
     if (manage != NULL) {
         int base = manage->CountActors();
         for (int i = 0; i < m_count; i++) {
-            int slot = ov0_0213C66C(manage, base + i, m_entries[i].unk_0A, m_entries[i].unk_06, m_entries[i].unk_08, 0);
+            int slot = manage->ov0_0213C66C(base + i, m_entries[i].unk_0A, m_entries[i].unk_06, m_entries[i].unk_08, 0);
             if (slot >= 0) {
                 CFieldNpc *npc = (CFieldNpc *)manage->Get(slot);
                 fx32 y = m_entries[i].y << FX32_SHIFT;
