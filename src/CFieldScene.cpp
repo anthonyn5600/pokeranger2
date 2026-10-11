@@ -687,8 +687,6 @@ void sub_0202251C(UnkClass_02022404 *obj);
 BOOL sub_02035ECC(UnkClass_0211D850 *obj, int arg1);
 void sub_0203580C(UnkClass_0211D850 *obj, int fps);
 int ov0_0213FFC4(UnkClass_0213FF64 *obj, CFieldScene *scene, UnkClass_02001C04 *arg2, CTouchPanel *touch);
-void ov0_0213CDB4(CFieldActor *actor, u32 id);
-void ov0_0213CD3C(CFieldActor *actor);
 void ov0_0213E4BC(CFieldPartner *partner, u32 id);
 void sub_0203D404(CFieldPartner *partner, Point2D pos);
 void ov0_02161F88(void);
@@ -874,7 +872,7 @@ u32 CFieldScene::func0()
                     if (m_game->m_textboxData->sub_0200B6D4() != 0) {
                         unk_0084 = 0;
                     } else {
-                        ov0_0213CDB4(unk_0080, partner->unk_58);
+                        ((CFieldTargetObject *)unk_0080)->ov0_0213CDB4(partner->unk_58);
                         unk_0084 = 0x1A;
                     }
                     sub_02022DD4(unk_0054);
@@ -1104,7 +1102,7 @@ u32 CFieldScene::func0()
                             sub_02015A3C(save, data->unk_04, data->unk_02);
                             sub_02015E54(save, id);
                         }
-                        ov0_0213CD3C(unk_0080);
+                        ((CFieldTargetObject *)unk_0080)->ov0_0213CD3C();
                         unk_0014->sub_0201287C_();
                         Point2D pos = unk_0014->GetPos();
                         ov0_02124C30(&pos);

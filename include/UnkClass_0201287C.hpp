@@ -102,6 +102,7 @@ void sub_02011AB0(UnkClass_02011D3C *obj, Point2D pos, int arg2);
 void sub_02011C20(UnkClass_02011D3C *obj, Point2D pos, int speed);
 void sub_0201287C(UnkClass_0201287C *obj);
 void sub_020128D8(UnkClass_0201287C *obj);
+void sub_02012114(UnkClass_0201287C *obj, int arg1, int arg2);
 void sub_020128EC(UnkClass_0201287C *obj, u16 arg1);
 void sub_020129F4(UnkClass_0201287C *obj, int arg1, int arg2);
 int sub_02012AFC(UnkClass_0201287C *obj);

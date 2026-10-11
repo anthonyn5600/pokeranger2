@@ -37,6 +37,13 @@ public:
         }
     }
 
+    inline void sub_02012114_(int arg0, int arg1)
+    {
+        if (unk_0C != NULL) {
+            sub_02012114(unk_0C, arg0, arg1);
+        }
+    }
+
     inline void sub_020128EC_(u16 arg0)
     {
         if (unk_0C != NULL) {
@@ -223,6 +230,13 @@ public:
     {
         unk_18 = pos.x;
         unk_1C = pos.y;
+    }
+
+    inline void sub_02012114_(int arg0, int arg1)
+    {
+        if (unk_08 != NULL) {
+            unk_08->sub_02012114_(arg0, arg1);
+        }
     }
 
     inline void sub_020128EC_(u16 arg0)

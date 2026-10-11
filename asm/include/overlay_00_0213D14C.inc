@@ -199,6 +199,13 @@
 .public _ZN17UnkClass_0200E0B412sub_0200E310Ev
 .public _ZN17UnkClass_0200E0B412sub_0200E324Ev
 .public _ZN17UnkClass_0200E33012sub_0200E91CEv
+.public _ZN18CFieldTargetObject12ov0_0213CD3CEv
+.public _ZN18CFieldTargetObject12ov0_0213CD78Ei
+.public _ZN18CFieldTargetObject12ov0_0213CF30EP17CFieldActorScriptPv
+.public _ZN18CFieldTargetObject12ov0_0213CF60EPKc
+.public _ZN18CFieldTargetObject12ov0_0213CFBCEv
+.public _ZN18CFieldTargetObject12ov0_0213CFDCEv
+.public _ZN18CFieldTargetObjectC1Ev
 .public _ZN19CFieldPartnerManage12ov0_02139920Emttii
 .public _ZN19CFieldPartnerManage12ov0_0213A050Em
 .public _ZN23CFieldMapLayerAttribute12GetCellAtPosEll
@@ -214,6 +221,7 @@
 .public _ZTI13CFieldPartner
 .public _ZTI17CFieldActorManage
 .public _ZTI17CFieldActorScript
+.public _ZTV29CFieldTargetObjectActorScript
 .public _ZTVN10__cxxabiv117__class_type_infoE
 .public _ZTVN10__cxxabiv120__si_class_type_infoE
 .public _ZdaPv
@@ -265,7 +273,6 @@
 .public sub_02011D1C
 .public sub_02011D2C
 .public sub_02011D3C
-.public sub_02012114
 .public sub_020125FC
 .public sub_02012860
 .public sub_0201287C
