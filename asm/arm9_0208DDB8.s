@@ -373,7 +373,7 @@ PTR_ptr_FUN_020835bc_0208e040: ; 0x0208E040
 PTR_ptr_FUN_020835bc_0208e04c: ; 0x0208E04C
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word s_16CSimpleSpriteNTF_0208e058
-	.word PTR_ptr_FUN_020835bc_0208d638
+	.word _ZTI17CPrimitiveRectNTF
 
 	.global s_16CSimpleSpriteNTF_0208e058
 s_16CSimpleSpriteNTF_0208e058: ; 0x0208E058

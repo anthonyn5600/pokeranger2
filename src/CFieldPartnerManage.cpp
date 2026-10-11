@@ -10,6 +10,7 @@
 #include "field/CFieldPartnerNpc.hpp"
 #include "field/CFieldPartnerPokemon.hpp"
 #include "field/CFieldPlayer.hpp"
+#include "field/FieldPartnerIndex.hpp"
 #include "file/CBinaryFile.hpp"
 #include "scene/CFieldScene.hpp"
 #include "sub_02044440.hpp"
@@ -36,8 +37,6 @@ void sub_02015124(UnkStruct_020B26A0_8AD4 *partner);
 void sub_02015C78(UnkClass_020B26A0 *save, u32 id, u16 kind, int arg3);
 void sub_02041A70(CFieldActor *actor, int arg1, int arg2);
 void sub_0203F440(CFieldActorManage *mgr);
-BOOL sub_02034F9C(u32 kind);
-int sub_02035088(u32 kind);
 void *sub_020233A4(void);
 void sub_02022B20(void *obj);
 }

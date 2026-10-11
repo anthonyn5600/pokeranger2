@@ -107,6 +107,11 @@
 .public _ZN17UnkClass_0203447812sub_02034F20Ei
 .public _ZN17UnkClass_0203447812sub_02034F3CEi
 .public _ZN17UnkClass_0203447812sub_02034F4CEi
+.public _ZN17UnkClass_0211D85012sub_02035CA4Ei
+.public _ZN17UnkClass_0211D85012sub_02035DA0Eiiii
+.public _ZN17UnkClass_0211D85012sub_02035E3CEii
+.public _ZN17UnkClass_0211D85012sub_02035ECCEi
+.public _ZN17UnkClass_0211D85012sub_02035F50Eii
 .public _ZN19CFieldPartnerManage12ov0_02139920Emttii
 .public _ZN19CFieldPartnerManage12ov0_02139F10Ei
 .public _ZN19CFieldPartnerManage12ov0_0213A050Em
@@ -249,11 +254,6 @@
 .public sub_0202B5D0
 .public sub_0202B64C
 .public sub_0202B674
-.public sub_02035CA4
-.public sub_02035DA0
-.public sub_02035E3C
-.public sub_02035ECC
-.public sub_02035F50
 .public sub_02041A70
 .public sub_02041C1C
 .public sub_02041D80

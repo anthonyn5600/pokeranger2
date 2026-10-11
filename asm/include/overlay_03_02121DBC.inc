@@ -1,5 +1,4 @@
 #pragma once
-.public DAT_0208d694
 .public DC_FlushRange
 .public FX_InvSqrt
 .public FX_SinCosTable_
@@ -50,6 +49,8 @@
 .public _Z9Heap_FreePv
 .public _ZN10CPrimitiveC2Ev
 .public _ZN10CPrimitiveD2Ev
+.public _ZN10NtfTexture4LoadEPKcS1_i
+.public _ZN10NtfTexture7ReleaseEv
 .public _ZN11CBGNCGRFileC1EPKcmmm
 .public _ZN13CArchiveGuardC1EPKcS1_mmmPvm
 .public _ZN13CArchiveGuardD1Ev
@@ -126,6 +127,7 @@
 .public _ZTI14CPrimitiveLINE
 .public _ZTI14CPrimitiveQUAD
 .public _ZTI6CScene
+.public _ZTV17CPrimitiveRectNTF
 .public _ZTVN10__cxxabiv117__class_type_infoE
 .public _ZTVN10__cxxabiv120__si_class_type_infoE
 .public _ZdaPv
@@ -138,6 +140,7 @@
 .public __cxa_vec_new
 .public _ll_div
 .public _s32_div_f
+.public g_ntfTextureFormats
 .public ov3_0211CA7C
 .public ov3_0211CAAC
 .public ov3_0211CAE4
@@ -166,7 +169,6 @@
 .public ov3_02121D0C
 .public ov3_02121D10
 .public ov3_02121D20
-.public ptr_FUN_02036908_0208d660
 .public ptr_FUN_020420d8_0208e088
 .public s_game
 .public sub_0201AAE0
@@ -180,8 +182,6 @@
 .public sub_020204DC
 .public sub_0202055C
 .public sub_020205DC
-.public sub_02036184
-.public sub_02036488
 .public sub_02041D98
 .public sub_020420A8
 .public sub_020420D8

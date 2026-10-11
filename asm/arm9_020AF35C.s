@@ -1,0 +1,377 @@
+    .include "macros.inc"
+    .include "include/arm9_020AF35C.inc"
+
+; Main .bss of the objects before src/CFieldScreenEffect.cpp (whose bss comes from C++)
+
+    .bss
+    .global MAIN_BSS_020AF35C
+MAIN_BSS_020AF35C: ; 0x020AF35C
+    .space 0x72
+
+    .global MAIN_BSS_020AF3CE
+MAIN_BSS_020AF3CE: ; 0x020AF3CE
+    .space 0x1CA
+
+    .global MAIN_BSS_020AF598
+MAIN_BSS_020AF598: ; 0x020AF598
+    .space 0x8
+
+    .global MAIN_BSS_020AF5A0
+MAIN_BSS_020AF5A0: ; 0x020AF5A0
+    .space 0xC
+
+    .global MAIN_BSS_020AF5AC
+MAIN_BSS_020AF5AC: ; 0x020AF5AC
+    .space 0xC
+
+    .global MAIN_BSS_020AF5B8
+MAIN_BSS_020AF5B8: ; 0x020AF5B8
+    .space 0xC
+
+    .global MAIN_BSS_020AF5C4
+MAIN_BSS_020AF5C4: ; 0x020AF5C4
+    .space 0xC
+
+    .global MAIN_BSS_020AF5D0
+MAIN_BSS_020AF5D0: ; 0x020AF5D0
+    .space 0x14
+
+    .global MAIN_BSS_020AF5E4
+MAIN_BSS_020AF5E4: ; 0x020AF5E4
+    .space 0x14
+
+    .global MAIN_BSS_020AF5F8
+MAIN_BSS_020AF5F8: ; 0x020AF5F8
+    .space 0x14
+
+    .global MAIN_BSS_020AF60C
+MAIN_BSS_020AF60C: ; 0x020AF60C
+    .space 0x14
+
+    .global MAIN_BSS_020AF620
+MAIN_BSS_020AF620: ; 0x020AF620
+    .space 0x4
+
+    .global MAIN_BSS_020AF624
+MAIN_BSS_020AF624: ; 0x020AF624
+    .space 0xA05
+
+    .global MAIN_BSS_020B0029
+MAIN_BSS_020B0029: ; 0x020B0029
+    .space 0x1
+
+    .global MAIN_BSS_020B002A
+MAIN_BSS_020B002A: ; 0x020B002A
+    .space 0x1
+
+    .global MAIN_BSS_020B002B
+MAIN_BSS_020B002B: ; 0x020B002B
+    .space 0x1
+
+    .global MAIN_BSS_020B002C
+MAIN_BSS_020B002C: ; 0x020B002C
+    .space 0x2600
+
+    .global MAIN_BSS_020B262C
+MAIN_BSS_020B262C: ; 0x020B262C
+    .space 0xC
+
+    .global MAIN_BSS_020B2638
+MAIN_BSS_020B2638: ; 0x020B2638
+    .space 0x5C
+
+    .global MAIN_BSS_020B2694
+MAIN_BSS_020B2694: ; 0x020B2694
+    .space 0xC
+
+    .global MAIN_BSS_020B26A0
+MAIN_BSS_020B26A0: ; 0x020B26A0
+    .space 0x7C3C
+
+    .global MAIN_BSS_020BA2DC
+MAIN_BSS_020BA2DC: ; 0x020BA2DC
+    .space 0x80
+
+    .global MAIN_BSS_020BA35C
+MAIN_BSS_020BA35C: ; 0x020BA35C
+    .space 0x1F4
+
+    .global MAIN_BSS_020BA550
+MAIN_BSS_020BA550: ; 0x020BA550
+    .space 0xB4
+
+    .global MAIN_BSS_020BA604
+MAIN_BSS_020BA604: ; 0x020BA604
+    .space 0x9C
+
+    .global MAIN_BSS_020BA6A0
+MAIN_BSS_020BA6A0: ; 0x020BA6A0
+    .space 0x1B4
+
+    .global MAIN_BSS_020BA854
+MAIN_BSS_020BA854: ; 0x020BA854
+    .space 0x140
+
+    .global MAIN_BSS_020BA994
+MAIN_BSS_020BA994: ; 0x020BA994
+    .space 0x40C
+
+    .global MAIN_BSS_020BADA0
+MAIN_BSS_020BADA0: ; 0x020BADA0
+    .space 0x6C
+
+    .global MAIN_BSS_020BAE0C
+MAIN_BSS_020BAE0C: ; 0x020BAE0C
+    .space 0x6F
+
+    .global MAIN_BSS_020BAE7B
+MAIN_BSS_020BAE7B: ; 0x020BAE7B
+    .space 0x8
+
+    .global MAIN_BSS_020BAE83
+MAIN_BSS_020BAE83: ; 0x020BAE83
+    .space 0x21
+
+    .global MAIN_BSS_020BAEA4
+MAIN_BSS_020BAEA4: ; 0x020BAEA4
+    .space 0x18
+
+    .global MAIN_BSS_020BAEBC
+MAIN_BSS_020BAEBC: ; 0x020BAEBC
+    .space 0x18
+
+    .global MAIN_BSS_020BAED4
+MAIN_BSS_020BAED4: ; 0x020BAED4
+    .space 0x18
+
+    .global MAIN_BSS_020BAEEC
+MAIN_BSS_020BAEEC: ; 0x020BAEEC
+    .space 0x18
+
+    .global MAIN_BSS_020BAF04
+MAIN_BSS_020BAF04: ; 0x020BAF04
+    .space 0x18
+
+    .global MAIN_BSS_020BAF1C
+MAIN_BSS_020BAF1C: ; 0x020BAF1C
+    .space 0x18
+
+    .global MAIN_BSS_020BAF34
+MAIN_BSS_020BAF34: ; 0x020BAF34
+    .space 0x18
+
+    .global MAIN_BSS_020BAF4C
+MAIN_BSS_020BAF4C: ; 0x020BAF4C
+    .space 0x48
+
+    .global MAIN_BSS_020BAF94
+MAIN_BSS_020BAF94: ; 0x020BAF94
+    .space 0x18
+
+    .global MAIN_BSS_020BAFAC
+MAIN_BSS_020BAFAC: ; 0x020BAFAC
+    .space 0x18
+
+    .global MAIN_BSS_020BAFC4
+MAIN_BSS_020BAFC4: ; 0x020BAFC4
+    .space 0x18
+
+    .global MAIN_BSS_020BAFDC
+MAIN_BSS_020BAFDC: ; 0x020BAFDC
+    .space 0x18
+
+    .global MAIN_BSS_020BAFF4
+MAIN_BSS_020BAFF4: ; 0x020BAFF4
+    .space 0x18
+
+    .global MAIN_BSS_020BB00C
+MAIN_BSS_020BB00C: ; 0x020BB00C
+    .space 0x18
+
+    .global MAIN_BSS_020BB024
+MAIN_BSS_020BB024: ; 0x020BB024
+    .space 0x18
+
+    .global MAIN_BSS_020BB03C
+MAIN_BSS_020BB03C: ; 0x020BB03C
+    .space 0x48
+
+    .global MAIN_BSS_020BB084
+MAIN_BSS_020BB084: ; 0x020BB084
+    .space 0x18
+
+    .global MAIN_BSS_020BB09C
+MAIN_BSS_020BB09C: ; 0x020BB09C
+    .space 0x18
+
+    .global MAIN_BSS_020BB0B4
+MAIN_BSS_020BB0B4: ; 0x020BB0B4
+    .space 0x18
+
+    .global MAIN_BSS_020BB0CC
+MAIN_BSS_020BB0CC: ; 0x020BB0CC
+    .space 0x18
+
+    .global MAIN_BSS_020BB0E4
+MAIN_BSS_020BB0E4: ; 0x020BB0E4
+    .space 0x18
+
+    .global MAIN_BSS_020BB0FC
+MAIN_BSS_020BB0FC: ; 0x020BB0FC
+    .space 0x18
+
+    .global MAIN_BSS_020BB114
+MAIN_BSS_020BB114: ; 0x020BB114
+    .space 0x18
+
+    .global MAIN_BSS_020BB12C
+MAIN_BSS_020BB12C: ; 0x020BB12C
+    .space 0x48
+
+    .global MAIN_BSS_020BB174
+MAIN_BSS_020BB174: ; 0x020BB174
+    .space 0x2C
+
+    .global MAIN_BSS_020BB1A0
+MAIN_BSS_020BB1A0: ; 0x020BB1A0
+    .space 0xC
+
+    .global MAIN_BSS_020BB1AC
+MAIN_BSS_020BB1AC: ; 0x020BB1AC
+    .space 0x64
+
+    .global MAIN_BSS_020BB210
+MAIN_BSS_020BB210: ; 0x020BB210
+    .space 0x25DCE
+
+    .global MAIN_BSS_020E0FDE
+MAIN_BSS_020E0FDE: ; 0x020E0FDE
+    .space 0xE044
+
+    .global MAIN_BSS_020EF022
+MAIN_BSS_020EF022: ; 0x020EF022
+    .space 0x1BE7
+
+    .global MAIN_BSS_020F0C09
+MAIN_BSS_020F0C09: ; 0x020F0C09
+    .space 0x1B49B
+
+    .global MAIN_BSS_0210C0A4
+MAIN_BSS_0210C0A4: ; 0x0210C0A4
+    .space 0xC
+
+    .global MAIN_BSS_0210C0B0
+MAIN_BSS_0210C0B0: ; 0x0210C0B0
+    .space 0xFC
+
+    .global MAIN_BSS_0210C1AC
+MAIN_BSS_0210C1AC: ; 0x0210C1AC
+    .space 0x4
+
+    .global MAIN_BSS_0210C1B0
+MAIN_BSS_0210C1B0: ; 0x0210C1B0
+    .space 0x8
+
+    .global MAIN_BSS_0210C1B8
+MAIN_BSS_0210C1B8: ; 0x0210C1B8
+    .space 0x4
+
+    .global MAIN_BSS_0210C1BC
+MAIN_BSS_0210C1BC: ; 0x0210C1BC
+    .space 0x4
+
+    .global MAIN_BSS_0210C1C0
+MAIN_BSS_0210C1C0: ; 0x0210C1C0
+    .space 0x60
+
+    .global MAIN_BSS_0210C220
+MAIN_BSS_0210C220: ; 0x0210C220
+    .space 0x8
+
+    .global MAIN_BSS_0210C228
+MAIN_BSS_0210C228: ; 0x0210C228
+    .space 0x800
+
+    .global MAIN_BSS_0210CA28
+MAIN_BSS_0210CA28: ; 0x0210CA28
+    .space 0x8
+
+    .global sCardBackupInfo
+sCardBackupInfo: ; 0x0210CA30
+    .space 0x8
+
+    .global MAIN_BSS_0210CA38
+MAIN_BSS_0210CA38: ; 0x0210CA38
+    .space 0x4
+
+    .global MAIN_BSS_0210CA3C
+MAIN_BSS_0210CA3C: ; 0x0210CA3C
+    .space 0x4
+
+    .global MAIN_BSS_0210CA40
+MAIN_BSS_0210CA40: ; 0x0210CA40
+    .space 0x4
+
+    .global MAIN_BSS_0210CA44
+MAIN_BSS_0210CA44: ; 0x0210CA44
+    .space 0x4
+
+    .global MAIN_BSS_0210CA48
+MAIN_BSS_0210CA48: ; 0x0210CA48
+    .space 0x4
+
+    .global MAIN_BSS_0210CA4C
+MAIN_BSS_0210CA4C: ; 0x0210CA4C
+    .space 0x4
+
+    .global MAIN_BSS_0210CA50
+MAIN_BSS_0210CA50: ; 0x0210CA50
+    .space 0x4
+
+    .global MAIN_BSS_0210CA54
+MAIN_BSS_0210CA54: ; 0x0210CA54
+    .space 0x4
+
+    .global MAIN_BSS_0210CA58
+MAIN_BSS_0210CA58: ; 0x0210CA58
+    .space 0x4
+
+    .global MAIN_BSS_0210CA5C
+MAIN_BSS_0210CA5C: ; 0x0210CA5C
+    .space 0x4
+
+    .global MAIN_BSS_0210CA60
+MAIN_BSS_0210CA60: ; 0x0210CA60
+    .space 0x4
+
+    .global MAIN_BSS_0210CA64
+MAIN_BSS_0210CA64: ; 0x0210CA64
+    .space 0x4
+
+    .global MAIN_BSS_0210CA68
+MAIN_BSS_0210CA68: ; 0x0210CA68
+    .space 0x4
+
+    .global MAIN_BSS_0210CA6C
+MAIN_BSS_0210CA6C: ; 0x0210CA6C
+    .space 0x4
+
+    .global MAIN_BSS_0210CA70
+MAIN_BSS_0210CA70: ; 0x0210CA70
+    .space 0x4
+
+    .global MAIN_BSS_0210CA74
+MAIN_BSS_0210CA74: ; 0x0210CA74
+    .space 0x4
+
+    .global MAIN_BSS_0210CA78
+MAIN_BSS_0210CA78: ; 0x0210CA78
+    .space 0x4
+
+    .global MAIN_BSS_0210CA7C
+MAIN_BSS_0210CA7C: ; 0x0210CA7C
+    .space 0x4
+
+    .global MAIN_BSS_0210CA80
+MAIN_BSS_0210CA80: ; 0x0210CA80
+    .space 0x4

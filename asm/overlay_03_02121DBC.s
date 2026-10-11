@@ -2466,7 +2466,7 @@ ov3_02124010: ; 0x02124010
 	str r2, [r0]
 	str r2, [r0, #4]
 	str r2, [r0, #8]
-	ldr r1, _02124048 ; =DAT_0208d694
+	ldr r1, _02124048 ; =g_ntfTextureFormats
 	str r2, [r0, #0xc]
 	str r1, [r0, #0x10]
 	str r2, [r0, #0x14]
@@ -2477,7 +2477,7 @@ ov3_02124010: ; 0x02124010
 	str r2, [r0, #0x28]
 	bx lr
 	.align 2, 0
-_02124048: .word DAT_0208d694
+_02124048: .word g_ntfTextureFormats
 	arm_func_end ov3_02124010
 
 	arm_func_start _ZN17COpeningDemoSceneC1Ev
@@ -2523,7 +2523,7 @@ _021240D0: .word ov3_02124010
 ov3_021240D4: ; 0x021240D4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl sub_02036488
+	bl _ZN10NtfTexture7ReleaseEv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	arm_func_end ov3_021240D4
@@ -2909,7 +2909,7 @@ _021245F0:
 	mov r1, r5
 	mov r2, r4
 	mov r3, #0
-	bl sub_02036184
+	bl _ZN10NtfTexture4LoadEPKcS1_i
 	ldmib r7, {r0, r1}
 	str r0, [sb, #0xe4c]
 	str r1, [sb, #0xe50]
@@ -3715,7 +3715,7 @@ ov3_0212518C: ; 0x0212518C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl _ZN10CPrimitiveC2Ev
-	ldr r0, _021251D4 ; =ptr_FUN_02036908_0208d660
+	ldr r0, _021251D4 ; =_ZTV17CPrimitiveRectNTF+8
 	mov r2, #0
 	str r0, [r4]
 	ldr r0, _021251D8 ; =PTR_LAB_0208e074
@@ -3731,7 +3731,7 @@ ov3_0212518C: ; 0x0212518C
 	str r1, [r4, #0x44]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_021251D4: .word ptr_FUN_02036908_0208d660
+_021251D4: .word _ZTV17CPrimitiveRectNTF+8
 _021251D8: .word PTR_LAB_0208e074
 	arm_func_end ov3_0212518C
 
@@ -3967,7 +3967,7 @@ ov3_0212552C: ; 0x0212552C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl _ZN10CPrimitiveC2Ev
-	ldr r0, _02125588 ; =ptr_FUN_02036908_0208d660
+	ldr r0, _02125588 ; =_ZTV17CPrimitiveRectNTF+8
 	mov r1, #0
 	str r0, [r4]
 	ldr r0, _0212558C ; =PTR_LAB_0208e074
@@ -3988,7 +3988,7 @@ ov3_0212552C: ; 0x0212552C
 	str r1, [r4, #4]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02125588: .word ptr_FUN_02036908_0208d660
+_02125588: .word _ZTV17CPrimitiveRectNTF+8
 _0212558C: .word PTR_LAB_0208e074
 _02125590: .word 0x00000622
 	arm_func_end ov3_0212552C

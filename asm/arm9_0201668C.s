@@ -22564,8 +22564,8 @@ _02029594:
 	str r0, [r6, #0x30]
 	ldmia sp!, {r4, r5, r6, pc}
 
-	arm_func_start sub_020295B0
-sub_020295B0: ; 0x020295B0
+	arm_func_start _ZN16CEffectActorData12sub_020295B0Ei
+_ZN16CEffectActorData12sub_020295B0Ei: ; 0x020295B0
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r5, r0
 	ldr r0, [r5, #0x28]
@@ -22586,7 +22586,7 @@ sub_020295B0: ; 0x020295B0
 	mov r1, r1, lsr #0xd
 	bl _ZN17UnkClass_02007AA412sub_02007BFCEm
 	b _0202960C
-	arm_func_end sub_020295B0
+	arm_func_end _ZN16CEffectActorData12sub_020295B0Ei
 _02029600:
 	mov r1, r1, lsl #0x10
 	mov r1, r1, lsr #0xd

@@ -112,6 +112,7 @@
 .public _ZN15CFieldDrawActorC1Ev
 .public _ZN15CSoftwareSprite18GetCellNumOAMAttrsEt
 .public _ZN15CSoftwareSpriteC1Ev
+.public _ZN17CPrimitiveRectNTF6RenderEP21CPrimitive_Render_arg
 .public _ZN17UnkClass_0200371812sub_020038A8EP9Rectanglel
 .public _ZN17UnkClass_020074D412sub_020076B0Ev
 .public _ZN17UnkClass_020074D412sub_020076E8Em
@@ -206,6 +207,5 @@
 .public sub_02019278
 .public sub_020282CC
 .public sub_02028374
-.public sub_02036558
 .public sub_02044AC8
 .public vsprintf

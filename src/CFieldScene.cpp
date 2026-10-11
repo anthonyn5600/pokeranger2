@@ -672,8 +672,6 @@ void sub_02022924(UnkClass_02022404 *obj);
 void sub_02023200(UnkClass_02022404 *obj);
 void sub_02023198(UnkClass_02022404 *obj, int arg1);
 void sub_0202251C(UnkClass_02022404 *obj);
-BOOL sub_02035ECC(UnkClass_0211D850 *obj, int arg1);
-void sub_0203580C(UnkClass_0211D850 *obj, int fps);
 int ov0_0213FFC4(UnkClass_0213FF64 *obj, CFieldScene *scene, UnkClass_02001C04 *arg2, CTouchPanel *touch);
 void ov0_0213E4BC(CFieldPartner *partner, u32 id);
 void ov0_02161F88(void);
@@ -804,7 +802,7 @@ u32 CFieldScene::func0()
                             unk_00D0 &= ~0x300;
                         }
                     }
-                    if (sub_02035ECC(unk_002C, 5)) {
+                    if (unk_002C->sub_02035ECC(5)) {
                         if ((save->unk_8BC0 + 2) % 300 < 2) {
                             unk_0014->ov0_021333A0(0, 0, 0, 1, 0);
                         }
@@ -1336,7 +1334,7 @@ u32 CFieldScene::func0()
             ov0_021428EC(unk_0028, fps, !updateActors);
         }
         if (unk_002C != NULL) {
-            sub_0203580C(unk_002C, fps);
+            unk_002C->sub_0203580C(fps);
         }
         if (unk_0048 != NULL) {
             sub_02041920(unk_0048);
@@ -1448,11 +1446,11 @@ u32 CFieldScene::func0()
                 sub_02010A70(record, ov0_02124604());
             }
             if (!(opts & 2)) {
-                if (sub_02035ECC(unk_002C, 9)) {
+                if (unk_002C->sub_02035ECC(9)) {
                     sub_02010A84(record, 9);
                 } else {
                     for (int i = 1; i < 0x11; i++) {
-                        if (sub_02035ECC(unk_002C, i)) {
+                        if (unk_002C->sub_02035ECC(i)) {
                             sub_02010A84(record, i);
                             break;
                         }
@@ -1560,7 +1558,6 @@ void ov0_02143380(UnkClass_02142428 *obj, UnkClass_0211E3FC *renderLists);
 void sub_02041924(UnkClass_020416AC *hud, UnkClass_02003718 *camera, int layer, int budget);
 int ov0_0214336C(UnkClass_02142428 *obj, int layer, int budget);
 void ov0_02142D88(UnkClass_02142428 *obj, UnkClass_02003718 *camera);
-void sub_020358AC(UnkClass_0211D850 *obj, UnkClass_02003718 *camera);
 void ov0_0216D62C(UnkClass_0216D5F4 *obj, int time, int arg2, UnkClass_02003718 *camera);
 void sub_020419AC(UnkClass_020416AC *hud);
 void ov0_02148288(UnkClass_021480E4 *obj, UnkClass_02003718 *camera);
@@ -1572,8 +1569,6 @@ void sub_02022714(UnkClass_02022404 *obj);
 void sub_02023470(UnkClass_020233C8 *obj);
 void sub_020227AC(UnkClass_02022404 *obj);
 void ov0_02142F08(UnkClass_02142428 *obj);
-void sub_02035998(UnkClass_0211D850 *obj);
-void sub_020359FC(UnkClass_0211D850 *obj);
 void ov0_02159D70(UnkClass_0215994C *obj);
 void sub_0201668C(UnkClass_020B26A0 *save);
 void sub_020342A0(void *scriptManager);
@@ -1587,8 +1582,6 @@ void sub_02015C08(UnkClass_020B26A0 *save, int idx, int mapId);
 BOOL sub_02015B1C(UnkClass_020B26A0 *save, int idx, int mapId);
 void sub_02015AAC(UnkClass_020B26A0 *save, int idx, int mapId);
 BOOL sub_02015434(UnkClass_020B26A0 *save, int mapId, int idx);
-void sub_02035D38(UnkClass_0211D850 *obj, u8 bgm);
-void sub_02035DA0(UnkClass_0211D850 *obj, u8 arg1, int arg2, int arg3, int arg4);
 void sub_02041A60(UnkClass_020416AC *hud, u8 arg1);
 void ov0_02143410(UnkClass_02142428 *obj);
 void sub_02010868(void *record);
@@ -1755,7 +1748,7 @@ void CFieldScene::func1()
             unk_0008->sub_0200381C();
             G3_StoreMtx(0);
             if (unk_002C != NULL) {
-                sub_020358AC(unk_002C, unk_0008);
+                unk_002C->sub_020358AC(unk_0008);
             }
             if (unk_00D0 & 0x80) {
                 unk_00FC.m_alpha = unk_00FA;
@@ -1852,8 +1845,8 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
             }
         }
         ov0_02142F08(unk_0028);
-        sub_02035998(unk_002C);
-        sub_020359FC(unk_002C);
+        unk_002C->sub_02035998();
+        unk_002C->sub_020359FC();
         ov0_02159D70(unk_005C);
     }
 
@@ -2054,8 +2047,8 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
     }
 
     if (info->unk_03 != 0) {
-        sub_02035D38(unk_002C, info->unk_03);
-        sub_02035DA0(unk_002C, info->unk_03, 0, -1, 0);
+        unk_002C->sub_02035D38(info->unk_03);
+        unk_002C->sub_02035DA0(info->unk_03, 0, -1, 0);
     }
     unk_008C = 0;
     unk_00D0 |= 4;

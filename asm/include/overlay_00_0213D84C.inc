@@ -4,7 +4,6 @@
 .public DAT_0208ac34
 .public DAT_0208c55c
 .public DAT_0208d58c
-.public DAT_0208d694
 .public FX_Atan2Idx
 .public FX_Div
 .public FX_Inv
@@ -42,9 +41,6 @@
 .public MAIN_BSS_0210CA78
 .public MAIN_BSS_0210CA7C
 .public MAIN_BSS_0210CA80
-.public MAIN_BSS_0210CA8C
-.public MAIN_BSS_0210CA90
-.public MAIN_BSS_0210CAA4
 .public MAIN_BSS_0210CEC8
 .public MI_CpuCopy8
 .public MI_CpuFill8
@@ -87,6 +83,10 @@
 .public _Z9Heap_FreePv
 .public _ZN10CPrimitiveC2Ev
 .public _ZN10CPrimitiveD2Ev
+.public _ZN10NtfTexture12LoadDeferredEPKcS1_i
+.public _ZN10NtfTexture12ReleaseFilesEv
+.public _ZN10NtfTexture4LoadEPKcS1_i
+.public _ZN10NtfTexture7ReleaseEv
 .public _ZN11CBinaryFileC1EPKcmmmPvm
 .public _ZN11CFieldActor12sub_0202D394Ev
 .public _ZN11CFieldActor12sub_0202D7E0Ev
@@ -135,6 +135,9 @@
 .public _ZN12CFieldPlayer12ov0_021333A0Elliii
 .public _ZN12CFieldPlayer12ov0_0213416CEv
 .public _ZN12CFieldPlayer12ov0_021341E0Ev
+.public _ZN12CFieldSEFFog7s_colorE
+.public _ZN12CFieldSEFFog7s_dirtyE
+.public _ZN12CFieldSEFFog9s_densityE
 .public _ZN13CArchiveGuardC1EPKcS1_mmmPvm
 .public _ZN13CArchiveGuardD1Ev
 .public _ZN13CFieldPartner12ov0_021373C0EP7Point2D
@@ -156,6 +159,8 @@
 .public _ZN15CFieldNpcManage12ov0_0213C66CEiitti
 .public _ZN15CSoftwareSpriteC1Ev
 .public _ZN15CSoftwareSpriteD1Ev
+.public _ZN16CEffectActorData12sub_020295B0Ei
+.public _ZN16CEffectActorData5EntryC1Ev
 .public _ZN17CFieldActorManage12sub_0203F7F4EP11PointPair2DliP7Point2D
 .public _ZN17CFieldActorManage12sub_02040158E7Point2Dli
 .public _ZN17CFieldActorScript12sub_0203BE48EP11CFieldActorPKc
@@ -224,6 +229,10 @@
 .public _ZN17UnkClass_0203447812sub_02034CF4Eii
 .public _ZN17UnkClass_0203447812sub_02034D54Eii
 .public _ZN17UnkClass_0203447812sub_02034F4CEi
+.public _ZN17UnkClass_0211D85012sub_020359FCEv
+.public _ZN17UnkClass_0211D85012sub_02035D38Ei
+.public _ZN17UnkClass_0211D85012sub_02035DA0Eiiii
+.public _ZN17UnkClass_0211D85012sub_02035ECCEi
 .public _ZN17UnkClass_0211E3FC12sub_0200912CEP11CDrawObject
 .public _ZN18CFieldTargetObject12ov0_0213CD78Ei
 .public _ZN18CFieldTargetObject12ov0_0213CF60EPKc
@@ -256,6 +265,7 @@
 .public _ZTI11CFieldActor
 .public _ZTI13CFieldPartner
 .public _ZTI17CFieldActorScript
+.public _ZTV17CPrimitiveRectNTF
 .public _ZTVN10__cxxabiv117__class_type_infoE
 .public _ZTVN10__cxxabiv120__si_class_type_infoE
 .public _ZdaPv
@@ -268,8 +278,8 @@
 .public __cxa_vec_new
 .public _ll_div
 .public _s32_div_f
+.public g_ntfTextureFormats
 .public ptr_FUN_020294c0_0208c4a4
-.public ptr_FUN_02036908_0208d660
 .public s_c000First_0208ac1c
 .public s_game
 .public strcpy
@@ -327,7 +337,6 @@
 .public sub_020234D4
 .public sub_02029518
 .public sub_02029540
-.public sub_020295B0
 .public sub_020296B0
 .public sub_02029704
 .public sub_02029770
@@ -349,15 +358,6 @@
 .public sub_02034328
 .public sub_02034374
 .public sub_02034F9C
-.public sub_020359FC
-.public sub_02035D38
-.public sub_02035DA0
-.public sub_02035ECC
-.public sub_0203616C
-.public sub_02036184
-.public sub_020362EC
-.public sub_02036434
-.public sub_02036488
 .public sub_0203F440
 .public sub_02041A70
 .public sub_02041C14

@@ -1,0 +1,14 @@
+#ifndef POKERANGER2_FIELD_FIELDPARTNERINDEX_HPP
+#define POKERANGER2_FIELD_FIELDPARTNERINDEX_HPP
+
+#include <nitro.h>
+
+extern u16 DAT_0208d58c;
+
+extern "C" {
+BOOL sub_02034F9C(int kind);
+int sub_02035088(int kind);
+int sub_02035240(int index);
+}
+
+#endif // POKERANGER2_FIELD_FIELDPARTNERINDEX_HPP

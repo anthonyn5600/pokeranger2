@@ -1130,14 +1130,14 @@ _0211D9CC:
 	str r2, [r4]
 	mov r1, #8
 	str r2, [r4, #4]
-	bl sub_02035720
+	bl _ZN17UnkClass_0211D85012sub_02035720Ei
 _0211D9FC:
 	str r4, [sl, #0xc2c]
 	ldr r0, [sl, #0x1c]
 	bl sub_02010BB8
 	mov r1, r0
 	ldr r0, [sl, #0xc2c]
-	bl sub_02035D38
+	bl _ZN17UnkClass_0211D85012sub_02035D38Ei
 	ldr r0, [sl, #0x1c]
 	bl sub_02010BB8
 	mov r1, r0
@@ -1145,7 +1145,7 @@ _0211D9FC:
 	str r2, [sp]
 	ldr r0, [sl, #0xc2c]
 	sub r3, r2, #1
-	bl sub_02035DA0
+	bl _ZN17UnkClass_0211D85012sub_02035DA0Eiiii
 	mov r0, #0x1b8
 	bl _Znwm
 	cmp r0, #0
@@ -1962,7 +1962,7 @@ _0211E54C:
 	beq _0211E580
 	beq _0211E578
 	mov r0, r5
-	bl sub_02035774
+	bl _ZN17UnkClass_0211D85012sub_02035774Ev
 	ldr r1, _0211E718 ; =MAIN_BSS_0210CA78
 	mov r2, #0
 	mov r0, r5
@@ -2946,7 +2946,7 @@ _0211F27C:
 _0211F284:
 	ldr r0, [r5, #0xc2c]
 	mov r1, #0x3c
-	bl sub_0203580C
+	bl _ZN17UnkClass_0211D85012sub_0203580CEi
 	ldr r0, [r5, #0x20]
 	str r0, [r5, #0x24]
 	ldrh r0, [r5, #8]
@@ -6387,7 +6387,7 @@ ov1_021222E8: ; 0x021222E8
 	cmp r0, #0
 	beq _02122330
 	ldr r1, [r5, #0xc4]
-	bl sub_020358AC
+	bl _ZN17UnkClass_0211D85012sub_020358ACEP17UnkClass_02003718
 	arm_func_end ov1_021222E8
 _02122330:
 	mov r0, r4

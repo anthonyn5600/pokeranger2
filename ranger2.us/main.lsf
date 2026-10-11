@@ -80,7 +80,15 @@ Static main
     Object main.nef.p/asm_arm9_0202B8A4.s.o
     Object main.nef.p/asm_arm9_0208B5C0.s.o
     Object main.nef.p/src_UnkClass_02034478.cpp.o
-    Object main.nef.p/asm_arm9_02034F9C.s.o
+    Object main.nef.p/src_FieldPartnerIndex.cpp.o
+    Object main.nef.p/asm_arm9_020AF35C.s.o
+    Object main.nef.p/src_CFieldScreenEffect.cpp.o
+    Object main.nef.p/src_CPrimitiveNTF.cpp.o
+    Object main.nef.p/src_CFieldSEFKomorebi.cpp.o
+    Object main.nef.p/src_CFieldSEFFog.cpp.o
+    Object main.nef.p/src_CFieldSEFSandStorm.cpp.o
+    Object main.nef.p/src_CFieldSEFDokarimo.cpp.o
+    Object main.nef.p/asm_arm9_020389E8.s.o
     Object main.nef.p/asm_arm9_0208D58C.s.o
     Object main.nef.p/src_FieldActor.cpp.o
     Object main.nef.p/src_FieldDrawActor.cpp.o

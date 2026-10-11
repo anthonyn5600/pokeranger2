@@ -2963,7 +2963,7 @@ ov0_0213FFC4: ; 0x0213FFC4
 	cmp r0, #0
 	beq _02140020
 	mov r1, #0xb
-	bl sub_02035ECC
+	bl _ZN17UnkClass_0211D85012sub_02035ECCEi
 	cmp r0, #0
 	movne r0, #1
 	strne r0, [sp, #0x3c]
@@ -18616,17 +18616,17 @@ ov0_0214CB34: ; 0x0214CB34
 	ldr r0, _0214CC84 ; =MAIN_BSS_0210CA78
 	ldr r4, [r0]
 	mov r0, r4
-	bl sub_020359FC
+	bl _ZN17UnkClass_0211D85012sub_020359FCEv
 	mov r0, r4
 	mov r1, r5
-	bl sub_02035D38
+	bl _ZN17UnkClass_0211D85012sub_02035D38Ei
 	mov r1, #0
 	mov r2, #0x78
 	str r1, [sp]
 	mov r0, r4
 	mov r1, r5
 	sub r3, r2, #0x79
-	bl sub_02035DA0
+	bl _ZN17UnkClass_0211D85012sub_02035DA0Eiiii
 	cmp r5, #0
 	addne sp, sp, #4
 	ldmneia sp!, {r3, r4, r5, r6, pc}
@@ -18704,7 +18704,7 @@ ov0_0214CC8C: ; 0x0214CC8C
 	bx lr
 	.align 2, 0
 	arm_func_end ov0_0214CC8C
-_0214CC98: .word MAIN_BSS_0210CA90
+_0214CC98: .word _ZN12CFieldSEFFog9s_densityE
 
 	arm_func_start ov0_0214CC9C
 ov0_0214CC9C: ; 0x0214CC9C
@@ -18716,8 +18716,8 @@ ov0_0214CC9C: ; 0x0214CC9C
 	bx lr
 	.align 2, 0
 	arm_func_end ov0_0214CC9C
-_0214CCB4: .word MAIN_BSS_0210CA90
-_0214CCB8: .word MAIN_BSS_0210CA8C
+_0214CCB4: .word _ZN12CFieldSEFFog9s_densityE
+_0214CCB8: .word _ZN12CFieldSEFFog7s_dirtyE
 
 	arm_func_start ov0_0214CCBC
 ov0_0214CCBC: ; 0x0214CCBC
@@ -18726,7 +18726,7 @@ ov0_0214CCBC: ; 0x0214CCBC
 	bx lr
 	.align 2, 0
 	arm_func_end ov0_0214CCBC
-_0214CCC8: .word MAIN_BSS_0210CAA4
+_0214CCC8: .word _ZN12CFieldSEFFog7s_colorE
 
 	arm_func_start ov0_0214CCCC
 ov0_0214CCCC: ; 0x0214CCCC
@@ -18738,8 +18738,8 @@ ov0_0214CCCC: ; 0x0214CCCC
 	bx lr
 	.align 2, 0
 	arm_func_end ov0_0214CCCC
-_0214CCE4: .word MAIN_BSS_0210CAA4
-_0214CCE8: .word MAIN_BSS_0210CA8C
+_0214CCE4: .word _ZN12CFieldSEFFog7s_colorE
+_0214CCE8: .word _ZN12CFieldSEFFog7s_dirtyE
 
 	arm_func_start ov0_0214CCEC
 ov0_0214CCEC: ; 0x0214CCEC
@@ -18748,7 +18748,7 @@ ov0_0214CCEC: ; 0x0214CCEC
 	bx lr
 	.align 2, 0
 	arm_func_end ov0_0214CCEC
-_0214CCF8: .word MAIN_BSS_0210CAA4
+_0214CCF8: .word _ZN12CFieldSEFFog7s_colorE
 
 	arm_func_start ov0_0214CCFC
 ov0_0214CCFC: ; 0x0214CCFC
@@ -18760,8 +18760,8 @@ ov0_0214CCFC: ; 0x0214CCFC
 	bx lr
 	.align 2, 0
 	arm_func_end ov0_0214CCFC
-_0214CD14: .word MAIN_BSS_0210CAA4
-_0214CD18: .word MAIN_BSS_0210CA8C
+_0214CD14: .word _ZN12CFieldSEFFog7s_colorE
+_0214CD18: .word _ZN12CFieldSEFFog7s_dirtyE
 
 	arm_func_start ov0_0214CD1C
 ov0_0214CD1C: ; 0x0214CD1C
@@ -18770,7 +18770,7 @@ ov0_0214CD1C: ; 0x0214CD1C
 	bx lr
 	.align 2, 0
 	arm_func_end ov0_0214CD1C
-_0214CD28: .word MAIN_BSS_0210CAA4
+_0214CD28: .word _ZN12CFieldSEFFog7s_colorE
 
 	arm_func_start ov0_0214CD2C
 ov0_0214CD2C: ; 0x0214CD2C
@@ -18782,8 +18782,8 @@ ov0_0214CD2C: ; 0x0214CD2C
 	bx lr
 	.align 2, 0
 	arm_func_end ov0_0214CD2C
-_0214CD44: .word MAIN_BSS_0210CAA4
-_0214CD48: .word MAIN_BSS_0210CA8C
+_0214CD44: .word _ZN12CFieldSEFFog7s_colorE
+_0214CD48: .word _ZN12CFieldSEFFog7s_dirtyE
 
 	arm_func_start ov0_0214CD4C
 ov0_0214CD4C: ; 0x0214CD4C
@@ -23177,7 +23177,7 @@ ov0_0214FFF0: ; 0x0214FFF0
 	bl _ZN17UnkClass_02007AA412sub_02007B60EPKcmm
 	str r7, [sl, #0x30]
 	mov r2, #0
-	ldr r3, _021501AC ; =sub_0203616C
+	ldr r3, _021501AC ; =_ZN16CEffectActorData5EntryC1Ev
 	str r2, [sp]
 	mov r0, r7
 	mov r1, #0x10
@@ -23254,7 +23254,7 @@ _02150170:
 	moveq r1, #1
 	movne r1, #0
 	mov r0, sl
-	bl sub_020295B0
+	bl _ZN16CEffectActorData12sub_020295B0Ei
 	add r0, sp, #0x10
 	bl _ZN13CArchiveGuardD1Ev
 	mov r0, #1
@@ -23264,7 +23264,7 @@ _02150170:
 _021501A0: .word s_data_effect_e_03d_LZ_bin_overlay_0_02177bd8
 _021501A4: .word s_EFC_overlay_0_02177bf4
 _021501A8: .word s_EFC_e_03d_NCLR_overlay_0_02177bf8
-_021501AC: .word sub_0203616C
+_021501AC: .word _ZN16CEffectActorData5EntryC1Ev
 _021501B0: .word s_EFC_e_03d_a_02d_NCBR_overlay_0_02177c08
 _021501B4: .word s_EFC_e_03d_a_02d_NCER_overlay_0_02177c20
 _021501B8: .word s_EFC_e_03d_a_02d_cac_overlay_0_02177c38
@@ -23323,7 +23323,7 @@ ov0_02150204: ; 0x02150204
 	mov r3, r2
 	bl _ZN17UnkClass_02007AA412sub_02007B60EPKcmm
 	mov r0, #1
-	ldr r3, _0215036C ; =sub_0203616C
+	ldr r3, _0215036C ; =_ZN16CEffectActorData5EntryC1Ev
 	str r0, [r5, #0x30]
 	mov r2, #0
 	mov r1, #0x10
@@ -23378,7 +23378,7 @@ _02150330:
 	mov r1, #1
 	str r0, [r2, #8]
 	mov r0, r5
-	bl sub_020295B0
+	bl _ZN16CEffectActorData12sub_020295B0Ei
 	mov r0, r5
 	bl sub_020296B0
 	add r0, sp, #0x10
@@ -23390,7 +23390,7 @@ _02150330:
 _02150360: .word s_data_interface_i_03d_LZ_bin_overlay_0_02177c4c
 _02150364: .word s_MEF_overlay_0_02177c68
 _02150368: .word s_MEF_i_03d_NCLR_overlay_0_02177c6c
-_0215036C: .word sub_0203616C
+_0215036C: .word _ZN16CEffectActorData5EntryC1Ev
 _02150370: .word s_MEF_i_03d_00_NCBR_overlay_0_02177c7c
 _02150374: .word s_MEF_i_03d_00_NCER_overlay_0_02177c90
 _02150378: .word s_MEF_i_03d_00_cac_overlay_0_02177ca4
@@ -23445,7 +23445,7 @@ ov0_021503B8: ; 0x021503B8
 	mov r3, r2
 	bl _ZN17UnkClass_02007AA412sub_02007B60EPKcmm
 	mov r0, #1
-	ldr r3, _0215052C ; =sub_0203616C
+	ldr r3, _0215052C ; =_ZN16CEffectActorData5EntryC1Ev
 	str r0, [r6, #0x30]
 	mov r2, #0
 	mov r1, #0x10
@@ -23500,7 +23500,7 @@ _021504E8:
 	mov r1, r4
 	str r0, [r2, #8]
 	mov r0, r6
-	bl sub_020295B0
+	bl _ZN16CEffectActorData12sub_020295B0Ei
 	cmp r4, #0
 	beq _0215050C
 	mov r0, r6
@@ -23515,7 +23515,7 @@ _0215050C:
 _02150520: .word s_data_field_effect_ef_03d_LZ_bin_overlay_0_02177cb8
 _02150524: .word s_MEF_overlay_0_02177c68
 _02150528: .word s_MEF_ef_03d_NCLR_overlay_0_02177cd8
-_0215052C: .word sub_0203616C
+_0215052C: .word _ZN16CEffectActorData5EntryC1Ev
 _02150530: .word s_MEF_ef_03d_NCBR_overlay_0_02177ce8
 _02150534: .word s_MEF_ef_03d_NCER_overlay_0_02177cf8
 _02150538: .word s_MEF_ef_03d_cac_overlay_0_02177d08
@@ -24547,7 +24547,7 @@ ov0_02151244: ; 0x02151244
 	str r2, [r0]
 	str r2, [r0, #4]
 	str r2, [r0, #8]
-	ldr r1, _0215127C ; =DAT_0208d694
+	ldr r1, _0215127C ; =g_ntfTextureFormats
 	str r2, [r0, #0xc]
 	str r1, [r0, #0x10]
 	str r2, [r0, #0x14]
@@ -24558,14 +24558,14 @@ ov0_02151244: ; 0x02151244
 	str r2, [r0, #0x28]
 	bx lr
 	.align 2, 0
-_0215127C: .word DAT_0208d694
+_0215127C: .word g_ntfTextureFormats
 	arm_func_end ov0_02151244
 
 	arm_func_start ov0_02151280
 ov0_02151280: ; 0x02151280
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl sub_02036488
+	bl _ZN10NtfTexture7ReleaseEv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	arm_func_end ov0_02151280
@@ -24663,7 +24663,7 @@ ov0_02151294: ; 0x02151294
 	str r2, [r3, #4]
 	str r2, [r3, #8]
 	str r2, [r3, #0xc]
-	ldr r0, _021517FC ; =DAT_0208d694
+	ldr r0, _021517FC ; =g_ntfTextureFormats
 	str r2, [r3, #0x10]
 	str r0, [r3, #0x14]
 	str r2, [r3, #0x18]
@@ -24694,7 +24694,7 @@ ov0_02151294: ; 0x02151294
 	str r0, [r4, #4]
 	str r0, [r4, #8]
 	str r0, [r4, #0xc]
-	ldr ip, _021517FC ; =DAT_0208d694
+	ldr ip, _021517FC ; =g_ntfTextureFormats
 	str r0, [r4, #0x10]
 	str ip, [r4, #0x14]
 	str r0, [r4, #0x18]
@@ -24919,7 +24919,7 @@ _021517EC: .word PTR_LAB_overlay_0_021518a4_overlay_0_0217a020
 _021517F0: .word PTR_LAB_overlay_0_02145108_overlay_0_021747f8
 _021517F4: .word PTR_LAB_overlay_0_021518a8_overlay_0_0217a700
 _021517F8: .word ptr_FUN_overlay_0_0216edb8_overlay_0_0217a89c
-_021517FC: .word DAT_0208d694
+_021517FC: .word g_ntfTextureFormats
 _02151800: .word ptr_FUN_overlay_0_0216fe40_overlay_0_0217aaf8
 _02151804: .word ptr_FUN_020294c0_0208c4a4
 _02151808: .word ptr_FUN_overlay_0_021505c4_overlay_0_02177b88
@@ -28473,14 +28473,14 @@ _021547A4:
 	beq _021547D4
 	mov r0, r5
 	mov r1, #6
-	bl sub_02035D38
+	bl _ZN17UnkClass_0211D85012sub_02035D38Ei
 	mov r4, #0x96
 	mov r0, r5
 	mov r1, #6
 	mov r2, #0xf
 	mov r3, #0x1e
 	str r4, [sp]
-	bl sub_02035DA0
+	bl _ZN17UnkClass_0211D85012sub_02035DA0Eiiii
 _021547D4:
 	mov r0, #0x78
 	str r0, [r6, #0x50]
@@ -49963,7 +49963,7 @@ ov0_02166794: ; 0x02166794
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl _ZN10CPrimitiveC2Ev
-	ldr r0, _021667DC ; =ptr_FUN_02036908_0208d660
+	ldr r0, _021667DC ; =_ZTV17CPrimitiveRectNTF+8
 	mov r2, #0
 	str r0, [r4]
 	ldr r0, _021667E0 ; =PTR_LAB_0208e074
@@ -49979,7 +49979,7 @@ ov0_02166794: ; 0x02166794
 	str r1, [r4, #0x44]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_021667DC: .word ptr_FUN_02036908_0208d660
+_021667DC: .word _ZTV17CPrimitiveRectNTF+8
 _021667E0: .word PTR_LAB_0208e074
 	arm_func_end ov0_02166794
 
@@ -50940,7 +50940,7 @@ ov0_02167488: ; 0x02167488
 	add r2, sp, #0
 	add r0, r0, r5
 	mov r3, #0
-	bl sub_020362EC
+	bl _ZN10NtfTexture12LoadDeferredEPKcS1_i
 	cmp r0, #0
 	moveq r0, #0
 	beq _02167504
@@ -50976,7 +50976,7 @@ ov0_0216753C: ; 0x0216753C
 	arm_func_end ov0_0216753C
 _02167548:
 	mov r0, r5
-	bl sub_02036488
+	bl _ZN10NtfTexture7ReleaseEv
 	add r4, r4, #1
 	cmp r4, #3
 	add r5, r5, #0x2c
@@ -54454,7 +54454,7 @@ ov0_0216A448: ; 0x0216A448
 	str r0, [r4, #0x80]
 	str r0, [r4, #0x84]
 	str r0, [r4, #0x88]
-	ldr r1, _0216A5CC ; =DAT_0208d694
+	ldr r1, _0216A5CC ; =g_ntfTextureFormats
 	str r0, [r4, #0x8c]
 	str r1, [r4, #0x90]
 	str r0, [r4, #0x94]
@@ -54496,7 +54496,7 @@ _0216A5BC: .word PTR_LAB_overlay_0_0216cb50_overlay_0_02179f6c
 _0216A5C0: .word PTR_LAB_overlay_0_0216cb68_overlay_0_02179fa4
 _0216A5C4: .word PTR_LAB_overlay_0_0216cb80_overlay_0_0217a000
 _0216A5C8: .word PTR_LAB_overlay_0_0216a5d4_overlay_0_02179fe0
-_0216A5CC: .word DAT_0208d694
+_0216A5CC: .word g_ntfTextureFormats
 	arm_func_end ov0_0216A448
 
 	arm_func_start ov0_0216A5D0
@@ -54514,7 +54514,7 @@ ov0_0216A5D8: ; 0x0216A5D8
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	add r0, r4, #0x80
-	bl sub_02036488
+	bl _ZN10NtfTexture7ReleaseEv
 	ldr r0, _0216A684 ; =ptr_FUN_overlay_0_0216caa0_overlay_0_0217a28c
 	str r0, [r4]
 	ldr r5, [r4, #0x18]
@@ -54570,7 +54570,7 @@ ov0_0216A690: ; 0x0216A690
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	add r0, r4, #0x80
-	bl sub_02036488
+	bl _ZN10NtfTexture7ReleaseEv
 	ldr r0, _0216A744 ; =ptr_FUN_overlay_0_0216caa0_overlay_0_0217a28c
 	str r0, [r4]
 	ldr r5, [r4, #0x18]
@@ -54642,7 +54642,7 @@ ov0_0216A750: ; 0x0216A750
 	ldr r2, _0216A7E4 ; =s_MEF_ef102_00_ntfp_overlay_0_0217a49c
 	add r0, r4, #0x80
 	mov r3, #0
-	bl sub_02036184
+	bl _ZN10NtfTexture4LoadEPKcS1_i
 	mov r0, #6
 	str r0, [r4, #0x9c]
 	mov r0, #2
@@ -55075,7 +55075,7 @@ ov0_0216AD5C: ; 0x0216AD5C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl _ZN10CPrimitiveC2Ev
-	ldr r0, _0216ADB8 ; =ptr_FUN_02036908_0208d660
+	ldr r0, _0216ADB8 ; =_ZTV17CPrimitiveRectNTF+8
 	mov r1, #0
 	str r0, [r4]
 	ldr r0, _0216ADBC ; =PTR_LAB_0208e074
@@ -55096,7 +55096,7 @@ ov0_0216AD5C: ; 0x0216AD5C
 	str r1, [r4, #4]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216ADB8: .word ptr_FUN_02036908_0208d660
+_0216ADB8: .word _ZTV17CPrimitiveRectNTF+8
 _0216ADBC: .word PTR_LAB_0208e074
 _0216ADC0: .word 0x00000622
 	arm_func_end ov0_0216AD5C
@@ -55572,7 +55572,7 @@ ov0_0216B39C: ; 0x0216B39C
 	str r1, [r4, #0x8c]
 	str r1, [r4, #0x90]
 	str r1, [r4, #0x94]
-	ldr r0, _0216B528 ; =DAT_0208d694
+	ldr r0, _0216B528 ; =g_ntfTextureFormats
 	str r1, [r4, #0x98]
 	str r0, [r4, #0x9c]
 	str r1, [r4, #0xa0]
@@ -55614,7 +55614,7 @@ _0216B518: .word PTR_LAB_overlay_0_0216cb50_overlay_0_02179f6c
 _0216B51C: .word PTR_LAB_overlay_0_0216cb68_overlay_0_02179fa4
 _0216B520: .word PTR_LAB_overlay_0_0216cb80_overlay_0_0217a000
 _0216B524: .word PTR_LAB_overlay_0_0216b530_overlay_0_0217a040
-_0216B528: .word DAT_0208d694
+_0216B528: .word g_ntfTextureFormats
 	arm_func_end ov0_0216B39C
 
 	arm_func_start ov0_0216B52C
@@ -55632,7 +55632,7 @@ ov0_0216B534: ; 0x0216B534
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	add r0, r4, #0x8c
-	bl sub_02036488
+	bl _ZN10NtfTexture7ReleaseEv
 	ldr r0, _0216B5E0 ; =ptr_FUN_overlay_0_0216caa0_overlay_0_0217a28c
 	str r0, [r4]
 	ldr r5, [r4, #0x18]
@@ -55688,7 +55688,7 @@ ov0_0216B5EC: ; 0x0216B5EC
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	add r0, r4, #0x8c
-	bl sub_02036488
+	bl _ZN10NtfTexture7ReleaseEv
 	ldr r0, _0216B6A0 ; =ptr_FUN_overlay_0_0216caa0_overlay_0_0217a28c
 	str r0, [r4]
 	ldr r5, [r4, #0x18]
@@ -55760,7 +55760,7 @@ ov0_0216B6AC: ; 0x0216B6AC
 	ldr r2, _0216B740 ; =s_MEF_ef102_00_ntfp_overlay_0_0217a49c
 	add r0, r4, #0x8c
 	mov r3, #0
-	bl sub_02036184
+	bl _ZN10NtfTexture4LoadEPKcS1_i
 	mov r0, #6
 	str r0, [r4, #0xa8]
 	mov r0, #2
@@ -58983,7 +58983,7 @@ ov0_0216E1BC: ; 0x0216E1BC
 	arm_func_end ov0_0216E1BC
 _0216E1D4:
 	mov r0, r6
-	bl sub_02036434
+	bl _ZN10NtfTexture12ReleaseFilesEv
 	add r5, r5, #1
 	cmp r5, #2
 	add r6, r6, #0x2c
@@ -59035,7 +59035,7 @@ ov0_0216E26C: ; 0x0216E26C
 	arm_func_end ov0_0216E26C
 _0216E284:
 	mov r0, r6
-	bl sub_02036434
+	bl _ZN10NtfTexture12ReleaseFilesEv
 	add r5, r5, #1
 	cmp r5, #2
 	add r6, r6, #0x2c
@@ -59615,7 +59615,7 @@ ov0_0216EA58: ; 0x0216EA58
 	ldr r2, _0216EB00 ; =s_MEF_ef100_00_ntfp_overlay_0_0217a7d8
 	add r0, r4, #0x2c
 	mov r3, #0
-	bl sub_020362EC
+	bl _ZN10NtfTexture12LoadDeferredEPKcS1_i
 	mov r0, #6
 	str r0, [r4, #0x48]
 	mov r3, #3
@@ -59625,7 +59625,7 @@ ov0_0216EA58: ; 0x0216EA58
 	ldr r2, _0216EB08 ; =s_MEF_ef100_02_ntfp_overlay_0_0217a800
 	add r0, r4, #0x58
 	mov r3, #0
-	bl sub_020362EC
+	bl _ZN10NtfTexture12LoadDeferredEPKcS1_i
 	mov r0, #6
 	str r0, [r4, #0x74]
 	mov r1, #3
@@ -59894,7 +59894,7 @@ ov0_0216EDB8: ; 0x0216EDB8
 	str r1, [r4]
 	bl ov0_0216EE9C
 	add r0, r4, #4
-	bl sub_02036488
+	bl _ZN10NtfTexture7ReleaseEv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
@@ -59909,7 +59909,7 @@ ov0_0216EDE0: ; 0x0216EDE0
 	str r1, [r4]
 	bl ov0_0216EE9C
 	add r0, r4, #4
-	bl sub_02036488
+	bl _ZN10NtfTexture7ReleaseEv
 	mov r0, r4
 	bl _ZdlPv
 	mov r0, r4
@@ -59945,7 +59945,7 @@ ov0_0216EE1C: ; 0x0216EE1C
 	ldr r2, _0216EE98 ; =s_MEF_ef102_00_ntfp_overlay_0_0217aa7c
 	add r0, r4, #4
 	mov r3, #0
-	bl sub_02036184
+	bl _ZN10NtfTexture4LoadEPKcS1_i
 	mov r1, #2
 	str r1, [r4, #0x24]
 	str r1, [r4, #0x28]
@@ -59969,7 +59969,7 @@ ov0_0216EE9C: ; 0x0216EE9C
 	add r0, r0, #4
 	bx ip
 	.align 2, 0
-_0216EEA8: .word sub_02036488
+_0216EEA8: .word _ZN10NtfTexture7ReleaseEv
 	arm_func_end ov0_0216EE9C
 
 	arm_func_start ov0_0216EEAC
@@ -61938,7 +61938,7 @@ ov0_0217087C: ; 0x0217087C
 	add r0, r4, #0x28
 	str r1, [r4, #0x24]
 	bl _ZN10CPrimitiveC2Ev
-	ldr r0, _0217094C ; =ptr_FUN_02036908_0208d660
+	ldr r0, _0217094C ; =_ZTV17CPrimitiveRectNTF+8
 	mov r2, #0
 	str r0, [r4, #0x28]
 	ldr r0, _02170950 ; =PTR_LAB_0208e074
@@ -61976,7 +61976,7 @@ ov0_0217087C: ; 0x0217087C
 	.align 2, 0
 _02170944: .word ptr_FUN_overlay_0_021423c0_overlay_0_0217440c
 _02170948: .word ptr_FUN_overlay_0_02170954_overlay_0_0217ad24
-_0217094C: .word ptr_FUN_02036908_0208d660
+_0217094C: .word _ZTV17CPrimitiveRectNTF+8
 _02170950: .word PTR_LAB_0208e074
 	arm_func_end ov0_0217087C
 
@@ -62375,7 +62375,7 @@ ov0_02170E44: ; 0x02170E44
 	str r1, [r4]
 	bl ov0_02171010
 	add r0, r4, #4
-	bl sub_02036488
+	bl _ZN10NtfTexture7ReleaseEv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
@@ -62390,7 +62390,7 @@ ov0_02170E6C: ; 0x02170E6C
 	str r1, [r4]
 	bl ov0_02171010
 	add r0, r4, #4
-	bl sub_02036488
+	bl _ZN10NtfTexture7ReleaseEv
 	mov r0, r4
 	bl _ZdlPv
 	mov r0, r4
@@ -62489,7 +62489,7 @@ ov0_02170F88: ; 0x02170F88
 	add r2, sp, #0
 	add r0, r5, #4
 	mov r3, #0
-	bl sub_020362EC
+	bl _ZN10NtfTexture12LoadDeferredEPKcS1_i
 	cmp r0, #0
 	moveq r0, #0
 	beq _02170FE8
@@ -62517,7 +62517,7 @@ ov0_02171010: ; 0x02171010
 	add r0, r0, #4
 	bx ip
 	.align 2, 0
-_0217101C: .word sub_02036488
+_0217101C: .word _ZN10NtfTexture7ReleaseEv
 	arm_func_end ov0_02171010
 
 	arm_func_start ov0_02171020
@@ -63061,7 +63061,7 @@ ov0_02171730: ; 0x02171730
 	str r1, [r4]
 	bl ov0_02171890
 	add r0, r4, #4
-	bl sub_02036488
+	bl _ZN10NtfTexture7ReleaseEv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
@@ -63076,7 +63076,7 @@ ov0_02171758: ; 0x02171758
 	str r1, [r4]
 	bl ov0_02171890
 	add r0, r4, #4
-	bl sub_02036488
+	bl _ZN10NtfTexture7ReleaseEv
 	mov r0, r4
 	bl _ZdlPv
 	mov r0, r4
@@ -63145,7 +63145,7 @@ ov0_021717FC: ; 0x021717FC
 	ldr r1, _02171888 ; =s_FEF_ef101_00_ntft_overlay_0_0217aef0
 	add r0, r4, #4
 	mov r3, #0
-	bl sub_020362EC
+	bl _ZN10NtfTexture12LoadDeferredEPKcS1_i
 	cmp r0, #0
 	ldrne r0, _0217188C ; =0x027FFC3C
 	mov r1, #3
@@ -63174,7 +63174,7 @@ ov0_02171890: ; 0x02171890
 	add r0, r0, #4
 	bx ip
 	.align 2, 0
-_0217189C: .word sub_02036488
+_0217189C: .word _ZN10NtfTexture7ReleaseEv
 	arm_func_end ov0_02171890
 
 	arm_func_start ov0_021718A0
@@ -64164,7 +64164,7 @@ ov0_02172518: ; 0x02172518
 	add r1, sp, #0x68
 	add r0, r0, r6
 	mov r3, #0
-	bl sub_020362EC
+	bl _ZN10NtfTexture12LoadDeferredEPKcS1_i
 	cmp r0, #0
 	moveq r0, #0
 	beq _021725CC
@@ -64180,7 +64180,7 @@ _021725B8:
 	mla r0, r4, r0, r1
 	add r1, sp, #0x68
 	mov r3, #0
-	bl sub_02036184
+	bl _ZN10NtfTexture4LoadEPKcS1_i
 _021725CC:
 	mov r1, #0x2c
 	mla r2, r4, r1, r5
@@ -64210,7 +64210,7 @@ ov0_02172610: ; 0x02172610
 	arm_func_end ov0_02172610
 _0217261C:
 	mov r0, r5
-	bl sub_02036488
+	bl _ZN10NtfTexture7ReleaseEv
 	add r4, r4, #1
 	cmp r4, #2
 	add r5, r5, #0x2c

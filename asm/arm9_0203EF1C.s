@@ -3654,7 +3654,7 @@ _02041F00:
 _02041F1C:
 	mov r0, r7
 	mov r1, r6
-	bl sub_02036558
+	bl _ZN17CPrimitiveRectNTF6RenderEP21CPrimitive_Render_arg
 	ldr r1, _02041F4C ; =0x04000448
 	mov r2, #0
 	str r2, [r1]

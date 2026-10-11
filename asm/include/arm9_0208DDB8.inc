@@ -1,5 +1,4 @@
 #pragma once
-.public PTR_ptr_FUN_020835bc_0208d638
 .public _ZN10CActorData12sub_020143B8Eim
 .public _ZN10CActorData7GetAnimEh
 .public _ZN10CActorData9GetAnimAtEi
@@ -30,6 +29,7 @@
 .public _ZTI10CActorData
 .public _ZTI10CPrimitive
 .public _ZTI17CFieldActorManage
+.public _ZTI17CPrimitiveRectNTF
 .public _ZTI6CScene
 .public _ZTVN10__cxxabiv117__class_type_infoE
 .public _ZTVN10__cxxabiv120__si_class_type_infoE

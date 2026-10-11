@@ -850,7 +850,7 @@ sub_0202C26C: ; 0x0202C26C
 	cmp r0, #0
 	beq _0202C2E0
 	mov r1, #9
-	bl sub_02035ECC
+	bl _ZN17UnkClass_0211D85012sub_02035ECCEi
 	ldr r1, _0202C368 ; =_0208F304
 	mov r4, r0
 	ldr r0, [r1]
@@ -6997,13 +6997,13 @@ sub_02030E40: ; 0x02030E40
 	beq _02030E80
 	mov r0, r8
 	mov r1, r4
-	bl sub_02035CA4
+	bl _ZN17UnkClass_0211D85012sub_02035CA4Ei
 	mov r0, r8
 	mov r1, r4
 	mov r2, r5
 	mov r3, r6
 	str r7, [sp]
-	bl sub_02035DA0
+	bl _ZN17UnkClass_0211D85012sub_02035DA0Eiiii
 	arm_func_end sub_02030E40
 _02030E80:
 	mov r0, #0
@@ -7020,7 +7020,7 @@ sub_02030E90: ; 0x02030E90
 	ldr r0, [r3]
 	cmp r0, #0
 	beq _02030EAC
-	bl sub_02035E3C
+	bl _ZN17UnkClass_0211D85012sub_02035E3CEii
 	arm_func_end sub_02030E90
 _02030EAC:
 	mov r0, #0
@@ -7037,7 +7037,7 @@ sub_02030EB8: ; 0x02030EB8
 	cmp r0, #0
 	moveq r0, #0
 	ldmeqia sp!, {r3, pc}
-	bl sub_02035ECC
+	bl _ZN17UnkClass_0211D85012sub_02035ECCEi
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02030EDC: .word MAIN_BSS_0210CA78
@@ -7052,7 +7052,7 @@ sub_02030EE0: ; 0x02030EE0
 	cmp r0, #0
 	moveq r0, #0
 	ldmeqia sp!, {r3, pc}
-	bl sub_02035F50
+	bl _ZN17UnkClass_0211D85012sub_02035F50Eii
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02030F04: .word MAIN_BSS_0210CA78
@@ -7181,7 +7181,7 @@ sub_02031078: ; 0x02031078
 	cmp r0, #0
 	beq _020310E8
 	mov r1, #9
-	bl sub_02035ECC
+	bl _ZN17UnkClass_0211D85012sub_02035ECCEi
 	ldr r1, _02031170 ; =_0208F304
 	mov r4, r0
 	ldr r0, [r1]
