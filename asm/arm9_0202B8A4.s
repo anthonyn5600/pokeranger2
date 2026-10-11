@@ -8274,7 +8274,7 @@ sub_02031E00: ; 0x02031E00
 	beq _02031E24
 	mov r1, #1
 	mov r3, r1
-	bl ov0_0213A96C
+	bl _ZN19CFieldPartnerManage12ov0_0213A96CEimi
 	arm_func_end sub_02031E00
 _02031E24:
 	mov r0, #0
@@ -8290,7 +8290,7 @@ sub_02031E30: ; 0x02031E30
 	cmp r0, #0
 	moveq r0, #0
 	ldmeqia sp!, {r3, pc}
-	bl ov0_0213B048
+	bl _ZN19CFieldPartnerManage12ov0_0213B048Ev
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02031E50: .word MAIN_BSS_0210CA4C
@@ -8320,7 +8320,7 @@ sub_02031E78: ; 0x02031E78
 	beq _02031E9C
 	mov r1, #0
 	mov r3, #1
-	bl ov0_0213A96C
+	bl _ZN19CFieldPartnerManage12ov0_0213A96CEimi
 	arm_func_end sub_02031E78
 _02031E9C:
 	mov r0, #0
@@ -8338,7 +8338,7 @@ sub_02031EA8: ; 0x02031EA8
 	beq _02031ECC
 	mov r1, #0
 	mov r3, r1
-	bl ov0_0213A96C
+	bl _ZN19CFieldPartnerManage12ov0_0213A96CEimi
 	arm_func_end sub_02031EA8
 _02031ECC:
 	mov r0, #0
@@ -8354,7 +8354,7 @@ sub_02031ED8: ; 0x02031ED8
 	ldr r0, [r2]
 	cmp r0, #0
 	beq _02031EF4
-	bl ov0_0213AD8C
+	bl _ZN19CFieldPartnerManage12ov0_0213AD8CEi
 	arm_func_end sub_02031ED8
 _02031EF4:
 	mov r0, #0
@@ -8370,7 +8370,7 @@ sub_02031F00: ; 0x02031F00
 	ldr r0, [r2]
 	cmp r0, #0
 	beq _02031F1C
-	bl ov0_0213B150
+	bl _ZN19CFieldPartnerManage12ov0_0213B150Em
 	arm_func_end sub_02031F00
 _02031F1C:
 	mov r0, #0
@@ -8386,7 +8386,7 @@ sub_02031F28: ; 0x02031F28
 	ldr r0, [r2]
 	cmp r0, #0
 	beq _02031F44
-	bl ov0_0213B184
+	bl _ZN19CFieldPartnerManage12ov0_0213B184Em
 	arm_func_end sub_02031F28
 _02031F44:
 	mov r0, #0

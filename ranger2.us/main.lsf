@@ -148,7 +148,7 @@ Overlay overlay0
     Object main.nef.p/src_CFieldEnemyManage.cpp.o
     Object main.nef.p/src_CFieldPartner.cpp.o
     Object main.nef.p/src_CFieldPartnerManage.cpp.o
-    Object main.nef.p/asm_overlay_00_0213A96C.s.o
+    Object main.nef.p/src_CFieldPartnerManage_0213A96C.cpp.o
     Object main.nef.p/src_CFieldNpc.cpp.o
     Object main.nef.p/asm_overlay_00_0213C654.s.o
 }

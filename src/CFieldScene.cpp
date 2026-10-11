@@ -687,7 +687,6 @@ void sub_0202251C(UnkClass_02022404 *obj);
 BOOL sub_02035ECC(UnkClass_0211D850 *obj, int arg1);
 void sub_0203580C(UnkClass_0211D850 *obj, int fps);
 int ov0_0213FFC4(UnkClass_0213FF64 *obj, CFieldScene *scene, UnkClass_02001C04 *arg2, CTouchPanel *touch);
-void ov0_0213A96C(CFieldPartnerManage *mgr, int arg1, int arg2, int arg3);
 void ov0_0213CDB4(CFieldActor *actor, u32 id);
 void ov0_0213CD3C(CFieldActor *actor);
 void ov0_0213E4BC(CFieldPartner *partner, u32 id);
@@ -853,7 +852,7 @@ u32 CFieldScene::func0()
                             }
                             unk_00D0 |= 0x440;
                             if (unk_0014->unk_110 == 3 && unk_001C != NULL) {
-                                ov0_0213A96C(unk_001C, 0, 0, 1);
+                                unk_001C->ov0_0213A96C(FALSE, 0, TRUE);
                             }
                         } else if (m_game->unk_0000 & 3) {
                             doUpdate = FALSE;

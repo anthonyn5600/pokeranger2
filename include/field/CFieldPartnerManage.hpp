@@ -61,9 +61,18 @@ public:
     void ov0_0213A7FC(BOOL arg);
 
     // Next TU (ov0_0213A96C...)
-    void ov0_0213B0F0();
+    void ov0_0213A96C(BOOL keep, u32 id, BOOL warp);
+    void ov0_0213AD8C(BOOL warp);
+    BOOL ov0_0213B048();
+    BOOL ov0_0213B0F0();
+    void ov0_0213B150(u32 id);
+    void ov0_0213B184(u32 id);
     void ov0_0213B1BC();
     void ov0_0213B340();
+    void ov0_0213B410(int count);
+    void ov0_0213BB54(Point2D *out, int count);
+    void ov0_0213BDE8(int count);
+    void ov0_0213BE94(Point2D *out, int count);
 
     inline CFieldPartner *FindPartner(u32 target)
     {
@@ -104,7 +113,7 @@ public:
     }
 
 public:
-    u8 unk_14[0x40];
+    Point2D unk_14[8];
     u16 unk_54[11];
     u16 unk_6A[11];
     int unk_80;

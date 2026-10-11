@@ -33,7 +33,6 @@ extern void *MAIN_BSS_0210CA60;
 extern u16 *MAIN_BSS_0210CA70;
 
 extern "C" {
-void ov0_0213A96C(CFieldPartnerManage *mgr, int arg1, int arg2, int arg3);
 void ov0_02143344(void *mgr, fx32 x, fx32 y);
 void ov0_0214332C(void *mgr, int arg1, int arg2, CFieldPlayer *player);
 void ov0_0213EA6C(Point2D *out, Point2D cell, int floor, int arg3);
@@ -255,7 +254,7 @@ void CFieldPlayer::ov0_021307B0(UnkClass_02001C04 *pad, CTouchPanel *touch, UnkC
                         unk_110 = 7;
                     }
                     if (MAIN_BSS_0210CA4C != NULL) {
-                        ov0_0213A96C(MAIN_BSS_0210CA4C, 0, 0, 1);
+                        MAIN_BSS_0210CA4C->ov0_0213A96C(FALSE, 0, TRUE);
                     }
                     unk_10C &= ~1;
                     unk_E4 = 0;

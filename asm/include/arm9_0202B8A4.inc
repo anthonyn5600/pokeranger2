@@ -249,7 +249,12 @@
 .public _ZN19CFieldPartnerManage12ov0_0213A360Emttii
 .public _ZN19CFieldPartnerManage12ov0_0213A4C4Em
 .public _ZN19CFieldPartnerManage12ov0_0213A520Em
+.public _ZN19CFieldPartnerManage12ov0_0213A96CEimi
+.public _ZN19CFieldPartnerManage12ov0_0213AD8CEi
+.public _ZN19CFieldPartnerManage12ov0_0213B048Ev
 .public _ZN19CFieldPartnerManage12ov0_0213B0F0Ev
+.public _ZN19CFieldPartnerManage12ov0_0213B150Em
+.public _ZN19CFieldPartnerManage12ov0_0213B184Em
 .public _ZN23CFieldMapLayerAttribute12GetCellAtPosEll
 .public _ZN23CFieldMapLayerAttribute15IsCircleBlockedE7Point2Dlm
 .public _ZN23CFieldMapLayerAttribute19IsCircleBlockedFineE7Point2Dlm
@@ -275,11 +280,6 @@
 .public _s32_div_f
 .public fflush
 .public fwrite
-.public ov0_0213A96C
-.public ov0_0213AD8C
-.public ov0_0213B048
-.public ov0_0213B150
-.public ov0_0213B184
 .public ov0_0213D564
 .public ov0_0213E158
 .public ov0_02142F6C
