@@ -9,7 +9,6 @@
 
 extern "C" {
 void LogError(const char *fmt, ...);
-void sub_02034CF4(void *audioEngine, int arg1, int arg2);
 void sub_0203C2B8(CFieldActor *actor);
 }
 
@@ -101,7 +100,7 @@ BOOL CFieldNpc::sub_0203D578(CFieldMap *map)
     }
     BOOL result = CFieldActor::sub_0203D578(map);
     if (result && unk_E8 != 0) {
-        sub_02034CF4(s_game->m_audioEngine, unk_F0, 0x40);
+        s_game->m_audioEngine->sub_02034CF4(unk_F0, 0x40);
     }
     if (unk_E8 != 0) {
         unk_F4.ov0_02158988();

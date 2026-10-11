@@ -20,7 +20,7 @@ _ZN12CRecordSceneC1Ev: ; 0x0211C9E0
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
 	str r0, [r4, #0x3c]
-	bl sub_020345D4
+	bl _ZN17UnkClass_0203447812sub_020345D4Ev
 	ldr r1, _0211CA38 ; =MAIN_BSS_020B26A0
 	mov r0, r4
 	str r1, [r4, #0x5c]
@@ -240,7 +240,7 @@ _0211CC6C:
 	bl _ZN17UnkClass_0200E0B412sub_0200E0E0Ett
 	ldr r0, [r4, #0x3c]
 	mov r1, #0xfa
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, lr}
 	add sp, sp, #0x10
@@ -346,7 +346,7 @@ _0211CE0C:
 	bl _ZN17UnkClass_0200E0B412sub_0200E0E0Ett
 	ldr r0, [r6, #0x3c]
 	ldr r1, _0211D0A8 ; =0x00000103
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 	b _0211CF1C
 _0211CE84:
 	tst r1, #4
@@ -429,7 +429,7 @@ _0211CF34:
 	bl _ZN17UnkClass_0200E0B412sub_0200E0E0Ett
 	ldr r0, [r6, #0x3c]
 	mov r1, #0xfa
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, lr}
 	add sp, sp, #0x10

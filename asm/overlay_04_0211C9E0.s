@@ -903,7 +903,7 @@ _0211D614:
 	mov r1, #3
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 	b _0211D6CC
 _0211D660:
 	mov r2, r2, lsl #0x10
@@ -933,7 +933,7 @@ _0211D684:
 	mov r1, #3
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 _0211D6CC:
 	ldr r0, [r4, #0x28]
 	cmp r0, #0xa

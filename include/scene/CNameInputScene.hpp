@@ -32,7 +32,7 @@ public:
     u8 unk_0068[22];
     u8 unk_007E[0x2]; // padding?
     CGame *m_game;
-    void *m_audioEngine;
+    UnkClass_02034478 *m_audioEngine;
     u8 unk_0088[0x34];
     u32 unk_00BC[4];
     u8 unk_00CC[0x114];

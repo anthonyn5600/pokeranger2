@@ -6,7 +6,6 @@
 #include "file/CNCLRFile.hpp"
 
 extern "C" {
-BOOL sub_02034C44(void *, u32);
 
 extern char s_ICN_0208a9c8;
 extern char s_data_interface_i058_LZ_bin_0208a9cc;
@@ -53,7 +52,7 @@ void UnkClass_0200BBC8::sub_0200BC64(CGame_0024 *arg0, UnkClass_02001C04 *arg1, 
     }
 
     if (arg3 != NULL) {
-        unk_161C = arg3;
+        unk_161C = (UnkClass_02034478 *)arg3;
     }
 
     sub_0200BCF4();
@@ -255,7 +254,7 @@ void UnkClass_0200BBC8::sub_0200C2C4()
 BOOL UnkClass_0200BBC8::sub_0200C36C(int index)
 {
     if (unk_161C != 0) {
-        return sub_02034C44(unk_161C, index);
+        return unk_161C->sub_02034C44(index);
     }
 
     return FALSE;

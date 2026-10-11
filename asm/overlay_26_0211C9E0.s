@@ -269,7 +269,7 @@ _0211CD6C:
 	ldr r0, [r0]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 _0211CD90:
 	mov r0, #5
 	str r0, [r4, #8]
@@ -559,7 +559,7 @@ _0211D15C:
 	ldr r0, [r1]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_020345D4
+	bl _ZN17UnkClass_0203447812sub_020345D4Ev
 	ldr r0, _0211D33C ; =MAIN_BSS_0210CAB0
 	ldr r2, _0211D340 ; =0x10624DD3
 	ldr ip, [r0]

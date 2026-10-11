@@ -579,7 +579,7 @@ _0211D0F4:
 	mov r1, #0xab
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_020349E8
+	bl _ZN17UnkClass_0203447812sub_020349E8Ei
 _0211D140:
 	ldr r4, _0211D1DC ; =MAIN_BSS_020B26A0
 	mov r6, #0
@@ -3109,7 +3109,7 @@ _0211F464:
 	mov r1, #0xfa
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 	mov r0, #2
 	str r0, [r4, #4]
 	ldr r0, [r4, #0x214]
@@ -3941,7 +3941,7 @@ _0211FEF8:
 	mov r1, #0xba
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 	ldr ip, [r4, #0xc]
 	mov r0, #0
 	cmp ip, #0x19
@@ -3996,7 +3996,7 @@ _02120044:
 	add r0, r2, #0x1000
 	ldr r0, [r0, #0x48c]
 	ldr r1, _0212013C ; =0x00000103
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 	mov r0, #2
 	str r0, [r4, #4]
 	ldr r0, [r4, #0x21c]
@@ -4091,7 +4091,7 @@ _0212014C:
 	ldr r0, [r5, #0x21c]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 	ldr r2, [r5, #0x10]
 	ldr r0, [r2, #0xc]
 	ldmib r2, {r1, r2}

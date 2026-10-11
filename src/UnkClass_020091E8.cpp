@@ -21,8 +21,6 @@ u8 *sub_02018B2C(void *, u32);
 u8 *sub_02018B48(void *, u32);
 u8 *sub_02018B64(void *, u32);
 u8 *sub_02018B80(void *, u32);
-BOOL sub_02034C44(void *, u32);
-void sub_02034CF4(void *, u32, u32);
 
 extern u8 DAT_020843c8;
 extern UnkUnion_020843E0 DAT_020843e0;
@@ -119,7 +117,7 @@ void UnkClass_020091E8::sub_02009328(UnkClass_02001C04 *arg0, CTouchPanel *arg1,
     unk_088 = arg0;
     unk_08C = arg1;
     unk_000 = arg3;
-    unk_090 = arg5;
+    unk_090 = (UnkClass_02034478 *)arg5;
 
     sub_02009430();
     sub_020095D0();
@@ -314,7 +312,7 @@ BOOL UnkClass_020091E8::sub_02009814(u32 arg0)
 
         ++unk_07C;
         ++unk_07C;
-        sub_02034CF4(unk_090, v0, 0x40);
+        unk_090->sub_02034CF4(v0, 0x40);
 
         return FALSE;
     }
@@ -964,7 +962,7 @@ void UnkClass_020091E8::sub_0200AA58()
 BOOL UnkClass_020091E8::sub_0200AA68(u32 arg0)
 {
     if (unk_090 != NULL) {
-        return sub_02034C44(unk_090, arg0);
+        return unk_090->sub_02034C44(arg0);
     }
 
     return FALSE;

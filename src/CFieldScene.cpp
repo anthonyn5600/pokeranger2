@@ -56,9 +56,6 @@ void sub_02018E30(void *arg0);
 void sub_02033F90(void *scriptManager, int arg1);
 void sub_0203401C(void *scriptManager, u8 arg1);
 void sub_02034120(void *scriptManager, u8 arg1);
-void sub_020346CC(void *audioEngine, u32 mapId, int arg2, int arg3);
-void sub_0203499C(void *audioEngine, u32 arg1);
-void sub_02034A40(void *audioEngine, u32 arg1, u32 arg2);
 void ov0_02143730(UnkClass_02143714 *obj, CFieldEffectManageEventListener *listener);
 void ov0_021518B8(UnkClass_021518AC *obj, UnkClass_02142428 *arg1);
 void ov0_02143760(UnkClass_02143714 *obj, CFieldEffectManageEventListener *listener);
@@ -418,10 +415,10 @@ void CFieldScene::func6()
             handled = m_game->sub_02010378();
         }
         if (!handled) {
-            sub_020346CC(m_game->m_audioEngine, save->unk_001A, 0, 0);
+            m_game->m_audioEngine->sub_020346CC(save->unk_001A, 0, 0);
             if (unk_00D0 & 0x40) {
-                sub_0203499C(m_game->m_audioEngine, 0x2D);
-                sub_02034A40(m_game->m_audioEngine, 5, 30);
+                m_game->m_audioEngine->sub_0203499C(0x2D);
+                m_game->m_audioEngine->sub_02034A40(5, 30);
             }
         }
     }
@@ -643,13 +640,6 @@ struct UnkStruct_0201549C {
 };
 
 extern "C" {
-void sub_02034B9C(void *audioEngine, int arg1);
-void sub_02034C2C(void *audioEngine, int arg1);
-void sub_02034C44(void *audioEngine, int arg1);
-BOOL sub_02034C84(void *audioEngine, int arg1);
-void sub_02034C5C(void *audioEngine, int arg1);
-void sub_02034E38(void *audioEngine, int arg1);
-void sub_02034AA8(void *audioEngine);
 int ov0_0213FEEC(UnkClass_0213F918 *obj);
 int ov0_0213FF2C(UnkClass_0213F918 *obj);
 void ov0_0213F9B0(UnkClass_0213F918 *obj, BOOL arg1);
@@ -719,8 +709,8 @@ u32 CFieldScene::func0()
 {
     if (unk_00D0 & 0x10) {
         ov0_02124210();
-        sub_02034B9C(m_game->m_audioEngine, 0);
-        sub_02034C2C(m_game->m_audioEngine, 0);
+        m_game->m_audioEngine->sub_02034B9C(0);
+        m_game->m_audioEngine->sub_02034C2C(0);
         RTCTime time;
         RTCDate date;
         RTC_GetTime(&time);
@@ -799,7 +789,7 @@ u32 CFieldScene::func0()
                         if (touch->unk_06 != 0) {
                             if (sub_02006000(touchPos, unk_004C->unk_04->unk_18, 0) && (unk_00D0 & 0x100)) {
                                 sub_02022D88(unk_0054);
-                                sub_02034C44(m_game->m_audioEngine, 0xFA);
+                                m_game->m_audioEngine->sub_02034C44(0xFA);
                             }
                             if (sub_02006000(touchPos, unk_0050->unk_04->unk_18, 0) && (unk_00D0 & 0x200)) {
                                 sub_02022C1C(unk_0054);
@@ -807,11 +797,11 @@ u32 CFieldScene::func0()
                                 if (unk_0014->unk_08 != NULL && unk_0014->unk_08->unk_0C != NULL) {
                                     unk_0014->unk_08->unk_0C->unk_00C.unk_00 = 0;
                                 }
-                                sub_02034C44(m_game->m_audioEngine, 0xFA);
+                                m_game->m_audioEngine->sub_02034C44(0xFA);
                                 ok = FALSE;
                                 int state = unk_0014->unk_08->unk_0C->unk_1A0;
-                                if ((state == 0x80000 || state == 0x800000) && sub_02034C84(m_game->m_audioEngine, 0x10E)) {
-                                    sub_02034C5C(m_game->m_audioEngine, 0x10E);
+                                if ((state == 0x80000 || state == 0x800000) && m_game->m_audioEngine->sub_02034C84(0x10E)) {
+                                    m_game->m_audioEngine->sub_02034C5C(0x10E);
                                 }
                             }
                             unk_00D0 &= ~0x300;
@@ -1422,7 +1412,7 @@ u32 CFieldScene::func0()
                             if (m_game->unk_14C0->sub_0200E324() != 4 && m_game->unk_14C0->sub_0200E324() != 2) {
                                 m_game->unk_14C0->sub_0200E0E0(4, 30);
                             }
-                            sub_02034E38(m_game->m_audioEngine, 60);
+                            m_game->m_audioEngine->sub_02034E38(60);
                         }
                     } else {
                         m_game->unk_14BC->sub_0200E0E0(1, 8);
@@ -1483,7 +1473,7 @@ u32 CFieldScene::func0()
                 unk_0084 = 0xD;
                 m_game->unk_14BC->sub_0200E0E0(2, 8);
             }
-            sub_02034AA8(m_game->m_audioEngine);
+            m_game->m_audioEngine->sub_02034AA8();
             unk_0088 = 0;
             ov0_02123E58(-1);
             sub_02023198(unk_0054, 0);
@@ -1500,7 +1490,7 @@ u32 CFieldScene::func0()
             ov0_021220D0(unk_0068, TRUE);
             ov0_021248DC();
             save->unk_8BC0 = 0;
-            sub_020346CC(m_game->m_audioEngine, unk_0068, 0, 0);
+            m_game->m_audioEngine->sub_020346CC(unk_0068, 0, 0);
             ov0_02122EF4();
             fx32 y, x;
             x = unk_006C << FX32_SHIFT;
@@ -2079,7 +2069,7 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
     unk_0084 = 0;
     ov0_0212419C();
     unk_0018->ov0_02136384();
-    sub_02034C2C(m_game->m_audioEngine, 0);
+    m_game->m_audioEngine->sub_02034C2C(0);
     if (info->unk_02 == 0xFF) {
         OS_SPrintf(name, "m%03d/m%03d_%03d.fsb", info->unk_00, info->unk_00, info->unk_01);
     } else {

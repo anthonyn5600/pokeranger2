@@ -1117,7 +1117,7 @@ ov7_0211D7FC: ; 0x0211D7FC
 	ldr r0, [sl, #0x27c]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_020345D4
+	bl _ZN17UnkClass_0203447812sub_020345D4Ev
 	ldr r5, [sl, #0x58]
 	mov r4, #0
 	cmp r5, #0
@@ -1780,7 +1780,7 @@ _0211E1F4:
 	ldr r1, _0211E674 ; =0x00000103
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 	mov r0, sl
 	bl ov7_0211F1E8
 	add sp, sp, #0x24
@@ -1944,7 +1944,7 @@ _0211E434:
 	mov r1, #0xfd
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 	mov r2, #1
 	mov r0, sl
 	str r2, [sp]
@@ -1962,7 +1962,7 @@ _0211E48C:
 	mov r1, #0xfa
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 	ldr r2, [sl, #0x21c]
 	cmp r2, r8
 	beq _0211E5E0
@@ -2044,7 +2044,7 @@ _0211E5CC:
 	mov r1, #0xfe
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 _0211E5E0:
 	add r1, sl, #0xb4
 	ldr r0, [r1, r4]
@@ -2196,7 +2196,7 @@ _0211E770:
 	ldr r1, _0211E890 ; =0x00000143
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 	mov r0, r4
 	add r2, r4, #0x100
 	mov r3, #3
@@ -2212,7 +2212,7 @@ _0211E81C:
 	ldr r1, _0211E890 ; =0x00000143
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_02034C5C
+	bl _ZN17UnkClass_0203447812sub_02034C5CEi
 	add r1, r4, #0x100
 	mov r2, #4
 	mov r0, r4
@@ -2550,7 +2550,7 @@ ov7_0211ECA4: ; 0x0211ECA4
 	ldrh r1, [r3, #0xbe]
 	ldr r0, [r0, #0x48c]
 	mov r2, #0x40
-	bl sub_02034CF4
+	bl _ZN17UnkClass_0203447812sub_02034CF4Eii
 	ldr r0, [r5, #0xb0]
 	ldr r1, [r4, #0x58]
 	bl sub_02015E54
@@ -2640,7 +2640,7 @@ _0211EDF8:
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
 	mov r2, #0x40
-	bl sub_02034CF4
+	bl _ZN17UnkClass_0203447812sub_02034CF4Eii
 	mov r6, #1
 	b _0211EE4C
 _0211EE20:
@@ -2727,7 +2727,7 @@ ov7_0211EF14: ; 0x0211EF14
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
 	mov r1, #0xff
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 	mov r0, r5
 	mov r1, r4
 	bl ov7_0211EEC4

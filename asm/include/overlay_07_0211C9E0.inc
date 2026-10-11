@@ -69,6 +69,10 @@
 .public _ZN17UnkClass_0200ECD0C1EP9GXOamAttrmii
 .public _ZN17UnkClass_0200ECD0D1Ev
 .public _ZN17UnkClass_02019284C1Ev
+.public _ZN17UnkClass_0203447812sub_020345D4Ev
+.public _ZN17UnkClass_0203447812sub_02034C44Ei
+.public _ZN17UnkClass_0203447812sub_02034C5CEi
+.public _ZN17UnkClass_0203447812sub_02034CF4Eii
 .public _ZN17UnkClass_02040F34C1Ev
 .public _ZN17UnkClass_02040F34D1Ev
 .public _ZN17UnkClass_020416ACC1Ei
@@ -112,10 +116,6 @@
 .public sub_0201F988
 .public sub_02020804
 .public sub_02020FF0
-.public sub_020345D4
-.public sub_02034C44
-.public sub_02034C5C
-.public sub_02034CF4
 .public sub_0203C418
 .public sub_0203D404
 .public sub_0203EF40

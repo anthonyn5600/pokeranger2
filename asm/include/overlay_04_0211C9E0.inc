@@ -40,6 +40,7 @@
 .public _ZN17UnkClass_0200ECD012sub_0200F71CEv
 .public _ZN17UnkClass_0200ECD0C1EP9GXOamAttrmii
 .public _ZN17UnkClass_0200ECD0D1Ev
+.public _ZN17UnkClass_0203447812sub_02034C44Ei
 .public _ZN6CScene5func2Ev
 .public _ZN6CScene5func3Ev
 .public _ZN6CScene5func4Ev
@@ -53,4 +54,3 @@
 .public _ZdlPv
 .public _Znam
 .public _Znwm
-.public sub_02034C44

@@ -28,6 +28,7 @@
 .public _ZN17UnkClass_020091E812sub_0200AB28El
 .public _ZN17UnkClass_020091E812sub_0200AC90Ev
 .public _ZN17UnkClass_0200E0B412sub_0200E0E0Ett
+.public _ZN17UnkClass_0203447812sub_020345D4Ev
 .public _ZN6CScene5func2Ev
 .public _ZN6CScene5func3Ev
 .public _ZN6CScene5func4Ev
@@ -36,4 +37,3 @@
 .public _ZTVN10__cxxabiv120__si_class_type_infoE
 .public _ZdlPv
 .public s_game
-.public sub_020345D4

@@ -3,12 +3,6 @@
 #include "CGame.hpp"
 #include "sub_02007CF0.hpp"
 
-extern "C" {
-void sub_020349E8(void *audioEngine, u32 arg1);
-void sub_02034DE8(void *audioEngine, u32 arg1, u32 arg2, u32 arg3);
-void sub_02034E38(void *audioEngine, u32 arg1);
-}
-
 extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
 
 CAutoSaveScene::CAutoSaveScene()
@@ -32,8 +26,8 @@ u32 CAutoSaveScene::func0()
             break;
         }
 
-        sub_020349E8(s_game->m_audioEngine, 0x45);
-        sub_02034DE8(s_game->m_audioEngine, 0x42, 0, 0x100);
+        s_game->m_audioEngine->sub_020349E8(0x45);
+        s_game->m_audioEngine->sub_02034DE8(0x42, 0, 0x100);
 
         RTCTime time;
         RTCDate date;
@@ -64,7 +58,7 @@ u32 CAutoSaveScene::func0()
             s_game->m_textboxData->sub_0200AA84(0, 0x56, 1, 1, 0);
             unk_0008 = 2;
         }
-        sub_02034E38(s_game->m_audioEngine, 0);
+        s_game->m_audioEngine->sub_02034E38(0);
         break;
     }
     case 2:

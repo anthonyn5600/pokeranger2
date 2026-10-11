@@ -117,7 +117,7 @@ _0211CAFC:
 	ldr r1, [r8, #8]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_02034B58
+	bl _ZN17UnkClass_0203447812sub_02034B58Ei
 	b _0211CB60
 _0211CB58:
 	ldr r0, [sb, #0x28]
@@ -165,14 +165,14 @@ _0211CBB0:
 	mov r1, #0x3b
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_0203499C
+	bl _ZN17UnkClass_0203447812sub_0203499CEi
 	ldr r0, _0211CEC8 ; =s_game
 	mov r1, #0x13
 	ldr r0, [r0]
 	mov r2, #0
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_02034A40
+	bl _ZN17UnkClass_0203447812sub_02034A40Eii
 _0211CC20:
 	ldr r1, [sb, #8]
 	ldr r0, [sb, #0xc]
@@ -283,7 +283,7 @@ _0211CD48:
 	ldr r0, [r0]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_02034B58
+	bl _ZN17UnkClass_0203447812sub_02034B58Ei
 	b _0211CEA8
 _0211CDCC:
 	ldr r0, [r0, #0x4bc]

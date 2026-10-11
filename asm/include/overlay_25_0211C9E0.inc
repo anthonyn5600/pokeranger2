@@ -75,6 +75,9 @@
 .public _ZN17UnkClass_0200ECD012sub_0200F71CEv
 .public _ZN17UnkClass_0200ECD0C1EP9GXOamAttrmii
 .public _ZN17UnkClass_0200ECD0D1Ev
+.public _ZN17UnkClass_0203447812sub_0203499CEi
+.public _ZN17UnkClass_0203447812sub_02034A40Eii
+.public _ZN17UnkClass_0203447812sub_02034B58Ei
 .public _ZN6CScene5func4Ev
 .public _ZN6CSceneC2Ev
 .public _ZN6CSceneD2Ev
@@ -105,6 +108,3 @@
 .public sub_02021428
 .public sub_020215F8
 .public sub_02021628
-.public sub_0203499C
-.public sub_02034A40
-.public sub_02034B58

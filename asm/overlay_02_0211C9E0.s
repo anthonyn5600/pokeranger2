@@ -19,13 +19,13 @@ ov2_0211C9E0: ; 0x0211C9E0
 	str r0, [sp, #4]
 	bne _0211CA34
 	ldr r0, [r1, #0x48c]
-	bl sub_02034954
+	bl _ZN17UnkClass_0203447812sub_02034954Ev
 	ldr r0, [sp]
 	mov r1, #0
 	ldr r0, [r0, #4]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_02034F20
+	bl _ZN17UnkClass_0203447812sub_02034F20Ei
 	arm_func_end ov2_0211C9E0
 _0211CA34:
 	ldrb r0, [r4, #4]
@@ -297,14 +297,14 @@ _0211CDAC:
 	add r0, r1, #0x1000
 	ldr r0, [r0, #0x48c]
 	mov r1, #0x2d
-	bl sub_0203499C
+	bl _ZN17UnkClass_0203447812sub_0203499CEi
 	ldr r0, [sp]
 	mov r1, #5
 	ldr r0, [r0, #4]
 	mov r2, #0x1e
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_02034A40
+	bl _ZN17UnkClass_0203447812sub_02034A40Eii
 _0211CE28:
 	ldr r0, [sp, #4]
 	cmp r0, #4

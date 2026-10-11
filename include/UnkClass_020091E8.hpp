@@ -6,6 +6,7 @@
 #include "CTouchPanel.hpp"
 #include "UnkClass_02001C04.hpp"
 #include "UnkClass_0200BBC8.hpp"
+#include "UnkClass_02034478.hpp"
 #include "common.hpp"
 #include "file/CNCLRFile.hpp"
 
@@ -146,7 +147,7 @@ public:
     UnkClass_02001C04 *unk_088;
     CTouchPanel *unk_08C;
     // TODO: What is this?
-    void *unk_090;
+    UnkClass_02034478 *unk_090;
     u32 unk_094;
     u32 unk_098;
     s32 unk_09C;

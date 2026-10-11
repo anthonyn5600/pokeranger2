@@ -1084,7 +1084,7 @@ _0211D900:
 	add r1, r1, #0xe5
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 	b _0211DBC8
 _0211D950:
 	mov r5, #0
@@ -1183,7 +1183,7 @@ _0211DAAC:
 	mov r1, #0xfa
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 	ldr r0, [r4, #0x70]
 	mov r1, #1
 	add r0, r0, #0x1000
@@ -1246,7 +1246,7 @@ _0211DB20:
 	mov r1, #0xfa
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 _0211DBB4:
 	mvn r0, #0
 	ldmia sp!, {r3, r4, r5, pc}

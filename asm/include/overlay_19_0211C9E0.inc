@@ -56,6 +56,12 @@
 .public _ZN17UnkClass_0200ECD012sub_0200F71CEv
 .public _ZN17UnkClass_0200ECD0C1EP9GXOamAttrmii
 .public _ZN17UnkClass_0200ECD0D1Ev
+.public _ZN17UnkClass_0203447812sub_020345D4Ev
+.public _ZN17UnkClass_0203447812sub_0203499CEi
+.public _ZN17UnkClass_0203447812sub_020349E8Ei
+.public _ZN17UnkClass_0203447812sub_02034A40Eii
+.public _ZN17UnkClass_0203447812sub_02034B58Ei
+.public _ZN17UnkClass_0203447812sub_02034C44Ei
 .public _ZN5CGame11GetInstanceEv
 .public _ZN5CGame12sub_0200FAECEv
 .public _ZN6CScene5func2Ev
@@ -85,9 +91,3 @@
 .public sub_020204DC
 .public sub_0202055C
 .public sub_020205DC
-.public sub_020345D4
-.public sub_0203499C
-.public sub_020349E8
-.public sub_02034A40
-.public sub_02034B58
-.public sub_02034C44

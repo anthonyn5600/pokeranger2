@@ -19,11 +19,6 @@ void sub_02018E1C(void *obj);
 void sub_0201926C(void *obj, int index, s32 value);
 s32 sub_02019278(void *obj, int index);
 void sub_02034384(UnkClass_02033F04 *scriptManager);
-void sub_0203499C(UnkClass_02034478 *audioEngine, u32 arg1);
-void sub_02034A40(UnkClass_02034478 *audioEngine, u32 arg1, u32 arg2);
-void sub_02034B9C(UnkClass_02034478 *audioEngine, int arg1);
-void sub_02034F4C(UnkClass_02034478 *audioEngine, s32 arg1);
-void thunk_FUN_0205b9f0(UnkClass_02034478 *audioEngine);
 
 extern UnkClass_0201164C MAIN_BSS_020B2638;
 extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
@@ -70,7 +65,7 @@ void CGame::sub_0200FB28()
 {
     sub_0200FAEC();
     unk_0008 = -1;
-    sub_02034B9C(m_audioEngine, 0);
+    m_audioEngine->sub_02034B9C(0);
 }
 
 CGame::CGame()
@@ -183,7 +178,7 @@ void CGame::sub_02010124()
     unk_14B8->sub_0200D9CC();
     unk_14C4->sub_0200E44C();
     unk_14C8->sub_0200E44C();
-    thunk_FUN_0205b9f0(m_audioEngine);
+    m_audioEngine->sub_0203459C();
 }
 
 CTouchPanel *CGame::sub_02010178(int mode)
@@ -263,9 +258,9 @@ BOOL CGame::sub_02010378()
     if (v1A < 0) {
         return FALSE;
     }
-    sub_0203499C(m_audioEngine, v5);
-    sub_02034A40(m_audioEngine, v6, 0);
-    sub_02034F4C(m_audioEngine, v1A);
+    m_audioEngine->sub_0203499C(v5);
+    m_audioEngine->sub_02034A40(v6, 0);
+    m_audioEngine->sub_02034F4C(v1A);
     return TRUE;
 }
 

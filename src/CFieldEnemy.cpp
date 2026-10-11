@@ -16,9 +16,6 @@ extern UnkClass_02142428 *MAIN_BSS_0210CA60;
 
 extern "C" {
 void LogError(const char *fmt, ...);
-void sub_02034CF4(void *audioEngine, int arg1, int arg2);
-void sub_02034D44(void *audioEngine, int arg1, int arg2);
-void sub_02034C44(void *audioEngine, int arg1);
 void sub_0203C2B8(CFieldActor *actor);
 void sub_02012860(UnkClass_0201287C *obj, fx32 arg1, int arg2);
 }
@@ -126,7 +123,7 @@ void CFieldEnemy::sub_0203DA40(CFieldMap *map)
     case 0:
         if (ov0_02134D60(unk_F0)) {
             unk_EC = 1;
-            sub_02034D44(s_game->m_audioEngine, 0, 0x40);
+            s_game->m_audioEngine->sub_02034D44(0, 0x40);
             unk_04 &= ~1;
             if (MAIN_BSS_0210CA48 != NULL) {
                 Point2D dir = MAIN_BSS_0210CA48->GetPos() - GetPos();
@@ -164,7 +161,7 @@ void CFieldEnemy::sub_0203DA40(CFieldMap *map)
     case 2:
         unk_04 &= ~2;
         if (ov0_02134D60(unk_F0)) {
-            sub_02034C44(s_game->m_audioEngine, 0x10A);
+            s_game->m_audioEngine->sub_02034C44(0x10A);
             unk_EC = 3;
             unk_04 &= ~1;
             SetUnk8C(0x96000);
@@ -224,7 +221,7 @@ BOOL CFieldEnemy::sub_0203D578(CFieldMap *map)
     unk_168.ov0_02158988();
     ov0_0213524C();
     if (result) {
-        sub_02034CF4(s_game->m_audioEngine, unk_E4, 0x40);
+        s_game->m_audioEngine->sub_02034CF4(unk_E4, 0x40);
     }
     return result;
 }
@@ -313,7 +310,7 @@ void CFieldEnemy::ov0_0213524C()
 
 void CFieldEnemy::ov0_02135250()
 {
-    sub_02034CF4(s_game->m_audioEngine, unk_E4, 0x40);
+    s_game->m_audioEngine->sub_02034CF4(unk_E4, 0x40);
 }
 
 CFieldActor *CFieldEnemy::ov0_02135278()

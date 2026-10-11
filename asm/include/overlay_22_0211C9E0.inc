@@ -76,6 +76,7 @@
 .public _ZN17UnkClass_0200ECD012sub_0200F71CEv
 .public _ZN17UnkClass_0200ECD0C1EP9GXOamAttrmii
 .public _ZN17UnkClass_0200ECD0D1Ev
+.public _ZN17UnkClass_0203447812sub_02034C44Ei
 .public _ZN5CGame11GetInstanceEv
 .public _ZN6CScene5func4Ev
 .public _ZN6CSceneC2Ev
@@ -94,4 +95,3 @@
 .public __cxa_vec_new
 .public sub_02020804
 .public sub_02020FF0
-.public sub_02034C44

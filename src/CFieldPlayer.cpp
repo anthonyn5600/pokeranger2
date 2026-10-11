@@ -38,11 +38,6 @@ void ov0_02143344(void *mgr, fx32 x, fx32 y);
 void ov0_0214332C(void *mgr, int arg1, int arg2, CFieldPlayer *player);
 void ov0_0213EA6C(Point2D *out, Point2D cell, int floor, int arg3);
 void sub_0203EE3C(UnkClass_0201287C *obj);
-void sub_02034B58(void *audioEngine, int arg1);
-void sub_02034C44(void *audioEngine, int arg1);
-BOOL sub_02034C84(void *audioEngine, int arg1);
-void sub_02034C5C(void *audioEngine, int arg1);
-void sub_02034CA0(void *audioEngine, int arg1, int arg2);
 void sub_02022DD4(UnkClass_02022404 *obj);
 void sub_02023198(UnkClass_02022404 *obj, int arg1);
 BOOL sub_0203CF40(CFieldActor *actor, PointPair2D *seg, fx32 radius, int mode);
@@ -240,7 +235,7 @@ void CFieldPlayer::ov0_021307B0(UnkClass_02001C04 *pad, CTouchPanel *touch, UnkC
                 if (unk_08->unk_0C->unk_1A0 != 0x8000) {
                     sub_0202DC54(0x400, 0);
                 }
-                sub_02034C44(s_game->m_audioEngine, 0x11E);
+                s_game->m_audioEngine->sub_02034C44(0x11E);
                 unk_13C = 2;
             case 2:
                 unk_130 -= 60 / DAT_0208d58c;
@@ -668,10 +663,10 @@ void CFieldPlayer::ov0_021307B0(UnkClass_02001C04 *pad, CTouchPanel *touch, UnkC
     sub_0203C87C(this, (int)map);
     int animState = GetUnk1D8();
     if (unk_08->unk_0C->unk_1A0 == 0x80000 || unk_08->unk_0C->unk_1A0 == 0x800000) {
-        if (animState == 1 && !sub_02034C84(s_game->m_audioEngine, 0x10E)) {
-            sub_02034C44(s_game->m_audioEngine, 0x10E);
-        } else if (animState == 0 && sub_02034C84(s_game->m_audioEngine, 0x10E)) {
-            sub_02034C5C(s_game->m_audioEngine, 0x10E);
+        if (animState == 1 && !s_game->m_audioEngine->sub_02034C84(0x10E)) {
+            s_game->m_audioEngine->sub_02034C44(0x10E);
+        } else if (animState == 0 && s_game->m_audioEngine->sub_02034C84(0x10E)) {
+            s_game->m_audioEngine->sub_02034C5C(0x10E);
         }
         if (animState == 1 && !(unk_F0 & 0xF)) {
             sub_02016DA4(&MAIN_BSS_020B26A0, 1);
@@ -887,8 +882,8 @@ BOOL CFieldPlayer::ov0_021333A0(fx32 dx, fx32 dy, int arg3, int damage, int arg5
             if (s_game->unk_14C0->sub_0200E310() || (s_game->unk_14C0->sub_0200E324() != 4 && s_game->unk_14C0->sub_0200E324() != 2)) {
                 s_game->unk_14C0->sub_0200E0E0(2, 120);
             }
-            sub_02034B58(s_game->m_audioEngine, 60);
-            sub_02034C44(s_game->m_audioEngine, 0x114);
+            s_game->m_audioEngine->sub_02034B58(60);
+            s_game->m_audioEngine->sub_02034C44(0x114);
             if (arg5 > 0) {
                 SetInvincible(unk_138 + 60, 0);
             }
@@ -896,10 +891,10 @@ BOOL CFieldPlayer::ov0_021333A0(fx32 dx, fx32 dy, int arg3, int damage, int arg5
                 unk_110 = 2;
             }
         } else if (arg5 > 0) {
-            sub_02034CA0(s_game->m_audioEngine, 0x49, 0x4F);
+            s_game->m_audioEngine->sub_02034CA0(0x49, 0x4F);
             SetInvincible(unk_138 + 60, 2);
         } else {
-            sub_02034CA0(s_game->m_audioEngine, 0x92, 0x131);
+            s_game->m_audioEngine->sub_02034CA0(0x92, 0x131);
         }
     }
     return TRUE;
@@ -947,7 +942,7 @@ BOOL CFieldPlayer::ov0_021337DC(int dir, int dir2, fx32 vx, fx32 vy, int arg5, i
         if (unk_08->unk_0C->unk_1A0 != 0x8000) {
             sub_0202DC54(0x1000, 0);
         }
-        sub_02034C44(s_game->m_audioEngine, 0x111);
+        s_game->m_audioEngine->sub_02034C44(0x111);
     }
     unk_114 = vx;
     unk_118 = vy;

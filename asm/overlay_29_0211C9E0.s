@@ -150,7 +150,7 @@ ov29_0211CB54: ; 0x0211CB54
 	ldr r0, [r0]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_020345D4
+	bl _ZN17UnkClass_0203447812sub_020345D4Ev
 	ldr r0, _0211CC40 ; =s_game
 	mov r1, #3
 	ldr r0, [r0]

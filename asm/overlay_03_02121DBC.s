@@ -11,7 +11,7 @@ ov3_02121DBC: ; 0x02121DBC
 	str r1, [r4]
 	ldr r0, [r4, #0x84]
 	mov r1, #1
-	bl sub_02034B58
+	bl _ZN17UnkClass_0203447812sub_02034B58Ei
 	mov r0, r4
 	ldr r1, [r0]
 	ldr r1, [r1, #0x24]
@@ -32,7 +32,7 @@ ov3_02121DFC: ; 0x02121DFC
 	str r1, [r4]
 	ldr r0, [r4, #0x84]
 	mov r1, #1
-	bl sub_02034B58
+	bl _ZN17UnkClass_0203447812sub_02034B58Ei
 	mov r0, r4
 	ldr r1, [r0]
 	ldr r1, [r1, #0x24]
@@ -598,7 +598,7 @@ _021225EC:
 	ldr r0, [r4, #0x84]
 	mov r1, #0x16
 	mov r2, #0x40
-	bl sub_02034A40
+	bl _ZN17UnkClass_0203447812sub_02034A40Eii
 	b _0212267C
 _02122610:
 	mov r0, r4
@@ -706,7 +706,7 @@ _0212275C:
 	str r0, [r2, #0x14]
 	ldr r0, [sl, #0x84]
 	mov r1, #0xfa
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 _02122784:
 	add r5, r5, #1
 	cmp r5, #5
@@ -743,7 +743,7 @@ _02122784:
 	str r1, [r0, #0x14]
 	ldr r0, [sl, #0x84]
 	mov r1, #0xfe
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 _02122814:
 	mov r0, #0
 	str r0, [sp, #8]
@@ -763,7 +763,7 @@ _02122814:
 	bl ov3_02121E44
 	ldr r0, [sl, #0x84]
 	mov r1, #0xfa
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 _02122860:
 	mov r0, #0
 	str r0, [sp, #8]
@@ -783,7 +783,7 @@ _02122860:
 	bl ov3_02121E44
 	ldr r0, [sl, #0x84]
 	mov r1, #0xfa
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 _021228AC:
 	mov r0, #0
 	str r0, [sp, #8]
@@ -803,7 +803,7 @@ _021228AC:
 	bl ov3_02121E44
 	ldr r0, [sl, #0x84]
 	mov r1, #0xfa
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 _021228F8:
 	mov r0, #0
 	str r0, [sp, #8]
@@ -829,7 +829,7 @@ _021228F8:
 	bl _ZN17UnkClass_0200ECD012sub_0200F628Eii
 	ldr r0, [sl, #0x84]
 	mov r1, #0xff
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 _0212295C:
 	ldr r0, [sp, #0xc]
 	ldrb r0, [r0, #6]
@@ -2836,7 +2836,7 @@ ov3_021244F4: ; 0x021244F4
 	mov r1, #0
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_02034DC8
+	bl _ZN17UnkClass_0203447812sub_02034DC8Ei
 	ldr r0, _02124C34 ; =s_game
 	mov r1, #0x3c
 	ldr r0, [r0]
@@ -2929,13 +2929,13 @@ _02124644:
 	ldr r0, [r0]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_02034B58
+	bl _ZN17UnkClass_0203447812sub_02034B58Ei
 	ldr r0, _02124C34 ; =s_game
 	mov r1, #1
 	ldr r0, [r0]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_02034C2C
+	bl _ZN17UnkClass_0203447812sub_02034C2CEi
 	ldr r0, _02124C34 ; =s_game
 	ldr r1, [r0]
 	ldr r0, [r1, #8]
@@ -2944,34 +2944,34 @@ _02124644:
 	ldr r0, [r0, #0x48c]
 	beq _021246BC
 	mov r1, #1
-	bl sub_0203499C
+	bl _ZN17UnkClass_0203447812sub_0203499CEi
 	b _021246C4
 _021246BC:
 	mov r1, #2
-	bl sub_0203499C
+	bl _ZN17UnkClass_0203447812sub_0203499CEi
 _021246C4:
 	ldr r0, _02124C34 ; =s_game
 	ldr r0, [r0]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_020345D4
+	bl _ZN17UnkClass_0203447812sub_020345D4Ev
 	ldr r0, _02124C34 ; =s_game
 	ldr r0, [r0]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_020347C4
+	bl _ZN17UnkClass_0203447812sub_020347C4Ev
 	ldr r0, _02124C34 ; =s_game
 	mov r1, #0xa5
 	ldr r0, [r0]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_020349E8
+	bl _ZN17UnkClass_0203447812sub_020349E8Ei
 	ldr r0, _02124C34 ; =s_game
 	mov r1, #0xa6
 	ldr r0, [r0]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_020349E8
+	bl _ZN17UnkClass_0203447812sub_020349E8Ei
 	ldr r0, _02124C34 ; =s_game
 	ldr r0, [r0]
 	ldr r0, [r0, #8]
@@ -4474,7 +4474,7 @@ _02125AC0:
 	mov r1, #0x45
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_02034A40
+	bl _ZN17UnkClass_0203447812sub_02034A40Eii
 	b _02125C4C
 _02125C34:
 	ldr r0, [sp, #0x14]
@@ -4482,7 +4482,7 @@ _02125C34:
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
 	mov r2, #0x40
-	bl sub_02034D54
+	bl _ZN17UnkClass_0203447812sub_02034D54Eii
 _02125C4C:
 	ldr r0, [sp, #0x14]
 	mov r1, #1
@@ -4578,7 +4578,7 @@ ov3_02125D10: ; 0x02125D10
 	add r0, r5, #0x1000
 	ldr r0, [r0, #0x48c]
 	mov r1, #0xfa
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 	add r0, r5, #0x1000
 	ldr r0, [r0, #0x4bc]
 	mov r1, #2
@@ -4645,12 +4645,12 @@ _02125E14:
 	add r0, r5, #0x1000
 	ldr r0, [r0, #0x48c]
 	beq _02125E74
-	bl sub_02034B58
+	bl _ZN17UnkClass_0203447812sub_02034B58Ei
 	mov r0, #2
 	str r0, [r4, #8]
 	b _02125F0C
 _02125E74:
-	bl sub_02034DC8
+	bl _ZN17UnkClass_0203447812sub_02034DC8Ei
 	mov r0, #3
 	str r0, [r4, #8]
 	b _02125F0C
@@ -6971,7 +6971,7 @@ ov3_02127EE8: ; 0x02127EE8
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
 	mov r1, #0
-	bl sub_02034ED8
+	bl _ZN17UnkClass_0203447812sub_02034ED8Ev
 	ldmia sp!, {r3, pc}
 	arm_func_end ov3_02127EE8
 
@@ -6997,7 +6997,7 @@ ov3_02127F04: ; 0x02127F04
 	add r0, r5, #0x1000
 	ldr r0, [r0, #0x48c]
 	mov r1, #0xfa
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 	add r0, r5, #0x1000
 	ldr r0, [r0, #0x4bc]
 	mov r1, #2
@@ -7079,7 +7079,7 @@ _02128000:
 	add r0, r5, #0x1000
 	ldr r0, [r0, #0x48c]
 	mov r1, #0xa1
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 	b _02128428
 _02128090:
 	ldr r2, [r4, #0x11c]
@@ -7134,7 +7134,7 @@ _0212814C:
 	add r0, r5, #0x1000
 	ldr r0, [r0, #0x48c]
 	mov r1, #0x99
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 	b _02128180
 _02128160:
 	bne _02128180
@@ -7176,7 +7176,7 @@ _021281D0:
 	str r1, [r4, #0x800]
 	add r0, r5, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_02034E48
+	bl _ZN17UnkClass_0203447812sub_02034E48Ev
 	b _02128428
 _021281FC:
 	ldr r0, [r4, #0x58]
@@ -7231,11 +7231,11 @@ _0212826C:
 	cmp r1, #5
 	bhi _021282C8
 	add r1, r1, #0x1a
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 	b _021282D0
 _021282C8:
 	mov r1, #0x1f
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 _021282D0:
 	ldrb r0, [r4, #0x2c0]
 	add r1, r0, #1
@@ -7297,7 +7297,7 @@ _0212833C:
 	add r0, r5, #0x1000
 	ldr r0, [r0, #0x48c]
 	mov r1, #0xb
-	bl sub_02034C5C
+	bl _ZN17UnkClass_0203447812sub_02034C5CEi
 	mov r0, #5
 	str r0, [r4, #8]
 	b _02128428
@@ -7323,7 +7323,7 @@ _021283E4:
 	add r0, r5, #0x1000
 	ldr r0, [r0, #0x48c]
 	mov r1, #0xb
-	bl sub_02034C5C
+	bl _ZN17UnkClass_0203447812sub_02034C5CEi
 	add sp, sp, #0x28
 	mov r0, #1
 	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}

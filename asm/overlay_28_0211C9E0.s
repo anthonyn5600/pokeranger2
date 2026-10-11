@@ -891,7 +891,7 @@ ov28_0211D468: ; 0x0211D468
 	ldr r0, [r4, #0x3c]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_020345D4
+	bl _ZN17UnkClass_0203447812sub_020345D4Ev
 	mov r1, #0
 	mov r0, #0x20
 	str r1, [sp, #0x1c]
@@ -1118,7 +1118,7 @@ _0211D800:
 	mov r1, #0xfa
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 	mov r0, r4
 	bl ov28_0211D980
 	ldmia sp!, {r3, r4, r5, pc}
@@ -1127,7 +1127,7 @@ _0211D820:
 	mov r1, #0xfa
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 	ldrh r1, [sp]
 	mov r0, r4
 	bl ov28_0211D9AC
@@ -1141,7 +1141,7 @@ ov28_0211D844: ; 0x0211D844
 	ldr r1, _0211D888 ; =0x00000103
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl sub_02034C44
+	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 	ldr r0, [r4, #8]
 	cmp r0, #0
 	movne r0, #6
