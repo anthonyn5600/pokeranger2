@@ -37,6 +37,7 @@
 .public _Z12sub_020010E4v
 .public _Z12sub_02044440v
 .public _ZN11CBinaryFileC1EPKcmmmPvm
+.public _ZN11CFieldActor12sub_0203D404E7Point2D
 .public _ZN11CFieldScene12ov0_02122FECEmmm
 .public _ZN11CFieldScene12ov0_02123060Em
 .public _ZN11CFieldScene12ov0_0212451CEv
@@ -47,6 +48,8 @@
 .public _ZN11CTPEmulator12sub_02002198Ellt
 .public _ZN12CFieldPlayer12ov0_02132F14Ehih
 .public _ZN12CFieldPlayer12ov0_02132FA0Eh
+.public _ZN15CFieldDrawActor12sub_0203EEA8Ethi
+.public _ZN15CFieldDrawActor12sub_0203EEECEi
 .public _ZN17CFieldEnemyManage12ov0_0213690CEii
 .public _ZN17CFieldEnemyManage12ov0_02136968Ev
 .public _ZN17UnkClass_020091E812sub_020097FCEmm
@@ -251,9 +254,6 @@
 .public sub_02035E3C
 .public sub_02035ECC
 .public sub_02035F50
-.public sub_0203D404
-.public sub_0203EEA8
-.public sub_0203EEEC
 .public sub_02041A70
 .public sub_02041C1C
 .public sub_02041D80

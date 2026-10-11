@@ -513,7 +513,7 @@ void CFieldScene::func6()
             if (hide) {
                 CFieldActor *actor = unk_0024->Get(i);
                 actor->sub_020129F4_(0, 0);
-                sub_0203C87C(actor, 0);
+                actor->sub_0203C87C(NULL);
             }
         }
     }
@@ -676,7 +676,6 @@ BOOL sub_02035ECC(UnkClass_0211D850 *obj, int arg1);
 void sub_0203580C(UnkClass_0211D850 *obj, int fps);
 int ov0_0213FFC4(UnkClass_0213FF64 *obj, CFieldScene *scene, UnkClass_02001C04 *arg2, CTouchPanel *touch);
 void ov0_0213E4BC(CFieldPartner *partner, u32 id);
-void sub_0203D404(CFieldPartner *partner, Point2D pos);
 void ov0_02161F88(void);
 int ov0_0213DEE8(UnkClass_0213DDCC *obj, Point2D *tile, int dir, BOOL arg3);
 void ov0_02159D7C(UnkClass_0215994C *obj);
@@ -1075,7 +1074,7 @@ u32 CFieldScene::func0()
                         m_game->m_textboxData->sub_0200AA14();
                         unk_0084 = 8;
                         Point2D target = { -unk_0008->unk_1C, -unk_0008->unk_20 };
-                        sub_0203D404(unk_007C, target);
+                        unk_007C->sub_0203D404(target);
                     }
                     break;
                 case 8:
@@ -1556,7 +1555,6 @@ void ov0_02148480(UnkClass_021480E4 *obj, Point2D *pos, Point2D *target);
 void ov0_021481EC(UnkClass_021480E4 *obj, int fps);
 void ov0_0214FD00(UnkClass_0214FB28 *obj, UnkClass_02003718 *camera);
 void ov0_0214FF20(UnkClass_0214FD4C *obj, UnkClass_02003718 *camera);
-void sub_0203C590(CFieldPlayer *player, UnkClass_0211E3FC *renderLists, UnkClass_020416AC *hud);
 void ov0_02159DB4(UnkClass_0215994C *obj, UnkClass_0211E3FC *renderLists, UnkClass_020416AC *hud);
 void ov0_02143380(UnkClass_02142428 *obj, UnkClass_0211E3FC *renderLists);
 void sub_02041924(UnkClass_020416AC *hud, UnkClass_02003718 *camera, int layer, int budget);
@@ -1716,7 +1714,7 @@ void CFieldScene::func1()
             unk_0008->sub_0200381C();
             G3_StoreMtx(0);
             if (!(unk_00D4 & 1)) {
-                sub_0203C590(unk_0014, unk_003C, unk_0048);
+                unk_0014->sub_0203C590(unk_003C, unk_0048);
             }
             if (!(unk_00D0 & 0x400) && !(unk_00D4 & 4)) {
                 unk_0018->sub_0203F348(unk_003C, unk_0048);

@@ -225,7 +225,7 @@ int CFieldEnemyManage::ov0_02135E30(int slot, u16 kind, u16 script, int arg4)
             flags |= ov0_02136320(data->unk_38);
             flags |= ov0_02136320(data->unk_39);
             flags |= ov0_02136320(data->unk_3A);
-            sub_0203C418(enemy, 0, info->unk_00, info->unk_02, flags, arg4);
+            enemy->sub_0203C418(0, info->unk_00, info->unk_02, flags, arg4);
             enemy->unk_168.unk_B0 = enemy->unk_E4 = info->unk_00;
             enemy->SetUnkBC(info->unk_0A, info->unk_0B);
             enemy->SetUnkBE(info->unk_0C, info->unk_0D);

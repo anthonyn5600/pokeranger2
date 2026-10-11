@@ -1299,7 +1299,7 @@ _020176F4:
 	mov r1, r1, lsr #0x10
 	sub r3, r3, #0xe0000003
 	str r2, [sp, #8]
-	bl sub_02041344
+	bl _ZN17UnkClass_020412A012sub_02041344EtimPKcii
 	add r0, r4, #0x328
 	add r0, r0, #0x8c00
 	add sp, sp, #0xc
@@ -22590,7 +22590,7 @@ sub_020295B0: ; 0x020295B0
 _02029600:
 	mov r1, r1, lsl #0x10
 	mov r1, r1, lsr #0xd
-	bl sub_02007C34
+	bl _ZN17UnkClass_02007AA412sub_02007C34Em
 _0202960C:
 	ldr r0, [r5, #0x30]
 	mov r6, #0

@@ -79,7 +79,7 @@ int CFieldTargetObjectManage::ov0_0213D1AC(int slot, u16 kind, u16 script, u16 t
             obj->sub_0203DA60(id);
             obj->unk_E8 = kind;
             FieldTargetObjectData *data = sub_02041D6C(table, kind);
-            sub_0203C418(obj, 2, data->unk_00, data->unk_02, 0xE, arg5);
+            obj->sub_0203C418(2, data->unk_00, data->unk_02, 0xE, arg5);
             obj->SetUnkBC(data->unk_13, data->unk_14);
             obj->SetUnkBE(data->unk_15, data->unk_16);
             if (data->unk_0E == 0) {

@@ -153,7 +153,7 @@ _0208DEB6:
 	.global ptr_FUN_02040f20_0208dec0
 ptr_FUN_02040f20_0208dec0: ; 0x0208DEC0
 	.word sub_02040F20
-	.word sub_0203E650
+	.word _ZN19CFieldDrawActorDataD0Ev
 
 	.global ptr_FUN_02040d44_0208dec8
 ptr_FUN_02040d44_0208dec8: ; 0x0208DEC8

@@ -53,6 +53,28 @@ public:
         m_coords[1] = pos.y;
     }
 
+    inline void SetClipping(s16 x1, s16 x2, s16 y1, s16 y2)
+    {
+        m_clipping.x1 = x1;
+        m_clipping.x2 = x2;
+        m_clipping.y1 = y1;
+        m_clipping.y2 = y2;
+        m_clipping.enabled = TRUE;
+    }
+
+    inline void SetColorAlpha(GXRgb color, int alpha, BOOL arg2)
+    {
+        m_color = color;
+        m_alpha = alpha;
+        unk_3C = arg2;
+    }
+
+    inline void SetScale(fx32 x, fx32 y)
+    {
+        m_scale[0] = x;
+        m_scale[1] = y;
+    }
+
     inline void SetXY(fx32 x, fx32 y)
     {
         m_coords[0] = x;

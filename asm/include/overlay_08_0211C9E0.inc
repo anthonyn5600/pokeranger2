@@ -24,6 +24,8 @@
 .public MAIN_BSS_020B26A0
 .public MAIN_BSS_0210CA6C
 .public OS_SPrintf
+.public _ZN11CFieldActor12sub_0203C4BCEitimi
+.public _ZN11CFieldActor12sub_0203C87CEP9CFieldMap
 .public _ZN11CFieldActorC1Ev
 .public _ZN11CFieldActorD1Ev
 .public _ZN17UnkClass_0200371812sub_02003788Elllllll
@@ -88,5 +90,3 @@
 .public sub_0202B370
 .public sub_0202B50C
 .public sub_0202B5A8
-.public sub_0203C4BC
-.public sub_0203C87C

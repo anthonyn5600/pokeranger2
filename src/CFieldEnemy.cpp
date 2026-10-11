@@ -16,7 +16,6 @@ extern UnkClass_02142428 *MAIN_BSS_0210CA60;
 
 extern "C" {
 void LogError(const char *fmt, ...);
-void sub_0203C2B8(CFieldActor *actor);
 }
 
 CFieldEnemy::CFieldEnemy()
@@ -203,14 +202,14 @@ void CFieldEnemy::sub_0203DA40(CFieldMap *map)
         if (unk_04 & 0x400) {
             ov0_02134F70();
         }
-        sub_0203C2B8(this);
+        sub_0203C2B8();
         if (--unk_164 < 0) {
             unk_164 = 0;
         }
         break;
     }
     unk_168.ov0_02152B04();
-    sub_0203C87C(this, (int)map);
+    sub_0203C87C(map);
     ov0_0213524C();
 }
 
@@ -429,8 +428,8 @@ void CFieldEnemy::ov0_021356EC()
 {
     // SetPosXY written out: the declaration order of these locals is the original's register order.
     fx32 y = unk_1C;
-    UnkStruct_0203BF40 *obj = unk_08;
-    UnkClass_0201287C *sprite;
+    CFieldDrawObject *obj = unk_08;
+    CFieldDrawActor *sprite;
     fx32 x = unk_18;
     if (obj != NULL && (sprite = obj->unk_0C) != NULL) {
         sprite->SetXY(x, y);

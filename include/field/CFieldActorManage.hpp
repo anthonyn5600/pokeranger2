@@ -35,6 +35,9 @@ public:
     virtual void sub_0203F754();
     virtual void sub_0203F7AC();
 
+    BOOL sub_0203F7F4(PointPair2D *move, fx32 radius, int layer, Point2D *out);
+    BOOL sub_02040158(Point2D pos, fx32 radius, int layer);
+
     inline CFieldActor *Get(int i)
     {
         if (m_count <= i) {

@@ -44,7 +44,7 @@ Static main
     Object main.nef.p/src_sub_02007254.cpp.o
     Object main.nef.p/src_UnkClass_020074D4.cpp.o
     Object main.nef.p/src_UnkClass_02007770.cpp.o
-    Object main.nef.p/asm_arm9_02007AA4.s.o
+    Object main.nef.p/src_UnkClass_02007AA4.cpp.o
     Object main.nef.p/src_CScene.cpp.o
     Object main.nef.p/src_sub_02007CF0.cpp.o
     Object main.nef.p/src_UnkClass_02007F98.cpp.o
@@ -81,14 +81,16 @@ Static main
     Object main.nef.p/asm_arm9_0208B5C0.s.o
     Object main.nef.p/src_UnkClass_02034478.cpp.o
     Object main.nef.p/asm_arm9_02034F9C.s.o
+    Object main.nef.p/asm_arm9_0208D58C.s.o
+    Object main.nef.p/src_FieldActor.cpp.o
+    Object main.nef.p/src_FieldDrawActor.cpp.o
+    Object main.nef.p/asm_arm9_0203EF1C.s.o
     Object main.nef.p/src_sub_0204436C.cpp.o
     Object main.nef.p/asm_arm9_0204439C.s.o
     Object main.nef.p/src_sub_02044440.cpp.o
     Object main.nef.p/asm_arm9_02044464.s.o
     Object main.nef.p/src_sub_02046D40.cpp.o
     Object main.nef.p/asm_arm9_02046D5C.s.o
-    Object main.nef.p/src_CFieldActor.cpp.o
-    Object main.nef.p/asm_arm9_0208DC90.s.o
     Object main.nef.p/src_CFieldActorManage.cpp.o
     Object main.nef.p/asm_arm9_0208DDB8.s.o
     Object main.nef.p/src_debug.cpp.o

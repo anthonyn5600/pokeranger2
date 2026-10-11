@@ -24,6 +24,7 @@
 .public _ZN17CFieldActorManage12sub_02040384Ev
 .public _ZN17CFieldActorManage12sub_02040428Ev
 .public _ZN17CFieldActorManage12sub_02040460Ev
+.public _ZN19CFieldDrawActorDataD0Ev
 .public _ZN6CScene5func3Ev
 .public _ZN6CScene5func4Ev
 .public _ZTI10CActorData
@@ -32,7 +33,6 @@
 .public _ZTI6CScene
 .public _ZTVN10__cxxabiv117__class_type_infoE
 .public _ZTVN10__cxxabiv120__si_class_type_infoE
-.public sub_0203E650
 .public sub_0203EF64
 .public sub_0203EF8C
 .public sub_020404E8

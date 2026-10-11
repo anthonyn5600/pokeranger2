@@ -3684,7 +3684,7 @@ _0202E5F4:
 	orr r2, r2, #0x100
 	str r2, [r0, #4]
 	ldmia r1, {r1, r2}
-	bl sub_0203D404
+	bl _ZN11CFieldActor12sub_0203D404E7Point2D
 _0202E60C:
 	mov r0, #0
 	add sp, sp, #8
@@ -4474,7 +4474,7 @@ sub_0202EFCC: ; 0x0202EFCC
 	mov r1, r4
 	mov r2, r5
 	mov r3, r6
-	bl sub_0203EEA8
+	bl _ZN15CFieldDrawActor12sub_0203EEA8Ethi
 	arm_func_end sub_0202EFCC
 _0202F028:
 	mov r0, #0
@@ -4493,7 +4493,7 @@ sub_0202F030: ; 0x0202F030
 	cmpne r0, #0
 	beq _0202F060
 	mov r1, r4
-	bl sub_0203EEEC
+	bl _ZN15CFieldDrawActor12sub_0203EEECEi
 	arm_func_end sub_0202F030
 _0202F060:
 	mov r0, #0

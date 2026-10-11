@@ -119,7 +119,7 @@
 .public _ZN17UnkClass_0200777012sub_020078E4Et
 .public _ZN17UnkClass_0200777012sub_02007A94Em
 .public _ZN17UnkClass_02007770C1Ev
-.public _ZN17UnkClass_02007770D2Ev
+.public _ZN17UnkClass_02007770D1Ev
 .public _ZN17UnkClass_02007AA412sub_02007BC4Ev
 .public _ZN17UnkClass_02007AA412sub_02007BFCEm
 .public _ZN17UnkClass_02007AA4C1EPKcmm

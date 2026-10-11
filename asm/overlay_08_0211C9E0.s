@@ -1152,7 +1152,7 @@ ov8_0211D818: ; 0x0211D818
 	ldmeqia sp!, {r4, pc}
 	add r0, r4, #0x50
 	mov r1, #0
-	bl sub_0203C87C
+	bl _ZN11CFieldActor12sub_0203C87CEP9CFieldMap
 	ldmia sp!, {r4, pc}
 	arm_func_end ov8_0211D818
 _0211D87C:
@@ -1161,7 +1161,7 @@ _0211D87C:
 	ldmeqia sp!, {r4, pc}
 	add r0, r4, #0x130
 	mov r1, #0
-	bl sub_0203C87C
+	bl _ZN11CFieldActor12sub_0203C87CEP9CFieldMap
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0211D898: .word 0x01FF0000
@@ -1703,7 +1703,7 @@ _0211E018:
 	mov r0, r8
 	mov r2, r7
 	mov r3, #0
-	bl sub_0203C4BC
+	bl _ZN11CFieldActor12sub_0203C4BCEitimi
 	ldr r0, [sb, #0x58]
 	cmp r0, #0
 	ldrne r0, [r0, #0xc]

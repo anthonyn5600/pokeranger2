@@ -49,7 +49,7 @@ public:
     CActor();
     virtual ~CActor();
     virtual void vfunc_08() = 0;
-    virtual void vfunc_0C() = 0;
+    virtual u32 vfunc_0C(CPrimitive_Render_arg *arg) = 0;
     virtual void vfunc_10() = 0;
 
     void sub_02011FF4(CActorData *data);

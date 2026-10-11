@@ -27,6 +27,8 @@
 .public _Z12sub_020060007Point2D9Rectanglem
 .public _Z12sub_02007D98v
 .public _Z17LinearInterpolatellll
+.public _ZN11CFieldActor12sub_0203C418Eitimi
+.public _ZN11CFieldActor12sub_0203D404E7Point2D
 .public _ZN11CFieldActorC1Ev
 .public _ZN14CPrimitiveRECT12SetRectangleElllll
 .public _ZN14CPrimitiveRECTC1Ev
@@ -116,8 +118,6 @@
 .public sub_0201F988
 .public sub_02020804
 .public sub_02020FF0
-.public sub_0203C418
-.public sub_0203D404
 .public sub_0203EF40
 .public sub_02041924
 .public sub_020419AC

@@ -93,9 +93,9 @@ int CFieldNpcManage::ov0_0213C66C(int slot, int type, u16 kind, u16 script, int 
                 npc->SetUnkBC(info->unk_0A, info->unk_0B);
             }
             if (type == 0) {
-                sub_0203C418(npc, 1, model, arg3, flags, arg5);
+                npc->sub_0203C418(1, model, arg3, flags, arg5);
             } else {
-                sub_0203C418(npc, 0, model, arg3, flags, arg5);
+                npc->sub_0203C418(0, model, arg3, flags, arg5);
             }
             npc->LoadScript(script);
             npc->unk_E8 = type;

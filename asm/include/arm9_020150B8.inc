@@ -3,6 +3,7 @@
 .public MI_CpuCopy8
 .public MI_CpuFill8
 .public MIi_CpuClearFast
+.public _ZN17UnkClass_020412A0C1Ev
 .public _ZN5CGame11GetInstanceEv
 .public __cxa_vec_cleanup
 .public __cxa_vec_ctor
@@ -15,5 +16,4 @@
 .public sub_02035088
 .public sub_02041124
 .public sub_0204114C
-.public sub_020412A0
 .public sub_020412DC

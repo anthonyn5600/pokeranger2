@@ -130,6 +130,8 @@
 .public _Z23Heap_AllocWithAlignmentmm
 .public _Z9Heap_FreePv
 .public _ZN11CBinaryFileC1EPKcmmmPvm
+.public _ZN11CFieldActor12sub_0203C418Eitimi
+.public _ZN11CFieldActor12sub_0203C87CEP9CFieldMap
 .public _ZN11CFieldActorC1Ev
 .public _ZN11CFieldActorD1Ev
 .public _ZN12CPowerManage12sub_0200FA48Em
@@ -245,7 +247,5 @@
 .public sub_02028E20
 .public sub_020292CC
 .public sub_02029378
-.public sub_0203C418
-.public sub_0203C87C
 .public sub_02046948
 .public sub_02046B84

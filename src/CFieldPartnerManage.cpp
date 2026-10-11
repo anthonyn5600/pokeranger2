@@ -35,7 +35,6 @@ BOOL sub_02015434(UnkClass_020B26A0 *save, int mapId, int idx);
 void sub_02015124(UnkStruct_020B26A0_8AD4 *partner);
 void sub_02015C78(UnkClass_020B26A0 *save, u32 id, u16 kind, int arg3);
 void sub_02041A70(CFieldActor *actor, int arg1, int arg2);
-void sub_0203C590(CFieldActor *actor, UnkClass_0211E3FC *renderLists, UnkClass_020416AC *hud);
 void sub_0203F440(CFieldActorManage *mgr);
 BOOL sub_02034F9C(u32 kind);
 int sub_02035088(u32 kind);
@@ -157,7 +156,7 @@ void CFieldPartnerManage::sub_0203F348(UnkClass_0211E3FC *renderLists, UnkClass_
         if (save->unk_8B64 == 4 && partner->IsKind0() && !(partner->unk_04 & 0x20)) {
             continue;
         }
-        sub_0203C590(partner, renderLists, hud);
+        partner->sub_0203C590(renderLists, hud);
     }
 }
 
@@ -180,7 +179,7 @@ int CFieldPartnerManage::ov0_02139920(u32 id, u16 kind, u16 flags, int type, int
             FieldNpcData *data = sub_02041D44(table, kind);
             partner = new CFieldPartnerNpc();
             partner->unk_200 = kind;
-            sub_0203C418(partner, 1, data->unk_00, 0, flags, arg5);
+            partner->sub_0203C418(1, data->unk_00, 0, flags, arg5);
             script = unk_8C->unk_2C[0];
             partner->unk_1E8 = unk_84;
             partner->unk_1FC = 1;
@@ -204,7 +203,7 @@ int CFieldPartnerManage::ov0_02139920(u32 id, u16 kind, u16 flags, int type, int
             if (data->unk_30 == 2 || data->unk_30 == 5) {
                 pokemonFlags |= 0xC00;
             }
-            sub_0203C418(pokemon, 0, info->unk_00, info->unk_02, pokemonFlags, arg5);
+            pokemon->sub_0203C418(0, info->unk_00, info->unk_02, pokemonFlags, arg5);
             pokemon->unk_1FC = 0;
             pokemon->sub_0203DA60((id & 0xFFFFFF) | 0x6000000);
             pokemon->SetUnkBC(info->unk_0A, info->unk_0B);

@@ -45,6 +45,8 @@
 .public OS_WakeupThreadDirect
 .public _Z12sub_02007D98v
 .public _Z9Heap_FreePv
+.public _ZN11CFieldActor12sub_0203C418Eitimi
+.public _ZN11CFieldActor12sub_0203C87CEP9CFieldMap
 .public _ZN11CFieldActorC1Ev
 .public _ZN11CFieldActorD1Ev
 .public _ZN13CArchiveGuardC1EPKcS1_mmmPvm
@@ -128,5 +130,3 @@
 .public sub_0202B370
 .public sub_0202B50C
 .public sub_0202B5A8
-.public sub_0203C418
-.public sub_0203C87C

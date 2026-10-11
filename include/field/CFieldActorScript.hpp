@@ -16,6 +16,8 @@ public:
     virtual BOOL sub_0203BE48(CFieldActor *actor, const char *func);
     virtual BOOL sub_0203BF00();
 
+    void sub_0203BF20();
+
 public:
     int unk_04;
     UnkStruct_02044464 unk_08;

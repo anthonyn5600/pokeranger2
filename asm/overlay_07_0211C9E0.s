@@ -1454,7 +1454,7 @@ _0211DD64:
 	ldrb r3, [r4, #2]
 	mov r0, r5
 	mov r1, #0
-	bl sub_0203C418
+	bl _ZN11CFieldActor12sub_0203C418Eitimi
 	ldrh r0, [r4]
 	mov r2, r7, lsl #1
 	mov r1, r2, lsl #1
@@ -2565,7 +2565,7 @@ ov7_0211ECA4: ; 0x0211ECA4
 	mov r0, r4
 	add r1, r1, #0x1c
 	ldmia r1, {r1, r2}
-	bl sub_0203D404
+	bl _ZN11CFieldActor12sub_0203D404E7Point2D
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end ov7_0211ECA4
 

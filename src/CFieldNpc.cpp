@@ -9,7 +9,6 @@
 
 extern "C" {
 void LogError(const char *fmt, ...);
-void sub_0203C2B8(CFieldActor *actor);
 }
 
 BOOL CFieldNpcActorScript::sub_0203BE48(CFieldActor *actor, const char *func)
@@ -84,8 +83,8 @@ void CFieldNpc::sub_0203DA40(CFieldMap *map)
         unk_DC->sub_0203BE48(this, "normal");
         unk_0C = TRUE;
     }
-    sub_0203C2B8(this);
-    sub_0203C87C(this, (int)map);
+    sub_0203C2B8();
+    sub_0203C87C(map);
     if (unk_E8 != 0) {
         unk_F4.ov0_02158988();
     }

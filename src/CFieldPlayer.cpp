@@ -37,11 +37,8 @@ extern "C" {
 void ov0_02143344(void *mgr, fx32 x, fx32 y);
 void ov0_0214332C(void *mgr, int arg1, int arg2, CFieldPlayer *player);
 void ov0_0213EA6C(Point2D *out, Point2D cell, int floor, int arg3);
-void sub_0203EE3C(UnkClass_0201287C *obj);
 void sub_02022DD4(UnkClass_02022404 *obj);
 void sub_02023198(UnkClass_02022404 *obj, int arg1);
-BOOL sub_0203CF40(CFieldActor *actor, PointPair2D *seg, fx32 radius, int mode);
-BOOL sub_0203D110(CFieldActor *actor, Point2D pos, fx32 radius, int mode);
 void sub_02041A70(CFieldActor *actor, int arg1, int arg2);
 void sub_02016DA4(UnkClass_020B26A0 *save, int arg1);
 }
@@ -370,8 +367,8 @@ void CFieldPlayer::ov0_021307B0(UnkClass_02001C04 *pad, CTouchPanel *touch, UnkC
                 if (unk_08->unk_0C->unk_1A0 == 0x8000) {
                     mode |= 4;
                 }
-                if (sub_0203CF40(this, &seg, unk_E0, mode)) {
-                    if (!sub_0203D110(this, unk_64, FX32_MUL(unk_E0, 0xF33), mode)) {
+                if (sub_0203CF40(seg, unk_E0, mode)) {
+                    if (!sub_0203D110(unk_64, FX32_MUL(unk_E0, 0xF33), mode)) {
                         newPos = GetPrevPos();
                     } else {
                         newPos = pos;
@@ -660,7 +657,7 @@ void CFieldPlayer::ov0_021307B0(UnkClass_02001C04 *pad, CTouchPanel *touch, UnkC
     } else {
         unk_F0 = 0;
     }
-    sub_0203C87C(this, (int)map);
+    sub_0203C87C(map);
     int animState = GetUnk1D8();
     if (unk_08->unk_0C->unk_1A0 == 0x80000 || unk_08->unk_0C->unk_1A0 == 0x800000) {
         if (animState == 1 && !s_game->m_audioEngine->sub_02034C84(0x10E)) {
@@ -713,7 +710,7 @@ void CFieldPlayer::ov0_02132E68(BOOL arg1)
 
 BOOL CFieldPlayer::ov0_02132EE4(u16 arg1, int arg2, u32 arg3)
 {
-    return sub_0203C418(this, 4, arg1, arg2, arg3, 1);
+    return sub_0203C418(4, arg1, arg2, arg3, 1);
 }
 
 BOOL CFieldPlayer::ov0_02132F14(u8 arg1, int arg2, u8 arg3)
@@ -818,7 +815,7 @@ void CFieldPlayer::ov0_02132FA0(u8 mode)
         break;
     }
     ResetMove();
-    sub_0203EE3C(unk_08->unk_0C);
+    unk_08->unk_0C->sub_0203EE3C();
 }
 
 BOOL CFieldPlayer::ov0_021333A0(fx32 dx, fx32 dy, int arg3, int damage, int arg5)

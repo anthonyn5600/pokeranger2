@@ -8,8 +8,6 @@
 
 extern "C" {
 void LogError(const char *fmt, ...);
-void sub_0203BF20(CFieldActorScript *script);
-void sub_0203C2B8(CFieldActor *actor);
 }
 
 static inline BOOL HasScriptBlock(CFieldActorScript *script)
@@ -171,7 +169,7 @@ BOOL CFieldTargetObject::ov0_0213CF60(const char *func)
 void CFieldTargetObject::ov0_0213CFBC()
 {
     if (unk_FC && unk_F8 != NULL) {
-        sub_0203BF20(unk_F8);
+        unk_F8->sub_0203BF20();
     }
 }
 
@@ -185,8 +183,8 @@ BOOL CFieldTargetObject::ov0_0213CFDC()
 
 void CFieldTargetObject::sub_0203DA40(CFieldMap *map)
 {
-    sub_0203C2B8(this);
-    sub_0203C87C(this, (int)map);
+    sub_0203C2B8();
+    sub_0203C87C(map);
 }
 
 BOOL CFieldTargetObject::sub_0203D578(CFieldMap *map)
@@ -205,13 +203,13 @@ BOOL CFieldTargetObject::sub_0203D578(CFieldMap *map)
             return CFieldActor::sub_0203D578(map);
         case 2:
         case 3:
-            sub_0203C2B8(this);
-            sub_0203C87C(this, (int)map);
+            sub_0203C2B8();
+            sub_0203C87C(map);
             return FALSE;
         }
     }
-    sub_0203C2B8(this);
-    sub_0203C87C(this, (int)map);
+    sub_0203C2B8();
+    sub_0203C87C(map);
     return FALSE;
 }
 

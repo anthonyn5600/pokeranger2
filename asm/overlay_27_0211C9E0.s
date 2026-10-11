@@ -4622,7 +4622,7 @@ ov27_021206B4: ; 0x021206B4
 	mov r0, #0xe0
 	mla r0, r1, r0, r2
 	mov r1, #0
-	bl sub_0203C87C
+	bl _ZN11CFieldActor12sub_0203C87CEP9CFieldMap
 	arm_func_end ov27_021206B4
 _02120714:
 	ldr r1, [r4, #8]
@@ -5174,7 +5174,7 @@ ov27_02120E70: ; 0x02120E70
 	mov r1, #1
 	moveq r1, #4
 	moveq r2, #3
-	bl sub_0203C418
+	bl _ZN11CFieldActor12sub_0203C418Eitimi
 	ldrb r1, [r5, #0x1f0]
 	mov r0, #0xe0
 	rsb r1, r1, #1

@@ -3,20 +3,28 @@
 
 #include <nitro.h>
 
-#include "UnkClass_0201287C.hpp"
+#include "field/CFieldDrawActor.hpp"
+#include "UnkClass_0211E3FC.hpp"
 #include "common.hpp"
 #include "field/CFieldActorScript.hpp"
 #include "sub_02006000.hpp"
 
 class CFieldMap;
+class UnkClass_020416AC;
 
 struct UnkStruct_0211EA94 {
     u8 unk_00[0x4];
     int unk_04;
 };
 
-class UnkStruct_0203BF40 {
+class CFieldDrawObject : public CDrawObject {
 public:
+    CFieldDrawObject();
+    virtual ~CFieldDrawObject();
+
+    BOOL sub_02040530(int arg0, u16 arg1, int arg2, u32 mask, int arg4);
+    BOOL sub_020405B4(int arg0, u16 arg1, int arg2, u32 mask, int arg4);
+
     inline void SetPos(Point2D pos)
     {
         if (unk_0C != NULL) {
@@ -195,9 +203,78 @@ public:
         return 0;
     }
 
+    void sub_02040740();
+
+    inline BOOL IsJumping()
+    {
+        if (unk_0C != NULL) {
+            return unk_0C->m_jumping;
+        }
+        return FALSE;
+    }
+
+    inline void Jump(fx32 height, int duration)
+    {
+        if (unk_0C != NULL) {
+            unk_0C->sub_02012860(height, duration);
+        }
+    }
+
+    inline void MoveLinear(Point2D dest, u32 duration)
+    {
+        if (unk_0C != NULL) {
+            unk_0C->m_motion.sub_02011AB0(dest, duration);
+        }
+    }
+
+    inline void StopGhost()
+    {
+        if (unk_0C != NULL) {
+            unk_0C->sub_02012C00();
+        }
+    }
+
+    inline void LookAt(Point2D pos)
+    {
+        if (unk_0C != NULL) {
+            unk_0C->sub_02012894(pos);
+        }
+    }
+
+    inline void SetClipping(s16 x1, s16 x2, s16 y1, s16 y2)
+    {
+        if (unk_0C != NULL) {
+            unk_0C->SetClipping(x1, x2, y1, y2);
+        }
+    }
+
+    inline BOOL IsAnimating()
+    {
+        if (unk_0C != NULL) {
+            return (unk_0C->m_flags & 8) ? TRUE : FALSE;
+        }
+        return FALSE;
+    }
+
+    inline s16 GetShadowOffsetX()
+    {
+        if (unk_0C != NULL) {
+            return unk_0C->GetShadowOffsetX();
+        }
+        return 0;
+    }
+
+    inline s16 GetShadowOffsetY()
+    {
+        if (unk_0C != NULL) {
+            return unk_0C->GetShadowOffsetY();
+        }
+        return 0;
+    }
+
 public:
-    u8 unk_00[0xC];
-    UnkClass_0201287C *unk_0C;
+    CFieldDrawActor *unk_0C;
+    u8 unk_10[0x8];
 };
 
 class CFieldActor {
@@ -206,9 +283,9 @@ public:
     virtual ~CFieldActor();
     virtual BOOL sub_0203C1B4(void *script);
     virtual BOOL sub_0203C1FC(CFieldActorScript *script, void *block);
-    virtual void sub_0203C22C(const char *label);
-    virtual void sub_0203C288();
-    virtual void sub_0203C2D8();
+    virtual BOOL sub_0203C22C(const char *label);
+    virtual BOOL sub_0203C288();
+    virtual BOOL sub_0203C2D8();
     virtual void sub_0202D394();
     virtual void sub_0203DA60(u32 id);
     virtual void sub_0203DA40(CFieldMap *map);
@@ -218,6 +295,78 @@ public:
     virtual void sub_0202D7E0();
     virtual void sub_0202DC54(int arg0, int arg1);
     virtual void sub_02032A44(int arg0);
+
+    void sub_0203C2B8();
+    void sub_0203C310();
+    BOOL sub_0203C418(int arg0, u16 arg1, int arg2, u32 mask, int arg4);
+    BOOL sub_0203C4BC(int arg0, u16 arg1, int arg2, u32 mask, int arg4);
+    void sub_0203C560();
+    void sub_0203C590(UnkClass_0211E3FC *renderLists, UnkClass_020416AC *hud);
+    void sub_0203C87C(CFieldMap *map);
+    void sub_0203CCD4();
+    void sub_0203CDB0();
+    BOOL sub_0203CF40(const PointPair2D &move, fx32 radius, u32 flags);
+    BOOL sub_0203D110(Point2D pos, fx32 radius, u32 flags);
+    BOOL sub_0203D404(Point2D dest);
+    void sub_0203D320();
+    void sub_0203D2F4();
+    void sub_0203D394();
+    void sub_0203D890(int attr);
+    void sub_0203D910();
+    void sub_0203DA10();
+
+    inline BOOL IsJumping()
+    {
+        if (unk_08 != NULL) {
+            return unk_08->IsJumping();
+        }
+        return FALSE;
+    }
+
+    inline void StopGhost()
+    {
+        if (unk_08 != NULL) {
+            unk_08->StopGhost();
+        }
+    }
+
+    inline void LookAt(Point2D pos)
+    {
+        if (unk_08 != NULL) {
+            unk_08->LookAt(pos);
+        }
+    }
+
+    inline void SetClipping(s16 x1, s16 x2, s16 y1, s16 y2)
+    {
+        if (unk_08 != NULL) {
+            unk_08->SetClipping(x1, x2, y1, y2);
+        }
+    }
+
+    inline BOOL IsAnimating()
+    {
+        if (unk_08 != NULL) {
+            return unk_08->IsAnimating();
+        }
+        return FALSE;
+    }
+
+    inline s16 GetShadowOffsetX()
+    {
+        if (unk_08 != NULL) {
+            return unk_08->GetShadowOffsetX();
+        }
+        return 0;
+    }
+
+    inline s16 GetShadowOffsetY()
+    {
+        if (unk_08 != NULL) {
+            return unk_08->GetShadowOffsetY();
+        }
+        return 0;
+    }
 
     inline void SetPos(Point2D pos)
     {
@@ -476,6 +625,21 @@ public:
         return unk_20 == 2 || unk_20 == 3;
     }
 
+    inline Rectangle GetShadowRect()
+    {
+        Rectangle rect;
+        rect.pos.x = GetX() + unk_BC * FX32_ONE + GetShadowOffsetX() * FX32_ONE;
+        rect.pos.y = GetY() + unk_BD * FX32_ONE + GetShadowOffsetY() * FX32_ONE;
+        rect.size.x = (u8)unk_BE << FX32_SHIFT;
+        rect.size.y = (u8)unk_BF << FX32_SHIFT;
+        return rect;
+    }
+
+    inline BOOL IsUnk04Bit12()
+    {
+        return (unk_04 & 0x1000) ? TRUE : FALSE;
+    }
+
     inline BOOL IsUnk04Bit0()
     {
         return (unk_04 & 1) ? TRUE : FALSE;
@@ -499,7 +663,7 @@ public:
 
 public:
     u32 unk_04;
-    UnkStruct_0203BF40 *unk_08;
+    CFieldDrawObject *unk_08;
     BOOL unk_0C;
     fx32 unk_10;
     int unk_14;
@@ -521,34 +685,39 @@ public:
     fx32 unk_74;
     int unk_78;
     u8 unk_7C;
-    u8 unk_7D[0x13];
+    u8 unk_7D;
+    u8 unk_7E;
+    char unk_7F[0x11];
     int unk_90;
-    u32 unk_94;
+    int unk_94;
     int unk_98;
     fx32 unk_9C;
     fx32 unk_A0;
     fx32 unk_A4;
-    u8 unk_A8[0xC];
+    int unk_A8;
+    u16 unk_AC;
+    u16 unk_AE;
+    u16 unk_B0;
+    u8 unk_B2[0x2];
     int unk_B4;
     int unk_B8;
     s8 unk_BC;
     s8 unk_BD;
     s8 unk_BE;
     s8 unk_BF;
-    u8 unk_C0[0x8];
+    Point2D unk_C0;
     int unk_C8;
-    u8 unk_CC[0x4];
+    int unk_CC;
     int unk_D0;
     u8 unk_D4;
     u8 unk_D5;
     s16 unk_D6;
-    u8 unk_D8[0x4];
+    u16 unk_D8;
+    u8 unk_DA[0x2];
     CFieldActorScript *unk_DC;
 };
 
 extern "C" {
-BOOL sub_0203C418(CFieldActor *actor, int arg1, u16 arg2, int arg3, u32 arg4, int arg5);
-void sub_0203C87C(CFieldActor *actor, int arg1);
 void sub_02041C1C(CFieldActor *actor);
 }
 

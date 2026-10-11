@@ -201,7 +201,7 @@ sub_020152D0: ; 0x020152D0
 	bl __cxa_vec_ctor
 	add r0, r4, #0x328
 	add r0, r0, #0x8c00
-	bl sub_020412A0
+	bl _ZN17UnkClass_020412A0C1Ev
 	ldr r1, _020153A4 ; =sub_0204114C
 	add r0, r4, #0x760
 	str r1, [sp]

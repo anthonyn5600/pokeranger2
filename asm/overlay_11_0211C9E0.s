@@ -405,7 +405,7 @@ _0211CEDC:
 	mov r0, #0xe0
 	mla r0, r1, r0, r2
 	mov r1, #0
-	bl sub_0203C87C
+	bl _ZN11CFieldActor12sub_0203C87CEP9CFieldMap
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0211CEF8: .word 0x66666667
@@ -798,7 +798,7 @@ _0211D42C:
 	mov r2, r6
 	mov r0, r7
 	mov r3, #0
-	bl sub_0203C418
+	bl _ZN11CFieldActor12sub_0203C418Eitimi
 	ldr r0, [r8, #0xa8]
 	cmp r0, #0
 	ldrne r0, [r0, #0xc]
