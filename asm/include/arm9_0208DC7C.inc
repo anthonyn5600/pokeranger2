@@ -11,7 +11,7 @@
 .public _ZN11CFieldActor12sub_0203C22CEPKc
 .public _ZN11CFieldActor12sub_0203C288Ev
 .public _ZN11CFieldActor12sub_0203C2D8Ev
-.public _ZN11CFieldActor12sub_0203D578Ev
+.public _ZN11CFieldActor12sub_0203D578EP9CFieldMap
 .public _ZN11CFieldActor12sub_0203DA38Ev
 .public _ZN11CFieldActor12sub_0203DA40EP9CFieldMap
 .public _ZN11CFieldActor12sub_0203DA60Em

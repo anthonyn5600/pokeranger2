@@ -72,6 +72,8 @@ pokeranger2_cxx = files(
     'CFieldPlayer.cpp',
     'CFieldEnemy.cpp',
     'CFieldEnemyManage.cpp',
+    'CFieldPartner.cpp',
+    'CFieldPartnerManage.cpp',
     'CNameInputScene.cpp',
     'debug.cpp',
 )

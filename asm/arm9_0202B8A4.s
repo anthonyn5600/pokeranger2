@@ -950,7 +950,7 @@ _0202C3CC:
 _0202C3E4:
 	ldr r1, [r5, r6, lsl #2]
 	mov r0, r4
-	bl ov0_0213A520
+	bl _ZN19CFieldPartnerManage12ov0_0213A520Em
 	cmp r0, #0
 	beq _0202C424
 	ldr r0, _0202C448 ; =_0208F304
@@ -3344,7 +3344,7 @@ _0202E16C:
 	str r4, [sp]
 	mov ip, #1
 	str ip, [sp, #4]
-	bl ov0_0213A360
+	bl _ZN19CFieldPartnerManage12ov0_0213A360Emttii
 _0202E1AC:
 	cmp r4, #0
 	bne _0202E1D0
@@ -3451,7 +3451,7 @@ _0202E2CC:
 	mov ip, #1
 	mov r3, #0xe
 	str ip, [sp, #4]
-	bl ov0_0213A360
+	bl _ZN19CFieldPartnerManage12ov0_0213A360Emttii
 	mov r0, #0
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
@@ -3517,7 +3517,7 @@ _0202E3C8:
 _0202E3D8:
 	ldr r1, [sp]
 	mov r0, sb
-	bl ov0_0213A050
+	bl _ZN19CFieldPartnerManage12ov0_0213A050Em
 	ldr r0, _0202E430 ; =MAIN_BSS_020B26A0
 	ldr r1, [sp]
 	bl sub_02015E54
@@ -3593,7 +3593,7 @@ _0202E4D4:
 _0202E4E4:
 	ldr r1, [sp]
 	mov r0, sb
-	bl ov0_0213A084
+	bl _ZN19CFieldPartnerManage12ov0_0213A084Em
 	ldr r0, _0202E53C ; =MAIN_BSS_020B26A0
 	ldr r1, [sp]
 	bl sub_02015E54
@@ -4981,7 +4981,7 @@ _0202F584:
 	ldr r1, [r6, #4]
 	ldr r3, _0202F758 ; =0x00001E16
 	mov r0, r8
-	bl ov0_02139920
+	bl _ZN19CFieldPartnerManage12ov0_02139920Emttii
 	cmp r0, #0
 	blt _0202F670
 	ldr r1, [r8, #4]
@@ -5064,7 +5064,7 @@ _0202F694:
 	mov r0, r8
 	mov r3, sl
 	orr r1, fp, r1
-	bl ov0_02139920
+	bl _ZN19CFieldPartnerManage12ov0_02139920Emttii
 _0202F6E8:
 	add r7, r7, #1
 	cmp r7, #0xa
@@ -8304,7 +8304,7 @@ sub_02031E54: ; 0x02031E54
 	cmp r0, #0
 	moveq r0, #0
 	ldmeqia sp!, {r3, pc}
-	bl ov0_0213B0F0
+	bl _ZN19CFieldPartnerManage12ov0_0213B0F0Ev
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02031E74: .word MAIN_BSS_0210CA4C
@@ -8510,7 +8510,7 @@ sub_02032080: ; 0x02032080
 	cmp r0, #0
 	moveq r0, #0
 	ldmeqia sp!, {r3, pc}
-	bl ov0_0213A4C4
+	bl _ZN19CFieldPartnerManage12ov0_0213A4C4Em
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _020320A4: .word MAIN_BSS_0210CA4C
@@ -8536,7 +8536,7 @@ sub_020320C4: ; 0x020320C4
 	cmp r0, #0
 	moveq r0, #0
 	ldmeqia sp!, {r3, pc}
-	bl ov0_0213A520
+	bl _ZN19CFieldPartnerManage12ov0_0213A520Em
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _020320E8: .word MAIN_BSS_0210CA4C
@@ -8674,7 +8674,7 @@ _02032238:
 	orr r1, r1, #0x6000000
 	orr sl, r2, r1
 	mov r1, sl
-	bl ov0_0213A050
+	bl _ZN19CFieldPartnerManage12ov0_0213A050Em
 	mov r0, r4
 	mov r1, sl
 	bl sub_02015E54
@@ -8765,7 +8765,7 @@ sub_0203238C: ; 0x0203238C
 	ldr r0, [r2]
 	cmp r0, #0
 	beq _020323A8
-	bl ov0_02139F10
+	bl _ZN19CFieldPartnerManage12ov0_02139F10Ei
 	arm_func_end sub_0203238C
 _020323A8:
 	mov r0, #0
@@ -22299,8 +22299,8 @@ _0203D564:
 	add sp, sp, #0x10
 	bx lr
 
-	arm_func_start _ZN11CFieldActor12sub_0203D578Ev
-_ZN11CFieldActor12sub_0203D578Ev: ; 0x0203D578
+	arm_func_start _ZN11CFieldActor12sub_0203D578EP9CFieldMap
+_ZN11CFieldActor12sub_0203D578EP9CFieldMap: ; 0x0203D578
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #0x40
 	mov r6, r0
@@ -22312,7 +22312,7 @@ _ZN11CFieldActor12sub_0203D578Ev: ; 0x0203D578
 	cmp r0, #2
 	beq _0203D710
 	b _0203D878
-	arm_func_end _ZN11CFieldActor12sub_0203D578Ev
+	arm_func_end _ZN11CFieldActor12sub_0203D578EP9CFieldMap
 _0203D5A4:
 	ldr r1, [r6, #8]
 	cmp r1, #0
@@ -24322,8 +24322,8 @@ _0203F13C:
 	mov r0, #0
 	ldmia sp!, {r3, r4, r5, pc}
 
-	arm_func_start _ZN17CFieldActorManage12sub_0203F144Ev
-_ZN17CFieldActorManage12sub_0203F144Ev: ; 0x0203F144
+	arm_func_start _ZN17CFieldActorManage12sub_0203F144Ei
+_ZN17CFieldActorManage12sub_0203F144Ei: ; 0x0203F144
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r0, [r5, #8]
@@ -24336,7 +24336,7 @@ _ZN17CFieldActorManage12sub_0203F144Ev: ; 0x0203F144
 	ldr r1, [r0]
 	ldr r1, [r1, #4]
 	blx r1
-	arm_func_end _ZN17CFieldActorManage12sub_0203F144Ev
+	arm_func_end _ZN17CFieldActorManage12sub_0203F144Ei
 _0203F174:
 	ldr r0, [r5, #8]
 	mov r1, #0

@@ -18,7 +18,7 @@ public:
     virtual void sub_0203EFE4(int capacity);
     virtual void sub_0203F034();
     virtual void sub_0203F0C0();
-    virtual void sub_0203F144();
+    virtual BOOL sub_0203F144(int index);
     virtual BOOL sub_0203F190();
     virtual void sub_0203F2B0(CFieldMap *map, BOOL update);
     virtual void sub_0203F1FC();
@@ -41,6 +41,15 @@ public:
             return NULL;
         }
         return m_actors[i];
+    }
+
+    inline BOOL Set(int i, CFieldActor *actor)
+    {
+        if (i >= 0 && i < m_count) {
+            m_actors[i] = actor;
+            return TRUE;
+        }
+        return FALSE;
     }
 
     inline int CountActors()

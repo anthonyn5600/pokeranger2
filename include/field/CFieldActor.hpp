@@ -204,7 +204,7 @@ public:
     virtual void sub_0202D394();
     virtual void sub_0203DA60(u32 id);
     virtual void sub_0203DA40(CFieldMap *map);
-    virtual BOOL sub_0203D578();
+    virtual BOOL sub_0203D578(CFieldMap *map);
     virtual void sub_0203DA38();
     virtual void sub_0202E68C(int arg0);
     virtual void sub_0202D7E0();

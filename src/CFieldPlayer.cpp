@@ -707,13 +707,13 @@ void CFieldPlayer::ov0_02132E68(BOOL arg1)
         return;
     }
     if (arg1) {
-        ov0_02139E14(mgr, 0);
+        mgr->ov0_02139E14(0);
         return;
     }
     if (unk_08->IsUnk00CSet()) {
-        ov0_02139E14(mgr, 0);
+        mgr->ov0_02139E14(0);
     } else {
-        ov0_02139E14(mgr, 1);
+        mgr->ov0_02139E14(1);
     }
 }
 

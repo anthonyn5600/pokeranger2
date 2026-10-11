@@ -63,7 +63,7 @@ ptr_FUN_0203da40_0208dcd4: ; 0x0208DCD4
 
 	.global ptr_FUN_0203d578_0208dcd8
 ptr_FUN_0203d578_0208dcd8: ; 0x0208DCD8
-	.word _ZN11CFieldActor12sub_0203D578Ev
+	.word _ZN11CFieldActor12sub_0203D578EP9CFieldMap
 	.word _ZN11CFieldActor12sub_0203DA38Ev
 	.word _ZN11CFieldActor12sub_0202E68CEi
 

@@ -48,7 +48,6 @@
 .public MAIN_BSS_0210CEC8
 .public MI_CpuCopy8
 .public MI_CpuFill8
-.public MIi_CpuCopyFast
 .public MTX_Concat44
 .public MTX_Identity33_
 .public MTX_Identity43_
@@ -100,7 +99,7 @@
 .public _ZN11CFieldActor12sub_0203C22CEPKc
 .public _ZN11CFieldActor12sub_0203C288Ev
 .public _ZN11CFieldActor12sub_0203C2D8Ev
-.public _ZN11CFieldActor12sub_0203D578Ev
+.public _ZN11CFieldActor12sub_0203D578EP9CFieldMap
 .public _ZN11CFieldActor12sub_0203DA38Ev
 .public _ZN11CFieldActor12sub_0203DA40EP9CFieldMap
 .public _ZN11CFieldActor12sub_0203DA60Em
@@ -132,6 +131,19 @@
 .public _ZN12CFieldPlayer12ov0_021341E0Ev
 .public _ZN13CArchiveGuardC1EPKcS1_mmmPvm
 .public _ZN13CArchiveGuardD1Ev
+.public _ZN13CFieldPartner12ov0_02136CFCEi7Point2Di
+.public _ZN13CFieldPartner12ov0_021373C0EP7Point2D
+.public _ZN13CFieldPartner12ov0_02137AFCEP7Point2DPS_
+.public _ZN13CFieldPartner12ov0_02138628Ev
+.public _ZN13CFieldPartner12ov0_02138714Ei
+.public _ZN13CFieldPartner12ov0_0213889CEv
+.public _ZN13CFieldPartner12ov0_02138A7CEv
+.public _ZN13CFieldPartner12ov0_02138B44Ev
+.public _ZN13CFieldPartner12sub_0202D7E0Ev
+.public _ZN13CFieldPartner12sub_02032A44Ei
+.public _ZN13CFieldPartner9SetUnk1ECEi
+.public _ZN13CFieldPartnerC2Ev
+.public _ZN13CFieldPartnerD2Ev
 .public _ZN14CPrimitiveRECT12SetRectangleElllll
 .public _ZN14CPrimitiveRECT12sub_02003C00EP7Point2DPS_
 .public _ZN14CPrimitiveRECTC1Ev
@@ -143,7 +155,7 @@
 .public _ZN17CFieldActorManage12sub_0203EFE4Ei
 .public _ZN17CFieldActorManage12sub_0203F034Ev
 .public _ZN17CFieldActorManage12sub_0203F0C0Ev
-.public _ZN17CFieldActorManage12sub_0203F144Ev
+.public _ZN17CFieldActorManage12sub_0203F144Ei
 .public _ZN17CFieldActorManage12sub_0203F190Ev
 .public _ZN17CFieldActorManage12sub_0203F1FCEv
 .public _ZN17CFieldActorManage12sub_0203F278Ev
@@ -159,7 +171,6 @@
 .public _ZN17CFieldActorManage12sub_02040384Ev
 .public _ZN17CFieldActorManage12sub_02040428Ev
 .public _ZN17CFieldActorManage12sub_02040460Ev
-.public _ZN17CFieldActorManageC2Ev
 .public _ZN17CFieldActorManageD2Ev
 .public _ZN17CFieldEnemyManage12ov0_02135E30Eitti
 .public _ZN17CFieldEnemyManage12ov0_02136384Ev
@@ -187,7 +198,9 @@
 .public _ZN17UnkClass_0200E0B412sub_0200E310Ev
 .public _ZN17UnkClass_0200E0B412sub_0200E324Ev
 .public _ZN17UnkClass_0200E33012sub_0200E91CEv
-.public _ZN19CFieldPartnerManageD0Ev
+.public _ZN19CFieldPartnerManage12ov0_02139920Emttii
+.public _ZN19CFieldPartnerManage12ov0_02139E14Ei
+.public _ZN19CFieldPartnerManage12ov0_0213A050Em
 .public _ZN23CFieldMapLayerAttribute12GetCellAtPosEll
 .public _ZN23CFieldMapLayerAttribute15IsCircleBlockedE7Point2Dlm
 .public _ZN23CFieldMapLayerCollision15IsCircleBlockedE7Point2Dlm
@@ -198,10 +211,10 @@
 .public _ZN9CNCERFileC1EPKcmmm
 .public _ZTI10CPrimitive
 .public _ZTI11CFieldActor
+.public _ZTI13CFieldPartner
 .public _ZTI17CFieldActorManage
 .public _ZTVN10__cxxabiv117__class_type_infoE
 .public _ZTVN10__cxxabiv120__si_class_type_infoE
-.public _ZTVN10__cxxabiv121__vmi_class_type_infoE
 .public _ZdaPv
 .public _ZdlPv
 .public _Znam
@@ -264,7 +277,6 @@
 .public sub_02012E1C
 .public sub_02012E68
 .public sub_02012F5C
-.public sub_02015124
 .public sub_02015434
 .public sub_02015520
 .public sub_020155FC
@@ -298,8 +310,6 @@
 .public sub_02019278
 .public sub_0201A000
 .public sub_0201A018
-.public sub_0201A178
-.public sub_0201A220
 .public sub_0201AAC0
 .public sub_0201AAE0
 .public sub_0201AB14
@@ -346,7 +356,6 @@
 .public sub_02034D54
 .public sub_02034F4C
 .public sub_02034F9C
-.public sub_02035088
 .public sub_020359FC
 .public sub_02035D38
 .public sub_02035DA0

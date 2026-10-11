@@ -334,7 +334,7 @@ void CFieldScene::func6()
         for (int i = 0; i < 2; i++) {
             UnkStruct_020B26A0_8AD4 *partner = save->GetPartner(i);
             if (partner != NULL && partner->unk_00 != 0) {
-                int idx = ov0_02139920(unk_001C, partner->unk_04, partner->unk_08, 0x1E16, 1, 1);
+                int idx = unk_001C->ov0_02139920(partner->unk_04, partner->unk_08, 0x1E16, 1, 1);
                 if (idx >= 0) {
                     CFieldActor *actor = unk_001C->Get(idx);
                     if (actor != NULL) {
@@ -353,7 +353,7 @@ void CFieldScene::func6()
         if (data != NULL && (data->unk_08 & 1)) {
             u32 id = (data->unk_04 & 0xFFF) | ((6 << 24) | ((data->unk_02 & 0xFFF) << 12));
             if (id != 0) {
-                int idx = ov0_02139920(unk_001C, id, data->unk_00, 0xE, 0, 1);
+                int idx = unk_001C->ov0_02139920(id, data->unk_00, 0xE, 0, 1);
                 if (idx >= 0) {
                     CFieldActor *actor = unk_001C->Get(idx);
                     if (actor != NULL) {
@@ -376,8 +376,8 @@ void CFieldScene::func6()
     if (save->unk_8802 != 0 && save->unk_8802 != 1) {
         unk_001C->sub_02040460();
         if (save->unk_8802 != 2) {
-            ov0_02139E14(unk_001C, 4);
-            ov0_0213A7FC(unk_001C, 0);
+            unk_001C->ov0_02139E14(4);
+            unk_001C->ov0_0213A7FC(0);
             CFieldActor *actor = unk_001C->Find(save);
             if (actor != NULL) {
                 actor->unk_04 &= ~1;
@@ -528,7 +528,7 @@ void CFieldScene::func6()
         int result = attrLayer->GetCellAtPos(unk_0014->GetX(), unk_0014->GetY());
         if (result == 0xE || result == 0x17) {
             if (unk_001C != NULL) {
-                ov0_0213A7FC(unk_001C, 0);
+                unk_001C->ov0_0213A7FC(0);
             }
             if (unk_0014 != NULL) {
                 unk_0014->sub_reset();
@@ -688,8 +688,6 @@ BOOL sub_02035ECC(UnkClass_0211D850 *obj, int arg1);
 void sub_0203580C(UnkClass_0211D850 *obj, int fps);
 int ov0_0213FFC4(UnkClass_0213FF64 *obj, CFieldScene *scene, UnkClass_02001C04 *arg2, CTouchPanel *touch);
 void ov0_0213A96C(CFieldPartnerManage *mgr, int arg1, int arg2, int arg3);
-void ov0_0213A050(CFieldPartnerManage *mgr, u32 id);
-void ov0_02139F98(CFieldPartnerManage *mgr, fx32 x, fx32 y, int dir);
 void ov0_0213CDB4(CFieldActor *actor, u32 id);
 void ov0_0213CD3C(CFieldActor *actor);
 void ov0_0213E4BC(CFieldPartner *partner, u32 id);
@@ -1101,7 +1099,7 @@ u32 CFieldScene::func0()
                     if (!unk_007C->IsC8Set()) {
                         unk_001C->sub_0203F7AC();
                         u32 id = unk_007C->unk_58;
-                        ov0_0213A050(unk_001C, (id & 0xFFFFFF) | 0x1000000);
+                        unk_001C->ov0_0213A050((id & 0xFFFFFF) | 0x1000000);
                         UnkStruct_020155FC *data = sub_02015520(save, id);
                         if (data != NULL) {
                             sub_02015A3C(save, data->unk_04, data->unk_02);
@@ -1522,7 +1520,7 @@ u32 CFieldScene::func0()
             unk_0014->ov0_021341E0();
             unk_0078 = 0;
             ov0_0212451C();
-            ov0_02139F98(unk_001C, x, y, unk_0014->unk_14);
+            unk_001C->ov0_02139F98(x, y, unk_0014->unk_14);
             if (save->HasString()) {
                 ov0_0213FB0C(unk_0034, save->unk_8B44, 0, -1);
                 save->unk_8B44[0] = '\0';
@@ -1640,7 +1638,6 @@ void sub_0202A4A0(UnkStruct_0210C1C0 *obj);
 void sub_0202A4D8(UnkStruct_0210C228 *obj);
 void sub_0203F3C8(CFieldActorManage *mgr);
 void sub_020176BC(UnkClass_020B26A0 *save, int arg1);
-void ov0_02139E9C(CFieldPartnerManage *mgr);
 void sub_02023218(UnkClass_02022404 *obj, int x, int y, BOOL arg3);
 }
 
@@ -1909,7 +1906,7 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
                 for (int i = 0; i < 2; i++) {
                     UnkStruct_020B26A0_8AD4 *partner = save->GetPartner(i);
                     if (partner != NULL && partner->unk_00 != 0) {
-                        int idx = ov0_02139920(unk_001C, partner->unk_04, partner->unk_08, 0x1E16, 1, 1);
+                        int idx = unk_001C->ov0_02139920(partner->unk_04, partner->unk_08, 0x1E16, 1, 1);
                         if (idx >= 0) {
                             CFieldActor *actor = unk_001C->Get(idx);
                             if (actor != NULL) {
@@ -1926,7 +1923,7 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
                 UnkStruct_020155FC *data = sub_020155FC(save, i);
                 if (data != NULL && (data->unk_08 & 1)) {
                     u32 id = (data->unk_04 & 0xFFF) | ((6 << 24) | ((data->unk_02 & 0xFFF) << 12));
-                    ov0_02139920(unk_001C, id, data->unk_00, 0xE, 0, 1);
+                    unk_001C->ov0_02139920(id, data->unk_00, 0xE, 0, 1);
                 }
             }
             if (oldMode == 1 || newMode == 1) {
@@ -2621,7 +2618,7 @@ void CFieldScene::ov0_021247E4()
     unk_0078 = 0;
     ov0_0212451C();
     if (unk_001C != NULL) {
-        ov0_02139E9C(unk_001C);
+        unk_001C->ov0_02139E9C();
     }
 }
 

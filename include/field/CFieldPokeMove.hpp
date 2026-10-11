@@ -54,6 +54,7 @@ public:
     CFieldPokeMove();
     virtual ~CFieldPokeMove();
 
+    void ov0_02152AD0(CFieldActor *owner, Point2D target, int arg);
     void ov0_02152B04();
     void ov0_0215674C(int sequence);
     void ov0_0215844C(void *buf, void *end);
@@ -61,10 +62,18 @@ public:
     void ov0_02158954();
     void ov0_02158988();
 
+    inline void SetUnk04(Point2D pos)
+    {
+        unk_04 = pos;
+    }
+
 public:
-    u8 unk_04[0x2C];
+    Point2D unk_04;
+    u8 unk_0C[0x24];
     Point2D unk_30;
-    u8 unk_38[0x10];
+    u8 unk_38[0x8];
+    int unk_40;
+    int unk_44;
     CFieldActor *unk_48;
     u8 unk_4C[0x18];
     int unk_64;
@@ -72,11 +81,18 @@ public:
     FieldEnemyData unk_6C;
     u8 unk_AC[0x4];
     int unk_B0;
-    u8 unk_B4[0x1C];
+    u8 unk_B4[0x8];
+    int unk_BC;
+    u8 unk_C0[0xC];
+    int unk_CC;
     int unk_D0;
     u8 unk_D4[0x4];
 };
 
 STATIC_SIZE_ASSERT(CFieldPokeMove, 0xD8);
+
+extern "C" {
+void ov0_02158F38(CFieldPokeMove *move);
+}
 
 #endif // POKERANGER2_FIELD_CFIELDPOKEMOVE_HPP

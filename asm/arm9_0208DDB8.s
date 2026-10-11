@@ -33,7 +33,7 @@ ptr_FUN_0203f0c0_0208ddd0: ; 0x0208DDD0
 
 	.global ptr_FUN_0203f144_0208ddd4
 ptr_FUN_0203f144_0208ddd4: ; 0x0208DDD4
-	.word _ZN17CFieldActorManage12sub_0203F144Ev
+	.word _ZN17CFieldActorManage12sub_0203F144Ei
 
 	.global ptr_FUN_0203f190_0208ddd8
 ptr_FUN_0203f190_0208ddd8: ; 0x0208DDD8

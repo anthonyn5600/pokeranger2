@@ -117,6 +117,11 @@ public:
         unk_001E = pos.y >> FX32_SHIFT;
     }
 
+    inline Point2D GetUnk0020()
+    {
+        return (Point2D) { unk_0020 << FX32_SHIFT, unk_0022 << FX32_SHIFT };
+    }
+
     inline void SetUnk0020(Point2D pos)
     {
         unk_0020 = pos.x >> FX32_SHIFT;

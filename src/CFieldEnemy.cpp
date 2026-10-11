@@ -218,9 +218,9 @@ void CFieldEnemy::sub_0203DA40(CFieldMap *map)
     ov0_0213524C();
 }
 
-BOOL CFieldEnemy::sub_0203D578()
+BOOL CFieldEnemy::sub_0203D578(CFieldMap *map)
 {
-    BOOL result = CFieldActor::sub_0203D578();
+    BOOL result = CFieldActor::sub_0203D578(map);
     unk_168.ov0_02158988();
     ov0_0213524C();
     if (result) {

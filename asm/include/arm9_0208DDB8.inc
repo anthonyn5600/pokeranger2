@@ -4,7 +4,7 @@
 .public _ZN17CFieldActorManage12sub_0203EFE4Ei
 .public _ZN17CFieldActorManage12sub_0203F034Ev
 .public _ZN17CFieldActorManage12sub_0203F0C0Ev
-.public _ZN17CFieldActorManage12sub_0203F144Ev
+.public _ZN17CFieldActorManage12sub_0203F144Ei
 .public _ZN17CFieldActorManage12sub_0203F190Ev
 .public _ZN17CFieldActorManage12sub_0203F1FCEv
 .public _ZN17CFieldActorManage12sub_0203F278Ev

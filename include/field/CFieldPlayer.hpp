@@ -35,6 +35,11 @@ public:
     {
         return unk_150[i];
     }
+
+    inline Point2D GetPartnerTrail(int i)
+    {
+        return unk_180[i];
+    }
     BOOL ov0_0213416C();
     BOOL ov0_021341E0();
 
