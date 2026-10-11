@@ -5777,11 +5777,6 @@ s_data_field_effect_dokarimo03_ntf_0208dc38: ; 0x0208DC38
 _0208DC5A:
 	.byte 0x00, 0x00
 
-	.global PTR_ptr_FUN_02083578_0208dc5c
-PTR_ptr_FUN_02083578_0208dc5c: ; 0x0208DC5C
-	.word _ZTVN10__cxxabiv117__class_type_infoE+8
-	.word s_17CFieldActorScript_0208dc7c
-
     .bss
 
     .global sHeapHandles

@@ -13,7 +13,7 @@ public:
     virtual ~CFieldPartnerNpc();
     virtual void sub_0203DA40(CFieldMap *map);
     virtual BOOL sub_0203D578(CFieldMap *map);
-    virtual void sub_0203DA38();
+    virtual BOOL sub_0203DA38();
 
 public:
     u8 unk_278[0x10];

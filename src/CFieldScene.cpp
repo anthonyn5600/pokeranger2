@@ -471,7 +471,7 @@ void CFieldScene::func6()
                 actor->SetPos(save->GetNpcPos(i));
                 actor->sub_020128EC_(save->unk_812C[i]);
                 actor->sub_0201287C_();
-                ov0_0213C5DC(actor);
+                ((CFieldNpc *)actor)->ov0_0213C5DC();
             }
         }
         for (int i = 0; i < unk_0024->m_count; i++) {

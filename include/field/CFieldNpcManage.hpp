@@ -31,8 +31,4 @@ public:
 
 STATIC_SIZE_ASSERT(CFieldNpcManage, 0x10);
 
-extern "C" {
-void ov0_0213C5DC(CFieldActor *npc);
-}
-
 #endif // POKERANGER2_FIELD_CFIELDNPCMANAGE_HPP

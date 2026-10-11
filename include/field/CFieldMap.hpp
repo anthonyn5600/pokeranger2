@@ -5,6 +5,7 @@
 #include <nnsys.h>
 #include <vector>
 
+#include "UnkStruct_02044464.hpp"
 #include "common.hpp"
 #include "sub_02006000.hpp"
 
@@ -38,11 +39,6 @@ struct FieldMapInfo {
     FieldMapSize size;
     u32 unk_08;
     u32 unk_0C;
-};
-
-// Script interpreter state (arm9, around 0x02044464), embedded in CFieldMap.
-struct UnkStruct_02044464 {
-    u8 unk_00[0x24];
 };
 
 // Textures of the map's MTX chunk (constructor ov0_021302BC): images and palettes with their VRAM keys.

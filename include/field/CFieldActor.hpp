@@ -5,6 +5,7 @@
 
 #include "UnkClass_0201287C.hpp"
 #include "common.hpp"
+#include "field/CFieldActorScript.hpp"
 #include "sub_02006000.hpp"
 
 class CFieldMap;
@@ -197,7 +198,7 @@ public:
     CFieldActor();
     virtual ~CFieldActor();
     virtual BOOL sub_0203C1B4(void *script);
-    virtual void sub_0203C1FC();
+    virtual BOOL sub_0203C1FC(CFieldActorScript *script, void *block);
     virtual void sub_0203C22C(const char *label);
     virtual void sub_0203C288();
     virtual void sub_0203C2D8();
@@ -205,7 +206,7 @@ public:
     virtual void sub_0203DA60(u32 id);
     virtual void sub_0203DA40(CFieldMap *map);
     virtual BOOL sub_0203D578(CFieldMap *map);
-    virtual void sub_0203DA38();
+    virtual BOOL sub_0203DA38();
     virtual void sub_0202E68C(int arg0);
     virtual void sub_0202D7E0();
     virtual void sub_0202DC54(int arg0, int arg1);
@@ -526,7 +527,7 @@ public:
     u8 unk_D5;
     s16 unk_D6;
     u8 unk_D8[0x4];
-    UnkStruct_0211EA94 *unk_DC;
+    CFieldActorScript *unk_DC;
 };
 
 extern "C" {

@@ -20449,8 +20449,8 @@ _0203BD0C: .word ptr_FUN_0203bcc4_0208dbf8
 _0203BD10: .word sub_020368D8
 	arm_func_end sub_0203BCC4
 
-	arm_func_start sub_0203BD14
-sub_0203BD14: ; 0x0203BD14
+	arm_func_start _ZN17CFieldActorScriptC2Ei
+_ZN17CFieldActorScriptC2Ei: ; 0x0203BD14
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r2, _0203BD58 ; =ptr_FUN_0203bda4_0208dc98
 	mov r5, r0
@@ -20470,10 +20470,10 @@ sub_0203BD14: ; 0x0203BD14
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0203BD58: .word ptr_FUN_0203bda4_0208dc98
-	arm_func_end sub_0203BD14
+	arm_func_end _ZN17CFieldActorScriptC2Ei
 
-	arm_func_start sub_0203BD5C
-sub_0203BD5C: ; 0x0203BD5C
+	arm_func_start _ZN17CFieldActorScriptC1Ei
+_ZN17CFieldActorScriptC1Ei: ; 0x0203BD5C
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r2, _0203BDA0 ; =ptr_FUN_0203bda4_0208dc98
 	mov r5, r0
@@ -20493,10 +20493,10 @@ sub_0203BD5C: ; 0x0203BD5C
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0203BDA0: .word ptr_FUN_0203bda4_0208dc98
-	arm_func_end sub_0203BD5C
+	arm_func_end _ZN17CFieldActorScriptC1Ei
 
-	arm_func_start sub_0203BDA4
-sub_0203BDA4: ; 0x0203BDA4
+	arm_func_start _ZN17CFieldActorScriptD1Ev
+_ZN17CFieldActorScriptD1Ev: ; 0x0203BDA4
 	stmdb sp!, {r4, lr}
 	ldr r1, _0203BDD4 ; =ptr_FUN_0203bda4_0208dc98
 	mov r4, r0
@@ -20507,15 +20507,15 @@ sub_0203BDA4: ; 0x0203BDA4
 	bl _Z9Heap_FreePv
 	mov r0, #0
 	str r0, [r4, #0x30]
-	arm_func_end sub_0203BDA4
+	arm_func_end _ZN17CFieldActorScriptD1Ev
 _0203BDCC:
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0203BDD4: .word ptr_FUN_0203bda4_0208dc98
 
-	arm_func_start sub_0203BDD8
-sub_0203BDD8: ; 0x0203BDD8
+	arm_func_start _ZN17CFieldActorScriptD0Ev
+_ZN17CFieldActorScriptD0Ev: ; 0x0203BDD8
 	stmdb sp!, {r4, lr}
 	ldr r1, _0203BE10 ; =ptr_FUN_0203bda4_0208dc98
 	mov r4, r0
@@ -20526,7 +20526,7 @@ sub_0203BDD8: ; 0x0203BDD8
 	bl _Z9Heap_FreePv
 	mov r0, #0
 	str r0, [r4, #0x30]
-	arm_func_end sub_0203BDD8
+	arm_func_end _ZN17CFieldActorScriptD0Ev
 _0203BE00:
 	mov r0, r4
 	bl _ZdlPv
@@ -20535,8 +20535,8 @@ _0203BE00:
 	.align 2, 0
 _0203BE10: .word ptr_FUN_0203bda4_0208dc98
 
-	arm_func_start sub_0203BE14
-sub_0203BE14: ; 0x0203BE14
+	arm_func_start _ZN17CFieldActorScriptD2Ev
+_ZN17CFieldActorScriptD2Ev: ; 0x0203BE14
 	stmdb sp!, {r4, lr}
 	ldr r1, _0203BE44 ; =ptr_FUN_0203bda4_0208dc98
 	mov r4, r0
@@ -20547,15 +20547,15 @@ sub_0203BE14: ; 0x0203BE14
 	bl _Z9Heap_FreePv
 	mov r0, #0
 	str r0, [r4, #0x30]
-	arm_func_end sub_0203BE14
+	arm_func_end _ZN17CFieldActorScriptD2Ev
 _0203BE3C:
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0203BE44: .word ptr_FUN_0203bda4_0208dc98
 
-	arm_func_start sub_0203BE48
-sub_0203BE48: ; 0x0203BE48
+	arm_func_start _ZN17CFieldActorScript12sub_0203BE48EP11CFieldActorPKc
+_ZN17CFieldActorScript12sub_0203BE48EP11CFieldActorPKc: ; 0x0203BE48
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x2c]
@@ -20573,7 +20573,7 @@ sub_0203BE48: ; 0x0203BE48
 	sub r0, r0, #4
 	str r0, [r4, #0xc]
 	str r6, [r0]
-	arm_func_end sub_0203BE48
+	arm_func_end _ZN17CFieldActorScript12sub_0203BE48EP11CFieldActorPKc
 _0203BE8C:
 	cmp r5, #0
 	beq _0203BEC0
@@ -20610,8 +20610,8 @@ _0203BEF4: .word s_not_found_func_FieldActor_cpp_0208dcf0
 _0203BEF8: .word s_null_func_name_FieldActor_cpp_0208dd10
 _0203BEFC: .word s_m_pScriptBlock_NULL_by_FieldA_0208dd30
 
-	arm_func_start sub_0203BF00
-sub_0203BF00: ; 0x0203BF00
+	arm_func_start _ZN17CFieldActorScript12sub_0203BF00Ev
+_ZN17CFieldActorScript12sub_0203BF00Ev: ; 0x0203BF00
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #8
@@ -20620,7 +20620,7 @@ sub_0203BF00: ; 0x0203BF00
 	str r0, [r4, #4]
 	mov r0, #1
 	ldmia sp!, {r4, pc}
-	arm_func_end sub_0203BF00
+	arm_func_end _ZN17CFieldActorScript12sub_0203BF00Ev
 
 	arm_func_start sub_0203BF20
 sub_0203BF20: ; 0x0203BF20
@@ -20839,7 +20839,7 @@ _ZN11CFieldActor12sub_0203C1B4EPv: ; 0x0203C1B4
 	cmp r0, #0
 	beq _0203C1E4
 	mov r1, #0x40
-	bl sub_0203BD5C
+	bl _ZN17CFieldActorScriptC1Ei
 	arm_func_end _ZN11CFieldActor12sub_0203C1B4EPv
 _0203C1E4:
 	str r0, [r5, #0xdc]
@@ -20851,8 +20851,8 @@ _0203C1F4:
 	mov r0, #1
 	ldmia sp!, {r3, r4, r5, pc}
 
-	arm_func_start _ZN11CFieldActor12sub_0203C1FCEv
-_ZN11CFieldActor12sub_0203C1FCEv: ; 0x0203C1FC
+	arm_func_start _ZN11CFieldActor12sub_0203C1FCEP17CFieldActorScriptPv
+_ZN11CFieldActor12sub_0203C1FCEP17CFieldActorScriptPv: ; 0x0203C1FC
 	ldr r3, [r0, #0xdc]
 	cmp r3, #0
 	bne _0203C218
@@ -20860,7 +20860,7 @@ _ZN11CFieldActor12sub_0203C1FCEv: ; 0x0203C1FC
 	strne r1, [r0, #0xdc]
 	strne r2, [r1, #0x2c]
 	bne _0203C224
-	arm_func_end _ZN11CFieldActor12sub_0203C1FCEv
+	arm_func_end _ZN11CFieldActor12sub_0203C1FCEP17CFieldActorScriptPv
 _0203C218:
 	str r2, [r3, #0x2c]
 	mov r0, #0

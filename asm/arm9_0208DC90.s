@@ -1,32 +1,28 @@
     .include "macros.inc"
-    .include "include/arm9_0208DC7C.inc"
+    .include "include/arm9_0208DC90.inc"
 
-; Main .data after CFieldActor's typeinfo (which comes from src/CFieldActor.cpp)
+; Main .data after CFieldActorScript's and CFieldActor's typeinfo (which come from src/CFieldActor.cpp)
 
     .data
     .balign 4
 
-	.global s_17CFieldActorScript_0208dc7c
-s_17CFieldActorScript_0208dc7c: ; 0x0208DC7C
-	.asciz "17CFieldActorScript"
-
 	.global _0208DC90
 _0208DC90:
 	.byte 0x00, 0x00, 0x00, 0x00
-	.word PTR_ptr_FUN_02083578_0208dc5c
+	.word _ZTI17CFieldActorScript
 
 	.global ptr_FUN_0203bda4_0208dc98
 ptr_FUN_0203bda4_0208dc98: ; 0x0208DC98
-	.word sub_0203BDA4
+	.word _ZN17CFieldActorScriptD1Ev
 
 	.global ptr_FUN_0203bdd8_0208dc9c
 ptr_FUN_0203bdd8_0208dc9c: ; 0x0208DC9C
-	.word sub_0203BDD8
+	.word _ZN17CFieldActorScriptD0Ev
 
 	.global ptr_FUN_0203be48_0208dca0
 ptr_FUN_0203be48_0208dca0: ; 0x0208DCA0
-	.word sub_0203BE48
-	.word sub_0203BF00
+	.word _ZN17CFieldActorScript12sub_0203BE48EP11CFieldActorPKc
+	.word _ZN17CFieldActorScript12sub_0203BF00Ev
 	.byte 0x00, 0x00, 0x00, 0x00
 	.word _ZTI11CFieldActor
 
@@ -41,7 +37,7 @@ ptr_FUN_0203c0d4_0208dcb4: ; 0x0208DCB4
 	.global ptr_FUN_0203c1b4_0208dcb8
 ptr_FUN_0203c1b4_0208dcb8: ; 0x0208DCB8
 	.word _ZN11CFieldActor12sub_0203C1B4EPv
-	.word _ZN11CFieldActor12sub_0203C1FCEv
+	.word _ZN11CFieldActor12sub_0203C1FCEP17CFieldActorScriptPv
 
 	.global ptr_FUN_0203c22c_0208dcc0
 ptr_FUN_0203c22c_0208dcc0: ; 0x0208DCC0

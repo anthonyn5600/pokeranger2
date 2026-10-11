@@ -11,7 +11,6 @@
 .public __cxa_vec_ctor
 .public __register_global_object
 .public _ll_div
-.public s_17CFieldActorScript_0208dc7c
 .public sub_0200FA58
 .public sub_02010CC0
 .public sub_02010EC8

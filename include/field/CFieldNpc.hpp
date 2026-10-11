@@ -5,14 +5,52 @@
 
 #include "common.hpp"
 #include "field/CFieldActor.hpp"
+#include "field/CFieldActorScript.hpp"
+#include "field/CFieldPokeMove.hpp"
 
-// Defined in ov0
+class CBinaryFile;
+
+// FieldNpc.cpp (ov0): an NPC's script; pushes the NPC's id before calling a script function.
+class CFieldNpcActorScript : public CFieldActorScript {
+public:
+    CFieldNpcActorScript()
+        : CFieldActorScript(0x20)
+    {
+    }
+
+    virtual ~CFieldNpcActorScript()
+    {
+    }
+
+    virtual BOOL sub_0203BE48(CFieldActor *actor, const char *func);
+};
+
+// FieldNpc.cpp (ov0)
 class CFieldNpc : public CFieldActor {
+public:
+    CFieldNpc();
+    virtual ~CFieldNpc();
+    virtual void sub_0203DA40(CFieldMap *map);
+    virtual BOOL sub_0203D578(CFieldMap *map);
+    virtual BOOL sub_0203DA38();
+    virtual void sub_0202D7E0();
+    virtual void sub_02032A44(int sequence);
+
+    void LoadScript(int npcId);
+    void ov0_0213C5DC();
+
 public:
     int unk_E0;
     int unk_E4;
     int unk_E8;
     u16 unk_EC;
+    int unk_F0;
+    CFieldPokeMove unk_F4;
+    u8 unk_1CC[0x4];
+    CBinaryFile *unk_1D0;
+    int unk_1D4;
 };
+
+STATIC_SIZE_ASSERT(CFieldNpc, 0x1D8);
 
 #endif // POKERANGER2_FIELD_CFIELDNPC_HPP
