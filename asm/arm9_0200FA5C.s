@@ -1,46 +1,7 @@
     .include "macros.inc"
-    .include "include/arm9_0200FA0C.inc"
+    .include "include/arm9_0200FA5C.inc"
 
     .text
-
-	arm_func_start sub_0200FA0C
-sub_0200FA0C: ; 0x0200FA0C
-	ldr r1, _0200FA28 ; =MAIN_BSS_020AF33C
-	mov r2, #1
-	mvn r0, r2, lsl r0
-	ldr r2, [r1, #0x10]
-	and r0, r2, r0
-	str r0, [r1, #0x10]
-	bx lr
-	.align 2, 0
-_0200FA28: .word MAIN_BSS_020AF33C
-	arm_func_end sub_0200FA0C
-
-	arm_func_start sub_0200FA2C
-sub_0200FA2C: ; 0x0200FA2C
-	ldr r1, _0200FA44 ; =MAIN_BSS_020AF33C
-	mov r2, #1
-	ldr r3, [r1, #0x10]
-	orr r0, r3, r2, lsl r0
-	str r0, [r1, #0x10]
-	bx lr
-	.align 2, 0
-_0200FA44: .word MAIN_BSS_020AF33C
-	arm_func_end sub_0200FA2C
-
-	arm_func_start sub_0200FA48
-sub_0200FA48: ; 0x0200FA48
-	ldr r1, _0200FA54 ; =MAIN_BSS_020AF33C
-	str r0, [r1, #0x14]
-	bx lr
-	.align 2, 0
-_0200FA54: .word MAIN_BSS_020AF33C
-	arm_func_end sub_0200FA48
-
-	arm_func_start sub_0200FA58
-sub_0200FA58: ; 0x0200FA58
-	bx lr
-	arm_func_end sub_0200FA58
 
 	arm_func_start sub_0200FA5C
 sub_0200FA5C: ; 0x0200FA5C

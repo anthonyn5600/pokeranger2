@@ -2,16 +2,12 @@
 .public CBattleResultParameter_complete_obj_dtor
 .public CBattleResultParameter_deleting_obj_dtor
 .public MI_CpuFill8
-.public _ZN12CPowerManage12sub_0200F8BCEv
-.public _ZN12CPowerManage4InitEv
 .public _ZTI10CPrimitive
 .public _ZTVN10__cxxabiv117__class_type_infoE
 .public _ZTVN10__cxxabiv120__si_class_type_infoE
 .public _ZTVN10__cxxabiv121__vmi_class_type_infoE
 .public __cxa_vec_ctor
 .public __register_global_object
-.public _ll_div
-.public sub_0200FA58
 .public sub_02010CC0
 .public sub_02010EC8
 .public sub_02010ED4

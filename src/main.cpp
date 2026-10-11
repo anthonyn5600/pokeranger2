@@ -15,9 +15,6 @@
 
 extern "C" {
 void sub_02008D7C(u16 *);
-void sub_0200FA48(u32);
-void sub_0200FA2C(u32);
-void sub_0200FA0C(u32);
 void sub_0201002C(void);
 
 extern u32 DAT_04000454;
@@ -72,7 +69,7 @@ void NitroMain(void)
     v3 = Scene_LoadByID(SCENE_RANGER_NET_AGB, s_game);
     v4 = SCENE_NONE;
     CPowerManage::sub_0200F9E0();
-    sub_0200FA48(0);
+    CPowerManage::sub_0200FA48(0);
 
     v6 = v4;
     v7 = s_game->unk_14BC;
@@ -92,9 +89,9 @@ void NitroMain(void)
             || (v9->sub_0200E91C() != 0)
             || (v10->func0() != FALSE)
             || (v10->sub_0200E91C() != 0)) {
-            sub_0200FA2C(1);
+            CPowerManage::sub_0200FA2C(1);
         } else {
-            sub_0200FA0C(1);
+            CPowerManage::sub_0200FA0C(1);
         }
 
         CPowerManage::sub_0200F9F8();

@@ -43,7 +43,7 @@ _0211CA4C:
 	str r0, [r5, #8]
 _0211CA54:
 	mov r0, #0
-	bl sub_0200FA48
+	bl _ZN12CPowerManage12sub_0200FA48Em
 	mov r0, r5
 	bl _ZN6CSceneD2Ev
 	mov r0, r5
@@ -76,7 +76,7 @@ _0211CAB4:
 	str r0, [r5, #8]
 _0211CABC:
 	mov r0, #0
-	bl sub_0200FA48
+	bl _ZN12CPowerManage12sub_0200FA48Em
 	mov r0, r5
 	bl _ZN6CSceneD2Ev
 	mov r0, r5
@@ -107,7 +107,7 @@ _0211CB08:
 	add r0, r0, #0x1400
 	bl sub_02008DB4
 	mov r0, #1
-	bl sub_0200FA48
+	bl _ZN12CPowerManage12sub_0200FA48Em
 	ldmia sp!, {r4, pc}
 
 	arm_func_start ov11_0211CB2C
@@ -5358,7 +5358,7 @@ _02121268:
 ov11_02121270: ; 0x02121270
 	stmdb sp!, {r3, lr}
 	mov r0, #0
-	bl sub_0200FA48
+	bl _ZN12CPowerManage12sub_0200FA48Em
 	mov r0, #0
 	bl OS_ResetSystem
 	ldmia sp!, {r3, pc}

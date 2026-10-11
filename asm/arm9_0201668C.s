@@ -21115,7 +21115,7 @@ _02028288:
 	strb r0, [r5, #0x64]
 	str r1, [r5, #0x54]
 	strb r0, [r5, #0x64]
-	bl sub_0200FA2C
+	bl _ZN12CPowerManage12sub_0200FA2CEm
 	cmp r4, #0
 	bne _020282B8
 	ldr r0, _020282C8 ; =MAIN_BSS_020B26A0
@@ -21169,7 +21169,7 @@ _02028330:
 	mov r1, #0xe
 	str r1, [r4, #0x54]
 	strb r0, [r4, #0x64]
-	bl sub_0200FA2C
+	bl _ZN12CPowerManage12sub_0200FA2CEm
 	mov r0, #1
 	ldmia sp!, {r4, pc}
 _02028358:
@@ -21225,7 +21225,7 @@ _020283D8:
 	mov r1, #1
 	str r1, [r4, #0x54]
 	strb r0, [r4, #0x64]
-	bl sub_0200FA2C
+	bl _ZN12CPowerManage12sub_0200FA2CEm
 	mov r0, #1
 	ldmia sp!, {r4, pc}
 _02028400:
@@ -21615,7 +21615,7 @@ _02028938:
 	ldr r1, [r1, #0xc]
 	blx r1
 	mov r0, r4
-	bl sub_0200FA0C
+	bl _ZN12CPowerManage12sub_0200FA0CEm
 	mov r4, #1
 	b _0202898C
 _02028958:
@@ -21624,7 +21624,7 @@ _02028958:
 	ldr r1, [r1, #0xc]
 	blx r1
 	mov r0, r4
-	bl sub_0200FA0C
+	bl _ZN12CPowerManage12sub_0200FA0CEm
 	ldrb r0, [r6, #0x64]
 	orr r0, r0, #0x80
 	and r4, r0, #0xff
@@ -21632,7 +21632,7 @@ _02028958:
 _02028980:
 	mov r0, #0
 	mov r4, #0x80
-	bl sub_0200FA0C
+	bl _ZN12CPowerManage12sub_0200FA0CEm
 _0202898C:
 	mov r0, r4
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
@@ -21853,7 +21853,7 @@ _02028C88:
 	blx r1
 	mov r0, r4
 	mov r4, #1
-	bl sub_0200FA0C
+	bl _ZN12CPowerManage12sub_0200FA0CEm
 	b _02028CDC
 _02028CA8:
 	ldr r0, [r5]
@@ -21864,12 +21864,12 @@ _02028CA8:
 	mov r0, r4
 	orr r1, r1, #0x80
 	and r4, r1, #0xff
-	bl sub_0200FA0C
+	bl _ZN12CPowerManage12sub_0200FA0CEm
 	b _02028CDC
 _02028CD0:
 	mov r0, #0
 	mov r4, #0x80
-	bl sub_0200FA0C
+	bl _ZN12CPowerManage12sub_0200FA0CEm
 _02028CDC:
 	mov r0, r4
 	add sp, sp, #4
@@ -22287,7 +22287,7 @@ _0202924C:
 	ldr r1, [r1, #0xc]
 	blx r1
 	mov r0, r4
-	bl sub_0200FA0C
+	bl _ZN12CPowerManage12sub_0200FA0CEm
 	mov r0, #0xc
 	str r0, [r5, #0x54]
 	mov r0, r4
@@ -22303,7 +22303,7 @@ _02029284:
 	ldr r1, [r1, #0xc]
 	blx r1
 	mov r0, r4
-	bl sub_0200FA0C
+	bl _ZN12CPowerManage12sub_0200FA0CEm
 	ldrb r0, [r5, #0x64]
 	orr r0, r0, #0x80
 	and r4, r0, #0xff
@@ -22311,7 +22311,7 @@ _02029284:
 _020292AC:
 	mov r0, #0
 	mov r4, #0x80
-	bl sub_0200FA0C
+	bl _ZN12CPowerManage12sub_0200FA0CEm
 _020292B8:
 	mov r0, r4
 	add sp, sp, #4
@@ -22359,7 +22359,7 @@ _02029334:
 	strb r0, [r5, #0x64]
 	str r1, [r5, #0x54]
 	strb r0, [r5, #0x64]
-	bl sub_0200FA2C
+	bl _ZN12CPowerManage12sub_0200FA2CEm
 	cmp r4, #0
 	bne _02029364
 	ldr r0, _02029374 ; =MAIN_BSS_020B26A0

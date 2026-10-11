@@ -6,8 +6,9 @@
 
 extern "C" {
 extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
-extern CPowerManage sPowerManage;
 }
+
+static CPowerManage sPowerManage;
 
 void CPowerManage::Init()
 {
@@ -71,4 +72,23 @@ BOOL CPowerManage::sub_0200F9E0()
 void CPowerManage::sub_0200F9F8()
 {
     sPowerManage.sub_0200F8BC();
+}
+
+void CPowerManage::sub_0200FA0C(u32 bit)
+{
+    sPowerManage.unk_4 &= ~(1 << bit);
+}
+
+void CPowerManage::sub_0200FA2C(u32 bit)
+{
+    sPowerManage.unk_4 |= 1 << bit;
+}
+
+void CPowerManage::sub_0200FA48(u32 mode)
+{
+    sPowerManage.unk_8 = mode;
+}
+
+CPowerManage::~CPowerManage()
+{
 }
