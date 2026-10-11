@@ -153,7 +153,8 @@ Overlay overlay0
     Object main.nef.p/src_CFieldNpcManage.cpp.o
     Object main.nef.p/src_CFieldTargetObject.cpp.o
     Object main.nef.p/src_CFieldTargetObjectManage.cpp.o
-    Object main.nef.p/asm_overlay_00_0213D624.s.o
+    Object main.nef.p/src_UnkClass_0213D624.cpp.o
+    Object main.nef.p/asm_overlay_00_0213D84C.s.o
 }
 
 Overlay overlay1

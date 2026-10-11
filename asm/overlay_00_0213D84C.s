@@ -1,181 +1,7 @@
     .include "macros.inc"
-    .include "include/overlay_00_0213D624.inc"
+    .include "include/overlay_00_0213D84C.inc"
 
     .text
-
-	arm_func_start _ZN17UnkClass_0213D624C1Ev
-_ZN17UnkClass_0213D624C1Ev: ; 0x0213D624
-	mov r1, #0
-	str r1, [r0]
-	str r1, [r0, #4]
-	str r1, [r0, #8]
-	str r1, [r0, #0x10]
-	str r1, [r0, #0x14]
-	str r1, [r0, #0x18]
-	bx lr
-	arm_func_end _ZN17UnkClass_0213D624C1Ev
-
-	arm_func_start _ZN17UnkClass_0213D624D1Ev
-_ZN17UnkClass_0213D624D1Ev: ; 0x0213D644
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	bl ov0_0213D728
-	mov r0, r4
-	ldmia sp!, {r4, pc}
-	arm_func_end _ZN17UnkClass_0213D624D1Ev
-
-	arm_func_start ov0_0213D658
-ov0_0213D658: ; 0x0213D658
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	mov r0, #1
-	bl _Znwm
-	cmp r0, #0
-	beq _0213D674
-	bl ov0_02149118
-	arm_func_end ov0_0213D658
-_0213D674:
-	str r0, [r4]
-	bl ov0_02149120
-	mov r0, #1
-	bl _Znwm
-	cmp r0, #0
-	beq _0213D690
-	bl ov0_021485C0
-_0213D690:
-	str r0, [r4, #4]
-	bl ov0_021485C8
-	mov r0, #1
-	bl _Znwm
-	cmp r0, #0
-	beq _0213D6AC
-	bl ov0_02149984
-_0213D6AC:
-	str r0, [r4, #8]
-	bl ov0_0214998C
-	mov r0, #1
-	bl _Znwm
-	cmp r0, #0
-	beq _0213D6C8
-	bl ov0_02149A74
-_0213D6C8:
-	str r0, [r4, #0xc]
-	bl ov0_02149A7C
-	mov r0, #1
-	bl _Znwm
-	cmp r0, #0
-	beq _0213D6E4
-	bl ov0_02149E58
-_0213D6E4:
-	str r0, [r4, #0x10]
-	bl ov0_02149E60
-	mov r0, #1
-	bl _Znwm
-	cmp r0, #0
-	beq _0213D700
-	bl ov0_0214B93C
-_0213D700:
-	str r0, [r4, #0x14]
-	bl ov0_0214B944
-	mov r0, #1
-	bl _Znwm
-	cmp r0, #0
-	beq _0213D71C
-	bl ov0_0214B6F0
-_0213D71C:
-	str r0, [r4, #0x18]
-	bl ov0_0214B6F8
-	ldmia sp!, {r4, pc}
-
-	arm_func_start ov0_0213D728
-ov0_0213D728: ; 0x0213D728
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r4, r0
-	ldr r5, [r4]
-	cmp r5, #0
-	beq _0213D758
-	beq _0213D750
-	mov r0, r5
-	bl ov0_0214911C
-	mov r0, r5
-	bl _ZdlPv
-	arm_func_end ov0_0213D728
-_0213D750:
-	mov r0, #0
-	str r0, [r4]
-_0213D758:
-	ldr r5, [r4, #4]
-	cmp r5, #0
-	beq _0213D780
-	beq _0213D778
-	mov r0, r5
-	bl ov0_021485C4
-	mov r0, r5
-	bl _ZdlPv
-_0213D778:
-	mov r0, #0
-	str r0, [r4, #4]
-_0213D780:
-	ldr r5, [r4, #8]
-	cmp r5, #0
-	beq _0213D7A8
-	beq _0213D7A0
-	mov r0, r5
-	bl ov0_02149988
-	mov r0, r5
-	bl _ZdlPv
-_0213D7A0:
-	mov r0, #0
-	str r0, [r4, #8]
-_0213D7A8:
-	ldr r5, [r4, #0xc]
-	cmp r5, #0
-	beq _0213D7D0
-	beq _0213D7C8
-	mov r0, r5
-	bl ov0_02149A78
-	mov r0, r5
-	bl _ZdlPv
-_0213D7C8:
-	mov r0, #0
-	str r0, [r4, #0xc]
-_0213D7D0:
-	ldr r5, [r4, #0x10]
-	cmp r5, #0
-	beq _0213D7F8
-	beq _0213D7F0
-	mov r0, r5
-	bl ov0_02149E5C
-	mov r0, r5
-	bl _ZdlPv
-_0213D7F0:
-	mov r0, #0
-	str r0, [r4, #0x10]
-_0213D7F8:
-	ldr r5, [r4, #0x14]
-	cmp r5, #0
-	beq _0213D820
-	beq _0213D818
-	mov r0, r5
-	bl ov0_0214B940
-	mov r0, r5
-	bl _ZdlPv
-_0213D818:
-	mov r0, #0
-	str r0, [r4, #0x14]
-_0213D820:
-	ldr r5, [r4, #0x18]
-	cmp r5, #0
-	ldmeqia sp!, {r3, r4, r5, pc}
-	beq _0213D840
-	mov r0, r5
-	bl ov0_0214B6F4
-	mov r0, r5
-	bl _ZdlPv
-_0213D840:
-	mov r0, #0
-	str r0, [r4, #0x18]
-	ldmia sp!, {r3, r4, r5, pc}
 
 	arm_func_start _ZN15CFieldEventRectC1Ev
 _ZN15CFieldEventRectC1Ev: ; 0x0213D84C
@@ -13217,18 +13043,18 @@ _021485A8:
 	.align 2, 0
 _021485BC: .word 0x00000199
 
-	arm_func_start ov0_021485C0
-ov0_021485C0: ; 0x021485C0
+	arm_func_start _ZN17UnkClass_021485C0C1Ev
+_ZN17UnkClass_021485C0C1Ev: ; 0x021485C0
 	bx lr
-	arm_func_end ov0_021485C0
+	arm_func_end _ZN17UnkClass_021485C0C1Ev
 
-	arm_func_start ov0_021485C4
-ov0_021485C4: ; 0x021485C4
+	arm_func_start _ZN17UnkClass_021485C0D1Ev
+_ZN17UnkClass_021485C0D1Ev: ; 0x021485C4
 	bx lr
-	arm_func_end ov0_021485C4
+	arm_func_end _ZN17UnkClass_021485C0D1Ev
 
-	arm_func_start ov0_021485C8
-ov0_021485C8: ; 0x021485C8
+	arm_func_start _ZN17UnkClass_021485C012ov0_021485C8Ev
+_ZN17UnkClass_021485C012ov0_021485C8Ev: ; 0x021485C8
 	ldr ip, _021485D8 ; =FUN_02044B38
 	ldr r1, _021485DC ; =PTR_LAB_overlay_0_021485e0_overlay_0_02175058
 	mov r0, #0xa
@@ -13236,7 +13062,7 @@ ov0_021485C8: ; 0x021485C8
 	.align 2, 0
 _021485D8: .word sub_02044B38
 _021485DC: .word PTR_LAB_overlay_0_021485e0_overlay_0_02175058
-	arm_func_end ov0_021485C8
+	arm_func_end _ZN17UnkClass_021485C012ov0_021485C8Ev
 
 	arm_func_start ov0_021485E0
 ov0_021485E0: ; 0x021485E0
@@ -14094,18 +13920,18 @@ _0214910C: .word s_ERROR_syscallFieldEnemy_cpp_Fie_overlay_0_02175068
 _02149110: .word s_scriptAddEnemyError_overlay_0_021750a0
 _02149114: .word s_scriptAddEnemyAndSetScriptIDErro_overlay_0_021750b4
 
-	arm_func_start ov0_02149118
-ov0_02149118: ; 0x02149118
+	arm_func_start _ZN17UnkClass_02149118C1Ev
+_ZN17UnkClass_02149118C1Ev: ; 0x02149118
 	bx lr
-	arm_func_end ov0_02149118
+	arm_func_end _ZN17UnkClass_02149118C1Ev
 
-	arm_func_start ov0_0214911C
-ov0_0214911C: ; 0x0214911C
+	arm_func_start _ZN17UnkClass_02149118D1Ev
+_ZN17UnkClass_02149118D1Ev: ; 0x0214911C
 	bx lr
-	arm_func_end ov0_0214911C
+	arm_func_end _ZN17UnkClass_02149118D1Ev
 
-	arm_func_start ov0_02149120
-ov0_02149120: ; 0x02149120
+	arm_func_start _ZN17UnkClass_0214911812ov0_02149120Ev
+_ZN17UnkClass_0214911812ov0_02149120Ev: ; 0x02149120
 	ldr ip, _02149130 ; =FUN_02044B38
 	ldr r1, _02149134 ; =PTR_LAB_overlay_0_02149138_overlay_0_021750d8
 	mov r0, #0xb
@@ -14113,7 +13939,7 @@ ov0_02149120: ; 0x02149120
 	.align 2, 0
 _02149130: .word sub_02044B38
 _02149134: .word PTR_LAB_overlay_0_02149138_overlay_0_021750d8
-	arm_func_end ov0_02149120
+	arm_func_end _ZN17UnkClass_0214911812ov0_02149120Ev
 
 	arm_func_start ov0_02149138
 ov0_02149138: ; 0x02149138
@@ -14719,18 +14545,18 @@ _02149978:
 	add sp, sp, #0x88
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 
-	arm_func_start ov0_02149984
-ov0_02149984: ; 0x02149984
+	arm_func_start _ZN17UnkClass_02149984C1Ev
+_ZN17UnkClass_02149984C1Ev: ; 0x02149984
 	bx lr
-	arm_func_end ov0_02149984
+	arm_func_end _ZN17UnkClass_02149984C1Ev
 
-	arm_func_start ov0_02149988
-ov0_02149988: ; 0x02149988
+	arm_func_start _ZN17UnkClass_02149984D1Ev
+_ZN17UnkClass_02149984D1Ev: ; 0x02149988
 	bx lr
-	arm_func_end ov0_02149988
+	arm_func_end _ZN17UnkClass_02149984D1Ev
 
-	arm_func_start ov0_0214998C
-ov0_0214998C: ; 0x0214998C
+	arm_func_start _ZN17UnkClass_0214998412ov0_0214998CEv
+_ZN17UnkClass_0214998412ov0_0214998CEv: ; 0x0214998C
 	ldr ip, _0214999C ; =FUN_02044B38
 	ldr r1, _021499A0 ; =PTR_LAB_overlay_0_021499a4_overlay_0_021750e0
 	mov r0, #0xc
@@ -14738,7 +14564,7 @@ ov0_0214998C: ; 0x0214998C
 	.align 2, 0
 _0214999C: .word sub_02044B38
 _021499A0: .word PTR_LAB_overlay_0_021499a4_overlay_0_021750e0
-	arm_func_end ov0_0214998C
+	arm_func_end _ZN17UnkClass_0214998412ov0_0214998CEv
 
 	arm_func_start ov0_021499A4
 ov0_021499A4: ; 0x021499A4
@@ -14812,18 +14638,18 @@ _02149A64:
 	.align 2, 0
 _02149A70: .word MAIN_BSS_0210CA48
 
-	arm_func_start ov0_02149A74
-ov0_02149A74: ; 0x02149A74
+	arm_func_start _ZN17UnkClass_02149A74C1Ev
+_ZN17UnkClass_02149A74C1Ev: ; 0x02149A74
 	bx lr
-	arm_func_end ov0_02149A74
+	arm_func_end _ZN17UnkClass_02149A74C1Ev
 
-	arm_func_start ov0_02149A78
-ov0_02149A78: ; 0x02149A78
+	arm_func_start _ZN17UnkClass_02149A74D1Ev
+_ZN17UnkClass_02149A74D1Ev: ; 0x02149A78
 	bx lr
-	arm_func_end ov0_02149A78
+	arm_func_end _ZN17UnkClass_02149A74D1Ev
 
-	arm_func_start ov0_02149A7C
-ov0_02149A7C: ; 0x02149A7C
+	arm_func_start _ZN17UnkClass_02149A7412ov0_02149A7CEv
+_ZN17UnkClass_02149A7412ov0_02149A7CEv: ; 0x02149A7C
 	ldr ip, _02149A8C ; =FUN_02044B38
 	ldr r1, _02149A90 ; =PTR_LAB_overlay_0_02149a94_overlay_0_021750ec
 	mov r0, #0xd
@@ -14831,7 +14657,7 @@ ov0_02149A7C: ; 0x02149A7C
 	.align 2, 0
 _02149A8C: .word sub_02044B38
 _02149A90: .word PTR_LAB_overlay_0_02149a94_overlay_0_021750ec
-	arm_func_end ov0_02149A7C
+	arm_func_end _ZN17UnkClass_02149A7412ov0_02149A7CEv
 
 	arm_func_start ov0_02149A94
 ov0_02149A94: ; 0x02149A94
@@ -15129,18 +14955,18 @@ ov0_02149E48: ; 0x02149E48
 _02149E54: .word MAIN_BSS_0210CA4C
 	arm_func_end ov0_02149E48
 
-	arm_func_start ov0_02149E58
-ov0_02149E58: ; 0x02149E58
+	arm_func_start _ZN17UnkClass_02149E58C1Ev
+_ZN17UnkClass_02149E58C1Ev: ; 0x02149E58
 	bx lr
-	arm_func_end ov0_02149E58
+	arm_func_end _ZN17UnkClass_02149E58C1Ev
 
-	arm_func_start ov0_02149E5C
-ov0_02149E5C: ; 0x02149E5C
+	arm_func_start _ZN17UnkClass_02149E58D1Ev
+_ZN17UnkClass_02149E58D1Ev: ; 0x02149E5C
 	bx lr
-	arm_func_end ov0_02149E5C
+	arm_func_end _ZN17UnkClass_02149E58D1Ev
 
-	arm_func_start ov0_02149E60
-ov0_02149E60: ; 0x02149E60
+	arm_func_start _ZN17UnkClass_02149E5812ov0_02149E60Ev
+_ZN17UnkClass_02149E5812ov0_02149E60Ev: ; 0x02149E60
 	ldr ip, _02149E70 ; =FUN_02044B38
 	ldr r1, _02149E74 ; =PTR_LAB_overlay_0_02149e78_overlay_0_021750fc
 	mov r0, #0xe
@@ -15148,7 +14974,7 @@ ov0_02149E60: ; 0x02149E60
 	.align 2, 0
 _02149E70: .word sub_02044B38
 _02149E74: .word PTR_LAB_overlay_0_02149e78_overlay_0_021750fc
-	arm_func_end ov0_02149E60
+	arm_func_end _ZN17UnkClass_02149E5812ov0_02149E60Ev
 
 	arm_func_start ov0_02149E78
 ov0_02149E78: ; 0x02149E78
@@ -17108,18 +16934,18 @@ _0214B6E4:
 	.align 2, 0
 _0214B6EC: .word MAIN_BSS_0210CA60
 
-	arm_func_start ov0_0214B6F0
-ov0_0214B6F0: ; 0x0214B6F0
+	arm_func_start _ZN17UnkClass_0214B6F0C1Ev
+_ZN17UnkClass_0214B6F0C1Ev: ; 0x0214B6F0
 	bx lr
-	arm_func_end ov0_0214B6F0
+	arm_func_end _ZN17UnkClass_0214B6F0C1Ev
 
-	arm_func_start ov0_0214B6F4
-ov0_0214B6F4: ; 0x0214B6F4
+	arm_func_start _ZN17UnkClass_0214B6F0D1Ev
+_ZN17UnkClass_0214B6F0D1Ev: ; 0x0214B6F4
 	bx lr
-	arm_func_end ov0_0214B6F4
+	arm_func_end _ZN17UnkClass_0214B6F0D1Ev
 
-	arm_func_start ov0_0214B6F8
-ov0_0214B6F8: ; 0x0214B6F8
+	arm_func_start _ZN17UnkClass_0214B6F012ov0_0214B6F8Ev
+_ZN17UnkClass_0214B6F012ov0_0214B6F8Ev: ; 0x0214B6F8
 	ldr ip, _0214B708 ; =FUN_02044B38
 	ldr r1, _0214B70C ; =PTR_LAB_overlay_0_0214b710_overlay_0_021751f4
 	mov r0, #0x10
@@ -17127,7 +16953,7 @@ ov0_0214B6F8: ; 0x0214B6F8
 	.align 2, 0
 _0214B708: .word sub_02044B38
 _0214B70C: .word PTR_LAB_overlay_0_0214b710_overlay_0_021751f4
-	arm_func_end ov0_0214B6F8
+	arm_func_end _ZN17UnkClass_0214B6F012ov0_0214B6F8Ev
 
 	arm_func_start ov0_0214B710
 ov0_0214B710: ; 0x0214B710
@@ -17303,18 +17129,18 @@ _0214B928:
 _0214B934: .word s_ERROR_syscallFieldNpc_cpp_Field_overlay_0_02175214
 _0214B938: .word s_scriptAddNpcError_overlay_0_02175248
 
-	arm_func_start ov0_0214B93C
-ov0_0214B93C: ; 0x0214B93C
+	arm_func_start _ZN17UnkClass_0214B93CC1Ev
+_ZN17UnkClass_0214B93CC1Ev: ; 0x0214B93C
 	bx lr
-	arm_func_end ov0_0214B93C
+	arm_func_end _ZN17UnkClass_0214B93CC1Ev
 
-	arm_func_start ov0_0214B940
-ov0_0214B940: ; 0x0214B940
+	arm_func_start _ZN17UnkClass_0214B93CD1Ev
+_ZN17UnkClass_0214B93CD1Ev: ; 0x0214B940
 	bx lr
-	arm_func_end ov0_0214B940
+	arm_func_end _ZN17UnkClass_0214B93CD1Ev
 
-	arm_func_start ov0_0214B944
-ov0_0214B944: ; 0x0214B944
+	arm_func_start _ZN17UnkClass_0214B93C12ov0_0214B944Ev
+_ZN17UnkClass_0214B93C12ov0_0214B944Ev: ; 0x0214B944
 	ldr ip, _0214B954 ; =FUN_02044B38
 	ldr r1, _0214B958 ; =PTR_LAB_overlay_0_0214b95c_overlay_0_0217525c
 	mov r0, #0xf
@@ -17322,7 +17148,7 @@ ov0_0214B944: ; 0x0214B944
 	.align 2, 0
 _0214B954: .word sub_02044B38
 _0214B958: .word PTR_LAB_overlay_0_0214b95c_overlay_0_0217525c
-	arm_func_end ov0_0214B944
+	arm_func_end _ZN17UnkClass_0214B93C12ov0_0214B944Ev
 
 	arm_func_start ov0_0214B95C
 ov0_0214B95C: ; 0x0214B95C

@@ -257,7 +257,7 @@ void CFieldScene::func6()
     }
 
     unk_00E0 = new UnkClass_0213D624();
-    ov0_0213D658(unk_00E0);
+    unk_00E0->ov0_0213D658();
 
     unk_0008 = new UnkClass_02003718();
     unk_0008->sub_02003788(0, 0xC0000, 0, 0x100000, -0x800000, 0x800000, 0x10000);
