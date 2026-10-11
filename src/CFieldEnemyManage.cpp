@@ -33,7 +33,6 @@ void sub_02044AC8(void *script);
 FieldEnemyData *sub_02041D58(UnkClass_02041D80 *obj, int kind);
 BOOL sub_02015434(UnkClass_020B26A0 *save, int mapId, int idx);
 void sub_02041A70(CFieldActor *actor, int arg1, int arg2);
-int ov0_0213D1AC(CFieldTargetObjectManage *manage, int count, u16 kind, int arg3, int arg4, int arg5);
 }
 
 UnkStruct_021357DC::UnkStruct_021357DC()
@@ -328,7 +327,7 @@ void CFieldEnemyManage::ov0_02136384()
             continue;
         }
         int count = targets->CountActors();
-        int index = ov0_0213D1AC(targets, count, kind, 0, 0, 0);
+        int index = targets->ov0_0213D1AC(count, kind, 0, 0, 0);
         if (index < 0) {
             continue;
         }

@@ -1,370 +1,7 @@
     .include "macros.inc"
-    .include "include/overlay_00_0213D14C.inc"
+    .include "include/overlay_00_0213D624.inc"
 
     .text
-
-	arm_func_start ov0_0213D14C
-ov0_0213D14C: ; 0x0213D14C
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	bl _ZN17CFieldActorManage12sub_0203EFE4Ei
-	mov r0, #0x80
-	bl _Znwm
-	cmp r0, #0
-	beq _0213D16C
-	bl ov0_02142028
-	arm_func_end ov0_0213D14C
-_0213D16C:
-	str r0, [r4, #0x10]
-	ldmia sp!, {r4, pc}
-
-	arm_func_start ov0_0213D174
-ov0_0213D174: ; 0x0213D174
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	bl _ZN17CFieldActorManage12sub_0203F034Ev
-	ldr r4, [r5, #0x10]
-	cmp r4, #0
-	ldmeqia sp!, {r3, r4, r5, pc}
-	beq _0213D1A0
-	mov r0, r4
-	bl ov0_02142054
-	mov r0, r4
-	bl _ZdlPv
-	arm_func_end ov0_0213D174
-_0213D1A0:
-	mov r0, #0
-	str r0, [r5, #0x10]
-	ldmia sp!, {r3, r4, r5, pc}
-
-	arm_func_start ov0_0213D1AC
-ov0_0213D1AC: ; 0x0213D1AC
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
-	sub sp, sp, #0x40
-	mov sl, r0
-	ldr r0, [sl, #8]
-	mov sb, r1
-	mov r8, r2
-	mov r7, r3
-	cmp r0, #0
-	beq _0213D518
-	ldr r2, [sl, #4]
-	ldr r1, _0213D524 ; =MAIN_BSS_0210CA6C
-	cmp r2, #0
-	ldr r5, [r1]
-	ldr fp, _0213D528 ; =MAIN_BSS_020B26A0
-	mov r4, #0
-	ble _0213D518
-	mov r1, r4
-	arm_func_end ov0_0213D1AC
-_0213D1F0:
-	cmp r2, r4
-	movle r3, r1
-	ldrgt r3, [r0, r4, lsl #2]
-	cmp r3, #0
-	bne _0213D50C
-	mov r0, #0x114
-	bl _Znwm
-	movs r6, r0
-	beq _0213D21C
-	bl _ZN18CFieldTargetObjectC1Ev
-	mov r6, r0
-_0213D21C:
-	ldrh r1, [fp, #0x1a]
-	mov r0, r6
-	ldr r2, [r0]
-	mov r3, r1, lsl #0x14
-	ldr r1, _0213D52C ; =0x00000FFF
-	mov r3, r3, lsr #8
-	and sb, sb, r1
-	orr r1, r3, #0x3000000
-	ldr r2, [r2, #0x20]
-	orr r1, sb, r1
-	blx r2
-	mov r0, r5
-	mov r1, r8
-	str r8, [r6, #0xe8]
-	bl sub_02041D6C
-	mov r5, r0
-	mov r0, #0xe
-	str r0, [sp]
-	ldr r1, [sp, #0x6c]
-	mov r0, r6
-	str r1, [sp, #4]
-	mov r1, #2
-	ldrh r2, [r5]
-	ldrb r3, [r5, #2]
-	bl sub_0203C418
-	ldrsb r1, [r5, #0x14]
-	ldrsb r0, [r5, #0x13]
-	strb r0, [r6, #0xbc]
-	strb r1, [r6, #0xbd]
-	ldrb r1, [r5, #0x16]
-	ldrb r0, [r5, #0x15]
-	strb r0, [r6, #0xbe]
-	strb r1, [r6, #0xbf]
-	ldrb r0, [r5, #0xe]
-	cmp r0, #0
-	bne _0213D314
-	ldrb r3, [r5, #0x11]
-	ldrsb r1, [r5, #0xf]
-	ldrsb r0, [r5, #0x10]
-	mov fp, r3, lsl #0xc
-	ldrb r2, [r5, #0x12]
-	mov r1, r1, lsl #0xc
-	mov r0, r0, lsl #0xc
-	mov r3, r2, lsl #0xc
-	add r2, sp, #0x30
-	add sb, sp, #0x14
-	str fp, [sp, #0x38]
-	str r1, [sp, #0x30]
-	str r0, [sp, #0x34]
-	str r3, [sp, #0x3c]
-	ldmia r2, {r0, r1, r2, r3}
-	stmia sb, {r0, r1, r2, r3}
-	ldr r1, [sp, #0x14]
-	mov r0, #0
-	str r1, [r6, #0x34]
-	ldr r1, [sp, #0x18]
-	str r1, [r6, #0x38]
-	ldr r1, [sp, #0x1c]
-	str r1, [r6, #0x3c]
-	ldr r1, [sp, #0x20]
-	str r1, [r6, #0x40]
-	b _0213D364
-_0213D314:
-	ldrsb r2, [r5, #0xf]
-	ldrsb r1, [r5, #0x10]
-	ldrb r0, [r5, #0x11]
-	mov sb, r2, lsl #0xc
-	mov r2, r1, lsl #0xc
-	mov r1, r0, lsl #0xc
-	add r0, sp, #0x24
-	add r3, sp, #8
-	str sb, [sp, #0x24]
-	str r2, [sp, #0x28]
-	str r1, [sp, #0x2c]
-	ldmia r0, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-	ldr r2, [sp, #8]
-	ldr r1, [sp, #0xc]
-	mov r0, #1
-	str r2, [r6, #0x44]
-	str r1, [r6, #0x48]
-	ldr r1, [sp, #0x10]
-	str r1, [r6, #0x4c]
-_0213D364:
-	str r0, [r6, #0x50]
-	ldrsb r0, [r5, #9]
-	ldrsb r3, [r5, #0xa]
-	ldrb r2, [r5, #0xb]
-	ldrb r1, [r5, #0xc]
-	mov r0, r0, lsl #0xc
-	mov r3, r3, lsl #0xc
-	str r0, [r6, #0x24]
-	str r3, [r6, #0x28]
-	mov r0, r2, lsl #0xc
-	str r0, [r6, #0x2c]
-	mov r0, r1, lsl #0xc
-	str r0, [r6, #0x30]
-	ldr r0, [sl, #0x10]
-	cmp r0, #0
-	beq _0213D49C
-	cmp r7, #0
-	mov r2, #0
-	beq _0213D3BC
-	mov r1, r7
-	bl ov0_021420AC
-	b _0213D3C4
-_0213D3BC:
-	ldrh r1, [r5, #6]
-	bl ov0_021420AC
-_0213D3C4:
-	mov r7, r0
-	cmp r7, #0
-	beq _0213D434
-	mov r0, #0x3c
-	bl _Znwm
-	movs r5, r0
-	beq _0213D3F8
-	mov r1, #0x30
-	bl _ZN17CFieldActorScriptC2Ei
-	ldr r1, _0213D530 ; =ptr_FUN_overlay_0_0213d138_overlay_0_02173d74
-	mvn r0, #0
-	str r1, [r5]
-	str r0, [r5, #0x38]
-_0213D3F8:
-	mov r0, r6
-	ldr r3, [r0]
-	mov r1, r5
-	ldr r3, [r3, #0xc]
-	mov r2, r7
-	blx r3
-	cmp r0, #0
-	bne _0213D424
-	ldr r0, _0213D534 ; =s_SetScript_ERROR_by_FieldTargetOb_overlay_0_02173f1c
-	bl LogError
-	b _0213D434
-_0213D424:
-	mov r1, #1
-	mov r0, r6
-	str r1, [r6, #0xc]
-	bl _ZN18CFieldTargetObject12ov0_0213CD3CEv
-_0213D434:
-	ldrh r1, [sp, #0x68]
-	cmp r1, #0
-	beq _0213D49C
-	ldr r0, [sl, #0x10]
-	mov r2, #1
-	bl ov0_021420AC
-	movs r7, r0
-	beq _0213D49C
-	mov r0, #0x3c
-	bl _Znwm
-	movs r5, r0
-	beq _0213D47C
-	mov r1, #0x20
-	bl _ZN17CFieldActorScriptC2Ei
-	ldr r1, _0213D530 ; =ptr_FUN_overlay_0_0213d138_overlay_0_02173d74
-	mvn r0, #0
-	str r1, [r5]
-	str r0, [r5, #0x38]
-_0213D47C:
-	mov r0, r6
-	mov r1, r5
-	mov r2, r7
-	bl _ZN18CFieldTargetObject12ov0_0213CF30EP17CFieldActorScriptPv
-	cmp r0, #0
-	bne _0213D49C
-	ldr r0, _0213D538 ; =s_SetTouchScript_ERROR_by_FieldTar_overlay_0_02173f4c
-	bl LogError
-_0213D49C:
-	cmp r8, #0x6e
-	bgt _0213D4B4
-	bge _0213D4D4
-	cmp r8, #0x61
-	beq _0213D4D4
-	b _0213D4F8
-_0213D4B4:
-	cmp r8, #0xf3
-	bgt _0213D4C4
-	beq _0213D4E4
-	b _0213D4F8
-_0213D4C4:
-	ldr r0, _0213D53C ; =0x00000122
-	cmp r8, r0
-	beq _0213D4F0
-	b _0213D4F8
-_0213D4D4:
-	ldr r0, [r6, #4]
-	orr r0, r0, #0x1000
-	str r0, [r6, #4]
-	b _0213D4F8
-_0213D4E4:
-	mov r0, #0
-	bl ov0_02159D30
-	b _0213D4F8
-_0213D4F0:
-	mov r0, #1
-	bl ov0_02159D30
-_0213D4F8:
-	ldr r1, [sl, #8]
-	add sp, sp, #0x40
-	mov r0, r4
-	str r6, [r1, r4, lsl #2]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
-_0213D50C:
-	add r4, r4, #1
-	cmp r4, r2
-	blt _0213D1F0
-_0213D518:
-	mvn r0, #0
-	add sp, sp, #0x40
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
-	.align 2, 0
-_0213D524: .word MAIN_BSS_0210CA6C
-_0213D528: .word MAIN_BSS_020B26A0
-_0213D52C: .word 0x00000FFF
-_0213D530: .word _ZTV29CFieldTargetObjectActorScript+8
-_0213D534: .word s_SetScript_ERROR_by_FieldTargetOb_overlay_0_02173f1c
-_0213D538: .word s_SetTouchScript_ERROR_by_FieldTar_overlay_0_02173f4c
-_0213D53C: .word 0x00000122
-
-	arm_func_start ov0_0213D540
-ov0_0213D540: ; 0x0213D540
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r0, [r4, #0x10]
-	cmp r0, #0
-	beq _0213D558
-	bl ov0_02142068
-	arm_func_end ov0_0213D540
-_0213D558:
-	mov r0, r4
-	bl _ZN17CFieldActorManage12sub_0203F190Ev
-	ldmia sp!, {r4, pc}
-
-	arm_func_start ov0_0213D564
-ov0_0213D564: ; 0x0213D564
-	stmdb sp!, {r4, lr}
-	ldr lr, [r0, #4]
-	mov r3, #0
-	mov ip, r3
-	cmp lr, #0
-	ble _0213D5DC
-	mov r2, r3
-	arm_func_end ov0_0213D564
-_0213D580:
-	cmp lr, ip
-	ldrgt r1, [r0, #8]
-	movle r4, r2
-	ldrgt r4, [r1, ip, lsl #2]
-	cmp r4, #0
-	beq _0213D5D0
-	ldrb r1, [r4, #0x20]
-	cmp r1, #2
-	bne _0213D5D0
-	ldr r1, [r4, #0xe8]
-	sub r1, r1, #0xe
-	cmp r1, #4
-	addls pc, pc, r1, lsl #2
-	b _0213D5D0
-_0213D5B8: ; jump table
-	b _0213D5CC ; case 0
-	b _0213D5CC ; case 1
-	b _0213D5CC ; case 2
-	b _0213D5CC ; case 3
-	b _0213D5CC ; case 4
-_0213D5CC:
-	add r3, r3, #1
-_0213D5D0:
-	add ip, ip, #1
-	cmp ip, lr
-	blt _0213D580
-_0213D5DC:
-	mov r0, r3
-	ldmia sp!, {r4, pc}
-
-	arm_func_start ov0_0213D5E4
-ov0_0213D5E4: ; 0x0213D5E4
-	stmdb sp!, {r4, lr}
-	ldr r1, _0213D61C ; =ptr_FUN_overlay_0_0213d5e4_overlay_0_02173ec8
-	mov r4, r0
-	str r1, [r4]
-	ldr r1, [r0]
-	ldr r1, [r1, #0xc]
-	blx r1
-	ldr r1, _0213D620 ; =MAIN_BSS_0210CA7C
-	mov r2, #0
-	mov r0, r4
-	str r2, [r1]
-	bl _ZN17CFieldActorManageD2Ev
-	mov r0, r4
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0213D61C: .word ptr_FUN_overlay_0_0213d5e4_overlay_0_02173ec8
-_0213D620: .word MAIN_BSS_0210CA7C
-	arm_func_end ov0_0213D5E4
 
 	arm_func_start _ZN17UnkClass_0213D624C1Ev
 _ZN17UnkClass_0213D624C1Ev: ; 0x0213D624
@@ -5730,14 +5367,14 @@ _02142018:
 	.align 2, 0
 _02142024: .word s_game
 
-	arm_func_start ov0_02142028
-ov0_02142028: ; 0x02142028
+	arm_func_start _ZN17UnkClass_02142028C1Ev
+_ZN17UnkClass_02142028C1Ev: ; 0x02142028
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl _Z12sub_02044440v
 	mov r1, #0
 	mov r0, r1
-	arm_func_end ov0_02142028
+	arm_func_end _ZN17UnkClass_02142028C1Ev
 _0214203C:
 	str r0, [r4, r1, lsl #2]
 	add r1, r1, #1
@@ -5746,22 +5383,22 @@ _0214203C:
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 
-	arm_func_start ov0_02142054
-ov0_02142054: ; 0x02142054
+	arm_func_start _ZN17UnkClass_02142028D1Ev
+_ZN17UnkClass_02142028D1Ev: ; 0x02142054
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov0_02142068
+	bl _ZN17UnkClass_0214202812ov0_02142068Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	arm_func_end ov0_02142054
+	arm_func_end _ZN17UnkClass_02142028D1Ev
 
-	arm_func_start ov0_02142068
-ov0_02142068: ; 0x02142068
+	arm_func_start _ZN17UnkClass_0214202812ov0_02142068Ev
+_ZN17UnkClass_0214202812ov0_02142068Ev: ; 0x02142068
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r5, #0
 	mov r7, r0
 	mov r4, r5
-	arm_func_end ov0_02142068
+	arm_func_end _ZN17UnkClass_0214202812ov0_02142068Ev
 _02142078:
 	ldr r6, [r7, r5, lsl #2]
 	cmp r6, #0
@@ -5779,8 +5416,8 @@ _0214209C:
 	blt _02142078
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 
-	arm_func_start ov0_021420AC
-ov0_021420AC: ; 0x021420AC
+	arm_func_start _ZN17UnkClass_0214202812ov0_021420ACEii
+_ZN17UnkClass_0214202812ov0_021420ACEii: ; 0x021420AC
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0x100
 	mov r7, r1
@@ -5792,7 +5429,7 @@ ov0_021420AC: ; 0x021420AC
 	moveq r0, r0, lsl #0x10
 	moveq r4, r0, lsr #0x10
 	mov r5, #0
-	arm_func_end ov0_021420AC
+	arm_func_end _ZN17UnkClass_0214202812ov0_021420ACEii
 _021420D8:
 	ldr r1, [r8, r5, lsl #2]
 	cmp r1, #0
@@ -18005,7 +17642,7 @@ _0214BCE8:
 	ldrh r2, [r2]
 	mov r0, r5
 	mov r3, r3, lsr #0x10
-	bl ov0_0213D1AC
+	bl _ZN24CFieldTargetObjectManage12ov0_0213D1ACEittti
 	cmp r0, #0
 	addlt sp, sp, #0x38
 	ldmltia sp!, {r4, r5, r6, pc}
@@ -65447,96 +65084,6 @@ DAT_overlay_0_02172f74: ; 0x02172F74
     .section .sinit,4 ; 0x02172F78
 
     .data
-
-    .global PTR_ptr_FUN_020835bc_overlay_0_02173e98
-PTR_ptr_FUN_020835bc_overlay_0_02173e98: ; 0x02173E98
-	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
-	.word s_24CFieldTargetObjectManage_overlay_0_02173ea4
-	.word _ZTI17CFieldActorManage
-
-    .global s_24CFieldTargetObjectManage_overlay_0_02173ea4
-s_24CFieldTargetObjectManage_overlay_0_02173ea4: ; 0x02173EA4
-	.asciz "24CFieldTargetObjectManage"
-
-    .global DAT_overlay_0_02173EBF
-DAT_overlay_0_02173EBF:
-	.byte 0x00
-
-    .global _ZTV24CFieldTargetObjectManage
-_ZTV24CFieldTargetObjectManage:
-	.word 0x0
-	.word PTR_ptr_FUN_020835bc_overlay_0_02173e98
-
-    .global ptr_FUN_overlay_0_0213d5e4_overlay_0_02173ec8
-ptr_FUN_overlay_0_0213d5e4_overlay_0_02173ec8: ; 0x02173EC8
-	.word ov0_0213D5E4
-
-    .global ptr_FUN_overlay_0_0211e95c_overlay_0_02173ecc
-ptr_FUN_overlay_0_0211e95c_overlay_0_02173ecc: ; 0x02173ECC
-	.word _ZN24CFieldTargetObjectManageD0Ev
-
-    .global ptr_FUN_overlay_0_0213d14c_overlay_0_02173ed0
-ptr_FUN_overlay_0_0213d14c_overlay_0_02173ed0: ; 0x02173ED0
-	.word ov0_0213D14C
-
-    .global ptr_FUN_overlay_0_0213d174_overlay_0_02173ed4
-ptr_FUN_overlay_0_0213d174_overlay_0_02173ed4: ; 0x02173ED4
-	.word ov0_0213D174
-
-    .global ptr_FUN_0203f0c0_overlay_0_02173ed8
-ptr_FUN_0203f0c0_overlay_0_02173ed8: ; 0x02173ED8
-	.word _ZN17CFieldActorManage12sub_0203F0C0Ev
-
-    .global ptr_FUN_0203f144_overlay_0_02173edc
-ptr_FUN_0203f144_overlay_0_02173edc: ; 0x02173EDC
-	.word _ZN17CFieldActorManage12sub_0203F144Ei
-	.word ov0_0213D540
-
-    .global ptr_FUN_0203f2b0_overlay_0_02173ee4
-ptr_FUN_0203f2b0_overlay_0_02173ee4: ; 0x02173EE4
-	.word _ZN17CFieldActorManage12sub_0203F2B0EP9CFieldMapi
-
-    .global ptr_FUN_0203f1fc_overlay_0_02173ee8
-ptr_FUN_0203f1fc_overlay_0_02173ee8: ; 0x02173EE8
-	.word _ZN17CFieldActorManage12sub_0203F1FCEv
-	.word _ZN17CFieldActorManage12sub_0203F278Ev
-
-    .global ptr_FUN_02040460_overlay_0_02173ef0
-ptr_FUN_02040460_overlay_0_02173ef0: ; 0x02173EF0
-	.word _ZN17CFieldActorManage12sub_02040460Ev
-	.word _ZN17CFieldActorManage12sub_02040428Ev
-	.word _ZN17CFieldActorManage12sub_02040384Ev
-
-    .global ptr_FUN_0203f348_overlay_0_02173efc
-ptr_FUN_0203f348_overlay_0_02173efc: ; 0x02173EFC
-	.word _ZN17CFieldActorManage12sub_0203F348EP17UnkClass_0211E3FCP17UnkClass_020416AC
-
-    .global ptr_FUN_0203f4b8_overlay_0_02173f00
-ptr_FUN_0203f4b8_overlay_0_02173f00: ; 0x02173F00
-	.word _ZN17CFieldActorManage12sub_0203F4B8Ev
-
-    .global ptr_FUN_0203f58c_overlay_0_02173f04
-ptr_FUN_0203f58c_overlay_0_02173f04: ; 0x02173F04
-	.word _ZN17CFieldActorManage12sub_0203F58CEv
-
-    .global ptr_FUN_0203f604_overlay_0_02173f08
-ptr_FUN_0203f604_overlay_0_02173f08: ; 0x02173F08
-	.word _ZN17CFieldActorManage12sub_0203F604Ev
-
-    .global ptr_FUN_0203f688_overlay_0_02173f0c
-ptr_FUN_0203f688_overlay_0_02173f0c: ; 0x02173F0C
-	.word _ZN17CFieldActorManage12sub_0203F688Ev
-	.word _ZN17CFieldActorManage12sub_0203F700Ev
-	.word _ZN17CFieldActorManage12sub_0203F754Ev
-	.word _ZN17CFieldActorManage12sub_0203F7ACEv
-
-    .global s_SetScript_ERROR_by_FieldTargetOb_overlay_0_02173f1c
-s_SetScript_ERROR_by_FieldTargetOb_overlay_0_02173f1c: ; 0x02173F1C
-	.asciz "SetScript  ERROR by FieldTargetObjectManage.cpp"
-
-    .global s_SetTouchScript_ERROR_by_FieldTar_overlay_0_02173f4c
-s_SetTouchScript_ERROR_by_FieldTar_overlay_0_02173f4c: ; 0x02173F4C
-	.asciz "SetTouchScript ERROR by FieldTargetObjectManage.cpp"
 
     .global PTR_ptr_FUN_02083578_overlay_0_02173f80
 PTR_ptr_FUN_02083578_overlay_0_02173f80: ; 0x02173F80

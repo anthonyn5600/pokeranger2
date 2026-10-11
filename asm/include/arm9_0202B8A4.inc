@@ -263,6 +263,7 @@
 .public _ZN23CFieldMapLayerCollision19IsCircleBlockedFineE7Point2Dlm
 .public _ZN23CFieldMapLayerCollision5SweepEP11PointPair2DlP7Point2Dm
 .public _ZN23CFieldMapLayerCollision9SweepFineEP11PointPair2DlP7Point2Dm
+.public _ZN24CFieldTargetObjectManage12ov0_0213D564Ev
 .public _ZN6CSceneD2Ev
 .public _ZN9CNCERFileC1EPKcmmm
 .public _ZdaPv
@@ -280,7 +281,6 @@
 .public _s32_div_f
 .public fflush
 .public fwrite
-.public ov0_0213D564
 .public ov0_0213E158
 .public ov0_02142F6C
 .public ov0_02143088

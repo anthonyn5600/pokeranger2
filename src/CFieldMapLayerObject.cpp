@@ -7,10 +7,6 @@
 #include "field/CFieldTargetObjectManage.hpp"
 #include "heap.hpp"
 
-extern "C" {
-int ov0_0213D1AC(CFieldTargetObjectManage *manage, int slot, int arg2, int arg3, int arg4, int arg5);
-}
-
 int CFieldMapLayerObject::Draw(UnkClass_02003718 *camera)
 {
     return 0;
@@ -49,7 +45,7 @@ BOOL CFieldMapLayerObject::Load(void *data)
     if (manage != NULL) {
         int base = manage->CountActors();
         for (int i = 0; i < count; i++) {
-            int slot = ov0_0213D1AC(manage, base + i, m_entries[i].unk_06, m_entries[i].unk_08, m_entries[i].unk_0A, 0);
+            int slot = manage->ov0_0213D1AC(base + i, m_entries[i].unk_06, m_entries[i].unk_08, m_entries[i].unk_0A, 0);
             if (slot >= 0) {
                 CFieldTargetObject *obj = (CFieldTargetObject *)manage->Get(slot);
                 fx32 y = m_entries[i].y << FX32_SHIFT;

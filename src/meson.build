@@ -78,6 +78,7 @@ pokeranger2_cxx = files(
     'CFieldNpc.cpp',
     'CFieldNpcManage.cpp',
     'CFieldTargetObject.cpp',
+    'CFieldTargetObjectManage.cpp',
     'CNameInputScene.cpp',
     'debug.cpp',
 )

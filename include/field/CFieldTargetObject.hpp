@@ -12,8 +12,8 @@ class CFieldMap;
 // Defined in ov0
 class CFieldTargetObjectActorScript : public CFieldActorScript {
 public:
-    CFieldTargetObjectActorScript()
-        : CFieldActorScript(0x30)
+    CFieldTargetObjectActorScript(int size)
+        : CFieldActorScript(size)
     {
         unk_38 = -1;
     }

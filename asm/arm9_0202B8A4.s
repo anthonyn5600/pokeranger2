@@ -7102,7 +7102,7 @@ sub_02030F68: ; 0x02030F68
 	cmp r0, #0
 	moveq r0, #0
 	ldmeqia sp!, {r3, pc}
-	bl ov0_0213D564
+	bl _ZN24CFieldTargetObjectManage12ov0_0213D564Ev
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02030F88: .word MAIN_BSS_0210CA7C
