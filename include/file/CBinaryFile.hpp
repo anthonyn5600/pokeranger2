@@ -16,7 +16,7 @@ public:
     void *sub_02002DD0(const char *path, u32 arg1, u32 arg2, void *arg3, u32 arg4);
     void sub_020030D4();
 
-    static BOOL sub_02003108(const char *path);
+    static BOOL sub_02003108(const char *path, u32 arg1);
 
 public:
     FSFile file;

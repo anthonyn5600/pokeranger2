@@ -100,7 +100,7 @@ _0208DD5A:
 PTR_ptr_FUN_020835bc_0208dd5c: ; 0x0208DD5C
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word s_15CFieldDrawActor_0208dd68
-	.word PTR_ptr_FUN_02083578_0208b478
+	.word _ZTI6CActor
 
 	.global s_15CFieldDrawActor_0208dd68
 s_15CFieldDrawActor_0208dd68: ; 0x0208DD68

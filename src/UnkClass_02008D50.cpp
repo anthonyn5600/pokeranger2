@@ -3,8 +3,8 @@
 #include <nitro.h>
 
 #include "UnkClass_02007F98.hpp"
+#include "UnkClass_0201179C.hpp"
 
-extern u16 DAT_0208b46c;
 extern u16 DAT_0208aaf4;
 extern u16 DAT_0208aafa;
 extern fx32 MAIN_BSS_020AF338;
@@ -36,7 +36,7 @@ void UnkClass_02008D50::sub_02008DB4(u16 fps)
     unk_14 = 60 / fps;
     unk_08 = fps * 0x01FF7D0E / 60;
     g_animFps = fps;
-    DAT_0208b46c = fps;
+    g_actorFps = fps;
     DAT_0208aaf4 = fps;
     DAT_0208aafa = 60;
     MAIN_BSS_020AF338 = FX32_ONE;

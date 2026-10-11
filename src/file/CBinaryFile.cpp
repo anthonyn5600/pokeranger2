@@ -235,7 +235,7 @@ void CBinaryFile::sub_020030D4()
     sub_02002C9C();
 }
 
-BOOL CBinaryFile::sub_02003108(const char *path)
+BOOL CBinaryFile::sub_02003108(const char *path, u32 arg1)
 {
     FSFileID fileID;
     return FS_ConvertPathToFileID(&fileID, path);

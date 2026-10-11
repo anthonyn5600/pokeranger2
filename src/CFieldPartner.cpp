@@ -15,7 +15,6 @@ extern CFieldScene *MAIN_BSS_0210CA40;
 extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
 
 extern "C" {
-void sub_02012A3C(UnkClass_0201287C *obj, int arg1, fx32 arg2, fx32 arg3);
 void ov0_0213EA6C(Point2D *out, Point2D cell, int floor, int arg3);
 BOOL ov0_0213E668(Point2D pos, fx32 radius, int floor, int arg3);
 BOOL ov0_0213E7C4(Point2D from, fx32 step, Point2D to, int floor, int mode);
@@ -65,7 +64,7 @@ CFieldPartner::~CFieldPartner()
 void CFieldPartner::ov0_02136CFC(BOOL keep, Point2D pos, int arg)
 {
     if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-        sub_02011AB0(&unk_08->unk_0C->unk_00C, pos, arg);
+        unk_08->unk_0C->m_motion.sub_02011AB0(pos, arg);
     }
     if (!keep) {
         unk_04 &= ~1;
@@ -571,7 +570,7 @@ void CFieldPartner::sub_0202D7E0()
 {
     sub_02032A44(1);
     if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-        sub_02012A3C(unk_08->unk_0C, 0, 0x1000, 0x1000);
+        unk_08->unk_0C->sub_02012A3C(0, 0x1000, 0x1000);
     }
     sub_show();
     sub_0201287C_();

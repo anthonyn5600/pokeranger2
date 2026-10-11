@@ -805,7 +805,7 @@ _0211D42C:
 	cmpne r0, #0
 	beq _0211D47C
 	mov r1, #0x4000
-	bl sub_020128EC
+	bl _ZN6CActor12sub_020128ECEt
 _0211D47C:
 	add r7, r7, #0xe0
 	add r8, r8, #0xe0

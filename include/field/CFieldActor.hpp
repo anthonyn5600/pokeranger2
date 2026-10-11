@@ -20,9 +20,9 @@ public:
     inline void SetPos(Point2D pos)
     {
         if (unk_0C != NULL) {
-            sub_02011D3C(&unk_0C->unk_00C, pos);
-            if (unk_0C->unk_0C4 != NULL) {
-                unk_0C->unk_0C4->SetPos(pos);
+            unk_0C->m_motion.sub_02011D3C(pos);
+            if (unk_0C->m_sprite != NULL) {
+                unk_0C->m_sprite->SetPos(pos);
             }
         }
     }
@@ -31,8 +31,8 @@ public:
     {
         if (unk_0C != NULL) {
             unk_0C->SetXY(x, y);
-            if (unk_0C->unk_0C4 != NULL) {
-                unk_0C->unk_0C4->SetXY(x, y);
+            if (unk_0C->m_sprite != NULL) {
+                unk_0C->m_sprite->SetXY(x, y);
             }
         }
     }
@@ -40,28 +40,28 @@ public:
     inline void sub_02012114_(int arg0, int arg1)
     {
         if (unk_0C != NULL) {
-            sub_02012114(unk_0C, arg0, arg1);
+            unk_0C->sub_02012114(arg0, arg1);
         }
     }
 
     inline void sub_020128EC_(u16 arg0)
     {
         if (unk_0C != NULL) {
-            sub_020128EC(unk_0C, arg0);
+            unk_0C->sub_020128EC(arg0);
         }
     }
 
     inline void sub_0201287C_()
     {
         if (unk_0C != NULL) {
-            sub_0201287C(unk_0C);
+            unk_0C->sub_0201287C();
         }
     }
 
     inline void sub_020129F4_(int arg0, int arg1)
     {
         if (unk_0C != NULL) {
-            sub_020129F4(unk_0C, arg0, arg1);
+            unk_0C->sub_020129F4(arg0, arg1);
         }
     }
 
@@ -96,7 +96,7 @@ public:
     inline void ResetUnk00C()
     {
         if (unk_0C != NULL) {
-            unk_0C->unk_00C.unk_00 = 0;
+            unk_0C->m_motion.m_mode = 0;
         }
     }
 
@@ -110,7 +110,7 @@ public:
     inline Point2D GetPos()
     {
         if (unk_0C != NULL) {
-            return unk_0C->m_pos;
+            return unk_0C->m_motion.m_pos;
         }
         Point2D zero = { 0, 0 };
         return zero;
@@ -119,7 +119,7 @@ public:
     inline fx32 GetX()
     {
         if (unk_0C != NULL) {
-            return unk_0C->m_pos.x;
+            return unk_0C->m_motion.m_pos.x;
         }
         return 0;
     }
@@ -127,7 +127,7 @@ public:
     inline fx32 GetY()
     {
         if (unk_0C != NULL) {
-            return unk_0C->m_pos.y;
+            return unk_0C->m_motion.m_pos.y;
         }
         return 0;
     }
@@ -135,7 +135,7 @@ public:
     inline u16 GetDir()
     {
         if (unk_0C != NULL) {
-            return unk_0C->unk_072;
+            return unk_0C->m_dir;
         }
         return 0;
     }
@@ -143,7 +143,7 @@ public:
     inline int GetUnk8C()
     {
         if (unk_0C != NULL) {
-            return unk_0C->unk_08C;
+            return unk_0C->unk_8C;
         }
         return 0;
     }
@@ -151,14 +151,14 @@ public:
     inline void SetUnk8C(int value)
     {
         if (unk_0C != NULL) {
-            unk_0C->unk_08C = value;
+            unk_0C->unk_8C = value;
         }
     }
 
     inline BOOL IsUnk00CSet()
     {
         if (unk_0C != NULL) {
-            return unk_0C->unk_00C.unk_00 != 0 ? TRUE : FALSE;
+            return unk_0C->m_motion.m_mode != 0 ? TRUE : FALSE;
         }
         return FALSE;
     }
@@ -174,7 +174,7 @@ public:
     inline int GetAnimState()
     {
         if (unk_0C != NULL) {
-            return sub_02012AFC(unk_0C);
+            return unk_0C->sub_02012AFC();
         }
         return 2;
     }
@@ -182,7 +182,7 @@ public:
     inline u8 GetUnkC0()
     {
         if (unk_0C != NULL) {
-            return unk_0C->unk_0C0;
+            return unk_0C->unk_C0;
         }
         return 0;
     }
@@ -190,7 +190,7 @@ public:
     inline int GetHeight()
     {
         if (unk_0C != NULL) {
-            return unk_0C->unk_08C + unk_0C->unk_0A0 + unk_0C->unk_0B0;
+            return unk_0C->unk_8C + unk_0C->m_jumpHeight + unk_0C->m_bobHeight;
         }
         return 0;
     }
@@ -371,14 +371,14 @@ public:
     inline void SetUnk004Bit8()
     {
         if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-            unk_08->unk_0C->unk_004 |= 8;
+            unk_08->unk_0C->m_flags |= 8;
         }
     }
 
     inline void ClearUnk004Bit8()
     {
         if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-            unk_08->unk_0C->unk_004 &= ~8;
+            unk_08->unk_0C->m_flags &= ~8;
         }
     }
 
@@ -390,14 +390,14 @@ public:
     inline void MoveTo(Point2D pos, int speed)
     {
         if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-            sub_02011C20(&unk_08->unk_0C->unk_00C, pos, speed);
+            unk_08->unk_0C->m_motion.sub_02011C20(pos, speed);
         }
     }
 
     inline void sub_020128D8_()
     {
         if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-            sub_020128D8(unk_08->unk_0C);
+            unk_08->unk_0C->sub_020128D8();
         }
     }
 

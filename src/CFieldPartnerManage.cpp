@@ -265,7 +265,7 @@ void CFieldPartnerManage::ov0_02139E9C()
     for (int i = 0; i < m_count; i++) {
         CFieldPartner *partner = (CFieldPartner *)Get(i);
         if (partner != NULL && partner->IsNpc() && partner->unk_08->unk_0C != NULL) {
-            partner->unk_08->unk_0C->unk_00C.unk_00 = 0;
+            partner->unk_08->unk_0C->m_motion.m_mode = 0;
         }
     }
 }

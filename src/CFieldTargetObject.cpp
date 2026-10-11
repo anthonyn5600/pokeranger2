@@ -218,6 +218,6 @@ BOOL CFieldTargetObject::sub_0203D578(CFieldMap *map)
 void CFieldTargetObject::sub_0202D7E0()
 {
     if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-        unk_08->unk_0C->unk_00C.unk_00 = 0;
+        unk_08->unk_0C->m_motion.m_mode = 0;
     }
 }

@@ -380,7 +380,7 @@ void CFieldPlayer::ov0_021307B0(UnkClass_02001C04 *pad, CTouchPanel *touch, UnkC
             }
             if (newPos.x != pos.x || newPos.y != pos.y) {
                 if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-                    sub_02011AB0(&unk_08->unk_0C->unk_00C, newPos, 1);
+                    unk_08->unk_0C->m_motion.sub_02011AB0(newPos, 1);
                 }
             }
             unk_FC.x = newPos.x - pos.x;
@@ -394,7 +394,7 @@ void CFieldPlayer::ov0_021307B0(UnkClass_02001C04 *pad, CTouchPanel *touch, UnkC
                     if (unk_54 == 0 && unk_08 != NULL) {
                         unk_54 = 1;
                         if (unk_08->unk_0C != NULL) {
-                            sub_02012B68(unk_08->unk_0C, 1, 8, 1, -3, 0, 0);
+                            unk_08->unk_0C->sub_02012B68(1, 8, 1, -3, 0, 0);
                         }
                     }
                 } else {
@@ -404,7 +404,7 @@ void CFieldPlayer::ov0_021307B0(UnkClass_02001C04 *pad, CTouchPanel *touch, UnkC
                     if (unk_54 != 0) {
                         unk_54 = 0;
                         if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-                            sub_02012C00(unk_08->unk_0C);
+                            unk_08->unk_0C->sub_02012C00();
                         }
                     }
                 }
@@ -848,7 +848,7 @@ BOOL CFieldPlayer::ov0_021333A0(fx32 dx, fx32 dy, int arg3, int damage, int arg5
                 unk_138 = arg3;
                 unk_144 = arg3;
                 if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-                    sub_020128D8(unk_08->unk_0C);
+                    unk_08->unk_0C->sub_020128D8();
                 }
                 sub_reset();
                 if (unk_08->unk_0C->unk_1A0 == 2 || unk_08->unk_0C->unk_1A0 == 0x20) {
@@ -935,7 +935,7 @@ BOOL CFieldPlayer::ov0_021337DC(int dir, int dir2, fx32 vx, fx32 vy, int arg5, i
         }
         unk_138 = 10;
         if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-            unk_08->unk_0C->unk_004 |= 8;
+            unk_08->unk_0C->m_flags |= 8;
         }
     } else {
         unk_13C = 0;
@@ -1067,7 +1067,7 @@ BOOL CFieldPlayer::ov0_021341E0()
         unk_110 = 0;
         unk_138 = 0;
         if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-            unk_08->unk_0C->unk_08C = 0;
+            unk_08->unk_0C->unk_8C = 0;
         }
         return TRUE;
     }

@@ -68,6 +68,8 @@
 .public _ZN17UnkClass_0200ECD012sub_0200F71CEv
 .public _ZN17UnkClass_0200ECD0C1EP9GXOamAttrmii
 .public _ZN17UnkClass_0200ECD0D1Ev
+.public _ZN17UnkClass_0201179C12sub_02011D1CEl
+.public _ZN17UnkClass_0201179C12sub_02011D2CEl
 .public _ZN17UnkClass_02019284C1Ev
 .public _ZN17UnkClass_0203447812sub_020345D4Ev
 .public _ZN17UnkClass_0203447812sub_02034C44Ei
@@ -91,8 +93,6 @@
 .public __cxa_vec_delete
 .public __cxa_vec_new
 .public sub_020107A8
-.public sub_02011D1C
-.public sub_02011D2C
 .public sub_020155FC
 .public sub_02015E54
 .public sub_020161AC

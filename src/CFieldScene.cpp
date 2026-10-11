@@ -685,8 +685,6 @@ void sub_02029D4C(UnkClass_02029800 *obj);
 void ov0_021428EC(UnkClass_02142428 *obj, int fps, BOOL paused);
 void ov0_021433D0(UnkClass_02142428 *obj);
 void sub_02041920(UnkClass_020416AC *obj);
-void sub_02011D1C(UnkClass_02011D3C *obj, fx32 x);
-void sub_02011D2C(UnkClass_02011D3C *obj, fx32 y);
 void sub_0201094C(void *obj, int arg1);
 void sub_02010954(void *obj, u8 arg1);
 void sub_0201095C(void *obj, u8 arg1);
@@ -795,7 +793,7 @@ u32 CFieldScene::func0()
                                 sub_02022C1C(unk_0054);
                                 sub_020234D4(unk_0058);
                                 if (unk_0014->unk_08 != NULL && unk_0014->unk_08->unk_0C != NULL) {
-                                    unk_0014->unk_08->unk_0C->unk_00C.unk_00 = 0;
+                                    unk_0014->unk_08->unk_0C->m_motion.m_mode = 0;
                                 }
                                 m_game->m_audioEngine->sub_02034C44(0xFA);
                                 ok = FALSE;
@@ -829,7 +827,7 @@ u32 CFieldScene::func0()
                     case 3:
                         if (!m_game->unk_14BC->sub_0200E310() && !m_game->unk_14C0->sub_0200E310()) {
                             if (unk_0014->unk_08 != NULL && unk_0014->unk_08->unk_0C != NULL) {
-                                unk_0014->unk_08->unk_0C->unk_08C = 0;
+                                unk_0014->unk_08->unk_0C->unk_8C = 0;
                             }
                             if (save->unk_8B64 == 1) {
                                 ov0_0213FB0C(unk_0034, "sGameOverFS", 0, -2);

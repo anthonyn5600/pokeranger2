@@ -10,7 +10,7 @@
 class UnkClass_020074D4 {
 public:
     UnkClass_020074D4();
-    UnkClass_020074D4(const char *arg0, u32 arg1, u32 arg2);
+    UnkClass_020074D4(const char *arg0, u32 arg1, u32 arg2, u32 arg3);
     UnkClass_020074D4(NNSG2dCharacterData *arg0);
     ~UnkClass_020074D4();
 

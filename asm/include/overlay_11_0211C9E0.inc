@@ -192,6 +192,7 @@
 .public _ZN5CGame11GetInstanceEv
 .public _ZN5CGame12sub_020100E4EPFvPvES0_
 .public _ZN5CGame12sub_020101F4Emmm
+.public _ZN6CActor12sub_020128ECEt
 .public _ZN6CScene5func3Ev
 .public _ZN6CScene5func4Ev
 .public _ZN6CSceneC2Ev
@@ -222,7 +223,6 @@
 .public sub_020110F8
 .public sub_02011188
 .public sub_02011318
-.public sub_020128EC
 .public sub_0201FC50
 .public sub_0201FC9C
 .public sub_0201FCB4

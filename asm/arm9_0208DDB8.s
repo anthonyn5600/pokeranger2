@@ -135,7 +135,7 @@ PTR_ptr_FUN_020835bc_0208de74: ; 0x0208DE74
 PTR_ptr_FUN_020835bc_0208de80: ; 0x0208DE80
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word s_19CFieldDrawActorData_0208dea0
-	.word PTR_ptr_FUN_02083578_0208b49c
+	.word _ZTI10CActorData
 
 	.global s_17CActorDataPartner_0208de8c
 s_17CActorDataPartner_0208de8c: ; 0x0208DE8C
@@ -161,13 +161,13 @@ ptr_FUN_02040d44_0208dec8: ; 0x0208DEC8
 
 	.global ptr_FUN_0201437c_0208decc
 ptr_FUN_0201437c_0208decc: ; 0x0208DECC
-	.word sub_0201437C
+	.word _ZN10CActorData7GetAnimEh
 
 	.global ptr_FUN_020143b8_0208ded0
 ptr_FUN_020143b8_0208ded0: ; 0x0208DED0
-	.word sub_020143B8
-	.word sub_02014414
-	.word sub_020150AC
+	.word _ZN10CActorData12sub_020143B8Eim
+	.word _ZN10CActorData9GetAnimIdEim
+	.word _ZN10CActorData9GetAnimAtEi
 
 	.global ptr_FUN_02040e2c_0208dedc
 ptr_FUN_02040e2c_0208dedc: ; 0x0208DEDC
@@ -193,13 +193,13 @@ ptr_FUN_020411b4_0208def4: ; 0x0208DEF4
 
 	.global ptr_FUN_0201437c_0208def8
 ptr_FUN_0201437c_0208def8: ; 0x0208DEF8
-	.word sub_0201437C
+	.word _ZN10CActorData7GetAnimEh
 
 	.global ptr_FUN_020143b8_0208defc
 ptr_FUN_020143b8_0208defc: ; 0x0208DEFC
-	.word sub_020143B8
-	.word sub_02014414
-	.word sub_020150AC
+	.word _ZN10CActorData12sub_020143B8Eim
+	.word _ZN10CActorData9GetAnimIdEim
+	.word _ZN10CActorData9GetAnimAtEi
 
 	.global ptr_FUN_020411d8_0208df08
 ptr_FUN_020411d8_0208df08: ; 0x0208DF08
@@ -301,7 +301,7 @@ ptr_FUN_020415c8_0208dfc0: ; 0x0208DFC0
 ptr_FUN_02041604_0208dfc4: ; 0x0208DFC4
 	.word sub_02041604
 	.word sub_02041660
-	.word sub_020150AC
+	.word _ZN10CActorData9GetAnimAtEi
 
 	.global ptr_FUN_02040e2c_0208dfd0
 ptr_FUN_02040e2c_0208dfd0: ; 0x0208DFD0

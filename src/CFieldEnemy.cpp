@@ -17,7 +17,6 @@ extern UnkClass_02142428 *MAIN_BSS_0210CA60;
 extern "C" {
 void LogError(const char *fmt, ...);
 void sub_0203C2B8(CFieldActor *actor);
-void sub_02012860(UnkClass_0201287C *obj, fx32 arg1, int arg2);
 }
 
 CFieldEnemy::CFieldEnemy()
@@ -136,10 +135,10 @@ void CFieldEnemy::sub_0203DA40(CFieldMap *map)
                     Point2D dest = GetPos() + dir;
                     if (unk_08 != NULL) {
                         if (unk_08->unk_0C != NULL) {
-                            sub_02012860(unk_08->unk_0C, 0x23000, 30);
+                            unk_08->unk_0C->sub_02012860(0x23000, 30);
                         }
                         if (unk_08->unk_0C != NULL) {
-                            sub_02011AB0(&unk_08->unk_0C->unk_00C, dest, 30);
+                            unk_08->unk_0C->m_motion.sub_02011AB0(dest, 30);
                         }
                     }
                 }
@@ -435,8 +434,8 @@ void CFieldEnemy::ov0_021356EC()
     fx32 x = unk_18;
     if (obj != NULL && (sprite = obj->unk_0C) != NULL) {
         sprite->SetXY(x, y);
-        if (obj->unk_0C->unk_0C4 != NULL) {
-            obj->unk_0C->unk_0C4->SetXY(x, y);
+        if (obj->unk_0C->m_sprite != NULL) {
+            obj->unk_0C->m_sprite->SetXY(x, y);
         }
     }
     sub_020128EC_(unk_256);

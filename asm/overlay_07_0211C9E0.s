@@ -1495,10 +1495,10 @@ _0211DD64:
 	beq _0211DE6C
 	ldr r1, [sp, #0x18]
 	add r0, fp, #0xc
-	bl sub_02011D1C
+	bl _ZN17UnkClass_0201179C12sub_02011D1CEl
 	ldr r1, [sp, #0x1c]
 	add r0, fp, #0xc
-	bl sub_02011D2C
+	bl _ZN17UnkClass_0201179C12sub_02011D2CEl
 	ldr r0, [r8, #0xc]
 	ldr r1, [r0, #0xc4]
 	cmp r1, #0

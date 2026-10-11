@@ -1735,7 +1735,7 @@ sub_0202CD2C: ; 0x0202CD2C
 	ldrne r0, [r0, #0xc]
 	cmpne r0, #0
 	beq _0202CD54
-	bl sub_020128D8
+	bl _ZN6CActor12sub_020128D8Ev
 	arm_func_end sub_0202CD2C
 _0202CD54:
 	mov r0, #0
@@ -1752,7 +1752,7 @@ sub_0202CD5C: ; 0x0202CD5C
 	ldrne r0, [r0, #0xc]
 	cmpne r0, #0
 	beq _0202CD84
-	bl sub_0201287C
+	bl _ZN6CActor12sub_0201287CEv
 	arm_func_end sub_0202CD5C
 _0202CD84:
 	mov r0, #0
@@ -1811,14 +1811,14 @@ _0202CE1C:
 	beq _0202CE4C
 	add r1, sp, #0x18
 	ldmia r1, {r1, r2}
-	bl sub_02012948
+	bl _ZN6CActor12sub_02012948E7Point2D
 _0202CE4C:
 	ldr r0, [r4, #8]
 	cmp r0, #0
 	ldrne r0, [r0, #0xc]
 	cmpne r0, #0
 	beq _0202CE64
-	bl sub_0201287C
+	bl _ZN6CActor12sub_0201287CEv
 _0202CE64:
 	mov r0, #0
 	add sp, sp, #0x20
@@ -1855,7 +1855,7 @@ sub_0202CEA0: ; 0x0202CEA0
 	ldrne r0, [r0, #0xc]
 	cmpne r0, #0
 	beq _0202CED4
-	bl sub_0201287C
+	bl _ZN6CActor12sub_0201287CEv
 	arm_func_end sub_0202CEA0
 _0202CED4:
 	mov r0, #0
@@ -1948,7 +1948,7 @@ _0202CFE8:
 	beq _0202D018
 	add r1, sp, #0x30
 	ldmia r1, {r1, r2}
-	bl sub_02012948
+	bl _ZN6CActor12sub_02012948E7Point2D
 _0202D018:
 	ldr r0, [r5, #8]
 	cmp r0, #0
@@ -1957,21 +1957,21 @@ _0202D018:
 	beq _0202D038
 	add r1, sp, #0x38
 	ldmia r1, {r1, r2}
-	bl sub_02012948
+	bl _ZN6CActor12sub_02012948E7Point2D
 _0202D038:
 	ldr r0, [r4, #8]
 	cmp r0, #0
 	ldrne r0, [r0, #0xc]
 	cmpne r0, #0
 	beq _0202D050
-	bl sub_0201287C
+	bl _ZN6CActor12sub_0201287CEv
 _0202D050:
 	ldr r0, [r5, #8]
 	cmp r0, #0
 	ldrne r0, [r0, #0xc]
 	cmpne r0, #0
 	beq _0202D068
-	bl sub_0201287C
+	bl _ZN6CActor12sub_0201287CEv
 _0202D068:
 	mov r0, #0
 	add sp, sp, #0x40
@@ -1993,7 +1993,7 @@ sub_0202D074: ; 0x0202D074
 	ldrne r0, [r0, #0xc]
 	cmpne r0, #0
 	beq _0202D0B0
-	bl sub_020128EC
+	bl _ZN6CActor12sub_020128ECEt
 	arm_func_end sub_0202D074
 _0202D0B0:
 	ldr r0, [r4, #8]
@@ -2001,7 +2001,7 @@ _0202D0B0:
 	ldrne r0, [r0, #0xc]
 	cmpne r0, #0
 	beq _0202D0C8
-	bl sub_0201287C
+	bl _ZN6CActor12sub_0201287CEv
 _0202D0C8:
 	mov r0, #0
 	ldmia sp!, {r4, pc}
@@ -2028,7 +2028,7 @@ sub_0202D0D0: ; 0x0202D0D0
 	beq _0202D124
 	add r1, sp, #0
 	ldmia r1, {r1, r2}
-	bl sub_02012948
+	bl _ZN6CActor12sub_02012948E7Point2D
 	arm_func_end sub_0202D0D0
 _0202D124:
 	ldr r0, [r4, #8]
@@ -2036,7 +2036,7 @@ _0202D124:
 	ldrne r0, [r0, #0xc]
 	cmpne r0, #0
 	beq _0202D13C
-	bl sub_0201287C
+	bl _ZN6CActor12sub_0201287CEv
 _0202D13C:
 	mov r0, #0
 	add sp, sp, #8
@@ -2532,7 +2532,7 @@ sub_0202D6F0: ; 0x0202D6F0
 	add r0, r0, #0xc
 	mov r3, #0x1000
 	ldmia r1, {r1, r2}
-	bl sub_02011C20
+	bl _ZN17UnkClass_0201179C12sub_02011C20E7Point2Di
 	arm_func_end sub_0202D6F0
 _0202D748:
 	mov r0, #0
@@ -2562,7 +2562,7 @@ sub_0202D754: ; 0x0202D754
 	add r0, r0, #0xc
 	mov r3, #0x2000
 	ldmia r1, {r1, r2}
-	bl sub_02011C20
+	bl _ZN17UnkClass_0201179C12sub_02011C20E7Point2Di
 	arm_func_end sub_0202D754
 _0202D7AC:
 	mov r0, #0
@@ -2611,7 +2611,7 @@ _0202D828:
 	ldrne r0, [r0, #0xc]
 	cmpne r0, #0
 	beq _0202D840
-	bl sub_0201287C
+	bl _ZN6CActor12sub_0201287CEv
 _0202D840:
 	ldr r0, [r4, #8]
 	cmp r0, #0
@@ -2671,10 +2671,10 @@ sub_0202D8BC: ; 0x0202D8BC
 	beq _0202D920
 	mov r1, r7
 	add r0, r6, #0xc
-	bl sub_02011D1C
+	bl _ZN17UnkClass_0201179C12sub_02011D1CEl
 	mov r1, r4
 	add r0, r6, #0xc
-	bl sub_02011D2C
+	bl _ZN17UnkClass_0201179C12sub_02011D2CEl
 	ldr r0, [r5, #0xc]
 	ldr r0, [r0, #0xc4]
 	cmp r0, #0
@@ -2721,7 +2721,7 @@ sub_0202D964: ; 0x0202D964
 	ldrne r0, [r0, #0xc]
 	cmpne r0, #0
 	beq _0202D9A0
-	bl sub_020128EC
+	bl _ZN6CActor12sub_020128ECEt
 	arm_func_end sub_0202D964
 _0202D9A0:
 	ldr r0, [r4, #8]
@@ -2729,7 +2729,7 @@ _0202D9A0:
 	ldrne r0, [r0, #0xc]
 	cmpne r0, #0
 	beq _0202D9B8
-	bl sub_0201287C
+	bl _ZN6CActor12sub_0201287CEv
 _0202D9B8:
 	mov r0, #0
 	ldmia sp!, {r4, pc}
@@ -2945,7 +2945,7 @@ _ZN11CFieldActor12sub_0202DC54Eii: ; 0x0202DC54
 	ldrne r0, [r0, #0xc]
 	cmpne r0, #0
 	ldmeqia sp!, {r3, pc}
-	bl sub_02012114
+	bl _ZN6CActor12sub_02012114Eii
 	ldmia sp!, {r3, pc}
 	arm_func_end _ZN11CFieldActor12sub_0202DC54Eii
 
@@ -2990,7 +2990,7 @@ sub_0202DCCC: ; 0x0202DCCC
 	cmp r0, #0
 	moveq r0, #2
 	ldmeqia sp!, {r3, pc}
-	bl sub_02012AFC
+	bl _ZN6CActor12sub_02012AFCEv
 	ldmia sp!, {r3, pc}
 	arm_func_end sub_0202DCCC
 _0202DD04:
@@ -3032,7 +3032,7 @@ sub_0202DD48: ; 0x0202DD48
 	cmpne r0, #0
 	beq _0202DD80
 	mov r1, #0
-	bl sub_02012808
+	bl _ZN6CActor12sub_02012808Ell
 	arm_func_end sub_0202DD48
 _0202DD80:
 	mov r0, #0
@@ -3110,7 +3110,7 @@ _0202DE14:
 	beq _0202DED8
 	mov r1, #0xf000
 	mov r2, #0x1e
-	bl sub_02012860
+	bl _ZN6CActor12sub_02012860Eli
 	b _0202DED8
 _0202DE94:
 	cmp r0, #0
@@ -3120,7 +3120,7 @@ _0202DE94:
 	beq _0202DEB4
 	mov r1, #0xa000
 	mov r2, #0x1e
-	bl sub_02012860
+	bl _ZN6CActor12sub_02012860Eli
 _0202DEB4:
 	ldr r0, [r4, #8]
 	ldr r0, [r0, #0xc]
@@ -3130,7 +3130,7 @@ _0202DEB4:
 	add r0, r0, #0xc
 	mov r3, #0x1e
 	ldmia r1, {r1, r2}
-	bl sub_02011AB0
+	bl _ZN17UnkClass_0201179C12sub_02011AB0E7Point2Dm
 _0202DED8:
 	mov r0, #0
 	add sp, sp, #0x20
@@ -3213,7 +3213,7 @@ _0202DF74:
 	mov r1, r1, lsl #0xc
 	cmpne r0, #0
 	beq _0202E050
-	bl sub_02012860
+	bl _ZN6CActor12sub_02012860Eli
 	b _0202E050
 _0202E000:
 	ldr r2, [r4, #8]
@@ -3226,7 +3226,7 @@ _0202E000:
 	cmp r0, #0
 	beq _0202E02C
 	mov r2, r5
-	bl sub_02012860
+	bl _ZN6CActor12sub_02012860Eli
 _0202E02C:
 	ldr r0, [r4, #8]
 	ldr r0, [r0, #0xc]
@@ -3236,7 +3236,7 @@ _0202E02C:
 	mov r3, r5
 	add r0, r0, #0xc
 	ldmia r1, {r1, r2}
-	bl sub_02011AB0
+	bl _ZN17UnkClass_0201179C12sub_02011AB0E7Point2Dm
 _0202E050:
 	mov r0, #0
 	add sp, sp, #0x20
@@ -3786,7 +3786,7 @@ sub_0202E6DC: ; 0x0202E6DC
 	add r0, r0, #0xc
 	mov r3, #0x800
 	ldmia r1, {r1, r2}
-	bl sub_02011C20
+	bl _ZN17UnkClass_0201179C12sub_02011C20E7Point2Di
 	arm_func_end sub_0202E6DC
 _0202E734:
 	mov r0, #0
@@ -3829,7 +3829,7 @@ sub_0202E740: ; 0x0202E740
 	str r2, [sp, #0xc]
 	add r0, r0, #0xc
 	ldmia r1, {r1, r2}
-	bl sub_02011CB4
+	bl _ZN17UnkClass_0201179C12sub_02011CB4E7Point2Dllttt
 	arm_func_end sub_0202E740
 _0202E7CC:
 	mov r0, #0
@@ -4346,7 +4346,7 @@ sub_0202EE68: ; 0x0202EE68
 	beq _0202EE98
 	mov r1, r5
 	and r2, r4, #0xff
-	bl sub_020129F4
+	bl _ZN6CActor12sub_020129F4Eih
 	arm_func_end sub_0202EE68
 _0202EE98:
 	mov r0, #0
@@ -4444,7 +4444,7 @@ sub_0202EF90: ; 0x0202EF90
 	mov r2, r4, lsl #0x10
 	mov r1, r5
 	mov r2, r2, lsr #0x10
-	bl sub_02012AA8
+	bl _ZN6CActor12sub_02012AA8Eit
 	arm_func_end sub_0202EF90
 _0202EFC4:
 	mov r0, #0
@@ -5003,7 +5003,7 @@ _0202F584:
 	add r1, sp, #0x10
 	add r0, r0, #0xc
 	ldmia r1, {r1, r2}
-	bl sub_02011D3C
+	bl _ZN17UnkClass_0201179C12sub_02011D3CE7Point2D
 	ldr r0, [sb, #0xc]
 	ldr r2, [r0, #0xc4]
 	cmp r2, #0
@@ -5021,14 +5021,14 @@ _0202F630:
 	ldrne r0, [r0, #0xc]
 	cmpne r0, #0
 	beq _0202F64C
-	bl sub_020128EC
+	bl _ZN6CActor12sub_020128ECEt
 _0202F64C:
 	ldr r0, [sl, #8]
 	cmp r0, #0
 	ldrne r0, [r0, #0xc]
 	cmpne r0, #0
 	beq _0202F664
-	bl sub_0201287C
+	bl _ZN6CActor12sub_0201287CEv
 _0202F664:
 	mov r0, sl
 	add r1, r6, #0x14
@@ -5495,7 +5495,7 @@ _0202FBD4:
 	add r1, sp, #0x20
 	add r0, r0, #0xc
 	ldmia r1, {r1, r2}
-	bl sub_02011D3C
+	bl _ZN17UnkClass_0201179C12sub_02011D3CE7Point2D
 	ldr r0, [r4, #0xc]
 	ldr r2, [r0, #0xc4]
 	cmp r2, #0
@@ -5620,7 +5620,7 @@ _0202FD88:
 	add r1, sp, #0x20
 	add r0, r0, #0xc
 	ldmia r1, {r1, r2}
-	bl sub_02011D3C
+	bl _ZN17UnkClass_0201179C12sub_02011D3CE7Point2D
 	ldr r0, [r4, #0xc]
 	ldr r2, [r0, #0xc4]
 	cmp r2, #0
@@ -8239,7 +8239,7 @@ _02031D60:
 	beq _02031DD4
 	add r0, r0, #0xc
 	ldmia fp, {r1, r2}
-	bl sub_02011D3C
+	bl _ZN17UnkClass_0201179C12sub_02011D3CE7Point2D
 	ldr r0, [sb, #0xc]
 	ldr r0, [r0, #0xc4]
 	cmp r0, #0

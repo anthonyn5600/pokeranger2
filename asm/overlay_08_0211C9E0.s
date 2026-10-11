@@ -1710,7 +1710,7 @@ _0211E018:
 	cmpne r0, #0
 	beq _0211E054
 	mov r1, #0x4000
-	bl sub_020128EC
+	bl _ZN6CActor12sub_020128ECEt
 _0211E054:
 	add r8, r8, #0xe0
 	add sb, sb, #0xe0

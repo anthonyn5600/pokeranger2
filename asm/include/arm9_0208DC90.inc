@@ -1,5 +1,4 @@
 #pragma once
-.public PTR_ptr_FUN_02083578_0208b478
 .public _ZN11CFieldActor12sub_0202D394Ev
 .public _ZN11CFieldActor12sub_0202D7E0Ev
 .public _ZN11CFieldActor12sub_0202DC54Eii
@@ -22,6 +21,7 @@
 .public _ZN17CFieldActorScriptD1Ev
 .public _ZTI11CFieldActor
 .public _ZTI17CFieldActorScript
+.public _ZTI6CActor
 .public _ZTVN10__cxxabiv120__si_class_type_infoE
 .public sub_0203DB60
 .public sub_0203DB88

@@ -8,7 +8,7 @@ UnkClass_020074D4::UnkClass_020074D4()
     sub_0200755C();
 }
 
-UnkClass_020074D4::UnkClass_020074D4(const char *arg0, u32 arg1, u32 arg2)
+UnkClass_020074D4::UnkClass_020074D4(const char *arg0, u32 arg1, u32 arg2, u32 arg3)
 {
     sub_0200755C();
     sub_02007590(arg0, arg1, arg2, 0);

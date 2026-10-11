@@ -4,6 +4,7 @@
 #include <nitro.h>
 
 #include "primitive/CPrimitive.hpp"
+#include "sub_02006000.hpp"
 
 // TODO: Figure out what this is
 class UnkClass_CSoftwareSprite_30 {
@@ -45,6 +46,18 @@ public:
 
     static u32 sub_020050C8(void);
     static u32 sub_02005120(void);
+
+    inline void SetPos(Point2D pos)
+    {
+        m_coords[0] = pos.x;
+        m_coords[1] = pos.y;
+    }
+
+    inline void SetXY(fx32 x, fx32 y)
+    {
+        m_coords[0] = x;
+        m_coords[1] = y;
+    }
 
 public:
     struct Clipping {

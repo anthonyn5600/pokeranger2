@@ -141,9 +141,11 @@
 .public _ZN17UnkClass_020074D412sub_020076B0Ev
 .public _ZN17UnkClass_020074D412sub_020076E8Em
 .public _ZN17UnkClass_020074D412sub_02007714Em
-.public _ZN17UnkClass_020074D4C1EPKcmm
+.public _ZN17UnkClass_020074D4C1EPKcmmm
 .public _ZN17UnkClass_020074D4D1Ev
+.public _ZN17UnkClass_02007AA412sub_02007BC4Ev
 .public _ZN17UnkClass_02007AA412sub_02007BFCEm
+.public _ZN17UnkClass_02007AA4C1EPKcmm
 .public _ZN17UnkClass_02007AA4D1Ev
 .public _ZN17UnkClass_0200878812sub_02008828Et
 .public _ZN17UnkClass_0200878812sub_02008860Et
@@ -184,6 +186,7 @@
 .public _ZN17UnkClass_0200ECD012sub_0200F71CEv
 .public _ZN17UnkClass_0200ECD0C1EP9GXOamAttrmii
 .public _ZN17UnkClass_0200ECD0D1Ev
+.public _ZN17UnkClass_0201179C12sub_02011D3CE7Point2D
 .public _ZN17UnkClass_0203447812sub_0203499CEi
 .public _ZN17UnkClass_0203447812sub_020349E8Ei
 .public _ZN17UnkClass_0203447812sub_02034A40Eii
@@ -200,6 +203,8 @@
 .public _ZN18CPrimitiveTRIANGLEC1Ev
 .public _ZN5CGame11GetInstanceEv
 .public _ZN5CGame12sub_02010324Ev
+.public _ZN6CActorC2Ev
+.public _ZN6CActorD2Ev
 .public _ZN9CNCERFileC1EPKcmmm
 .public _ZN9CNCLRFileC1EPKcmmm
 .public _ZN9CNSCRFileC1EPKcmmm
@@ -398,17 +403,12 @@
 .public s_uppict_0208becc
 .public s_uppict_03d_00_0208bebc
 .public s_uppict_03d_0208beb0
-.public sub_02007AC0
-.public sub_02007BC4
 .public sub_02007C34
 .public sub_020107A8
 .public sub_020107C4
 .public sub_02010E78
 .public sub_02010EAC
 .public sub_02011678
-.public sub_02011D3C
-.public sub_02011D60
-.public sub_02011F6C
 .public sub_020150B8
 .public sub_020155FC
 .public sub_02015658

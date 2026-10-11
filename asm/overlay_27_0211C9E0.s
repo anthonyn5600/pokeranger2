@@ -5185,7 +5185,7 @@ ov27_02120E70: ; 0x02120E70
 	cmpne r0, #0
 	beq _02120F04
 	mov r1, #0x4000
-	bl sub_020128EC
+	bl _ZN6CActor12sub_020128ECEt
 	arm_func_end ov27_02120E70
 _02120F04:
 	ldrb r1, [r5, #0x1f0]

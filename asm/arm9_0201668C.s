@@ -2877,7 +2877,7 @@ sub_02018BC4: ; 0x02018BC4
 	ldr r1, _02018CF8 ; =s_data_shadow_NCBR_0208b814
 	mov r3, r2
 	str r2, [sp]
-	bl _ZN17UnkClass_020074D4C1EPKcmm
+	bl _ZN17UnkClass_020074D4C1EPKcmmm
 	arm_func_end sub_02018BC4
 _02018BF4:
 	str r0, [r4]
@@ -2900,7 +2900,7 @@ _02018BF4:
 	mov r2, #0
 	ldr r1, _02018CFC ; =s_data_shadow_NCLR_0208b828
 	mov r3, r2
-	bl sub_02007AC0
+	bl _ZN17UnkClass_02007AA4C1EPKcmm
 _02018C48:
 	str r0, [r4, #4]
 	ldr r0, [r0, #4]
@@ -2915,7 +2915,7 @@ _02018C48:
 	mov r1, r1, lsr #0xd
 	bl _ZN17UnkClass_02007AA412sub_02007BFCEm
 	ldr r0, [r4, #4]
-	bl sub_02007BC4
+	bl _ZN17UnkClass_02007AA412sub_02007BC4Ev
 	mov r0, #0x40
 	bl _Znwm
 	cmp r0, #0
@@ -3369,7 +3369,7 @@ _020191C8:
 	add r1, sp, #0x20
 	add r0, r0, #0xc
 	ldmia r1, {r1, r2}
-	bl sub_02011D3C
+	bl _ZN17UnkClass_0201179C12sub_02011D3CE7Point2D
 	ldr r0, [r4, #0xc]
 	ldr r2, [r0, #0xc4]
 	cmp r2, #0
@@ -3406,7 +3406,7 @@ _ZN17UnkClass_02019284C1Ev: ; 0x02019284
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #4
 	mov r4, r0
-	bl sub_02011D60
+	bl _ZN6CActorC2Ev
 	ldr r1, _02019330 ; =ptr_FUN_0201933c_0208b864
 	add r0, r4, #0x18c
 	str r1, [r4]
@@ -3483,7 +3483,7 @@ sub_0201933C: ; 0x0201933C
 	add r0, r4, #0x18c
 	bl _ZN14CPrimitiveQUADD1Ev
 	mov r0, r4
-	bl sub_02011F6C
+	bl _ZN6CActorD2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
@@ -3522,7 +3522,7 @@ sub_020193C4: ; 0x020193C4
 	add r0, r4, #0x18c
 	bl _ZN14CPrimitiveQUADD1Ev
 	mov r0, r4
-	bl sub_02011F6C
+	bl _ZN6CActorD2Ev
 	mov r0, r4
 	bl _ZdlPv
 	mov r0, r4
@@ -5245,7 +5245,7 @@ _0201AB78:
 	mov r1, r6
 	mov r3, r2
 	str r2, [sp]
-	bl _ZN17UnkClass_020074D4C1EPKcmm
+	bl _ZN17UnkClass_020074D4C1EPKcmmm
 _0201AB9C:
 	str r0, [r5]
 	mov r1, #0
@@ -5267,7 +5267,7 @@ _0201AB9C:
 	mov r2, #0
 	ldr r1, [sp, #0x28]
 	mov r3, r2
-	bl sub_02007AC0
+	bl _ZN17UnkClass_02007AA4C1EPKcmm
 _0201ABF0:
 	str r0, [r5, #4]
 	ldr r0, [r0, #4]
@@ -5282,7 +5282,7 @@ _0201ABF0:
 	mov r1, r1, lsr #0xd
 	bl _ZN17UnkClass_02007AA412sub_02007BFCEm
 	ldr r0, [r5, #4]
-	bl sub_02007BC4
+	bl _ZN17UnkClass_02007AA412sub_02007BC4Ev
 	ldr r0, [sp, #0x2c]
 	cmp r0, #0
 	beq _0201AC5C
@@ -22557,7 +22557,7 @@ _0202957C:
 	str r0, [r6, #0x2c]
 _02029594:
 	add r0, r6, #4
-	bl sub_02007BC4
+	bl _ZN17UnkClass_02007AA412sub_02007BC4Ev
 	mov r0, r6
 	bl sub_02029648
 	mov r0, #0
@@ -22646,7 +22646,7 @@ sub_020296B0: ; 0x020296B0
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	add r0, r6, #4
-	bl sub_02007BC4
+	bl _ZN17UnkClass_02007AA412sub_02007BC4Ev
 	ldr r0, [r6, #0x2c]
 	cmp r0, #0
 	ldmeqia sp!, {r4, r5, r6, pc}

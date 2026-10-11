@@ -69,11 +69,16 @@ Static main
     Object main.nef.p/src_UnkClass_0200FA5C.cpp.o
     Object main.nef.p/src_CGame.cpp.o
     Object main.nef.p/asm_arm9_02010470.s.o
+    Object main.nef.p/asm_arm9_02084288.s.o
+    Object main.nef.p/src_UnkClass_0201179C.cpp.o
+    Object main.nef.p/src_CActor.cpp.o
+    Object main.nef.p/src_CActorData.cpp.o
+    Object main.nef.p/asm_arm9_020150B8.s.o
     Object main.nef.p/src_UnkClass_020B26A0.cpp.o
     Object main.nef.p/asm_arm9_0201668C.s.o
     Object main.nef.p/src_sub_0202B80C.cpp.o
     Object main.nef.p/asm_arm9_0202B8A4.s.o
-    Object main.nef.p/asm_arm9_02084288.s.o
+    Object main.nef.p/asm_arm9_0208B5C0.s.o
     Object main.nef.p/src_UnkClass_02034478.cpp.o
     Object main.nef.p/asm_arm9_02034F9C.s.o
     Object main.nef.p/src_sub_0204436C.cpp.o

@@ -63,6 +63,7 @@
 .public _ZN17UnkClass_02040F34C1Ev
 .public _ZN17UnkClass_02040F34D1Ev
 .public _ZN5CGame12sub_020101F4Emmm
+.public _ZN6CActor12sub_020128ECEt
 .public _ZN6CScene5func3Ev
 .public _ZN6CScene5func4Ev
 .public _ZN6CSceneC2Ev
@@ -73,7 +74,6 @@
 .public _Znwm
 .public __cxa_vec_cleanup
 .public __cxa_vec_ctor
-.public sub_020128EC
 .public sub_02020804
 .public sub_02020FF0
 .public sub_02021404
