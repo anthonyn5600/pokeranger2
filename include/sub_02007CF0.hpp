@@ -1,0 +1,10 @@
+#ifndef POKERANGER2_SUB_02007CF0_HPP
+#define POKERANGER2_SUB_02007CF0_HPP
+
+void sub_02007CF0();
+void sub_02007D2C();
+void sub_02007D68();
+void sub_02007D78();
+void sub_02007D98();
+
+#endif // POKERANGER2_SUB_02007CF0_HPP

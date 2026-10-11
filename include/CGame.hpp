@@ -8,6 +8,7 @@
 #include "CTouchPanel.hpp"
 #include "UnkClass_02001C04.hpp"
 #include "UnkClass_020023EC.hpp"
+#include "UnkClass_02008D50.hpp"
 #include "UnkClass_020091E8.hpp"
 #include "UnkClass_0200C38C.hpp"
 #include "UnkClass_0200CAB4.hpp"
@@ -124,7 +125,7 @@ public:
     CBattleResultParameter *unk_1444;
     MATHRandContext32 m_rand32;
     MATHRandContext16 m_rand16;
-    u16 unk_146C[16];
+    UnkClass_02008D50 unk_146C;
     UnkClass_02034478 *m_audioEngine;
     UnkClass_020091E8 *m_textboxData;
     UnkClass_0200C38C *unk_1494;

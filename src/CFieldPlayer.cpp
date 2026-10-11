@@ -6,6 +6,7 @@
 #include "CTouchPanel.hpp"
 #include "UnkClass_02001C04.hpp"
 #include "UnkClass_02003718.hpp"
+#include "UnkClass_02007F98.hpp"
 #include "UnkClass_0200E0B4.hpp"
 #include "UnkClass_02022404.hpp"
 #include "UnkClass_02041D80.hpp"
@@ -48,7 +49,6 @@ BOOL sub_0203CF40(CFieldActor *actor, PointPair2D *seg, fx32 radius, int mode);
 BOOL sub_0203D110(CFieldActor *actor, Point2D pos, fx32 radius, int mode);
 void sub_02041A70(CFieldActor *actor, int arg1, int arg2);
 void sub_02016DA4(UnkClass_020B26A0 *save, int arg1);
-int sub_02007DF0(int count, u16 dir, int arg2);
 }
 
 fx32 sub_02007254(fx32 x, fx32 y);

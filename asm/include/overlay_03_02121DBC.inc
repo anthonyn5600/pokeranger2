@@ -73,6 +73,8 @@
 .public _ZN17UnkClass_0200878812sub_02008828Et
 .public _ZN17UnkClass_0200878812sub_020089ECEv
 .public _ZN17UnkClass_0200878812sub_02008A80Emm
+.public _ZN17UnkClass_0200878812sub_02008B80Et
+.public _ZN17UnkClass_02008D5012sub_02008DB4Et
 .public _ZN17UnkClass_020091E812sub_020092D4Ev
 .public _ZN17UnkClass_020091E812sub_02009328EP17UnkClass_02001C04P11CTouchPanelP10NNSG2dFontPvP10CGame_0024S6_mmm
 .public _ZN17UnkClass_020091E812sub_02009FB0Emm
@@ -154,8 +156,6 @@
 .public ptr_FUN_02036908_0208d660
 .public ptr_FUN_020420d8_0208e088
 .public s_game
-.public sub_02008B80
-.public sub_02008DB4
 .public sub_0201AAE0
 .public sub_0201AB14
 .public sub_0201FC9C

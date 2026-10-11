@@ -39,7 +39,7 @@ ov27_0211CA34: ; 0x0211CA34
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
 	mov r1, #0x1e
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	add r0, r4, #0x384
 	bl ov27_021205F8
 	add r0, r4, #0x374
@@ -64,7 +64,7 @@ ov27_0211CA84: ; 0x0211CA84
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
 	mov r1, #0x1e
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	add r0, r4, #0x384
 	bl ov27_021205F8
 	add r0, r4, #0x374
@@ -260,7 +260,7 @@ ov27_0211CBFC: ; 0x0211CBFC
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
 	mov r1, #0x3c
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
@@ -366,7 +366,7 @@ ov27_0211CE84: ; 0x0211CE84
 	blx r1
 	arm_func_end ov27_0211CE84
 _0211CEA8:
-	bl sub_02007D98
+	bl _Z12sub_02007D98v
 	ldmia sp!, {r3, pc}
 
 	arm_func_start ov27_0211CEB0
@@ -4216,7 +4216,7 @@ ov27_021201DC: ; 0x021201DC
 	mov r1, #0x3c
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	mov r0, #1
 	ldmia sp!, {r4, pc}
 	arm_func_end ov27_021201DC

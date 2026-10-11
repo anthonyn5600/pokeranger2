@@ -456,7 +456,7 @@ ov9_0211CF48: ; 0x0211CF48
 	mov r1, #0x1e
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	ldr r0, [r4, #0x54]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x494]
@@ -833,7 +833,7 @@ ov9_0211D49C: ; 0x0211D49C
 	mov r1, #0x3c
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	mov r0, r4
 	bl ov9_0211D4D4
 	mov r0, #1

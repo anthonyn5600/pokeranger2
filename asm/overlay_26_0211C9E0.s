@@ -494,7 +494,7 @@ ov26_0211D094: ; 0x0211D094
 	mov r1, #0x3c
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	ldr r0, _0211D330 ; =s_game
 	mov r3, #0x10
 	ldr lr, [r0]
@@ -516,7 +516,7 @@ ov26_0211D094: ; 0x0211D094
 	ldr r2, [lr, #0x18]
 	add r3, r3, #0xc
 	bl _ZN17UnkClass_020091E812sub_02009328EP17UnkClass_02001C04P11CTouchPanelP10NNSG2dFontPvP10CGame_0024S6_mmm
-	bl sub_02007D68
+	bl _Z12sub_02007D68v
 	ldr r0, _0211D330 ; =s_game
 	mov r1, #0
 	ldr r0, [r0]
@@ -699,7 +699,7 @@ _0211D3A0:
 	ldr r0, [r0]
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0211D3BC: .word s_game

@@ -2437,7 +2437,7 @@ _020120C8:
 	beq _020120F8
 	add r1, r5, r4, lsl #1
 	ldrh r1, [r1, #0xc8]
-	bl sub_02008B80
+	bl _ZN17UnkClass_0200878812sub_02008B80Et
 _020120F8:
 	add r0, r4, #1
 	and r4, r0, #0xff
@@ -2475,7 +2475,7 @@ sub_02012114: ; 0x02012114
 	ldr r0, [r4, #0xc]
 	add r1, r6, r1, lsl #1
 	ldrh r1, [r1, #0xc8]
-	bl sub_020089B8
+	bl _ZN17UnkClass_0200878812sub_020089B8Et
 	ldmia sp!, {r4, r5, r6, pc}
 	arm_func_end sub_02012114
 
@@ -2507,7 +2507,7 @@ sub_02012184: ; 0x02012184
 	ldrh r1, [r1, #0xc8]
 	ldr r0, [r0, #0xc]
 	mov r2, r5
-	bl sub_02008A58
+	bl _ZN17UnkClass_0200878812sub_02008A58Etl
 	ldmia sp!, {r4, r5, r6, pc}
 	arm_func_end sub_02012184
 
@@ -2559,7 +2559,7 @@ sub_020121F4: ; 0x020121F4
 	ldrb r1, [r4, #0xc0]
 	add r1, r4, r1, lsl #1
 	ldrh r1, [r1, #0xc8]
-	bl sub_02008844
+	bl _ZN17UnkClass_0200878812sub_02008844Et
 	ldr r1, [r0]
 	ldr r0, [r0, #4]
 	add r5, sp, #0x18
@@ -2802,7 +2802,7 @@ _020125D4:
 	ldrh r2, [r5, #0x72]
 	add r1, r5, r1, lsl #1
 	ldrh r1, [r1, #0xc8]
-	bl sub_02008968
+	bl _ZN17UnkClass_0200878812sub_02008968Ett
 	ldmia sp!, {r3, r4, r5, pc}
 
 	arm_func_start sub_020125FC
@@ -2824,7 +2824,7 @@ sub_020125FC: ; 0x020125FC
 	ldrb r1, [r4, #0xc0]
 	add r1, r4, r1, lsl #1
 	ldrh r1, [r1, #0xc8]
-	bl sub_02008A38
+	bl _ZN17UnkClass_0200878812sub_02008A38Et
 	ldmia sp!, {r4, pc}
 	arm_func_end sub_020125FC
 
@@ -3072,7 +3072,7 @@ sub_020128EC: ; 0x020128EC
 	mov r2, r4
 	add r1, r5, r1, lsl #1
 	ldrh r1, [r1, #0xc8]
-	bl sub_02008968
+	bl _ZN17UnkClass_0200878812sub_02008968Ett
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end sub_020128EC
 
@@ -3227,7 +3227,7 @@ sub_02012AFC: ; 0x02012AFC
 	ldr r0, [r0, #0xc]
 	add r1, r4, r1, lsl #1
 	ldrh r1, [r1, #0xc8]
-	bl sub_02008860
+	bl _ZN17UnkClass_0200878812sub_02008860Et
 	ldmia sp!, {r4, pc}
 	arm_func_end sub_02012AFC
 
@@ -3461,7 +3461,7 @@ sub_02012DD0: ; 0x02012DD0
 	ldr r0, [r0, #0xc]
 	add r1, r4, r1, lsl #1
 	ldrh r1, [r1, #0xc8]
-	bl sub_02008D20
+	bl _ZN17UnkClass_0200878812sub_02008D20Et
 	ldmia sp!, {r4, pc}
 	arm_func_end sub_02012DD0
 
@@ -3484,7 +3484,7 @@ sub_02012E1C: ; 0x02012E1C
 	ldr r0, [r0, #0xc]
 	add r1, r4, r1, lsl #1
 	ldrh r1, [r1, #0xc8]
-	bl sub_02008D38
+	bl _ZN17UnkClass_0200878812sub_02008D38Et
 	ldmia sp!, {r4, pc}
 	arm_func_end sub_02012E1C
 
@@ -3507,7 +3507,7 @@ sub_02012E68: ; 0x02012E68
 	ldr r0, [r4, #0xc]
 	add r1, r5, r1, lsl #1
 	ldrh r1, [r1, #0xc8]
-	bl sub_020089B8
+	bl _ZN17UnkClass_0200878812sub_020089B8Et
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end sub_02012E68
 

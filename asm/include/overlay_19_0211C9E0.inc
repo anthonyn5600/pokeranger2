@@ -23,6 +23,7 @@
 .public MAIN_BSS_020B26A0
 .public NNS_G2dBGSetupEx
 .public _Z12sub_020060007Point2D9Rectanglem
+.public _Z12sub_02007D68v
 .public _ZN11CBGNCGRFileC1EPKcmmm
 .public _ZN13CArchiveGuardC1EPKcS1_mmmPvm
 .public _ZN13CArchiveGuardD1Ev
@@ -34,6 +35,8 @@
 .public _ZN17UnkClass_02003718C1Ev
 .public _ZN17UnkClass_02003718D1Ev
 .public _ZN17UnkClass_0200878812sub_02008828Et
+.public _ZN17UnkClass_0200878812sub_02008844Et
+.public _ZN17UnkClass_0200878812sub_02008860Et
 .public _ZN17UnkClass_0200878812sub_020089ECEv
 .public _ZN17UnkClass_0200878812sub_02008A80Emm
 .public _ZN17UnkClass_020091E812sub_020092D4Ev
@@ -67,9 +70,6 @@
 .public _ZdlPv
 .public _Znwm
 .public _ll_div
-.public sub_02007D68
-.public sub_02008844
-.public sub_02008860
 .public sub_020116C0
 .public sub_02018E30
 .public sub_02018E94

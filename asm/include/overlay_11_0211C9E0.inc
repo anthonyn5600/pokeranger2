@@ -138,6 +138,8 @@
 .public _ZN17UnkClass_0200371812sub_0200381CEv
 .public _ZN17UnkClass_02003718C1Ev
 .public _ZN17UnkClass_02003718D1Ev
+.public _ZN17UnkClass_02008D5012sub_02008DB4Et
+.public _ZN17UnkClass_02008D5012sub_02008E50Ev
 .public _ZN17UnkClass_020091E812sub_020092D4Ev
 .public _ZN17UnkClass_020091E812sub_02009328EP17UnkClass_02001C04P11CTouchPanelP10NNSG2dFontPvP10CGame_0024S6_mmm
 .public _ZN17UnkClass_020091E812sub_0200AA84Emmmmm
@@ -203,8 +205,6 @@
 .public s_game
 .public strcmp
 .public sub_0200071A
-.public sub_02008DB4
-.public sub_02008E50
 .public sub_02010F78
 .public sub_02010FAC
 .public sub_02010FC8

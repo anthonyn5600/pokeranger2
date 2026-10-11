@@ -376,7 +376,7 @@ ov25_0211CEF0: ; 0x0211CEF0
 	ldr ip, _0211CEF8 ; =FUN_02007D98
 	bx ip
 	.align 2, 0
-_0211CEF8: .word sub_02007D98
+_0211CEF8: .word _Z12sub_02007D98v
 	arm_func_end ov25_0211CEF0
 
 	arm_func_start ov25_0211CEFC
@@ -497,7 +497,7 @@ ov25_0211D098: ; 0x0211D098
 	mov r1, #0x3c
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	mov r1, #0
 	str r1, [sl, #4]
 	str r1, [sl, #8]

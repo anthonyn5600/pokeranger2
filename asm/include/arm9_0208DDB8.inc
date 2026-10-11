@@ -1,6 +1,7 @@
 #pragma once
 .public PTR_ptr_FUN_02083578_0208b49c
 .public PTR_ptr_FUN_020835bc_0208d638
+.public _ZN11CDrawObject12sub_020091D4EP17UnkClass_02003718i
 .public _ZN17CFieldActorManage12sub_0203EFE4Ei
 .public _ZN17CFieldActorManage12sub_0203F034Ev
 .public _ZN17CFieldActorManage12sub_0203F0C0Ev
@@ -27,7 +28,6 @@
 .public _ZTI6CScene
 .public _ZTVN10__cxxabiv117__class_type_infoE
 .public _ZTVN10__cxxabiv120__si_class_type_infoE
-.public sub_020091D4
 .public sub_0201437C
 .public sub_020143B8
 .public sub_02014414

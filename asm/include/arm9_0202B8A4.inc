@@ -168,6 +168,7 @@
 .public _Z12sub_02006F806Circle9Rectangle
 .public _Z12sub_02007254ll
 .public _Z12sub_0200732CP6CircleP7Point2D
+.public _Z12sub_02007D68v
 .public _Z12sub_02044440v
 .public _Z17LinearInterpolatellll
 .public _Z19Heap_AllocSecondarym
@@ -211,9 +212,15 @@
 .public _ZN17UnkClass_02007AA4C1EP17NNSG2dPaletteData
 .public _ZN17UnkClass_02007AA4D1Ev
 .public _ZN17UnkClass_0200878812sub_02008828Et
+.public _ZN17UnkClass_0200878812sub_02008860Et
 .public _ZN17UnkClass_0200878812sub_02008990Ett
+.public _ZN17UnkClass_0200878812sub_020089B8Et
 .public _ZN17UnkClass_0200878812sub_020089ECEv
+.public _ZN17UnkClass_0200878812sub_02008A38Et
 .public _ZN17UnkClass_0200878812sub_02008A80Emm
+.public _ZN17UnkClass_02008788C1EPKc
+.public _ZN17UnkClass_02008D5012sub_02008DB4Et
+.public _ZN17UnkClass_02008D5012sub_02008E50Ev
 .public _ZN17UnkClass_020091E812sub_020092D4Ev
 .public _ZN17UnkClass_020091E812sub_02009328EP17UnkClass_02001C04P11CTouchPanelP10NNSG2dFontPvP10CGame_0024S6_mmm
 .public _ZN17UnkClass_020091E812sub_020097FCEmm
@@ -242,6 +249,7 @@
 .public _ZN17UnkClass_02027FE812sub_0202841CEv
 .public _ZN17UnkClass_02027FE8C1Em
 .public _ZN17UnkClass_02027FE8D1Ev
+.public _ZN17UnkClass_0211E3FC12sub_0200912CEP11CDrawObject
 .public _ZN19CFieldPartnerManage12ov0_02139920Emttii
 .public _ZN19CFieldPartnerManage12ov0_02139F10Ei
 .public _ZN19CFieldPartnerManage12ov0_0213A050Em
@@ -387,14 +395,6 @@
 .public sub_02007B60
 .public sub_02007BC4
 .public sub_02007C34
-.public sub_02007D68
-.public sub_0200879C
-.public sub_02008860
-.public sub_020089B8
-.public sub_02008A38
-.public sub_02008DB4
-.public sub_02008E50
-.public sub_0200912C
 .public sub_020107A8
 .public sub_02010868
 .public sub_0201095C

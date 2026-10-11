@@ -37,14 +37,6 @@ DAT_0208a354: ; 0x0208A354
     .data
     .balign 4
 
-	.global DAT_0208a840
-DAT_0208a840: ; 0x0208A840
-	.byte 0x3C, 0x00, 0x00, 0x00
-
-	.global DAT_0208a844
-DAT_0208a844: ; 0x0208A844
-	.byte 0x00, 0x00, 0x00, 0x00
-
 	.global s_BGT_0208a848
 s_BGT_0208a848: ; 0x0208A848
 	.asciz "BGT"

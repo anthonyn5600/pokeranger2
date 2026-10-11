@@ -31,6 +31,7 @@
 .public _ZN17UnkClass_0200371812sub_0200381CEv
 .public _ZN17UnkClass_02003718C1Ev
 .public _ZN17UnkClass_02003718D1Ev
+.public _ZN17UnkClass_02008D5012sub_02008DB4Et
 .public _ZN17UnkClass_0200C38C12sub_0200C3D0Ev
 .public _ZN17UnkClass_0200C38C12sub_0200C408Ei11GXBGScrBase12GXBGCharBase
 .public _ZN17UnkClass_0200C38C12sub_0200C588Ev
@@ -70,7 +71,6 @@
 .public _Znwm
 .public __cxa_vec_cleanup
 .public __cxa_vec_ctor
-.public sub_02008DB4
 .public sub_020128EC
 .public sub_02020804
 .public sub_02020FF0

@@ -2,11 +2,7 @@
 
 #include "CGame.hpp"
 #include "main.hpp"
-
-extern "C" {
-void sub_02007D78(void);
-void sub_02007D98(void);
-}
+#include "sub_02007CF0.hpp"
 
 CScene::CScene()
 {

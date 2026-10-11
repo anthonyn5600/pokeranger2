@@ -2704,7 +2704,7 @@ ov3_021242F8: ; 0x021242F8
 	mov r1, #0x3c
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	mov r3, #0x4000000
 	ldr r1, [r3]
 	add r0, r4, #0x1000
@@ -2842,7 +2842,7 @@ ov3_021244F4: ; 0x021244F4
 	ldr r0, [r0]
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	mov r0, #0x2c
 	bl _Znwm
 	cmp r0, #0
@@ -6411,7 +6411,7 @@ _02127688:
 	ldrne r0, [r0, #0xc]
 	cmpne r0, #0
 	beq _021276AC
-	bl sub_02008B80
+	bl _ZN17UnkClass_0200878812sub_02008B80Et
 	mov r0, #0
 	strh r0, [r5, #0x5c]
 _021276AC:
@@ -8411,7 +8411,7 @@ ov3_02129280: ; 0x02129280
 	ldrne r0, [r0, #0xc]
 	cmpne r0, #0
 	beq _021292B0
-	bl sub_02008B80
+	bl _ZN17UnkClass_0200878812sub_02008B80Et
 	mov r0, #0
 	strh r0, [r5, #0x7c]
 	arm_func_end ov3_02129280

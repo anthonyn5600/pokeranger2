@@ -118,7 +118,7 @@ ov29_0211CB54: ; 0x0211CB54
 	ldr r0, [r0]
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	ldr r0, _0211CC40 ; =s_game
 	mov r3, #0x10
 	ldr lr, [r0]
@@ -182,7 +182,7 @@ ov29_0211CC44: ; 0x0211CC44
 	ldr r0, [r0]
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	ldr r0, _0211CC8C ; =s_game
 	ldr r0, [r0]
 	add r0, r0, #0x1000

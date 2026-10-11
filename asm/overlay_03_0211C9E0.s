@@ -973,7 +973,7 @@ _0211D7E8:
 	mov r1, #0x3c
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	mov r3, #0x4000000
 	ldr r1, [r3]
 	ldr r0, _0211DD80 ; =0xFFCFFFEF
@@ -1005,7 +1005,7 @@ _0211D7E8:
 	ldr r2, [r5, #0x18]
 	add r3, r3, #0x14
 	bl _ZN17UnkClass_020091E812sub_02009328EP17UnkClass_02001C04P11CTouchPanelP10NNSG2dFontPvP10CGame_0024S6_mmm
-	bl sub_02007D68
+	bl _Z12sub_02007D68v
 	mov r1, #0x400
 	mov r0, sl
 	str r1, [sl, #0xc]
@@ -1674,7 +1674,7 @@ _0211E1B4:
 	mov r1, #0x1e
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	ldr r0, [r5, #8]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x490]
@@ -3935,7 +3935,7 @@ _021202B4:
 ov3_021202C0: ; 0x021202C0
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl sub_02007D98
+	bl _Z12sub_02007D98v
 	ldr r0, [r4, #0xec]
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}

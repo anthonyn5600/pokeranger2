@@ -43,6 +43,7 @@
 .public OS_SetPeriodicVAlarm
 .public OS_SetVAlarm
 .public OS_WakeupThreadDirect
+.public _Z12sub_02007D98v
 .public _Z9Heap_FreePv
 .public _ZN11CFieldActorC1Ev
 .public _ZN11CFieldActorD1Ev
@@ -54,6 +55,7 @@
 .public _ZN17UnkClass_0200371812sub_0200381CEv
 .public _ZN17UnkClass_02003718C1Ev
 .public _ZN17UnkClass_02003718D1Ev
+.public _ZN17UnkClass_02008D5012sub_02008DB4Et
 .public _ZN17UnkClass_0200C38C12sub_0200C3D0Ev
 .public _ZN17UnkClass_0200C38C12sub_0200C408Ei11GXBGScrBase12GXBGCharBase
 .public _ZN17UnkClass_0200C38C12sub_0200C680Ei
@@ -100,8 +102,6 @@
 .public __cxa_vec_ctor
 .public __cxa_vec_delete
 .public __cxa_vec_new
-.public sub_02007D98
-.public sub_02008DB4
 .public sub_020114F8
 .public sub_02011528
 .public sub_02011630

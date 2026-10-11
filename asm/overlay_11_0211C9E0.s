@@ -105,7 +105,7 @@ _0211CB08:
 	mov r1, #0x3c
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	mov r0, #1
 	bl _ZN12CPowerManage12sub_0200FA48Em
 	ldmia sp!, {r4, pc}
@@ -354,7 +354,7 @@ ov11_0211CE20: ; 0x0211CE20
 	ldr r0, [r4, #0x5f0]
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
-	bl sub_02008E50
+	bl _ZN17UnkClass_02008D5012sub_02008E50Ev
 	mov r1, r0
 	mov r0, #0x3c
 	bl _s32_div_f
@@ -6301,7 +6301,7 @@ ov11_02121F18: ; 0x02121F18
 	mov r1, #0x3c
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	mov r0, #1
 	ldmia sp!, {r4, pc}
 	arm_func_end ov11_02121F18
@@ -26242,7 +26242,7 @@ ov11_02132184: ; 0x02132184
 	mov r1, #0x3c
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	mov r1, #0
 	str r1, [r4, #8]
 	str r1, [r4, #4]
@@ -26453,7 +26453,7 @@ _021324AC:
 	ldr r0, [r0]
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	ldr r0, _02132510 ; =s_game
 	ldr r0, [r0]
 	add r0, r0, #0x1000

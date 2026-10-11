@@ -40,7 +40,9 @@
 .public OS_GetTick
 .public OS_IRQTable
 .public OS_SetIrqFunction
+.public _Z12sub_02007D98v
 .public _ZN14CBinaryFileMesC1EPKcm
+.public _ZN17UnkClass_02008D5012sub_02008DB4Et
 .public _ZN17UnkClass_0200C38C12sub_0200C3D0Ev
 .public _ZN17UnkClass_0200C38C12sub_0200C408Ei11GXBGScrBase12GXBGCharBase
 .public _ZN17UnkClass_0200C38C12sub_0200C680Ei
@@ -83,8 +85,6 @@
 .public _Znwm
 .public _ll_udiv
 .public s_game
-.public sub_02007D98
-.public sub_02008DB4
 .public sub_020107A8
 .public sub_02018B10
 .public sub_02019278

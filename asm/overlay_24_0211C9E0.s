@@ -535,13 +535,13 @@ ov24_0211D134: ; 0x0211D134
 	mov r1, #0x3c
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	mov r1, #0
 	str r1, [r4, #4]
 	ldr r0, _0211D220 ; =MAIN_BSS_020B26A0
 	str r1, [r4, #8]
 	bl sub_02015198
-	bl sub_02007D68
+	bl _Z12sub_02007D68v
 	ldr r0, _0211D21C ; =s_game
 	mov r3, #0x10
 	ldr lr, [r0]
@@ -622,7 +622,7 @@ _0211D254:
 	ldr r0, [r0]
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0211D298: .word s_game

@@ -1,13 +1,12 @@
 #include "scene/CAutoSaveScene.hpp"
 
 #include "CGame.hpp"
+#include "sub_02007CF0.hpp"
 
 extern "C" {
 void sub_020349E8(void *audioEngine, u32 arg1);
 void sub_02034DE8(void *audioEngine, u32 arg1, u32 arg2, u32 arg3);
 void sub_02034E38(void *audioEngine, u32 arg1);
-void sub_02007D68(void);
-void sub_02008DB4(u16 *arg0, u32 arg1);
 }
 
 extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
@@ -146,7 +145,7 @@ void CAutoSaveScene::func6()
     s_game->m_textboxData->sub_0200AB28(0);
     s_game->unk_14BC->sub_0200E0E0(3, 10);
     s_game->unk_14C0->sub_0200E0E0(3, 10);
-    sub_02008DB4(s_game->unk_146C, 60);
+    s_game->unk_146C.sub_02008DB4(60);
 }
 
 void CAutoSaveScene::func7()

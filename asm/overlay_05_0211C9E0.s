@@ -124,7 +124,7 @@ ov5_0211CB5C: ; 0x0211CB5C
 	mov r1, #0x3c
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	mov r0, #0xe4
 	bl _Znwm
 	cmp r0, #0
@@ -245,7 +245,7 @@ _0211CD04:
 	mov r1, #0x1e
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	ldmia sp!, {r4, r5, r6, pc}
 
 	arm_func_start ov5_0211CD1C
@@ -335,7 +335,7 @@ ov5_0211CE0C: ; 0x0211CE0C
 ov5_0211CE10: ; 0x0211CE10
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl sub_02007D98
+	bl _Z12sub_02007D98v
 	ldr r0, [r4, #0xc]
 	add r0, r4, r0, lsl #2
 	ldr r0, [r0, #0x1c]

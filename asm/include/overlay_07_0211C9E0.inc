@@ -25,6 +25,7 @@
 .public NNS_GfdResetLnkPlttVramState
 .public NNS_GfdResetLnkTexVramState
 .public _Z12sub_020060007Point2D9Rectanglem
+.public _Z12sub_02007D98v
 .public _Z17LinearInterpolatellll
 .public _ZN11CFieldActorC1Ev
 .public _ZN14CPrimitiveRECT12SetRectangleElllll
@@ -39,6 +40,7 @@
 .public _ZN17UnkClass_0200371812sub_0200381CEv
 .public _ZN17UnkClass_02003718C1Ev
 .public _ZN17UnkClass_02003718D1Ev
+.public _ZN17UnkClass_02008D5012sub_02008DB4Et
 .public _ZN17UnkClass_020091E812sub_020092D4Ev
 .public _ZN17UnkClass_020091E812sub_02009328EP17UnkClass_02001C04P11CTouchPanelP10NNSG2dFontPvP10CGame_0024S6_mmm
 .public _ZN17UnkClass_020091E812sub_020097FCEmm
@@ -71,6 +73,8 @@
 .public _ZN17UnkClass_02040F34D1Ev
 .public _ZN17UnkClass_020416ACC1Ei
 .public _ZN17UnkClass_020416ACD1Ev
+.public _ZN17UnkClass_0211E3FC12sub_02009188EP17UnkClass_02003718i
+.public _ZN17UnkClass_0211E3FC12sub_020091DCEv
 .public _ZN5CGame11GetInstanceEv
 .public _ZN5CGame12sub_020101F4Emmm
 .public _ZN6CScene5func4Ev
@@ -82,10 +86,6 @@
 .public _Znwm
 .public __cxa_vec_delete
 .public __cxa_vec_new
-.public sub_02007D98
-.public sub_02008DB4
-.public sub_02009188
-.public sub_020091DC
 .public sub_020107A8
 .public sub_02011D1C
 .public sub_02011D2C

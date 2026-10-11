@@ -5,24 +5,35 @@
 
 #include "common.hpp"
 
-extern "C" {
-void sub_020091DC(void *obj);
-}
+class UnkClass_02003718;
 
-// Defined in ov0
+class CDrawObject {
+public:
+    virtual ~CDrawObject();
+    virtual int sub_020091D4(UnkClass_02003718 *camera, int budget);
+
+public:
+    int unk_04;
+    CDrawObject *unk_08;
+};
+
 class UnkClass_0211E3FC {
 public:
     UnkClass_0211E3FC()
     {
-        sub_020091DC(this);
+        sub_020091DC();
     }
 
     ~UnkClass_0211E3FC()
     {
     }
 
+    BOOL sub_0200912C(CDrawObject *obj);
+    int sub_02009188(UnkClass_02003718 *camera, int budget);
+    void sub_020091DC();
+
 public:
-    u32 unk_00;
+    CDrawObject *unk_00;
 };
 
 STATIC_SIZE_ASSERT(UnkClass_0211E3FC, 0x4);

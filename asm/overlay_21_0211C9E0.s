@@ -235,7 +235,7 @@ ov21_0211CCA8: ; 0x0211CCA8
 	strb ip, [sp, #2]
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	mov r0, #0x260
 	bl _Znwm
 	cmp r0, #0
@@ -288,7 +288,7 @@ _0211CDB4:
 	ldr r0, [r0]
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	ldr r0, _0211CE5C ; =0x04000048
 	ldrb r1, [r4, #0x18]
 	ldrh r2, [r0]
@@ -442,7 +442,7 @@ _0211CFC8: .word ov21_02120490
 ov21_0211CFCC: ; 0x0211CFCC
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl sub_02007D98
+	bl _Z12sub_02007D98v
 	ldr r0, [r4, #8]
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}

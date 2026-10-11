@@ -15,7 +15,7 @@ _ZN12CLetterSceneC1EP5CGame: ; 0x0211C9E0
 	add r0, r0, #0x1400
 	mov r1, #0x1e
 	str r4, [r5, #4]
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	mov r1, #0
 	str r1, [r5, #8]
 	str r1, [r5, #0x2c]
@@ -94,7 +94,7 @@ _0211CAF8:
 	mov r1, #0x1e
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	mov r0, r5
 	bl _ZN6CSceneD2Ev
 	mov r0, r5
@@ -168,7 +168,7 @@ _0211CBF0:
 	mov r1, #0x1e
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	mov r0, r5
 	bl _ZN6CSceneD2Ev
 	mov r0, r5

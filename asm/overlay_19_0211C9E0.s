@@ -87,7 +87,7 @@ ov19_0211CAE0: ; 0x0211CAE0
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x10
 	mov r4, r0
-	bl sub_02007D68
+	bl _Z12sub_02007D68v
 	mov r0, #0x2c
 	bl _Znwm
 	cmp r0, #0
@@ -1545,7 +1545,7 @@ _0211DF3C:
 	ldr r2, [r0, #8]
 	ldr r0, [r0, #0x38]
 	ldrh r1, [r2, r1]
-	bl sub_02008860
+	bl _ZN17UnkClass_0200878812sub_02008860Et
 	cmp r0, #0
 	moveq r0, #7
 	streqh r0, [r5, #4]
@@ -1601,7 +1601,7 @@ ov19_0211DFD8: ; 0x0211DFD8
 	ldreqh r1, [r4, #0xe]
 	ldr r5, [r0, #0xc]
 	mov r0, r5
-	bl sub_02008860
+	bl _ZN17UnkClass_0200878812sub_02008860Et
 	cmp r0, #0
 	bne _0211E058
 	mov r0, #9
@@ -1816,7 +1816,7 @@ ov19_0211E270: ; 0x0211E270
 	strh r0, [r1, #0x2a]
 	ldrh r1, [r4, #0xc]
 	mov r0, r5
-	bl sub_02008844
+	bl _ZN17UnkClass_0200878812sub_02008844Et
 	ldr r2, [r0, #4]
 	ldr r1, [r4, #0x68]
 	ldr r0, [r0]
@@ -1858,7 +1858,7 @@ ov19_0211E308: ; 0x0211E308
 	strh r0, [r1, #0x2a]
 	ldrh r1, [r4, #0xe]
 	mov r0, r5
-	bl sub_02008844
+	bl _ZN17UnkClass_0200878812sub_02008844Et
 	ldr r2, [r0, #4]
 	ldr r1, [r4, #0x68]
 	ldr r0, [r0]

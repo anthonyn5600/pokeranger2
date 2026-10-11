@@ -10,11 +10,6 @@ struct UnkStruct_02010EC8 {
 };
 
 extern "C" {
-void sub_02008D50(u16 *arg0);
-void sub_02008DB4(u16 *arg0, u32 fps);
-int sub_02008E50(u16 *arg0);
-void sub_02008E58(u16 *arg0);
-void sub_02008E68(u16 *arg0);
 void sub_02010F18(UnkStruct_02010EC8 *obj);
 void sub_0201128C(void *obj);
 void sub_0201135C(UnkClass_0201164C *obj);
@@ -80,7 +75,6 @@ void CGame::sub_0200FB28()
 
 CGame::CGame()
 {
-    sub_02008D50(unk_146C);
     sInstance = this;
 
     unk_0014 = new UnkClass_02001C04();
@@ -114,7 +108,7 @@ CGame::CGame()
     MATHRandContext16 *ctx16 = &m_rand16;
     MATH_InitRand16(ctx16, 0x4321);
     unk_0000 = 0;
-    sub_02008DB4(unk_146C, 30);
+    unk_146C.sub_02008DB4(30);
 
     m_audioEngine = new UnkClass_02034478();
     unk_14AC = new UnkClass_0200CFF4(1);
@@ -148,7 +142,7 @@ CGame *CGame::GetInstance()
 
 void CGame::sub_0201002C()
 {
-    sub_02008E68(unk_146C);
+    unk_146C.sub_02008E68();
 
     if (unk_15E0) {
         for (int i = 0; i < 0x20; i++) {
@@ -167,7 +161,7 @@ void CGame::sub_0201002C()
     unk_14C8->sub_0200E4A8();
     // VCOUNT is read and dropped (likely a debug print stripped from the final build)
     GX_GetVCount();
-    sub_02008E58(unk_146C);
+    unk_146C.sub_02008E58();
 }
 
 BOOL CGame::sub_020100E4(CGame_020100E4_arg0 callback, void *arg)
@@ -236,7 +230,7 @@ void CGame::sub_0201024C()
 
 void CGame::sub_0201028C()
 {
-    unk_15D0 += 0x1E000 / sub_02008E50(unk_146C);
+    unk_15D0 += 0x1E000 / unk_146C.sub_02008E50();
     if (unk_15D0 > 0xD0000 || unk_15D0 < -0x10000) {
         unk_15D0 = -0x10000;
     }

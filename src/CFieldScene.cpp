@@ -47,10 +47,9 @@
 #include "field/CFieldTargetObjectManage.hpp"
 #include "interpolation.hpp"
 #include "primitive/CSoftwareSprite.hpp"
+#include "sub_02007CF0.hpp"
 
 extern "C" {
-void sub_02007D68(void);
-void sub_02008DB4(u16 *arg0, u16 fps);
 void sub_02010D04(CBattleResultParameter *obj);
 void sub_0201164C(UnkClass_0201164C *missionQuestData, u32 mapIdx);
 void sub_02018E30(void *arg0);
@@ -93,7 +92,7 @@ CFieldScene::CFieldScene(CGame *game)
 {
     MAIN_BSS_0210CA40 = this;
     m_game = game;
-    sub_02008DB4(m_game->unk_146C, 30);
+    m_game->unk_146C.sub_02008DB4(30);
     DAT_0208d58c = 30;
     unk_008C = 0;
     unk_007C = 0;
@@ -116,7 +115,7 @@ CFieldScene::CFieldScene(CGame *game)
 
 CFieldScene::~CFieldScene()
 {
-    sub_02008DB4(m_game->unk_146C, 30);
+    m_game->unk_146C.sub_02008DB4(30);
     MAIN_BSS_0210CA40 = NULL;
 }
 
@@ -743,7 +742,7 @@ u32 CFieldScene::func0()
     if (ov0_0213FEEC(unk_0034) != 0 || (unk_00D0 & 0x48) || unk_0084 == 3 || unk_0084 == 4 || unk_0084 == 7 || unk_0084 == 5 || unk_0084 == 6 || unk_0084 == 8 || unk_0084 == 9 || unk_0084 == 0x14 || sub_02023528(unk_0058) != 0) {
         fps = 60;
     }
-    sub_02008DB4(m_game->unk_146C, fps);
+    m_game->unk_146C.sub_02008DB4(fps);
     DAT_0208d58c = fps;
 
     UnkClass_02001C04 *pad = m_game->unk_0014;
@@ -1572,7 +1571,6 @@ void ov0_0214FF20(UnkClass_0214FD4C *obj, UnkClass_02003718 *camera);
 void sub_0203C590(CFieldPlayer *player, UnkClass_0211E3FC *renderLists, UnkClass_020416AC *hud);
 void ov0_02159DB4(UnkClass_0215994C *obj, UnkClass_0211E3FC *renderLists, UnkClass_020416AC *hud);
 void ov0_02143380(UnkClass_02142428 *obj, UnkClass_0211E3FC *renderLists);
-int sub_02009188(UnkClass_0211E3FC *renderList, UnkClass_02003718 *camera, int budget);
 void sub_02041924(UnkClass_020416AC *hud, UnkClass_02003718 *camera, int layer, int budget);
 int ov0_0214336C(UnkClass_02142428 *obj, int layer, int budget);
 void ov0_02142D88(UnkClass_02142428 *obj, UnkClass_02003718 *camera);
@@ -1587,7 +1585,6 @@ void sub_02023444(UnkClass_020233C8 *obj);
 void sub_02022714(UnkClass_02022404 *obj);
 void sub_02023470(UnkClass_020233C8 *obj);
 void sub_020227AC(UnkClass_02022404 *obj);
-void sub_02007D98(void);
 void ov0_02142F08(UnkClass_02142428 *obj);
 void sub_02035998(UnkClass_0211D850 *obj);
 void sub_020359FC(UnkClass_0211D850 *obj);
@@ -1752,14 +1749,14 @@ void CFieldScene::func1()
             for (int i = 0; i < 4; i++) {
                 int budget = unk_0010->ov0_0212546C(i);
                 UnkClass_0211E3FC *list = &unk_003C[i];
-                int count = sub_02009188(list, unk_0008, budget);
-                sub_020091DC(list);
+                int count = list->sub_02009188(unk_0008, budget);
+                list->sub_020091DC();
                 sub_02041924(unk_0048, unk_0008, i, budget - count);
                 int total = count + 1;
                 total += ov0_0214336C(unk_0028, i, budget - total);
                 list = &unk_003C[i + 5];
-                count = sub_02009188(list, unk_0008, budget - total);
-                sub_020091DC(list);
+                count = list->sub_02009188(unk_0008, budget - total);
+                list->sub_020091DC();
                 total += count;
                 unk_0010->SetPolygonCount(i, total);
             }
@@ -1791,13 +1788,13 @@ void CFieldScene::func1()
             unk_0008->sub_0200381C();
             G3_StoreMtx(0);
             UnkClass_0211E3FC *list = &unk_003C[4];
-            int count = sub_02009188(list, unk_0008, 0x618);
-            sub_020091DC(list);
+            int count = list->sub_02009188(unk_0008, 0x618);
+            list->sub_020091DC();
             sub_02041924(unk_0048, unk_0008, 4, 0x618 - count);
             int total = count + 1;
             list = &unk_003C[9];
-            sub_02009188(list, unk_0008, 0x618 - total);
-            sub_020091DC(list);
+            list->sub_02009188(unk_0008, 0x618 - total);
+            list->sub_020091DC();
             sub_020419AC(unk_0048);
             if (unk_00DC != NULL) {
                 ov0_02148288(unk_00DC, unk_0008);

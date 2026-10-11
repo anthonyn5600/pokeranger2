@@ -114,6 +114,8 @@
 .public RTC_GetTime
 .public _Z10Heap_Allocm
 .public _Z12sub_02001210v
+.public _Z12sub_02007D68v
+.public _Z12sub_02007D78v
 .public _Z17LinearInterpolatellll
 .public _Z23Heap_AllocWithAlignmentmm
 .public _Z9Heap_FreePv
@@ -144,10 +146,13 @@
 .public _ZN17UnkClass_02007AA412sub_02007BFCEm
 .public _ZN17UnkClass_02007AA4D1Ev
 .public _ZN17UnkClass_0200878812sub_02008828Et
+.public _ZN17UnkClass_0200878812sub_02008860Et
 .public _ZN17UnkClass_0200878812sub_02008990Ett
 .public _ZN17UnkClass_0200878812sub_020089ECEv
 .public _ZN17UnkClass_0200878812sub_02008A80Emm
+.public _ZN17UnkClass_02008788C1EPKc
 .public _ZN17UnkClass_02008788D1Ev
+.public _ZN17UnkClass_02008D5012sub_02008E50Ev
 .public _ZN17UnkClass_020091E812sub_02009ECCEv
 .public _ZN17UnkClass_020091E812sub_02009FB0Emm
 .public _ZN17UnkClass_020091E812sub_0200AA04El
@@ -384,11 +389,6 @@
 .public sub_02007AC0
 .public sub_02007BC4
 .public sub_02007C34
-.public sub_02007D68
-.public sub_02007D78
-.public sub_0200879C
-.public sub_02008860
-.public sub_02008E50
 .public sub_020107A8
 .public sub_020107C4
 .public sub_02010E78

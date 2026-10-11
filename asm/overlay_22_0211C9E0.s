@@ -112,7 +112,7 @@ _0211CB3C:
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
 	mov r1, #0x1e
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	add r0, r4, #0x4c
 	bl ov22_0211F544
 	mov r0, r4
@@ -177,7 +177,7 @@ _0211CC08:
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
 	mov r1, #0x1e
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	add r0, r4, #0x4c
 	bl ov22_0211F544
 	mov r0, r4
@@ -394,7 +394,7 @@ _0211CF0C:
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
 	mov r1, #0x3c
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
@@ -667,7 +667,7 @@ ov22_0211D2A4: ; 0x0211D2A4
 	blx r1
 	arm_func_end ov22_0211D2A4
 _0211D2C8:
-	bl sub_02007D98
+	bl _Z12sub_02007D98v
 	ldmia sp!, {r3, pc}
 
 	arm_func_start ov22_0211D2D0

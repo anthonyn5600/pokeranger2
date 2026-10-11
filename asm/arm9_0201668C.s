@@ -4381,7 +4381,7 @@ sub_0201A024: ; 0x0201A024
 	mov r4, r1
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
-	bl sub_02008E50
+	bl _ZN17UnkClass_02008D5012sub_02008E50Ev
 	add r1, r5, #0x500
 	ldrh r2, [r1, #0x96]
 	ldr r1, [r5, #0x59c]
@@ -5306,7 +5306,7 @@ _0201AC5C:
 	cmp r0, #0
 	beq _0201AC80
 	ldr r1, [sp, #0x30]
-	bl sub_0200879C
+	bl _ZN17UnkClass_02008788C1EPKc
 _0201AC80:
 	str r0, [r5, #0xc]
 _0201AC84:
@@ -14346,7 +14346,7 @@ sub_020227AC: ; 0x020227AC
 	ldrh r0, [r0]
 	cmp r0, #7
 	ldmneia sp!, {r3, pc}
-	bl sub_02007D78
+	bl _Z12sub_02007D78v
 	ldmia sp!, {r3, pc}
 	arm_func_end sub_020227AC
 
@@ -14813,7 +14813,7 @@ sub_02022D04: ; 0x02022D04
 	bic r0, r0, #0x1f00
 	orr r0, r0, #0x800
 	str r0, [r1]
-	bl sub_02007D68
+	bl _Z12sub_02007D68v
 	mov r0, #1
 	ldmia sp!, {r4, pc}
 	.align 2, 0
@@ -15169,7 +15169,7 @@ sub_020231A0: ; 0x020231A0
 	ldr r0, [r4, #0x68]
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
-	bl sub_02008E50
+	bl _ZN17UnkClass_02008D5012sub_02008E50Ev
 	mov r1, r0
 	mov r0, #0x3c
 	bl _s32_div_f
@@ -23269,7 +23269,7 @@ _02029EBC:
 	mov r0, r0, lsl #1
 	ldrh r1, [r1, r0]
 	ldr r0, [r2, #0x38]
-	bl sub_02008860
+	bl _ZN17UnkClass_0200878812sub_02008860Et
 	cmp r0, #0
 	moveq r0, #8
 	streq r0, [r6, #0x20]

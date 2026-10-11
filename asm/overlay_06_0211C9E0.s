@@ -15,7 +15,7 @@ _ZN12COptionSceneC1EP5CGame: ; 0x0211C9E0
 	add r0, r0, #0x1400
 	mov r1, #0x3c
 	str r5, [r4, #0x70]
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	mov r0, #0
 	str r0, [r4, #0x88]
 	str r0, [r4, #0x74]
@@ -144,7 +144,7 @@ _0211CBB4:
 	mov r1, #0x1e
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	mov r0, r5
 	bl _ZN6CSceneD2Ev
 	mov r0, r5
@@ -252,7 +252,7 @@ _0211CD24:
 	mov r1, #0x1e
 	add r0, r0, #0x6c
 	add r0, r0, #0x1400
-	bl sub_02008DB4
+	bl _ZN17UnkClass_02008D5012sub_02008DB4Et
 	mov r0, r5
 	bl _ZN6CSceneD2Ev
 	mov r0, r5
@@ -1276,7 +1276,7 @@ ov6_0211DBF4: ; 0x0211DBF4
 	ldr ip, _0211DBFC ; =FUN_02007D98
 	bx ip
 	.align 2, 0
-_0211DBFC: .word sub_02007D98
+_0211DBFC: .word _Z12sub_02007D98v
 	arm_func_end ov6_0211DBF4
 
 	arm_func_start ov6_0211DC00

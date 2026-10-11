@@ -46,8 +46,11 @@
 .public RTC_GetTime
 .public _Z12sub_020060007Point2D9Rectanglem
 .public _Z12sub_020061007Point2DS_18UnkStruct_02006100
+.public _Z12sub_02007D68v
+.public _Z12sub_02007D98v
 .public _ZN14CBinaryFileMesC1EPKcm
 .public _ZN16CPrimitiveSPHEREC1Ev
+.public _ZN17UnkClass_02008D5012sub_02008DB4Et
 .public _ZN17UnkClass_020091E812sub_020092D4Ev
 .public _ZN17UnkClass_020091E812sub_02009328EP17UnkClass_02001C04P11CTouchPanelP10NNSG2dFontPvP10CGame_0024S6_mmm
 .public _ZN17UnkClass_0200CAB412sub_0200CACCEPK10NNSG2dFontm
@@ -129,9 +132,6 @@
 .public s_tp_03d_overlay_3_0212a6f0
 .public strcat
 .public strcpy
-.public sub_02007D68
-.public sub_02007D98
-.public sub_02008DB4
 .public sub_02015198
 .public sub_02017298
 .public sub_020172BC

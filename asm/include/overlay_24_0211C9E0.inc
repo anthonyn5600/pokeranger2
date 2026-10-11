@@ -27,6 +27,8 @@
 .public MAIN_BSS_0210CA6C
 .public RTC_GetDate
 .public RTC_GetTime
+.public _Z12sub_02007D68v
+.public _ZN17UnkClass_02008D5012sub_02008DB4Et
 .public _ZN17UnkClass_020091E812sub_020092D4Ev
 .public _ZN17UnkClass_020091E812sub_02009328EP17UnkClass_02001C04P11CTouchPanelP10NNSG2dFontPvP10CGame_0024S6_mmm
 .public _ZN17UnkClass_020091E812sub_02009ECCEv
@@ -50,8 +52,6 @@
 .public _ZdlPv
 .public _Znwm
 .public s_game
-.public sub_02007D68
-.public sub_02008DB4
 .public sub_02015198
 .public sub_020282CC
 .public sub_02028360

@@ -41,6 +41,7 @@
 .public NNS_G2dMapScrToCharText
 .public NNS_GfdRegisterNewVramTransferTask
 .public OS_SPrintf
+.public _Z12sub_02007D98v
 .public _ZN11CBinaryFileC1EPKcmmmPvm
 .public _ZN11CBinaryFileD1Ev
 .public _ZN11CBinaryFileD2Ev
@@ -55,6 +56,7 @@
 .public _ZN17UnkClass_0200371812sub_0200381CEv
 .public _ZN17UnkClass_02003718C1Ev
 .public _ZN17UnkClass_02003718D1Ev
+.public _ZN17UnkClass_02008D5012sub_02008DB4Et
 .public _ZN17UnkClass_0200C38C12sub_0200C3D0Ev
 .public _ZN17UnkClass_0200CAB412sub_0200CAE0Ev
 .public _ZN17UnkClass_0200CAB412sub_0200CB14Ev
@@ -90,8 +92,6 @@
 .public __cxa_vec_cleanup
 .public __cxa_vec_ctor
 .public __cxa_vec_new
-.public sub_02007D98
-.public sub_02008DB4
 .public sub_02020804
 .public sub_02020FF0
 .public sub_02034C44

@@ -44,6 +44,7 @@
 .public _ZN11CBinaryFileD1Ev
 .public _ZN13CArchiveGuardC1EPKcS1_mmmPvm
 .public _ZN13CArchiveGuardD1Ev
+.public _ZN17UnkClass_02008D5012sub_02008DB4Et
 .public _ZN17UnkClass_0200C38C12sub_0200C3D0Ev
 .public _ZN17UnkClass_0200C38C12sub_0200C408Ei11GXBGScrBase12GXBGCharBase
 .public _ZN17UnkClass_0200C38C12sub_0200C588Ev
@@ -72,7 +73,6 @@
 .public _ZTVN10__cxxabiv120__si_class_type_infoE
 .public _ZdlPv
 .public _Znwm
-.public sub_02008DB4
 .public sub_02021404
 .public sub_02021428
 .public sub_020215F8
