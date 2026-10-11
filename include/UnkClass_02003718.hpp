@@ -22,6 +22,12 @@ public:
         return *(Point2D *)&unk_1C;
     }
 
+    // By value: the caller's copy is an inline temp (stack slot below the caller's named locals).
+    inline Point2D GetOffsetCopy()
+    {
+        return GetOffset();
+    }
+
     inline void SetOffset(fx32 x, fx32 y)
     {
         unk_1C = x;

@@ -4,6 +4,7 @@
 #include <nitro.h>
 
 #include "primitive/CPrimitive.hpp"
+#include "sub_02006000.hpp"
 
 class CPrimitiveLINE : public CPrimitive {
 public:
@@ -12,10 +13,27 @@ public:
 
     virtual u32 Render(CPrimitive_Render_arg *arg0);
 
-public:
-    typedef CoordinatesPair2D LineCoordinates;
+    inline Point2D GetStart()
+    {
+        return m_points.p1;
+    }
+    inline Point2D GetEnd()
+    {
+        return m_points.p2;
+    }
+    inline void SetStart(Point2D pos)
+    {
+        m_points.p1.x = pos.x;
+        m_points.p1.y = pos.y;
+    }
+    inline void SetEnd(Point2D pos)
+    {
+        m_points.p2.x = pos.x;
+        m_points.p2.y = pos.y;
+    }
 
-    LineCoordinates m_coords;
+public:
+    PointPair2D m_points;
 };
 
 #endif // POKERANGER2_PRIMITIVE_CPRIMITIVELINE_HPP

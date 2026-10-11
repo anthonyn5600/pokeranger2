@@ -10,8 +10,11 @@
 #include "common.hpp"
 #include "file/CNCERFile.hpp"
 
+class CEffectResource {
+};
+
 // Effect sprite resources (arm9_0201668C.s, 0x020294C0..)
-class CEffectActorData {
+class CEffectActorData : public CEffectResource {
 public:
     struct Entry {
         Entry()
@@ -28,7 +31,20 @@ public:
         void *unk_0C;
     };
 
+    CEffectActorData()
+    {
+        m_entries = NULL;
+        m_count = 0;
+    }
+
     virtual ~CEffectActorData();
+    virtual UnkClass_020074D4 *GetNcbr(int i);
+    virtual CNCERFile *GetNcer(int i);
+    virtual UnkClass_02008788 *GetCac(int i);
+    virtual UnkClass_02007AA4 *GetPalette();
+    virtual void Update();
+    virtual int GetCount();
+    virtual BOOL IsLoaded();
 
     void sub_020295B0(BOOL immediate);
 

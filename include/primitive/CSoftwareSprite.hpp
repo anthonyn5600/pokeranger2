@@ -69,6 +69,12 @@ public:
         unk_3C = arg2;
     }
 
+    inline void SetImage(UnkClass_CPrimitive_ImageProxy *image, UnkClass_CSoftwareSprite_30 *pal)
+    {
+        unk_2C = image;
+        unk_30 = pal;
+    }
+
     inline void SetScale(fx32 x, fx32 y)
     {
         m_scale[0] = x;

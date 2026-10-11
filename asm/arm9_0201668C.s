@@ -22482,8 +22482,8 @@ sub_020294A8: ; 0x020294A8
 	ldmia sp!, {r3, pc}
 	arm_func_end sub_020294A8
 
-	arm_func_start sub_020294C0
-sub_020294C0: ; 0x020294C0
+	arm_func_start _ZN16CEffectActorDataD1Ev
+_ZN16CEffectActorDataD1Ev: ; 0x020294C0
 	stmdb sp!, {r4, lr}
 	ldr r1, _020294E4 ; =ptr_FUN_020294c0_0208c4a4
 	mov r4, r0
@@ -22495,10 +22495,10 @@ sub_020294C0: ; 0x020294C0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _020294E4: .word ptr_FUN_020294c0_0208c4a4
-	arm_func_end sub_020294C0
+	arm_func_end _ZN16CEffectActorDataD1Ev
 
-	arm_func_start sub_020294E8
-sub_020294E8: ; 0x020294E8
+	arm_func_start _ZN16CEffectActorDataD0Ev
+_ZN16CEffectActorDataD0Ev: ; 0x020294E8
 	stmdb sp!, {r4, lr}
 	ldr r1, _02029514 ; =ptr_FUN_020294c0_0208c4a4
 	mov r4, r0
@@ -22512,10 +22512,10 @@ sub_020294E8: ; 0x020294E8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02029514: .word ptr_FUN_020294c0_0208c4a4
-	arm_func_end sub_020294E8
+	arm_func_end _ZN16CEffectActorDataD0Ev
 
-	arm_func_start sub_02029518
-sub_02029518: ; 0x02029518
+	arm_func_start _ZN16CEffectActorDataD2Ev
+_ZN16CEffectActorDataD2Ev: ; 0x02029518
 	stmdb sp!, {r4, lr}
 	ldr r1, _0202953C ; =ptr_FUN_020294c0_0208c4a4
 	mov r4, r0
@@ -22527,7 +22527,7 @@ sub_02029518: ; 0x02029518
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0202953C: .word ptr_FUN_020294c0_0208c4a4
-	arm_func_end sub_02029518
+	arm_func_end _ZN16CEffectActorDataD2Ev
 
 	arm_func_start sub_02029540
 sub_02029540: ; 0x02029540
@@ -22667,8 +22667,8 @@ _020296E0:
 	blo _020296E0
 	ldmia sp!, {r4, r5, r6, pc}
 
-	arm_func_start sub_02029704
-sub_02029704: ; 0x02029704
+	arm_func_start _ZN16CEffectActorData8IsLoadedEv
+_ZN16CEffectActorData8IsLoadedEv: ; 0x02029704
 	ldrb r1, [r0, #0x24]
 	cmp r1, #0
 	beq _02029764
@@ -22680,7 +22680,7 @@ sub_02029704: ; 0x02029704
 	mov r3, #0
 	bls _02029768
 	ldr ip, [r0, #0x2c]
-	arm_func_end sub_02029704
+	arm_func_end _ZN16CEffectActorData8IsLoadedEv
 _02029730:
 	ldr r1, [ip, r3, lsl #4]
 	cmp r1, #0
@@ -22702,25 +22702,25 @@ _02029768:
 	mov r0, r2
 	bx lr
 
-	arm_func_start sub_02029770
-sub_02029770: ; 0x02029770
+	arm_func_start _ZN16CEffectActorData8GetCountEv
+_ZN16CEffectActorData8GetCountEv: ; 0x02029770
 	ldr r0, [r0, #0x30]
 	bx lr
-	arm_func_end sub_02029770
+	arm_func_end _ZN16CEffectActorData8GetCountEv
 
-	arm_func_start sub_02029778
-sub_02029778: ; 0x02029778
+	arm_func_start _ZN16CEffectActorData6UpdateEv
+_ZN16CEffectActorData6UpdateEv: ; 0x02029778
 	bx lr
-	arm_func_end sub_02029778
+	arm_func_end _ZN16CEffectActorData6UpdateEv
 
-	arm_func_start sub_0202977C
-sub_0202977C: ; 0x0202977C
+	arm_func_start _ZN16CEffectActorData10GetPaletteEv
+_ZN16CEffectActorData10GetPaletteEv: ; 0x0202977C
 	add r0, r0, #4
 	bx lr
-	arm_func_end sub_0202977C
+	arm_func_end _ZN16CEffectActorData10GetPaletteEv
 
-	arm_func_start sub_02029784
-sub_02029784: ; 0x02029784
+	arm_func_start _ZN16CEffectActorData6GetCacEi
+_ZN16CEffectActorData6GetCacEi: ; 0x02029784
 	cmp r1, #0
 	blt _020297A8
 	ldr r2, [r0, #0x30]
@@ -22730,13 +22730,13 @@ sub_02029784: ; 0x02029784
 	add r0, r0, r1, lsl #4
 	ldr r0, [r0, #8]
 	bx lr
-	arm_func_end sub_02029784
+	arm_func_end _ZN16CEffectActorData6GetCacEi
 _020297A8:
 	mov r0, #0
 	bx lr
 
-	arm_func_start sub_020297B0
-sub_020297B0: ; 0x020297B0
+	arm_func_start _ZN16CEffectActorData7GetNcerEi
+_ZN16CEffectActorData7GetNcerEi: ; 0x020297B0
 	cmp r1, #0
 	blt _020297D4
 	ldr r2, [r0, #0x30]
@@ -22746,13 +22746,13 @@ sub_020297B0: ; 0x020297B0
 	add r0, r0, r1, lsl #4
 	ldr r0, [r0, #4]
 	bx lr
-	arm_func_end sub_020297B0
+	arm_func_end _ZN16CEffectActorData7GetNcerEi
 _020297D4:
 	mov r0, #0
 	bx lr
 
-	arm_func_start sub_020297DC
-sub_020297DC: ; 0x020297DC
+	arm_func_start _ZN16CEffectActorData7GetNcbrEi
+_ZN16CEffectActorData7GetNcbrEi: ; 0x020297DC
 	cmp r1, #0
 	blt _020297F8
 	ldr r2, [r0, #0x30]
@@ -22760,7 +22760,7 @@ sub_020297DC: ; 0x020297DC
 	ldrlo r0, [r0, #0x2c]
 	ldrlo r0, [r0, r1, lsl #4]
 	bxlo lr
-	arm_func_end sub_020297DC
+	arm_func_end _ZN16CEffectActorData7GetNcbrEi
 _020297F8:
 	mov r0, #0
 	bx lr

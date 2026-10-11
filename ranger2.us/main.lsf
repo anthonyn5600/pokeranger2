@@ -79,6 +79,8 @@ Static main
     Object main.nef.p/src_sub_0202B80C.cpp.o
     Object main.nef.p/asm_arm9_0202B8A4.s.o
     Object main.nef.p/asm_arm9_0208B5C0.s.o
+    Object main.nef.p/src_CEffectActorData.cpp.o
+    Object main.nef.p/asm_arm9_0208C49C.s.o
     Object main.nef.p/src_UnkClass_02034478.cpp.o
     Object main.nef.p/src_FieldPartnerIndex.cpp.o
     Object main.nef.p/asm_arm9_020AF35C.s.o
@@ -88,7 +90,10 @@ Static main
     Object main.nef.p/src_CFieldSEFFog.cpp.o
     Object main.nef.p/src_CFieldSEFSandStorm.cpp.o
     Object main.nef.p/src_CFieldSEFDokarimo.cpp.o
-    Object main.nef.p/asm_arm9_020389E8.s.o
+    Object main.nef.p/src_CFieldSEFTheWater.cpp.o
+    Object main.nef.p/src_CFieldSEFHinoko.cpp.o
+    Object main.nef.p/src_CFieldSEFRain.cpp.o
+    Object main.nef.p/asm_arm9_0203A76C.s.o
     Object main.nef.p/asm_arm9_0208D58C.s.o
     Object main.nef.p/src_FieldActor.cpp.o
     Object main.nef.p/src_FieldDrawActor.cpp.o

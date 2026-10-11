@@ -4,7 +4,7 @@
 
 CPrimitiveLINE::CPrimitiveLINE()
 {
-    MI_CpuFill8(&m_coords, 0, sizeof(m_coords));
+    MI_CpuFill8(&m_points, 0, sizeof(m_points));
 }
 
 CPrimitiveLINE::~CPrimitiveLINE()
@@ -21,9 +21,9 @@ u32 CPrimitiveLINE::Render(CPrimitive_Render_arg *arg0)
     G3_Begin(GX_BEGIN_TRIANGLES);
 
     G3_Color(m_color);
-    G3_Vtx(FX_Whole(m_coords.x1) << v0, FX_Whole(m_coords.y1) << v0, m_z);
-    G3_VtxXY(FX_Whole(m_coords.x2) << v0, FX_Whole(m_coords.y2) << v0);
-    G3_VtxXY(FX_Whole(m_coords.x2) << v0, FX_Whole(m_coords.y2) << v0);
+    G3_Vtx(FX_Whole(m_points.p1.x) << v0, FX_Whole(m_points.p1.y) << v0, m_z);
+    G3_VtxXY(FX_Whole(m_points.p2.x) << v0, FX_Whole(m_points.p2.y) << v0);
+    G3_VtxXY(FX_Whole(m_points.p2.x) << v0, FX_Whole(m_points.p2.y) << v0);
 
     G3_End();
     G3_PopMtx(0);

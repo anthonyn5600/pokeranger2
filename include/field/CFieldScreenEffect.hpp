@@ -8,6 +8,7 @@
 #include "common.hpp"
 #include "field/CPrimitiveNTF.hpp"
 #include "primitive/CPrimitiveLINE.hpp"
+#include "primitive/CSoftwareSprite.hpp"
 #include "sub_02006000.hpp"
 
 class CFieldScreenEffectObjectBase {
@@ -62,41 +63,111 @@ STATIC_SIZE_ASSERT(CFieldScreenEffectObjectBase, 0x20);
 
 class CFieldScreenEffectActorData : public CEffectActorData {
 public:
+    virtual void Update()
+    {
+        if (GetCac(0) != NULL) {
+            GetCac(0)->sub_020089EC();
+        }
+    }
+
     BOOL Load(int id);
 };
 
+struct HinokoSpark {
+    Point2D pos;
+    Point2D vel;
+    Point2D baseVel;
+    u8 phase;
+    u8 timer;
+};
+
+STATIC_SIZE_ASSERT(HinokoSpark, 0x1C);
+
 class CFieldSEFHinoko : public CFieldScreenEffectObjectBase {
 public:
-    CFieldSEFHinoko(BOOL arg);
+    CFieldSEFHinoko(BOOL withSparks);
+    virtual ~CFieldSEFHinoko()
+    {
+        Unload();
+    }
+    virtual int GetType()
+    {
+        return m_withSparks ? 1 : 12;
+    }
+    virtual int Update(int fps);
+    virtual void Draw(UnkClass_02003718 *camera);
+    virtual BOOL Start(int fadeIn, int hold, int fadeOut);
 
-    u8 unk_20[0x428 - 0x20];
+    BOOL Load();
+    BOOL Unload();
+
+    CFieldScreenEffectActorData *m_actorData;
+    CSoftwareSprite *m_sprite;
+    u16 m_cells[8];
+    u16 m_bigCell;
+    HinokoSpark m_sparks1[16];
+    HinokoSpark m_sparks2[16];
+    int m_releaseDelay;
+    NtfTexture m_tex;
+    CPrimitiveRectNTF m_rect;
+    int m_density;
+    BOOL m_withSparks;
+    fx32 m_s;
+    fx32 m_t;
 };
+
+STATIC_SIZE_ASSERT(CFieldSEFHinoko, 0x428);
 
 class CFieldSEFRainDrop {
 public:
-    int unk_00;
+    int m_mode; // 0: off, 1: falling, 2: streak
     CPrimitiveLINE m_line;
 };
 
 STATIC_SIZE_ASSERT(CFieldSEFRainDrop, 0x2C);
 
+struct RainSplash {
+    BOOL active;
+    Point2D pos;
+};
+
+STATIC_SIZE_ASSERT(RainSplash, 0xC);
+
 class CFieldSEFRain : public CFieldScreenEffectObjectBase {
 public:
     CFieldSEFRain()
     {
-        sub_02039E20();
+        Load();
     }
-
-    virtual ~CFieldSEFRain();
-    virtual int GetType();
+    virtual ~CFieldSEFRain()
+    {
+        Unload();
+    }
+    virtual int GetType()
+    {
+        return 2;
+    }
     virtual int Update(int fps);
     virtual void Draw(UnkClass_02003718 *camera);
+    virtual BOOL Start(int fadeIn, int hold, int fadeOut)
+    {
+        BOOL result = CFieldScreenEffectObjectBase::Start(fadeIn, hold, fadeOut);
+        ResetDrops();
+        return result;
+    }
 
-    void sub_02039E20();
+    BOOL Load();
+    BOOL Unload();
+    void ResetDrops();
 
-    CFieldSEFRainDrop m_drops[0x20];
-    u8 unk_5A0[0x678 - 0x5A0];
+    CFieldSEFRainDrop m_drops[32];
+    RainSplash m_splashes[16];
+    CFieldScreenEffectActorData *m_actorData;
+    CSoftwareSprite *m_sprite;
+    u16 m_cells[8];
 };
+
+STATIC_SIZE_ASSERT(CFieldSEFRain, 0x678);
 
 struct KomorebiRay {
     fx32 len;
@@ -281,9 +352,28 @@ STATIC_SIZE_ASSERT(CFieldSEFDokarimo, 0x66C);
 class CFieldSEFTheWater : public CFieldScreenEffectObjectBase {
 public:
     CFieldSEFTheWater(int type);
+    virtual ~CFieldSEFTheWater()
+    {
+        Unload();
+    }
+    virtual int GetType()
+    {
+        return m_type;
+    }
+    virtual int Update(int fps);
+    virtual void Draw(UnkClass_02003718 *camera);
+    virtual BOOL Start(int fadeIn, int hold, int fadeOut);
 
-    u8 unk_20[0x80 - 0x20];
+    BOOL Load();
+    BOOL Unload();
+
+    NtfTexture m_tex;
+    int m_type;
+    int m_density;
+    CPrimitiveRectNTF m_rect;
 };
+
+STATIC_SIZE_ASSERT(CFieldSEFTheWater, 0x80);
 
 class CFieldSEFWarning : public CFieldScreenEffectObjectBase {
 public:
