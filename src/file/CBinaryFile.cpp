@@ -12,7 +12,6 @@
 #pragma optimization_level 2
 
 extern "C" {
-CGame *sub_0201001C(void);
 
 extern u32 MAIN_BSS_0208F320;
 extern u32 *MAIN_BSS_0208F31C;
@@ -259,7 +258,7 @@ const char *CBinaryFileMes::sub_02003124()
         ".spa",
     };
 
-    sub_0201001C();
+    CGame::GetInstance();
     return DAT_0208A538[1];
 }
 

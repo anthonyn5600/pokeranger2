@@ -18,7 +18,6 @@ extern "C" {
 void sub_02012A3C(UnkClass_0201287C *obj, int arg1, fx32 arg2, fx32 arg3);
 void ov0_0213EA6C(Point2D *out, Point2D cell, int floor, int arg3);
 BOOL ov0_0213E668(Point2D pos, fx32 radius, int floor, int arg3);
-CGame *sub_0201001C(void);
 BOOL ov0_0213E7C4(Point2D from, fx32 step, Point2D to, int floor, int mode);
 BOOL ov0_0213E918(Point2D from, fx32 step, Point2D to, CFieldMapLayerCollision *layer, int mode);
 }
@@ -369,7 +368,7 @@ void CFieldPartner::ov0_02138714(int arg)
         ov0_0213905C();
         return;
     }
-    if ((unk_1E8 & 2) != (sub_0201001C()->unk_0000 & 2)) {
+    if ((unk_1E8 & 2) != (CGame::GetInstance()->unk_0000 & 2)) {
         return;
     }
     if (unk_EC.unk_68 == 1 || unk_EC.unk_68 == 2) {
@@ -441,7 +440,7 @@ void CFieldPartner::ov0_02138B44()
         ov0_0213905C();
         return;
     }
-    if ((unk_1E8 & 2) != (sub_0201001C()->unk_0000 & 2)) {
+    if ((unk_1E8 & 2) != (CGame::GetInstance()->unk_0000 & 2)) {
         return;
     }
     if (unk_EC.unk_68 == 1 || unk_EC.unk_68 == 2) {

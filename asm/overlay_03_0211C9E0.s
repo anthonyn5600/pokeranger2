@@ -1296,7 +1296,7 @@ _0211DCAC:
 	strb r0, [sl, #0xf8]
 	str r0, [sl, #0xfc]
 	ldr r0, [sl, #8]
-	bl sub_0200FAA4
+	bl _ZN5CGame12sub_0200FAA4Ev
 	add r0, sp, #0x28
 	bl RTC_GetTime
 	add r0, sp, #0x18
@@ -1801,7 +1801,7 @@ _0211E2CC: ; jump table
 	b _02120040 ; case 65
 	b _02120084 ; case 66
 _0211E3D8:
-	bl sub_0200FAA4
+	bl _ZN5CGame12sub_0200FAA4Ev
 	ldr r0, [r7, #8]
 	add r0, r0, #0x1000
 	ldr r4, [r0, #0x498]
@@ -1881,7 +1881,7 @@ _0211E4DC:
 	orr r0, r0, #0x100
 	str r0, [r7, #0xc]
 	ldr r0, [r7, #8]
-	bl sub_0201024C
+	bl _ZN5CGame12sub_0201024CEv
 	ldr r0, _0211F250 ; =MAIN_BSS_0210CA6C
 	ldrh r1, [r4, #0x1a]
 	ldr r0, [r0]
@@ -2694,7 +2694,7 @@ _0211F0D0:
 	bl sub_02034C44
 	b _02120108
 _0211F0EC:
-	bl sub_0200FAA4
+	bl _ZN5CGame12sub_0200FAA4Ev
 	mov r1, #2
 	ldr r0, _0211F254 ; =0x04001050
 	sub r2, r1, #0x21
@@ -2780,7 +2780,7 @@ _0211F208:
 	orr r0, r0, #0x200
 	str r0, [r7, #0xc]
 	ldr r0, [r7, #8]
-	bl sub_0201024C
+	bl _ZN5CGame12sub_0201024CEv
 	ldr r0, _0211F250 ; =MAIN_BSS_0210CA6C
 	ldrh r1, [r4, #0x1a]
 	ldr r0, [r0]
@@ -2932,7 +2932,7 @@ _0211F430:
 	orr r0, r0, #0x200
 	str r0, [r7, #0xc]
 	ldr r0, [r7, #8]
-	bl sub_0201024C
+	bl _ZN5CGame12sub_0201024CEv
 	ldr r0, _0211F250 ; =MAIN_BSS_0210CA6C
 	ldrh r1, [r4, #0x1a]
 	ldr r0, [r0]
@@ -3290,7 +3290,7 @@ _0211F96C:
 	ldr r0, [r0, #0x4b4]
 	bl sub_02018E94
 	ldr r0, [r7, #8]
-	bl sub_0201024C
+	bl _ZN5CGame12sub_0201024CEv
 	mov r0, #0x13
 	str r0, [r7, #0xe8]
 	ldr r1, [r7, #0xdc]
@@ -3504,7 +3504,7 @@ _0211FC94:
 	ldr r0, [r0, #0x4b4]
 	bl sub_02018E94
 	ldr r0, [r7, #8]
-	bl sub_0201024C
+	bl _ZN5CGame12sub_0201024CEv
 	mov r0, r4
 	bl sub_02015198
 	mov r0, #0x13
@@ -4558,7 +4558,7 @@ _ZN14CContinueSceneC1EP5CGame: ; 0x02120ACC
 	ldr r0, _02120B14 ; =PTR_LAB_overlay_3_02120b18_overlay_3_0212a954
 	str r0, [r5]
 	str r4, [r5, #8]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
 	str r0, [r5, #4]
@@ -5256,7 +5256,7 @@ _ZN10CConfSceneC1EP5CGame: ; 0x0212144C
 	ldr r0, _02121494 ; =PTR_LAB_overlay_3_02121498_overlay_3_0212aa08
 	str r0, [r5]
 	str r4, [r5, #8]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
 	str r0, [r5, #4]

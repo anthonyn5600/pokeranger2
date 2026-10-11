@@ -264,6 +264,9 @@
 .public _ZN23CFieldMapLayerCollision5SweepEP11PointPair2DlP7Point2Dm
 .public _ZN23CFieldMapLayerCollision9SweepFineEP11PointPair2DlP7Point2Dm
 .public _ZN24CFieldTargetObjectManage12ov0_0213D564Ev
+.public _ZN5CGame11GetInstanceEv
+.public _ZN5CGame12sub_02010178Ei
+.public _ZN5CGame12sub_0201024CEv
 .public _ZN6CSceneD2Ev
 .public _ZN9CNCERFileC1EPKcmmm
 .public _ZdaPv
@@ -392,9 +395,6 @@
 .public sub_02008DB4
 .public sub_02008E50
 .public sub_0200912C
-.public sub_0201001C
-.public sub_02010178
-.public sub_0201024C
 .public sub_020107A8
 .public sub_02010868
 .public sub_0201095C

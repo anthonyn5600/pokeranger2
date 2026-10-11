@@ -1,15 +1,14 @@
 #include "scene/CNameInputScene.hpp"
 
 extern "C" {
-CGame *sub_0201001C(void);
 void sub_020345D4(void *audioEngine);
 void sub_0203499C(void *audioEngine, u32);
 }
 
 CNameInputScene::CNameInputScene()
 {
-    m_game = sub_0201001C();
-    m_audioEngine = sub_0201001C()->m_audioEngine;
+    m_game = CGame::GetInstance();
+    m_audioEngine = CGame::GetInstance()->m_audioEngine;
     sub_020345D4(m_audioEngine);
     sub_0203499C(m_audioEngine, 3);
     unk_000C = 0;

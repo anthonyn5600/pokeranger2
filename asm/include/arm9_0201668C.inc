@@ -181,6 +181,8 @@
 .public _ZN17UnkClass_0200ECD0D1Ev
 .public _ZN17UnkClass_020B26A012sub_0201630CEP7RTCTimeP7RTCDate
 .public _ZN18CPrimitiveTRIANGLEC1Ev
+.public _ZN5CGame11GetInstanceEv
+.public _ZN5CGame12sub_02010324Ev
 .public _ZN9CNCERFileC1EPKcmmm
 .public _ZN9CNCLRFileC1EPKcmmm
 .public _ZN9CNSCRFileC1EPKcmmm
@@ -387,8 +389,6 @@
 .public sub_0200879C
 .public sub_02008860
 .public sub_02008E50
-.public sub_0201001C
-.public sub_02010324
 .public sub_020107A8
 .public sub_020107C4
 .public sub_02010E78

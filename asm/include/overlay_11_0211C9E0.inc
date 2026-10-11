@@ -180,7 +180,9 @@
 .public _ZN17UnkClass_02027FE8D1Ev
 .public _ZN17UnkClass_02040F34C1Ev
 .public _ZN17UnkClass_02040F34D1Ev
+.public _ZN5CGame11GetInstanceEv
 .public _ZN5CGame12sub_020100E4EPFvPvES0_
+.public _ZN5CGame12sub_020101F4Emmm
 .public _ZN6CScene5func3Ev
 .public _ZN6CScene5func4Ev
 .public _ZN6CSceneC2Ev
@@ -203,8 +205,6 @@
 .public sub_0200071A
 .public sub_02008DB4
 .public sub_02008E50
-.public sub_0201001C
-.public sub_020101F4
 .public sub_02010F78
 .public sub_02010FAC
 .public sub_02010FC8

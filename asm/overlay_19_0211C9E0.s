@@ -10,9 +10,9 @@ _ZN15CSexSelectSceneC1Ev: ; 0x0211C9E0
 	bl _ZN6CSceneC2Ev
 	ldr r0, _0211CA54 ; =ptr_FUN_overlay_19_0211ca58_overlay_19_0211e3e8
 	str r0, [r4]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	str r0, [r4, #0x1c]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
 	str r0, [r4, #0x18]
@@ -1052,7 +1052,7 @@ _0211D828:
 	cmp r0, #0
 	bne _0211D978
 	ldr r0, [r5, #0x1c]
-	bl sub_0200FAEC
+	bl _ZN5CGame12sub_0200FAECEv
 	ldr r0, [r5, #0x1c]
 	mov r2, #1
 	add r0, r0, #0x1000

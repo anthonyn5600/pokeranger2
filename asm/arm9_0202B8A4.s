@@ -6374,7 +6374,7 @@ sub_02030664: ; 0x02030664
 	ldr r0, _020306DC ; =_0208F304
 	mov r1, #0
 	ldr r0, [r0]
-	bl sub_02010178
+	bl _ZN5CGame12sub_02010178Ei
 	ldr r0, _020306DC ; =_0208F304
 	mov r2, #0
 	b _020306A8
@@ -6383,7 +6383,7 @@ _02030690:
 	ldr r0, _020306DC ; =_0208F304
 	mov r1, #1
 	ldr r0, [r0]
-	bl sub_02010178
+	bl _ZN5CGame12sub_02010178Ei
 	ldr r0, _020306DC ; =_0208F304
 	mov r2, #1
 _020306A8:
@@ -11074,8 +11074,8 @@ _02033EF8:
 	str r0, [r4, #0x28]
 	ldmia sp!, {r4, pc}
 
-	arm_func_start sub_02033F04
-sub_02033F04: ; 0x02033F04
+	arm_func_start _ZN17UnkClass_02033F04C1Em
+_ZN17UnkClass_02033F04C1Em: ; 0x02033F04
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r4, r1
@@ -11089,7 +11089,7 @@ sub_02033F04: ; 0x02033F04
 	cmp r0, #0
 	beq _02033F38
 	bl sub_02033C4C
-	arm_func_end sub_02033F04
+	arm_func_end _ZN17UnkClass_02033F04C1Em
 _02033F38:
 	str r0, [r5, #4]
 	mov r0, #0x27c
@@ -11526,8 +11526,8 @@ sub_02034450: ; 0x02034450
 	ldmia sp!, {r4, pc}
 	arm_func_end sub_02034450
 
-	arm_func_start sub_02034478
-sub_02034478: ; 0x02034478
+	arm_func_start _ZN17UnkClass_02034478C1Ev
+_ZN17UnkClass_02034478C1Ev: ; 0x02034478
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl NNS_SndInit
@@ -11602,7 +11602,7 @@ sub_02034478: ; 0x02034478
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02034598: .word s_data_Sound_sound_data_sdat_0208d570
-	arm_func_end sub_02034478
+	arm_func_end _ZN17UnkClass_02034478C1Ev
 
 	arm_func_start thunk_FUN_0205b9f0
 thunk_FUN_0205b9f0: ; 0x0203459C
@@ -12980,7 +12980,7 @@ _020355F4: .word 0x04000450
 sub_020355F8: ; 0x020355F8
 	stmdb sp!, {r3, lr}
 	sub sp, sp, #8
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r1, [r0, #0x4b8]
 	ldr r0, _0203565C ; =MAIN_BSS_0210CA84
@@ -13016,7 +13016,7 @@ sub_02035660: ; 0x02035660
 	ldr r0, [r0, #4]
 	cmp r0, #0
 	bne _020356B0
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r1, [r0, #0x4b8]
 	ldr r0, _0203571C ; =MAIN_BSS_0210CA84
@@ -27581,8 +27581,8 @@ _02041C70:
 	.align 2, 0
 _02041C7C: .word MAIN_BSS_0210CA60
 
-	arm_func_start sub_02041C80
-sub_02041C80: ; 0x02041C80
+	arm_func_start _ZN17UnkClass_02041C80C1EPKci
+_ZN17UnkClass_02041C80C1EPKci: ; 0x02041C80
 	stmdb sp!, {r4, lr}
 	ldr r3, _02041CB0 ; =MAIN_BSS_0210CA6C
 	mov r4, r0
@@ -27597,7 +27597,7 @@ sub_02041C80: ; 0x02041C80
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02041CB0: .word MAIN_BSS_0210CA6C
-	arm_func_end sub_02041C80
+	arm_func_end _ZN17UnkClass_02041C80C1EPKci
 
 	arm_func_start sub_02041CB4
 sub_02041CB4: ; 0x02041CB4
@@ -28397,7 +28397,7 @@ _0204270C:
 	mov r0, #5
 	str r0, [r4, #8]
 	ldr r0, [r4, #4]
-	bl sub_0201024C
+	bl _ZN5CGame12sub_0201024CEv
 	ldr r0, _02042F68 ; =MAIN_BSS_020B26A0
 	ldr r2, _02042F6C ; =MAIN_BSS_0210CA6C
 	ldrh r1, [r0, #0x1a]
@@ -28454,7 +28454,7 @@ _020427DC:
 	mov r0, #5
 	str r0, [r4, #8]
 	ldr r0, [r4, #4]
-	bl sub_0201024C
+	bl _ZN5CGame12sub_0201024CEv
 	ldr r0, _02042F68 ; =MAIN_BSS_020B26A0
 	ldr r2, _02042F6C ; =MAIN_BSS_0210CA6C
 	ldrh r1, [r0, #0x1a]
@@ -29341,7 +29341,7 @@ _02043484:
 	mov r0, #2
 	str r0, [r4, #8]
 	ldr r0, [r4, #4]
-	bl sub_0201024C
+	bl _ZN5CGame12sub_0201024CEv
 	b _02043854
 _02043498:
 	ldrb r1, [r4, #0x10]
@@ -29876,7 +29876,7 @@ _02043BEC:
 	mov r0, #2
 	str r0, [r4, #8]
 	ldr r0, [r4, #4]
-	bl sub_0201024C
+	bl _ZN5CGame12sub_0201024CEv
 	ldr r0, _02043FB4 ; =MAIN_BSS_020B26A0
 	ldr r2, _02043FB8 ; =MAIN_BSS_0210CA6C
 	ldrh r1, [r0, #0x1a]

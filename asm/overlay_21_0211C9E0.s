@@ -632,7 +632,7 @@ _0211D224:
 	subne r0, r0, #1
 	strneb r0, [r4, #4]
 	ldmneia sp!, {r4, r5, r6, pc}
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	ldr r0, [r0]
 	ldr r5, [r4]
 	tst r0, #8
@@ -1385,10 +1385,10 @@ _0211DC2C:
 	bl _Znwm
 	movs r4, r0
 	beq _0211DCB8
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r5, [r0, #0x4b0]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r1, [r0, #0x4ac]
 	mov r0, r4
@@ -1412,10 +1412,10 @@ _0211DCB8:
 	bl _Znwm
 	movs r4, r0
 	beq _0211DD20
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r5, [r0, #0x4b0]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r1, [r0, #0x4ac]
 	mov r0, r4
@@ -5322,7 +5322,7 @@ ov21_02121388: ; 0x02121388
 	stmdb sp!, {r4, lr}
 	mov r4, r1
 	str r4, [r0, #4]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	mov r1, r4, lsl #0x10
 	ldr r0, [r0, #0x434]
@@ -6956,7 +6956,7 @@ ov21_02122724: ; 0x02122724
 	mov r7, r1
 	mov r4, r0
 	mov r5, r2
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	ldr r6, _02122A78 ; =MAIN_BSS_020B26A0
 	cmp r7, #3
 	addls pc, pc, r7, lsl #2
@@ -7206,7 +7206,7 @@ _02122A88: .word OVERLAY21_BSS_021242C4
 ov21_02122A8C: ; 0x02122A8C
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	mov sl, r0
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	ldr r1, [sl]
 	mov r7, #0
 	mov r8, r7

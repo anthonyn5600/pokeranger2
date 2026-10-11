@@ -14,7 +14,13 @@ public:
     }
 
 public:
-    s32 unk_00;
+    union {
+        s32 unk_00;
+        struct {
+            u16 attr0;
+            u16 attr1;
+        };
+    };
     s16 unk_04;
     s16 unk_06;
 };

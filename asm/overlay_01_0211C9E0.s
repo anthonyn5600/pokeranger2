@@ -113,7 +113,7 @@ _0211CB34:
 	mov r0, #1
 	str r1, [r5, #0x7c]
 	str r0, [r5, #0x70]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	ldr r0, [r0, #0x18]
 	mov r2, #0
 	str r0, [r5, #0x10]
@@ -780,7 +780,7 @@ _0211D4CC:
 	bl _Znwm
 	movs r8, r0
 	beq _0211D520
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	mov r2, #0
 	add r1, r0, #0x24
 	mov r0, r8
@@ -1247,7 +1247,7 @@ _0211DB90:
 	and r0, r0, #0x43
 	orr r0, r0, #0x700
 	strh r0, [r1]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	mov r3, #0
 	str r3, [sp]
 	ldr r0, [r0, #0xc24]
@@ -2296,7 +2296,7 @@ _0211E994:
 	ldrne r8, [r7, #0xc24]
 	ldreq r8, [r7, #0xc20]
 	str r4, [r7, #0xc38]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r4, [r0, #0x48c]
 	cmp r6, #0x11
@@ -2998,7 +2998,7 @@ _0211F30C:
 	cmp r5, r0
 	blo _0211F30C
 _0211F33C:
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r5, [r0, #0x48c]
 	ldr r0, [r4, #0x1c]
@@ -3006,7 +3006,7 @@ _0211F33C:
 	mov r1, r0
 	mov r0, r5
 	bl sub_0203481C
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r5, [r0, #0x48c]
 	ldr r0, [r4, #0x1c]
@@ -6726,7 +6726,7 @@ ov1_021227CC: ; 0x021227CC
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r5, r1
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
 	bl sub_0203491C
@@ -7148,17 +7148,17 @@ ov1_02122D78: ; 0x02122D78
 	mov r4, r0
 	cmp r1, #0
 	beq _02122D98
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	mov r1, #0
-	bl sub_02010178
+	bl _ZN5CGame12sub_02010178Ei
 	b _02122DA4
 	arm_func_end ov1_02122D78
 _02122D98:
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	mov r1, #1
-	bl sub_02010178
+	bl _ZN5CGame12sub_02010178Ei
 _02122DA4:
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	ldr r0, [r0, #0x20]
 	str r0, [r4, #0x10]
 	ldmia sp!, {r4, pc}
@@ -10348,7 +10348,7 @@ ov1_02125A80: ; 0x02125A80
 	ldrh r0, [r0, #0x94]
 	cmp r1, r0
 	bne _02125ADC
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
 	mov r1, #0xe
@@ -10374,12 +10374,12 @@ _02125ADC:
 	strh r2, [r3, #0x1a]
 	str r1, [r3, #0xc]
 	bl ov1_02126434
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
 	mov r1, #0xe
 	bl sub_02034C5C
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
 	mov r1, #0x39
@@ -10416,7 +10416,7 @@ ov1_02125B74: ; 0x02125B74
 	ldrh r0, [r0, #0x92]
 	cmp r0, r1
 	bne _02125BD0
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
 	mov r1, #0xe
@@ -10442,12 +10442,12 @@ _02125BD0:
 	strh r2, [r3, #0x1a]
 	str r1, [r3, #0xc]
 	bl ov1_02126434
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
 	mov r1, #0xe
 	bl sub_02034C5C
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
 	mov r1, #0x39
@@ -11024,7 +11024,7 @@ ov1_02126434: ; 0x02126434
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0x1c
 	str r0, [sp, #0xc]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	ldr r1, [sp, #0xc]
 	mov r5, #0
 	ldr r1, [r1, #0x20]
@@ -11109,7 +11109,7 @@ ov1_0212656C: ; 0x0212656C
 	sub sp, sp, #0x24
 	str r1, [sp, #0xc]
 	mov r6, r0
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	ldr r1, [sp, #0xc]
 	cmp r1, #0
 	mov r1, #0
@@ -17402,7 +17402,7 @@ ov1_0212B510: ; 0x0212B510
 ov1_0212B530: ; 0x0212B530
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	ldr r0, [r0, #0x1c]
 	cmp r0, #0
 	moveq r0, #0
@@ -17416,7 +17416,7 @@ ov1_0212B530: ; 0x0212B530
 	arm_func_start ov1_0212B55C
 ov1_0212B55C: ; 0x0212B55C
 	stmdb sp!, {r3, lr}
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	ldr r0, [r0, #0x1c]
 	cmp r0, #0
 	moveq r0, #0
@@ -17430,7 +17430,7 @@ ov1_0212B55C: ; 0x0212B55C
 ov1_0212B580: ; 0x0212B580
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	ldr r0, [r0, #0x1c]
 	cmp r0, #0
 	moveq r0, #0
@@ -18771,7 +18771,7 @@ ov1_0212C6D0: ; 0x0212C6D0
 	sub sp, sp, #0x18
 	mov r7, r0
 	str r1, [sp, #0xc]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	mov r4, r0
 	mov r0, r7
 	mov r6, #0
@@ -18852,7 +18852,7 @@ ov1_0212C7E8: ; 0x0212C7E8
 	str r0, [sp, #0x68]
 	ldr r6, [sp, #0x6c]
 	ldr fp, [sp, #0x60]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	ldr r0, [r8, #0x1b8]
 	mov r1, r7
 	add r0, r0, #0x6400
@@ -18965,7 +18965,7 @@ ov1_0212C990: ; 0x0212C990
 	ldr r0, [sp, #0x68]
 	ldr fp, [sp, #0x74]
 	str r0, [sp, #0xc]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	ldr r0, [sl, #0x1b8]
 	mov r1, sb
 	add r0, r0, #0x6400
@@ -19101,7 +19101,7 @@ ov1_0212CBA0: ; 0x0212CBA0
 	mov r7, r3
 	str r0, [sp, #0x68]
 	ldr fp, [sp, #0x60]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	ldr r0, [r8, #0x1b8]
 	mov r1, r7
 	add r0, r0, #0x6400
@@ -19508,7 +19508,7 @@ ov1_0212D148: ; 0x0212D148
 	ldr r0, [sp, #0x48]
 	str r3, [sp, #0x10]
 	str r0, [sp, #0x14]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	ldr r1, [sp, #0x10]
 	mov fp, #0
 	cmp r1, #0
@@ -21589,7 +21589,7 @@ ov1_0212EDE0: ; 0x0212EDE0
 	str r1, [r4, #8]
 	str r2, [r4, #0xc]
 	str r3, [r4, #0x10]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r1, [r0, #0x48c]
 	mov r0, r4
@@ -25324,7 +25324,7 @@ _02132010:
 	cmp r0, #0
 	moveq r0, #0
 	ldmeqia sp!, {r4, r5, r6, r7, r8, pc}
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r1, r0, #0x460
 	add r0, r0, #0x1000
 	add r1, r1, #0x1000
@@ -31010,7 +31010,7 @@ ov1_02136C00: ; 0x02136C00
 	mov r1, #0x30
 	mov r2, #0x34
 	bl __cxa_vec_ctor
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r1, [r0, #0x48c]
 	mov r0, r4
@@ -31453,7 +31453,7 @@ ov1_0213720C: ; 0x0213720C
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0x30
 	mov r4, r0
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r2, r0, #0x1000
 	add r1, r0, #0x460
 	add r1, r1, #0x1000
@@ -31581,7 +31581,7 @@ _021373F8: .word 0xFFFFECCD
 ov1_021373FC: ; 0x021373FC
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r4, r0
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	ldrb r2, [r4, #0x2ac]
 	mov r1, #0x34
 	add r5, r4, #0x2b0
@@ -32961,11 +32961,11 @@ ov1_021384F8: ; 0x021384F8
 	strb r0, [r4, #0x24]
 	str r0, [r4, #0x28]
 	strh r0, [r4, #0x2e]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
 	str r0, [r4, #0x3c]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r1, [r0, #0x438]
 	ldr r0, _02138CA4 ; =MAIN_BSS_020B26A0
@@ -33960,9 +33960,9 @@ _02139494:
 	str r0, [r4, #4]
 	ldmia sp!, {r4, r5, r6, pc}
 _0213949C:
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	ldr r5, [r0, #0x14]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	ldrh r1, [r5]
 	ldr r2, [r0, #0x18]
 	and r0, r1, #1
@@ -34036,7 +34036,7 @@ _0213954C:
 	ldrb r1, [r4, #0x19]
 	ldr r0, [r4, #0x38]
 	bl sub_020160B8
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x438]
 	bl sub_02010E60
@@ -34131,9 +34131,9 @@ ov1_021396C0: ; 0x021396C0
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end ov1_021396C0
 _02139724:
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	ldr r5, [r0, #0x14]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	ldrh r1, [r5]
 	ldr r2, [r0, #0x18]
 	and r0, r1, #1
@@ -34289,9 +34289,9 @@ ov1_021398F4: ; 0x021398F4
 	str r1, [r4, #0xa90]
 	str r0, [r4, #0xa88]
 	str r0, [r4, #0xad4]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	ldr r5, [r0, #0x14]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	ldr r0, [r0, #0x18]
 	ldrb r0, [r0, #4]
 	cmp r0, #0
@@ -34515,7 +34515,7 @@ ov1_02139C30: ; 0x02139C30
 	bl sub_02034A40
 	str r5, [r6, #0x40]
 	str r4, [r6, #0x44]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x438]
 	bl sub_02010E60
@@ -35174,7 +35174,7 @@ ov1_0213A4D4: ; 0x0213A4D4
 	bl sub_02011D60
 	ldr r0, _0213A53C ; =ptr_FUN_overlay_1_0213a540_overlay_1_02141c6c
 	str r0, [r4]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
 	mov r1, #0x57
@@ -36609,12 +36609,12 @@ ov1_0213B7C0: ; 0x0213B7C0
 	sub sp, sp, #0x18
 	mov sl, r0
 	mov r4, r1
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	ldr r0, [r0, #0xc]
 	ldr r0, [r0, #0x14]
 	cmp r0, #0
 	beq _0213B818
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	ldr r0, [r0, #0x14]
 	ldrh r0, [r0, #2]
 	and r0, r0, #2
@@ -36689,7 +36689,7 @@ _0213B870:
 	ldrb r1, [r5, #4]
 	mov r0, sl
 	bl ov1_0213CA78
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	ldrb r1, [sl, #0xc]
 	ldr r2, [sl, #0x3c]
 	ldr r0, [r0, #0xc]
@@ -36717,21 +36717,21 @@ _0213B870:
 	beq _0213B9A0
 	b _0213B9B4
 _0213B970:
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
 	mov r1, #0xc
 	bl sub_02034C44
 	b _0213B9B4
 _0213B988:
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
 	mov r1, #0xfb
 	bl sub_02034C44
 	b _0213B9B4
 _0213B9A0:
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
 	mov r1, #0xfc
@@ -36780,7 +36780,7 @@ _0213B9CC:
 	str r0, [sl]
 	mov r0, #4
 	str r0, [sl, #4]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
 	mov r1, #0xc
@@ -36813,13 +36813,13 @@ _0213BA84:
 	ldrb r1, [r0, #4]
 	add r0, sl, #0x700
 	strh r1, [r0, #0x8a]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x4bc]
 	mov r1, #1
 	mov r2, #0x40
 	bl _ZN17UnkClass_0200E0B412sub_0200E0E0Ett
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x4c0]
 	mov r1, #1
@@ -36827,7 +36827,7 @@ _0213BA84:
 	bl _ZN17UnkClass_0200E0B412sub_0200E0E0Ett
 	ldr r0, [sl, #0xff8]
 	bl sub_0201B568
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	ldr r0, [r0, #0xc]
 	ldrb r1, [sl, #0xf]
 	cmp r1, #0
@@ -36849,7 +36849,7 @@ _0213BB48:
 	ldrh r1, [r3, r1]
 	bl ov1_0211EF74
 _0213BB60:
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
 	mov r1, #0xc
@@ -36870,7 +36870,7 @@ _0213BB8C:
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
 	mov r0, #0
 	str r0, [sl, #8]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	mov r4, r0
 	add r0, r4, #0x1000
 	ldr r0, [r0, #0x490]
@@ -36882,7 +36882,7 @@ _0213BB8C:
 	bl sub_02034184
 	ldr r0, [sl, #0xf8]
 	bl ov1_0213EDDC
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
 	mov r1, #0xc
@@ -37037,7 +37037,7 @@ ov1_0213BDC0: ; 0x0213BDC0
 	ldr r0, [r4]
 	cmp r0, #1
 	bne _0213BE10
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	ldrb r1, [r4, #0xc]
 	add r0, r0, #0x1000
 	ldr r2, [r4, #0x3c]
@@ -37046,7 +37046,7 @@ ov1_0213BDC0: ; 0x0213BDC0
 	ldr r0, [r0, #0x434]
 	bl sub_020107A8
 	ldrh r5, [r0]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
 	mov r1, r5
@@ -37274,7 +37274,7 @@ _0213C0AC:
 ov1_0213C0F8: ; 0x0213C0F8
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
 	mov sl, r0
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	ldrb r2, [sl, #0xd]
 	mov r8, #0
 	add r1, r0, #0x24
@@ -37326,7 +37326,7 @@ ov1_0213C1A8: ; 0x0213C1A8
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r4, r2
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	mov r1, r0
 	add r0, r5, r4, lsl #2
 	mov r2, #0
@@ -37612,7 +37612,7 @@ _0213C584:
 	mov r3, #8
 	str r1, [sp]
 	bl G2x_SetBlendAlpha_
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x49c]
 	ldr r1, _0213C5F0 ; =s_sPokeSelect_overlay_1_02141f5c
@@ -37897,7 +37897,7 @@ ov1_0213C8E8: ; 0x0213C8E8
 	str r6, [sp, #0x14]
 	ldmia r1, {r1, r2}
 	bl sub_02011B18
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
 	mov r1, #0xc
@@ -37951,7 +37951,7 @@ ov1_0213C9B8: ; 0x0213C9B8
 	str r7, [sp, #0x14]
 	ldmia r6, {r1, r2}
 	bl sub_02011B18
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
 	mov r1, #0xc
@@ -37971,7 +37971,7 @@ ov1_0213CA78: ; 0x0213CA78
 	add r0, sp, #0
 	and r2, r2, #0xff
 	bl OS_SPrintf
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	mov r4, r0
 	add r0, r4, #0x1000
 	ldr r0, [r0, #0x490]
@@ -37992,7 +37992,7 @@ ov1_0213CAC8: ; 0x0213CAC8
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0x1c
 	str r0, [sp]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	mov r1, #0
 	str r1, [sp, #8]
 	arm_func_end ov1_0213CAC8
@@ -41051,7 +41051,7 @@ ov1_0213F3D4: ; 0x0213F3D4
 	ldrh r0, [r4]
 	cmp r0, #1
 	ldmloia sp!, {r4, pc}
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x49c]
 	ldr r1, _0213F418 ; =s_system_000_overlay_1_021421f4
@@ -41196,7 +41196,7 @@ ov1_0213F5A0: ; 0x0213F5A0
 	ldrh r0, [r4]
 	cmp r0, #0x20
 	ldmlsia sp!, {r4, pc}
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
 	mov r1, #0x3b
@@ -41254,7 +41254,7 @@ ov1_0213F688: ; 0x0213F688
 	ldrh r0, [r4]
 	cmp r0, #0x18
 	ldmlsia sp!, {r4, pc}
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	mov r1, #1
 	ldr r0, [r0, #0x490]

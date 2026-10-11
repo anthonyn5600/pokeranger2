@@ -11,7 +11,7 @@ sub_02007CF0: ; 0x02007CF0
 	and r0, r0, #0x43
 	orr r0, r0, #0x700
 	strh r0, [r1]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	mov r3, #0
 	str r3, [sp]
 	ldr r0, [r0, #0xc24]
@@ -31,7 +31,7 @@ sub_02007D2C: ; 0x02007D2C
 	and r0, r0, #0x43
 	orr r0, r0, #0xf00
 	strh r0, [r1]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	mov r3, #0
 	str r3, [sp]
 	ldr r0, [r0, #0xc28]
@@ -54,7 +54,7 @@ sub_02007D68: ; 0x02007D68
 	arm_func_start sub_02007D78
 sub_02007D78: ; 0x02007D78
 	stmdb sp!, {r4, lr}
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	mov r4, r0
 	ldr r0, [r4, #0xc24]
 	bl _ZN17UnkClass_020023EC12sub_020027E8Ev
@@ -66,7 +66,7 @@ sub_02007D78: ; 0x02007D78
 	arm_func_start sub_02007D98
 sub_02007D98: ; 0x02007D98
 	stmdb sp!, {r4, lr}
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	mov r4, r0
 	add r0, r4, #0x24
 	mov r1, #0x400

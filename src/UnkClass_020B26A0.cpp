@@ -6,12 +6,11 @@
 #include "constants/scene.hpp"
 
 extern "C" {
-CGame *sub_0201001C(void);
 }
 
 void UnkClass_020B26A0::sub_0201630C(RTCTime *time, RTCDate *date)
 {
-    CGame *game = sub_0201001C();
+    CGame *game = CGame::GetInstance();
     u32 currSceneId = game->currentScene->getSceneId();
 
     if (currSceneId == SCENE_RANGER_NET_1 || currSceneId == SCENE_TITLE) {

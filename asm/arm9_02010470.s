@@ -1,23 +1,10 @@
     .include "macros.inc"
-    .include "include/arm9_0201044C.inc"
+    .include "include/arm9_02010470.inc"
 
     .text
 
-	arm_func_start _ZN5CGame12sub_0201044CEv
-_ZN5CGame12sub_0201044CEv: ; 0x0201044C
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	add r0, r4, #0x1000
-	ldr r0, [r0, #0x494]
-	bl _ZN17UnkClass_0200C38C12sub_0200C3D0Ev
-	add r0, r4, #0x1000
-	ldr r0, [r0, #0x498]
-	bl _ZN17UnkClass_0200CAB412sub_0200CAE0Ev
-	ldmia sp!, {r4, pc}
-	arm_func_end _ZN5CGame12sub_0201044CEv
-
-	arm_func_start sub_02010470
-sub_02010470: ; 0x02010470
+	arm_func_start _ZN17UnkClass_02010470C1Em
+_ZN17UnkClass_02010470C1Em: ; 0x02010470
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	mov sl, r0
 	mov r0, #0x20
@@ -28,7 +15,7 @@ sub_02010470: ; 0x02010470
 	mov r1, r4
 	bl _ZN17UnkClass_0200D114C1Em
 	mov r8, r0
-	arm_func_end sub_02010470
+	arm_func_end _ZN17UnkClass_02010470C1Em
 _02010498:
 	ldr r1, _020107A4 ; =s_data_param_PokeID_bin_0208ab84
 	mov r0, r8
@@ -287,14 +274,14 @@ _0201084C:
 	mov r0, #0
 	bx lr
 
-	arm_func_start sub_02010854
-sub_02010854: ; 0x02010854
+	arm_func_start _ZN17UnkClass_02010854C1Ev
+_ZN17UnkClass_02010854C1Ev: ; 0x02010854
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl sub_02010868
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	arm_func_end sub_02010854
+	arm_func_end _ZN17UnkClass_02010854C1Ev
 
 	arm_func_start sub_02010868
 sub_02010868: ; 0x02010868
@@ -744,14 +731,14 @@ sub_02010C34: ; 0x02010C34
 	bx lr
 	arm_func_end sub_02010C34
 
-	arm_func_start sub_02010C3C
-sub_02010C3C: ; 0x02010C3C
+	arm_func_start _ZN17UnkClass_02010C3CC1Ev
+_ZN17UnkClass_02010C3CC1Ev: ; 0x02010C3C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl sub_02010C50
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	arm_func_end sub_02010C3C
+	arm_func_end _ZN17UnkClass_02010C3CC1Ev
 
 	arm_func_start sub_02010C50
 sub_02010C50: ; 0x02010C50
@@ -799,8 +786,8 @@ sub_02010CC0: ; 0x02010CC0
 _02010CC8: .word MAIN_BSS_020AF3CE
 	arm_func_end sub_02010CC0
 
-	arm_func_start CBattleResultParameter_ctor
-CBattleResultParameter_ctor: ; 0x02010CCC
+	arm_func_start _ZN22CBattleResultParameterC1Ev
+_ZN22CBattleResultParameterC1Ev: ; 0x02010CCC
 	stmdb sp!, {r4, lr}
 	ldr r1, _02010CE8 ; =PTR_LAB_0208abac
 	mov r4, r0
@@ -810,7 +797,7 @@ CBattleResultParameter_ctor: ; 0x02010CCC
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02010CE8: .word PTR_LAB_0208abac
-	arm_func_end CBattleResultParameter_ctor
+	arm_func_end _ZN22CBattleResultParameterC1Ev
 
 	arm_func_start CBattleResultParameter_complete_obj_dtor
 CBattleResultParameter_complete_obj_dtor: ; 0x02010CEC
@@ -840,8 +827,8 @@ sub_02010D04: ; 0x02010D04
 	ldmia sp!, {r4, pc}
 	arm_func_end sub_02010D04
 
-	arm_func_start sub_02010D2C
-sub_02010D2C: ; 0x02010D2C
+	arm_func_start _ZN17UnkClass_02010D2CC1Ei
+_ZN17UnkClass_02010D2CC1Ei: ; 0x02010D2C
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, lr}
 	sub sp, sp, #4
 	mov sl, r0
@@ -853,7 +840,7 @@ sub_02010D2C: ; 0x02010D2C
 	mov r1, r4
 	bl _ZN17UnkClass_0200D114C1Em
 	mov sb, r0
-	arm_func_end sub_02010D2C
+	arm_func_end _ZN17UnkClass_02010D2CC1Ei
 _02010D58:
 	ldr r1, _02010E5C ; =s_data_param_DiskHP_bin_0208ac04
 	mov r0, sb
@@ -7258,11 +7245,11 @@ sub_020160B8: ; 0x020160B8
 	cmp r2, r5
 	ldmeqia sp!, {r3, r4, r5, pc}
 	strb r5, [r0, #0x7db]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	cmp r0, #0
 	moveq r0, #0
 	beq _020160FC
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x438]
 	mov r1, r5

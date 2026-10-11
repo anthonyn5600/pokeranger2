@@ -1175,14 +1175,6 @@ ptr_FUN_020841e4_0208a36c: ; 0x0208A36C
 	.word sub_02084260
 
     .data
-	.global s_data_field_fielddata_bin_0208ab68
-s_data_field_fielddata_bin_0208ab68: ; 0x0208AB68
-	.asciz "data/field/fielddata.bin"
-
-	.global _0208AB81
-_0208AB81:
-	.byte 0x00, 0x00, 0x00
-
 	.global s_data_param_PokeID_bin_0208ab84
 s_data_param_PokeID_bin_0208ab84: ; 0x0208AB84
 	.asciz "data/param/PokeID.bin"
@@ -5453,14 +5445,6 @@ _0208DC5A:
 	.byte 0x00, 0x00
 
     .bss
-    .global MAIN_BSS_020AF354
-MAIN_BSS_020AF354: ; 0x020AF354
-    .space 0x4
-
-    .global MAIN_BSS_020AF358
-MAIN_BSS_020AF358: ; 0x020AF358
-    .space 0x4
-
     .global MAIN_BSS_020AF35C
 MAIN_BSS_020AF35C: ; 0x020AF35C
     .space 0x72

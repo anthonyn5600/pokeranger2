@@ -6,7 +6,6 @@ extern "C" {
 void sub_020349E8(void *audioEngine, u32 arg1);
 void sub_02034DE8(void *audioEngine, u32 arg1, u32 arg2, u32 arg3);
 void sub_02034E38(void *audioEngine, u32 arg1);
-void sub_02010400(CGame *game);
 void sub_02007D68(void);
 void sub_02008DB4(u16 *arg0, u32 arg1);
 }
@@ -42,7 +41,7 @@ u32 CAutoSaveScene::func0()
         RTC_GetTime(&time);
         RTC_GetDate(&date);
         MAIN_BSS_020B26A0.sub_0201630C(&time, &date);
-        sub_02010400(s_game);
+        s_game->sub_02010400();
 
         unk_000C = new UnkClass_02027FE8(1);
         unk_000C->sub_02028220(0);

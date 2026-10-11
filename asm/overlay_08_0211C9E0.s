@@ -191,7 +191,7 @@ ov8_0211CC3C: ; 0x0211CC3C
 	mov r1, #0x20000
 	mov r2, #0
 	mov r3, #0x4000
-	bl sub_020101F4
+	bl _ZN5CGame12sub_020101F4Emmm
 	ldr r0, [r4, #8]
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
@@ -210,7 +210,7 @@ ov8_0211CC74: ; 0x0211CC74
 	mov r3, #0x4000
 	bx ip
 	.align 2, 0
-_0211CC8C: .word sub_020101F4
+_0211CC8C: .word _ZN5CGame12sub_020101F4Emmm
 	arm_func_end ov8_0211CC74
 
 	arm_func_start ov8_0211CC90

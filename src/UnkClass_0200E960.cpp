@@ -3,7 +3,6 @@
 #include "CGame.hpp"
 
 extern "C" {
-CGame *sub_0201001C(void);
 }
 
 void UnkClass_0200E960::sub_0200E960(u32 arg0)
@@ -98,7 +97,7 @@ GXOamAttr *UnkClass_0200E960::sub_0200EB78(GXOamAttr *dst, int nameShift, int ch
 
 u8 UnkClass_0200E960::sub_0200EB84()
 {
-    u8 state = sub_0201001C()->activeTouchPanel->unk_04;
+    u8 state = CGame::GetInstance()->activeTouchPanel->unk_04;
     if (state != 0 && sub_0200EC0C()) {
         return state;
     }
@@ -107,7 +106,7 @@ u8 UnkClass_0200E960::sub_0200EB84()
 
 u8 UnkClass_0200E960::sub_0200EBBC()
 {
-    u8 state = sub_0201001C()->activeTouchPanel->unk_05;
+    u8 state = CGame::GetInstance()->activeTouchPanel->unk_05;
     if (state != 0 && sub_0200EC0C()) {
         return state;
     }
@@ -128,7 +127,7 @@ BOOL UnkClass_0200E960::sub_0200EC0C()
         return FALSE;
     }
 
-    CTouchPanel *tp = sub_0201001C()->activeTouchPanel;
+    CTouchPanel *tp = CGame::GetInstance()->activeTouchPanel;
     u16 tx = tp->unk_0A.x;
     u16 ty = tp->unk_0A.y;
     int left = unk_0C + unk_36 - unk_32 / 2;

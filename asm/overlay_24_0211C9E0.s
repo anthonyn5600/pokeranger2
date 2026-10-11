@@ -153,7 +153,7 @@ _0211CBC0:
 	bne _0211CC70
 	ldr r0, _0211CFF0 ; =s_game
 	ldr r0, [r0]
-	bl sub_0201024C
+	bl _ZN5CGame12sub_0201024CEv
 	ldr r0, _0211CFF4 ; =MAIN_BSS_020B26A0
 	ldr r2, _0211CFF8 ; =MAIN_BSS_0210CA6C
 	ldrh r1, [r0, #0x1a]
@@ -261,7 +261,7 @@ _0211CD60:
 	bne _0211CE00
 	ldr r0, _0211CFF0 ; =s_game
 	ldr r0, [r0]
-	bl sub_0201024C
+	bl _ZN5CGame12sub_0201024CEv
 	ldr r0, _0211CFF4 ; =MAIN_BSS_020B26A0
 	ldr r2, _0211CFF8 ; =MAIN_BSS_0210CA6C
 	ldrh r1, [r0, #0x1a]

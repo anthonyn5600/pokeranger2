@@ -433,7 +433,7 @@ ov28_0211CEDC: ; 0x0211CEDC
 	blx ip
 	cmp r0, #0
 	beq _0211D01C
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	mov r3, #1
 	add r0, r0, #0x1000
 	str r3, [sp]
@@ -520,7 +520,7 @@ _0211D04C:
 	ldr r8, [sp]
 	cmp r8, #0
 	ldmltia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
 	ldr sl, [r0, #0x4c0]
 	mov r0, sl

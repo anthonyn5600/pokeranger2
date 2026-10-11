@@ -61,9 +61,9 @@ Static main
     Object main.nef.p/src_UnkClass_0200ECD0.cpp.o
     Object main.nef.p/asm_arm9_0208A840.s.o
     Object main.nef.p/src_CPowerManage.cpp.o
-    Object main.nef.p/asm_arm9_0200FA5C.s.o
+    Object main.nef.p/src_UnkClass_0200FA5C.cpp.o
     Object main.nef.p/src_CGame.cpp.o
-    Object main.nef.p/asm_arm9_0201044C.s.o
+    Object main.nef.p/asm_arm9_02010470.s.o
     Object main.nef.p/src_UnkClass_020B26A0.cpp.o
     Object main.nef.p/asm_arm9_0201668C.s.o
     Object main.nef.p/src_sub_0202B80C.cpp.o

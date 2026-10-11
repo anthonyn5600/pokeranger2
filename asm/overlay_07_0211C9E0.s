@@ -213,7 +213,7 @@ ov7_0211CC94: ; 0x0211CC94
 	mov r1, #0x60000
 	mov r2, #0
 	mov r3, #0x4000
-	bl sub_020101F4
+	bl _ZN5CGame12sub_020101F4Emmm
 	bl NNS_GfdResetLnkTexVramState
 	bl NNS_GfdResetLnkPlttVramState
 	ldr r0, [r4, #8]
@@ -233,7 +233,7 @@ ov7_0211CCCC: ; 0x0211CCCC
 	mov r1, #0x80000
 	mov r2, #0
 	mov r3, #0x4000
-	bl sub_020101F4
+	bl _ZN5CGame12sub_020101F4Emmm
 	ldmia sp!, {r4, pc}
 	arm_func_end ov7_0211CCCC
 
@@ -3193,7 +3193,7 @@ ov7_0211F4FC: ; 0x0211F4FC
 	stmdb sp!, {r4, lr}
 	ldr r0, [r0, #0x27c]
 	ldr r4, [r0, #0x14]
-	bl sub_0201001C
+	bl _ZN5CGame11GetInstanceEv
 	ldrh r1, [r4, #2]
 	ldr r2, [r0, #0x18]
 	and r0, r1, #1

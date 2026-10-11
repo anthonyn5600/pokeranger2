@@ -3,8 +3,6 @@
 #include "CGame.hpp"
 
 extern "C" {
-CGame *sub_0201001C(void);
-
 extern char s_data_font_font_jp_utf8_NFTR_0208aa74;
 extern char s_data_font_font_jp_lc_utf8_NFTR_0208aa94;
 extern char s_data_font_font_us_utf8_NFTR_0208aab4;
@@ -14,7 +12,7 @@ extern char s_data_font_font_us_lc_utf8_NFTR_0208aad4;
 UnkClass_0200CFF4::UnkClass_0200CFF4(u32 arg0)
 {
     BOOL us = FALSE;
-    if (sub_0201001C() != NULL) {
+    if (CGame::GetInstance() != NULL) {
         us = TRUE;
     }
 

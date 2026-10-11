@@ -192,6 +192,7 @@
 .public _ZN23CFieldMapLayerCollision6IsWallEi
 .public _ZN23CFieldMapLayerCollision9GetCellAtEii
 .public _ZN24CFieldTargetObjectManage12ov0_0213D1ACEittti
+.public _ZN5CGame11GetInstanceEv
 .public _ZN9CNCERFileC1EPKcmmm
 .public _ZTI10CPrimitive
 .public _ZTI11CFieldActor
@@ -233,7 +234,6 @@
 .public sub_020090E8
 .public sub_02009108
 .public sub_0200912C
-.public sub_0201001C
 .public sub_020107A8
 .public sub_020107C4
 .public sub_02010868

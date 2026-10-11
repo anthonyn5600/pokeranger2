@@ -39,6 +39,7 @@ pokeranger2_cxx = files(
     'UnkClass_020091E8.cpp',
     'UnkClass_020B26A0.cpp',
     'CPowerManage.cpp',
+    'UnkClass_0200FA5C.cpp',
     'CGame.cpp',
     'sub_0202B80C.cpp',
     'overlay_manager.cpp',

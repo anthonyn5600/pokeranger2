@@ -17,9 +17,9 @@
 .public _ZN17UnkClass_020023EC12sub_02002434Emmmm
 .public _ZN17UnkClass_020023EC12sub_020027E8Ev
 .public _ZN17UnkClass_020023EC12sub_020028A4ElmPcz
+.public _ZN5CGame11GetInstanceEv
 .public _ZdaPv
 .public _ZdlPv
 .public _Znam
 .public _Znwm
 .public _s32_div_f
-.public sub_0201001C

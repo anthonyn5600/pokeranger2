@@ -15,7 +15,6 @@
 
 extern "C" {
 void sub_02008D7C(u16 *);
-void sub_0201002C(void);
 
 extern u32 DAT_04000454;
 extern u8 DAT_0208aaf8;
@@ -260,7 +259,7 @@ void VBlankIntr(void)
     u16 wasIrqEnabled = OS_EnableIrq();
 
     if (s_game != NULL) {
-        sub_0201002C();
+        s_game->sub_0201002C();
     }
 
     if (wasIrqEnabled) {

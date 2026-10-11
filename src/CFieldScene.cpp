@@ -51,10 +51,9 @@
 extern "C" {
 void sub_02007D68(void);
 void sub_02008DB4(u16 *arg0, u16 fps);
-BOOL sub_02010378(CGame *game);
-void sub_02010D04(UnkStruct_02010D04 *obj);
+void sub_02010D04(CBattleResultParameter *obj);
 void sub_0201164C(UnkClass_0201164C *missionQuestData, u32 mapIdx);
-void sub_02018E30(u32 arg0);
+void sub_02018E30(void *arg0);
 void sub_02033F90(void *scriptManager, int arg1);
 void sub_0203401C(void *scriptManager, u8 arg1);
 void sub_02034120(void *scriptManager, u8 arg1);
@@ -417,7 +416,7 @@ void CFieldScene::func6()
     if (sceneId != 5 && sceneId != 7) {
         BOOL handled = FALSE;
         if (sceneId == 0x19 || sceneId == 0xE || sceneId == 0x1E) {
-            handled = sub_02010378(m_game);
+            handled = m_game->sub_02010378();
         }
         if (!handled) {
             sub_020346CC(m_game->m_audioEngine, save->unk_001A, 0, 0);
@@ -749,7 +748,7 @@ u32 CFieldScene::func0()
 
     UnkClass_02001C04 *pad = m_game->unk_0014;
     CTouchPanel *touch = m_game->activeTouchPanel;
-    UnkStruct_02010D04 *stats;
+    CBattleResultParameter *stats;
     BOOL updateActors;
 
     if (unk_00EC != 0) {
@@ -2125,7 +2124,7 @@ void CFieldScene::ov0_02122F08(CFieldEnemy *enemy)
     sub_02010868(m_game->unk_143C);
     sub_02010D04(m_game->unk_1444);
     ov0_02122FEC(enemy->unk_E8, enemy->unk_E0, enemy->unk_58 & 0xFFF);
-    UnkStruct_02010D04 *stats = m_game->unk_1444;
+    CBattleResultParameter *stats = m_game->unk_1444;
     if (IsBossType(enemy->unk_146)) {
         stats->unk_0C = 2;
     } else {
@@ -2137,7 +2136,7 @@ void CFieldScene::ov0_02122F08(CFieldEnemy *enemy)
 void CFieldScene::ov0_02122FEC(u32 arg0, u32 arg1, u32 arg2)
 {
     sub_020109C0(m_game->unk_143C, arg0, 0);
-    UnkStruct_02010D04 *stats = m_game->unk_1444;
+    CBattleResultParameter *stats = m_game->unk_1444;
     int n = stats->unk_14++;
     stats->unk_18[n] = (arg2 & 0xFFF) | ((1 << 24) | ((arg1 & 0xFFF) << 12));
     stats->unk_38[n] = arg0;
