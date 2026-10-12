@@ -42,7 +42,7 @@
 .public _ZN17UnkClass_0200C38C12sub_0200C6C8Eiiiiiiii
 .public _ZN17UnkClass_0200C38C12sub_0200C7A4EiiiiPhii
 .public _ZN17UnkClass_0200E0B412sub_0200E0E0Ett
-.public _ZN17UnkClass_0200E96012sub_0200EB28Ess
+.public _ZN17UnkClass_0200E96012sub_0200EB28Eii
 .public _ZN17UnkClass_0200E96012sub_0200EB84Ev
 .public _ZN17UnkClass_0200E96012sub_0200EBF4Essss
 .public _ZN17UnkClass_0200ECD012sub_0200EE14EPKcS1_mm

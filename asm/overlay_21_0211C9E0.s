@@ -1000,7 +1000,7 @@ _0211D71C:
 	beq _0211D750
 	beq _0211D748
 	mov r0, r4
-	bl sub_0201CAF0
+	bl _ZN17UnkClass_0201CA6CD1Ev
 	mov r0, r4
 	bl _ZdlPv
 _0211D748:
@@ -1147,15 +1147,15 @@ _0211D910:
 	bl _Znwm
 	cmp r0, #0
 	beq _0211D92C
-	bl sub_0201CA6C
+	bl _ZN17UnkClass_0201CA6CC1Ev
 _0211D92C:
 	str r0, [r4, #4]
-	bl sub_0201CB0C
+	bl _ZN17UnkClass_0201CA6C7ReleaseEv
 	mov r2, #0
 	ldrh r1, [r4, #0x6c]
 	ldr r0, [r4, #4]
 	mov r3, r2
-	bl sub_0201CE00
+	bl _ZN17UnkClass_0201CA6C4LoadEiii
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0211D94C: .word 0x04001010
@@ -2859,57 +2859,57 @@ ov21_0211F260: ; 0x0211F260
 	ldr r0, [r5, #0x94]
 	ldr r2, [r5, #0xa4]
 	add r1, r3, r4
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldr r1, [r5, #0xb4]
 	ldr r0, [r5, #0xa8]
 	ldr r2, [r5, #0xb8]
 	add r1, r1, r4
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldr r1, [r5, #0xc8]
 	ldr r0, [r5, #0xbc]
 	ldr r2, [r5, #0xcc]
 	add r1, r1, r4
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldr r1, [r5, #0xdc]
 	ldr r0, [r5, #0xd0]
 	add r1, r1, r4
 	ldr r2, [r5, #0xe0]
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldr r0, [r5, #0xe4]
 	ldr r1, [r5, #0xf0]
 	ldr r2, [r5, #0xf4]
 	add r1, r1, r4
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldr r0, [r5, #0xf8]
 	ldr r1, [r5, #0x104]
 	ldr r2, [r5, #0x108]
 	add r1, r1, r4
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldr r0, [r5, #0x10c]
 	ldr r1, [r5, #0x118]
 	ldr r2, [r5, #0x11c]
 	add r1, r1, r4
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldr r0, [r5, #0x120]
 	ldr r1, [r5, #0x12c]
 	ldr r2, [r5, #0x130]
 	add r1, r1, r4
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldr r0, [r5, #0x134]
 	ldr r1, [r5, #0x140]
 	ldr r2, [r5, #0x144]
 	add r1, r1, r4
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldr r0, [r5, #0x148]
 	ldr r1, [r5, #0x154]
 	ldr r2, [r5, #0x158]
 	add r1, r1, r4
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldr r0, [r5, #0x15c]
 	ldr r1, [r5, #0x168]
 	ldr r2, [r5, #0x16c]
 	add r1, r1, r4
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldr r0, [r5, #0x14]
 	add r1, r4, #0x70
 	mov r2, #0x30
@@ -3362,12 +3362,12 @@ _0211F968:
 	mov r0, #0
 	str r0, [r4, #0x68]
 	ldr r0, [r4, #4]
-	bl sub_0201CB0C
+	bl _ZN17UnkClass_0201CA6C7ReleaseEv
 	mov r1, #0
 	ldr r0, [r4, #4]
 	mov r2, r1
 	mov r3, r1
-	bl sub_0201CE00
+	bl _ZN17UnkClass_0201CA6C4LoadEiii
 	mov r0, r4
 	mov r1, #1
 	bl ov21_0211F9E0
@@ -3419,9 +3419,9 @@ _0211FA58:
 	movne r2, #0
 	ldr r0, [r5, #4]
 	rsbeq r2, ip, #2
-	bl sub_0201DF54
+	bl _ZN17UnkClass_0201CA6C12sub_0201DF54Eii
 	ldr r0, [r5, #4]
-	bl sub_0201E27C
+	bl _ZN17UnkClass_0201CA6C12sub_0201E27CEv
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, pc}
 _0211FA94:
@@ -4039,7 +4039,7 @@ _02120324:
 	ldr r0, [r6, #4]
 	cmp r0, #0
 	beq _02120354
-	bl sub_0201F930
+	bl _ZN17UnkClass_0201CA6C6UpdateEv
 	b _02120354
 _02120344:
 	ldr r0, [r6, #8]
@@ -4122,7 +4122,7 @@ _02120438:
 	ldr r0, [r4, #4]
 	cmp r0, #0
 	beq _02120468
-	bl sub_0201F988
+	bl _ZN17UnkClass_0201CA6C6RenderEv
 	b _02120468
 _02120458:
 	ldr r0, [r4, #8]
@@ -5343,7 +5343,7 @@ ov21_021213B0: ; 0x021213B0
 	ldr r0, [lr]
 	add r1, ip, r1
 	add r2, r3, r2
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldmia sp!, {r3, pc}
 	arm_func_end ov21_021213B0
 
@@ -5493,7 +5493,7 @@ ov21_02121578: ; 0x02121578
 	ldr r0, [lr]
 	add r1, ip, r1
 	add r2, r3, r2
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldmia sp!, {r3, pc}
 	arm_func_end ov21_02121578
 
@@ -5879,7 +5879,7 @@ _021219B8:
 	ldr r0, [lr]
 	add r1, ip, r1
 	add r2, r3, r2
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldmia sp!, {r3, pc}
 
 	arm_func_start ov21_02121A30
@@ -6041,7 +6041,7 @@ _02121BDC:
 	ldr r0, [lr]
 	add r1, ip, r1
 	add r2, r3, r2
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldmia sp!, {r3, pc}
 
 	arm_func_start ov21_02121C20
@@ -6316,7 +6316,7 @@ ov21_02121F24: ; 0x02121F24
 	ldr r0, [r4, #0x18]
 	add r1, ip, r1
 	add r2, r3, r2
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldr r0, [r4, #8]
 	ldr r0, [r0, #0x68]
 	cmp r4, r0

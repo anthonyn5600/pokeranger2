@@ -1266,12 +1266,12 @@ _0211DB2C:
 	mov r7, r1, lsr #0x10
 	mov r1, r7
 	mov r2, #0x4e
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	add r0, r6, r5, lsl #2
 	ldr r0, [r0, #0x50]
 	mov r1, r7
 	mov r2, #0x48
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldrh r0, [r6, #8]
 	cmp r0, #0xf
 	addlo r0, r0, #1
@@ -1283,12 +1283,12 @@ _0211DB2C:
 	ldr r0, [r0, #0x50]
 	mov r1, #0x80
 	mov r2, #0x4e
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	add r0, r6, r5, lsl #2
 	ldr r0, [r0, #0x50]
 	mov r1, #0x80
 	mov r2, #0x48
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldr r0, [r6, #0x1c]
 	mov r1, #1
 	add r0, r0, #0x1000
@@ -1352,12 +1352,12 @@ _0211DC6C:
 	mov r8, r1, lsr #0x10
 	mov r1, r8
 	mov r2, #0x4e
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	add r0, r7, r6, lsl #2
 	ldr r0, [r0, #0x50]
 	mov r1, r8
 	mov r2, #0x48
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldrh r0, [r7, #8]
 	cmp r0, #0xf
 	addlo r0, r0, #1
@@ -1370,12 +1370,12 @@ _0211DC6C:
 	ldr r0, [r0, #0x50]
 	mov r1, r4
 	mov r2, #0x4e
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	add r0, r7, r6, lsl #2
 	ldr r0, [r0, #0x50]
 	mov r1, r4
 	mov r2, #0x48
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldr r0, [r7, #0x50]
 	mov r2, #1
 	str r2, [r0, #0x14]

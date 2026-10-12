@@ -2290,7 +2290,7 @@ ov5_0211E968: ; 0x0211E968
 	ldr r2, [r1, #0x5d0]
 	ldrsh r1, [r0, #0xc]
 	mov r2, r2, asr #0xc
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldr r0, [r8, #8]
 	ldr r5, _0211EAB0 ; =DAT_overlay_5_021202b0
 	add r0, r0, #1
@@ -2360,7 +2360,7 @@ _0211EA74:
 	ldrsh r2, [r0, #0xe]
 	ldrsh r1, [r0, #0xc]
 	add r2, r6, r2
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 _0211EA8C:
 	add r7, r7, #1
 	cmp r7, #5
@@ -3271,7 +3271,7 @@ _0211F66C:
 	mov r3, #0
 	str r3, [r0, #0x14]
 	ldr r0, [r4, #0x18]
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldr r0, [r4, #0x14]
 	ldr r1, [r4, #4]
 	mov r2, #0
@@ -3285,7 +3285,7 @@ _0211F6A0:
 	mov r3, #0
 	str r3, [r0, #0x14]
 	ldr r0, [r4, #0x1c]
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldr r0, [r4, #0x14]
 	ldr r1, [r4, #8]
 	mov r2, #3

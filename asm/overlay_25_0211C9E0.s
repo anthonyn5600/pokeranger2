@@ -3378,7 +3378,7 @@ _0211F900:
 	str r0, [r4, #0x14]
 	ldr r0, [r4, #0xc]
 	sub r1, r1, #0x20
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldr r0, [r4, #0x14]
 	cmp r0, #0x48
 	blt _0211FA08
@@ -3391,7 +3391,7 @@ _0211F940:
 	ldr r0, [r4, #0xc]
 	mvn r1, #0x1f
 	mov r2, #0x70
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldr r0, [r4, #0xc]
 	mov r1, #0
 	str r1, [r0, #0x14]
@@ -3420,7 +3420,7 @@ _0211F99C:
 	str r0, [r4, #0x14]
 	ldr r0, [r4, #0xc]
 	sub r1, r1, #0x20
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldr r0, [r4, #0x14]
 	cmp r0, #8
 	ldreq r0, [r4, #8]

@@ -1225,7 +1225,7 @@ _0211DB20:
 	ldr r0, [r4, #0x38]
 	ldrsh r1, [r2, #0xc]
 	ldrsh r2, [r2, #0xe]
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldr r0, [r4, #0x70]
 	ldr r2, [r4, #0x7c]
 	add r0, r0, #0x1000

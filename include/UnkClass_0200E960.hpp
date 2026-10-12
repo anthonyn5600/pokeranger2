@@ -17,7 +17,7 @@ public:
     int sub_0200EA84(const NNSG2dCellData *cell, s16 x, s16 y, int palette, int charName, int priority);
     int sub_0200EAFC(const NNSG2dCellData *cell);
     void sub_0200EB20(u16 palette);
-    void sub_0200EB28(s16 x, s16 y);
+    void sub_0200EB28(int x, int y);
     void sub_0200EB34(int affineIdx, BOOL doubleSize);
     void sub_0200EB64(BOOL mosaic);
     GXOamAttr *sub_0200EB78(GXOamAttr *dst, int nameShift, int charShift);

@@ -428,7 +428,7 @@ _0211CF20:
 	beq _0211CF48
 	beq _0211CF40
 	mov r0, r5
-	bl sub_0201CAF0
+	bl _ZN17UnkClass_0201CA6CD1Ev
 	mov r0, r5
 	bl _ZdlPv
 _0211CF40:
@@ -548,7 +548,7 @@ _0211D0A8:
 	ldr r0, [r4, #0x224]
 	cmp r0, #0
 	beq _0211D0B8
-	bl sub_0201F930
+	bl _ZN17UnkClass_0201CA6C6UpdateEv
 _0211D0B8:
 	ldr r0, [r4, #0x278]
 	cmp r0, #0
@@ -983,7 +983,7 @@ _0211D6C0:
 	ldr r0, [r4, #0x224]
 	cmp r0, #0
 	beq _0211D6D0
-	bl sub_0201F988
+	bl _ZN17UnkClass_0201CA6C6RenderEv
 _0211D6D0:
 	ldr r0, [r4, #0xc]
 	cmp r0, #0
@@ -1537,7 +1537,7 @@ _0211DEB4:
 	beq _0211DEEC
 	beq _0211DEE4
 	mov r0, r4
-	bl sub_0201CAF0
+	bl _ZN17UnkClass_0201CA6CD1Ev
 	mov r0, r4
 	bl _ZdlPv
 _0211DEE4:
@@ -1548,15 +1548,15 @@ _0211DEEC:
 	bl _Znwm
 	cmp r0, #0
 	beq _0211DF00
-	bl sub_0201CA6C
+	bl _ZN17UnkClass_0201CA6CC1Ev
 _0211DF00:
 	str r0, [sl, #0x224]
-	bl sub_0201CB0C
+	bl _ZN17UnkClass_0201CA6C7ReleaseEv
 	mov r1, #0
 	ldr r0, [sl, #0x224]
 	mov r2, r1
 	mov r3, r1
-	bl sub_0201CE00
+	bl _ZN17UnkClass_0201CA6C4LoadEiii
 	ldr r0, [sl, #0x278]
 	cmp r0, #0
 	beq _0211DF40
@@ -3020,11 +3020,11 @@ ov7_0211F2B0: ; 0x0211F2B0
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	mov r2, #0
-	bl sub_0201DF54
+	bl _ZN17UnkClass_0201CA6C12sub_0201DF54Eii
 	ldr r0, [r4, #0x224]
-	bl sub_0201EC80
+	bl _ZN17UnkClass_0201CA6C12sub_0201EC80Ev
 	ldr r0, [r4, #0x224]
-	bl sub_0201E27C
+	bl _ZN17UnkClass_0201CA6C12sub_0201E27CEv
 	ldmia sp!, {r4, pc}
 	arm_func_end ov7_0211F2B0
 

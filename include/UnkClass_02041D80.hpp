@@ -69,12 +69,44 @@ struct UnkStruct_02041D80 {
     int unk_50;
 };
 
+// Target record (0x20 bytes, sub_02041D6C)
+struct FieldTargetObjectData {
+    u16 unk_00;
+    u8 unk_02;
+    u8 unk_03;
+    u8 unk_04;
+    u8 unk_05;
+    u16 unk_06;
+    u8 unk_08;
+    s8 unk_09;
+    s8 unk_0A;
+    u8 unk_0B;
+    u8 unk_0C;
+    u8 unk_0D;
+    u8 unk_0E;
+    s8 unk_0F;
+    s8 unk_10;
+    u8 unk_11;
+    u8 unk_12;
+    s8 unk_13;
+    s8 unk_14;
+    u8 unk_15;
+    u8 unk_16;
+    u8 unk_17;
+    u16 unk_18;
+    u16 unk_1A;
+    u16 unk_1C;
+    u8 unk_1E[0x2];
+};
+
 class UnkClass_02041D80;
 
 extern "C" {
+FieldTargetObjectData *sub_02041D6C(UnkClass_02041D80 *obj, int kind);
 UnkStruct_02041D80 *sub_02041D80(UnkClass_02041D80 *obj, u32 mapId);
 }
 
+STATIC_SIZE_ASSERT(FieldTargetObjectData, 0x20);
 STATIC_SIZE_ASSERT(UnkStruct_02041D80, 0x54);
 
 #endif // POKERANGER2_UNKCLASS_02041D80_HPP

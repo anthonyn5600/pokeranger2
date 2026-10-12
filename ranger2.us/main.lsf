@@ -75,12 +75,15 @@ Static main
     Object main.nef.p/src_CActorData.cpp.o
     Object main.nef.p/asm_arm9_020AF35C.s.o
     Object main.nef.p/src_UnkClass_020B26A0.cpp.o
-    Object main.nef.p/asm_arm9_02084574.s.o
     Object main.nef.p/src_UnkClass_02018208.cpp.o
     Object main.nef.p/src_UnkClass_02018B9C.cpp.o
     Object main.nef.p/src_UnkClass_02018DF4.cpp.o
     Object main.nef.p/src_CPlayerHPGauge.cpp.o
-    Object main.nef.p/asm_arm9_0201AD60.s.o
+    Object main.nef.p/src_UnkClass_0201AD60.cpp.o
+    Object main.nef.p/src_UnkClass_0201B724.cpp.o
+    Object main.nef.p/src_UnkClass_0201CA6C.cpp.o
+    Object main.nef.p/asm_arm9_020849B8.s.o
+    Object main.nef.p/asm_arm9_0201FBD8.s.o
     Object main.nef.p/src_sub_0202B80C.cpp.o
     Object main.nef.p/asm_arm9_0202B8A4.s.o
     Object main.nef.p/asm_arm9_0208B5C0.s.o

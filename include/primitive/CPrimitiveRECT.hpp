@@ -25,6 +25,12 @@ public:
         m_rectangle.pos.y = pos.y;
     }
 
+    inline void SetPos(fx32 x, fx32 y)
+    {
+        m_rectangle.pos.x = x;
+        m_rectangle.pos.y = y;
+    }
+
     inline void SetTexCoords(fx32 x1, fx32 y1, fx32 x2, fx32 y2)
     {
         m_texCoords.x1 = x1;

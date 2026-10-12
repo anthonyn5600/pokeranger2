@@ -15,6 +15,24 @@ public:
     u32 RenderWithTexture(Camera2D *camera);
     u32 RenderWithoutTexture(Camera2D *camera);
 
+    inline void SetVertex1(fx32 x, fx32 y)
+    {
+        m_vtxCoords.x1 = x;
+        m_vtxCoords.y1 = y;
+    }
+
+    inline void SetVertex2(fx32 x, fx32 y)
+    {
+        m_vtxCoords.x2 = x;
+        m_vtxCoords.y2 = y;
+    }
+
+    inline void SetVertex3(fx32 x, fx32 y)
+    {
+        m_vtxCoords.x3 = x;
+        m_vtxCoords.y3 = y;
+    }
+
 public:
     struct TriangleCoordinates {
         fx32 x1;

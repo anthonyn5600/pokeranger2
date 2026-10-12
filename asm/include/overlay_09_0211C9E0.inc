@@ -53,6 +53,12 @@
 .public _ZN17UnkClass_0200ECD012sub_0200F71CEv
 .public _ZN17UnkClass_0200ECD0C1EP9GXOamAttrmii
 .public _ZN17UnkClass_0200ECD0D1Ev
+.public _ZN17UnkClass_0201CA6C4LoadEiii
+.public _ZN17UnkClass_0201CA6C6RenderEv
+.public _ZN17UnkClass_0201CA6C6UpdateEv
+.public _ZN17UnkClass_0201CA6C7ReleaseEv
+.public _ZN17UnkClass_0201CA6CC1Ev
+.public _ZN17UnkClass_0201CA6CD1Ev
 .public _ZN17UnkClass_0203447812sub_020345D4Ev
 .public _ZN17UnkClass_0203447812sub_02034C44Ei
 .public _ZN6CScene5func3Ev
@@ -65,12 +71,6 @@
 .public _ZdlPv
 .public _Znwm
 .public strcpy
-.public sub_0201CA6C
-.public sub_0201CAF0
-.public sub_0201CB0C
-.public sub_0201CE00
-.public sub_0201F930
-.public sub_0201F988
 .public sub_02021404
 .public sub_02021428
 .public sub_020215F8

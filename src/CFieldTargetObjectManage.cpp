@@ -6,34 +6,11 @@
 #include "UnkClass_020B26A0.hpp"
 #include "field/CFieldTargetObject.hpp"
 
-struct FieldTargetObjectData {
-    u16 unk_00;
-    u8 unk_02;
-    u8 unk_03[0x3];
-    u16 unk_06;
-    u8 unk_08;
-    s8 unk_09;
-    s8 unk_0A;
-    u8 unk_0B;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    s8 unk_0F;
-    s8 unk_10;
-    u8 unk_11;
-    u8 unk_12;
-    s8 unk_13;
-    s8 unk_14;
-    u8 unk_15;
-    u8 unk_16;
-};
-
 extern UnkClass_02041D80 *MAIN_BSS_0210CA6C;
 extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
 
 extern "C" {
 void LogError(const char *fmt, ...);
-FieldTargetObjectData *sub_02041D6C(UnkClass_02041D80 *obj, int kind);
 void ov0_02159D30(int arg0);
 }
 

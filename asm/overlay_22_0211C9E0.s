@@ -4032,7 +4032,7 @@ _0211FFD8:
 	ldr r1, [sb, #0x24]
 	add r2, r2, #8
 	add r2, r2, r7
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldr r1, [sb, #0x1c]
 	ldr r0, [r6]
 	add r1, r1, r8
@@ -4112,7 +4112,7 @@ ov22_0212005C: ; 0x0212005C
 	str r2, [r8, #0x2c]
 	ldr r0, [r8, #0x3c]
 	ldr r1, [r8, #0x28]
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldr r1, [r8, #0xc]
 	add r0, r4, #0x1000
 	ldr r2, [r8, #0x2c]
@@ -4184,7 +4184,7 @@ _02120210:
 	ldr r0, [r5, #0x3c]
 	ldr r1, [r5, #0x28]
 	ldr r2, [r5, #0x2c]
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldr r1, [r5, #0x30]
 	ldr r0, [r5, #0x2c]
 	cmp r1, r0
@@ -4304,7 +4304,7 @@ _021203A8:
 	add r2, r2, #8
 	add r2, r2, r6
 	add r2, sb, r2
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldr r0, [r4, #4]
 	add r0, r8, r0
 	add r0, r7, r0
@@ -4361,7 +4361,7 @@ ov22_02120414: ; 0x02120414
 	ldr r0, [r6, #0x3c]
 	ldr r1, [r6, #0x28]
 	ldr r2, [r6, #0x2c]
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldr r0, [r5, r4, lsl #4]
 	ldr r1, [r6, #0x3c]
 	cmp r0, #0

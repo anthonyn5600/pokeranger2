@@ -940,7 +940,7 @@ ov8_0211D5B8: ; 0x0211D5B8
 	ldr r0, [r0, #0x24]
 	ldr r1, [sp, #4]
 	ldr r2, [sp]
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end ov8_0211D5B8

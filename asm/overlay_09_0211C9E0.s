@@ -305,7 +305,7 @@ _0211CD68:
 	ldr r0, [r4, #0x18]
 	cmp r0, #0
 	beq _0211CD78
-	bl sub_0201F930
+	bl _ZN17UnkClass_0201CA6C6UpdateEv
 _0211CD78:
 	ldr r0, [r4, #0x14]
 	cmp r0, #0
@@ -387,7 +387,7 @@ ov9_0211CE80: ; 0x0211CE80
 	ldr r0, [r4, #0x18]
 	cmp r0, #0
 	beq _0211CE98
-	bl sub_0201F988
+	bl _ZN17UnkClass_0201CA6C6RenderEv
 	arm_func_end ov9_0211CE80
 _0211CE98:
 	ldr r0, [r4, #0x14]
@@ -466,7 +466,7 @@ ov9_0211CF48: ; 0x0211CF48
 	beq _0211CF9C
 	beq _0211CF94
 	mov r0, r5
-	bl sub_0201CAF0
+	bl _ZN17UnkClass_0201CA6CD1Ev
 	mov r0, r5
 	bl _ZdlPv
 	arm_func_end ov9_0211CF48
@@ -793,15 +793,15 @@ _0211D430:
 	bl _Znwm
 	cmp r0, #0
 	beq _0211D448
-	bl sub_0201CA6C
+	bl _ZN17UnkClass_0201CA6CC1Ev
 _0211D448:
 	str r0, [r4, #0x18]
-	bl sub_0201CB0C
+	bl _ZN17UnkClass_0201CA6C7ReleaseEv
 	mov r2, #0
 	ldr r0, [r4, #0x18]
 	mov r3, r2
 	mov r1, #0xac
-	bl sub_0201CE00
+	bl _ZN17UnkClass_0201CA6C4LoadEiii
 	add sp, sp, #0x24
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0

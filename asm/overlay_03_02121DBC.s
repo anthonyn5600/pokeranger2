@@ -341,7 +341,7 @@ ov3_02122264: ; 0x02122264
 	ldr r0, [r5, #0x90]
 	mov r1, r1, lsr #0x10
 	mov r2, #0x20
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	strb r4, [r5, #4]
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end ov3_02122264
@@ -700,7 +700,7 @@ _0212275C:
 	ldr r0, [sl, #0x98]
 	mov r1, r8
 	mov r2, sb
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldr r2, [sl, #0x98]
 	mov r0, #1
 	str r0, [r2, #0x14]
@@ -737,7 +737,7 @@ _02122784:
 	ldr r0, [sl, #0xa0]
 	mov r1, #0xe0
 	mov r2, #0x70
-	bl _ZN17UnkClass_0200E96012sub_0200EB28Ess
+	bl _ZN17UnkClass_0200E96012sub_0200EB28Eii
 	ldr r0, [sl, #0xa0]
 	mov r1, #1
 	str r1, [r0, #0x14]

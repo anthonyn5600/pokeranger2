@@ -68,7 +68,7 @@ void UnkClass_0200E960::sub_0200EB20(u16 palette)
     unk_1A = palette;
 }
 
-void UnkClass_0200E960::sub_0200EB28(s16 x, s16 y)
+void UnkClass_0200E960::sub_0200EB28(int x, int y)
 {
     unk_0C = x;
     unk_0E = y;
