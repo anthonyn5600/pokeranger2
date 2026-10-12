@@ -69,9 +69,7 @@
 .public GX_SetGraphicsMode
 .public MAIN_BSS_020AF598
 .public MAIN_BSS_020AF5E4
-.public MAIN_BSS_020AF5F8
-.public MAIN_BSS_020AF60C
-.public MAIN_BSS_020AF624
+.public MAIN_BSS_020AF620
 .public MAIN_BSS_020B26A0
 .public MAIN_BSS_0210CA6C
 .public MATH_CalcCRC16
@@ -177,6 +175,8 @@
 .public _ZN17UnkClass_0200ECD012sub_0200F71CEv
 .public _ZN17UnkClass_0200ECD0C1EP9GXOamAttrmii
 .public _ZN17UnkClass_0200ECD0D1Ev
+.public _ZN17UnkClass_0201100CC1Ev
+.public _ZN17UnkClass_0201100CD1Ev
 .public _ZN17UnkClass_0201FC8011LoadArchiveEPKcS1_
 .public _ZN17UnkClass_0201FC8013LoadScrToVramEv
 .public _ZN17UnkClass_0201FC8014LoadCharToVramEv
@@ -195,6 +195,7 @@
 .public _ZN17UnkClass_02027FE812sub_02028408Et
 .public _ZN17UnkClass_02027FE812sub_0202841CEv
 .public _ZN17UnkClass_02027FE812sub_020292CCEt
+.public _ZN17UnkClass_02027FE816FinishWriteStepsEv
 .public _ZN17UnkClass_02027FE816UpdateWriteStepsEv
 .public _ZN17UnkClass_02027FE8C1Em
 .public _ZN17UnkClass_02027FE8D1Ev
@@ -239,13 +240,10 @@
 .public sub_02010F78
 .public sub_02010FAC
 .public sub_02010FC8
-.public sub_0201100C
-.public sub_0201101C
 .public sub_0201105C
 .public sub_020110E8
 .public sub_020110F8
 .public sub_02011188
 .public sub_02011318
-.public _ZN17UnkClass_02027FE816FinishWriteStepsEv
 .public sub_02046948
 .public sub_02046B84

@@ -68,12 +68,17 @@ Static main
     Object main.nef.p/src_CPowerManage.cpp.o
     Object main.nef.p/src_UnkClass_0200FA5C.cpp.o
     Object main.nef.p/src_CGame.cpp.o
-    Object main.nef.p/asm_arm9_02010470.s.o
+    Object main.nef.p/src_UnkClass_02010470.cpp.o
+    Object main.nef.p/src_UnkClass_02010854.cpp.o
+    Object main.nef.p/src_UnkClass_02010C3C.cpp.o
+    Object main.nef.p/src_CBattleResultParameter.cpp.o
+    Object main.nef.p/src_UnkClass_02010D2C.cpp.o
     Object main.nef.p/asm_arm9_02084288.s.o
+    Object main.nef.p/src_UnkClass_0201164C.cpp.o
+    Object main.nef.p/asm_arm9_0208AC1C.s.o
     Object main.nef.p/src_UnkClass_0201179C.cpp.o
     Object main.nef.p/src_CActor.cpp.o
     Object main.nef.p/src_CActorData.cpp.o
-    Object main.nef.p/asm_arm9_020AF35C.s.o
     Object main.nef.p/src_UnkClass_020B26A0.cpp.o
     Object main.nef.p/src_UnkClass_02018208.cpp.o
     Object main.nef.p/src_UnkClass_02018B9C.cpp.o

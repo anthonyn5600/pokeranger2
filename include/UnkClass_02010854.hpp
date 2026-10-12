@@ -5,18 +5,48 @@
 
 #include "common.hpp"
 
-// Defined in main (still asm); CGame::unk_143C
+// CGame::unk_143C
 class UnkClass_02010854 {
 public:
     UnkClass_02010854();
 
 public:
-    u8 unk_00[0x5C];
+    u32 unk_00;
+    u8 unk_04;
+    u8 unk_05;
+    u8 unk_06;
+    u32 unk_08;
+    u32 unk_0C;
+    u32 unk_10;
+    u8 unk_14;
+    u16 unk_16[8];
+    u8 unk_26[8];
+    u8 unk_2E;
+    u16 unk_30[4];
+    u8 unk_38[4];
+    u8 unk_3C[4];
+    u8 unk_40;
+    u8 unk_41[8];
+    u8 unk_49;
+    u8 unk_4A;
+    u8 unk_4B;
+    u8 unk_4C;
+    u8 unk_4D;
+    u8 unk_4E;
+    u8 unk_4F;
+    u8 unk_50;
+    u8 unk_51;
+    u8 unk_52;
+    u8 unk_53;
+    u8 unk_54;
+    u16 unk_56;
+    u8 unk_58;
 };
 
 STATIC_SIZE_ASSERT(UnkClass_02010854, 0x5C);
 
 extern "C" {
+void sub_02010868(UnkClass_02010854 *obj);
 u32 sub_02010B24(UnkClass_02010854 *obj);
 u8 sub_02010B2C(UnkClass_02010854 *obj);
 u8 sub_02010B34(UnkClass_02010854 *obj);

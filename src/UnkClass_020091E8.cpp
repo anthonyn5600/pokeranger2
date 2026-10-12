@@ -1154,7 +1154,7 @@ void UnkClass_020091E8::sub_0200AF74(u32 arg0, u32 arg1, u32 arg2, u32 arg3)
     unk_154 = arg0;
 }
 
-void UnkClass_020091E8::sub_0200AFC0(s32 arg0, u32 arg1)
+void UnkClass_020091E8::sub_0200AFC0(s32 arg0)
 {
     if (unk_00C != NULL) {
         if (unk_020 == arg0) {

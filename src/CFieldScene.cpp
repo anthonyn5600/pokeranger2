@@ -50,7 +50,6 @@
 #include "sub_02007CF0.hpp"
 
 extern "C" {
-void sub_02010D04(CBattleResultParameter *obj);
 void sub_0201164C(UnkClass_0201164C *missionQuestData, u32 mapIdx);
 void sub_02018E30(void *arg0);
 void sub_02033F90(void *scriptManager, int arg1);
@@ -1556,7 +1555,6 @@ void sub_02015AAC(UnkClass_020B26A0 *save, int idx, int mapId);
 BOOL sub_02015434(UnkClass_020B26A0 *save, int mapId, int idx);
 void sub_02041A60(UnkClass_020416AC *hud, u8 arg1);
 void ov0_02143410(UnkClass_02142428 *obj);
-void sub_02010868(void *record);
 void sub_020109C0(void *record, u16 arg1, int arg2);
 }
 

@@ -8,13 +8,7 @@
 #include "common.hpp"
 #include "heap.hpp"
 
-extern u8 MAIN_BSS_020B2638[];
 extern u8 MAIN_BSS_0210C0B0[];
-extern u8 MAIN_BSS_020AF620[];
-extern u8 MAIN_BSS_020AF5E4[];
-extern u8 MAIN_BSS_020AF5F8[];
-extern u8 MAIN_BSS_020AF60C[];
-extern u8 MAIN_BSS_020AF598[];
 extern u32 DAT_0208b5c0;
 extern u32 MAIN_BSS_0210CA38;
 
@@ -30,7 +24,7 @@ SaveBlock sEmptyBlocks[] = {
 };
 
 SaveBlock sOptionBlocks[] = {
-    { MAIN_BSS_020AF620, 0x3004 },
+    { &MAIN_BSS_020AF620, 0x3004 },
     { NULL, 1 },
 };
 
@@ -57,9 +51,9 @@ SaveBlock *sSaveLists[] = {
         { SAVE_FIELD(0x899C), 0x18 }, { SAVE_FIELD(0x89E4), 0x18 }, { SAVE_FIELD(0x89FC), 0x18 },                        \
         { SAVE_FIELD(0x8A14), 0x18 }, { SAVE_FIELD(0x8A2C), 0x18 }, { SAVE_FIELD(0x8A44), 0x18 },                        \
         { SAVE_FIELD(0x8A5C), 0x18 }, { SAVE_FIELD(0x8A74), 0x18 }, { SAVE_FIELD(0x8A8C), 0x18 },                        \
-        { SAVE_FIELD(0x8AD4), 0x38 }, { SAVE_FIELD(0x8B0C), 0x38 }, { MAIN_BSS_020B2638, 0x54 },                         \
-        { MAIN_BSS_0210C0B0, 0xFC }, { NULL, 0 }, { NULL, 0 }, { &DAT_0208b5c0, 4 }, { MAIN_BSS_020AF5E4, 8 },           \
-        { MAIN_BSS_020AF5F8, 8 }, { MAIN_BSS_020AF60C, 8 }, { MAIN_BSS_020AF598, 2 },                                    \
+        { SAVE_FIELD(0x8AD4), 0x38 }, { SAVE_FIELD(0x8B0C), 0x38 }, { &MAIN_BSS_020B2638, 0x54 },                        \
+        { MAIN_BSS_0210C0B0, 0xFC }, { NULL, 0 }, { NULL, 0 }, { &DAT_0208b5c0, 4 }, { &MAIN_BSS_020AF5E4[0], 8 },       \
+        { &MAIN_BSS_020AF5E4[1], 8 }, { &MAIN_BSS_020AF5E4[2], 8 }, { &MAIN_BSS_020AF598, 2 },                           \
     {                                                                                                                    \
         NULL, copies                                                                                                     \
     }

@@ -127,8 +127,6 @@ void sub_02017520(UnkClass_020B26A0 *save);
 UnkStruct_020B26A0_8AD4 *sub_0201549C(UnkClass_020B26A0 *save, u32 id);
 int sub_0203437C(UnkClass_02033F04 *script);
 void sub_0203421C(UnkClass_02033F04 *script, int arg1);
-void sub_02010868(void *record);
-void sub_02010D04(CBattleResultParameter *obj);
 void sub_02010AB0(void *record, u8 arg1);
 void sub_02010A70(void *record, u8 arg1);
 void sub_02010AD8(void *record, int arg1);
@@ -3148,7 +3146,7 @@ int sub_02031374(int *args)
 
 int sub_020313E8(int *args)
 {
-    return s_game->m_missionQuestData->unk_00[2];
+    return s_game->m_missionQuestData->unk_02;
 }
 
 int sub_02031404(int *args)

@@ -313,7 +313,7 @@ _0211CD9C:
 	ldr r1, [r1, #4]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x490]
-	bl _ZN17UnkClass_020091E812sub_0200AFC0Elm
+	bl _ZN17UnkClass_020091E812sub_0200AFC0El
 	ldr r0, [r4, #0x18]
 	mov r2, #0x14
 	add r0, r0, #0x14
@@ -616,7 +616,7 @@ _0211D224:
 	ldr r1, [r1, #4]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x490]
-	bl _ZN17UnkClass_020091E812sub_0200AFC0Elm
+	bl _ZN17UnkClass_020091E812sub_0200AFC0El
 	ldr r0, [r4, #0x18]
 	add r0, r0, #0x14
 	str r0, [r4, #0x18]

@@ -1856,7 +1856,7 @@ _0211E214:
 	bl _Znwm
 	cmp r0, #0
 	beq _0211E2AC
-	bl sub_0201100C
+	bl _ZN17UnkClass_0201100CC1Ev
 _0211E2AC:
 	str r0, [r4, #0x620]
 	bl sub_0201105C
@@ -3389,7 +3389,7 @@ _0211F7F0:
 	beq _0211F818
 	beq _0211F810
 	mov r0, r5
-	bl sub_0201101C
+	bl _ZN17UnkClass_0201100CD1Ev
 	mov r0, r5
 	bl _ZdlPv
 _0211F810:
@@ -5201,7 +5201,7 @@ _02121060:
 	ldr r1, [r4, #0x6f0]
 	cmp r1, #6
 	bge _021210B4
-	ldr r5, _02121164 ; =MAIN_BSS_020AF624
+	ldr r5, _02121164 ; =MAIN_BSS_020AF620+4
 _02121074:
 	ldr r2, [r4, #0x6f4]
 	mov r0, r4
@@ -5270,7 +5270,7 @@ _0212115C:
 	mov r0, #0
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_02121164: .word MAIN_BSS_020AF624
+_02121164: .word MAIN_BSS_020AF620+4
 
 	arm_func_start ov11_02121168
 ov11_02121168: ; 0x02121168
@@ -20519,7 +20519,7 @@ _0212D370:
 	beq _0212D468
 	b _0212D484
 _0212D44C:
-	ldr r0, _0212D84C ; =MAIN_BSS_020AF5F8
+	ldr r0, _0212D84C ; =MAIN_BSS_020AF5E4+20
 	mov r1, #1
 	bl sub_02010FAC
 	ldr r0, [r5, #0x3b4]
@@ -20527,7 +20527,7 @@ _0212D44C:
 	bl ov11_0211F008
 	b _0212D49C
 _0212D468:
-	ldr r0, _0212D850 ; =MAIN_BSS_020AF60C
+	ldr r0, _0212D850 ; =MAIN_BSS_020AF5E4+40
 	mov r1, #2
 	bl sub_02010FAC
 	ldr r0, [r5, #0x3b4]
@@ -20799,8 +20799,8 @@ _0212D83C:
 	.align 2, 0
 _0212D844: .word 0x00004650
 _0212D848: .word 0x00001C20
-_0212D84C: .word MAIN_BSS_020AF5F8
-_0212D850: .word MAIN_BSS_020AF60C
+_0212D84C: .word MAIN_BSS_020AF5E4+20
+_0212D850: .word MAIN_BSS_020AF5E4+40
 
 	arm_func_start ov11_0212D854
 ov11_0212D854: ; 0x0212D854
@@ -25238,7 +25238,7 @@ _02131418:
 	ldr r1, [r4, #0x4cc]
 	cmp r1, #6
 	bge _02131478
-	ldr r5, _021316A4 ; =MAIN_BSS_020AF624
+	ldr r5, _021316A4 ; =MAIN_BSS_020AF620+4
 _02131430:
 	ldr r0, [r4, #0x4e0]
 	ldr r2, [r4, #0x4c0]
@@ -25410,7 +25410,7 @@ _02131694: .word s_griUBMRWtExs4ZNS_overlay_11_0216664c
 _02131698: .word s_PRS_MISSION_02d_prs_overlay_11_02166660
 _0213169C: .word 0x00000708
 _021316A0: .word ov11_021316C4
-_021316A4: .word MAIN_BSS_020AF624
+_021316A4: .word MAIN_BSS_020AF620+4
 
 	arm_func_start ov11_021316A8
 ov11_021316A8: ; 0x021316A8

@@ -3,6 +3,7 @@
 
 #include <nitro.h>
 
+#include "CBattleResultParameter.hpp"
 #include "CGame_0024.hpp"
 #include "CTPEmulator.hpp"
 #include "CTouchPanel.hpp"
@@ -20,6 +21,7 @@
 #include "UnkClass_02010854.hpp"
 #include "UnkClass_02010C3C.hpp"
 #include "UnkClass_02010D2C.hpp"
+#include "UnkClass_0201164C.hpp"
 #include "UnkClass_02018208.hpp"
 #include "UnkClass_02033F04.hpp"
 #include "UnkClass_02034478.hpp"
@@ -31,48 +33,6 @@
 typedef void (*CGame_020100E4_arg0)(void *);
 
 class UnkClass_0200D3F8;
-
-// RTTI name; ctor still asm
-class CBattleResultParameter {
-public:
-    CBattleResultParameter();
-
-public:
-    u8 unk_00[0x4];
-    u8 unk_04;
-    u8 unk_05[0x3];
-    u32 unk_08;
-    u8 unk_0C;
-    u8 unk_0D[0x3];
-    s32 unk_10;
-    u8 unk_14;
-    u8 unk_15[0x3];
-    u32 unk_18[8];
-    u32 unk_38[8];
-    u8 unk_58;
-    u8 unk_59;
-    u16 unk_5A[8];
-    u8 unk_6A;
-    u8 unk_6B;
-    u8 unk_6C;
-    u8 unk_6D[8];
-    u8 unk_75[0x3];
-    u32 unk_78;
-    u32 unk_7C;
-    s32 unk_80;
-};
-
-STATIC_SIZE_ASSERT(CBattleResultParameter, 0x84);
-
-class UnkClass_0201164C {
-public:
-    u8 unk_00[0x3];
-    u8 unk_03;
-    u32 unk_04;
-    u32 unk_08;
-    u32 unk_0C;
-    u32 unk_10;
-};
 
 class CGame {
 public:

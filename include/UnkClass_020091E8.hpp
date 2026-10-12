@@ -97,7 +97,7 @@ public:
     void sub_0200AD80(s32 arg0);
     void sub_0200AED0();
     void sub_0200AF74(u32 arg0, u32 arg1, u32 arg2, u32 arg3);
-    void sub_0200AFC0(s32 arg0, u32 arg1);
+    void sub_0200AFC0(s32 arg0);
     void sub_0200B12C();
     void sub_0200B1D0(u32 arg0, u32 arg1, u32 arg2, u32 arg3);
     void sub_0200B21C(s32 arg0);

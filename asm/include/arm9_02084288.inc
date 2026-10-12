@@ -1,5 +1,1 @@
 #pragma once
-.public CBattleResultParameter_complete_obj_dtor
-.public CBattleResultParameter_deleting_obj_dtor
-.public _ZTVN10__cxxabiv117__class_type_infoE
-.public _ZTVN10__cxxabiv121__vmi_class_type_infoE

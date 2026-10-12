@@ -5,13 +5,7 @@
 #include "UnkClass_0200D3F8.hpp"
 #include "heap.hpp"
 
-struct UnkStruct_02010EC8 {
-    u8 unk_00[0x14];
-};
-
 extern "C" {
-void sub_02010F18(UnkStruct_02010EC8 *obj);
-void sub_0201128C(void *obj);
 void sub_0201135C(UnkClass_0201164C *obj);
 void sub_02011394(UnkClass_0201164C *obj, UnkClass_02033F04 *scriptManager, UnkClass_020091E8 *textboxData);
 void sub_02015198(UnkClass_020B26A0 *obj);
@@ -20,12 +14,8 @@ void sub_0201926C(void *obj, int index, s32 value);
 s32 sub_02019278(void *obj, int index);
 void sub_02034384(UnkClass_02033F04 *scriptManager);
 
-extern UnkClass_0201164C MAIN_BSS_020B2638;
 extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
 extern u8 MAIN_BSS_0210C0B0[];
-extern u8 MAIN_BSS_020AF598[];
-extern UnkStruct_02010EC8 MAIN_BSS_020AF5D0;
-extern UnkStruct_02010EC8 MAIN_BSS_020AF5E4[3];
 }
 
 CGame *CGame::sInstance;
@@ -36,7 +26,7 @@ static inline void ResetTimers()
     for (int i = 0; i < 3; i++) {
         sub_02010F18(&MAIN_BSS_020AF5E4[i]);
     }
-    sub_0201128C(MAIN_BSS_020AF598);
+    sub_0201128C(&MAIN_BSS_020AF598);
 }
 
 void CGame::sub_0200FA74()
