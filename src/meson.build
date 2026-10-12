@@ -137,6 +137,7 @@ pokeranger2_cxx = files(
     'UnkClass_0213DDCC.cpp',
     'CFieldPartnerNpc.cpp',
     'CFieldPartnerPokemon.cpp',
+    'FieldPartnerPath.cpp',
     'CBattleScene.cpp',
     'CNameInputScene.cpp',
     'debug.cpp', )

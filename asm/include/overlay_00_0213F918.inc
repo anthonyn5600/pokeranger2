@@ -162,8 +162,6 @@
 .public _ZN16CEffectActorData8GetCountEv
 .public _ZN16CEffectActorData8IsLoadedEv
 .public _ZN16CEffectActorDataD2Ev
-.public _ZN17CFieldActorManage12sub_0203F7F4EP11PointPair2DliP7Point2D
-.public _ZN17CFieldActorManage12sub_02040158E7Point2Dli
 .public _ZN17CFieldEnemyManage12ov0_02135E30Eitti
 .public _ZN17CFieldEnemyManage12ov0_02136384Ev
 .public _ZN17CFieldEnemyManage12ov0_0213669CEmt
@@ -247,11 +245,7 @@
 .public _ZN19CFieldPartnerManage12ov0_02139920Emttii
 .public _ZN19CFieldPartnerManage12ov0_0213A050Em
 .public _ZN23CFieldMapLayerAttribute12GetCellAtPosEll
-.public _ZN23CFieldMapLayerAttribute15IsCircleBlockedE7Point2Dlm
-.public _ZN23CFieldMapLayerCollision15IsCircleBlockedE7Point2Dlm
 .public _ZN23CFieldMapLayerCollision5SweepEP11PointPair2DlP7Point2Dm
-.public _ZN23CFieldMapLayerCollision6IsWallEi
-.public _ZN23CFieldMapLayerCollision9GetCellAtEii
 .public _ZN24CFieldTargetObjectManage12ov0_0213D1ACEittti
 .public _ZN5CGame11GetInstanceEv
 .public _ZN6CActor12sub_020125FCEv
@@ -287,6 +281,7 @@
 .public _ll_div
 .public _s32_div_f
 .public g_ntfTextureFormats
+.public ov0_0213E668
 .public s_c000First_0208ac1c
 .public s_game
 .public strcpy

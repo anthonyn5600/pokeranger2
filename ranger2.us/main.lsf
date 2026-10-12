@@ -211,7 +211,8 @@ Overlay overlay0
     Object main.nef.p/src_UnkClass_0213DDCC.cpp.o
     Object main.nef.p/src_CFieldPartnerNpc.cpp.o
     Object main.nef.p/src_CFieldPartnerPokemon.cpp.o
-    Object main.nef.p/asm_overlay_00_0213E53C.s.o
+    Object main.nef.p/src_FieldPartnerPath.cpp.o
+    Object main.nef.p/asm_overlay_00_0213F918.s.o
 }
 
 Overlay overlay1
