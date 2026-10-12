@@ -17,7 +17,7 @@ public:
     virtual ~CBattleGameOver();
     virtual void vfunc_08();
     virtual void vfunc_0C(Camera2D *camera);
-    virtual void vfunc_10();
+    virtual void vfunc_10(Camera2D *camera);
 
     BOOL ov1_0213AA58();
     void ov1_0213AC30();

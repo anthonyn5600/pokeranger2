@@ -16,9 +16,10 @@ public:
     virtual ~CBattleEnemyGauge();
     virtual void vfunc_08();
     virtual void vfunc_0C(Camera2D *camera);
-    virtual void vfunc_10();
+    virtual void vfunc_10(Camera2D *camera);
     void ov1_02135F2C(u16 hp, Point2D pos);
     int ov1_02136248(int z);
+    void ov1_021362A0(int damage);
     void ov1_02135E70(int arg0, u16 arg1, u16 arg2, Point2D pos);
 
 public:

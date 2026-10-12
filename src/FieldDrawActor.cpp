@@ -361,7 +361,7 @@ void CFieldDrawActor::vfunc_0C(Camera2D *camera)
     sub_0203E934(camera, 0);
 }
 
-void CFieldDrawActor::vfunc_10()
+void CFieldDrawActor::vfunc_10(Camera2D *camera)
 {
 }
 

@@ -15,7 +15,7 @@ public:
     virtual ~CBattleAttackEffect();
     virtual void vfunc_08();
     virtual void vfunc_0C(Camera2D *camera);
-    virtual void vfunc_10();
+    virtual void vfunc_10(Camera2D *camera);
 
     void ov1_02126F90();
     void ov1_021272AC();

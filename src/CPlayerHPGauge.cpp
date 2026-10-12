@@ -439,7 +439,7 @@ void CPlayerHPGauge::vfunc_0C(Camera2D *camera)
     }
 }
 
-void CPlayerHPGauge::vfunc_10()
+void CPlayerHPGauge::vfunc_10(Camera2D *camera)
 {
 }
 

@@ -19,7 +19,7 @@ public:
     virtual ~CBattleDisk();
     virtual void vfunc_08();
     virtual void vfunc_0C(Camera2D *camera);
-    virtual void vfunc_10();
+    virtual void vfunc_10(Camera2D *camera);
 
     void ov1_0212C00C(Camera2D *camera);
     void ov1_0212C1C4(Point2D pos);

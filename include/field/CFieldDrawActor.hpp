@@ -16,7 +16,7 @@ public:
     virtual ~CFieldDrawActor();
     virtual void vfunc_08();
     virtual void vfunc_0C(Camera2D *camera);
-    virtual void vfunc_10();
+    virtual void vfunc_10(Camera2D *camera);
 
     void sub_0203DBB8(int type, u16 id, int form, u32 mask, BOOL useTransfer);
     void sub_0203E10C(int type, u16 id, int form, u32 mask, BOOL useTransfer);

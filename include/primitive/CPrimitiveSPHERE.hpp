@@ -14,6 +14,11 @@ public:
     // https://decomp.me/scratch/48yEZ
     virtual u32 Render(Camera2D *camera);
 
+    inline void SetCircle(Circle circle)
+    {
+        m_circle = circle;
+    }
+
 public:
     Circle m_circle;
 };

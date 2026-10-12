@@ -47,6 +47,10 @@ public:
     static u32 sub_020050C8(void);
     static u32 sub_02005120(void);
 
+    inline Point2D GetPos()
+    {
+        return *(Point2D *)m_coords;
+    }
     inline void SetPos(Point2D pos)
     {
         m_coords[0] = pos.x;
