@@ -6971,7 +6971,7 @@ ov3_02127EE8: ; 0x02127EE8
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x48c]
 	mov r1, #0
-	bl _ZN17UnkClass_0203447812sub_02034ED8Ev
+	bl _ZN17UnkClass_0203447812sub_02034ED8Ei
 	ldmia sp!, {r3, pc}
 	arm_func_end ov3_02127EE8
 
@@ -7176,7 +7176,7 @@ _021281D0:
 	str r1, [r4, #0x800]
 	add r0, r5, #0x1000
 	ldr r0, [r0, #0x48c]
-	bl _ZN17UnkClass_0203447812sub_02034E48Ev
+	bl _ZN17UnkClass_0203447812sub_02034E48Ei
 	b _02128428
 _021281FC:
 	ldr r0, [r4, #0x58]

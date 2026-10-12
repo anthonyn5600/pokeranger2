@@ -95,6 +95,8 @@
 .public _ZN17UnkClass_02040F34D1Ev
 .public _ZN17UnkClass_020416ACC1Ei
 .public _ZN17UnkClass_020416ACD1Ev
+.public _ZN17UnkClass_02042108C1Eh
+.public _ZN17UnkClass_02042108D1Ev
 .public _ZN17UnkClass_0211E3FC12sub_02009188EP8Camera2Di
 .public _ZN17UnkClass_0211E3FC12sub_020091DCEv
 .public _ZN5CGame11GetInstanceEv
@@ -121,6 +123,4 @@
 .public sub_0203EF40
 .public sub_02041924
 .public sub_020419AC
-.public sub_02042108
-.public sub_02042120
 .public sub_020423F4

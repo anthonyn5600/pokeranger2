@@ -37,12 +37,12 @@ BOOL sub_02006000(Point2D arg0, Rectangle arg1, u32 arg2)
     return FALSE;
 }
 
-BOOL sub_02006100(Point2D arg0, Point2D arg1, UnkStruct_02006100 arg2)
+BOOL sub_02006100(Point2D arg0, Circle arg1)
 {
-    fx64 v0 = arg0.x - arg1.x;
-    fx64 v1 = arg0.y - arg1.y;
+    fx64 v0 = arg0.x - arg1.pos.x;
+    fx64 v1 = arg0.y - arg1.pos.y;
 
-    return FX32_POW2(v0) + FX32_POW2(v1) <= FX32_POW2(arg2.unk_00);
+    return FX32_POW2(v0) + FX32_POW2(v1) <= FX32_POW2(arg1.r);
 }
 
 BOOL sub_02006164(Circle arg0, Circle arg1, Point2D *arg2)

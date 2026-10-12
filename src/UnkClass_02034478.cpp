@@ -386,7 +386,7 @@ void UnkClass_02034478::sub_02034E38(int fadeFrames)
     NNS_SndPlayerStopSeq(&unk_C0, fadeFrames);
 }
 
-void UnkClass_02034478::sub_02034E48()
+void UnkClass_02034478::sub_02034E48(int arg0)
 {
     NNS_SndArcPlayerStartSeqArc(&unk_BC, 0, 0x19);
     NNS_SndArcPlayerStartSeqArc(&unk_BC, 0, 0xB);
@@ -408,7 +408,7 @@ void UnkClass_02034478::sub_02034E80(int delta)
     NNS_SndPlayerSetTrackPitch(&unk_BC, 0xFFFF, unk_F8);
 }
 
-void UnkClass_02034478::sub_02034ED8()
+void UnkClass_02034478::sub_02034ED8(int arg0)
 {
     NNS_SndPlayerStopSeq(&unk_BC, 0);
 }

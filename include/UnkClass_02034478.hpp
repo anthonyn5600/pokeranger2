@@ -48,9 +48,9 @@ public:
     void sub_02034DD8(int fadeFrames);
     void sub_02034DE8(int seq, int fadeFrames, int ratio);
     void sub_02034E38(int fadeFrames);
-    void sub_02034E48();
+    void sub_02034E48(int arg0);
     void sub_02034E80(int delta);
-    void sub_02034ED8();
+    void sub_02034ED8(int arg0);
     void sub_02034EEC();
     void sub_02034F10(int volume);
     void sub_02034F20(int volume);
