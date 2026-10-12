@@ -43,7 +43,7 @@ public:
     virtual ~CPlayerHPGauge();
     virtual void vfunc_08();
     virtual void vfunc_0C(Camera2D *camera);
-    virtual void vfunc_10();
+    virtual void vfunc_10(Camera2D *camera);
 
     void CreateParts();
     void DeleteParts();

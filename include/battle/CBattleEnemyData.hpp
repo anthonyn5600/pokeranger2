@@ -20,11 +20,9 @@ public:
     u16 unk_16;
     UnkStruct_020107A8 *unk_18;
     UnkStruct_0212DFEC *unk_1C;
-    fx32 unk_20;
-    fx32 unk_24;
-    fx32 unk_28;
+    Circle unk_20;
     Rectangle unk_2C;
-    fx32 unk_3C[6];
+    Point2D unk_3C[3];
     CBinaryFile *m_scriptFile;
     void *m_script;
     NNSGfdPlttKey m_plttKey;

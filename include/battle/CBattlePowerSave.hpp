@@ -13,7 +13,7 @@ public:
     virtual ~CBattlePowerSave();
     virtual void vfunc_08();
     virtual void vfunc_0C(Camera2D *camera);
-    virtual void vfunc_10();
+    virtual void vfunc_10(Camera2D *camera);
 
     u16 ov1_02137AD4();
 

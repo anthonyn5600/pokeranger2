@@ -1619,7 +1619,7 @@ BOOL CBattleScene::ov1_02121774()
     for (u8 i = 0; i < 8; i++) {
         CBattleEnemy *enemy = unk_00DC[i];
         if (enemy != NULL && enemy->IsAlive() && enemy->IsTargetable()) {
-            Circle circle = enemy->unk_6F8;
+            Circle circle = enemy->m_sphere.m_circle;
             hit.pos.x = circle.pos.x;
             hit.pos.y = circle.pos.y;
             hit.r = circle.r;

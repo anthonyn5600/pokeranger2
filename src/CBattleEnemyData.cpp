@@ -11,19 +11,19 @@ CBattleEnemyData::CBattleEnemyData(u16 id, UnkStruct_020107A8 *info, UnkStruct_0
     m_plttKey = NNS_GfdAllocLnkPlttVram(sub_02014364(), FALSE, 0);
     sub_0201429C(NNS_GfdGetPlttKeyAddr(m_plttKey));
     sub_020142F8();
-    unk_20 = param->unk_06 << FX32_SHIFT;
-    unk_24 = param->unk_07 << FX32_SHIFT;
-    unk_28 = param->unk_08 << FX32_SHIFT;
+    unk_20.pos.x = param->unk_06 << FX32_SHIFT;
+    unk_20.pos.y = param->unk_07 << FX32_SHIFT;
+    unk_20.r = param->unk_08 << FX32_SHIFT;
     unk_2C.pos.x = info->unk_0A << FX32_SHIFT;
     unk_2C.pos.y = info->unk_0B << FX32_SHIFT;
     unk_2C.size.x = info->unk_0C << FX32_SHIFT;
     unk_2C.size.y = info->unk_0D << FX32_SHIFT;
-    unk_3C[0] = param->unk_10 << FX32_SHIFT;
-    unk_3C[1] = param->unk_11 << FX32_SHIFT;
-    unk_3C[2] = param->unk_12 << FX32_SHIFT;
-    unk_3C[3] = param->unk_13 << FX32_SHIFT;
-    unk_3C[4] = param->unk_14 << FX32_SHIFT;
-    unk_3C[5] = param->unk_15 << FX32_SHIFT;
+    unk_3C[0].x = param->unk_10 << FX32_SHIFT;
+    unk_3C[0].y = param->unk_11 << FX32_SHIFT;
+    unk_3C[1].x = param->unk_12 << FX32_SHIFT;
+    unk_3C[1].y = param->unk_13 << FX32_SHIFT;
+    unk_3C[2].x = param->unk_14 << FX32_SHIFT;
+    unk_3C[2].y = param->unk_15 << FX32_SHIFT;
 
     char path[0x60];
     OS_SPrintf(path, "data/script/battle/pokemon/p%03d.fsb", unk_16);

@@ -50,7 +50,7 @@ public:
     virtual ~CActor();
     virtual void vfunc_08() = 0;
     virtual void vfunc_0C(Camera2D *camera) = 0;
-    virtual void vfunc_10() = 0;
+    virtual void vfunc_10(Camera2D *camera) = 0;
 
     void sub_02011FF4(CActorData *data);
     void sub_020120B0();

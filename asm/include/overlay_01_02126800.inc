@@ -24,7 +24,6 @@
 .public NNS_GfdAllocLnkTexVram
 .public NNS_GfdFreeLnkPlttVram
 .public NNS_GfdFreeLnkTexVram
-.public NNS_GfdRegisterNewVramTransferTask
 .public OS_SPrintf
 .public _Z12sub_02001210v
 .public _Z12sub_020060007Point2D9Rectanglem
@@ -54,6 +53,13 @@
 .public _ZN11CTPEmulator12sub_0200215CEll
 .public _ZN11CTPEmulator12sub_02002178Ev
 .public _ZN11CTPEmulator12sub_02002198Ellt
+.public _ZN12CBattleEnemy12ov1_021262ACEv
+.public _ZN12CBattleEnemy12ov1_02126310Eii
+.public _ZN12CBattleEnemy12ov1_021263A4Eii
+.public _ZN12CBattleEnemy12ov1_02126424Ev
+.public _ZN12CBattleEnemy12ov1_0212671CEi
+.public _ZN12CBattleEnemy12ov1_02126734Ei
+.public _ZN12CBattleEnemy12ov1_0212674CEi
 .public _ZN12CBattleScene12ov1_0211E71CEh
 .public _ZN12CBattleScene12ov1_0211E7E8Et
 .public _ZN12CBattleScene12ov1_0211EF74Etm
@@ -91,12 +97,6 @@
 .public _ZN17UnkClass_020074D412sub_020076E8Em
 .public _ZN17UnkClass_020074D4C1EPKcmmm
 .public _ZN17UnkClass_020074D4D1Ev
-.public _ZN17UnkClass_0200777012sub_020077CCEP17UnkClass_020074D4
-.public _ZN17UnkClass_0200777012sub_020077E4EP9CNCERFile
-.public _ZN17UnkClass_0200777012sub_020078E4Et
-.public _ZN17UnkClass_0200777012sub_02007A94Em
-.public _ZN17UnkClass_02007770C1Ev
-.public _ZN17UnkClass_02007770D1Ev
 .public _ZN17UnkClass_02007AA412sub_02007BC4Ev
 .public _ZN17UnkClass_02007AA412sub_02007BFCEm
 .public _ZN17UnkClass_02007AA4C1EPKcmm
