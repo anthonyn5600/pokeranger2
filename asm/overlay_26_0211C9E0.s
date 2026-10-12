@@ -551,7 +551,7 @@ _0211D15C:
 	ldr r0, [r4, #0xc]
 	mov r2, #0xf0
 	mov r3, #0xb3
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	ldr r1, _0211D330 ; =s_game
 	str r0, [r4, #0x10]
 	mov r2, #1

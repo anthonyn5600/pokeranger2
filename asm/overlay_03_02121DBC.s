@@ -1792,7 +1792,7 @@ _021236A8:
 	ldr r0, [r5, #0xbc]
 	mov r2, #0x4a
 	mov r3, #0x20
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r5, #0x8c]
 	ldr r1, [r5, #0xbc]
 	mov r0, #0x44
@@ -1825,14 +1825,14 @@ _02123724:
 	ldr r0, [r5, #0xc0]
 	mov r2, #0x5e
 	mov r3, #0x20
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r5, #0x90]
 	mov r1, #1
 	str r1, [sp]
 	ldr r0, [r5, #0xc0]
 	mov r2, #0x80
 	mov r3, #0xb0
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r5, #0x94]
 	ldr r1, [r5, #0xc0]
 	mov r0, #1
@@ -1843,7 +1843,7 @@ _02123724:
 	ldr r0, [r5, #0xc0]
 	mov r2, #0
 	mov r3, r2
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r5, #0x98]
 	mov r0, #1
 	str r0, [sp]
@@ -1851,7 +1851,7 @@ _02123724:
 	mov r1, #5
 	mov r2, #0
 	mov r3, r2
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r5, #0xa0]
 	mov r0, #1
 	str r0, [sp]
@@ -1859,7 +1859,7 @@ _02123724:
 	mov r1, #6
 	mov r2, #0x48
 	mov r3, #0x90
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r5, #0xa4]
 	ldr r1, [r5, #0xc0]
 	mov r0, #1
@@ -1870,7 +1870,7 @@ _02123724:
 	ldr r0, [r5, #0xc0]
 	mov r2, #0x80
 	mov r3, #0x90
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r5, #0xa8]
 	ldr r1, [r5, #0xc0]
 	mov r0, #1
@@ -1881,7 +1881,7 @@ _02123724:
 	ldr r0, [r5, #0xc0]
 	mov r2, #0xb8
 	mov r3, #0x90
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r5, #0xb0]
 	ldr r0, [r5, #0xc0]
 	mov r1, #0
@@ -1932,7 +1932,7 @@ _021238B8:
 	mov r1, #0
 	mov r2, #0x80
 	mov r3, #0x48
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r5, #0xb4]
 	ldr r1, _021239A0 ; =MAIN_BSS_020B26A0
 	add r0, sp, #4
@@ -1970,7 +1970,7 @@ _02123948:
 	mov r1, #1
 	mov r2, #0x80
 	mov r3, #0x48
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r5, #0xb8]
 	add sp, sp, #0x64
 	ldmia sp!, {r4, r5, pc}

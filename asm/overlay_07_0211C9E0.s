@@ -817,7 +817,7 @@ _0211D448:
 	mov r1, r5
 	mov r3, r4
 	add r2, r2, #0x10
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	add r1, r7, r6, lsl #2
 	str r0, [r1, #0x60]
 	ldr r0, [r7, #0x58]
@@ -832,7 +832,7 @@ _0211D448:
 	mov r1, #0xa
 	mov r2, #0x2c
 	mov r3, #0x10
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r7, #0x6c]
 	mov r0, #0
 	str r0, [sp]
@@ -840,7 +840,7 @@ _0211D448:
 	mov r1, #0xb
 	mov r2, #0x50
 	mov r3, #0x10
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r7, #0x70]
 	mov r0, #0
 	str r0, [sp]
@@ -848,7 +848,7 @@ _0211D448:
 	mov r1, #0xd
 	mov r2, #0x80
 	mov r3, #0xf
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r7, #0x74]
 	ldr r0, [r7, #0x58]
 	mov r3, #0
@@ -865,7 +865,7 @@ _0211D448:
 	mov r1, #0x10
 	mov r2, #0xc3
 	mov r3, #0xf
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r7, #0x78]
 	ldr r0, [r7, #0x58]
 	mov r3, #0
@@ -892,7 +892,7 @@ _0211D448:
 	ldr r0, [r7, #0x5c]
 	mov r2, #0xf0
 	mov r3, #0x10
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	mov r1, #0x20
 	str r0, [r7, #0x7c]
 	mov r3, #0

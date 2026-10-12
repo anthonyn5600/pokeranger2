@@ -133,7 +133,7 @@ _0211CB84:
 	beq _0211CBB4
 	beq _0211CBAC
 	mov r0, r4
-	bl sub_02025690
+	bl _ZN17UnkClass_02025648D1Ev
 	mov r0, r4
 	bl _ZdlPv
 _0211CBAC:
@@ -241,7 +241,7 @@ _0211CCF4:
 	beq _0211CD24
 	beq _0211CD1C
 	mov r0, r4
-	bl sub_02025690
+	bl _ZN17UnkClass_02025648D1Ev
 	mov r0, r4
 	bl _ZdlPv
 _0211CD1C:
@@ -309,7 +309,7 @@ ov6_0211CD54: ; 0x0211CD54
 	bl _Znwm
 	cmp r0, #0
 	beq _0211CE0C
-	bl sub_02025648
+	bl _ZN17UnkClass_02025648C1Ev
 	arm_func_end ov6_0211CD54
 _0211CE0C:
 	str r0, [r4, #0x84]
@@ -452,7 +452,7 @@ _0211CFDC:
 	mov r1, #0
 	mov r2, #0x4c
 	mov r3, #0x40
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r7, #0xc]
 	ldr r1, [r7, #4]
 	mov r0, #1
@@ -463,7 +463,7 @@ _0211CFDC:
 	ldr r0, [r7, #4]
 	mov r2, #0x80
 	mov r3, #0x40
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r7, #0x10]
 	ldr r1, [r7, #4]
 	mov r0, #1
@@ -474,7 +474,7 @@ _0211CFDC:
 	ldr r0, [r7, #4]
 	mov r2, #0xb4
 	mov r3, #0x40
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r7, #0x14]
 	ldr r0, [r7, #4]
 	ldr r0, [r0, #0x24]
@@ -533,7 +533,7 @@ _0211D134:
 	mov r1, #2
 	mov r2, #0x38
 	mov r3, #0x74
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r7, #0x18]
 	ldr r1, [r7, #4]
 	mov r0, #1
@@ -544,7 +544,7 @@ _0211D134:
 	ldr r0, [r7, #4]
 	mov r2, #0x68
 	mov r3, #0x74
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r7, #0x1c]
 	ldr r1, [r7, #4]
 	mov r0, #1
@@ -555,7 +555,7 @@ _0211D134:
 	ldr r0, [r7, #4]
 	mov r2, #0x98
 	mov r3, #0x74
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r7, #0x20]
 	ldr r1, [r7, #4]
 	mov r0, #1
@@ -566,7 +566,7 @@ _0211D134:
 	ldr r0, [r7, #4]
 	mov r2, #0xc8
 	mov r3, #0x74
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r7, #0x24]
 	ldr r1, [r7, #4]
 	mov r0, #1
@@ -577,7 +577,7 @@ _0211D134:
 	ldr r0, [r7, #4]
 	mov r2, #0x38
 	mov r3, #0x8c
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r7, #0x28]
 	ldr r1, [r7, #4]
 	mov r0, #1
@@ -588,7 +588,7 @@ _0211D134:
 	ldr r0, [r7, #4]
 	mov r2, #0x68
 	mov r3, #0x8c
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r7, #0x2c]
 	ldr r0, [r7, #4]
 	ldr r0, [r0, #0x24]
@@ -599,7 +599,7 @@ _0211D134:
 	mov r1, #8
 	mov r2, #0x98
 	mov r3, #0x8c
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r7, #0x30]
 	ldr r1, [r7, #4]
 	mov r0, #1
@@ -610,7 +610,7 @@ _0211D134:
 	ldr r0, [r7, #4]
 	mov r2, #0xc8
 	mov r3, #0x8c
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r7, #0x34]
 	ldr r1, [r7, #4]
 	mov r0, #2
@@ -621,7 +621,7 @@ _0211D134:
 	ldr r0, [r7, #4]
 	mov r2, #0x80
 	mov r3, #0x10
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	ldr r1, [r7, #0x7c]
 	mov r0, #1
 	add r1, r1, #3
@@ -632,7 +632,7 @@ _0211D134:
 	ldr r0, [r7, #4]
 	ldrsh r2, [r3, #0xc]
 	ldrsh r3, [r3, #0xe]
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r7, #0x38]
 	ldr r1, [r7, #4]
 	mov r0, #0x44
@@ -665,7 +665,7 @@ _0211D31C:
 	ldr r0, [r7, #8]
 	mov r2, #0xf0
 	mov r3, #0x10
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	mov r1, #0x20
 	str r0, [r7, #0x3c]
 	mov r3, #0
@@ -1041,7 +1041,7 @@ ov6_0211D89C: ; 0x0211D89C
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x84]
-	bl sub_02027640
+	bl _ZN17UnkClass_0202564812sub_02027640Ev
 	ldr r0, [r4, #4]
 	bl _ZN17UnkClass_0200ECD012sub_0200F64CEv
 	ldr r0, [r4, #0x74]
@@ -1263,7 +1263,7 @@ ov6_0211DBD0: ; 0x0211DBD0
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x84]
-	bl sub_02027674
+	bl _ZN17UnkClass_0202564812sub_02027674Ev
 	ldr r0, [r4, #4]
 	bl _ZN17UnkClass_0200ECD012sub_0200F71CEv
 	ldr r0, [r4, #8]

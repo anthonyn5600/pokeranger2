@@ -37,7 +37,7 @@ GXOamAttr *UnkClass_0200E960::sub_0200E9A4(GXOamAttr *dst, int nameShift, int ch
     return dst;
 }
 
-int UnkClass_0200E960::sub_0200EA84(const NNSG2dCellData *cell, s16 x, s16 y, int palette, int charName, int priority)
+int UnkClass_0200E960::sub_0200EA84(const NNSG2dCellData *cell, int x, int y, int palette, int charName, int priority)
 {
     unk_04 = cell;
     sub_0200EB28(x, y);

@@ -51,12 +51,15 @@
 .public _ZN17UnkClass_0200E96012sub_0200EB84Ev
 .public _ZN17UnkClass_0200E96012sub_0200EBF4Essss
 .public _ZN17UnkClass_0200ECD012sub_0200EE14EPKcS1_mm
-.public _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+.public _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 .public _ZN17UnkClass_0200ECD012sub_0200F628Eii
 .public _ZN17UnkClass_0200ECD012sub_0200F64CEv
 .public _ZN17UnkClass_0200ECD012sub_0200F71CEv
 .public _ZN17UnkClass_0200ECD0C1EP9GXOamAttrmii
 .public _ZN17UnkClass_0200ECD0D1Ev
+.public _ZN17UnkClass_020214049GetStringEm
+.public _ZN17UnkClass_02021404C1EPKc
+.public _ZN17UnkClass_02021404D1Ev
 .public _ZN17UnkClass_0203447812sub_020345D4Ev
 .public _ZN17UnkClass_0203447812sub_02034C44Ei
 .public _ZN17UnkClass_02040F34C1Ev
@@ -78,9 +81,6 @@
 .public _Znwm
 .public __cxa_vec_cleanup
 .public __cxa_vec_ctor
-.public sub_02021404
-.public sub_02021428
-.public sub_020215F8
 .public sub_0202A510
 .public sub_0202A528
 .public sub_0202A5A8

@@ -4,6 +4,7 @@
 
 #include "CGame.hpp"
 #include "CPlayerHPGauge.hpp"
+#include "UnkClass_02022404.hpp"
 #include "UnkClass_02041D80.hpp"
 #include "UnkClass_020B26A0.hpp"
 #include "UnkStruct_020107A8.hpp"
@@ -37,8 +38,6 @@ void sub_02015124(UnkStruct_020B26A0_8AD4 *partner);
 void sub_02015C78(UnkClass_020B26A0 *save, u32 id, u16 kind, int arg3);
 void sub_02041A70(CFieldActor *actor, int arg1, int arg2);
 void sub_0203F440(CFieldActorManage *mgr);
-void *sub_020233A4(void);
-void sub_02022B20(void *obj);
 }
 
 UnkClass_0213949C::UnkClass_0213949C()
@@ -304,9 +303,9 @@ void CFieldPartnerManage::ov0_0213A050(u32 id)
     if (((result >> 24) & 0xFF) == 2) {
         return;
     }
-    void *obj = sub_020233A4();
+    UnkClass_02022404 *obj = UnkClass_02022404::GetInstance();
     if (obj != NULL) {
-        sub_02022B20(obj);
+        obj->sub_02022B20();
     }
 }
 

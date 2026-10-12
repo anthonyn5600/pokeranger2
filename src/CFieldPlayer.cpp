@@ -31,8 +31,6 @@ extern "C" {
 void ov0_02143344(void *mgr, fx32 x, fx32 y);
 void ov0_0214332C(void *mgr, int arg1, int arg2, CFieldPlayer *player);
 void ov0_0213EA6C(Point2D *out, Point2D cell, int floor, int arg3);
-void sub_02022DD4(UnkClass_02022404 *obj);
-void sub_02023198(UnkClass_02022404 *obj, int arg1);
 void sub_02041A70(CFieldActor *actor, int arg1, int arg2);
 void sub_02016DA4(UnkClass_020B26A0 *save, int arg1);
 }
@@ -852,7 +850,7 @@ BOOL CFieldPlayer::ov0_021333A0(fx32 dx, fx32 dy, int arg3, int damage, int arg5
             scene->unk_0078 = 0;
             scene->ov0_0212451C();
             if (scene->unk_0054 != NULL) {
-                sub_02022DD4(scene->unk_0054);
+                scene->unk_0054->sub_02022DD4();
             }
         }
         UnkClass_020B26A0 *save = (UnkClass_020B26A0 *)(void *)&MAIN_BSS_020B26A0;
@@ -868,7 +866,7 @@ BOOL CFieldPlayer::ov0_021333A0(fx32 dx, fx32 dy, int arg3, int damage, int arg5
         if (energy <= 0) {
             unk_138 = 20;
             s_game->unk_14BC->sub_0200E0E0(2, 120);
-            sub_02023198(scene->unk_0054, 0);
+            scene->unk_0054->sub_02023198(0);
             scene->unk_0054->unk_60 = 1;
             if (s_game->unk_14C0->sub_0200E310() || (s_game->unk_14C0->sub_0200E324() != 4 && s_game->unk_14C0->sub_0200E324() != 2)) {
                 s_game->unk_14C0->sub_0200E0E0(2, 120);

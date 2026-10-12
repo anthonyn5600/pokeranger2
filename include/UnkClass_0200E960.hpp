@@ -14,7 +14,7 @@ public:
 
     void sub_0200E960(u32 arg0);
     GXOamAttr *sub_0200E9A4(GXOamAttr *dst, int nameShift, int charShift);
-    int sub_0200EA84(const NNSG2dCellData *cell, s16 x, s16 y, int palette, int charName, int priority);
+    int sub_0200EA84(const NNSG2dCellData *cell, int x, int y, int palette, int charName, int priority);
     int sub_0200EAFC(const NNSG2dCellData *cell);
     void sub_0200EB20(u16 palette);
     void sub_0200EB28(int x, int y);
@@ -25,6 +25,11 @@ public:
     u8 sub_0200EBBC();
     void sub_0200EBF4(s16 width, s16 height, s16 offsetX, s16 offsetY);
     BOOL sub_0200EC0C();
+
+    void SetVisible(BOOL visible)
+    {
+        unk_14 = visible ? TRUE : FALSE;
+    }
 
 public:
     u32 unk_00;

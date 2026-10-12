@@ -244,7 +244,7 @@ void UnkClass_0200ECD0::sub_0200F4A8()
     }
 }
 
-UnkClass_0200E960 *UnkClass_0200ECD0::sub_0200F4FC(int anim, s16 x, s16 y, int priority)
+UnkClass_0200E960 *UnkClass_0200ECD0::sub_0200F4FC(int anim, int x, int y, int priority)
 {
     const NNSG2dCellData *cellData;
 

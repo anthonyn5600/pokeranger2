@@ -1937,7 +1937,7 @@ ov27_0211E394: ; 0x0211E394
 	ldr r3, [sp, #0x18]
 	mov r0, r5
 	str ip, [sp]
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r4, #8]
 	ldr r0, [sp, #0x24]
 	ldr r1, [sp, #0x10]
@@ -1945,7 +1945,7 @@ ov27_0211E394: ; 0x0211E394
 	ldr r3, [sp, #0x18]
 	str r0, [sp]
 	mov r0, r5
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r4, #0xc]
 	ldr r0, [r4, #8]
 	cmp r0, #0
@@ -2398,7 +2398,7 @@ ov27_0211E958: ; 0x0211E958
 	mov r3, r4
 	ldr r8, [sp, #0x28]
 	ldr r7, [sp, #0x2c]
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [sl, #0x40]
 	ldr r1, [sl, #8]
 	ldr r0, [sp, #0x48]
@@ -2414,7 +2414,7 @@ _0211E9F0:
 	mov r0, sb
 	mov r1, r8
 	mov r3, r6
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	add r1, sl, r5, lsl #2
 	str r0, [r1, #0x48]
 	mov r0, #0
@@ -2423,7 +2423,7 @@ _0211E9F0:
 	mov r0, sb
 	mov r1, r7
 	mov r3, r6
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	add r1, sl, r5, lsl #2
 	add r5, r5, #1
 	str r0, [r1, #0x68]
@@ -2436,7 +2436,7 @@ _0211E9F0:
 	ldr r2, [sl, #0x24]
 	mov r0, sb
 	mov r3, #0
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [sl, #0x88]
 	str r4, [sl, #0x30]
 	str r4, [sl, #0x2c]
@@ -3515,7 +3515,7 @@ _0211F8F8:
 	mov r2, r5
 	mov r3, r8
 	str r4, [sp]
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	add r1, sl, r6, lsl #3
 	str r0, [r1, #4]
 	mov r0, sb
@@ -3523,7 +3523,7 @@ _0211F8F8:
 	mov r2, r5
 	mov r3, r8
 	str r7, [sp]
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	add r1, sl, r6, lsl #3
 	add r6, r6, #1
 	str r0, [r1, #8]
@@ -3895,7 +3895,7 @@ ov27_0211FD70: ; 0x0211FD70
 	beq _0211FDB0
 	beq _0211FDA8
 	mov r0, r5
-	bl sub_02021428
+	bl _ZN17UnkClass_02021404D1Ev
 	mov r0, r5
 	bl _ZdlPv
 	arm_func_end ov27_0211FD70
@@ -4012,7 +4012,7 @@ _0211FED4:
 	ldr r0, [r4, #0x18]
 	mov r2, #0xf0
 	mov r3, #0x10
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r4, #0x28]
 	mov r3, #0
 	str r3, [sp]
@@ -4063,7 +4063,7 @@ _0211FF98:
 	ldr r0, [r4, #0x14]
 	mov r2, r1
 	mov r3, r1
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r4, #0x20]
 	mov r3, #0
 	str r3, [sp]
@@ -4084,7 +4084,7 @@ _0211FF98:
 	cmp r0, #0
 	beq _02120048
 	ldr r1, _02120064 ; =s_data_message_etc_place_name_overlay_27_021214c4
-	bl sub_02021404
+	bl _ZN17UnkClass_02021404C1EPKc
 _02120048:
 	str r0, [r4, #0x10]
 	add sp, sp, #0x14
@@ -4357,7 +4357,7 @@ _021203B0:
 	add r2, r1, #0x1000
 	mov r1, r4
 	ldr r4, [r2, #0x498]
-	bl sub_020215F8
+	bl _ZN17UnkClass_020214049GetStringEm
 	mov r3, #3
 	str r3, [sp]
 	str r0, [sp, #4]
@@ -4853,7 +4853,7 @@ _021209FC:
 	mov r1, #5
 	mov r2, #0x80
 	mov r3, #0x60
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r6, #0x28]
 	mov r0, #1
 	str r0, [sp]
@@ -4861,7 +4861,7 @@ _021209FC:
 	mov r1, #2
 	mov r2, #0x16
 	mov r3, #0x17
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r6, #0x14]
 	mov r0, #1
 	str r0, [sp]
@@ -4869,7 +4869,7 @@ _021209FC:
 	mov r1, #2
 	mov r2, #0xea
 	mov r3, #0x17
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r6, #0x18]
 	mov r0, #1
 	str r0, [sp]
@@ -4877,7 +4877,7 @@ _021209FC:
 	mov r1, #0
 	mov r2, #0x80
 	mov r3, #0x18
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r6, #0x1c]
 	mov r0, #1
 	str r0, [sp]
@@ -4885,7 +4885,7 @@ _021209FC:
 	mov r1, #3
 	mov r2, #0x80
 	mov r3, #0x90
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r6, #0x20]
 	mov r0, #1
 	str r0, [sp]
@@ -4893,7 +4893,7 @@ _021209FC:
 	mov r1, #4
 	mov r2, #0x78
 	mov r3, #0x38
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r6, #0x24]
 	cmp r5, #0
 	beq _02120B14

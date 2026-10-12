@@ -35,7 +35,7 @@
 .public _ZN17UnkClass_0200C38C12sub_0200C7A4EiiiiPhii
 .public _ZN17UnkClass_0200E0B412sub_0200E0E0Ett
 .public _ZN17UnkClass_0200ECD012sub_0200EE14EPKcS1_mm
-.public _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+.public _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 .public _ZN17UnkClass_0200ECD012sub_0200F64CEv
 .public _ZN17UnkClass_0200ECD012sub_0200F71CEv
 .public _ZN17UnkClass_0200ECD0C1EP9GXOamAttrmii

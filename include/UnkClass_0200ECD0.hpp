@@ -22,7 +22,7 @@ public:
     u32 sub_0200F398();
     u32 sub_0200F3EC();
     void sub_0200F4A8();
-    UnkClass_0200E960 *sub_0200F4FC(int anim, s16 x, s16 y, int priority);
+    UnkClass_0200E960 *sub_0200F4FC(int anim, int x, int y, int priority);
     BOOL sub_0200F628(int idx, int anim);
     void sub_0200F64C();
     void sub_0200F6C4();

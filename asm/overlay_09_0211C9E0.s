@@ -479,7 +479,7 @@ _0211CF9C:
 	beq _0211CFC4
 	beq _0211CFBC
 	mov r0, r5
-	bl sub_02021428
+	bl _ZN17UnkClass_02021404D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _0211CFBC:
@@ -711,7 +711,7 @@ _0211D2B8:
 	ldr r0, [r4, #0x30]
 	mov r2, #0xf0
 	mov r3, #0x10
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	mov r1, #0x20
 	str r0, [r4, #0x3c]
 	mov r3, #0
@@ -761,7 +761,7 @@ _0211D37C:
 	ldr r0, [r4, #0x24]
 	mov r2, #0x80
 	mov r3, #0xb0
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r4, #0x40]
 	mov r0, #4
 	str r0, [sp]
@@ -786,7 +786,7 @@ _0211D37C:
 	cmp r0, #0
 	beq _0211D430
 	ldr r1, _0211D480 ; =s_data_message_etc_place_name_overlay_9_0211df50
-	bl sub_02021404
+	bl _ZN17UnkClass_02021404C1EPKc
 _0211D430:
 	str r0, [r4, #0x20]
 	mov r0, #0x7c
@@ -1015,7 +1015,7 @@ _0211D6F4:
 	add r2, r1, #0x1000
 	mov r1, r4
 	ldr r4, [r2, #0x494]
-	bl sub_020215F8
+	bl _ZN17UnkClass_020214049GetStringEm
 	mov r3, #3
 	str r3, [sp]
 	str r0, [sp, #4]

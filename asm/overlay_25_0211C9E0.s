@@ -196,7 +196,7 @@ _0211CC20:
 	ldr r0, [sb, #0x18]
 	sub r8, r1, #1
 	sub r4, r1, #0xd
-	bl sub_02021628
+	bl _ZN17UnkClass_020214048GetCountEv
 	mov r6, r0
 	cmp r8, #0
 	blt _0211CCE4
@@ -204,7 +204,7 @@ _0211CC20:
 	bge _0211CCC0
 	ldr r0, [sb, #0x18]
 	mov r1, r8
-	bl sub_020215F8
+	bl _ZN17UnkClass_020214049GetStringEm
 	str r0, [sp]
 	mov r0, #2
 	str r0, [sp, #4]
@@ -231,7 +231,7 @@ _0211CCE4:
 	bge _0211CD24
 	ldr r0, [sb, #0x18]
 	mov r1, r4
-	bl sub_020215F8
+	bl _ZN17UnkClass_020214049GetStringEm
 	str r0, [sp]
 	mov r0, #2
 	str r0, [sp, #4]
@@ -556,7 +556,7 @@ _0211D148:
 	cmp r0, #0
 	beq _0211D19C
 	ldr r1, _0211D390 ; =s_data_message_etc_staffroll_overlay_25_0211fca0
-	bl sub_02021404
+	bl _ZN17UnkClass_02021404C1EPKc
 _0211D19C:
 	str r0, [sl, #0x18]
 	mov r0, #0xbc
@@ -767,7 +767,7 @@ _0211D470:
 	beq _0211D4AC
 	beq _0211D4A4
 	mov r0, r5
-	bl sub_02021428
+	bl _ZN17UnkClass_02021404D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _0211D4A4:
@@ -3278,7 +3278,7 @@ _0211F794:
 	ldr r0, [r4]
 	sub r2, r1, #0x20
 	mov r3, #0x40
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r4, #0xc]
 	mov r0, #0
 	str r0, [sp]
@@ -3286,7 +3286,7 @@ _0211F794:
 	mov r1, #1
 	mov r2, #0x80
 	mov r3, #0x40
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r4, #4]
 	mov r0, #0
 	str r0, [sp]
@@ -3294,7 +3294,7 @@ _0211F794:
 	mov r1, #2
 	mov r2, #0x80
 	mov r3, #0x70
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r4, #8]
 	mov r2, #0
 	ldr r1, [r4, #4]

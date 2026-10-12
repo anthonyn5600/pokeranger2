@@ -2029,7 +2029,7 @@ _0211E6A8:
 	ldr r0, [r4, #0x4c]
 	mov r2, #0xd8
 	mov r3, #0xac
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r4, #0x40]
 	ldr r1, [r4, #0x4c]
 	mov r0, #0
@@ -2040,7 +2040,7 @@ _0211E6A8:
 	ldr r0, [r4, #0x4c]
 	mov r2, #0xf5
 	mov r3, #0x60
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r4, #0x44]
 	ldr r1, [r4, #0x4c]
 	mov r0, #0
@@ -2051,7 +2051,7 @@ _0211E6A8:
 	ldr r0, [r4, #0x4c]
 	mov r2, #0xb
 	mov r3, #0x60
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r4, #0x48]
 	ldr r0, [r4, #0x4c]
 	ldr r0, [r0, #0x24]

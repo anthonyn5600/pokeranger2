@@ -704,7 +704,7 @@ _0211D33C:
 	ldr r0, [r5, #0x40]
 	mov r2, #0x48
 	mov r3, #0x4e
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r5, #0x58]
 	mov r0, #0x44
 	bl _Znwm
@@ -735,7 +735,7 @@ _0211D3AC:
 	ldr r0, [r5, #0x48]
 	mov r2, #0xb8
 	mov r3, #0x4e
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r5, #0x5c]
 	mov r0, #0x44
 	bl _Znwm
@@ -766,7 +766,7 @@ _0211D424:
 	ldr r0, [r5, #0x3c]
 	mov r3, r2
 	mov r1, #0
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r5, #0x50]
 	mov r0, #3
 	str r0, [sp]
@@ -774,7 +774,7 @@ _0211D424:
 	mov r1, #0
 	mov r2, #0xb8
 	mov r3, #0x48
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r5, #0x54]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
@@ -816,7 +816,7 @@ _0211D4DC:
 	mov r1, #8
 	mov r2, #0x80
 	mov r3, #0x70
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r4, #0x60]
 	ldr r0, [r4, #0x44]
 	ldr r0, [r0, #0x24]
@@ -862,7 +862,7 @@ _0211D57C:
 	mov r1, #8
 	mov r2, #0x80
 	mov r3, #0x70
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r4, #0x64]
 	ldr r0, [r4, #0x4c]
 	ldr r0, [r0, #0x24]

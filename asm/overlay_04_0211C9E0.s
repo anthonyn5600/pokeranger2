@@ -258,7 +258,7 @@ _0211CD14:
 	ldr r0, [r7, #0x2c]
 	mov r2, #0xf0
 	mov r3, #0xb3
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	ldr r0, [r7, #4]
 	mov r1, #8
 	add r0, r0, #0x1000

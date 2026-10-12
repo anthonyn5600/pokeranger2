@@ -68,7 +68,7 @@
 .public _ZN17UnkClass_0200E96012sub_0200EBBCEv
 .public _ZN17UnkClass_0200E96012sub_0200EBF4Essss
 .public _ZN17UnkClass_0200ECD012sub_0200EE14EPKcS1_mm
-.public _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+.public _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 .public _ZN17UnkClass_0200ECD012sub_0200F628Eii
 .public _ZN17UnkClass_0200ECD012sub_0200F64CEv
 .public _ZN17UnkClass_0200ECD012sub_0200F71CEv
@@ -94,6 +94,9 @@
 .public _ZN17UnkClass_0201FC80C1Ei
 .public _ZN17UnkClass_0201FC80C1Ev
 .public _ZN17UnkClass_0201FC80D1Ev
+.public _ZN17UnkClass_020214049GetStringEm
+.public _ZN17UnkClass_02021404C1EPKc
+.public _ZN17UnkClass_02021404D1Ev
 .public _ZN17UnkClass_0203447812sub_02034C44Ei
 .public _ZN5CGame11GetInstanceEv
 .public _ZN6CScene5func4Ev
@@ -111,9 +114,6 @@
 .public sub_020107A8
 .public sub_02018B10
 .public sub_02019278
-.public sub_02021404
-.public sub_02021428
-.public sub_020215F8
 .public sub_0202A2AC
 .public sub_0202A2EC
 .public sub_0202A32C

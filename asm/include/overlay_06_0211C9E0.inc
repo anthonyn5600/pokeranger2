@@ -46,12 +46,16 @@
 .public _ZN17UnkClass_0200E96012sub_0200EB84Ev
 .public _ZN17UnkClass_0200E96012sub_0200EBF4Essss
 .public _ZN17UnkClass_0200ECD012sub_0200EE14EPKcS1_mm
-.public _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+.public _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 .public _ZN17UnkClass_0200ECD012sub_0200F628Eii
 .public _ZN17UnkClass_0200ECD012sub_0200F64CEv
 .public _ZN17UnkClass_0200ECD012sub_0200F71CEv
 .public _ZN17UnkClass_0200ECD0C1EP9GXOamAttrmii
 .public _ZN17UnkClass_0200ECD0D1Ev
+.public _ZN17UnkClass_0202564812sub_02027640Ev
+.public _ZN17UnkClass_0202564812sub_02027674Ev
+.public _ZN17UnkClass_02025648C1Ev
+.public _ZN17UnkClass_02025648D1Ev
 .public _ZN17UnkClass_0203447812sub_02034C44Ei
 .public _ZN6CScene5func2Ev
 .public _ZN6CScene5func4Ev
@@ -67,8 +71,4 @@
 .public _Znwm
 .public sub_0201926C
 .public sub_02019278
-.public sub_02025648
-.public sub_02025690
 .public sub_02026150
-.public sub_02027640
-.public sub_02027674

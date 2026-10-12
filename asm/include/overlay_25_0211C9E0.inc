@@ -70,7 +70,7 @@
 .public _ZN17UnkClass_0200E0B412sub_0200E310Ev
 .public _ZN17UnkClass_0200E96012sub_0200EB28Eii
 .public _ZN17UnkClass_0200ECD012sub_0200EE14EPKcS1_mm
-.public _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+.public _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 .public _ZN17UnkClass_0200ECD012sub_0200F64CEv
 .public _ZN17UnkClass_0200ECD012sub_0200F71CEv
 .public _ZN17UnkClass_0200ECD0C1EP9GXOamAttrmii
@@ -86,6 +86,10 @@
 .public _ZN17UnkClass_0201FC808LoadPlttEPKcimm
 .public _ZN17UnkClass_0201FC80C1Ei
 .public _ZN17UnkClass_0201FC80D1Ev
+.public _ZN17UnkClass_020214048GetCountEv
+.public _ZN17UnkClass_020214049GetStringEm
+.public _ZN17UnkClass_02021404C1EPKc
+.public _ZN17UnkClass_02021404D1Ev
 .public _ZN17UnkClass_0203447812sub_0203499CEi
 .public _ZN17UnkClass_0203447812sub_02034A40Eii
 .public _ZN17UnkClass_0203447812sub_02034B58Ei
@@ -104,7 +108,3 @@
 .public s_game
 .public sub_02018E30
 .public sub_02018E94
-.public sub_02021404
-.public sub_02021428
-.public sub_020215F8
-.public sub_02021628

@@ -472,7 +472,7 @@ ov21_0211CFF4: ; 0x0211CFF4
 	mov r0, r4
 	mov r3, lr
 	str ip, [sp]
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r5]
 	ldr r0, [r4, #0x24]
 	strb r0, [r5, #8]
@@ -4374,7 +4374,7 @@ _02120798:
 	mov r2, r6
 	mov r3, r5
 	str ip, [sp]
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r4]
 	ldr r1, [r8, #0x24]
 	mov r0, r4
@@ -6268,7 +6268,7 @@ ov21_02121EA8: ; 0x02121EA8
 	ldr r0, [r4, #0x24]
 	mov r3, r2
 	mov r1, #0xb
-	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+	bl _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 	str r0, [r4, #0x18]
 	ldr r0, [r4, #0x24]
 	mov r2, #0x14
@@ -6533,7 +6533,7 @@ ov21_02122180: ; 0x02122180
 	beq _021221C0
 	beq _021221B8
 	mov r0, r5
-	bl sub_02021428
+	bl _ZN17UnkClass_02021404D1Ev
 	mov r0, r5
 	bl _ZdlPv
 	arm_func_end ov21_02122180
@@ -6589,7 +6589,7 @@ ov21_02122214: ; 0x02122214
 	beq _0212227C
 	beq _02122274
 	mov r0, r5
-	bl sub_02021428
+	bl _ZN17UnkClass_02021404D1Ev
 	mov r0, r5
 	bl _ZdlPv
 	arm_func_end ov21_02122214
@@ -6602,7 +6602,7 @@ _0212227C:
 	cmp r0, #0
 	beq _02122294
 	ldr r1, _02122354 ; =s_data_message_etc_pokebook_info_overlay_21_02123150
-	bl sub_02021404
+	bl _ZN17UnkClass_02021404C1EPKc
 _02122294:
 	str r0, [r4, #0x10]
 	ldr r5, [r4, #0x3c]
@@ -6892,7 +6892,7 @@ _0212262C:
 	add r1, r1, #0x1000
 	ldr r4, [r1, #0x498]
 	mov r1, #0x15
-	bl sub_020215F8
+	bl _ZN17UnkClass_020214049GetStringEm
 	mov r3, #3
 	str r3, [sp]
 	str r0, [sp, #4]

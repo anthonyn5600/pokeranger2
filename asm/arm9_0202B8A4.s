@@ -1294,7 +1294,7 @@ _0202C838:
 	beq _0202C85C
 	ldr r0, [r0, #0x54]
 	ldr r1, [r3]
-	bl sub_02022B60
+	bl _ZN17UnkClass_0202240412sub_02022B60Emi
 _0202C85C:
 	mov r0, #0
 	ldmia sp!, {r3, r4, r5, pc}
@@ -3348,10 +3348,10 @@ _0202E16C:
 _0202E1AC:
 	cmp r4, #0
 	bne _0202E1D0
-	bl sub_020233A4
+	bl _ZN17UnkClass_0202240411GetInstanceEv
 	cmp r0, #0
 	beq _0202E1D0
-	bl sub_02022B20
+	bl _ZN17UnkClass_0202240412sub_02022B20Ev
 	b _0202E1D0
 _0202E1C8:
 	ldr r0, _0202E1EC ; =s_syscall_actor_party_add_error_0208d3f8
@@ -5087,10 +5087,10 @@ _0202F6F4:
 	mov r1, r1, lsr #0x10
 	bl _ZN14CPlayerHPGauge10SetPartnerEtt
 _0202F734:
-	bl sub_020233A4
+	bl _ZN17UnkClass_0202240411GetInstanceEv
 	cmp r0, #0
 	beq _0202F744
-	bl sub_02022B20
+	bl _ZN17UnkClass_0202240412sub_02022B20Ev
 _0202F744:
 	mov r0, #0
 	add sp, sp, #0x18
@@ -5284,7 +5284,7 @@ sub_0202F980: ; 0x0202F980
 	mov r4, #0
 	beq _0202F9EC
 	bl sub_0202779C
-	bl sub_0202780C
+	bl _ZN17UnkClass_0202773C12sub_0202780CEv
 	movs r4, r0
 	bne _0202F9EC
 	ldr r0, _0202F9F4 ; =MAIN_BSS_0210C1BC
@@ -5293,7 +5293,7 @@ sub_0202F980: ; 0x0202F980
 	beq _0202F9D4
 	beq _0202F9C8
 	mov r0, r5
-	bl sub_020277AC
+	bl _ZN17UnkClass_0202773CD1Ev
 	mov r0, r5
 	bl _ZdlPv
 	arm_func_end sub_0202F980
@@ -5533,10 +5533,10 @@ sub_0202FC74: ; 0x0202FC74
 	bl sub_02015658
 	cmp r4, r0
 	beq _0202FCC8
-	bl sub_020233A4
+	bl _ZN17UnkClass_0202240411GetInstanceEv
 	cmp r0, #0
 	beq _0202FCC8
-	bl sub_02022B20
+	bl _ZN17UnkClass_0202240412sub_02022B20Ev
 	arm_func_end sub_0202FC74
 _0202FCC8:
 	mov r0, #0
@@ -6250,11 +6250,11 @@ _02030524: .word MAIN_BSS_0210CA40
 sub_02030528: ; 0x02030528
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl sub_020233A4
+	bl _ZN17UnkClass_0202240411GetInstanceEv
 	cmp r0, #0
 	beq _02030544
 	ldr r1, [r4]
-	bl sub_02022E48
+	bl _ZN17UnkClass_0202240412sub_02022E48Ei
 	arm_func_end sub_02030528
 _02030544:
 	mov r0, #0
@@ -6263,12 +6263,12 @@ _02030544:
 	arm_func_start sub_0203054C
 sub_0203054C: ; 0x0203054C
 	stmdb sp!, {r4, lr}
-	bl sub_020233A4
+	bl _ZN17UnkClass_0202240411GetInstanceEv
 	movs r4, r0
 	beq _02030568
-	bl sub_02022EC4
+	bl _ZN17UnkClass_0202240412sub_02022EC4Ev
 	mov r0, r4
-	bl sub_02022DD4
+	bl _ZN17UnkClass_0202240412sub_02022DD4Ev
 	arm_func_end sub_0203054C
 _02030568:
 	mov r0, #0
@@ -6277,14 +6277,14 @@ _02030568:
 	arm_func_start sub_02030570
 sub_02030570: ; 0x02030570
 	stmdb sp!, {r3, lr}
-	bl sub_020233A4
+	bl _ZN17UnkClass_0202240411GetInstanceEv
 	cmp r0, #0
 	beq _02030594
 	mov r1, #0x3e8
 	rsb r1, r1, #0
 	mov r2, r1
 	mov r3, r1
-	bl sub_020229F4
+	bl _ZN17UnkClass_0202240412sub_020229F4Eiii
 	arm_func_end sub_02030570
 _02030594:
 	mov r0, #0
@@ -6407,19 +6407,19 @@ _020306DC: .word s_game
 sub_020306E0: ; 0x020306E0
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl sub_020233A4
+	bl _ZN17UnkClass_0202240411GetInstanceEv
 	cmp r0, #0
 	beq _02030714
 	ldr r1, [r4]
 	cmp r1, #0
 	bne _0203070C
 	mov r1, #1
-	bl sub_02023198
+	bl _ZN17UnkClass_0202240412sub_02023198Ei
 	b _02030714
 	arm_func_end sub_020306E0
 _0203070C:
 	mov r1, #0
-	bl sub_02023198
+	bl _ZN17UnkClass_0202240412sub_02023198Ei
 _02030714:
 	mov r0, #0
 	ldmia sp!, {r4, pc}
@@ -6434,9 +6434,9 @@ sub_0203071C: ; 0x0203071C
 	beq _02030748
 	ldr r0, [r4, #0x58]
 	ldr r1, [r2]
-	bl sub_0202350C
+	bl _ZN17UnkClass_020233C812sub_0202350CEi
 	ldr r0, [r4, #0x54]
-	bl sub_02022C1C
+	bl _ZN17UnkClass_0202240412sub_02022C1CEv
 	arm_func_end sub_0203071C
 _02030748:
 	mov r0, #0

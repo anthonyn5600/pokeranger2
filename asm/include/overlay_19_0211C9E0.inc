@@ -46,7 +46,7 @@
 .public _ZN17UnkClass_0200E0B412sub_0200E310Ev
 .public _ZN17UnkClass_0200E96012sub_0200EB28Eii
 .public _ZN17UnkClass_0200ECD012sub_0200EE14EPKcS1_mm
-.public _ZN17UnkClass_0200ECD012sub_0200F4FCEissi
+.public _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
 .public _ZN17UnkClass_0200ECD012sub_0200F64CEv
 .public _ZN17UnkClass_0200ECD012sub_0200F71CEv
 .public _ZN17UnkClass_0200ECD0C1EP9GXOamAttrmii

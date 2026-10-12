@@ -3196,7 +3196,7 @@ _02140348:
 	ldr r0, [r0, #0x48c]
 	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 	ldr r0, [sb, #0x54]
-	bl sub_02022DD4
+	bl _ZN17UnkClass_0202240412sub_02022DD4Ev
 	mov r0, sb
 	bl _ZN11CFieldScene12ov0_0212451CEv
 	ldr r0, [sp, #0x30]
@@ -3272,7 +3272,7 @@ _0214047C:
 	movne r2, #1
 	ldrh r1, [r0, #0xec]
 	ldr r0, [sb, #0x54]
-	bl sub_02022B60
+	bl _ZN17UnkClass_0202240412sub_02022B60Emi
 	ldr r0, _02140EEC ; =MAIN_BSS_020B26A0
 	mov r1, #1
 	bl sub_02016DEC
@@ -3455,7 +3455,7 @@ _02140718:
 	mov r0, sb
 	bl _ZN11CFieldScene12ov0_0212451CEv
 	ldr r0, [sb, #0x54]
-	bl sub_02022DD4
+	bl _ZN17UnkClass_0202240412sub_02022DD4Ev
 	ldr r0, _02140EE8 ; =s_game
 	mov r1, #5
 	ldr r0, [r0]
@@ -3705,7 +3705,7 @@ _02140A54:
 	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 _02140AD0:
 	ldr r0, [sb, #0x54]
-	bl sub_02022DD4
+	bl _ZN17UnkClass_0202240412sub_02022DD4Ev
 	b _02141CEC
 _02140ADC:
 	mov r1, #4
@@ -3818,11 +3818,11 @@ _02140C64:
 _02140C6C:
 	ldr r0, [sb, #0x54]
 	ldr r1, [r5, #0xe8]
-	bl sub_02022B60
+	bl _ZN17UnkClass_0202240412sub_02022B60Emi
 	b _02141CEC
 _02140C7C:
 	ldr r0, [sb, #0x54]
-	bl sub_02022DD4
+	bl _ZN17UnkClass_0202240412sub_02022DD4Ev
 	mov r0, sb
 	bl _ZN11CFieldScene12ov0_0212451CEv
 	ldr r1, [r5, #0x14]
@@ -3906,7 +3906,7 @@ _02140DAC:
 	cmp r0, #2
 	ldr r0, [sb, #0x54]
 	movne r2, #1
-	bl sub_02022B60
+	bl _ZN17UnkClass_0202240412sub_02022B60Emi
 _02140DC0:
 	cmp r4, #0
 	beq _02140EF0
@@ -4070,7 +4070,7 @@ _02140FE8:
 	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 	ldr r0, [sb, #0x54]
 	ldr r1, [r5, #0xe8]
-	bl sub_02022BC0
+	bl _ZN17UnkClass_0202240412sub_02022BC0Em
 	ldr r0, [r5, #8]
 	cmp r0, #0
 	beq _02141098
@@ -4156,7 +4156,7 @@ _021410A8:
 	ldr r0, [sb, #0x54]
 	ldr r1, [r5, #0x200]
 	mov r2, #0
-	bl sub_02022B60
+	bl _ZN17UnkClass_0202240412sub_02022B60Emi
 	mov r0, sb
 	bl _ZN11CFieldScene12ov0_0212451CEv
 	ldr r0, [r5, #8]
@@ -4530,17 +4530,17 @@ _021416B4:
 	ldr r1, [r1, #0x2c]
 	blx r1
 	ldr r0, [sb, #0x54]
-	bl sub_02022DD4
+	bl _ZN17UnkClass_0202240412sub_02022DD4Ev
 	add sp, sp, #0x24c
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
 _021416D8:
 	ldr r0, [sb, #0x54]
-	bl sub_02022DD4
+	bl _ZN17UnkClass_0202240412sub_02022DD4Ev
 	b _02141CEC
 _021416E4:
 	ldr r0, [sb, #0x54]
-	bl sub_02022DD4
+	bl _ZN17UnkClass_0202240412sub_02022DD4Ev
 	b _02141CEC
 _021416F0:
 	ldr r0, [sp, #0x14]
@@ -4881,7 +4881,7 @@ _02141BBC:
 	bne _02141BEC
 	ldr r0, [sb, #0x54]
 	ldr r1, [r5, #0xe8]
-	bl sub_02022BC0
+	bl _ZN17UnkClass_0202240412sub_02022BC0Em
 	mov sl, #1
 _02141BEC:
 	cmp r7, #0
@@ -4894,7 +4894,7 @@ _02141BFC:
 	ldr r0, [sb, #0x54]
 	ldr r1, [r4, #0x200]
 	mov r2, #0
-	bl sub_02022B60
+	bl _ZN17UnkClass_0202240412sub_02022B60Emi
 	b _02141CEC
 _02141C18:
 	ldr r0, [sp, #0x14]
@@ -5001,10 +5001,10 @@ _02141D2C:
 	moveq r1, #1
 	cmp r1, #0
 	beq _02141DD8
-	bl sub_020233A4
+	bl _ZN17UnkClass_0202240411GetInstanceEv
 	cmp r0, #0
 	beq _02141DD0
-	bl sub_02022D88
+	bl _ZN17UnkClass_0202240412sub_02022D88Ev
 	ldr r0, _02140EE8 ; =s_game
 	mov r1, #0xfa
 	ldr r0, [r0]
@@ -5031,14 +5031,14 @@ _02141DD8:
 	moveq r1, #1
 	cmp r1, #0
 	beq _02141ECC
-	bl sub_020233A4
+	bl _ZN17UnkClass_0202240411GetInstanceEv
 	ldr r4, [sb, #0x58]
 	cmp r0, #0
 	cmpne r4, #0
 	beq _02141EC8
-	bl sub_02022C1C
+	bl _ZN17UnkClass_0202240412sub_02022C1CEv
 	mov r0, r4
-	bl sub_020234D4
+	bl _ZN17UnkClass_020233C812sub_020234D4Ev
 	ldr r0, _02140EDC ; =MAIN_BSS_0210CA48
 	ldr r2, [r0]
 	cmp r2, #0
@@ -17829,10 +17829,10 @@ ov0_0214C13C: ; 0x0214C13C
 	and r1, r1, #0xf0
 	orr r0, r1, r0
 	strb r0, [r2, #3]
-	bl sub_020233A4
+	bl _ZN17UnkClass_0202240411GetInstanceEv
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
-	bl sub_02022B20
+	bl _ZN17UnkClass_0202240412sub_02022B20Ev
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0214C16C: .word MAIN_BSS_020B26A0
@@ -18452,10 +18452,10 @@ _0214C914: .word NNS_GfdDumpLnkPlttVramManager
 	arm_func_start ov0_0214C918
 ov0_0214C918: ; 0x0214C918
 	stmdb sp!, {r3, lr}
-	bl sub_020233A4
+	bl _ZN17UnkClass_0202240411GetInstanceEv
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
-	bl sub_02022D04
+	bl _ZN17UnkClass_0202240412sub_02022D04Ev
 	ldmia sp!, {r3, pc}
 	arm_func_end ov0_0214C918
 
