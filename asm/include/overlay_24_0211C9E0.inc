@@ -38,7 +38,9 @@
 .public _ZN17UnkClass_020091E812sub_0200B6D4Ev
 .public _ZN17UnkClass_0200E0B412sub_0200E0E0Ett
 .public _ZN17UnkClass_0200E0B412sub_0200E310Ev
+.public _ZN17UnkClass_02027FE812sub_02028360Et
 .public _ZN17UnkClass_02027FE812sub_0202841CEv
+.public _ZN17UnkClass_02027FE84LoadEt
 .public _ZN17UnkClass_02027FE8C1Em
 .public _ZN17UnkClass_02027FE8D1Ev
 .public _ZN5CGame12sub_0201024CEv
@@ -52,6 +54,4 @@
 .public _Znwm
 .public s_game
 .public sub_02015198
-.public sub_020282CC
-.public sub_02028360
 .public sub_02041D80

@@ -16,7 +16,8 @@
 .public _ZN17UnkClass_0200D11412sub_0200D3B8EiiPm
 .public _ZN17UnkClass_0200D114C1Em
 .public _ZN17UnkClass_0200D114D1Ev
-.public _ZN17UnkClass_02027FE812sub_02028220Em
+.public _ZN17UnkClass_02027FE812sub_02028220Et
+.public _ZN17UnkClass_02027FE812sub_02028408Et
 .public _ZN17UnkClass_02027FE812sub_0202841CEv
 .public _ZN17UnkClass_02027FE8C1Em
 .public _ZN17UnkClass_02027FE8D1Ev
@@ -26,7 +27,6 @@
 .public __cxa_vec_cleanup
 .public s_data_param_DiskHP_bin_0208ac04
 .public s_data_param_PokeID_bin_0208ab84
-.public sub_02028408
 .public sub_02034084
 .public sub_02034120
 .public sub_020342C0

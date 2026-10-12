@@ -4164,7 +4164,7 @@ _020425B4:
 	add r1, r1, #1
 	mov r1, r1, lsl #0x10
 	mov r1, r1, lsr #0x10
-	bl sub_020282CC
+	bl _ZN17UnkClass_02027FE84LoadEt
 	mov r0, #1
 	str r0, [r4, #8]
 	b _02042F54
@@ -4277,7 +4277,7 @@ _0204270C:
 _02042748:
 	ldr r0, [r4, #0xc]
 	mov r1, #0
-	bl sub_020282CC
+	bl _ZN17UnkClass_02027FE84LoadEt
 	mov r0, #4
 	str r0, [r4, #8]
 	b _02042F54
@@ -4635,7 +4635,7 @@ _02042C8C:
 	add r1, r1, #1
 	mov r1, r1, lsl #0x10
 	mov r1, r1, lsr #0x10
-	bl sub_02028374
+	bl _ZN17UnkClass_02027FE85ClearEt
 	mov r0, #0xb
 	str r0, [r4, #8]
 	b _02042F54
@@ -5164,7 +5164,7 @@ _020433D8:
 _020433F0:
 	mov r1, #0
 	str r0, [r4, #0xc]
-	bl sub_020282CC
+	bl _ZN17UnkClass_02027FE84LoadEt
 	mov r0, #1
 	str r0, [r4, #8]
 	b _02043854
@@ -5699,7 +5699,7 @@ _02043B4C:
 	add r1, r1, #1
 	mov r1, r1, lsl #0x10
 	mov r1, r1, lsr #0x10
-	bl sub_020282CC
+	bl _ZN17UnkClass_02027FE84LoadEt
 	mov r0, #1
 	str r0, [r4, #8]
 	b _02043FA8
@@ -5815,7 +5815,7 @@ _02043CE0:
 	add r1, r1, #1
 	mov r1, r1, lsl #0x10
 	mov r1, r1, lsr #0x10
-	bl sub_02028374
+	bl _ZN17UnkClass_02027FE85ClearEt
 	mov r0, #4
 	str r0, [r4, #8]
 	b _02043FA8

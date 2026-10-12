@@ -22,13 +22,18 @@ public:
             ncbr = NULL;
             ncer = NULL;
             cac = NULL;
-            unk_0C = NULL;
+            texKey = 0;
         }
+
+        void Release();
+        void AllocTex(BOOL immediate);
+        void FreeTex();
+        void sub_020294A8();
 
         UnkClass_020074D4 *ncbr;
         CNCERFile *ncer;
         UnkClass_02008788 *cac;
-        void *unk_0C;
+        NNSGfdTexKey texKey;
     };
 
     CEffectActorData()
@@ -46,7 +51,10 @@ public:
     virtual int GetCount();
     virtual BOOL IsLoaded();
 
+    void Release();
     void sub_020295B0(BOOL immediate);
+    void FreeVram();
+    void sub_020296B0();
 
 public:
     UnkClass_02007AA4 m_palette;

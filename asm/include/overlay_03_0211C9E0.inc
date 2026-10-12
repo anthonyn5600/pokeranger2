@@ -86,6 +86,9 @@
 .public _ZN17UnkClass_0201FC80C1Ei
 .public _ZN17UnkClass_0201FC80D1Ev
 .public _ZN17UnkClass_02027FE812sub_0202841CEv
+.public _ZN17UnkClass_02027FE84LoadEt
+.public _ZN17UnkClass_02027FE85ClearEt
+.public _ZN17UnkClass_02027FE89SetDeviceEi
 .public _ZN17UnkClass_02027FE8C1Em
 .public _ZN17UnkClass_02027FE8D1Ev
 .public _ZN17UnkClass_0203447812sub_020345D4Ev
@@ -151,8 +154,5 @@
 .public sub_02017298
 .public sub_020172BC
 .public sub_02018E94
-.public sub_0202809C
-.public sub_020282CC
-.public sub_02028374
 .public sub_02034450
 .public sub_02041D80

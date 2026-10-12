@@ -313,7 +313,7 @@ ov6_0211CD54: ; 0x0211CD54
 	arm_func_end ov6_0211CD54
 _0211CE0C:
 	str r0, [r4, #0x84]
-	bl sub_02026150
+	bl _ZN17UnkClass_020256487LoadAllEv
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0211CE18: .word 0x04000304

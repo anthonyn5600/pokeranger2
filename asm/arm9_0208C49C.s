@@ -299,23 +299,23 @@ s_map000_02_0208cc58: ; 0x0208CC58
 	.global _0208CC62
 _0208CC62:
 	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-    .word PTR_ptr_FUN_02083578_0208c16c
+    .word _ZTI11CBackupBase
 
 	.global PTR_LAB_0208cc6c
 PTR_LAB_0208cc6c: ; 0x0208CC6C
-	.word sub_0202B5F4
+	.word _ZN11CBackupBaseD1Ev
 
 	.global ptr_FUN_0202b61c_0208cc70
 ptr_FUN_0202b61c_0208cc70: ; 0x0208CC70
-	.word sub_0202B61C
+	.word _ZN11CBackupBaseD0Ev
 
 	.global ptr_FUN_0202b674_0208cc74
 ptr_FUN_0202b674_0208cc74: ; 0x0208CC74
-	.word sub_0202B674
+	.word _ZN11CBackupBase4InitEv
 
 	.global ptr_FUN_0202b6f0_0208cc78
 ptr_FUN_0202b6f0_0208cc78: ; 0x0208CC78
-	.word sub_0202B6F0
+	.word _ZN11CBackupBase8FinalizeEv
 	.byte 0x00, 0x00, 0x00, 0x00
 	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 
@@ -323,7 +323,7 @@ ptr_FUN_0202b6f0_0208cc78: ; 0x0208CC78
 PTR_ptr_FUN_020835bc_0208cc88: ; 0x0208CC88
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word s_11CBackupSync_0208cc94
-	.word PTR_ptr_FUN_02083578_0208c16c
+	.word _ZTI11CBackupBase
 
 	.global s_11CBackupSync_0208cc94
 s_11CBackupSync_0208cc94: ; 0x0208CC94
@@ -336,7 +336,7 @@ _0208CCA2:
 
 	.global ptr_FUN_0202b8d8_0208ccac
 ptr_FUN_0202b8d8_0208ccac: ; 0x0208CCAC
-	.word sub_0202B8D8
+	.word _ZN11CBackupSyncD1Ev
 
 	.global ptr_FUN_0202b8ec_0208ccb0
 ptr_FUN_0202b8ec_0208ccb0: ; 0x0208CCB0
@@ -345,7 +345,7 @@ ptr_FUN_0202b8ec_0208ccb0: ; 0x0208CCB0
 
 	.global ptr_FUN_0202b6f0_0208ccb8
 ptr_FUN_0202b6f0_0208ccb8: ; 0x0208CCB8
-	.word sub_0202B6F0
+	.word _ZN11CBackupBase8FinalizeEv
 
 	.global ptr_FUN_0202b928_0208ccbc
 ptr_FUN_0202b928_0208ccbc: ; 0x0208CCBC

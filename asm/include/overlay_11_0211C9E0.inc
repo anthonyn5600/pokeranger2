@@ -192,7 +192,10 @@
 .public _ZN17UnkClass_020214049GetStringEm
 .public _ZN17UnkClass_02021404C1EPKc
 .public _ZN17UnkClass_02021404D1Ev
+.public _ZN17UnkClass_02027FE812sub_02028408Et
 .public _ZN17UnkClass_02027FE812sub_0202841CEv
+.public _ZN17UnkClass_02027FE812sub_020292CCEt
+.public _ZN17UnkClass_02027FE816UpdateWriteStepsEv
 .public _ZN17UnkClass_02027FE8C1Em
 .public _ZN17UnkClass_02027FE8D1Ev
 .public _ZN17UnkClass_0203447812sub_020345D4Ev
@@ -243,9 +246,6 @@
 .public sub_020110F8
 .public sub_02011188
 .public sub_02011318
-.public sub_02028408
-.public sub_02028E20
-.public sub_020292CC
-.public sub_02029378
+.public _ZN17UnkClass_02027FE816FinishWriteStepsEv
 .public sub_02046948
 .public sub_02046B84

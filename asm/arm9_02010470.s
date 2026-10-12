@@ -1174,7 +1174,7 @@ _0201111C:
 	mov r1, r1, lsl #0x10
 	ldr r0, [r0, #8]
 	mov r1, r1, lsr #0x10
-	bl _ZN17UnkClass_02027FE812sub_02028220Em
+	bl _ZN17UnkClass_02027FE812sub_02028220Et
 	add r0, r4, #0x3000
 	mov r1, #1
 	strh r1, [r0, #4]
@@ -1218,7 +1218,7 @@ _020111AC:
 	mov r1, r1, lsl #0x10
 	ldr r0, [r0, #8]
 	mov r1, r1, lsr #0x10
-	bl sub_02028408
+	bl _ZN17UnkClass_02027FE812sub_02028408Et
 	add r0, r5, #0x3000
 	mov r1, #1
 	strh r1, [r0, #4]

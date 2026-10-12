@@ -140,7 +140,7 @@ _0211CB90:
 _0211CBA8:
 	mov r1, #0
 	str r0, [r4, #0x10]
-	bl sub_020282CC
+	bl _ZN17UnkClass_02027FE84LoadEt
 	mov r0, #3
 	str r0, [r4, #8]
 	b _0211CFE4
@@ -236,7 +236,7 @@ _0211CCDC:
 _0211CD10:
 	ldr r0, [r4, #0x10]
 	mov r1, #0
-	bl sub_02028360
+	bl _ZN17UnkClass_02027FE812sub_02028360Et
 	mov r0, #5
 	str r0, [r4, #8]
 	b _0211CFE4

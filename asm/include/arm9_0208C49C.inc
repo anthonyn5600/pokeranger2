@@ -1,5 +1,9 @@
 #pragma once
-.public PTR_ptr_FUN_02083578_0208c16c
+.public _ZN11CBackupBase4InitEv
+.public _ZN11CBackupBase8FinalizeEv
+.public _ZN11CBackupBaseD0Ev
+.public _ZN11CBackupBaseD1Ev
+.public _ZN11CBackupSyncD1Ev
 .public _ZN16CEffectActorData10GetPaletteEv
 .public _ZN16CEffectActorData6GetCacEi
 .public _ZN16CEffectActorData6UpdateEv
@@ -9,13 +13,9 @@
 .public _ZN16CEffectActorData8IsLoadedEv
 .public _ZN16CEffectActorDataD0Ev
 .public _ZN16CEffectActorDataD1Ev
+.public _ZTI11CBackupBase
 .public _ZTI16CEffectActorData
 .public _ZTVN10__cxxabiv120__si_class_type_infoE
-.public sub_0202B5F4
-.public sub_0202B61C
-.public sub_0202B674
-.public sub_0202B6F0
-.public sub_0202B8D8
 .public sub_0202B8EC
 .public sub_0202B908
 .public sub_0202B928

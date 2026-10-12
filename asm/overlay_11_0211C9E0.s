@@ -20545,7 +20545,7 @@ _0212D49C:
 	ldr r0, [r5, #0x3b4]
 	mov r1, #0
 	ldr r0, [r0, #0x728]
-	bl sub_020292CC
+	bl _ZN17UnkClass_02027FE812sub_020292CCEt
 	b _0212D83C
 _0212D4B0:
 	ldr r0, [r5]
@@ -20578,7 +20578,7 @@ _0212D4EC:
 _0212D510:
 	ldr r0, [r5, #0x3b4]
 	ldr r0, [r0, #0x728]
-	bl sub_02028E20
+	bl _ZN17UnkClass_02027FE816UpdateWriteStepsEv
 	tst r0, #0x80
 	beq _0212D534
 	ldr r0, [r5]
@@ -20621,7 +20621,7 @@ _0212D59C:
 	beq _0212D83C
 	ldr r0, [r5, #0x3b4]
 	ldr r0, [r0, #0x728]
-	bl sub_02028E20
+	bl _ZN17UnkClass_02027FE816UpdateWriteStepsEv
 	cmp r0, #2
 	bne _0212D5E4
 	mov r0, #0x93
@@ -20663,14 +20663,14 @@ _0212D630:
 	str r1, [r0, #0xac4]
 	ldr r0, [r5, #0x3b4]
 	ldr r0, [r0, #0x728]
-	bl sub_02029378
+	bl _ZN17UnkClass_02027FE816FinishWriteStepsEv
 	b _0212D83C
 _0212D660:
 	ldr r0, [r5, #0x3b4]
 	bl ov11_0211F338
 	ldr r0, [r5, #0x3b4]
 	ldr r0, [r0, #0x728]
-	bl sub_02028E20
+	bl _ZN17UnkClass_02027FE816UpdateWriteStepsEv
 	cmp r0, #0
 	beq _0212D83C
 	tst r0, #0x80
@@ -21830,14 +21830,14 @@ _0212E624:
 	ldr r0, [r4, #0x194]
 	mov r1, #0
 	ldr r0, [r0, #0x728]
-	bl sub_020292CC
+	bl _ZN17UnkClass_02027FE812sub_020292CCEt
 	ldmia sp!, {r3, r4, r5, pc}
 _0212E6AC:
 	ldr r0, [r4, #0x194]
 	bl ov11_0211F338
 	ldr r0, [r4, #0x194]
 	ldr r0, [r0, #0x728]
-	bl sub_02028E20
+	bl _ZN17UnkClass_02027FE816UpdateWriteStepsEv
 	tst r0, #0x80
 	movne r0, #0x14
 	strneb r0, [r4, #0x152]
@@ -21869,7 +21869,7 @@ _0212E71C:
 _0212E728:
 	ldr r0, [r4, #0x194]
 	ldr r0, [r0, #0x728]
-	bl sub_02028E20
+	bl _ZN17UnkClass_02027FE816UpdateWriteStepsEv
 	tst r0, #0x80
 	movne r0, #0x14
 	strneb r0, [r4, #0x152]
@@ -21883,7 +21883,7 @@ _0212E754:
 	bl ov11_0211F338
 	ldr r0, [r4, #0x194]
 	ldr r0, [r0, #0x728]
-	bl sub_02028E20
+	bl _ZN17UnkClass_02027FE816UpdateWriteStepsEv
 	cmp r0, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
 	cmp r0, #2
@@ -21918,7 +21918,7 @@ _0212E7D4:
 	strb r0, [r4, #0x152]
 	ldr r0, [r4, #0x194]
 	ldr r0, [r0, #0x728]
-	bl sub_02029378
+	bl _ZN17UnkClass_02027FE816FinishWriteStepsEv
 	ldmia sp!, {r3, r4, r5, pc}
 _0212E7EC:
 	add r0, r4, #0x100
@@ -21941,7 +21941,7 @@ _0212E824:
 	bl ov11_0211F338
 	ldr r0, [r4, #0x194]
 	ldr r0, [r0, #0x728]
-	bl sub_02028E20
+	bl _ZN17UnkClass_02027FE816UpdateWriteStepsEv
 	cmp r0, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
 	tst r0, #0x80
@@ -25848,7 +25848,7 @@ _02131BE0: ; jump table
 _02131C1C:
 	ldr r0, [r4, #0xc]
 	mov r1, #1
-	bl sub_02028408
+	bl _ZN17UnkClass_02027FE812sub_02028408Et
 	mov r0, #1
 	str r0, [r4, #8]
 _02131C30:
@@ -25893,7 +25893,7 @@ _02131CA4:
 _02131CB8:
 	ldr r0, [r4, #0xc]
 	mov r1, #0
-	bl sub_02028408
+	bl _ZN17UnkClass_02027FE812sub_02028408Et
 	mov r0, #3
 	str r0, [r4, #8]
 	b _02132000

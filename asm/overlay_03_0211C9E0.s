@@ -1811,10 +1811,10 @@ _0211E3D8:
 	bl _ZN17UnkClass_0200CAB412sub_0200CB14Ev
 	ldr r0, [r7, #0xe4]
 	mov r1, #0
-	bl sub_0202809C
+	bl _ZN17UnkClass_02027FE89SetDeviceEi
 	ldr r0, [r7, #0xe4]
 	mov r1, #1
-	bl sub_020282CC
+	bl _ZN17UnkClass_02027FE84LoadEt
 	ldr r1, [r7, #0xdc]
 	mov r0, #1
 	str r1, [r7, #0xe0]
@@ -2543,10 +2543,10 @@ _0211EE98:
 	blo _02120108
 	ldr r0, [r7, #0xe4]
 	mov r1, #1
-	bl sub_0202809C
+	bl _ZN17UnkClass_02027FE89SetDeviceEi
 	ldr r0, [r7, #0xe4]
 	mov r1, #1
-	bl sub_02028374
+	bl _ZN17UnkClass_02027FE85ClearEt
 	ldr r1, [r7, #0xdc]
 	mov r0, #0x11
 	str r1, [r7, #0xe0]
@@ -2597,10 +2597,10 @@ _0211EF64:
 	blo _02120108
 	ldr r0, [r7, #0xe4]
 	mov r1, #1
-	bl sub_0202809C
+	bl _ZN17UnkClass_02027FE89SetDeviceEi
 	ldr r0, [r7, #0xe4]
 	mov r1, #1
-	bl sub_02028374
+	bl _ZN17UnkClass_02027FE85ClearEt
 	ldr r1, [r7, #0xdc]
 	mov r0, #0x14
 	str r1, [r7, #0xe0]
@@ -2654,10 +2654,10 @@ _0211F03C:
 	blo _02120108
 	ldr r0, [r7, #0xe4]
 	mov r1, #1
-	bl sub_0202809C
+	bl _ZN17UnkClass_02027FE89SetDeviceEi
 	ldr r0, [r7, #0xe4]
 	mov r1, #1
-	bl sub_02028374
+	bl _ZN17UnkClass_02027FE85ClearEt
 	ldr r1, [r7, #0xdc]
 	mov r0, #0x17
 	str r1, [r7, #0xe0]
@@ -2710,10 +2710,10 @@ _0211F0EC:
 	bl _ZN17UnkClass_0200CAB412sub_0200CB14Ev
 	ldr r0, [r7, #0xe4]
 	mov r1, #0
-	bl sub_0202809C
+	bl _ZN17UnkClass_02027FE89SetDeviceEi
 	ldr r0, [r7, #0xe4]
 	mov r1, #0
-	bl sub_020282CC
+	bl _ZN17UnkClass_02027FE84LoadEt
 	ldr r1, [r7, #0xdc]
 	mov r0, #0x1a
 	str r1, [r7, #0xe0]
@@ -2821,10 +2821,10 @@ _0211F2A0:
 	blo _02120108
 	ldr r0, [r7, #0xe4]
 	mov r1, #1
-	bl sub_0202809C
+	bl _ZN17UnkClass_02027FE89SetDeviceEi
 	ldr r0, [r7, #0xe4]
 	mov r1, #0
-	bl sub_02028374
+	bl _ZN17UnkClass_02027FE85ClearEt
 	ldr r1, [r7, #0xdc]
 	mov r0, #0x1d
 	str r1, [r7, #0xe0]
@@ -2862,10 +2862,10 @@ _0211F344:
 	bl sub_02015198
 	ldr r0, [r7, #0xe4]
 	mov r1, #0
-	bl sub_0202809C
+	bl _ZN17UnkClass_02027FE89SetDeviceEi
 	ldr r0, [r7, #0xe4]
 	mov r1, #0
-	bl sub_020282CC
+	bl _ZN17UnkClass_02027FE84LoadEt
 	ldr r1, [r7, #0xdc]
 	mov r0, #0x20
 	str r1, [r7, #0xe0]
@@ -3003,10 +3003,10 @@ _0211F538:
 	blo _02120108
 	ldr r0, [r7, #0xe4]
 	mov r1, #1
-	bl sub_0202809C
+	bl _ZN17UnkClass_02027FE89SetDeviceEi
 	ldr r0, [r7, #0xe4]
 	mov r1, #0
-	bl sub_02028374
+	bl _ZN17UnkClass_02027FE85ClearEt
 	ldr r1, [r7, #0xdc]
 	mov r0, #0x25
 	str r1, [r7, #0xe0]
@@ -3616,10 +3616,10 @@ _0211FE28:
 	bl ov3_0212038C
 	ldr r0, [r7, #0xe4]
 	mov r1, #1
-	bl sub_0202809C
+	bl _ZN17UnkClass_02027FE89SetDeviceEi
 	ldr r0, [r7, #0xe4]
 	mov r1, #1
-	bl sub_02028374
+	bl _ZN17UnkClass_02027FE85ClearEt
 	ldr r1, [r7, #0xdc]
 	mov r0, #0x39
 	str r1, [r7, #0xe0]
@@ -3639,10 +3639,10 @@ _0211FE80:
 	bl ov3_0212038C
 	ldr r0, [r7, #0xe4]
 	mov r1, #1
-	bl sub_0202809C
+	bl _ZN17UnkClass_02027FE89SetDeviceEi
 	ldr r0, [r7, #0xe4]
 	mov r1, #1
-	bl sub_02028374
+	bl _ZN17UnkClass_02027FE85ClearEt
 	ldr r1, [r7, #0xdc]
 	mov r0, #0x39
 	str r1, [r7, #0xe0]
@@ -3681,10 +3681,10 @@ _0211FF1C:
 	bl ov3_0212038C
 	ldr r0, [r7, #0xe4]
 	mov r1, #1
-	bl sub_0202809C
+	bl _ZN17UnkClass_02027FE89SetDeviceEi
 	ldr r0, [r7, #0xe4]
 	mov r1, #0
-	bl sub_02028374
+	bl _ZN17UnkClass_02027FE85ClearEt
 	ldr r1, [r7, #0xdc]
 	mov r0, #0x3c
 	str r1, [r7, #0xe0]
@@ -3723,10 +3723,10 @@ _0211FFB8:
 	bl ov3_0212038C
 	ldr r0, [r7, #0xe4]
 	mov r1, #1
-	bl sub_0202809C
+	bl _ZN17UnkClass_02027FE89SetDeviceEi
 	ldr r0, [r7, #0xe4]
 	mov r1, #0
-	bl sub_02028374
+	bl _ZN17UnkClass_02027FE85ClearEt
 	ldr r1, [r7, #0xdc]
 	mov r0, #0x3f
 	str r1, [r7, #0xe0]

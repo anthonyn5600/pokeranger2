@@ -3,11 +3,11 @@
 
     .text
 
-	arm_func_start sub_0202B8A4
-sub_0202B8A4: ; 0x0202B8A4
+	arm_func_start _ZN11CBackupSyncC1Ev
+_ZN11CBackupSyncC1Ev: ; 0x0202B8A4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl sub_0202B5D0
+	bl _ZN11CBackupBaseC2Ev
 	ldr r0, _0202B8D4 ; =ptr_FUN_0202b8d8_0208ccac
 	mov r1, #0
 	str r0, [r4]
@@ -19,22 +19,22 @@ sub_0202B8A4: ; 0x0202B8A4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0202B8D4: .word ptr_FUN_0202b8d8_0208ccac
-	arm_func_end sub_0202B8A4
+	arm_func_end _ZN11CBackupSyncC1Ev
 
-	arm_func_start sub_0202B8D8
-sub_0202B8D8: ; 0x0202B8D8
+	arm_func_start _ZN11CBackupSyncD1Ev
+_ZN11CBackupSyncD1Ev: ; 0x0202B8D8
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl sub_0202B64C
+	bl _ZN11CBackupBaseD2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	arm_func_end sub_0202B8D8
+	arm_func_end _ZN11CBackupSyncD1Ev
 
 	arm_func_start sub_0202B8EC
 sub_0202B8EC: ; 0x0202B8EC
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl sub_0202B64C
+	bl _ZN11CBackupBaseD2Ev
 	mov r0, r4
 	bl _ZdlPv
 	mov r0, r4
@@ -47,11 +47,11 @@ sub_0202B908: ; 0x0202B908
 	str r1, [r0, #0x14]
 	str r1, [r0, #0x18]
 	str r1, [r0, #0x10]
-	ldr ip, _0202B924 ; =sub_0202B674
+	ldr ip, _0202B924 ; =_ZN11CBackupBase4InitEv
 	str r1, [r0, #0x1c]
 	bx ip
 	.align 2, 0
-_0202B924: .word sub_0202B674
+_0202B924: .word _ZN11CBackupBase4InitEv
 	arm_func_end sub_0202B908
 
 	arm_func_start sub_0202B928
@@ -5265,9 +5265,9 @@ _0202F94C:
 	cmp sb, r1
 	blt _0202F8C0
 _0202F95C:
-	bl sub_02027754
-	bl sub_0202779C
-	bl sub_02027A2C
+	bl _ZN17UnkClass_0202773C6CreateEv
+	bl _ZN17UnkClass_0202773C11GetInstanceEv
+	bl _ZN17UnkClass_0202773C12sub_02027A2CEv
 	mov r0, #0
 	add sp, sp, #0x38
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
@@ -5279,11 +5279,11 @@ _0202F97C: .word MAIN_BSS_0210CA4C
 	arm_func_start sub_0202F980
 sub_0202F980: ; 0x0202F980
 	stmdb sp!, {r3, r4, r5, lr}
-	bl sub_0202779C
+	bl _ZN17UnkClass_0202773C11GetInstanceEv
 	cmp r0, #0
 	mov r4, #0
 	beq _0202F9EC
-	bl sub_0202779C
+	bl _ZN17UnkClass_0202773C11GetInstanceEv
 	bl _ZN17UnkClass_0202773C12sub_0202780CEv
 	movs r4, r0
 	bne _0202F9EC
@@ -10797,7 +10797,7 @@ _02033BA0:
 	ldr r0, _02033BB8 ; =MAIN_BSS_0210CA3C
 	mov r1, #0
 	ldr r0, [r0]
-	bl sub_02028408
+	bl _ZN17UnkClass_02027FE812sub_02028408Et
 	mov r0, #0
 	ldmia sp!, {r3, pc}
 	.align 2, 0

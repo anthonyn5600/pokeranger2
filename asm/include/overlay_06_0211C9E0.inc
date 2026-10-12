@@ -54,6 +54,7 @@
 .public _ZN17UnkClass_0200ECD0D1Ev
 .public _ZN17UnkClass_0202564812sub_02027640Ev
 .public _ZN17UnkClass_0202564812sub_02027674Ev
+.public _ZN17UnkClass_020256487LoadAllEv
 .public _ZN17UnkClass_02025648C1Ev
 .public _ZN17UnkClass_02025648D1Ev
 .public _ZN17UnkClass_0203447812sub_02034C44Ei
@@ -71,4 +72,3 @@
 .public _Znwm
 .public sub_0201926C
 .public sub_02019278
-.public sub_02026150

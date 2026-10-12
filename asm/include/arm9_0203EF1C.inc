@@ -132,6 +132,8 @@
 .public _ZN17UnkClass_0201179C12sub_02011D2CEl
 .public _ZN17UnkClass_0201179C12sub_02011D3CE7Point2D
 .public _ZN17UnkClass_02027FE812sub_0202841CEv
+.public _ZN17UnkClass_02027FE84LoadEt
+.public _ZN17UnkClass_02027FE85ClearEt
 .public _ZN17UnkClass_02027FE8C1Em
 .public _ZN17UnkClass_02027FE8D1Ev
 .public _ZN5CGame12sub_0201024CEv
@@ -199,7 +201,5 @@
 .public sub_02018E94
 .public sub_0201926C
 .public sub_02019278
-.public sub_020282CC
-.public sub_02028374
 .public sub_02044AC8
 .public vsprintf

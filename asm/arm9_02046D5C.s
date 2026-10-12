@@ -258,7 +258,7 @@ _020470C0:
 sub_020841E4: ; 0x020841E4
 	stmdb sp!, {r3, lr}
 	ldr ip, _0208422C ; =MAIN_BSS_0210C1C0
-	ldr r0, _02084230 ; =PTR_LAB_0208c1c0
+	ldr r0, _02084230 ; =sSaveMagic
 	mov r3, #0x60
 	str ip, [r0, #0x12c]
 	ldr r2, _02084234 ; =MAIN_BSS_0210C228
@@ -271,12 +271,12 @@ sub_020841E4: ; 0x020841E4
 	str r2, [r0, #0x25c]
 	str r1, [r0, #0x260]
 	bl sub_02010CC0
-	ldr r1, _02084230 ; =PTR_LAB_0208c1c0
+	ldr r1, _02084230 ; =sSaveMagic
 	str r0, [r1, #0x14]
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0208422C: .word MAIN_BSS_0210C1C0
-_02084230: .word PTR_LAB_0208c1c0
+_02084230: .word sSaveMagic
 _02084234: .word MAIN_BSS_0210C228
 	arm_func_end sub_020841E4
 

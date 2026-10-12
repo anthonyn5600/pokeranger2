@@ -88,11 +88,15 @@ Static main
     Object main.nef.p/src_UnkClass_0202229C.cpp.o
     Object main.nef.p/src_UnkClass_02022404.cpp.o
     Object main.nef.p/src_UnkClass_020233C8.cpp.o
-    Object main.nef.p/asm_arm9_020849DC.s.o
-    Object main.nef.p/asm_arm9_020247CC.s.o
+    Object main.nef.p/src_UnkClass_020247CC.cpp.o
+    Object main.nef.p/src_UnkClass_02025648.cpp.o
+    Object main.nef.p/asm_arm9_02084C7C.s.o
+    Object main.nef.p/src_UnkClass_0202773C.cpp.o
+    Object main.nef.p/src_CBackup.cpp.o
+    Object main.nef.p/src_UnkClass_02027FE8.cpp.o
+    Object main.nef.p/asm_arm9_020293A0.s.o
     Object main.nef.p/src_sub_0202B80C.cpp.o
     Object main.nef.p/asm_arm9_0202B8A4.s.o
-    Object main.nef.p/asm_arm9_0208B5C0.s.o
     Object main.nef.p/src_CEffectActorData.cpp.o
     Object main.nef.p/asm_arm9_0208C49C.s.o
     Object main.nef.p/src_UnkClass_02034478.cpp.o
