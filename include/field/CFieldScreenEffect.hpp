@@ -453,8 +453,31 @@ STATIC_SIZE_ASSERT(CFieldSEFWarning, 0x88);
 class CFieldSEFDarkness : public CFieldScreenEffectObjectBase {
 public:
     CFieldSEFDarkness(int type);
+    virtual ~CFieldSEFDarkness()
+    {
+        Unload();
+    }
+    virtual int GetType()
+    {
+        return m_type;
+    }
+    virtual int Update(int fps);
+    virtual void Draw(UnkClass_02003718 *camera);
+    virtual BOOL Start(int fadeIn, int hold, int fadeOut);
 
-    u8 unk_20[0x66C - 0x20];
+    BOOL Load();
+    BOOL Unload();
+    void SetGridPoint(int index, fx32 x, fx32 y);
+
+    NtfTexture m_tex;
+    NtfTexture m_rectTex;
+    int m_type;
+    int m_density;
+    int m_rectDensity;
+    int m_releaseDelay;
+    CPrimitiveRectNTF m_rect;
+    CPrimitiveQuadNTF m_quads[16];
+    u16 m_angles[3];
 };
 
 #endif // POKERANGER2_FIELD_CFIELDSCREENEFFECT_HPP

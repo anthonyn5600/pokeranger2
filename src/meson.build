@@ -60,6 +60,7 @@ pokeranger2_cxx = files(
     'CFieldSEFRain.cpp',
     'CFieldSEFWarning.cpp',
     'CFieldSEFSnow.cpp',
+    'CFieldSEFDarkness.cpp',
     'FieldActor.cpp',
     'FieldDrawActor.cpp',
     'overlay_manager.cpp',

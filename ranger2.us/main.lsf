@@ -95,8 +95,7 @@ Static main
     Object main.nef.p/src_CFieldSEFRain.cpp.o
     Object main.nef.p/src_CFieldSEFWarning.cpp.o
     Object main.nef.p/src_CFieldSEFSnow.cpp.o
-    Object main.nef.p/asm_arm9_0203B34C.s.o
-    Object main.nef.p/asm_arm9_0208D58C.s.o
+    Object main.nef.p/src_CFieldSEFDarkness.cpp.o
     Object main.nef.p/src_FieldActor.cpp.o
     Object main.nef.p/src_FieldDrawActor.cpp.o
     Object main.nef.p/asm_arm9_0203EF1C.s.o
