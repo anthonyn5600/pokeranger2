@@ -43,6 +43,9 @@
 .public _ZN12CBattleScene12ov1_0211F010Et
 .public _ZN13CArchiveGuardC1EPKcS1_mmmPvm
 .public _ZN13CArchiveGuardD1Ev
+.public _ZN13CBattleAssist12ov1_0212EE3CEv
+.public _ZN13CBattleAssistC2EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17UnkClass_0212EEB4t
+.public _ZN13CBattleAssistD2Ev
 .public _ZN14CBinaryFileMesC1EPKcm
 .public _ZN14CPlayerHPGauge12SetCurrentHPEt
 .public _ZN14CPlayerHPGauge5SetHPEtt
@@ -154,8 +157,8 @@
 .public _ZN9CNCERFileC1EPKcmmm
 .public _ZN9CNCLRFileC1EPKcmmm
 .public _ZN9CNSCRFileC1EPKcmmm
+.public _ZTI13CBattleAssist
 .public _ZTI6CActor
-.public _ZTVN10__cxxabiv117__class_type_infoE
 .public _ZTVN10__cxxabiv120__si_class_type_infoE
 .public _ZdaPv
 .public _ZdlPv
@@ -165,6 +168,8 @@
 .public __cxa_vec_ctor
 .public _ll_div
 .public abort
+.public ov1_0212EE80
+.public ov1_0212EE98
 .public printf
 .public sub_020107A8
 .public sub_02010E60

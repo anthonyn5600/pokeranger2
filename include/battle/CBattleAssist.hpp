@@ -24,6 +24,8 @@ public:
     virtual void vfunc_0C() = 0;
     virtual int vfunc_10() = 0;
 
+    CBattleAttackEffect *ov1_0212EE3C();
+
 public:
     u16 unk_04;
     u8 unk_06[0x2];

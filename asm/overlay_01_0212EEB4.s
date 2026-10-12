@@ -1,92 +1,7 @@
     .include "macros.inc"
-    .include "include/overlay_01_0212EDE0.inc"
+    .include "include/overlay_01_0212EEB4.inc"
 
     .text
-
-	arm_func_start ov1_0212EDE0
-ov1_0212EDE0: ; 0x0212EDE0
-	stmdb sp!, {r4, lr}
-	ldrh ip, [sp, #8]
-	ldr lr, _0212EE1C ; =PTR_LAB_overlay_1_0212ee20_overlay_1_0214143c
-	mov r4, r0
-	str lr, [r4]
-	strh ip, [r4, #4]
-	str r1, [r4, #8]
-	str r2, [r4, #0xc]
-	str r3, [r4, #0x10]
-	bl _ZN5CGame11GetInstanceEv
-	add r0, r0, #0x1000
-	ldr r1, [r0, #0x48c]
-	mov r0, r4
-	str r1, [r4, #0x14]
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0212EE1C: .word PTR_LAB_overlay_1_0212ee20_overlay_1_0214143c
-	arm_func_end ov1_0212EDE0
-
-    arm_func_start ov1_0212EE20
-ov1_0212EE20: ; 0x0212EE20
-    bx lr
-    arm_func_end ov1_0212EE20
-
-	arm_func_start ov1_0212EE24
-ov1_0212EE24: ; 0x0212EE24
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	bl _ZdlPv
-	mov r0, r4
-	ldmia sp!, {r4, pc}
-	arm_func_end ov1_0212EE24
-
-	arm_func_start ov1_0212EE38
-ov1_0212EE38: ; 0x0212EE38
-	bx lr
-	arm_func_end ov1_0212EE38
-
-	arm_func_start ov1_0212EE3C
-ov1_0212EE3C: ; 0x0212EE3C
-	stmdb sp!, {r3, lr}
-	mov ip, #0
-	ldr lr, [r0, #8]
-	mov r1, ip
-	mov r2, #1
-	arm_func_end ov1_0212EE3C
-_0212EE50:
-	ldr r0, [lr, ip, lsl #2]
-	ldr r3, [r0, #0x104]
-	cmp r3, #0
-	movne r3, r2
-	moveq r3, r1
-	cmp r3, #0
-	ldmeqia sp!, {r3, pc}
-	add ip, ip, #1
-	cmp ip, #0x20
-	blt _0212EE50
-	mov r0, #0
-	ldmia sp!, {r3, pc}
-
-	arm_func_start ov1_0212EE80
-ov1_0212EE80: ; 0x0212EE80
-	ldr r3, _0212EE94 ; =DAT_overlay_1_0213fcac
-	mov r2, #0x4c
-	mla r2, r0, r2, r3
-	ldr r0, [r2, r1, lsl #2]
-	bx lr
-	.align 2, 0
-_0212EE94: .word DAT_overlay_1_0213fcac
-	arm_func_end ov1_0212EE80
-
-	arm_func_start ov1_0212EE98
-ov1_0212EE98: ; 0x0212EE98
-	ldr r3, _0212EEB0 ; =DAT_overlay_1_0213fc38
-	mov r2, #6
-	mla r2, r0, r2, r3
-	mov r0, r1, lsl #1
-	ldrh r0, [r0, r2]
-	bx lr
-	.align 2, 0
-_0212EEB0: .word DAT_overlay_1_0213fc38
-	arm_func_end ov1_0212EE98
 
 	arm_func_start _ZN17UnkClass_0212EEB4C1EPKcm
 _ZN17UnkClass_0212EEB4C1EPKcm: ; 0x0212EEB4
@@ -482,7 +397,7 @@ _ZN19CBattleAssistDragonC1EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17
 	ldrh ip, [sp, #0x10]
 	mov r4, r0
 	str ip, [sp]
-	bl ov1_0212EDE0
+	bl _ZN13CBattleAssistC2EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17UnkClass_0212EEB4t
 	ldr r0, _0212F45C ; =ptr_FUN_overlay_1_0212f460_overlay_1_0214147c
 	mov r1, #0
 	str r0, [r4]
@@ -503,7 +418,7 @@ ov1_0212F460: ; 0x0212F460
 	ldr r0, [r4, #0x44]
 	bl _ZN17UnkClass_0200D3F812sub_0200D980Ev
 	mov r0, r4
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
@@ -519,7 +434,7 @@ ov1_0212F48C: ; 0x0212F48C
 	ldr r0, [r4, #0x44]
 	bl _ZN17UnkClass_0200D3F812sub_0200D980Ev
 	mov r0, r4
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	bl _ZdlPv
 	mov r0, r4
@@ -609,7 +524,7 @@ ov1_0212F56C: ; 0x0212F56C
 	ldr r1, [r4, #0x28]
 	str r1, [r4, #0x30]
 	str r2, [r4, #0x34]
-	bl ov1_0212EE3C
+	bl _ZN13CBattleAssist12ov1_0212EE3CEv
 	str r0, [r4, #0x48]
 	ldr r1, [r4, #0xc]
 	ldr r1, [r1]
@@ -720,7 +635,7 @@ _0212F730:
 	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 	b _0212F9AC
 _0212F74C:
-	bl ov1_0212EE3C
+	bl _ZN13CBattleAssist12ov1_0212EE3CEv
 	str r0, [sb, #0x4c]
 	ldr r1, [sb, #0xc]
 	ldr r1, [r1]
@@ -1060,7 +975,7 @@ ov1_0212FBD0: ; 0x0212FBD0
 	mov r7, r0
 	mov r6, r1
 	mov r5, r2
-	bl ov1_0212EE3C
+	bl _ZN13CBattleAssist12ov1_0212EE3CEv
 	movs r4, r0
 	beq _0212FC20
 	ldr r1, [r7, #0xc]
@@ -1088,7 +1003,7 @@ _ZN21CBattleAssistElectricC1EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP
 	ldrh ip, [sp, #0x10]
 	mov r4, r0
 	str ip, [sp]
-	bl ov1_0212EDE0
+	bl _ZN13CBattleAssistC2EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17UnkClass_0212EEB4t
 	ldr r1, _0212FC54 ; =PTR_LAB_overlay_1_0212fc58_overlay_1_021414bc
 	mov r0, r4
 	str r1, [r4]
@@ -1102,7 +1017,7 @@ _0212FC54: .word PTR_LAB_overlay_1_0212fc58_overlay_1_021414bc
 ov1_0212FC58: ; 0x0212FC58
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	arm_func_end ov1_0212FC58
@@ -1111,7 +1026,7 @@ ov1_0212FC58: ; 0x0212FC58
 ov1_0212FC6C: ; 0x0212FC6C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	bl _ZdlPv
 	mov r0, r4
@@ -1417,7 +1332,7 @@ _02130098:
 	bl _ZN19CBattleAttackEffect12ov1_02127300Ev
 _021300A8:
 	mov r0, r7
-	bl ov1_0212EE3C
+	bl _ZN13CBattleAssist12ov1_0212EE3CEv
 	str r0, [r4, #4]
 	cmp r0, #0
 	ldreqb r0, [r4]
@@ -1453,7 +1368,7 @@ _ZN18CBattleAssistEsperC1EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17U
 	ldrh ip, [sp, #0x10]
 	mov r4, r0
 	str ip, [sp]
-	bl ov1_0212EDE0
+	bl _ZN13CBattleAssistC2EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17UnkClass_0212EEB4t
 	ldr r1, _02130148 ; =PTR_LAB_overlay_1_0213014c_overlay_1_021414fc
 	mov r0, r4
 	str r1, [r4]
@@ -1467,7 +1382,7 @@ _02130148: .word PTR_LAB_overlay_1_0213014c_overlay_1_021414fc
 ov1_0213014C: ; 0x0213014C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	arm_func_end ov1_0213014C
@@ -1476,7 +1391,7 @@ ov1_0213014C: ; 0x0213014C
 ov1_02130160: ; 0x02130160
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	bl _ZdlPv
 	mov r0, r4
@@ -1892,7 +1807,7 @@ ov1_0213071C: ; 0x0213071C
 	moveq r0, #0
 	ldmeqia sp!, {r3, r4, r5, r6, pc}
 	mov r0, r6
-	bl ov1_0212EE3C
+	bl _ZN13CBattleAssist12ov1_0212EE3CEv
 	movs r4, r0
 	addeq sp, sp, #4
 	moveq r0, #0
@@ -2141,7 +2056,7 @@ _ZN17CBattleAssistEvilC1EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17Un
 	ldrh ip, [sp, #0x10]
 	mov r4, r0
 	str ip, [sp]
-	bl ov1_0212EDE0
+	bl _ZN13CBattleAssistC2EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17UnkClass_0212EEB4t
 	ldr r1, _02130ADC ; =PTR_LAB_overlay_1_02130ae0_overlay_1_02141538
 	mov r0, r4
 	str r1, [r4]
@@ -2155,7 +2070,7 @@ _02130ADC: .word PTR_LAB_overlay_1_02130ae0_overlay_1_02141538
 ov1_02130AE0: ; 0x02130AE0
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	arm_func_end ov1_02130AE0
@@ -2164,7 +2079,7 @@ ov1_02130AE0: ; 0x02130AE0
 ov1_02130AF4: ; 0x02130AF4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	bl _ZdlPv
 	mov r0, r4
@@ -2216,7 +2131,7 @@ _ZN17CBattleAssistFireC1EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17Un
 	ldrh ip, [sp, #0x10]
 	mov r4, r0
 	str ip, [sp]
-	bl ov1_0212EDE0
+	bl _ZN13CBattleAssistC2EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17UnkClass_0212EEB4t
 	ldr r1, _02130BA0 ; =PTR_LAB_overlay_1_02130ba4_overlay_1_02141574
 	mov r0, r4
 	str r1, [r4]
@@ -2230,7 +2145,7 @@ _02130BA0: .word PTR_LAB_overlay_1_02130ba4_overlay_1_02141574
 ov1_02130BA4: ; 0x02130BA4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	arm_func_end ov1_02130BA4
@@ -2239,7 +2154,7 @@ ov1_02130BA4: ; 0x02130BA4
 ov1_02130BB8: ; 0x02130BB8
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	bl _ZdlPv
 	mov r0, r4
@@ -2334,7 +2249,7 @@ _02130C98:
 	cmp r0, #0
 	beq _02130DDC
 	mov r0, sl
-	bl ov1_0212EE3C
+	bl _ZN13CBattleAssist12ov1_0212EE3CEv
 	movs r4, r0
 	beq _02130DEC
 	ldr r1, [sl, #0xc]
@@ -2430,7 +2345,7 @@ _ZN16CBattleAssistFlyC1EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17Unk
 	ldrh ip, [sp, #0x10]
 	mov r4, r0
 	str ip, [sp]
-	bl ov1_0212EDE0
+	bl _ZN13CBattleAssistC2EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17UnkClass_0212EEB4t
 	ldr r0, _02130E80 ; =PTR_LAB_overlay_1_02130e84_overlay_1_021415b0
 	mov r1, #0
 	str r0, [r4]
@@ -2447,7 +2362,7 @@ _02130E80: .word PTR_LAB_overlay_1_02130e84_overlay_1_021415b0
 ov1_02130E84: ; 0x02130E84
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	arm_func_end ov1_02130E84
@@ -2456,7 +2371,7 @@ ov1_02130E84: ; 0x02130E84
 ov1_02130E98: ; 0x02130E98
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	bl _ZdlPv
 	mov r0, r4
@@ -2866,7 +2781,7 @@ _02131430:
 	mov r1, #1
 	mov r0, r6
 	strb r1, [r6, #0x24]
-	bl ov1_0212EE3C
+	bl _ZN13CBattleAssist12ov1_0212EE3CEv
 	str r0, [r6, #0x28]
 	ldr r1, [r6, #0xc]
 	ldr r1, [r1]
@@ -2900,7 +2815,7 @@ ov1_021314A0: ; 0x021314A0
 	mov r7, r1
 	mov r6, r2
 	mov r5, r3
-	bl ov1_0212EE3C
+	bl _ZN13CBattleAssist12ov1_0212EE3CEv
 	movs r4, r0
 	ldmeqia sp!, {r4, r5, r6, r7, r8, pc}
 	ldr r1, [r8, #0xc]
@@ -2930,7 +2845,7 @@ _ZN18CBattleAssistGhostC1EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17U
 	ldrh ip, [sp, #0x10]
 	mov r4, r0
 	str ip, [sp]
-	bl ov1_0212EDE0
+	bl _ZN13CBattleAssistC2EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17UnkClass_0212EEB4t
 	ldr r3, _02131544 ; =PTR_LAB_overlay_1_02131548_overlay_1_021415f0
 	add r0, r4, #0x18
 	mov r1, #0
@@ -2948,7 +2863,7 @@ _02131544: .word PTR_LAB_overlay_1_02131548_overlay_1_021415f0
 ov1_02131548: ; 0x02131548
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	arm_func_end ov1_02131548
@@ -2957,7 +2872,7 @@ ov1_02131548: ; 0x02131548
 ov1_0213155C: ; 0x0213155C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	bl _ZdlPv
 	mov r0, r4
@@ -3240,7 +3155,7 @@ _02131930:
 	mov r0, sb
 	str r2, [sp, #0x1c]
 	str r1, [sp, #0x20]
-	bl ov1_0212EE3C
+	bl _ZN13CBattleAssist12ov1_0212EE3CEv
 	str r0, [r4, #0x10]
 	ldr r1, [sb, #0xc]
 	ldr r1, [r1]
@@ -3324,7 +3239,7 @@ _ZN20CBattleAssistGrappleC1EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP1
 	ldrh ip, [sp, #0x10]
 	mov r4, r0
 	str ip, [sp]
-	bl ov1_0212EDE0
+	bl _ZN13CBattleAssistC2EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17UnkClass_0212EEB4t
 	ldr r1, _02131AB0 ; =PTR_LAB_overlay_1_02131ab4_overlay_1_02141630
 	mov r0, r4
 	str r1, [r4]
@@ -3338,7 +3253,7 @@ _02131AB0: .word PTR_LAB_overlay_1_02131ab4_overlay_1_02141630
 ov1_02131AB4: ; 0x02131AB4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	arm_func_end ov1_02131AB4
@@ -3347,7 +3262,7 @@ ov1_02131AB4: ; 0x02131AB4
 ov1_02131AC8: ; 0x02131AC8
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	bl _ZdlPv
 	mov r0, r4
@@ -3399,7 +3314,7 @@ _ZN18CBattleAssistGrassC1EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17U
 	ldrh ip, [sp, #0x10]
 	mov r4, r0
 	str ip, [sp]
-	bl ov1_0212EDE0
+	bl _ZN13CBattleAssistC2EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17UnkClass_0212EEB4t
 	ldr r0, _02131B8C ; =PTR_LAB_overlay_1_02131b90_overlay_1_02141670
 	mov r1, #0
 	str r0, [r4]
@@ -3419,7 +3334,7 @@ _02131B8C: .word PTR_LAB_overlay_1_02131b90_overlay_1_02141670
 ov1_02131B90: ; 0x02131B90
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	arm_func_end ov1_02131B90
@@ -3428,7 +3343,7 @@ ov1_02131B90: ; 0x02131B90
 ov1_02131BA4: ; 0x02131BA4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	bl _ZdlPv
 	mov r0, r4
@@ -3744,7 +3659,7 @@ ov1_02131FE4: ; 0x02131FE4
 	arm_func_end ov1_02131FE4
 _02132010:
 	mov r0, r7
-	bl ov1_0212EE3C
+	bl _ZN13CBattleAssist12ov1_0212EE3CEv
 	str r0, [r4, #4]
 	cmp r0, #0
 	moveq r0, #0
@@ -3815,7 +3730,7 @@ _ZN19CBattleAssistGroundC1EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17
 	ldrh ip, [sp, #0x10]
 	mov r4, r0
 	str ip, [sp]
-	bl ov1_0212EDE0
+	bl _ZN13CBattleAssistC2EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17UnkClass_0212EEB4t
 	ldr r1, _02132138 ; =ptr_FUN_overlay_1_0213213c_overlay_1_021416b0
 	mov r0, r4
 	str r1, [r4]
@@ -3834,7 +3749,7 @@ ov1_0213213C: ; 0x0213213C
 	ldr r0, [r4, #0x28]
 	bl _ZN17UnkClass_0200D3F812sub_0200D994Ev
 	mov r0, r4
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
@@ -3850,7 +3765,7 @@ ov1_02132168: ; 0x02132168
 	ldr r0, [r4, #0x28]
 	bl _ZN17UnkClass_0200D3F812sub_0200D994Ev
 	mov r0, r4
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	bl _ZdlPv
 	mov r0, r4
@@ -4129,7 +4044,7 @@ _ZN16CBattleAssistIceC1EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17Unk
 	ldrh ip, [sp, #0x10]
 	mov r4, r0
 	str ip, [sp]
-	bl ov1_0212EDE0
+	bl _ZN13CBattleAssistC2EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17UnkClass_0212EEB4t
 	ldr r1, _02132560 ; =ptr_FUN_overlay_11_02132564_overlay_1_021416ec
 	mov r0, r4
 	str r1, [r4]
@@ -4143,7 +4058,7 @@ _02132560: .word ptr_FUN_overlay_11_02132564_overlay_1_021416ec
 ov1_02132564: ; 0x02132564
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	arm_func_end ov1_02132564
@@ -4152,7 +4067,7 @@ ov1_02132564: ; 0x02132564
 ov1_02132578: ; 0x02132578
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	bl _ZdlPv
 	mov r0, r4
@@ -4614,7 +4529,7 @@ ov1_02132BD4: ; 0x02132BD4
 	moveq r0, #0
 	ldmeqia sp!, {r3, r4, r5, r6, pc}
 	mov r0, r6
-	bl ov1_0212EE3C
+	bl _ZN13CBattleAssist12ov1_0212EE3CEv
 	movs r4, r0
 	addeq sp, sp, #4
 	moveq r0, #0
@@ -4899,7 +4814,7 @@ ov1_02132FD4: ; 0x02132FD4
 	arm_func_end ov1_02132FD4
 _02132FF8:
 	mov r0, r6
-	bl ov1_0212EE3C
+	bl _ZN13CBattleAssist12ov1_0212EE3CEv
 	cmp r0, #0
 	addeq sp, sp, #0x1c
 	str r0, [r5, #8]
@@ -4975,7 +4890,7 @@ _ZN19CBattleAssistInsectC1EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17
 	ldrh ip, [sp, #0x10]
 	mov r4, r0
 	str ip, [sp]
-	bl ov1_0212EDE0
+	bl _ZN13CBattleAssistC2EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17UnkClass_0212EEB4t
 	ldr r3, _02133144 ; =PTR_LAB_overlay_1_02133148_overlay_1_0214172c
 	add r0, r4, #0x60
 	mov r1, #0
@@ -4997,7 +4912,7 @@ _02133144: .word PTR_LAB_overlay_1_02133148_overlay_1_0214172c
 ov1_02133148: ; 0x02133148
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	arm_func_end ov1_02133148
@@ -5006,7 +4921,7 @@ ov1_02133148: ; 0x02133148
 ov1_0213315C: ; 0x0213315C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	bl _ZdlPv
 	mov r0, r4
@@ -5224,7 +5139,7 @@ _021333E0:
 	bl _ZN19CBattleAttackEffect12ov1_02127300Ev
 _02133488:
 	mov r0, r8
-	bl ov1_0212EE3C
+	bl _ZN13CBattleAssist12ov1_0212EE3CEv
 	str r0, [sl, #4]
 	cmp r0, #0
 	beq _02133510
@@ -5326,7 +5241,7 @@ ov1_021335A4: ; 0x021335A4
 	str r1, [r4, #0x2c]
 	ldr r1, [r4, #0x20]
 	str r1, [r4, #0x30]
-	bl ov1_0212EE3C
+	bl _ZN13CBattleAssist12ov1_0212EE3CEv
 	str r0, [r4, #0x40]
 	ldr r1, [r4, #0xc]
 	ldr r1, [r1]
@@ -5341,7 +5256,7 @@ ov1_021335A4: ; 0x021335A4
 	mov r2, #0
 	bl _ZN19CBattleAttackEffect12ov1_02127454Eim
 	mov r0, r4
-	bl ov1_0212EE3C
+	bl _ZN13CBattleAssist12ov1_0212EE3CEv
 	str r0, [r4, #0x44]
 	ldr r1, [r4, #0xc]
 	ldr r1, [r1]
@@ -5361,7 +5276,7 @@ ov1_021335A4: ; 0x021335A4
 	mov r3, r2
 	bl _ZN6CActor12sub_02012A3CEill
 	mov r0, r4
-	bl ov1_0212EE3C
+	bl _ZN13CBattleAssist12ov1_0212EE3CEv
 	str r0, [r4, #0x48]
 	ldr r1, [r4, #0xc]
 	ldr r1, [r1]
@@ -5410,7 +5325,7 @@ ov1_021336CC: ; 0x021336CC
 	cmp r0, #0
 	beq _021337CC
 	mov r0, sl
-	bl ov1_0212EE3C
+	bl _ZN13CBattleAssist12ov1_0212EE3CEv
 	ldrb r1, [sp, #0x14]
 	mov r4, r0
 	add r1, sl, r1, lsl #2
@@ -5711,7 +5626,7 @@ _ZN19CBattleAssistNormalC1EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17
 	ldrh ip, [sp, #0x10]
 	mov r4, r0
 	str ip, [sp]
-	bl ov1_0212EDE0
+	bl _ZN13CBattleAssistC2EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17UnkClass_0212EEB4t
 	ldr r1, _02133B70 ; =PTR_LAB_overlay_1_02133b74_overlay_1_0214176c
 	mov r0, r4
 	str r1, [r4]
@@ -5725,7 +5640,7 @@ _02133B70: .word PTR_LAB_overlay_1_02133b74_overlay_1_0214176c
 ov1_02133B74: ; 0x02133B74
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	arm_func_end ov1_02133B74
@@ -5734,7 +5649,7 @@ ov1_02133B74: ; 0x02133B74
 ov1_02133B88: ; 0x02133B88
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	bl _ZdlPv
 	mov r0, r4
@@ -5786,7 +5701,7 @@ _ZN19CBattleAssistPoisonC1EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17
 	ldrh ip, [sp, #0x10]
 	mov r4, r0
 	str ip, [sp]
-	bl ov1_0212EDE0
+	bl _ZN13CBattleAssistC2EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17UnkClass_0212EEB4t
 	ldr r1, _02133C34 ; =PTR_LAB_overlay_1_02133c38_overlay_1_021417ac
 	mov r0, r4
 	str r1, [r4]
@@ -5800,7 +5715,7 @@ _02133C34: .word PTR_LAB_overlay_1_02133c38_overlay_1_021417ac
 ov1_02133C38: ; 0x02133C38
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	arm_func_end ov1_02133C38
@@ -5809,7 +5724,7 @@ ov1_02133C38: ; 0x02133C38
 ov1_02133C4C: ; 0x02133C4C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	bl _ZdlPv
 	mov r0, r4
@@ -6115,7 +6030,7 @@ _02134068:
 	cmp r0, #0
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
 	mov r0, sl
-	bl ov1_0212EE3C
+	bl _ZN13CBattleAssist12ov1_0212EE3CEv
 	movs r4, r0
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
 	ldr r1, [sl, #0xc]
@@ -6244,7 +6159,7 @@ _ZN20CBattleAssistRecoverC1EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP1
 	ldrh ip, [sp, #0x10]
 	mov r4, r0
 	str ip, [sp]
-	bl ov1_0212EDE0
+	bl _ZN13CBattleAssistC2EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17UnkClass_0212EEB4t
 	ldr r1, _02134270 ; =PTR_LAB_overlay_1_02134274_overlay_1_021417ec
 	mov r0, r4
 	str r1, [r4]
@@ -6258,7 +6173,7 @@ _02134270: .word PTR_LAB_overlay_1_02134274_overlay_1_021417ec
 ov1_02134274: ; 0x02134274
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	arm_func_end ov1_02134274
@@ -6267,7 +6182,7 @@ ov1_02134274: ; 0x02134274
 ov1_02134288: ; 0x02134288
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	bl _ZdlPv
 	mov r0, r4
@@ -6359,7 +6274,7 @@ _ZN17CBattleAssistRockC1EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17Un
 	ldrh ip, [sp, #0x10]
 	mov r4, r0
 	str ip, [sp]
-	bl ov1_0212EDE0
+	bl _ZN13CBattleAssistC2EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17UnkClass_0212EEB4t
 	ldr r1, _021343BC ; =PTR_LAB_overlay_1_021343c0_overlay_1_02141828
 	mov r0, r4
 	str r1, [r4]
@@ -6373,7 +6288,7 @@ _021343BC: .word PTR_LAB_overlay_1_021343c0_overlay_1_02141828
 ov1_021343C0: ; 0x021343C0
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	arm_func_end ov1_021343C0
@@ -6382,7 +6297,7 @@ ov1_021343C0: ; 0x021343C0
 ov1_021343D4: ; 0x021343D4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	bl _ZdlPv
 	mov r0, r4
@@ -6655,7 +6570,7 @@ ov1_02134770: ; 0x02134770
 	moveq r0, #0
 	ldmeqia sp!, {r3, r4, r5, r6, pc}
 	mov r0, r6
-	bl ov1_0212EE3C
+	bl _ZN13CBattleAssist12ov1_0212EE3CEv
 	movs r4, r0
 	addeq sp, sp, #4
 	moveq r0, #0
@@ -6869,7 +6784,7 @@ _ZN18CBattleAssistSteelC1EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17U
 	ldrh ip, [sp, #0x10]
 	mov r4, r0
 	str ip, [sp]
-	bl ov1_0212EDE0
+	bl _ZN13CBattleAssistC2EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17UnkClass_0212EEB4t
 	ldr r1, _02134AB0 ; =PTR_LAB_overlay_1_02134ab4_overlay_1_02141868
 	mov r0, r4
 	str r1, [r4]
@@ -6883,7 +6798,7 @@ _02134AB0: .word PTR_LAB_overlay_1_02134ab4_overlay_1_02141868
 ov1_02134AB4: ; 0x02134AB4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	arm_func_end ov1_02134AB4
@@ -6892,7 +6807,7 @@ ov1_02134AB4: ; 0x02134AB4
 ov1_02134AC8: ; 0x02134AC8
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	bl _ZdlPv
 	mov r0, r4
@@ -7233,7 +7148,7 @@ ov1_02134F68: ; 0x02134F68
 	moveq r0, #0
 	ldmeqia sp!, {r3, r4, r5, r6, pc}
 	mov r0, r6
-	bl ov1_0212EE3C
+	bl _ZN13CBattleAssist12ov1_0212EE3CEv
 	movs r4, r0
 	addeq sp, sp, #4
 	moveq r0, #0
@@ -7474,7 +7389,7 @@ _ZN18CBattleAssistWaterC1EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17U
 	ldrh ip, [sp, #0x10]
 	mov r4, r0
 	str ip, [sp]
-	bl ov1_0212EDE0
+	bl _ZN13CBattleAssistC2EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17UnkClass_0212EEB4t
 	ldr r1, _02135300 ; =PTR_LAB_overlay_1_02135304_overlay_1_021418a8
 	mov r0, r4
 	str r1, [r4]
@@ -7488,7 +7403,7 @@ _02135300: .word PTR_LAB_overlay_1_02135304_overlay_1_021418a8
 ov1_02135304: ; 0x02135304
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	arm_func_end ov1_02135304
@@ -7497,7 +7412,7 @@ ov1_02135304: ; 0x02135304
 ov1_02135318: ; 0x02135318
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov1_0212EE38
+	bl _ZN13CBattleAssistD2Ev
 	mov r0, r4
 	bl _ZdlPv
 	mov r0, r4
@@ -7881,7 +7796,7 @@ ov1_02135848: ; 0x02135848
 	moveq r0, #0
 	ldmeqia sp!, {r3, r4, r5, r6, pc}
 	mov r0, r6
-	bl ov1_0212EE3C
+	bl _ZN13CBattleAssist12ov1_0212EE3CEv
 	movs r4, r0
 	addeq sp, sp, #4
 	moveq r0, #0
@@ -20035,114 +19950,6 @@ ov1_0213FB4C: ; 0x0213FB4C
 
     .rodata
 
-    .global DAT_overlay_1_0213fc38
-DAT_overlay_1_0213fc38: ; 0x0213FC38
-	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x84, 0x03
-	.byte 0x84, 0x03, 0x84, 0x03
-	.word 0x02580096
-	.byte 0xB0, 0x04, 0xB4, 0x00, 0xB4, 0x00, 0xB4, 0x00
-	.word 0x02580258
-	.byte 0x58, 0x02, 0x1E, 0x00, 0xB4, 0x00, 0xF0, 0x00, 0x00, 0x00, 0x00, 0x00
-	.byte 0x00, 0x00, 0x08, 0x07, 0x08, 0x07, 0x08, 0x07, 0x68, 0x01, 0x68, 0x01, 0x68, 0x01, 0x00, 0x00
-	.byte 0x00, 0x00, 0x00, 0x00, 0xB4, 0x00, 0xB4, 0x00, 0xB4, 0x00, 0x78, 0x00, 0xC2, 0x01, 0x84, 0x03
-	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x08, 0x07, 0x08, 0x07, 0x08, 0x07, 0x08, 0x07, 0x60, 0x09
-	.byte 0x10, 0x0E, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x78, 0x00, 0xC2, 0x01, 0x84, 0x03, 0x00, 0x00
-	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-
-    .global DAT_overlay_1_0213fcac
-DAT_overlay_1_0213fcac: ; 0x0213FCAC
-	.byte 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00
-	.byte 0x00, 0x0C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00
-	.byte 0x00, 0x0C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x0C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00
-	.byte 0x00, 0x0C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x0C, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x0C, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00
-	.byte 0x00, 0x0C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00
-	.byte 0x00, 0x0C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x18, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x0C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00
-	.byte 0x00, 0x0C, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x18, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x18, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00
-	.byte 0x00, 0x0C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x0C, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x0C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x18, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x0C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x18, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00
-	.byte 0x00, 0x18, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x0C, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x18, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00
-	.byte 0x00, 0x0C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x18, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x18, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00
-	.byte 0x00, 0x18, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x18, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00
-	.byte 0x00, 0x0C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x0C, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x18, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x18, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-
     .global DAT_overlay_1_02140250
 DAT_overlay_1_02140250: ; 0x02140250
 	.byte 0x1E, 0x00, 0x3C, 0x00, 0xFF, 0xFF, 0x00, 0x00
@@ -20332,34 +20139,11 @@ DAT_overlay_1_021404f8: ; 0x021404F8
 
     .data
 
-    .global PTR_ptr_FUN_02083578_overlay_1_0214141c
-PTR_ptr_FUN_02083578_overlay_1_0214141c: ; 0x0214141C
-	.word _ZTVN10__cxxabiv117__class_type_infoE+8
-	.word s_13CBattleAssist_overlay_1_02141424
-
-    .global s_13CBattleAssist_overlay_1_02141424
-s_13CBattleAssist_overlay_1_02141424: ; 0x02141424
-	.asciz "13CBattleAssist"
-
-    .global DAT_overlay_1_02141434
-DAT_overlay_1_02141434:
-	.byte 0x00, 0x00, 0x00, 0x00
-	.word PTR_ptr_FUN_02083578_overlay_1_0214141c
-
-    .global PTR_LAB_overlay_1_0212ee20_overlay_1_0214143c
-PTR_LAB_overlay_1_0212ee20_overlay_1_0214143c: ; 0x0214143C
-	.word ov1_0212EE20
-
-    .global ptr_FUN_overlay_1_0212ee24_overlay_1_02141440
-ptr_FUN_overlay_1_0212ee24_overlay_1_02141440: ; 0x02141440
-	.word ov1_0212EE24
-	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-
     .global PTR_ptr_FUN_020835bc_overlay_1_02141450
 PTR_ptr_FUN_020835bc_overlay_1_02141450: ; 0x02141450
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word s_19CBattleAssistDragon_overlay_1_0214145c
-	.word PTR_ptr_FUN_02083578_overlay_1_0214141c
+	.word _ZTI13CBattleAssist
 
     .global s_19CBattleAssistDragon_overlay_1_0214145c
 s_19CBattleAssistDragon_overlay_1_0214145c: ; 0x0214145C
@@ -20391,7 +20175,7 @@ ptr_FUN_overlay_1_0212fa24_overlay_1_02141488: ; 0x02141488
 PTR_ptr_FUN_020835bc_overlay_1_02141490: ; 0x02141490
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word s_21CBattleAssistElectric_overlay_1_0214149c
-	.word PTR_ptr_FUN_02083578_overlay_1_0214141c
+	.word _ZTI13CBattleAssist
 
     .global s_21CBattleAssistElectric_overlay_1_0214149c
 s_21CBattleAssistElectric_overlay_1_0214149c: ; 0x0214149C
@@ -20423,7 +20207,7 @@ ptr_FUN_overlay_1_0212fffc_overlay_1_021414c8: ; 0x021414C8
 PTR_ptr_FUN_020835bc_overlay_1_021414d0: ; 0x021414D0
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word s_18CBattleAssistEsper_overlay_1_021414dc
-	.word PTR_ptr_FUN_02083578_overlay_1_0214141c
+	.word _ZTI13CBattleAssist
 
     .global s_18CBattleAssistEsper_overlay_1_021414dc
 s_18CBattleAssistEsper_overlay_1_021414dc: ; 0x021414DC
@@ -20455,7 +20239,7 @@ ptr_FUN_overlay_1_02130a58_overlay_1_02141508: ; 0x02141508
 PTR_ptr_FUN_020835bc_overlay_1_02141510: ; 0x02141510
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word s_17CBattleAssistEvil_overlay_1_0214151c
-	.word PTR_ptr_FUN_02083578_overlay_1_0214141c
+	.word _ZTI13CBattleAssist
 
     .global s_17CBattleAssistEvil_overlay_1_0214151c
 s_17CBattleAssistEvil_overlay_1_0214151c: ; 0x0214151C
@@ -20484,7 +20268,7 @@ ptr_FUN_overlay_1_02130b10_overlay_1_02141540: ; 0x02141540
 PTR_ptr_FUN_020835bc_overlay_1_0214154c: ; 0x0214154C
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word s_17CBattleAssistFire_overlay_1_02141558
-	.word PTR_ptr_FUN_02083578_overlay_1_0214141c
+	.word _ZTI13CBattleAssist
 
     .global s_17CBattleAssistFire_overlay_1_02141558
 s_17CBattleAssistFire_overlay_1_02141558: ; 0x02141558
@@ -20513,7 +20297,7 @@ ptr_FUN_overlay_1_02130bd4_overlay_1_0214157c: ; 0x0214157C
 PTR_ptr_FUN_020835bc_overlay_1_02141588: ; 0x02141588
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word s_16CBattleAssistFly_overlay_1_02141594
-	.word PTR_ptr_FUN_02083578_overlay_1_0214141c
+	.word _ZTI13CBattleAssist
 
     .global s_16CBattleAssistFly_overlay_1_02141594
 s_16CBattleAssistFly_overlay_1_02141594: ; 0x02141594
@@ -20545,7 +20329,7 @@ ptr_FUN_overlay_1_02131398_overlay_1_021415bc: ; 0x021415BC
 PTR_ptr_FUN_020835bc_overlay_1_021415c4: ; 0x021415C4
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word s_18CBattleAssistGhost_overlay_1_021415d0
-	.word PTR_ptr_FUN_02083578_overlay_1_0214141c
+	.word _ZTI13CBattleAssist
 
     .global s_18CBattleAssistGhost_overlay_1_021415d0
 s_18CBattleAssistGhost_overlay_1_021415d0: ; 0x021415D0
@@ -20577,7 +20361,7 @@ ptr_FUN_overlay_1_02131a20_overlay_1_021415fc: ; 0x021415FC
 PTR_ptr_FUN_020835bc_overlay_1_02141604: ; 0x02141604
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word s_20CBattleAssistGrapple_overlay_1_02141610
-	.word PTR_ptr_FUN_02083578_overlay_1_0214141c
+	.word _ZTI13CBattleAssist
 
     .global s_20CBattleAssistGrapple_overlay_1_02141610
 s_20CBattleAssistGrapple_overlay_1_02141610: ; 0x02141610
@@ -20606,7 +20390,7 @@ ptr_FUN_overlay_1_02131ae4_overlay_1_02141638: ; 0x02141638
 PTR_ptr_FUN_020835bc_overlay_1_02141644: ; 0x02141644
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word s_18CBattleAssistGrass_overlay_1_02141650
-	.word PTR_ptr_FUN_02083578_overlay_1_0214141c
+	.word _ZTI13CBattleAssist
 
     .global s_18CBattleAssistGrass_overlay_1_02141650
 s_18CBattleAssistGrass_overlay_1_02141650: ; 0x02141650
@@ -20638,7 +20422,7 @@ ptr_FUN_overlay_1_02131fbc_overlay_1_0214167c: ; 0x0214167C
 PTR_ptr_FUN_020835bc_overlay_1_02141684: ; 0x02141684
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word s_19CBattleAssistGround_overlay_1_02141690
-	.word PTR_ptr_FUN_02083578_overlay_1_0214141c
+	.word _ZTI13CBattleAssist
 
     .global s_19CBattleAssistGround_overlay_1_02141690
 s_19CBattleAssistGround_overlay_1_02141690: ; 0x02141690
@@ -20670,7 +20454,7 @@ ptr_FUN_overlay_1_021324c4_overlay_1_021416bc: ; 0x021416BC
 PTR_ptr_FUN_020835bc_overlay_1_021416c4: ; 0x021416C4
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word s_16CBattleAssistIce_overlay_1_021416d0
-	.word PTR_ptr_FUN_02083578_overlay_1_0214141c
+	.word _ZTI13CBattleAssist
 
     .global s_16CBattleAssistIce_overlay_1_021416d0
 s_16CBattleAssistIce_overlay_1_021416d0: ; 0x021416D0
@@ -20702,7 +20486,7 @@ ptr_FUN_overlay_1_02132f0c_overlay_1_021416f8: ; 0x021416F8
 PTR_ptr_FUN_020835bc_overlay_1_02141700: ; 0x02141700
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word s_19CBattleAssistInsect_overlay_1_0214170c
-	.word PTR_ptr_FUN_02083578_overlay_1_0214141c
+	.word _ZTI13CBattleAssist
 
     .global s_19CBattleAssistInsect_overlay_1_0214170c
 s_19CBattleAssistInsect_overlay_1_0214170c: ; 0x0214170C
@@ -20734,7 +20518,7 @@ ptr_FUN_overlay_1_02133a48_overlay_1_02141738: ; 0x02141738
 PTR_ptr_FUN_020835bc_overlay_1_02141740: ; 0x02141740
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word s_19CBattleAssistNormal_overlay_1_0214174c
-	.word PTR_ptr_FUN_02083578_overlay_1_0214141c
+	.word _ZTI13CBattleAssist
 
     .global s_19CBattleAssistNormal_overlay_1_0214174c
 s_19CBattleAssistNormal_overlay_1_0214174c: ; 0x0214174C
@@ -20763,7 +20547,7 @@ ptr_FUN_overlay_1_02133ba4_overlay_1_02141774: ; 0x02141774
 PTR_ptr_FUN_020835bc_overlay_1_02141780: ; 0x02141780
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word s_19CBattleAssistPoison_overlay_1_0214178c
-	.word PTR_ptr_FUN_02083578_overlay_1_0214141c
+	.word _ZTI13CBattleAssist
 
     .global s_19CBattleAssistPoison_overlay_1_0214178c
 s_19CBattleAssistPoison_overlay_1_0214178c: ; 0x0214178C
@@ -20798,7 +20582,7 @@ ptr_FUN_overlay_11_02133f18_overlay_1_021417bc: ; 0x021417BC
 PTR_ptr_FUN_020835bc_overlay_1_021417c0: ; 0x021417C0
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word s_20CBattleAssistRecover_overlay_1_021417cc
-	.word PTR_ptr_FUN_02083578_overlay_1_0214141c
+	.word _ZTI13CBattleAssist
 
     .global s_20CBattleAssistRecover_overlay_1_021417cc
 s_20CBattleAssistRecover_overlay_1_021417cc: ; 0x021417CC
@@ -20827,7 +20611,7 @@ ptr_FUN_overlay_1_021342a4_overlay_1_021417f4: ; 0x021417F4
 PTR_ptr_FUN_020835bc_overlay_1_02141800: ; 0x02141800
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word s_17CBattleAssistRock_overlay_1_0214180c
-	.word PTR_ptr_FUN_02083578_overlay_1_0214141c
+	.word _ZTI13CBattleAssist
 
     .global s_17CBattleAssistRock_overlay_1_0214180c
 s_17CBattleAssistRock_overlay_1_0214180c: ; 0x0214180C
@@ -20859,7 +20643,7 @@ ptr_FUN_overlay_1_021349f4_overlay_1_02141834: ; 0x02141834
 PTR_ptr_FUN_020835bc_overlay_1_0214183c: ; 0x0214183C
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word s_18CBattleAssistSteel_overlay_1_02141848
-	.word PTR_ptr_FUN_02083578_overlay_1_0214141c
+	.word _ZTI13CBattleAssist
 
     .global s_18CBattleAssistSteel_overlay_1_02141848
 s_18CBattleAssistSteel_overlay_1_02141848: ; 0x02141848
@@ -20895,7 +20679,7 @@ ptr_FUN_overlay_11_02135228_overlay_1_02141878: ; 0x02141878
 PTR_ptr_FUN_020835bc_overlay_1_0214187c: ; 0x0214187C
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word s_18CBattleAssistWater_overlay_1_02141888
-	.word PTR_ptr_FUN_02083578_overlay_1_0214141c
+	.word _ZTI13CBattleAssist
 
     .global s_18CBattleAssistWater_overlay_1_02141888
 s_18CBattleAssistWater_overlay_1_02141888: ; 0x02141888
