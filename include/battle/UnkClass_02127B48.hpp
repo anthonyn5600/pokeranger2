@@ -26,7 +26,6 @@ public:
         m_pos.x = pos.x;
         m_pos.y = pos.y;
     }
-    void ov1_02127EE4();
 
 public:
     UnkClass_021278E8 *m_data;

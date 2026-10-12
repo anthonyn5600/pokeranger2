@@ -35,6 +35,7 @@
 #include "battle/UnkClass_0212770C.hpp"
 #include "battle/UnkClass_021278E8.hpp"
 #include "battle/UnkClass_02127B48.hpp"
+#include "battle/UnkClass_02127E14.hpp"
 #include "battle/UnkClass_021281B4.hpp"
 #include "battle/UnkClass_02128414.hpp"
 #include "battle/UnkClass_02128600.hpp"
