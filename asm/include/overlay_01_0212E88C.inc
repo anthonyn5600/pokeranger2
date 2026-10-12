@@ -29,13 +29,6 @@
 .public _Z12sub_0200676411PointPair2D6CircleP7Point2Dl
 .public _Z12sub_02007254ll
 .public _Z17LinearInterpolatellll
-.public _ZN10CActorData12sub_020141ACEm
-.public _ZN10CActorData12sub_0201429CEm
-.public _ZN10CActorData12sub_020142B4Ev
-.public _ZN10CActorData12sub_020142F8Ev
-.public _ZN10CActorData12sub_02014310Ev
-.public _ZN10CActorData12sub_02014364Ev
-.public _ZN10CActorDataC1EPKcS1_iiS1_
 .public _ZN11CBGNCGRFileC1EPKcmmm
 .public _ZN11CBattleDisk12ov1_0212C4CCEv
 .public _ZN11CBattleDisk12ov1_0212C4ECEh
@@ -151,7 +144,6 @@
 .public _ZN19CBattleAttackEffect12ov1_0212747CEv
 .public _ZN5CGame11GetInstanceEv
 .public _ZN5CGame12sub_020100E4EPFvPvES0_
-.public _ZN6CActor12sub_02011FF4EP10CActorData
 .public _ZN6CActor12sub_020127D0Eli
 .public _ZN6CActor12sub_02012894E7Point2D
 .public _ZN6CActor12sub_020128ECEt

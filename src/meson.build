@@ -152,5 +152,6 @@ pokeranger2_cxx = files(
     'UnkClass_0212D2C4.cpp',
     'UnkClass_0212DC20.cpp',
     'CDiskCursor.cpp',
+    'CLineEffect.cpp',
     'CNameInputScene.cpp',
     'debug.cpp', )

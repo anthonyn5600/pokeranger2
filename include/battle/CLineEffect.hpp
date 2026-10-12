@@ -15,10 +15,13 @@ public:
     virtual void vfunc_0C(Camera2D *camera);
     virtual void vfunc_10(Camera2D *camera);
 
+    void ov1_0212E620();
+    void ov1_0212E66C();
     void ov1_0212E69C(fx32 arg0, fx32 arg1, CActor *leader);
 
 public:
-    u8 unk_184[0xC];
+    CActorData *unk_184;
+    u8 unk_188[0x8];
     CActor *m_leader;
     fx32 unk_194;
     fx32 unk_198;
