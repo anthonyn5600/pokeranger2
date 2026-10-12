@@ -74,7 +74,7 @@ public:
     void sub_02012860(fx32 height, int duration);
     void sub_0201287C();
     void sub_02012894(Point2D target);
-    void sub_020128C0(s16 speed);
+    void sub_020128C0(u16 speed);
     void sub_020128D8();
     void sub_020128EC(u16 dir);
     void sub_02012948(Point2D target);

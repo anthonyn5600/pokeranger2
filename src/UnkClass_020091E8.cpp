@@ -1315,7 +1315,7 @@ void UnkClass_020091E8::sub_0200B410(u32 arg0, u32 arg1, u32 arg2, u32 arg3)
     unk_154 = arg0;
 }
 
-void UnkClass_020091E8::sub_0200B45C(s32 arg0, u32 arg1)
+void UnkClass_020091E8::sub_0200B45C(s32 arg0)
 {
     if (unk_014 != NULL) {
         sub_0200B59C();

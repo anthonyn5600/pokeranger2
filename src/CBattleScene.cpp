@@ -228,7 +228,7 @@ void CBattleScene::func5()
     GXS_DispOn();
 }
 
-extern u32 ptr_FUN_overlay_1_0212a298_overlay_1_02141038[];
+extern u32 gBattleSyscalls[];
 
 void CBattleScene::func6()
 {
@@ -238,7 +238,7 @@ void CBattleScene::func6()
     UnkClass_02010470 *table;
     NNS_GfdResetLnkTexVramState();
     NNS_GfdResetLnkPlttVramState();
-    sub_02044B38(1, ptr_FUN_overlay_1_0212a298_overlay_1_02141038);
+    sub_02044B38(1, gBattleSyscalls);
     m_game->m_audioEngine->sub_020347C4();
 
     unk_0C18 = new UnkClass_0212DC20(m_game->unk_14A8);

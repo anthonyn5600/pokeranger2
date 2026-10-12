@@ -346,7 +346,7 @@ void CActor::sub_02012894(Point2D target)
     m_lookAt.y = target.y;
 }
 
-void CActor::sub_020128C0(s16 speed)
+void CActor::sub_020128C0(u16 speed)
 {
     m_turning = TRUE;
     m_dirMode = 2;
