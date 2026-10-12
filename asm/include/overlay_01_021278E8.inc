@@ -189,6 +189,7 @@
 .public _ZN17UnkClass_0212306C12ov1_02124F84Ev
 .public _ZN17UnkClass_0212306CC1Ev
 .public _ZN17UnkClass_0212306CD1Ev
+.public _ZN17UnkClass_0212770C12ov1_02127888Eit
 .public _ZN19CBattleAttackEffect12ov1_021270FCEP23CBattleAttackEffectData
 .public _ZN19CBattleAttackEffect12ov1_0212728CEP12CBattleEnemyi
 .public _ZN19CBattleAttackEffect12ov1_02127300Ev
