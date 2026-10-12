@@ -65253,8 +65253,8 @@ ptr_FUN_overlay_0_02142350_overlay_0_02174410: ; 0x02174410
     .global ptr_FUN_overlay_0_021423a4_overlay_0_02174414
 ptr_FUN_overlay_0_021423a4_overlay_0_02174414: ; 0x02174414
 	.word ov0_021423A4
-	.word sub_02033028
-	.word sub_020332A4
+	.word _ZN12CFieldEffect12sub_02033028Ev
+	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_02174420
 ptr_FUN_overlay_0_021421d0_overlay_0_02174420: ; 0x02174420
@@ -65276,13 +65276,13 @@ ptr_FUN_overlay_0_02142264_overlay_0_02174430: ; 0x02174430
 	.word ov0_0214239C
 	.word ov0_02142398
 	.word ov0_0214234C
-	.word sub_0203312C
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_0203312CEii
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 
@@ -65474,13 +65474,13 @@ ptr_FUN_overlay_0_02143bf0_overlay_0_02174650: ; 0x02174650
 	.word ov0_0214239C
 	.word ov0_02142398
 	.word ov0_0214234C
-	.word sub_0203312C
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_0203312CEii
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 	.word sub_02041C14
@@ -65525,13 +65525,13 @@ ptr_FUN_overlay_0_02143bf0_overlay_0_021746c0: ; 0x021746C0
 	.word ov0_0214239C
 	.word ov0_02142398
 	.word ov0_0214234C
-	.word sub_0203312C
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_0203312CEii
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 	.word sub_02041C14
@@ -65750,12 +65750,12 @@ ptr_FUN_overlay_0_021448dc_overlay_0_02174914: ; 0x02174914
     .global ptr_FUN_overlay_0_02144a24_overlay_0_02174924
 ptr_FUN_overlay_0_02144a24_overlay_0_02174924: ; 0x02174924
 	.word ov0_02144A24
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 
@@ -65840,12 +65840,12 @@ ptr_FUN_overlay_0_0214541c_overlay_0_021749e4: ; 0x021749E4
 	.word ov0_02142398
 	.word ov0_0214234C
 	.word ov0_021454B8
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 
@@ -65990,13 +65990,13 @@ ptr_FUN_overlay_0_02146028_overlay_0_02174b88: ; 0x02174B88
     .global ptr_FUN_overlay_0_0214609c_overlay_0_02174b94
 ptr_FUN_overlay_0_0214609c_overlay_0_02174b94: ; 0x02174B94
 	.word ov0_0214609C
-	.word sub_0203312C
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_0203312CEii
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 
@@ -66084,12 +66084,12 @@ ptr_FUN_overlay_0_02146444_overlay_0_02174c58: ; 0x02174C58
 	.word ov0_02142398
 	.word ov0_021464BC
 	.word ov0_02146574
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 
@@ -66170,12 +66170,12 @@ ptr_FUN_overlay_0_021469c8_overlay_0_02174d24: ; 0x02174D24
 	.word ov0_02142398
 	.word ov0_02146A18
 	.word ov0_02146A54
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 
@@ -66319,12 +66319,12 @@ ptr_FUN_overlay_0_021474cc_overlay_0_02174e94: ; 0x02174E94
 	.word ov0_02142398
 	.word ov0_02147564
 	.word ov0_021475A8
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 
@@ -66469,12 +66469,12 @@ ptr_FUN_overlay_0_02147f88_overlay_0_02175024: ; 0x02175024
 	.word ov0_02142398
 	.word ov0_02147FFC
 	.word ov0_02148040
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 
@@ -70071,7 +70071,7 @@ ptr_FUN_overlay_0_0214ff98_overlay_0_02177a78: ; 0x02177A78
     .global ptr_FUN_overlay_0_021423a4_overlay_0_02177a7c
 ptr_FUN_overlay_0_021423a4_overlay_0_02177a7c: ; 0x02177A7C
 	.word ov0_021423A4
-	.word sub_02033028
+	.word _ZN12CFieldEffect12sub_02033028Ev
 	.word ov0_0214FF74
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_02177a88
@@ -70094,13 +70094,13 @@ ptr_thunk_FUN_overlay_0_02142264_overlay_0_02177a98: ; 0x02177A98
 	.word ov0_0214239C
 	.word ov0_02142398
 	.word ov0_0214234C
-	.word sub_0203312C
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_0203312CEii
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 
@@ -70451,7 +70451,7 @@ ptr_FUN_overlay_0_02150938_overlay_0_02177e60: ; 0x02177E60
 ptr_FUN_overlay_0_021423a4_overlay_0_02177e64: ; 0x02177E64
 	.word ov0_021423A4
 	.word ov0_021511CC
-	.word sub_020332A4
+	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_02177e70
 ptr_FUN_overlay_0_021421d0_overlay_0_02177e70: ; 0x02177E70
@@ -70476,13 +70476,13 @@ ptr_FUN_overlay_0_02150f10_overlay_0_02177e84: ; 0x02177E84
 	.word ov0_021511C4
 	.word ov0_02150F00
 	.word ov0_0214234C
-	.word sub_0203312C
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_0203312CEii
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 
@@ -70575,13 +70575,13 @@ ptr_FUN_overlay_0_02143bf0_overlay_0_02177f58: ; 0x02177F58
 	.word ov0_0214239C
 	.word ov0_02142398
 	.word ov0_0214234C
-	.word sub_0203312C
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_0203312CEii
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 	.word ov0_02152224
@@ -70641,13 +70641,13 @@ ptr_FUN_overlay_0_02143bf0_overlay_0_02177ff0: ; 0x02177FF0
 	.word ov0_0214239C
 	.word ov0_02142398
 	.word ov0_0214234C
-	.word sub_0203312C
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_0203312CEii
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 	.word sub_02041C14
@@ -70709,13 +70709,13 @@ ptr_FUN_overlay_0_02143bf0_overlay_0_02178088: ; 0x02178088
 	.word ov0_0214239C
 	.word ov0_02142398
 	.word ov0_0214234C
-	.word sub_0203312C
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_0203312CEii
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 	.word sub_02041C14
@@ -71072,7 +71072,7 @@ ptr_FUN_overlay_0_0215af0c_overlay_0_0217845c: ; 0x0217845C
 ptr_FUN_overlay_0_021423a4_overlay_0_02178464: ; 0x02178464
 	.word ov0_021423A4
 	.word ov0_0215AF04
-	.word sub_020332A4
+	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_02178470
 ptr_FUN_overlay_0_021421d0_overlay_0_02178470: ; 0x02178470
@@ -71101,12 +71101,12 @@ ptr_FUN_overlay_0_0215b784_overlay_0_02178484: ; 0x02178484
     .global ptr_FUN_overlay_0_0215ae08_overlay_0_02178494
 ptr_FUN_overlay_0_0215ae08_overlay_0_02178494: ; 0x02178494
 	.word ov0_0215AE08
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 
@@ -71129,8 +71129,8 @@ ptr_FUN_overlay_0_0215b3e8_overlay_0_021784d0: ; 0x021784D0
     .global ptr_FUN_overlay_0_021423a4_overlay_0_021784d4
 ptr_FUN_overlay_0_021423a4_overlay_0_021784d4: ; 0x021784D4
 	.word ov0_021423A4
-	.word sub_02033028
-	.word sub_020332A4
+	.word _ZN12CFieldEffect12sub_02033028Ev
+	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_021784e0
 ptr_FUN_overlay_0_021421d0_overlay_0_021784e0: ; 0x021784E0
@@ -71159,12 +71159,12 @@ ptr_FUN_overlay_0_0215b784_overlay_0_021784f4: ; 0x021784F4
     .global ptr_FUN_overlay_0_0215b01c_overlay_0_02178504
 ptr_FUN_overlay_0_0215b01c_overlay_0_02178504: ; 0x02178504
 	.word ov0_0215B01C
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 
@@ -71187,8 +71187,8 @@ ptr_FUN_overlay_0_0215b814_overlay_0_02178540: ; 0x02178540
     .global ptr_FUN_overlay_0_021423a4_overlay_0_02178544
 ptr_FUN_overlay_0_021423a4_overlay_0_02178544: ; 0x02178544
 	.word ov0_021423A4
-	.word sub_02033028
-	.word sub_020332A4
+	.word _ZN12CFieldEffect12sub_02033028Ev
+	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_02178550
 ptr_FUN_overlay_0_021421d0_overlay_0_02178550: ; 0x02178550
@@ -71217,12 +71217,12 @@ ptr_FUN_overlay_0_0215b784_overlay_0_02178564: ; 0x02178564
     .global ptr_FUN_overlay_0_0215b4ec_overlay_0_02178574
 ptr_FUN_overlay_0_0215b4ec_overlay_0_02178574: ; 0x02178574
 	.word ov0_0215B4EC
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 
@@ -71351,7 +71351,7 @@ ptr_FUN_overlay_0_0215c690_overlay_0_021786c0: ; 0x021786C0
 ptr_FUN_overlay_0_021423a4_overlay_0_021786c4: ; 0x021786C4
 	.word ov0_021423A4
 	.word ov0_0215C5A4
-	.word sub_020332A4
+	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_021786d0
 ptr_FUN_overlay_0_021421d0_overlay_0_021786d0: ; 0x021786D0
@@ -71380,12 +71380,12 @@ ptr_FUN_overlay_0_0215b784_overlay_0_021786e4: ; 0x021786E4
     .global ptr_FUN_overlay_0_0215be90_overlay_0_021786f4
 ptr_FUN_overlay_0_0215be90_overlay_0_021786f4: ; 0x021786F4
 	.word ov0_0215BE90
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 
@@ -71452,7 +71452,7 @@ ptr_FUN_overlay_0_0215c908_overlay_0_021787a8: ; 0x021787A8
 ptr_FUN_overlay_0_021423a4_overlay_0_021787ac: ; 0x021787AC
 	.word ov0_021423A4
 	.word ov0_0215CDA8
-	.word sub_020332A4
+	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_021787b8
 ptr_FUN_overlay_0_021421d0_overlay_0_021787b8: ; 0x021787B8
@@ -71481,12 +71481,12 @@ ptr_FUN_overlay_0_0215b784_overlay_0_021787cc: ; 0x021787CC
     .global ptr_FUN_overlay_0_0215c9c0_overlay_0_021787dc
 ptr_FUN_overlay_0_0215c9c0_overlay_0_021787dc: ; 0x021787DC
 	.word ov0_0215C9C0
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 
@@ -71643,11 +71643,11 @@ ptr_FUN_overlay_0_0215d62c_overlay_0_02178960: ; 0x02178960
     .global ptr_FUN_overlay_0_0215d6bc_overlay_0_02178970
 ptr_FUN_overlay_0_0215d6bc_overlay_0_02178970: ; 0x02178970
 	.word ov0_0215D6BC
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
 	.word ov0_0215D834
 	.word ov0_02142390
 	.word ov0_02142388
@@ -71774,11 +71774,11 @@ ptr_FUN_overlay_0_0215e04c_overlay_0_02178aac: ; 0x02178AAC
 	.word ov0_02142398
 	.word ov0_0214234C
 	.word ov0_0215E128
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
 	.word ov0_0215E2AC
 	.word ov0_02142390
 	.word ov0_02142388
@@ -71863,12 +71863,12 @@ ptr_FUN_overlay_0_0215e750_overlay_0_02178b8c: ; 0x02178B8C
 	.word ov0_02142398
 	.word ov0_0214234C
 	.word ov0_0215E804
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 
@@ -71950,12 +71950,12 @@ ptr_FUN_overlay_0_0215edd0_overlay_0_02178c60: ; 0x02178C60
 	.word ov0_02142398
 	.word ov0_0214234C
 	.word ov0_0215EE94
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 
     .global ptr_FUN_overlay_0_0215f118_overlay_0_02178c8c
 ptr_FUN_overlay_0_0215f118_overlay_0_02178c8c: ; 0x02178C8C
@@ -72111,12 +72111,12 @@ ptr_FUN_overlay_0_0215fd34_overlay_0_02178dd0: ; 0x02178DD0
     .global ptr_FUN_overlay_0_0215fdc4_overlay_0_02178de0
 ptr_FUN_overlay_0_0215fdc4_overlay_0_02178de0: ; 0x02178DE0
 	.word ov0_0215FDC4
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 
@@ -72268,12 +72268,12 @@ ptr_FUN_overlay_0_0215b784_overlay_0_02178f50: ; 0x02178F50
 	.word ov0_02142398
 	.word ov0_0214234C
 	.word ov0_021605D0
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 
@@ -72366,12 +72366,12 @@ ptr_FUN_overlay_0_02161568_overlay_0_02179028: ; 0x02179028
 	.word ov0_02142398
 	.word ov0_0214234C
 	.word ov0_021616B4
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 
@@ -72426,7 +72426,7 @@ ptr_FUN_overlay_0_02161978_overlay_0_021790d0: ; 0x021790D0
 ptr_FUN_overlay_0_021423a4_overlay_0_021790d4: ; 0x021790D4
 	.word ov0_021423A4
 	.word ov0_02161F10
-	.word sub_020332A4
+	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_021790e0
 ptr_FUN_overlay_0_021421d0_overlay_0_021790e0: ; 0x021790E0
@@ -72452,12 +72452,12 @@ ptr_FUN_overlay_0_02161b28_overlay_0_021790f4: ; 0x021790F4
 	.word ov0_02142398
 	.word ov0_0214234C
 	.word ov0_02161BC8
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 
@@ -72558,12 +72558,12 @@ ptr_FUN_overlay_0_02162304_overlay_0_02179258: ; 0x02179258
 	.word ov0_02142398
 	.word ov0_0214234C
 	.word ov0_021623B8
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 
     .global ptr_FUN_overlay_0_021625dc_overlay_0_02179284
 ptr_FUN_overlay_0_021625dc_overlay_0_02179284: ; 0x02179284
@@ -72657,12 +72657,12 @@ ptr_FUN_overlay_0_02162ebc_overlay_0_0217932c: ; 0x0217932C
     .global ptr_FUN_overlay_0_02162fb4_overlay_0_0217933c
 ptr_FUN_overlay_0_02162fb4_overlay_0_0217933c: ; 0x0217933C
 	.word ov0_02162FB4
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 
     .global ptr_FUN_overlay_0_02163404_overlay_0_02179358
 ptr_FUN_overlay_0_02163404_overlay_0_02179358: ; 0x02179358
@@ -72785,13 +72785,13 @@ ptr_FUN_overlay_0_02143bf0_overlay_0_0217947c: ; 0x0217947C
 	.word ov0_0214239C
 	.word ov0_02142398
 	.word ov0_0214234C
-	.word sub_0203312C
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_0203312CEii
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 	.word sub_02041C14
@@ -72854,13 +72854,13 @@ ptr_FUN_overlay_0_02143bf0_overlay_0_02179510: ; 0x02179510
 	.word ov0_0214239C
 	.word ov0_02142398
 	.word ov0_0214234C
-	.word sub_0203312C
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_0203312CEii
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 	.word sub_02041C14
@@ -72922,13 +72922,13 @@ ptr_FUN_overlay_0_02143bf0_overlay_0_021795a8: ; 0x021795A8
 	.word ov0_0214239C
 	.word ov0_02142398
 	.word ov0_0214234C
-	.word sub_0203312C
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_0203312CEii
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 	.word sub_02041C14
@@ -72969,7 +72969,7 @@ ptr_FUN_overlay_0_0216517c_overlay_0_02179624: ; 0x02179624
 ptr_FUN_overlay_0_021423a4_overlay_0_02179628: ; 0x02179628
 	.word ov0_021423A4
 	.word ov0_02165174
-	.word sub_020332A4
+	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_02179634
 ptr_FUN_overlay_0_021421d0_overlay_0_02179634: ; 0x02179634
@@ -72994,13 +72994,13 @@ ptr_FUN_overlay_0_021650d0_overlay_0_02179648: ; 0x02179648
 	.word ov0_0214239C
 	.word ov0_02142398
 	.word ov0_0214234C
-	.word sub_0203312C
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_0203312CEii
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 
@@ -73062,7 +73062,7 @@ ptr_FUN_overlay_0_02165268_overlay_0_021796f0: ; 0x021796F0
 ptr_thunk_FUN_overlay_0_02165410_overlay_0_021796f4: ; 0x021796F4
 	.word thunk_FUN_overlay_0__02165410
 	.word ov0_021657B8
-	.word sub_020332A4
+	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_02179700
 ptr_FUN_overlay_0_021421d0_overlay_0_02179700: ; 0x02179700
@@ -73087,13 +73087,13 @@ ptr_FUN_overlay_0_02165494_overlay_0_02179714: ; 0x02179714
 	.word ov0_0214239C
 	.word ov0_02142398
 	.word ov0_0214234C
-	.word sub_0203312C
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_0203312CEii
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 
@@ -73180,7 +73180,7 @@ ptr_FUN_overlay_0_021658b8_overlay_0_0217981c: ; 0x0217981C
 ptr_thunk_FUN_overlay_0_0216596c_overlay_0_02179820: ; 0x02179820
 	.word thunk_FUN_overlay_0__0216596c
 	.word ov0_02165BE8
-	.word sub_020332A4
+	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_0217982c
 ptr_FUN_overlay_0_021421d0_overlay_0_0217982c: ; 0x0217982C
@@ -73206,12 +73206,12 @@ ptr_FUN_overlay_0_02165a58_overlay_0_02179840: ; 0x02179840
 	.word ov0_02165AA4
 	.word ov0_0214234C
 	.word ov0_02165978
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 
@@ -73321,13 +73321,13 @@ ptr_FUN_overlay_0_02143bf0_overlay_0_02179964: ; 0x02179964
 	.word ov0_0214239C
 	.word ov0_02142398
 	.word ov0_0214234C
-	.word sub_0203312C
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_0203312CEii
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 	.word ov0_02165F9C
@@ -73423,12 +73423,12 @@ ptr_FUN_overlay_0_02166f74_overlay_0_02179a3c: ; 0x02179A3C
     .global ptr_FUN_overlay_0_02166a2c_overlay_0_02179a4c
 ptr_FUN_overlay_0_02166a2c_overlay_0_02179a4c: ; 0x02179A4C
 	.word ov0_02166A2C
-	.word sub_02033244
+	.word _ZN12CFieldEffect12sub_02033244Eiii
 	.word ov0_02167264
-	.word sub_0203331C
-	.word sub_02033388
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
 	.word ov0_021669F8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 
@@ -73619,7 +73619,7 @@ ptr_FUN_overlay_0_02167a98_overlay_0_02179c70: ; 0x02179C70
 ptr_FUN_overlay_0_021423a4_overlay_0_02179c74: ; 0x02179C74
 	.word ov0_021423A4
 	.word ov0_02168EF4
-	.word sub_020332A4
+	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_02179c80
 ptr_FUN_overlay_0_021421d0_overlay_0_02179c80: ; 0x02179C80
@@ -73648,15 +73648,15 @@ ptr_FUN_overlay_0_02168860_overlay_0_02179c94: ; 0x02179C94
     .global ptr_FUN_overlay_0_02167bdc_overlay_0_02179ca4
 ptr_FUN_overlay_0_02167bdc_overlay_0_02179ca4: ; 0x02179CA4
 	.word ov0_02167BDC
-	.word sub_02033244
-	.word sub_02033440
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
 
     .global ptr_FUN_overlay_0_0216893c_overlay_0_02179cb0
 ptr_FUN_overlay_0_0216893c_overlay_0_02179cb0: ; 0x02179CB0
 	.word ov0_0216893C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 
@@ -73748,7 +73748,7 @@ ptr_FUN_overlay_0_021699b8_overlay_0_02179d84: ; 0x02179D84
 ptr_FUN_overlay_0_021423a4_overlay_0_02179d88: ; 0x02179D88
 	.word ov0_021423A4
 	.word ov0_02169960
-	.word sub_020332A4
+	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_02179d94
 ptr_FUN_overlay_0_021421d0_overlay_0_02179d94: ; 0x02179D94
@@ -73774,12 +73774,12 @@ ptr_FUN_overlay_0_02169884_overlay_0_02179da8: ; 0x02179DA8
 	.word ov0_02142398
 	.word ov0_0214234C
 	.word ov0_02169770
-	.word sub_02033244
+	.word _ZN12CFieldEffect12sub_02033244Eiii
 	.word ov0_021698B8
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 
@@ -73841,7 +73841,7 @@ ptr_FUN_overlay_0_02169bdc_overlay_0_02179e5c: ; 0x02179E5C
 ptr_FUN_overlay_0_021423a4_overlay_0_02179e60: ; 0x02179E60
 	.word ov0_021423A4
 	.word ov0_0216A42C
-	.word sub_020332A4
+	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_02179e6c
 ptr_FUN_overlay_0_021421d0_overlay_0_02179e6c: ; 0x02179E6C
@@ -73870,8 +73870,8 @@ ptr_FUN_overlay_0_0216a06c_overlay_0_02179e80: ; 0x02179E80
     .global ptr_FUN_overlay_0_02169c30_overlay_0_02179e90
 ptr_FUN_overlay_0_02169c30_overlay_0_02179e90: ; 0x02179E90
 	.word ov0_02169C30
-	.word sub_02033244
-	.word sub_02033440
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
 
     .global ptr_FUN_overlay_0_0216a2d4_overlay_0_02179e9c
 ptr_FUN_overlay_0_0216a2d4_overlay_0_02179e9c: ; 0x02179E9C
@@ -73880,8 +73880,8 @@ ptr_FUN_overlay_0_0216a2d4_overlay_0_02179e9c: ; 0x02179E9C
     .global ptr_FUN_overlay_0_0216a270_overlay_0_02179ea0
 ptr_FUN_overlay_0_0216a270_overlay_0_02179ea0: ; 0x02179EA0
 	.word ov0_0216A270
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 
@@ -74168,7 +74168,7 @@ ptr_FUN_overlay_0_0216a690_overlay_0_0217a220: ; 0x0217A220
 ptr_FUN_overlay_0_021423a4_overlay_0_0217a224: ; 0x0217A224
 	.word ov0_021423A4
 	.word ov0_0216C5FC
-	.word sub_020332A4
+	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_0217a230
 ptr_FUN_overlay_0_021421d0_overlay_0_0217a230: ; 0x0217A230
@@ -74197,12 +74197,12 @@ ptr_FUN_overlay_0_0216ae78_overlay_0_0217a244: ; 0x0217A244
     .global ptr_FUN_overlay_0_0216a804_overlay_0_0217a254
 ptr_FUN_overlay_0_0216a804_overlay_0_0217a254: ; 0x0217A254
 	.word ov0_0216A804
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 	.word ov0_0216A7E8
@@ -74222,8 +74222,8 @@ ptr_FUN_overlay_0_0216c6d0_overlay_0_0217a290: ; 0x0217A290
     .global ptr_FUN_overlay_0_021423a4_overlay_0_0217a294
 ptr_FUN_overlay_0_021423a4_overlay_0_0217a294: ; 0x0217A294
 	.word ov0_021423A4
-	.word sub_02033028
-	.word sub_020332A4
+	.word _ZN12CFieldEffect12sub_02033028Ev
+	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_0217a2a0
 ptr_FUN_overlay_0_021421d0_overlay_0_0217a2a0: ; 0x0217A2A0
@@ -74252,12 +74252,12 @@ ptr_FUN_overlay_0_0216af14_overlay_0_0217a2b4: ; 0x0217A2B4
     .global ptr_FUN_overlay_0_0216aac8_overlay_0_0217a2c4
 ptr_FUN_overlay_0_0216aac8_overlay_0_0217a2c4: ; 0x0217A2C4
 	.word ov0_0216AAC8
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 	.word ov0_0216A7E8
@@ -74277,7 +74277,7 @@ ptr_FUN_overlay_0_0216b5ec_overlay_0_0217a300: ; 0x0217A300
 ptr_FUN_overlay_0_021423a4_overlay_0_0217a304: ; 0x0217A304
 	.word ov0_021423A4
 	.word ov0_0216C5E4
-	.word sub_020332A4
+	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_0217a310
 ptr_FUN_overlay_0_021421d0_overlay_0_0217a310: ; 0x0217A310
@@ -74306,12 +74306,12 @@ ptr_FUN_overlay_0_0216c004_overlay_0_0217a324: ; 0x0217A324
     .global ptr_FUN_overlay_0_0216b744_overlay_0_0217a334
 ptr_FUN_overlay_0_0216b744_overlay_0_0217a334: ; 0x0217A334
 	.word ov0_0216B744
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 	.word ov0_0216A7E8
@@ -74451,7 +74451,7 @@ ptr_FUN_overlay_0_0216cd00_overlay_0_0217a588: ; 0x0217A588
 ptr_FUN_overlay_0_021423a4_overlay_0_0217a58c: ; 0x0217A58C
 	.word ov0_021423A4
 	.word ov0_0216D2A4
-	.word sub_020332A4
+	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_0217a598
 ptr_FUN_overlay_0_021421d0_overlay_0_0217a598: ; 0x0217A598
@@ -74480,12 +74480,12 @@ ptr_FUN_overlay_0_0215b784_overlay_0_0217a5ac: ; 0x0217A5AC
     .global ptr_FUN_overlay_0_0216cdb8_overlay_0_0217a5bc
 ptr_FUN_overlay_0_0216cdb8_overlay_0_0217a5bc: ; 0x0217A5BC
 	.word ov0_0216CDB8
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 
@@ -74572,12 +74572,12 @@ ptr_FUN_overlay_0_0216dcb4_overlay_0_0217a684: ; 0x0217A684
 	.word ov0_02142398
 	.word ov0_0214234C
 	.word ov0_0216DE30
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 
@@ -74673,10 +74673,10 @@ ptr_FUN_overlay_0_0216e324_overlay_0_0217a77c: ; 0x0217A77C
 ptr_FUN_overlay_0_0216e4e0_overlay_0_0217a780: ; 0x0217A780
 	.word ov0_0216E4E0
 	.word ov0_0216EB28
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 
@@ -74836,8 +74836,8 @@ ptr_FUN_overlay_0_0216f3b0_overlay_0_0217a970: ; 0x0217A970
     .global ptr_FUN_overlay_0_021423a4_overlay_0_0217a974
 ptr_FUN_overlay_0_021423a4_overlay_0_0217a974: ; 0x0217A974
 	.word ov0_021423A4
-	.word sub_02033028
-	.word sub_020332A4
+	.word _ZN12CFieldEffect12sub_02033028Ev
+	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_0217a980
 ptr_FUN_overlay_0_021421d0_overlay_0_0217a980: ; 0x0217A980
@@ -74863,12 +74863,12 @@ ptr_FUN_overlay_0_0216af14_overlay_0_0217a994: ; 0x0217A994
 	.word ov0_02142398
 	.word ov0_0214234C
 	.word ov0_0216EFFC
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 	.word ov0_0216A7E8
@@ -74889,7 +74889,7 @@ ptr_FUN_overlay_0_0216ebd0_overlay_0_0217a9e0: ; 0x0217A9E0
 ptr_FUN_overlay_0_021423a4_overlay_0_0217a9e4: ; 0x0217A9E4
 	.word ov0_021423A4
 	.word ov0_0216EF00
-	.word sub_020332A4
+	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_0217a9f0
 ptr_FUN_overlay_0_021421d0_overlay_0_0217a9f0: ; 0x0217A9F0
@@ -74915,12 +74915,12 @@ ptr_FUN_overlay_0_0216ec14_overlay_0_0217aa04: ; 0x0217AA04
 	.word ov0_0216EBEC
 	.word ov0_0214234C
 	.word ov0_0216EBFC
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 	.word ov0_0216A7E8
@@ -75075,7 +75075,7 @@ ptr_FUN_overlay_0_0216f6f8_overlay_0_0217abb0: ; 0x0217ABB0
 ptr_FUN_overlay_0_021423a4_overlay_0_0217abb4: ; 0x0217ABB4
 	.word ov0_021423A4
 	.word ov0_021700B4
-	.word sub_020332A4
+	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_0217abc0
 ptr_FUN_overlay_0_021421d0_overlay_0_0217abc0: ; 0x0217ABC0
@@ -75104,12 +75104,12 @@ ptr_FUN_overlay_0_0216fae0_overlay_0_0217abd4: ; 0x0217ABD4
     .global ptr_FUN_overlay_0_0216f7b0_overlay_0_0217abe4
 ptr_FUN_overlay_0_0216f7b0_overlay_0_0217abe4: ; 0x0217ABE4
 	.word ov0_0216F7B0
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 
@@ -75171,13 +75171,13 @@ ptr_FUN_overlay_0_02143bf0_overlay_0_0217ac6c: ; 0x0217AC6C
 	.word ov0_0214239C
 	.word ov0_02142398
 	.word ov0_0214234C
-	.word sub_0203312C
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_0203312CEii
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 	.word sub_02041C14
@@ -75271,12 +75271,12 @@ ptr_FUN_overlay_0_02170e04_overlay_0_0217ad4c: ; 0x0217AD4C
     .global ptr_FUN_overlay_0_021709d0_overlay_0_0217ad5c
 ptr_FUN_overlay_0_021709d0_overlay_0_0217ad5c: ; 0x0217AD5C
 	.word ov0_021709D0
-	.word sub_02033244
+	.word _ZN12CFieldEffect12sub_02033244Eiii
 	.word ov0_02170E30
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 
@@ -75392,12 +75392,12 @@ ptr_FUN_overlay_0_02171598_overlay_0_0217ae84: ; 0x0217AE84
 	.word ov0_02142398
 	.word ov0_0214234C
 	.word ov0_02171228
-	.word sub_02033244
-	.word sub_02033440
-	.word sub_0203331C
-	.word sub_02033388
-	.word sub_020333D8
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_02033244Eiii
+	.word _ZN12CFieldEffect12sub_02033440Et
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
+	.word _ZN12CFieldEffect12sub_020333D8Eii
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 
@@ -75566,12 +75566,12 @@ ptr_FUN_overlay_0_02171cfc_overlay_0_0217b030: ; 0x0217B030
 	.word ov0_021722D4
 	.word ov0_0214234C
 	.word ov0_02171C08
-	.word sub_02033244
+	.word _ZN12CFieldEffect12sub_02033244Eiii
 	.word ov0_021721A0
-	.word sub_0203331C
-	.word sub_02033388
+	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
+	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
 	.word ov0_02171BD4
-	.word sub_0203365C
+	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word ov0_02142390
 	.word ov0_02142388
 

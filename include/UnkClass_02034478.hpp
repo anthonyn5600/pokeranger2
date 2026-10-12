@@ -90,7 +90,7 @@ public:
     s32 unk_FC;
     s32 unk_100[0x28];
     s32 unk_1A0;
-    u8 unk_1A4[0x4];
+    int unk_1A4;
     int unk_1A8;
 };
 

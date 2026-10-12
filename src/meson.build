@@ -70,6 +70,8 @@ pokeranger2_cxx = files(
     'UnkClass_0202A510.cpp',
     'CBackupBase.cpp',
     'sub_0202B80C.cpp',
+    'CBackupSync.cpp',
+    'Syscall.cpp',
     'UnkClass_02034478.cpp',
     'FieldPartnerIndex.cpp',
     'CFieldScreenEffect.cpp',

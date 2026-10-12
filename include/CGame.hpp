@@ -38,7 +38,8 @@ public:
     CBattleResultParameter();
 
 public:
-    u8 unk_00[0xC];
+    u8 unk_00[0x8];
+    u32 unk_08;
     u8 unk_0C;
     u8 unk_0D[0x7];
     u8 unk_14;
@@ -58,6 +59,8 @@ public:
     u8 unk_03;
     u32 unk_04;
     u32 unk_08;
+    u32 unk_0C;
+    u32 unk_10;
 };
 
 class CGame {

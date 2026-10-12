@@ -25,7 +25,17 @@ public:
         virtual int func5();
     };
 
-    u8 unk_004[0x678];
+    u8 unk_004[0x604];
+    void *unk_608;
+    void *unk_60C;
+    u8 unk_610[0x10];
+    void *unk_620;
+    u8 unk_624[0x18];
+    void *unk_63C;
+    void *unk_640;
+    u8 unk_644[0xC];
+    void *unk_650;
+    u8 unk_654[0x28];
     Unk67C unk_67C;
     u8 unk_680[0x200];
 };

@@ -11,7 +11,9 @@ public:
     UnkClass_02033F04(u32 arg0);
 
 public:
-    u8 unk_00[0x1881C];
+    u8 unk_00[0x18];
+    int unk_18;
+    u8 unk_1C[0x18800];
 };
 
 STATIC_SIZE_ASSERT(UnkClass_02033F04, 0x1881C);

@@ -39,7 +39,7 @@ public:
 
 STATIC_SIZE_ASSERT(CBackup, 0x14);
 
-// Backup through the other CPU (0x0202B8A4..); still asm
+// Synchronous backup: Read/Write only queue the request, Wait copies it in 0x800-byte steps
 class CBackupSync : public CBackupBase {
 public:
     CBackupSync();
@@ -50,7 +50,10 @@ public:
     virtual BOOL Wait(BOOL block);
 
 public:
-    u8 unk_10[0x10];
+    u32 unk_10; // bytes left
+    u32 unk_14; // memory address
+    u32 unk_18; // backup address
+    int unk_1C; // 1 = read, 2 = write
 };
 
 STATIC_SIZE_ASSERT(CBackupSync, 0x20);
