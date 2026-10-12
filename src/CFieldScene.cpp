@@ -655,7 +655,6 @@ void ov0_0214FCD0(UnkClass_0214FB28 *obj);
 void ov0_0214FF44(UnkClass_0214FD4C *obj);
 void ov0_0214FEF0(UnkClass_0214FD4C *obj);
 int ov0_0213FFC4(UnkClass_0213FF64 *obj, CFieldScene *scene, UnkClass_02001C04 *arg2, CTouchPanel *touch);
-void ov0_0213E4BC(CFieldPartner *partner, u32 id);
 void ov0_02161F88(void);
 void ov0_02159D7C(UnkClass_0215994C *obj);
 void ov0_021428EC(UnkClass_02142428 *obj, int fps, BOOL paused);
@@ -1011,7 +1010,7 @@ u32 CFieldScene::func0()
                     if (++unk_0088 >= 2) {
                         unk_0084 = 4;
                         unk_0140 = -1;
-                        ov0_0213E4BC(unk_007C, unk_0080->unk_58);
+                        unk_007C->ov0_0213E4BC(unk_0080->unk_58);
                     }
                     break;
                 case 4:

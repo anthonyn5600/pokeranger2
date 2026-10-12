@@ -139,15 +139,9 @@
 .public _ZN13CArchiveGuardD1Ev
 .public _ZN13CFieldPartner12ov0_021373C0EP7Point2D
 .public _ZN13CFieldPartner12ov0_02137AFCEP7Point2DPS_
-.public _ZN13CFieldPartner12ov0_02138628Ev
 .public _ZN13CFieldPartner12ov0_02138714Ei
 .public _ZN13CFieldPartner12ov0_02138A7CEv
 .public _ZN13CFieldPartner12ov0_02138B44Ev
-.public _ZN13CFieldPartner12sub_0202D7E0Ev
-.public _ZN13CFieldPartner12sub_02032A44Ei
-.public _ZN13CFieldPartner9SetUnk1ECEi
-.public _ZN13CFieldPartnerC2Ev
-.public _ZN13CFieldPartnerD2Ev
 .public _ZN14CPlayerHPGauge12SetCurrentHPEt
 .public _ZN14CPlayerHPGauge5SetHPEtt
 .public _ZN14CPlayerHPGauge7GetPartEi
@@ -170,11 +164,6 @@
 .public _ZN16CEffectActorDataD2Ev
 .public _ZN17CFieldActorManage12sub_0203F7F4EP11PointPair2DliP7Point2D
 .public _ZN17CFieldActorManage12sub_02040158E7Point2Dli
-.public _ZN17CFieldActorScript12sub_0203BE48EP11CFieldActorPKc
-.public _ZN17CFieldActorScript12sub_0203BF00Ev
-.public _ZN17CFieldActorScript12sub_0203BF20Ev
-.public _ZN17CFieldActorScriptC2Ei
-.public _ZN17CFieldActorScriptD2Ev
 .public _ZN17CFieldEnemyManage12ov0_02135E30Eitti
 .public _ZN17CFieldEnemyManage12ov0_02136384Ev
 .public _ZN17CFieldEnemyManage12ov0_0213669CEmt
@@ -281,10 +270,8 @@
 .public _ZN9CNCERFileC1EPKcmmm
 .public _ZTI10CPrimitive
 .public _ZTI11CFieldActor
-.public _ZTI13CFieldPartner
 .public _ZTI15CEffectResource
 .public _ZTI16CEffectActorData
-.public _ZTI17CFieldActorScript
 .public _ZTV16CEffectActorData
 .public _ZTV17CPrimitiveRectNTF
 .public _ZTVN10__cxxabiv117__class_type_infoE
@@ -359,5 +346,4 @@
 .public sub_02044B48
 .public sub_02044B78
 .public sub_02044B84
-.public sub_02045A18
 .public sub_02046040

@@ -3,19 +3,14 @@
 
 #include <nitro.h>
 
-#include "field/CFieldDrawActor.hpp"
 #include "UnkClass_0211E3FC.hpp"
 #include "common.hpp"
 #include "field/CFieldActorScript.hpp"
+#include "field/CFieldDrawActor.hpp"
 #include "sub_02006000.hpp"
 
 class CFieldMap;
 class UnkClass_020416AC;
-
-struct UnkStruct_0211EA94 {
-    u8 unk_00[0x4];
-    int unk_04;
-};
 
 class CFieldDrawObject : public CDrawObject {
 public:
