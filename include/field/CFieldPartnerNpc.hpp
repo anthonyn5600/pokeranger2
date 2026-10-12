@@ -15,8 +15,11 @@ public:
     virtual BOOL sub_0203D578(CFieldMap *map);
     virtual BOOL sub_0203DA38();
 
+    void SetName(const char *name);
+    void ClearName();
+
 public:
-    u8 unk_278[0x10];
+    char m_name[0x20];
 };
 
 STATIC_SIZE_ASSERT(CFieldPartnerNpc, 0x288);

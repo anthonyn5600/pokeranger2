@@ -16,6 +16,11 @@ public:
     UnkClass_0213DDCC();
     ~UnkClass_0213DDCC();
 
+    void Create(int count);
+    void Clear();
+    BOOL Update(Point2D *pos, int group, BOOL run);
+    void Draw(Camera2D *camera);
+
     inline CFieldEventRect *Get(int i)
     {
         if (m_count < i) {
@@ -39,13 +44,9 @@ public:
 public:
     int m_count;
     CFieldEventRect **m_items;
-    u8 unk_08[0x4];
+    BOOL m_draw;
 };
 
 STATIC_SIZE_ASSERT(UnkClass_0213DDCC, 0xC);
-
-extern "C" {
-void ov0_0213DE10(UnkClass_0213DDCC *obj, int arg1);
-}
 
 #endif // POKERANGER2_UNKCLASS_0213DDCC_HPP

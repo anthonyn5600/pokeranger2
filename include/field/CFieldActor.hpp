@@ -12,11 +12,6 @@
 class CFieldMap;
 class UnkClass_020416AC;
 
-struct UnkStruct_0211EA94 {
-    u8 unk_00[0x4];
-    int unk_04;
-};
-
 class CFieldDrawObject : public CDrawObject {
 public:
     CFieldDrawObject();

@@ -35,6 +35,7 @@
 #include "field/CFieldNpc.hpp"
 #include "field/CFieldPartner.hpp"
 #include "field/CFieldPartnerManage.hpp"
+#include "field/CFieldPartnerNpc.hpp"
 #include "field/CFieldPlayer.hpp"
 #include "field/CFieldTargetObject.hpp"
 #include "field/CFieldTargetObjectManage.hpp"
@@ -2194,7 +2195,7 @@ int sub_0202F528(int *args)
                         actor->SetPos(partner->unk_0C);
                         actor->sub_020128EC_(partner->unk_0A);
                         actor->sub_0201287C_();
-                        ov0_0213E158(actor, partner->unk_14);
+                        ((CFieldPartnerNpc *)actor)->SetName(partner->unk_14);
                     }
                 }
             }
@@ -3554,7 +3555,7 @@ int sub_020320EC(int *args)
     const char *name = (const char *)args[1];
     CFieldActor *actor = sub_0202BCD4(id);
     if (actor != NULL && (((int)actor->unk_58 >> 24) & 0xFF) == 5) {
-        ov0_0213E158(actor, (void *)name);
+        ((CFieldPartnerNpc *)actor)->SetName(name);
     }
     UnkStruct_020B26A0_8AD4 *partner = sub_0201549C(&MAIN_BSS_020B26A0, id);
     if (partner != NULL) {
