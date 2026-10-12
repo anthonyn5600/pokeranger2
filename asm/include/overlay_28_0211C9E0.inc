@@ -66,6 +66,14 @@
 .public _ZN17UnkClass_020214049GetStringEm
 .public _ZN17UnkClass_02021404C1EPKc
 .public _ZN17UnkClass_02021404D1Ev
+.public _ZN17UnkClass_0202A51012sub_0202A5A8Ev
+.public _ZN17UnkClass_0202A51012sub_0202A5ECEv
+.public _ZN17UnkClass_0202A51012sub_0202A5F8Ev
+.public _ZN17UnkClass_0202A51012sub_0202A724EiPhPiS1_i
+.public _ZN17UnkClass_0202A51012sub_0202B50CEti
+.public _ZN17UnkClass_0202A51012sub_0202B5A8EPsPt
+.public _ZN17UnkClass_0202A510C1EP5CGame
+.public _ZN17UnkClass_0202A510D1Ev
 .public _ZN17UnkClass_0203447812sub_020345D4Ev
 .public _ZN17UnkClass_0203447812sub_02034C44Ei
 .public _ZN5CGame11GetInstanceEv
@@ -78,11 +86,3 @@
 .public _ZTVN10__cxxabiv120__si_class_type_infoE
 .public _ZdlPv
 .public _Znwm
-.public sub_0202A510
-.public sub_0202A528
-.public sub_0202A5A8
-.public sub_0202A5EC
-.public sub_0202A5F8
-.public sub_0202A724
-.public sub_0202B50C
-.public sub_0202B5A8

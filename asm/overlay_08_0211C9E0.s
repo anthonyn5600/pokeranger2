@@ -302,7 +302,7 @@ _0211CD54:
 	cmp r0, #0
 	beq _0211CD84
 	ldr r1, [r4, #0x40]
-	bl sub_0202A510
+	bl _ZN17UnkClass_0202A510C1EP5CGame
 _0211CD84:
 	str r0, [r4, #8]
 	ldmia sp!, {r4, pc}
@@ -330,7 +330,7 @@ _0211CDC4:
 	ldr r0, [r4, #8]
 	cmp r0, #0
 	beq _0211CDD4
-	bl sub_0202A5A8
+	bl _ZN17UnkClass_0202A51012sub_0202A5A8Ev
 _0211CDD4:
 	ldrh r0, [r4]
 	cmp r0, #5
@@ -361,7 +361,7 @@ _0211CE20:
 	ldr r0, [r4, #8]
 	cmp r0, #0
 	beq _0211CE30
-	bl sub_0202A5EC
+	bl _ZN17UnkClass_0202A51012sub_0202A5ECEv
 _0211CE30:
 	ldrh r0, [r4]
 	cmp r0, #5
@@ -398,7 +398,7 @@ _0211CE90:
 	ldr r0, [r4, #8]
 	cmp r0, #0
 	beq _0211CEA0
-	bl sub_0202A5F8
+	bl _ZN17UnkClass_0202A51012sub_0202A5F8Ev
 _0211CEA0:
 	mov r0, r4
 	bl ov8_0211D488
@@ -483,7 +483,7 @@ _0211CF98:
 	ldmeqia sp!, {r3, r4, r5, pc}
 	beq _0211CFB8
 	mov r0, r5
-	bl sub_0202A528
+	bl _ZN17UnkClass_0202A510D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _0211CFB8:
@@ -557,7 +557,7 @@ ov8_0211CFF0: ; 0x0211CFF0
 	add r2, sp, #0x14
 	add r3, sp, #0x1c
 	mov r1, #6
-	bl sub_0202A724
+	bl _ZN17UnkClass_0202A51012sub_0202A724EiPhPiS1_i
 	mov r0, #0x44
 	bl _Znwm
 	cmp r0, #0
@@ -782,7 +782,7 @@ _0211D3D8:
 	ldr r0, [r4, #8]
 	add r1, sp, #2
 	add r2, sp, #0
-	bl sub_0202B5A8
+	bl _ZN17UnkClass_0202A51012sub_0202B5A8EPsPt
 	ldrh r0, [sp, #2]
 	cmp r0, #1
 	beq _0211D400
@@ -935,7 +935,7 @@ ov8_0211D5B8: ; 0x0211D5B8
 	mov r1, r2
 	add r2, sp, #4
 	add r3, sp, #0
-	bl sub_0202B370
+	bl _ZN17UnkClass_0202A51012sub_0202B370EtPiS0_
 	add r0, r5, r4, lsl #2
 	ldr r0, [r0, #0x24]
 	ldr r1, [sp, #4]
@@ -992,7 +992,7 @@ ov8_0211D678: ; 0x0211D678
 	ldr r0, [r0, #8]
 	bx ip
 	.align 2, 0
-_0211D684: .word sub_0202B50C
+_0211D684: .word _ZN17UnkClass_0202A51012sub_0202B50CEti
 	arm_func_end ov8_0211D678
 
 	arm_func_start ov8_0211D688

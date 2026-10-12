@@ -16,6 +16,8 @@ public:
     virtual BOOL Read(u32 src, void *dst, u32 len, MIDmaCallback callback) = 0;
     virtual BOOL Wait(BOOL block) = 0;
 
+    BOOL sub_0202B72C();
+
 public:
     BOOL unk_04; // initialized
     int unk_08; // lock ID

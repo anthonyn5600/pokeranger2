@@ -3766,7 +3766,7 @@ _0211FBF4:
 	cmp r0, #0
 	beq _0211FC24
 	ldr r1, [r4, #0x38]
-	bl sub_0202A510
+	bl _ZN17UnkClass_0202A510C1EP5CGame
 _0211FC24:
 	str r0, [r4, #8]
 	ldmia sp!, {r4, pc}
@@ -3789,7 +3789,7 @@ _0211FC54:
 	ldr r0, [r4, #8]
 	cmp r0, #0
 	beq _0211FC64
-	bl sub_0202A5A8
+	bl _ZN17UnkClass_0202A51012sub_0202A5A8Ev
 _0211FC64:
 	ldrh r0, [r4]
 	cmp r0, #6
@@ -3837,7 +3837,7 @@ ov27_0211FCE4: ; 0x0211FCE4
 	ldr r0, [r4, #8]
 	cmp r0, #0
 	beq _0211FCFC
-	bl sub_0202A5EC
+	bl _ZN17UnkClass_0202A51012sub_0202A5ECEv
 	arm_func_end ov27_0211FCE4
 _0211FCFC:
 	ldrh r0, [r4]
@@ -3864,7 +3864,7 @@ ov27_0211FD34: ; 0x0211FD34
 	ldr r0, [r4, #8]
 	cmp r0, #0
 	beq _0211FD4C
-	bl sub_0202A5F8
+	bl _ZN17UnkClass_0202A51012sub_0202A5F8Ev
 	arm_func_end ov27_0211FD34
 _0211FD4C:
 	mov r0, r4
@@ -3932,7 +3932,7 @@ _0211FE00:
 	ldmeqia sp!, {r3, r4, r5, pc}
 	beq _0211FE20
 	mov r0, r5
-	bl sub_0202A528
+	bl _ZN17UnkClass_0202A510D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _0211FE20:
@@ -3973,7 +3973,7 @@ ov27_0211FE58: ; 0x0211FE58
 	add r2, sp, #8
 	add r3, sp, #0x10
 	mov r1, #6
-	bl sub_0202A724
+	bl _ZN17UnkClass_0202A51012sub_0202A724EiPhPiS1_i
 	mov r0, #0x44
 	bl _Znwm
 	cmp r0, #0
@@ -4106,7 +4106,7 @@ ov27_02120068: ; 0x02120068
 	cmp r0, #0
 	beq _0212008C
 	mov r1, #0
-	bl sub_0202AD04
+	bl _ZN17UnkClass_0202A51012sub_0202AD04Ei
 	arm_func_end ov27_02120068
 _0212008C:
 	ldr r0, [r4, #0x14]
@@ -4261,7 +4261,7 @@ _0212028C:
 	ldr r0, [r4, #8]
 	add r1, sp, #2
 	add r2, sp, #0
-	bl sub_0202B5A8
+	bl _ZN17UnkClass_0202A51012sub_0202B5A8EPsPt
 	ldrh r0, [sp, #2]
 	cmp r0, #1
 	beq _021202B4
@@ -4404,7 +4404,7 @@ ov27_02120444: ; 0x02120444
 	mov r1, r2
 	add r2, sp, #4
 	add r3, sp, #0
-	bl sub_0202B370
+	bl _ZN17UnkClass_0202A51012sub_0202B370EtPiS0_
 	add r0, r5, r4, lsl #2
 	ldr r0, [r0, #0x20]
 	ldr r1, [sp, #4]
@@ -4461,7 +4461,7 @@ ov27_02120504: ; 0x02120504
 	ldr r0, [r0, #8]
 	bx ip
 	.align 2, 0
-_02120510: .word sub_0202B50C
+_02120510: .word _ZN17UnkClass_0202A51012sub_0202B50CEti
 	arm_func_end ov27_02120504
 
 	arm_func_start ov27_02120514

@@ -643,7 +643,7 @@ _0211D1BC:
 	cmp r0, #0
 	beq _0211D1EC
 	ldr r1, [r4, #0x3c]
-	bl sub_0202A510
+	bl _ZN17UnkClass_0202A510C1EP5CGame
 _0211D1EC:
 	str r0, [r4, #0xc]
 	ldr r0, _0211D214 ; =0x000010FC
@@ -677,7 +677,7 @@ _0211D240:
 	ldr r0, [r4, #0xc]
 	cmp r0, #0
 	beq _0211D250
-	bl sub_0202A5A8
+	bl _ZN17UnkClass_0202A51012sub_0202A5A8Ev
 _0211D250:
 	ldrh r0, [r4]
 	cmp r0, #7
@@ -728,7 +728,7 @@ ov28_0211D2DC: ; 0x0211D2DC
 	ldr r0, [r4, #0xc]
 	cmp r0, #0
 	beq _0211D2F4
-	bl sub_0202A5EC
+	bl _ZN17UnkClass_0202A51012sub_0202A5ECEv
 	arm_func_end ov28_0211D2DC
 _0211D2F4:
 	ldrh r0, [r4]
@@ -762,7 +762,7 @@ ov28_0211D344: ; 0x0211D344
 	ldr r0, [r4, #0xc]
 	cmp r0, #0
 	beq _0211D35C
-	bl sub_0202A5F8
+	bl _ZN17UnkClass_0202A51012sub_0202A5F8Ev
 	arm_func_end ov28_0211D344
 _0211D35C:
 	mov r0, r4
@@ -835,7 +835,7 @@ _0211D424:
 	ldmeqia sp!, {r3, r4, r5, pc}
 	beq _0211D444
 	mov r0, r5
-	bl sub_0202A528
+	bl _ZN17UnkClass_0202A510D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _0211D444:
@@ -965,7 +965,7 @@ _0211D56C:
 	ldr r0, [r4, #0xc]
 	add r2, sp, #0x14
 	add r3, sp, #0x1c
-	bl sub_0202A724
+	bl _ZN17UnkClass_0202A51012sub_0202A724EiPhPiS1_i
 	ldr r5, [r4, #0x14]
 	cmp r5, #0
 	beq _0211D63C
@@ -1106,7 +1106,7 @@ _0211D7D8:
 	ldr r0, [r4, #0xc]
 	add r1, sp, #2
 	add r2, sp, #0
-	bl sub_0202B5A8
+	bl _ZN17UnkClass_0202A51012sub_0202B5A8EPsPt
 	ldrh r0, [sp, #2]
 	cmp r0, #1
 	beq _0211D800
@@ -1261,7 +1261,7 @@ ov28_0211D9D0: ; 0x0211D9D0
 	ldr r0, [r0, #0xc]
 	bx ip
 	.align 2, 0
-_0211D9DC: .word sub_0202B50C
+_0211D9DC: .word _ZN17UnkClass_0202A51012sub_0202B50CEti
 	arm_func_end ov28_0211D9D0
 
 	arm_func_start ov28_0211D9E0

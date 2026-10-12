@@ -154,10 +154,12 @@
 .public _ZN15CSoftwareSpriteD1Ev
 .public _ZN16CEffectActorData10GetPaletteEv
 .public _ZN16CEffectActorData12sub_020295B0Ei
+.public _ZN16CEffectActorData12sub_020296B0Ev
 .public _ZN16CEffectActorData5EntryC1Ev
 .public _ZN16CEffectActorData6GetCacEi
 .public _ZN16CEffectActorData7GetNcbrEi
 .public _ZN16CEffectActorData7GetNcerEi
+.public _ZN16CEffectActorData7ReleaseEv
 .public _ZN16CEffectActorData8GetCountEv
 .public _ZN16CEffectActorData8IsLoadedEv
 .public _ZN16CEffectActorDataD2Ev
@@ -278,6 +280,7 @@
 .public _ZTI15CEffectResource
 .public _ZTI16CEffectActorData
 .public _ZTI17CFieldActorScript
+.public _ZTV16CEffectActorData
 .public _ZTV17CPrimitiveRectNTF
 .public _ZTVN10__cxxabiv117__class_type_infoE
 .public _ZTVN10__cxxabiv120__si_class_type_infoE
@@ -292,7 +295,6 @@
 .public _ll_div
 .public _s32_div_f
 .public g_ntfTextureFormats
-.public ptr_FUN_020294c0_0208c4a4
 .public s_c000First_0208ac1c
 .public s_game
 .public strcpy
@@ -334,8 +336,6 @@
 .public sub_02018E88
 .public sub_02018E94
 .public sub_02019278
-.public sub_02029540
-.public sub_020296B0
 .public sub_02033028
 .public sub_0203312C
 .public sub_02033244

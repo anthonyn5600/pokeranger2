@@ -6183,7 +6183,7 @@ sub_02030468: ; 0x02030468
 	beq _02030488
 	ldr r0, [r0, #0x60]
 	mov r1, #0xc8
-	bl sub_0202982C
+	bl _ZN17UnkClass_0202980012sub_0202982CEi
 	arm_func_end sub_02030468
 _02030488:
 	mov r0, #0
@@ -6199,7 +6199,7 @@ sub_02030494: ; 0x02030494
 	cmp r0, #0
 	beq _020304C0
 	ldr r0, [r0, #0x60]
-	bl sub_0202A1AC
+	bl _ZN17UnkClass_0202980012sub_0202A1ACEv
 	cmp r0, #8
 	movne r0, #1
 	moveq r0, #0
@@ -6219,7 +6219,7 @@ sub_020304CC: ; 0x020304CC
 	cmp r0, #0
 	beq _020304E8
 	ldr r0, [r0, #0x60]
-	bl sub_0202A1B4
+	bl _ZN17UnkClass_0202980012sub_0202A1B4Ev
 	arm_func_end sub_020304CC
 _020304E8:
 	mov r0, #0
@@ -7255,7 +7255,7 @@ sub_0203117C: ; 0x0203117C
 	beq _020311A0
 	ldr r0, [r0, #0x60]
 	ldr r1, [r2]
-	bl sub_0202982C
+	bl _ZN17UnkClass_0202980012sub_0202982CEi
 	arm_func_end sub_0203117C
 _020311A0:
 	mov r1, #1
@@ -7295,7 +7295,7 @@ sub_0203120C: ; 0x0203120C
 	cmp r0, #0
 	beq _02031238
 	ldr r0, [r0, #0x60]
-	bl sub_0202A1AC
+	bl _ZN17UnkClass_0202980012sub_0202A1ACEv
 	cmp r0, #2
 	movne r0, #1
 	moveq r0, #0
@@ -7315,7 +7315,7 @@ sub_02031244: ; 0x02031244
 	cmp r0, #0
 	beq _02031260
 	ldr r0, [r0, #0x60]
-	bl sub_0202A1B4
+	bl _ZN17UnkClass_0202980012sub_0202A1B4Ev
 	arm_func_end sub_02031244
 _02031260:
 	ldr r0, _020312B8 ; =0x04000050
@@ -7354,7 +7354,7 @@ sub_020312C4: ; 0x020312C4
 	beq _020312E4
 	ldr r0, [r0, #0x60]
 	mov r1, #0x64
-	bl sub_0202982C
+	bl _ZN17UnkClass_0202980012sub_0202982CEi
 	arm_func_end sub_020312C4
 _020312E4:
 	ldr r0, _02031338 ; =_0208F304
@@ -7389,7 +7389,7 @@ sub_0203133C: ; 0x0203133C
 	cmp r0, #0
 	beq _02031368
 	ldr r0, [r0, #0x60]
-	bl sub_0202A1AC
+	bl _ZN17UnkClass_0202980012sub_0202A1ACEv
 	cmp r0, #9
 	movne r0, #1
 	moveq r0, #0
@@ -7409,7 +7409,7 @@ sub_02031374: ; 0x02031374
 	cmp r0, #0
 	beq _02031390
 	ldr r0, [r0, #0x60]
-	bl sub_0202A1B4
+	bl _ZN17UnkClass_0202980012sub_0202A1B4Ev
 	arm_func_end sub_02031374
 _02031390:
 	mov r0, #0
@@ -7570,7 +7570,7 @@ sub_02031574: ; 0x02031574
 	beq _02031594
 	ldr r0, [r0, #0x60]
 	mov r1, #0x65
-	bl sub_0202982C
+	bl _ZN17UnkClass_0202980012sub_0202982CEi
 	arm_func_end sub_02031574
 _02031594:
 	ldr r0, _020315D4 ; =_0208F304
@@ -7600,7 +7600,7 @@ sub_020315D8: ; 0x020315D8
 	cmp r0, #0
 	beq _02031604
 	ldr r0, [r0, #0x60]
-	bl sub_0202A1AC
+	bl _ZN17UnkClass_0202980012sub_0202A1ACEv
 	cmp r0, #9
 	movne r0, #1
 	moveq r0, #0
@@ -7620,7 +7620,7 @@ sub_02031610: ; 0x02031610
 	cmp r0, #0
 	beq _0203162C
 	ldr r0, [r0, #0x60]
-	bl sub_0202A1B4
+	bl _ZN17UnkClass_0202980012sub_0202A1B4Ev
 	arm_func_end sub_02031610
 _0203162C:
 	mov r0, #0
@@ -7769,7 +7769,7 @@ sub_020317A4: ; 0x020317A4
 	beq _020317C4
 	ldr r0, [r0, #0x60]
 	mov r1, #0x66
-	bl sub_0202982C
+	bl _ZN17UnkClass_0202980012sub_0202982CEi
 	arm_func_end sub_020317A4
 _020317C4:
 	ldr r0, _02031804 ; =_0208F304
@@ -7799,7 +7799,7 @@ sub_02031808: ; 0x02031808
 	cmp r0, #0
 	beq _02031834
 	ldr r0, [r0, #0x60]
-	bl sub_0202A1AC
+	bl _ZN17UnkClass_0202980012sub_0202A1ACEv
 	cmp r0, #9
 	movne r0, #1
 	moveq r0, #0
@@ -7819,7 +7819,7 @@ sub_02031840: ; 0x02031840
 	cmp r0, #0
 	beq _0203185C
 	ldr r0, [r0, #0x60]
-	bl sub_0202A1B4
+	bl _ZN17UnkClass_0202980012sub_0202A1B4Ev
 	arm_func_end sub_02031840
 _0203185C:
 	mov r0, #0

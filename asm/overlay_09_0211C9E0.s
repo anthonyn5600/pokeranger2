@@ -282,7 +282,7 @@ _0211CD00:
 	cmp r0, #0
 	beq _0211CD38
 	ldr r1, [r4, #0x54]
-	bl sub_0202A510
+	bl _ZN17UnkClass_0202A510C1EP5CGame
 _0211CD38:
 	str r0, [r4, #0x14]
 	ldmia sp!, {r4, pc}
@@ -310,7 +310,7 @@ _0211CD78:
 	ldr r0, [r4, #0x14]
 	cmp r0, #0
 	beq _0211CD88
-	bl sub_0202A5A8
+	bl _ZN17UnkClass_0202A51012sub_0202A5A8Ev
 _0211CD88:
 	ldrh r0, [r4]
 	cmp r0, #5
@@ -393,7 +393,7 @@ _0211CE98:
 	ldr r0, [r4, #0x14]
 	cmp r0, #0
 	beq _0211CEA8
-	bl sub_0202A5EC
+	bl _ZN17UnkClass_0202A51012sub_0202A5ECEv
 _0211CEA8:
 	ldrh r0, [r4]
 	cmp r0, #5
@@ -424,7 +424,7 @@ ov9_0211CEF0: ; 0x0211CEF0
 	ldr r0, [r4, #0x14]
 	cmp r0, #0
 	beq _0211CF08
-	bl sub_0202A5F8
+	bl _ZN17UnkClass_0202A51012sub_0202A5F8Ev
 	arm_func_end ov9_0211CEF0
 _0211CF08:
 	mov r0, r4
@@ -440,7 +440,7 @@ ov9_0211CF14: ; 0x0211CF14
 	str r1, [r0, #0x14]
 	ldr r0, [r4, #0x14]
 	mov r2, #4
-	bl sub_0202B50C
+	bl _ZN17UnkClass_0202A51012sub_0202B50CEti
 	ldr r0, [r4, #0x54]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x494]
@@ -522,7 +522,7 @@ _0211D02C:
 	beq _0211D054
 	beq _0211D04C
 	mov r0, r5
-	bl sub_0202A528
+	bl _ZN17UnkClass_0202A510D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _0211D04C:
@@ -672,7 +672,7 @@ ov9_0211D0CC: ; 0x0211D0CC
 	add r2, sp, #0x18
 	add r3, sp, #0x20
 	mov r1, #2
-	bl sub_0202A724
+	bl _ZN17UnkClass_0202A51012sub_0202A724EiPhPiS1_i
 	ldr r1, [sp, #0x1c]
 	mov r0, #0x44
 	add r1, r1, #2
@@ -878,7 +878,7 @@ _0211D538:
 	addeq sp, sp, #8
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
 	add r1, sp, #0
-	bl sub_0202B140
+	bl _ZN17UnkClass_0202A51012sub_0202B140EPy
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
@@ -929,7 +929,7 @@ _0211D5FC:
 	ldr r0, [r4, #0x14]
 	add r1, sp, #2
 	add r2, sp, #0
-	bl sub_0202B5A8
+	bl _ZN17UnkClass_0202A51012sub_0202B5A8EPsPt
 	ldrh r0, [sp, #2]
 	cmp r0, #1
 	beq _0211D624
@@ -1213,7 +1213,7 @@ ov9_0211D980: ; 0x0211D980
 	mov r5, r0
 	ldr r0, [r5, #0x14]
 	mov r4, r2
-	bl sub_0202B50C
+	bl _ZN17UnkClass_0202A51012sub_0202B50CEti
 	cmp r4, #4
 	bne _0211D9AC
 	ldr r0, [r5, #0x40]

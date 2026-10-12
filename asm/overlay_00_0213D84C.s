@@ -5566,7 +5566,7 @@ _ZN17UnkClass_02142428C1EP17UnkClass_02143714: ; 0x02142428
 	bl ov0_021437C8
 	add r0, r6, #0x348
 	add r5, r0, #0x400
-	ldr r1, _02142690 ; =ptr_FUN_020294c0_0208c4a4
+	ldr r1, _02142690 ; =_ZTV16CEffectActorData+8
 	add r0, r5, #4
 	str r1, [r6, #0x748]
 	bl _ZN17UnkClass_02007AA4C1Ev
@@ -5705,7 +5705,7 @@ _02142660:
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 _0214268C: .word ptr_FUN_overlay_0_02143424_overlay_0_02174490
-_02142690: .word ptr_FUN_020294c0_0208c4a4
+_02142690: .word _ZTV16CEffectActorData+8
 _02142694: .word PTR_LAB_overlay_0_021426e4_overlay_0_02177b5c
 _02142698: .word MAIN_BSS_0210CA60
 _0214269C: .word MAIN_BSS_0210C1C0
@@ -7841,7 +7841,7 @@ _0214415C:
 	bl _Znwm
 	movs sl, r0
 	beq _021441EC
-	ldr r1, _02144358 ; =ptr_FUN_020294c0_0208c4a4
+	ldr r1, _02144358 ; =_ZTV16CEffectActorData+8
 	add r0, sl, #4
 	str r1, [sl]
 	bl _ZN17UnkClass_02007AA4C1Ev
@@ -7948,7 +7948,7 @@ _02144348: .word ov0_021450CC
 _0214434C: .word ov0_0214509C
 _02144350: .word PTR_LAB_overlay_0_02145134_overlay_0_021747a0
 _02144354: .word PTR_LAB_overlay_0_02144368_overlay_0_021747bc
-_02144358: .word ptr_FUN_020294c0_0208c4a4
+_02144358: .word _ZTV16CEffectActorData+8
 _0214435C: .word PTR_LAB_overlay_0_021426e4_overlay_0_02177b5c
 _02144360: .word 0x0000FFFF
 _02144364: .word DAT_overlay_0_02172ec4
@@ -9044,7 +9044,7 @@ ov0_0214513C: ; 0x0214513C
 	bl _Znwm
 	movs r6, r0
 	beq _021451BC
-	ldr r1, _0214526C ; =ptr_FUN_020294c0_0208c4a4
+	ldr r1, _0214526C ; =_ZTV16CEffectActorData+8
 	add r0, r6, #4
 	str r1, [r6]
 	bl _ZN17UnkClass_02007AA4C1Ev
@@ -9103,7 +9103,7 @@ _0214522C:
 _02145260: .word ptr_FUN_overlay_0_021423c0_overlay_0_0217440c
 _02145264: .word ptr_FUN_overlay_11_0214ffc8_overlay_0_02177a74
 _02145268: .word ptr_FUN_overlay_0_02145278_overlay_0_021749bc
-_0214526C: .word ptr_FUN_020294c0_0208c4a4
+_0214526C: .word _ZTV16CEffectActorData+8
 _02145270: .word PTR_LAB_overlay_0_021426e4_overlay_0_02177b5c
 _02145274: .word s_effect_anime_data_is_null_overlay_0_02174a18
 
@@ -10287,7 +10287,7 @@ ov0_02146180: ; 0x02146180
 	bl _Znwm
 	movs r5, r0
 	beq _02146204
-	ldr r1, _021462B4 ; =ptr_FUN_020294c0_0208c4a4
+	ldr r1, _021462B4 ; =_ZTV16CEffectActorData+8
 	add r0, r5, #4
 	str r1, [r5]
 	bl _ZN17UnkClass_02007AA4C1Ev
@@ -10345,7 +10345,7 @@ _021462A4: .word ptr_FUN_overlay_11_0214ffc8_overlay_0_02177a74
 _021462A8: .word ptr_FUN_overlay_0_021462bc_overlay_0_02174c30
 _021462AC: .word _ZN15CSoftwareSpriteD1Ev
 _021462B0: .word _ZN15CSoftwareSpriteC1Ev
-_021462B4: .word ptr_FUN_020294c0_0208c4a4
+_021462B4: .word _ZTV16CEffectActorData+8
 _021462B8: .word PTR_LAB_overlay_0_021426e4_overlay_0_02177b5c
 
 	arm_func_start ov0_021462BC
@@ -10697,7 +10697,7 @@ ov0_021466B0: ; 0x021466B0
 	bl _Znwm
 	movs r6, r0
 	beq _02146740
-	ldr r1, _021467D8 ; =ptr_FUN_020294c0_0208c4a4
+	ldr r1, _021467D8 ; =_ZTV16CEffectActorData+8
 	add r0, r6, #4
 	str r1, [r6]
 	bl _ZN17UnkClass_02007AA4C1Ev
@@ -10749,7 +10749,7 @@ _021467C8: .word ptr_FUN_overlay_11_0214ffc8_overlay_0_02177a74
 _021467CC: .word ptr_FUN_overlay_0_021467e0_overlay_0_02174cfc
 _021467D0: .word _ZN15CSoftwareSpriteD1Ev
 _021467D4: .word _ZN15CSoftwareSpriteC1Ev
-_021467D8: .word ptr_FUN_020294c0_0208c4a4
+_021467D8: .word _ZTV16CEffectActorData+8
 _021467DC: .word PTR_LAB_overlay_0_021426e4_overlay_0_02177b5c
 
 	arm_func_start ov0_021467E0
@@ -11245,7 +11245,7 @@ _02146DDC:
 	bl _Znwm
 	movs r4, r0
 	beq _02146E54
-	ldr r1, _02146F58 ; =ptr_FUN_020294c0_0208c4a4
+	ldr r1, _02146F58 ; =_ZTV16CEffectActorData+8
 	add r0, r4, #4
 	str r1, [r4]
 	bl _ZN17UnkClass_02007AA4C1Ev
@@ -11324,7 +11324,7 @@ _02146F48: .word ov0_0214509C
 _02146F4C: .word PTR_LAB_overlay_0_02145134_overlay_0_021747a0
 _02146F50: .word PTR_LAB_overlay_0_02146f60_overlay_0_02174dbc
 _02146F54: .word PTR_LAB_overlay_0_02146f64_overlay_0_02174d90
-_02146F58: .word ptr_FUN_020294c0_0208c4a4
+_02146F58: .word _ZTV16CEffectActorData+8
 _02146F5C: .word PTR_LAB_overlay_0_021426e4_overlay_0_02177b5c
 
 	arm_func_start ov0_02146F60
@@ -12111,7 +12111,7 @@ _0214792C:
 	bl _Znwm
 	movs r4, r0
 	beq _021479A8
-	ldr r1, _02147A6C ; =ptr_FUN_020294c0_0208c4a4
+	ldr r1, _02147A6C ; =_ZTV16CEffectActorData+8
 	add r0, r4, #4
 	str r1, [r4]
 	bl _ZN17UnkClass_02007AA4C1Ev
@@ -12173,7 +12173,7 @@ _02147A5C: .word ov0_0214509C
 _02147A60: .word PTR_LAB_overlay_0_02145134_overlay_0_021747a0
 _02147A64: .word PTR_LAB_overlay_0_02147a74_overlay_0_02174f30
 _02147A68: .word PTR_LAB_overlay_0_02147a78_overlay_0_02174f00
-_02147A6C: .word ptr_FUN_020294c0_0208c4a4
+_02147A6C: .word _ZTV16CEffectActorData+8
 _02147A70: .word ptr_FUN_overlay_0_021505c4_overlay_0_02177b88
 
 	arm_func_start ov0_02147A74
@@ -23380,7 +23380,7 @@ _02150330:
 	mov r0, r5
 	bl _ZN16CEffectActorData12sub_020295B0Ei
 	mov r0, r5
-	bl sub_020296B0
+	bl _ZN16CEffectActorData12sub_020296B0Ev
 	add r0, sp, #0x10
 	bl _ZN13CArchiveGuardD1Ev
 	mov r0, #1
@@ -23504,7 +23504,7 @@ _021504E8:
 	cmp r4, #0
 	beq _0215050C
 	mov r0, r6
-	bl sub_020296B0
+	bl _ZN16CEffectActorData12sub_020296B0Ev
 _0215050C:
 	add r0, sp, #0x10
 	bl _ZN13CArchiveGuardD1Ev
@@ -24675,7 +24675,7 @@ ov0_02151294: ; 0x02151294
 	add r4, r0, #0x3000
 	str r2, [r3, #0x2c]
 	ldr r0, _02151800 ; =ptr_FUN_overlay_0_0216fe40_overlay_0_0217aaf8
-	ldr r2, _02151804 ; =ptr_FUN_020294c0_0208c4a4
+	ldr r2, _02151804 ; =_ZTV16CEffectActorData+8
 	str r0, [r1, #0x31c]
 	add r0, r4, #8
 	str r2, [r4, #4]
@@ -24921,7 +24921,7 @@ _021517F4: .word PTR_LAB_overlay_0_021518a8_overlay_0_0217a700
 _021517F8: .word ptr_FUN_overlay_0_0216edb8_overlay_0_0217a89c
 _021517FC: .word g_ntfTextureFormats
 _02151800: .word ptr_FUN_overlay_0_0216fe40_overlay_0_0217aaf8
-_02151804: .word ptr_FUN_020294c0_0208c4a4
+_02151804: .word _ZTV16CEffectActorData+8
 _02151808: .word ptr_FUN_overlay_0_021505c4_overlay_0_02177b88
 _0215180C: .word ptr_FUN_overlay_0_02170e44_overlay_0_0217ad04
 _02151810: .word ptr_FUN_overlay_0_02171730_overlay_0_0217ae18
@@ -25227,7 +25227,7 @@ _02151B24: .word MAIN_BSS_0210CA60
 ov0_02151B28: ; 0x02151B28
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r1, _02151B5C ; =ptr_FUN_020294c0_0208c4a4
+	ldr r1, _02151B5C ; =_ZTV16CEffectActorData+8
 	add r0, r4, #4
 	str r1, [r4]
 	bl _ZN17UnkClass_02007AA4C1Ev
@@ -25239,7 +25239,7 @@ ov0_02151B28: ; 0x02151B28
 	str r1, [r4]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02151B5C: .word ptr_FUN_020294c0_0208c4a4
+_02151B5C: .word _ZTV16CEffectActorData+8
 _02151B60: .word ptr_FUN_overlay_0_02150594_overlay_0_02177bb4
 	arm_func_end ov0_02151B28
 
@@ -38425,7 +38425,7 @@ _0215CF28:
 	bl _Znwm
 	movs r4, r0
 	beq _0215CFD0
-	ldr r1, _0215D0FC ; =ptr_FUN_020294c0_0208c4a4
+	ldr r1, _0215D0FC ; =_ZTV16CEffectActorData+8
 	add r0, r4, #4
 	str r1, [r4]
 	bl _ZN17UnkClass_02007AA4C1Ev
@@ -38517,7 +38517,7 @@ _0215D0EC: .word ov0_0214509C
 _0215D0F0: .word PTR_LAB_overlay_0_02145134_overlay_0_021747a0
 _0215D0F4: .word PTR_LAB_overlay_0_0215d108_overlay_0_02178874
 _0215D0F8: .word PTR_LAB_overlay_0_0215d10c_overlay_0_02178844
-_0215D0FC: .word ptr_FUN_020294c0_0208c4a4
+_0215D0FC: .word _ZTV16CEffectActorData+8
 _0215D100: .word PTR_LAB_overlay_0_021426e4_overlay_0_02177b5c
 _0215D104: .word s_effect_anime_data_is_null_overlay_0_02178994
 
@@ -39292,7 +39292,7 @@ ov0_0215DA8C: ; 0x0215DA8C
 	bl _Znwm
 	movs r4, r0
 	beq _0215DB38
-	ldr r1, _0215DCA4 ; =ptr_FUN_020294c0_0208c4a4
+	ldr r1, _0215DCA4 ; =_ZTV16CEffectActorData+8
 	add r0, r4, #4
 	str r1, [r4]
 	bl _ZN17UnkClass_02007AA4C1Ev
@@ -39329,7 +39329,7 @@ _0215DB84:
 	bl _Znwm
 	movs r4, r0
 	beq _0215DBB8
-	ldr r1, _0215DCA4 ; =ptr_FUN_020294c0_0208c4a4
+	ldr r1, _0215DCA4 ; =_ZTV16CEffectActorData+8
 	add r0, r4, #4
 	str r1, [r4]
 	bl _ZN17UnkClass_02007AA4C1Ev
@@ -39405,7 +39405,7 @@ _0215DC94: .word ptr_FUN_overlay_11_0214ffc8_overlay_0_02177a74
 _0215DC98: .word ptr_FUN_overlay_0_0215dcb4_overlay_0_02178a84
 _0215DC9C: .word _ZN15CSoftwareSpriteD1Ev
 _0215DCA0: .word _ZN15CSoftwareSpriteC1Ev
-_0215DCA4: .word ptr_FUN_020294c0_0208c4a4
+_0215DCA4: .word _ZTV16CEffectActorData+8
 _0215DCA8: .word PTR_LAB_overlay_0_021426e4_overlay_0_02177b5c
 _0215DCAC: .word MAIN_BSS_0210CA60
 _0215DCB0: .word ptr_FUN_overlay_0_021505c4_overlay_0_02177b88
@@ -39942,7 +39942,7 @@ ov0_0215E334: ; 0x0215E334
 	bl _Znwm
 	movs r6, r0
 	beq _0215E3CC
-	ldr r1, _0215E498 ; =ptr_FUN_020294c0_0208c4a4
+	ldr r1, _0215E498 ; =_ZTV16CEffectActorData+8
 	add r0, r6, #4
 	str r1, [r6]
 	bl _ZN17UnkClass_02007AA4C1Ev
@@ -40008,7 +40008,7 @@ _0215E488: .word ptr_FUN_overlay_11_0214ffc8_overlay_0_02177a74
 _0215E48C: .word ptr_FUN_overlay_0_0215e4a0_overlay_0_02178b64
 _0215E490: .word _ZN15CSoftwareSpriteD1Ev
 _0215E494: .word _ZN15CSoftwareSpriteC1Ev
-_0215E498: .word ptr_FUN_020294c0_0208c4a4
+_0215E498: .word _ZTV16CEffectActorData+8
 _0215E49C: .word PTR_LAB_overlay_0_021426e4_overlay_0_02177b5c
 
 	arm_func_start ov0_0215E4A0
@@ -41084,7 +41084,7 @@ ov0_0215F2E0: ; 0x0215F2E0
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r3, _0215F340 ; =ptr_FUN_overlay_0_0215f34c_overlay_0_02178c18
 	mov r5, r0
-	ldr r2, _0215F344 ; =ptr_FUN_020294c0_0208c4a4
+	ldr r2, _0215F344 ; =_ZTV16CEffectActorData+8
 	str r3, [r5]
 	add r0, r5, #8
 	mov r4, r1
@@ -41109,7 +41109,7 @@ _0215F338:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0215F340: .word ptr_FUN_overlay_0_0215f34c_overlay_0_02178c18
-_0215F344: .word ptr_FUN_020294c0_0208c4a4
+_0215F344: .word _ZTV16CEffectActorData+8
 _0215F348: .word PTR_LAB_overlay_0_021426e4_overlay_0_02177b5c
 
 	arm_func_start ov0_0215F34C
@@ -41248,7 +41248,7 @@ ov0_0215F4C8: ; 0x0215F4C8
 	arm_func_end ov0_0215F4C8
 _0215F4F4:
 	add r0, r4, #4
-	bl sub_02029540
+	bl _ZN16CEffectActorData7ReleaseEv
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215F500: .word ov0_0215EB28
@@ -41409,7 +41409,7 @@ _0215F694:
 	bl _Znwm
 	movs r4, r0
 	beq _0215F734
-	ldr r1, _0215F848 ; =ptr_FUN_020294c0_0208c4a4
+	ldr r1, _0215F848 ; =_ZTV16CEffectActorData+8
 	add r0, r4, #4
 	str r1, [r4]
 	bl _ZN17UnkClass_02007AA4C1Ev
@@ -41495,7 +41495,7 @@ _0215F838: .word ov0_0214509C
 _0215F83C: .word PTR_LAB_overlay_0_02145134_overlay_0_021747a0
 _0215F840: .word PTR_LAB_overlay_0_0215f854_overlay_0_02178d10
 _0215F844: .word PTR_LAB_overlay_0_0215f858_overlay_0_02178ce0
-_0215F848: .word ptr_FUN_020294c0_0208c4a4
+_0215F848: .word _ZTV16CEffectActorData+8
 _0215F84C: .word PTR_LAB_overlay_0_021426e4_overlay_0_02177b5c
 _0215F850: .word s_effect_anime_data_is_null_overlay_0_02178e04
 
@@ -42277,7 +42277,7 @@ ov0_021601D4: ; 0x021601D4
 	bl _Znwm
 	movs r4, r0
 	beq _021602C4
-	ldr r1, _021603A0 ; =ptr_FUN_020294c0_0208c4a4
+	ldr r1, _021603A0 ; =_ZTV16CEffectActorData+8
 	add r0, r4, #4
 	str r1, [r4]
 	bl _ZN17UnkClass_02007AA4C1Ev
@@ -42346,7 +42346,7 @@ _02160390: .word PTR_LAB_overlay_0_02145134_overlay_0_021747a0
 _02160394: .word PTR_LAB_overlay_0_0215bdb4_overlay_0_02178348
 _02160398: .word PTR_LAB_overlay_0_021603a8_overlay_0_02178e9c
 _0216039C: .word PTR_LAB_overlay_0_021603ac_overlay_0_02178e6c
-_021603A0: .word ptr_FUN_020294c0_0208c4a4
+_021603A0: .word _ZTV16CEffectActorData+8
 _021603A4: .word ptr_FUN_overlay_0_021505c4_overlay_0_02177b88
 
 	arm_func_start ov0_021603A8
@@ -43200,7 +43200,7 @@ ov0_02160E50: ; 0x02160E50
 	str r0, [sp, #0x14]
 	cmp r0, #0
 	beq _02160F04
-	ldr r2, _02161160 ; =ptr_FUN_020294c0_0208c4a4
+	ldr r2, _02161160 ; =_ZTV16CEffectActorData+8
 	ldr r1, [sp, #0x14]
 	add r0, r0, #4
 	str r2, [r1]
@@ -43372,7 +43372,7 @@ _02161150: .word _ZN15CSoftwareSpriteD1Ev
 _02161154: .word _ZN15CSoftwareSpriteC1Ev
 _02161158: .word _ZN17UnkClass_02007AA4D1Ev
 _0216115C: .word _ZN17UnkClass_02007AA4C1Ev
-_02161160: .word ptr_FUN_020294c0_0208c4a4
+_02161160: .word _ZTV16CEffectActorData+8
 _02161164: .word ptr_FUN_overlay_0_021505c4_overlay_0_02177b88
 _02161168: .word 0x0000FFFF
 
@@ -45098,7 +45098,7 @@ _0216284C: .word ov0_02162850
 ov0_02162850: ; 0x02162850
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r1, _02162884 ; =ptr_FUN_020294c0_0208c4a4
+	ldr r1, _02162884 ; =_ZTV16CEffectActorData+8
 	add r0, r4, #4
 	str r1, [r4]
 	bl _ZN17UnkClass_02007AA4C1Ev
@@ -45110,7 +45110,7 @@ ov0_02162850: ; 0x02162850
 	str r1, [r4]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02162884: .word ptr_FUN_020294c0_0208c4a4
+_02162884: .word _ZTV16CEffectActorData+8
 _02162888: .word PTR_LAB_overlay_0_021426e4_overlay_0_02177b5c
 	arm_func_end ov0_02162850
 
@@ -45250,7 +45250,7 @@ _02162A18:
 	ldmia sp!, {r3, r4, r5, r6, pc}
 _02162A4C:
 	add r0, r6, #4
-	bl sub_02029540
+	bl _ZN16CEffectActorData7ReleaseEv
 _02162A54:
 	mov r0, #0
 	add sp, sp, #4
@@ -45320,9 +45320,9 @@ ov0_02162B08: ; 0x02162B08
 	arm_func_end ov0_02162B08
 _02162B34:
 	add r0, r4, #4
-	bl sub_02029540
+	bl _ZN16CEffectActorData7ReleaseEv
 	add r0, r4, #0x38
-	bl sub_02029540
+	bl _ZN16CEffectActorData7ReleaseEv
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02162B48: .word ov0_02161FDC
@@ -46167,7 +46167,7 @@ ov0_0216361C: ; 0x0216361C
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r3, _02163684 ; =ptr_FUN_overlay_0_02163690_overlay_0_021792e4
 	mov r5, r0
-	ldr r2, _02163688 ; =ptr_FUN_020294c0_0208c4a4
+	ldr r2, _02163688 ; =_ZTV16CEffectActorData+8
 	str r3, [r5]
 	add r0, r5, #8
 	mov r4, r1
@@ -46194,7 +46194,7 @@ _0216367C:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02163684: .word ptr_FUN_overlay_0_02163690_overlay_0_021792e4
-_02163688: .word ptr_FUN_020294c0_0208c4a4
+_02163688: .word _ZTV16CEffectActorData+8
 _0216368C: .word PTR_LAB_overlay_0_021426e4_overlay_0_02177b5c
 
 	arm_func_start ov0_02163690
@@ -46345,7 +46345,7 @@ ov0_0216383C: ; 0x0216383C
 	arm_func_end ov0_0216383C
 _02163868:
 	add r0, r4, #4
-	bl sub_02029540
+	bl _ZN16CEffectActorData7ReleaseEv
 	mvn r0, #0
 	str r0, [r4, #0x38]
 	ldmia sp!, {r4, pc}
@@ -58326,7 +58326,7 @@ ov0_0216D898: ; 0x0216D898
 	bl _Znwm
 	movs r4, r0
 	beq _0216D924
-	ldr r1, _0216DA24 ; =ptr_FUN_020294c0_0208c4a4
+	ldr r1, _0216DA24 ; =_ZTV16CEffectActorData+8
 	add r0, r4, #4
 	str r1, [r4]
 	bl _ZN17UnkClass_02007AA4C1Ev
@@ -58405,7 +58405,7 @@ _0216DA14: .word ptr_FUN_overlay_11_0214ffc8_overlay_0_02177a74
 _0216DA18: .word ptr_FUN_overlay_0_0216da38_overlay_0_0217a65c
 _0216DA1C: .word _ZN15CSoftwareSpriteD1Ev
 _0216DA20: .word _ZN15CSoftwareSpriteC1Ev
-_0216DA24: .word ptr_FUN_020294c0_0208c4a4
+_0216DA24: .word _ZTV16CEffectActorData+8
 _0216DA28: .word PTR_LAB_overlay_0_021426e4_overlay_0_02177b5c
 _0216DA2C: .word 0x0000FFFF
 _0216DA30: .word s_childid_d_overlay_0_0217a6b8
@@ -61268,7 +61268,7 @@ _0216FFB4:
 	str r0, [r4, #0x38]
 _0216FFCC:
 	add r0, r4, #4
-	bl sub_02029540
+	bl _ZN16CEffectActorData7ReleaseEv
 	ldmia sp!, {r4, r5, r6, pc}
 
 	arm_func_start ov0_0216FFD8

@@ -1024,7 +1024,7 @@ _0211D778:
 	beq _0211D7A0
 	beq _0211D798
 	mov r0, r4
-	bl sub_0202A2EC
+	bl _ZN17UnkClass_0202A2ACD1Ev
 	mov r0, r4
 	bl _ZdlPv
 _0211D798:
@@ -1104,7 +1104,7 @@ ov21_0211D824: ; 0x0211D824
 	bl _Znwm
 	cmp r0, #0
 	beq _0211D8A0
-	bl sub_0202A2AC
+	bl _ZN17UnkClass_0202A2ACC1Ev
 	arm_func_end ov21_0211D824
 _0211D8A0:
 	str r0, [r4, #0xc]
@@ -1116,7 +1116,7 @@ _0211D8A0:
 	mov r1, #0x3c0
 	mov r2, #0
 	mov r3, #0xf
-	bl sub_0202A32C
+	bl _ZN17UnkClass_0202A2AC12sub_0202A32CEmimii
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
@@ -3850,7 +3850,7 @@ ov21_0212004C: ; 0x0212004C
 	ldr r1, [r6, #0x34]
 	cmp r1, #0
 	bne _02120138
-	bl sub_0202A404
+	bl _ZN17UnkClass_0202A2AC12sub_0202A404Ev
 	cmp r0, #0
 	beq _02120138
 	ldr r0, [r6, #0x30]
@@ -4078,7 +4078,7 @@ ov21_021203A8: ; 0x021203A8
 	ldr r0, [r4, #0xc]
 	cmp r0, #0
 	beq _021203C0
-	bl sub_0202A47C
+	bl _ZN17UnkClass_0202A2AC12sub_0202A47CEv
 	arm_func_end ov21_021203A8
 _021203C0:
 	ldr r0, [r4, #0x80]
@@ -6468,7 +6468,7 @@ _021220D0:
 	cmp r0, #0
 	beq _02122104
 	ldr r1, [r4, #0x48]
-	bl sub_0202A510
+	bl _ZN17UnkClass_0202A510C1EP5CGame
 _02122104:
 	str r0, [r4, #8]
 	mov r0, #0
@@ -6481,7 +6481,7 @@ ov21_02122114: ; 0x02122114
 	ldr r0, [r0, #8]
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
-	bl sub_0202A5A8
+	bl _ZN17UnkClass_0202A51012sub_0202A5A8Ev
 	ldmia sp!, {r3, pc}
 	arm_func_end ov21_02122114
 
@@ -6491,7 +6491,7 @@ ov21_0212212C: ; 0x0212212C
 	ldr r0, [r0, #8]
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
-	bl sub_0202A5EC
+	bl _ZN17UnkClass_0202A51012sub_0202A5ECEv
 	ldmia sp!, {r3, pc}
 	arm_func_end ov21_0212212C
 
@@ -6502,7 +6502,7 @@ ov21_02122144: ; 0x02122144
 	ldr r0, [r4, #8]
 	cmp r0, #0
 	beq _0212215C
-	bl sub_0202A5F8
+	bl _ZN17UnkClass_0202A51012sub_0202A5F8Ev
 	arm_func_end ov21_02122144
 _0212215C:
 	mov r0, r4
@@ -6546,7 +6546,7 @@ _021221C0:
 	beq _021221E8
 	beq _021221E0
 	mov r0, r5
-	bl sub_0202A528
+	bl _ZN17UnkClass_0202A510D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _021221E0:
@@ -6583,7 +6583,7 @@ ov21_02122214: ; 0x02122214
 	add r2, sp, #0xc
 	add r3, sp, #0x14
 	mov r1, #6
-	bl sub_0202A724
+	bl _ZN17UnkClass_0202A51012sub_0202A724EiPhPiS1_i
 	ldr r5, [r4, #0x10]
 	cmp r5, #0
 	beq _0212227C
@@ -6713,7 +6713,7 @@ ov21_021223FC: ; 0x021223FC
 	cmp r0, #0
 	beq _0212241C
 	mov r1, #0
-	bl sub_0202AD04
+	bl _ZN17UnkClass_0202A51012sub_0202AD04Ei
 	arm_func_end ov21_021223FC
 _0212241C:
 	ldr r0, [r4, #0x3c]
@@ -6804,7 +6804,7 @@ ov21_02122534: ; 0x02122534
 	cmp r0, #0
 	beq _021225E8
 	add r1, r4, #0x18
-	bl sub_0202AF5C
+	bl _ZN17UnkClass_0202A51012sub_0202AF5CEPy
 	cmp r0, #0
 	beq _0212259C
 	ldr ip, _021225F4 ; =0x04001000
@@ -6844,7 +6844,7 @@ _021225D8:
 	ldr r0, [r4, #8]
 	mov r1, #0
 	mov r2, #4
-	bl sub_0202B50C
+	bl _ZN17UnkClass_0202A51012sub_0202B50CEti
 _021225E8:
 	mov r0, #1
 	add sp, sp, #4

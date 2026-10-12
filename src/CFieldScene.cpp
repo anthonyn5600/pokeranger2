@@ -657,7 +657,6 @@ void ov0_0213E4BC(CFieldPartner *partner, u32 id);
 void ov0_02161F88(void);
 int ov0_0213DEE8(UnkClass_0213DDCC *obj, Point2D *tile, int dir, BOOL arg3);
 void ov0_02159D7C(UnkClass_0215994C *obj);
-void sub_02029D4C(UnkClass_02029800 *obj);
 void ov0_021428EC(UnkClass_02142428 *obj, int fps, BOOL paused);
 void ov0_021433D0(UnkClass_02142428 *obj);
 void sub_02041920(UnkClass_020416AC *obj);
@@ -1263,7 +1262,7 @@ u32 CFieldScene::func0()
         unk_00D8->vfunc_08();
     }
     if (unk_0060 != NULL) {
-        sub_02029D4C(unk_0060);
+        unk_0060->sub_02029D4C();
     }
     if (unk_004C != NULL) {
         ov0_0214FCD0(unk_004C);
@@ -1541,7 +1540,6 @@ void ov0_0216D62C(UnkClass_0216D5F4 *obj, int time, int arg2, Camera2D *camera);
 void sub_020419AC(UnkClass_020416AC *hud);
 void ov0_02148288(UnkClass_021480E4 *obj, Camera2D *camera);
 void ov0_0213DFA4(UnkClass_0213DDCC *obj, Camera2D *camera);
-void sub_0202A0A4(UnkClass_02029800 *obj);
 void ov0_02142F08(UnkClass_02142428 *obj);
 void ov0_02159D70(UnkClass_0215994C *obj);
 void sub_0201668C(UnkClass_020B26A0 *save);
@@ -1754,7 +1752,7 @@ void CFieldScene::func1()
             ov0_0213DFA4(unk_0030, unk_0008);
         }
         if (unk_0060 != NULL) {
-            sub_0202A0A4(unk_0060);
+            unk_0060->sub_0202A0A4();
         }
     }
 

@@ -51,6 +51,11 @@ public:
     virtual int GetCount();
     virtual BOOL IsLoaded();
 
+    u32 GetEntryCount() const
+    {
+        return m_count;
+    }
+
     void Release();
     void sub_020295B0(BOOL immediate);
     void FreeVram();
@@ -60,7 +65,7 @@ public:
     UnkClass_02007AA4 m_palette;
     NNSGfdPlttKey m_plttKey;
     Entry *m_entries;
-    int m_count;
+    u32 m_count;
 };
 
 STATIC_SIZE_ASSERT(CEffectActorData, 0x34);

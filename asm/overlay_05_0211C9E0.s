@@ -383,7 +383,7 @@ ov5_0211CE70: ; 0x0211CE70
 	bl _Znwm
 	cmp r0, #0
 	beq _0211CE9C
-	bl sub_0202A2AC
+	bl _ZN17UnkClass_0202A2ACC1Ev
 	arm_func_end ov5_0211CE70
 _0211CE9C:
 	str r0, [r4, #0x10]
@@ -395,7 +395,7 @@ _0211CE9C:
 	mov r1, #0x3f0
 	mov r2, #0
 	mov r3, #0xf
-	bl sub_0202A32C
+	bl _ZN17UnkClass_0202A2AC12sub_0202A32CEmimii
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 
@@ -408,7 +408,7 @@ ov5_0211CECC: ; 0x0211CECC
 	beq _0211CEFC
 	beq _0211CEF4
 	mov r0, r4
-	bl sub_0202A2EC
+	bl _ZN17UnkClass_0202A2ACD1Ev
 	mov r0, r4
 	bl _ZdlPv
 	arm_func_end ov5_0211CECC
@@ -3068,7 +3068,7 @@ _0211F3E4:
 	ldr r1, [r4, #0x214]
 	ldr r0, [r4, #0x218]
 	ldr r5, [r1, #0x14]
-	bl sub_0202A404
+	bl _ZN17UnkClass_0202A2AC12sub_0202A404Ev
 	cmp r0, #0
 	beq _0211F440
 	mov r0, #2
@@ -3154,7 +3154,7 @@ ov5_0211F51C: ; 0x0211F51C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x218]
-	bl sub_0202A47C
+	bl _ZN17UnkClass_0202A2AC12sub_0202A47CEv
 	ldr r0, [r4, #0x220]
 	cmp r0, #0
 	beq _0211F53C
@@ -4014,7 +4014,7 @@ _02120044:
 	b _02120130
 _02120090:
 	ldr r0, [r4, #0x220]
-	bl sub_0202A404
+	bl _ZN17UnkClass_0202A2AC12sub_0202A404Ev
 	cmp r0, #0
 	beq _021200C4
 	mov r0, #2
@@ -4126,7 +4126,7 @@ ov5_02120200: ; 0x02120200
 	cmp r0, #0
 	bne _0212021C
 	ldr r0, [r4, #0x220]
-	bl sub_0202A47C
+	bl _ZN17UnkClass_0202A2AC12sub_0202A47CEv
 	arm_func_end ov5_02120200
 _0212021C:
 	ldr r0, [r4, #0x22c]
