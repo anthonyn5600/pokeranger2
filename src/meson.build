@@ -109,7 +109,7 @@ pokeranger2_cxx = files(
     'UnkClass_02008D50.cpp',
     'UnkClass_02008E88.cpp',
     'UnkClass_0211E3FC.cpp',
-    'CFieldActorManage.cpp',
+    'FieldActorManage.cpp',
     'CAutoSaveScene.cpp',
     'CFieldScene.cpp',
     'CFieldMap.cpp',

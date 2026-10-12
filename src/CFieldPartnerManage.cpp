@@ -37,7 +37,6 @@ BOOL sub_02015434(UnkClass_020B26A0 *save, int mapId, int idx);
 void sub_02015124(UnkStruct_020B26A0_8AD4 *partner);
 void sub_02015C78(UnkClass_020B26A0 *save, u32 id, u16 kind, int arg3);
 void sub_02041A70(CFieldActor *actor, int arg1, int arg2);
-void sub_0203F440(CFieldActorManage *mgr);
 }
 
 UnkClass_0213949C::UnkClass_0213949C()

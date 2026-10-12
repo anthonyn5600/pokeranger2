@@ -1335,7 +1335,7 @@ _0211DBD0:
 	bl _Znwm
 	cmp r0, #0
 	beq _0211DBE4
-	bl sub_0203EF40
+	bl _ZN17CFieldActorManageC1Ev
 _0211DBE4:
 	str r0, [sl, #0xa4]
 	ldr r2, [r0]

@@ -17,20 +17,20 @@ public:
     virtual ~CFieldActorManage();
     virtual void sub_0203EFE4(int capacity);
     virtual void sub_0203F034();
-    virtual void sub_0203F0C0();
+    virtual BOOL sub_0203F0C0(u32 id);
     virtual BOOL sub_0203F144(int index);
     virtual BOOL sub_0203F190();
     virtual void sub_0203F2B0(CFieldMap *map, BOOL update);
-    virtual void sub_0203F1FC();
-    virtual void sub_0203F278();
+    virtual BOOL sub_0203F1FC(int index, fx32 x, fx32 y);
+    virtual BOOL sub_0203F278(int index, int arg1, int arg2);
     virtual void sub_02040460();
     virtual void sub_02040428();
-    virtual void sub_02040384();
+    virtual void sub_02040384(Point2D pos);
     virtual void sub_0203F348(UnkClass_0211E3FC *renderLists, UnkClass_020416AC *hud);
-    virtual void sub_0203F4B8();
-    virtual void sub_0203F58C();
-    virtual void sub_0203F604();
-    virtual void sub_0203F688();
+    virtual void sub_0203F4B8(u16 color, u8 width, int time);
+    virtual void sub_0203F58C(u8 width);
+    virtual void sub_0203F604(u16 color);
+    virtual void sub_0203F688(u8 alpha);
     virtual void sub_0203F700();
     virtual void sub_0203F754();
     virtual void sub_0203F7AC();
@@ -122,5 +122,8 @@ public:
 };
 
 STATIC_SIZE_ASSERT(CFieldActorManage, 0x10);
+
+void sub_0203F3C8(CFieldActorManage *mgr);
+void sub_0203F440(CFieldActorManage *mgr);
 
 #endif // POKERANGER2_FIELD_CFIELDACTORMANAGE_HPP

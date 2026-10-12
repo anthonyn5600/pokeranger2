@@ -46,6 +46,7 @@
 .public _ZN15CSoftwareSprite12sub_02005120Ev
 .public _ZN15CSoftwareSpriteC1Ev
 .public _ZN15CSoftwareSpriteD1Ev
+.public _ZN17CFieldActorManageC1Ev
 .public _ZN17UnkClass_02008D5012sub_02008DB4Et
 .public _ZN17UnkClass_020091E812sub_020092D4Ev
 .public _ZN17UnkClass_020091E812sub_02009328EP17UnkClass_02001C04P11CTouchPanelP10NNSG2dFontPvP10CGame_0024S6_mmm
@@ -120,7 +121,6 @@
 .public sub_02015E54
 .public sub_020161AC
 .public sub_020161E4
-.public sub_0203EF40
 .public sub_02041924
 .public sub_020419AC
 .public sub_020423F4

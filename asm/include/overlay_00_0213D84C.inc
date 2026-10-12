@@ -66,6 +66,7 @@
 .public _Z12sub_02007254ll
 .public _Z12sub_020072C4P7Point2DS0_
 .public _Z12sub_020072F8P7Point2DS0_
+.public _Z12sub_0203F440P17CFieldActorManage
 .public _Z12sub_02044440v
 .public _Z17RectanglesOverlap9RectangleS_
 .public _Z20QuadraticInterpolatelllll
@@ -350,7 +351,6 @@
 .public sub_02034328
 .public sub_02034374
 .public sub_02034F9C
-.public sub_0203F440
 .public sub_02041A70
 .public sub_02041C14
 .public sub_02041C1C

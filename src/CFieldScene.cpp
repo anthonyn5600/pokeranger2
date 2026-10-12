@@ -1578,7 +1578,6 @@ extern UnkStruct_0210C228 MAIN_BSS_0210C228;
 extern "C" {
 void sub_0202A4A0(UnkStruct_0210C1C0 *obj);
 void sub_0202A4D8(UnkStruct_0210C228 *obj);
-void sub_0203F3C8(CFieldActorManage *mgr);
 void sub_020176BC(UnkClass_020B26A0 *save, int arg1);
 }
 

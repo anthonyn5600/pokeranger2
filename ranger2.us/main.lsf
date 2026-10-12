@@ -126,14 +126,14 @@ Static main
     Object main.nef.p/src_CFieldSEFDarkness.cpp.o
     Object main.nef.p/src_FieldActor.cpp.o
     Object main.nef.p/src_FieldDrawActor.cpp.o
-    Object main.nef.p/asm_arm9_0203EF1C.s.o
+    Object main.nef.p/src_FieldActorManage.cpp.o
+    Object main.nef.p/asm_arm9_020404BC.s.o
     Object main.nef.p/src_sub_0204436C.cpp.o
     Object main.nef.p/asm_arm9_0204439C.s.o
     Object main.nef.p/src_sub_02044440.cpp.o
     Object main.nef.p/asm_arm9_02044464.s.o
     Object main.nef.p/src_sub_02046D40.cpp.o
     Object main.nef.p/asm_arm9_02046D5C.s.o
-    Object main.nef.p/src_CFieldActorManage.cpp.o
     Object main.nef.p/asm_arm9_0208DDB8.s.o
     Object main.nef.p/src_debug.cpp.o
     Library libsoc.a

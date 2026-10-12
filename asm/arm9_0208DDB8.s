@@ -1,81 +1,10 @@
     .include "macros.inc"
     .include "include/arm9_0208DDB8.inc"
 
-; Main .data after CFieldActorManage's typeinfo (which comes from src/CFieldActorManage.cpp)
+; Main .data after CFieldActorManage's vtable (src/FieldActorManage.cpp)
 
     .data
     .balign 4
-
-	.global _0208DDB8
-_0208DDB8:
-	.byte 0x00, 0x00, 0x00, 0x00
-	.word _ZTI17CFieldActorManage
-
-	.global PTR_LAB_0208ddc0
-PTR_LAB_0208ddc0: ; 0x0208DDC0
-	.word sub_0203EF64
-
-	.global ptr_FUN_0203ef8c_0208ddc4
-ptr_FUN_0203ef8c_0208ddc4: ; 0x0208DDC4
-	.word sub_0203EF8C
-
-	.global ptr_FUN_0203efe4_0208ddc8
-ptr_FUN_0203efe4_0208ddc8: ; 0x0208DDC8
-	.word _ZN17CFieldActorManage12sub_0203EFE4Ei
-
-	.global ptr_FUN_0203f034_0208ddcc
-ptr_FUN_0203f034_0208ddcc: ; 0x0208DDCC
-	.word _ZN17CFieldActorManage12sub_0203F034Ev
-
-	.global ptr_FUN_0203f0c0_0208ddd0
-ptr_FUN_0203f0c0_0208ddd0: ; 0x0208DDD0
-	.word _ZN17CFieldActorManage12sub_0203F0C0Ev
-
-	.global ptr_FUN_0203f144_0208ddd4
-ptr_FUN_0203f144_0208ddd4: ; 0x0208DDD4
-	.word _ZN17CFieldActorManage12sub_0203F144Ei
-
-	.global ptr_FUN_0203f190_0208ddd8
-ptr_FUN_0203f190_0208ddd8: ; 0x0208DDD8
-	.word _ZN17CFieldActorManage12sub_0203F190Ev
-
-	.global ptr_FUN_0203f2b0_0208dddc
-ptr_FUN_0203f2b0_0208dddc: ; 0x0208DDDC
-	.word _ZN17CFieldActorManage12sub_0203F2B0EP9CFieldMapi
-
-	.global ptr_FUN_0203f1fc_0208dde0
-ptr_FUN_0203f1fc_0208dde0: ; 0x0208DDE0
-	.word _ZN17CFieldActorManage12sub_0203F1FCEv
-	.word _ZN17CFieldActorManage12sub_0203F278Ev
-
-	.global ptr_FUN_02040460_0208dde8
-ptr_FUN_02040460_0208dde8: ; 0x0208DDE8
-	.word _ZN17CFieldActorManage12sub_02040460Ev
-	.word _ZN17CFieldActorManage12sub_02040428Ev
-	.word _ZN17CFieldActorManage12sub_02040384Ev
-
-	.global ptr_FUN_0203f348_0208ddf4
-ptr_FUN_0203f348_0208ddf4: ; 0x0208DDF4
-	.word _ZN17CFieldActorManage12sub_0203F348EP17UnkClass_0211E3FCP17UnkClass_020416AC
-
-	.global ptr_FUN_0203f4b8_0208ddf8
-ptr_FUN_0203f4b8_0208ddf8: ; 0x0208DDF8
-	.word _ZN17CFieldActorManage12sub_0203F4B8Ev
-
-	.global ptr_FUN_0203f58c_0208ddfc
-ptr_FUN_0203f58c_0208ddfc: ; 0x0208DDFC
-	.word _ZN17CFieldActorManage12sub_0203F58CEv
-
-	.global ptr_FUN_0203f604_0208de00
-ptr_FUN_0203f604_0208de00: ; 0x0208DE00
-	.word _ZN17CFieldActorManage12sub_0203F604Ev
-
-	.global ptr_FUN_0203f688_0208de04
-ptr_FUN_0203f688_0208de04: ; 0x0208DE04
-	.word _ZN17CFieldActorManage12sub_0203F688Ev
-	.word _ZN17CFieldActorManage12sub_0203F700Ev
-	.word _ZN17CFieldActorManage12sub_0203F754Ev
-	.word _ZN17CFieldActorManage12sub_0203F7ACEv
 
 	.global PTR_ptr_FUN_02083578_0208de14
 PTR_ptr_FUN_02083578_0208de14: ; 0x0208DE14
@@ -762,4 +691,3 @@ ptr_FUN_0204692c_0208e4f4: ; 0x0208E4F4
 	.global DAT_0208e534
 DAT_0208e534: ; 0x0208E534
 	.byte 0x25, 0x73, 0x00, 0x00
-

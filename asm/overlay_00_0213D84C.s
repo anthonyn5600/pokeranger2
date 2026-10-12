@@ -18195,7 +18195,7 @@ _0214C5B0:
 	str ip, [sp, #4]
 	bl _ZN19CFieldPartnerManage12ov0_02139920Emttii
 	mov r0, r7
-	bl sub_0203F440
+	bl _Z12sub_0203F440P17CFieldActorManage
 	mov r0, r6, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl sub_02034F9C

@@ -3,10 +3,10 @@
 
 #include <nitro.h>
 
-#include "field/CFieldDrawActor.hpp"
 #include "UnkClass_0211E3FC.hpp"
 #include "common.hpp"
 #include "field/CFieldActorScript.hpp"
+#include "field/CFieldDrawActor.hpp"
 #include "sub_02006000.hpp"
 
 class CFieldMap;
@@ -77,6 +77,41 @@ public:
     {
         if (unk_0C != NULL) {
             unk_0C->sub_reset();
+        }
+    }
+
+    inline void ResetOutlinePhase()
+    {
+        if (unk_0C != NULL) {
+            unk_0C->m_outlinePhase = 0;
+        }
+    }
+
+    inline void SetOutlineColor(u16 color)
+    {
+        if (unk_0C != NULL) {
+            unk_0C->SetOutlineColor(color);
+        }
+    }
+
+    inline void SetOutlineWidth(u8 width)
+    {
+        if (unk_0C != NULL) {
+            unk_0C->m_outlineWidth = width;
+        }
+    }
+
+    inline void SetOutlineAlpha(u8 alpha)
+    {
+        if (unk_0C != NULL) {
+            unk_0C->m_outlineAlpha = alpha;
+        }
+    }
+
+    inline void StartOutline(int time)
+    {
+        if (unk_0C != NULL) {
+            unk_0C->StartOutline(time);
         }
     }
 
@@ -456,6 +491,27 @@ public:
             return unk_08->GetUnk8C();
         }
         return 0;
+    }
+
+    inline void SetOutlineColor(u16 color)
+    {
+        if (unk_08 != NULL) {
+            unk_08->SetOutlineColor(color);
+        }
+    }
+
+    inline void SetOutlineWidth(u8 width)
+    {
+        if (unk_08 != NULL) {
+            unk_08->SetOutlineWidth(width);
+        }
+    }
+
+    inline void SetOutlineAlpha(u8 alpha)
+    {
+        if (unk_08 != NULL) {
+            unk_08->SetOutlineAlpha(alpha);
+        }
     }
 
     inline void ClearUnk1A8Bits(u32 bits)

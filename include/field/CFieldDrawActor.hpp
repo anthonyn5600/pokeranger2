@@ -82,6 +82,19 @@ public:
         }
     }
 
+    inline void SetOutlineColor(u16 color)
+    {
+        m_outlineColor = color;
+        m_outlinePhase = 0;
+    }
+
+    inline void StartOutline(int time)
+    {
+        unk_1A8 |= 1;
+        m_outlineTime = time;
+        m_outlinePhase = 0;
+    }
+
     inline void StartBlink()
     {
         unk_1A8 |= 2;
