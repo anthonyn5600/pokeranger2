@@ -75,7 +75,6 @@
 .public _ZN14CPrimitiveRECTC1Ev
 .public _ZN14CPrimitiveRECTD1Ev
 .public _ZN15CSoftwareSprite18GetCellNumOAMAttrsEt
-.public _ZN15CSoftwareSprite18SetTransformParamsElllltl
 .public _ZN15CSoftwareSpriteC1Ev
 .public _ZN15CSoftwareSpriteD1Ev
 .public _ZN16CPrimitiveSPHEREC1Ev
