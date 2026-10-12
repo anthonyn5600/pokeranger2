@@ -40,6 +40,7 @@
 #include "battle/UnkClass_02128414.hpp"
 #include "battle/UnkClass_02128600.hpp"
 #include "battle/UnkClass_02128860.hpp"
+#include "battle/UnkClass_02128B24.hpp"
 #include "battle/UnkClass_02128E88.hpp"
 #include "battle/UnkClass_021291BC.hpp"
 #include "battle/UnkClass_021294BC.hpp"

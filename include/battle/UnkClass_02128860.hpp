@@ -23,7 +23,6 @@ public:
         m_pos.x = pos.x;
         m_pos.y = pos.y;
     }
-    void ov1_02128E34(Point2D pos, int arg1);
     void ov1_0212891C(UnkClass_02128600 *arg0);
 
 public:
