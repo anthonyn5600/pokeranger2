@@ -154,10 +154,6 @@
 .public _ZN14CPrimitiveRECT12sub_02003C00EP7Point2DPS_
 .public _ZN14CPrimitiveRECTC1Ev
 .public _ZN14CPrimitiveRECTD1Ev
-.public _ZN15CFieldEventRect4DrawEP8Camera2D
-.public _ZN15CFieldEventRect6UpdateEP7Point2Di
-.public _ZN15CFieldEventRect8IsInsideEP7Point2Di
-.public _ZN15CFieldEventRectD1Ev
 .public _ZN15CFieldNpcManage12ov0_0213C66CEiitti
 .public _ZN15CSoftwareSpriteC1Ev
 .public _ZN15CSoftwareSpriteD1Ev

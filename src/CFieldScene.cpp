@@ -272,7 +272,7 @@ void CFieldScene::func6()
     unk_0024->sub_0203EFE4(0x20);
 
     unk_0030 = new UnkClass_0213DDCC();
-    ov0_0213DE10(unk_0030, 0x30);
+    unk_0030->Create(0x30);
     unk_0034 = new UnkClass_0213F918(m_game);
     ov0_0213F960(unk_0034);
 
@@ -655,7 +655,6 @@ void ov0_0214FEF0(UnkClass_0214FD4C *obj);
 int ov0_0213FFC4(UnkClass_0213FF64 *obj, CFieldScene *scene, UnkClass_02001C04 *arg2, CTouchPanel *touch);
 void ov0_0213E4BC(CFieldPartner *partner, u32 id);
 void ov0_02161F88(void);
-int ov0_0213DEE8(UnkClass_0213DDCC *obj, Point2D *tile, int dir, BOOL arg3);
 void ov0_02159D7C(UnkClass_0215994C *obj);
 void ov0_021428EC(UnkClass_02142428 *obj, int fps, BOOL paused);
 void ov0_021433D0(UnkClass_02142428 *obj);
@@ -1108,7 +1107,7 @@ u32 CFieldScene::func0()
                 tile.x = (s16)(pos.x >> FX32_SHIFT) << FX32_SHIFT;
                 tile.y = (s16)(pos.y >> FX32_SHIFT) << FX32_SHIFT;
                 BOOL arg = (ov0_0213FEEC(unk_0034) == 0 && save->unk_0001 != 0 && ok) ? TRUE : FALSE;
-                int hit = ov0_0213DEE8(unk_0030, &tile, unk_0014->unk_14, arg);
+                int hit = unk_0030->Update(&tile, unk_0014->unk_14, arg);
                 if (save->unk_0001 == 0 && unk_0014->unk_110 == 1 && hit != 0) {
                     unk_0014->SetPos(playerPos);
                 }
@@ -1539,7 +1538,6 @@ void ov0_02142D88(UnkClass_02142428 *obj, Camera2D *camera);
 void ov0_0216D62C(UnkClass_0216D5F4 *obj, int time, int arg2, Camera2D *camera);
 void sub_020419AC(UnkClass_020416AC *hud);
 void ov0_02148288(UnkClass_021480E4 *obj, Camera2D *camera);
-void ov0_0213DFA4(UnkClass_0213DDCC *obj, Camera2D *camera);
 void ov0_02142F08(UnkClass_02142428 *obj);
 void ov0_02159D70(UnkClass_0215994C *obj);
 void sub_0201668C(UnkClass_020B26A0 *save);
@@ -1749,7 +1747,7 @@ void CFieldScene::func1()
             if (unk_00DC != NULL) {
                 ov0_02148288(unk_00DC, unk_0008);
             }
-            ov0_0213DFA4(unk_0030, unk_0008);
+            unk_0030->Draw(unk_0008);
         }
         if (unk_0060 != NULL) {
             unk_0060->sub_0202A0A4();

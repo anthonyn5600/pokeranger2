@@ -134,6 +134,7 @@ pokeranger2_cxx = files(
     'CFieldTargetObjectManage.cpp',
     'UnkClass_0213D624.cpp',
     'CFieldEventRect.cpp',
+    'UnkClass_0213DDCC.cpp',
     'CBattleScene.cpp',
     'CNameInputScene.cpp',
     'debug.cpp', )
