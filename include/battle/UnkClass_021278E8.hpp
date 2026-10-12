@@ -5,14 +5,26 @@
 
 #include "common.hpp"
 
+class UnkClass_020074D4;
+class UnkClass_02007AA4;
+class CNCERFile;
+class UnkClass_02008788;
+
 // Defined in ov1
 class UnkClass_021278E8 {
 public:
     UnkClass_021278E8();
-    ~UnkClass_021278E8(); // ov1_021278FC
+    ~UnkClass_021278E8();
+    void ov1_02127910();
+    void ov1_02127A90();
 
 public:
-    u8 unk_00[0x18];
+    UnkClass_020074D4 *m_image;
+    UnkClass_02007AA4 *m_palette;
+    CNCERFile *m_cells;
+    UnkClass_02008788 *m_anim;
+    NNSGfdTexKey m_texKey;
+    NNSGfdPlttKey m_plttKey;
 };
 
 STATIC_SIZE_ASSERT(UnkClass_021278E8, 0x18);
