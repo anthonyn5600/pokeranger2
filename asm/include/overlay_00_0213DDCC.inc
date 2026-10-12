@@ -69,8 +69,6 @@
 .public _Z12sub_02044440v
 .public _Z17RectanglesOverlap9RectangleS_
 .public _Z20QuadraticInterpolatelllll
-.public _Z23Heap_AllocWithAlignmentmm
-.public _Z9Heap_FreePv
 .public _ZN10CPrimitiveC2Ev
 .public _ZN10CPrimitiveD2Ev
 .public _ZN10NtfTexture12LoadDeferredEPKcS1_i
@@ -153,11 +151,13 @@
 .public _ZN14CPlayerHPGauge12SetCurrentHPEt
 .public _ZN14CPlayerHPGauge5SetHPEtt
 .public _ZN14CPlayerHPGauge7GetPartEi
-.public _ZN14CPrimitiveRECT12SetRectangleElllll
 .public _ZN14CPrimitiveRECT12sub_02003C00EP7Point2DPS_
 .public _ZN14CPrimitiveRECTC1Ev
 .public _ZN14CPrimitiveRECTD1Ev
-.public _ZN15CFieldEventRect8SetIndexEi
+.public _ZN15CFieldEventRect4DrawEP8Camera2D
+.public _ZN15CFieldEventRect6UpdateEP7Point2Di
+.public _ZN15CFieldEventRect8IsInsideEP7Point2Di
+.public _ZN15CFieldEventRectD1Ev
 .public _ZN15CFieldNpcManage12ov0_0213C66CEiitti
 .public _ZN15CSoftwareSpriteC1Ev
 .public _ZN15CSoftwareSpriteD1Ev
@@ -363,6 +363,5 @@
 .public sub_02044B48
 .public sub_02044B78
 .public sub_02044B84
-.public sub_02044C9C
 .public sub_02045A18
 .public sub_02046040
