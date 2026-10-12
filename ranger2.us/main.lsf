@@ -234,7 +234,8 @@ Overlay overlay1
     Object main.nef.p/src_UnkClass_0212DC20.cpp.o
     Object main.nef.p/src_CDiskCursor.cpp.o
     Object main.nef.p/src_CLineEffect.cpp.o
-    Object main.nef.p/asm_overlay_01_0212E88C.s.o
+    Object main.nef.p/src_UnkClass_0212E88C.cpp.o
+    Object main.nef.p/asm_overlay_01_0212EDE0.s.o
 }
 
 Overlay overlay2

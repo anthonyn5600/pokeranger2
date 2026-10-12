@@ -26,6 +26,16 @@ public:
         m_points.p1.x = pos.x;
         m_points.p1.y = pos.y;
     }
+    inline void SetStart(fx32 x, fx32 y)
+    {
+        m_points.p1.x = x;
+        m_points.p1.y = y;
+    }
+    inline void SetEnd(fx32 x, fx32 y)
+    {
+        m_points.p2.x = x;
+        m_points.p2.y = y;
+    }
     inline void SetEnd(Point2D pos)
     {
         m_points.p2.x = pos.x;
