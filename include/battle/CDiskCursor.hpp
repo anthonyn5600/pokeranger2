@@ -1,0 +1,24 @@
+#ifndef POKERANGER2_BATTLE_CDISKCURSOR_HPP
+#define POKERANGER2_BATTLE_CDISKCURSOR_HPP
+
+#include <nitro.h>
+
+#include "CActor.hpp"
+#include "common.hpp"
+
+// Defined in ov1
+class CDiskCursor : public CActor {
+public:
+    CDiskCursor();
+    virtual ~CDiskCursor();
+    virtual void vfunc_08();
+    virtual void vfunc_0C(Camera2D *camera);
+    virtual void vfunc_10(Camera2D *camera);
+
+public:
+    u8 unk_184[0xC];
+};
+
+STATIC_SIZE_ASSERT(CDiskCursor, 0x190);
+
+#endif // POKERANGER2_BATTLE_CDISKCURSOR_HPP

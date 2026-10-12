@@ -229,7 +229,8 @@ Overlay overlay1
     Object main.nef.p/src_UnkClass_021297C0.cpp.o
     Object main.nef.p/src_UnkClass_02129B74.cpp.o
     Object main.nef.p/src_BattleSyscall.cpp.o
-    Object main.nef.p/asm_overlay_01_0212B7A0.s.o
+    Object main.nef.p/src_CBattleDisk.cpp.o
+    Object main.nef.p/asm_overlay_01_0212D2C4.s.o
 }
 
 Overlay overlay2

@@ -5,30 +5,48 @@
 
 #include "CActor.hpp"
 #include "common.hpp"
+#include "primitive/CPrimitiveRECT.hpp"
+#include "primitive/CPrimitiveSPHERE.hpp"
 
 class CBattlePowerSave;
+class CDiskCursor;
+class CLineEffect;
+class CSoftwareSprite;
+class UnkClass_0201AAE0;
+class UnkClass_02127CD8;
 class UnkClass_02127E14;
+class UnkClass_02128860;
 class UnkClass_02128A60;
 class UnkClass_02128B24;
 class UnkClass_0212306C;
+class UnkClass_0212D2C4;
 class UnkClass_02136AD4;
 
 // Defined in ov1
 class CBattleDisk : public CActor {
 public:
-    CBattleDisk(UnkClass_02136AD4 *arg0);
+    CBattleDisk(UnkClass_02136AD4 *particles);
     virtual ~CBattleDisk();
     virtual void vfunc_08();
     virtual void vfunc_0C(Camera2D *camera);
     virtual void vfunc_10(Camera2D *camera);
 
+    void ov1_0212BAD0();
+    void ov1_0212BC54();
     void ov1_0212C00C(Camera2D *camera);
+    void ov1_0212C02C(Camera2D *camera);
+    void ov1_0212C0B8(Camera2D *camera);
+    void ov1_0212C144(Camera2D *camera);
     void ov1_0212C1C4(Point2D pos);
-    int ov1_0212C33C(u16 arg0, u8 arg1);
+    int ov1_0212C33C(u16 damage, u8 type);
+    void ov1_0212C3B4();
+    void ov1_0212C414();
     BOOL ov1_0212C4B8();
     BOOL ov1_0212C4CC();
-    BOOL ov1_0212C4E4();
-    void ov1_0212C514(int arg0);
+    u8 ov1_0212C4E4();
+    void ov1_0212C4EC(u8 enabled);
+    void ov1_0212C4F4(BOOL arg0);
+    void ov1_0212C514(BOOL active);
     BOOL ov1_0212C5C0();
     BOOL ov1_0212C5D8();
     void ov1_0212C5F0(BOOL arg0);
@@ -37,14 +55,16 @@ public:
     Point2D ov1_0212C690(int index);
     int ov1_0212C6B0(u16 index);
     int ov1_0212C6C0();
-    void ov1_0212C6D0(int arg0);
-    void ov1_0212C7E8(Point2D pos, int arg1, int arg2, int arg3);
-    void ov1_0212C990(Point2D pos, int arg1, int arg2, int arg3);
-    void ov1_0212CBA0(Point2D pos, int arg1, int arg2);
-    int ov1_0212CD6C(u16 arg0, int assistType, u8 type);
+    void ov1_0212C6D0(u16 color);
+    void ov1_0212C7E8(Point2D pos, int count, fx32 arg2, u16 color);
+    void ov1_0212C990(Point2D pos, int count, fx32 arg2, u16 color);
+    void ov1_0212CBA0(Point2D pos, int count, fx32 arg2);
+    int ov1_0212CD6C(u16 level, int assistType, u8 type);
     void ov1_0212CF0C(fx32 x, fx32 y, int arg2);
+    void ov1_0212CF1C();
     int ov1_0212D0D4(int z);
     int ov1_0212D124(int z);
+    void ov1_0212D148(Point2D pos, int count);
 
     inline void ShowHitEffect(Point2D pos, int mode)
     {
@@ -57,26 +77,42 @@ public:
     }
 
 public:
-    u8 unk_184[0x3];
+    u8 unk_184;
+    u8 unk_185;
+    u8 unk_186;
     u8 unk_187;
-    u8 unk_188[0x4];
+    u8 unk_188;
     u32 unk_18C;
     u32 unk_190;
     u16 unk_194;
-    u8 unk_196[0x6];
+    u16 unk_196;
+    u16 unk_198;
+    u16 unk_19A;
     u8 unk_19C;
     u8 unk_19D;
     u16 unk_19E;
-    u8 unk_1A0[0x18];
+    u8 unk_1A0[0x4];
+    u8 unk_1A4[0x13];
     UnkClass_0212306C *unk_1B8;
-    u8 unk_1BC[0x4];
+    UnkClass_02128860 *unk_1BC;
     CBattlePowerSave *unk_1C0;
-    u8 unk_1C4[0x90];
+    CPrimitiveSPHERE unk_1C4;
+    CPrimitiveRECT unk_1E8;
+    CSoftwareSprite *unk_228;
+    UnkClass_0201AAE0 *unk_22C;
+    u16 unk_230;
+    CSoftwareSprite *unk_234;
+    UnkClass_0201AAE0 *unk_238[2];
+    u16 unk_240;
+    u16 unk_242[3];
+    CDiskCursor *unk_248;
+    CLineEffect *unk_24C;
+    UnkClass_02136AD4 *unk_250;
     UnkClass_02127E14 *unk_254;
-    u8 unk_258[0x4];
+    UnkClass_02127CD8 *unk_258;
     UnkClass_02128B24 *unk_25C;
     UnkClass_02128A60 *unk_260;
-    u8 unk_264[0x4];
+    UnkClass_0212D2C4 *unk_264;
 };
 
 STATIC_SIZE_ASSERT(CBattleDisk, 0x268);

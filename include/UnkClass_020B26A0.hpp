@@ -344,6 +344,7 @@ void sub_020160B8(UnkClass_020B26A0 *save, u32 arg1);
 int sub_02016138(UnkClass_020B26A0 *save, int group);
 BOOL sub_0201621C(UnkClass_020B26A0 *save, int group);
 int sub_02016C14(UnkClass_020B26A0 *save, int idx);
+int sub_02016CF0(UnkClass_020B26A0 *save, int idx);
 void sub_0201772C(UnkClass_020B26A0 *save);
 void sub_02017E44(UnkClass_020B26A0 *save);
 
