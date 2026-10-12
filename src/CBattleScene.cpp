@@ -1320,7 +1320,7 @@ void CBattleScene::ov1_021209C4()
         } else if (unk_0010->unk_05 != 0 && unk_00D8->ov1_0212C5C0()) {
             unk_00D8->m_motion.sub_02011D3C(touchPos);
             UnkClass_0212306C *line = unk_00D8->unk_1B8;
-            Point2D last = line->m_lines[line->unk_54A2].GetStart();
+            Point2D last = line->m_lines[line->m_head].GetStart();
             if (MATH_IAbs(sub_02007254(touchPos.x - last.x, touchPos.y - last.y)) >= 0x8000) {
                 m_game->m_audioEngine->sub_02034E80(12);
             } else {
@@ -1429,7 +1429,7 @@ void CBattleScene::ov1_021209C4()
                 }
                 PointPair2D first = unk_00D8->unk_1B8->m_lines2[0].m_points;
                 unk_0BAC->ov1_0212EA1C(first.p1);
-                for (u16 j = 0; j < unk_00D8->unk_1B8->unk_6414; j++) {
+                for (u16 j = 0; j < unk_00D8->unk_1B8->m_lines2Count; j++) {
                     unk_0BAC->ov1_0212EA7C(unk_00D8->unk_1B8->m_lines2[j].GetStart());
                 }
                 unk_0BAC->ov1_0212EAD4();

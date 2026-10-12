@@ -213,7 +213,8 @@ Overlay overlay1
 {
     After main
     Object main.nef.p/src_CBattleScene.cpp.o
-    Object main.nef.p/asm_overlay_01_0212306C.s.o
+    Object main.nef.p/src_UnkClass_0212306C.cpp.o
+    Object main.nef.p/asm_overlay_01_02124F90.s.o
 }
 
 Overlay overlay2
