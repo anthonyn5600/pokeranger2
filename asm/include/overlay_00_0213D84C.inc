@@ -55,9 +55,7 @@
 .public NNSi_objSizeHTbl
 .public NNSi_objSizeWTbl
 .public OS_SPrintf
-.public PTR_LAB_0208de68
 .public PTR_LAB_0208e074
-.public PTR_ptr_FUN_02083578_0208de14
 .public RTC_GetDate
 .public RTC_GetTime
 .public _Z12sub_020060007Point2D9Rectanglem
@@ -285,11 +283,13 @@
 .public _ZN8Camera2D12sub_020038A8EP9Rectanglel
 .public _ZN9CNCERFileC1EPKcmmm
 .public _ZTI10CPrimitive
+.public _ZTI11CDrawObject
 .public _ZTI11CFieldActor
 .public _ZTI13CFieldPartner
 .public _ZTI15CEffectResource
 .public _ZTI16CEffectActorData
 .public _ZTI17CFieldActorScript
+.public _ZTV11CDrawObject
 .public _ZTV16CEffectActorData
 .public _ZTV17CPrimitiveRectNTF
 .public _ZTVN10__cxxabiv117__class_type_infoE

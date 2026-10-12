@@ -11,11 +11,17 @@
 class CFieldDrawActorData : public CActorData {
 public:
     CFieldDrawActorData();
+    virtual ~CFieldDrawActorData()
+    {
+    }
+
     virtual void Release();
     virtual void sub_02040E2C();
     virtual void sub_02040E80();
 
-    void sub_02040830(int type, u16 id, int form, u16 mask, BOOL useTransfer, BOOL arg5, BOOL arg6);
+    void sub_02040830(int type, u16 id, int form, u16 mask, BOOL useTransfer, const char *arcName, BOOL alloc);
+    void sub_020409B4(u16 id, int form, u16 mask, u32 heapId, const char *arcName);
+    void sub_02040DB8();
     void sub_02040EBC();
     void sub_02040EF8();
 
@@ -24,7 +30,7 @@ public:
     u16 unk_1C;
     u16 unk_1E;
     u16 unk_20;
-    u8 unk_22[6];
+    int unk_24;
     int unk_28;
     NNSGfdTexKey unk_2C;
     NNSGfdPlttKey unk_30;
@@ -46,6 +52,9 @@ class CActorDataPartner : public CFieldDrawActorData {
 public:
     CActorDataPartner();
     virtual ~CActorDataPartner();
+    virtual void Release();
+    virtual void sub_02040E2C();
+    virtual void sub_02040E80();
 
     void sub_02041230(int type, u16 id, int form, u16 mask);
 

@@ -24,6 +24,8 @@ public:
 
     BOOL sub_02040530(int arg0, u16 arg1, int arg2, u32 mask, int arg4);
     BOOL sub_020405B4(int arg0, u16 arg1, int arg2, u32 mask, int arg4);
+    void sub_02040638();
+    virtual int sub_020091D4(Camera2D *camera, int budget);
 
     inline void SetPos(Point2D pos)
     {
@@ -309,7 +311,8 @@ public:
 
 public:
     CFieldDrawActor *unk_0C;
-    u8 unk_10[0x8];
+    int unk_10;
+    int unk_14;
 };
 
 class CFieldActor {

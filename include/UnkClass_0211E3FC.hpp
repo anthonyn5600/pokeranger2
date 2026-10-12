@@ -9,8 +9,19 @@ class Camera2D;
 
 class CDrawObject {
 public:
-    virtual ~CDrawObject();
-    virtual int sub_020091D4(Camera2D *camera, int budget);
+    CDrawObject()
+    {
+        unk_04 = 0;
+    }
+
+    virtual ~CDrawObject()
+    {
+    }
+
+    virtual int sub_020091D4(Camera2D *camera, int budget)
+    {
+        return 0;
+    }
 
 public:
     int unk_04;

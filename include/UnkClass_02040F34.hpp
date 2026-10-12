@@ -5,14 +5,21 @@
 
 #include "common.hpp"
 
+class CFieldDrawActorData;
+
 class UnkClass_02040F34 {
 public:
     UnkClass_02040F34();
     ~UnkClass_02040F34();
 
+    CFieldDrawActorData *sub_02041008(int type, u16 id, int form, u16 mask, BOOL useTransfer);
+
 public:
-    u8 unk_00[0x8];
+    int m_count;
+    CFieldDrawActorData *m_data;
 };
+
+extern UnkClass_02040F34 *MAIN_BSS_0210CA64;
 
 STATIC_SIZE_ASSERT(UnkClass_02040F34, 0x8);
 

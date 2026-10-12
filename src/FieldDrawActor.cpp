@@ -4,6 +4,7 @@
 #include "CActor.hpp"
 #include "CGame.hpp"
 #include "UnkClass_02007770.hpp"
+#include "UnkClass_02040F34.hpp"
 #include "common.hpp"
 #include "field/CFieldDrawActor.hpp"
 #include "field/CFieldDrawActorData.hpp"
@@ -11,13 +12,7 @@
 #include "scene/CScene.hpp"
 
 class UnkClass_020B26A0;
-class UnkClass_02040F34 {
-public:
-    CFieldDrawActorData *sub_02041008(int type, u16 id, int form, u16 mask, BOOL useTransfer);
-};
-
 extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
-extern UnkClass_02040F34 *MAIN_BSS_0210CA64;
 
 extern "C" {
 CFieldDrawActorData *sub_020176BC(UnkClass_020B26A0 *save, int arg1);
@@ -188,7 +183,7 @@ void CFieldDrawActor::sub_0203E10C(int type, u16 id, int form, u32 mask, BOOL us
         ((UnkClass_020412A0 *)unk_184)->sub_02041344(id, form, mask, "PDR", useTransfer, TRUE);
     } else {
         unk_184 = new CFieldDrawActorData();
-        unk_184->sub_02040830(type, id, form, mask, useTransfer, FALSE, TRUE);
+        unk_184->sub_02040830(type, id, form, mask, useTransfer, NULL, TRUE);
     }
     unk_190 = unk_184->unk_30;
     sub_02011FF4(unk_184);

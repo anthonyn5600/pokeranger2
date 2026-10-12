@@ -23592,7 +23592,7 @@ ov0_021505D8: ; 0x021505D8
 
 	arm_func_start ov0_021505F4
 ov0_021505F4: ; 0x021505F4
-	ldr r1, _02150614 ; =PTR_LAB_0208de68
+	ldr r1, _02150614 ; =_ZTV11CDrawObject+8
 	mov r2, #0
 	str r1, [r0, #0x10]
 	ldr r1, _02150618 ; =PTR_LAB_overlay_0_0215061c_overlay_0_02177d64
@@ -23601,7 +23601,7 @@ ov0_021505F4: ; 0x021505F4
 	str r2, [r0, #0x1c]
 	bx lr
 	.align 2, 0
-_02150614: .word PTR_LAB_0208de68
+_02150614: .word _ZTV11CDrawObject+8
 _02150618: .word PTR_LAB_overlay_0_0215061c_overlay_0_02177d64
 	arm_func_end ov0_021505F4
 
@@ -48763,7 +48763,7 @@ ov0_021657F0: ; 0x021657F0
 	str r1, [r4, #0x1c]
 	bl _ZN15CSoftwareSpriteC1Ev
 	mov r1, #0
-	ldr r0, _02165860 ; =PTR_LAB_0208de68
+	ldr r0, _02165860 ; =_ZTV11CDrawObject+8
 	strh r1, [r4, #0x6c]
 	str r0, [r4, #0x70]
 	ldr r0, _02165864 ; =PTR_LAB_overlay_0_02165868_overlay_0_02179774
@@ -48777,7 +48777,7 @@ ov0_021657F0: ; 0x021657F0
 	.align 2, 0
 _02165858: .word ptr_FUN_overlay_0_021423c0_overlay_0_0217440c
 _0216585C: .word ptr_FUN_overlay_0_0216586c_overlay_0_02179818
-_02165860: .word PTR_LAB_0208de68
+_02165860: .word _ZTV11CDrawObject+8
 _02165864: .word PTR_LAB_overlay_0_02165868_overlay_0_02179774
 	arm_func_end ov0_021657F0
 
@@ -59687,7 +59687,7 @@ ov0_0216EB4C: ; 0x0216EB4C
 	ldr r0, _0216EBA0 ; =ptr_FUN_overlay_0_0216ebbc_overlay_0_0217a9dc
 	ldr r1, _0216EBA4 ; =PTR_LAB_overlay_0_0216ebb8_overlay_0_0217a858
 	str r0, [r4]
-	ldr r0, _0216EBA8 ; =PTR_LAB_0208de68
+	ldr r0, _0216EBA8 ; =_ZTV11CDrawObject+8
 	str r1, [r4, #0x78]
 	str r0, [r4, #0x7c]
 	mov r2, #0
@@ -59704,7 +59704,7 @@ ov0_0216EB4C: ; 0x0216EB4C
 	.align 2, 0
 _0216EBA0: .word ptr_FUN_overlay_0_0216ebbc_overlay_0_0217a9dc
 _0216EBA4: .word PTR_LAB_overlay_0_0216ebb8_overlay_0_0217a858
-_0216EBA8: .word PTR_LAB_0208de68
+_0216EBA8: .word _ZTV11CDrawObject+8
 _0216EBAC: .word PTR_LAB_overlay_0_0216ebb4_overlay_0_0217a86c
 _0216EBB0: .word 0xFFFFF556
 	arm_func_end ov0_0216EB4C
@@ -63259,7 +63259,7 @@ ov0_02171938: ; 0x02171938
 	strb r0, [sl, #0x167]
 	str r7, [sl, #0x174]
 	str r7, [sl, #0x178]
-	ldr r0, _02171B0C ; =PTR_LAB_0208de68
+	ldr r0, _02171B0C ; =_ZTV11CDrawObject+8
 	str r7, [sl, #0x17c]
 	str r0, [sl, #0x180]
 	ldr r0, _02171B10 ; =PTR_LAB_overlay_0_02171b18_overlay_0_0217af3c
@@ -63354,7 +63354,7 @@ _02171AFC: .word ptr_FUN_overlay_0_021423c0_overlay_0_0217440c
 _02171B00: .word ptr_FUN_overlay_0_02171b1c_overlay_0_0217b00c
 _02171B04: .word ov0_02172638
 _02171B08: .word ov0_021718E0
-_02171B0C: .word PTR_LAB_0208de68
+_02171B0C: .word _ZTV11CDrawObject+8
 _02171B10: .word PTR_LAB_overlay_0_02171b18_overlay_0_0217af3c
 _02171B14: .word 0x0000211F
 
@@ -70361,7 +70361,7 @@ PTR_ptr_FUN_020835bc_overlay_0_02177d24: ; 0x02177D24
 PTR_ptr_FUN_020835bc_overlay_0_02177d30: ; 0x02177D30
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word s_N25CFieldEffectFootStepSmoke19CD_overlay_0_02177da8
-	.word PTR_ptr_FUN_02083578_0208de14
+	.word _ZTI11CDrawObject
 
     .global PTR_ptr_FUN_020835bc_overlay_0_02177d3c
 PTR_ptr_FUN_020835bc_overlay_0_02177d3c: ; 0x02177D3C
@@ -73113,7 +73113,7 @@ PTR_ptr_FUN_020835bc_overlay_0_02179754: ; 0x02179754
 PTR_ptr_FUN_020835bc_overlay_0_02179760: ; 0x02179760
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word s_N23CFieldEffectWaterSplash17CEff_overlay_0_021797e0
-	.word PTR_ptr_FUN_02083578_0208de14
+	.word _ZTI11CDrawObject
 	.byte 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_020835bc_overlay_0_02179760
 
@@ -74734,7 +74734,7 @@ PTR_ptr_FUN_020835bc_overlay_0_0217a814: ; 0x0217A814
 PTR_ptr_FUN_020835bc_overlay_0_0217a820: ; 0x0217A820
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word s_N25CFieldEffectVolcanicSteam9CAn_overlay_0_0217a928
-	.word PTR_ptr_FUN_02083578_0208de14
+	.word _ZTI11CDrawObject
 
     .global PTR_ptr_FUN_020835bc_overlay_0_0217a82c
 PTR_ptr_FUN_020835bc_overlay_0_0217a82c: ; 0x0217A82C
@@ -75433,7 +75433,7 @@ DAT_overlay_0_0217AF02:
 DAT_overlay_0_0217af04: ; 0x0217AF04
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
     .word s_N24CFieldEffectSpaceCrevice17CEf_overlay_0_0217afd4
-    .word PTR_ptr_FUN_02083578_0208de14
+    .word _ZTI11CDrawObject
 
     .global PTR_ptr_FUN_020835bc_overlay_0_0217af10
 PTR_ptr_FUN_020835bc_overlay_0_0217af10: ; 0x0217AF10

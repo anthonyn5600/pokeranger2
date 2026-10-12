@@ -34,11 +34,6 @@ int UnkClass_0211E3FC::sub_02009188(Camera2D *camera, int budget)
     return total;
 }
 
-int CDrawObject::sub_020091D4(Camera2D *camera, int budget)
-{
-    return 0;
-}
-
 void UnkClass_0211E3FC::sub_020091DC()
 {
     unk_00 = NULL;

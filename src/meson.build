@@ -110,6 +110,7 @@ pokeranger2_cxx = files(
     'UnkClass_02008E88.cpp',
     'UnkClass_0211E3FC.cpp',
     'FieldActorManage.cpp',
+    'FieldDrawObject.cpp',
     'CAutoSaveScene.cpp',
     'CFieldScene.cpp',
     'CFieldMap.cpp',
@@ -142,6 +143,7 @@ pokeranger2_cxx = files(
     'CBattleScene.cpp',
     'UnkClass_0212306C.cpp',
     'CBattleEnemyData.cpp',
+    'FieldDrawActorData.cpp',
     'CBattleEnemy.cpp',
     'CNameInputScene.cpp',
     'debug.cpp', )
