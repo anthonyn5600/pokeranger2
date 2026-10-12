@@ -145,5 +145,13 @@ pokeranger2_cxx = files(
     'CBattleEnemyData.cpp',
     'FieldDrawActorData.cpp',
     'CBattleEnemy.cpp',
+    'CBattleAttackEffectData.cpp',
+    'CBattleAttackEffect.cpp',
+    'UnkClass_021274AC.cpp',
+    'UnkClass_021278E8.cpp',
+    'UnkClass_02127CD8.cpp',
+    'UnkClass_021281B4.cpp',
+    'UnkClass_02128600.cpp',
+    'UnkClass_02128A60.cpp',
     'CNameInputScene.cpp',
     'debug.cpp', )

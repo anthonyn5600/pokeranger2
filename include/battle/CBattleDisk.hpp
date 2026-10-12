@@ -7,8 +7,9 @@
 #include "common.hpp"
 
 class CBattlePowerSave;
-class UnkClass_02127B48;
-class UnkClass_02128860;
+class UnkClass_02127E14;
+class UnkClass_02128A60;
+class UnkClass_02128B24;
 class UnkClass_0212306C;
 class UnkClass_02136AD4;
 
@@ -71,10 +72,11 @@ public:
     u8 unk_1BC[0x4];
     CBattlePowerSave *unk_1C0;
     u8 unk_1C4[0x90];
-    UnkClass_02127B48 *unk_254;
+    UnkClass_02127E14 *unk_254;
     u8 unk_258[0x4];
-    UnkClass_02128860 *unk_25C;
-    u8 unk_260[0x8];
+    UnkClass_02128B24 *unk_25C;
+    UnkClass_02128A60 *unk_260;
+    u8 unk_264[0x4];
 };
 
 STATIC_SIZE_ASSERT(CBattleDisk, 0x268);

@@ -7,14 +7,15 @@
 #include "sub_02006000.hpp"
 
 class UnkClass_02128600;
+class CSoftwareSprite;
 
 class Camera2D;
 
 // Defined in ov1
 class UnkClass_02128860 {
 public:
-    UnkClass_02128860(); // ov1_02128860
-    ~UnkClass_02128860(); // ov1_021288E8
+    UnkClass_02128860();
+    ~UnkClass_02128860();
     void ov1_02128970(Camera2D *camera);
 
     inline void SetPos(Point2D pos)
@@ -22,13 +23,14 @@ public:
         m_pos.x = pos.x;
         m_pos.y = pos.y;
     }
-    void ov1_02128E34(Point2D pos, int arg1);
     void ov1_0212891C(UnkClass_02128600 *arg0);
 
 public:
     Point2D m_pos;
     u16 m_hp;
-    u8 unk_0A[0xE];
+    CSoftwareSprite *m_sprite;
+    UnkClass_02128600 *m_data;
+    u16 m_animId;
 };
 
 STATIC_SIZE_ASSERT(UnkClass_02128860, 0x18);

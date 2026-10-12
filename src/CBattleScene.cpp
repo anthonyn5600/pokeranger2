@@ -35,10 +35,12 @@
 #include "battle/UnkClass_0212770C.hpp"
 #include "battle/UnkClass_021278E8.hpp"
 #include "battle/UnkClass_02127B48.hpp"
+#include "battle/UnkClass_02127E14.hpp"
 #include "battle/UnkClass_021281B4.hpp"
 #include "battle/UnkClass_02128414.hpp"
 #include "battle/UnkClass_02128600.hpp"
 #include "battle/UnkClass_02128860.hpp"
+#include "battle/UnkClass_02128B24.hpp"
 #include "battle/UnkClass_02128E88.hpp"
 #include "battle/UnkClass_021291BC.hpp"
 #include "battle/UnkClass_021294BC.hpp"
@@ -1582,7 +1584,7 @@ BOOL CBattleScene::ov1_02121774()
     for (u8 i = 0; i < 0x60; i++) {
         CBattleAttackEffect *effect = unk_0130[i];
         if (effect != NULL && effect->HasData() && effect->IsUnk100Clear()) {
-            Circle circle = effect->unk_430;
+            Circle circle = effect->m_sphere.m_circle;
             hit.pos.x = circle.pos.x;
             hit.r = circle.r;
             hit.pos.y = circle.pos.y - (effect->m_bobHeight + (effect->unk_8C + effect->m_jumpHeight));
