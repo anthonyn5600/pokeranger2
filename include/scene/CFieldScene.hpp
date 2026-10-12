@@ -23,7 +23,7 @@ class UnkClass_02022404;
 class UnkClass_020233C8;
 class UnkClass_02029800;
 class UnkClass_02040F34;
-class UnkClass_02041D80;
+class UnkClass_02041C80;
 class UnkClass_020416AC;
 class UnkClass_0211D850;
 class UnkClass_0211E3FC;
@@ -99,7 +99,7 @@ public:
     UnkClass_0211D850 *unk_002C;
     UnkClass_0213DDCC *unk_0030;
     UnkClass_0213F918 *unk_0034;
-    UnkClass_02041D80 *unk_0038;
+    UnkClass_02041C80 *unk_0038;
     UnkClass_0211E3FC *unk_003C;
     UnkClass_0213FF64 *unk_0040;
     UnkClass_02040F34 *unk_0044;

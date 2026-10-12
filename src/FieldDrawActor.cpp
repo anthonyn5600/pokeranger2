@@ -179,8 +179,8 @@ void CFieldDrawActor::sub_0203E10C(int type, u16 id, int form, u32 mask, BOOL us
 {
     sub_0203E55C();
     if (type == 4) {
-        unk_184 = new UnkClass_020412A0();
-        ((UnkClass_020412A0 *)unk_184)->sub_02041344(id, form, mask, "PDR", useTransfer, TRUE);
+        unk_184 = new CActorDataPlayer();
+        ((CActorDataPlayer *)unk_184)->sub_02041344(id, form, mask, "PDR", useTransfer, TRUE);
     } else {
         unk_184 = new CFieldDrawActorData();
         unk_184->sub_02040830(type, id, form, mask, useTransfer, NULL, TRUE);

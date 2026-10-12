@@ -3,6 +3,7 @@
 
 #include <nitro.h>
 
+#include "UnkClass_02041C80.hpp"
 #include "common.hpp"
 
 struct UnkStruct_02041D80 {
@@ -99,11 +100,9 @@ struct FieldTargetObjectData {
     u8 unk_1E[0x2];
 };
 
-class UnkClass_02041D80;
-
 extern "C" {
-FieldTargetObjectData *sub_02041D6C(UnkClass_02041D80 *obj, int kind);
-UnkStruct_02041D80 *sub_02041D80(UnkClass_02041D80 *obj, u32 mapId);
+FieldTargetObjectData *sub_02041D6C(UnkClass_02041C80 *obj, int kind);
+UnkStruct_02041D80 *sub_02041D80(UnkClass_02041C80 *obj, u32 mapId);
 }
 
 STATIC_SIZE_ASSERT(FieldTargetObjectData, 0x20);

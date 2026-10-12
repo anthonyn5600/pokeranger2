@@ -8,7 +8,7 @@
 #include "heap.hpp"
 
 extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
-extern UnkClass_02041D80 *MAIN_BSS_0210CA6C;
+extern UnkClass_02041C80 *MAIN_BSS_0210CA6C;
 
 UnkClass_02034478::UnkClass_02034478()
 {

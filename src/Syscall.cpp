@@ -4,6 +4,7 @@
 #include "CGame.hpp"
 #include "CPlayerHPGauge.hpp"
 #include "CTPEmulator.hpp"
+#include "Log.hpp"
 #include "UnkClass_02001C04.hpp"
 #include "UnkClass_020091E8.hpp"
 #include "UnkClass_0200BBC8.hpp"
@@ -47,7 +48,7 @@ extern CFieldPartnerManage *MAIN_BSS_0210CA4C;
 extern CFieldActorManage *MAIN_BSS_0210CA50;
 extern CFieldEnemyManage *MAIN_BSS_0210CA5C;
 extern UnkClass_02142428 *MAIN_BSS_0210CA60;
-extern UnkClass_02041D80 *MAIN_BSS_0210CA6C;
+extern UnkClass_02041C80 *MAIN_BSS_0210CA6C;
 extern UnkClass_0211D850 *MAIN_BSS_0210CA78;
 extern CFieldTargetObjectManage *MAIN_BSS_0210CA7C;
 extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
@@ -95,7 +96,6 @@ void ov0_0217248C(void *obj);
 void ov0_021633CC(CFieldEffect *effect);
 int sub_02016138(UnkClass_020B26A0 *save, int group);
 void sub_02015164(UnkStruct_020B26A0_8AD4 *partner, const char *name);
-int ov0_021430D8(UnkClass_02142428 *mgr, u16 id);
 int sub_02011630(UnkClass_0201164C *obj, int arg1);
 void sub_020115F8(UnkClass_0201164C *obj);
 void sub_020114C4(UnkClass_0201164C *obj, int arg1);
@@ -131,12 +131,10 @@ void sub_02010AB0(void *record, u8 arg1);
 void sub_02010A70(void *record, u8 arg1);
 void sub_02010AD8(void *record, int arg1);
 void LogInfo(const char *fmt, ...);
-void thunk_FUN_020442cc(const char *fmt, va_list args);
 BOOL sub_02015E54(UnkClass_020B26A0 *save, u32 id);
 void sub_0201597C(UnkClass_020B26A0 *save, u32 id);
 void sub_020158BC(UnkClass_020B26A0 *save, u32 id);
 int sub_020157E4(UnkClass_020B26A0 *save, u32 id);
-int sub_02041A70(CFieldActor *actor, int arg1, int arg2);
 CFieldActor *sub_0202BCD4(u32 id);
 CFieldActor *sub_0202BCFC(u32 id);
 CFieldActor *sub_0202BD5C(u32 id);
@@ -2503,7 +2501,7 @@ int sub_0202FF48(int *args)
 int sub_0202FFE4(int *args)
 {
     CFieldActor *actor = sub_0202BCD4(args[0]);
-    UnkClass_02041D80 *table = MAIN_BSS_0210CA6C;
+    UnkClass_02041C80 *table = MAIN_BSS_0210CA6C;
     if (actor != NULL && table != NULL) {
         switch (((int)actor->unk_58 >> 24) & 0xFF) {
         case 1:

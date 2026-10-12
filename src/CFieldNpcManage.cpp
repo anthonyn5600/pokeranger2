@@ -14,13 +14,13 @@ struct FieldNpcData {
     s8 unk_03;
 };
 
-extern UnkClass_02041D80 *MAIN_BSS_0210CA6C;
+extern UnkClass_02041C80 *MAIN_BSS_0210CA6C;
 extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
 extern MATHRandContext16 MAIN_BSS_0210CEC8;
 
 extern "C" {
-FieldNpcData *sub_02041D44(UnkClass_02041D80 *obj, int kind);
-FieldEnemyData *sub_02041D58(UnkClass_02041D80 *obj, int kind);
+FieldNpcData *sub_02041D44(UnkClass_02041C80 *obj, int kind);
+FieldEnemyData *sub_02041D58(UnkClass_02041C80 *obj, int kind);
 }
 
 void CFieldNpcManage::sub_0203EFE4(int capacity)
@@ -48,7 +48,7 @@ static inline void SetCircle(CFieldActor *actor, Circle v)
 int CFieldNpcManage::ov0_0213C66C(int slot, int type, u16 kind, u16 script, int arg5)
 {
     if (m_actors != NULL) {
-        UnkClass_02041D80 *table = MAIN_BSS_0210CA6C;
+        UnkClass_02041C80 *table = MAIN_BSS_0210CA6C;
         UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
         for (int i = 0; i < m_count; i++) {
             if (Get(i) != NULL) {

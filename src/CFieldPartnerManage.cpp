@@ -8,6 +8,7 @@
 #include "UnkClass_02041D80.hpp"
 #include "UnkClass_020B26A0.hpp"
 #include "UnkStruct_020107A8.hpp"
+#include "field/CFieldEffect.hpp"
 #include "field/CFieldPartnerNpc.hpp"
 #include "field/CFieldPartnerPokemon.hpp"
 #include "field/CFieldPlayer.hpp"
@@ -23,7 +24,7 @@ struct FieldNpcData {
 };
 
 extern CFieldScene *MAIN_BSS_0210CA40;
-extern UnkClass_02041D80 *MAIN_BSS_0210CA6C;
+extern UnkClass_02041C80 *MAIN_BSS_0210CA6C;
 extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
 extern MATHRandContext16 MAIN_BSS_0210CEC8;
 
@@ -31,12 +32,11 @@ extern "C" {
 void LogError(const char *fmt, ...);
 void LogInfo(const char *fmt, ...);
 void sub_02044AC8(void *script);
-FieldNpcData *sub_02041D44(UnkClass_02041D80 *obj, int kind);
-FieldEnemyData *sub_02041D58(UnkClass_02041D80 *obj, int kind);
+FieldNpcData *sub_02041D44(UnkClass_02041C80 *obj, int kind);
+FieldEnemyData *sub_02041D58(UnkClass_02041C80 *obj, int kind);
 BOOL sub_02015434(UnkClass_020B26A0 *save, int mapId, int idx);
 void sub_02015124(UnkStruct_020B26A0_8AD4 *partner);
 void sub_02015C78(UnkClass_020B26A0 *save, u32 id, u16 kind, int arg3);
-void sub_02041A70(CFieldActor *actor, int arg1, int arg2);
 }
 
 UnkClass_0213949C::UnkClass_0213949C()
@@ -171,7 +171,7 @@ int CFieldPartnerManage::ov0_02139920(u32 id, u16 kind, u16 flags, int type, int
         }
         CFieldPartner *partner;
         void *script;
-        UnkClass_02041D80 *table = MAIN_BSS_0210CA6C;
+        UnkClass_02041C80 *table = MAIN_BSS_0210CA6C;
         if (type == 1) {
             FieldNpcData *data = sub_02041D44(table, kind);
             partner = new CFieldPartnerNpc();

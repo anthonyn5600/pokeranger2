@@ -11,7 +11,7 @@
 #include "common.hpp"
 #include "file/CBinaryFileMes.hpp"
 
-extern UnkClass_02041D80 *MAIN_BSS_0210CA6C;
+extern UnkClass_02041C80 *MAIN_BSS_0210CA6C;
 
 extern "C" {
 u8 *sub_02018B48(UnkClass_02018208 *obj, u32 i);
@@ -131,7 +131,7 @@ int UnkClass_0201B724::Load(u32 id)
             Release();
         }
         unk_04 = id;
-        UnkClass_02041D80 *table = MAIN_BSS_0210CA6C;
+        UnkClass_02041C80 *table = MAIN_BSS_0210CA6C;
         unk_00 = sub_02041D80(table, MAIN_BSS_020B26A0.unk_001A)->unk_00;
         FieldTargetObjectData *info = sub_02041D6C(table, id);
         unk_08 = info->unk_00;

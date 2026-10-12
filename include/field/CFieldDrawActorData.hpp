@@ -38,15 +38,25 @@ public:
 
 STATIC_SIZE_ASSERT(CFieldDrawActorData, 0x34);
 
-class UnkClass_020412A0 : public CFieldDrawActorData {
+// The player's graphics (RTTI name CActorDataPlayer): all anims from data/player/player%1d_LZ.bin into an inline
+// archive buffer.
+class CActorDataPlayer : public CFieldDrawActorData {
 public:
-    UnkClass_020412A0();
-    ~UnkClass_020412A0();
-    void sub_02041344(u16 id, int form, u32 mask, const char *name, BOOL useTransfer, BOOL arg5);
+    CActorDataPlayer();
+    virtual ~CActorDataPlayer();
+    virtual void Release();
+    virtual CActorAnim *GetAnim(u8 id);
+    virtual CActorAnim *sub_020143B8(int action, u32 sub);
+    virtual u8 GetAnimId(int action, u32 sub);
+
+    void sub_02041344(u16 id, int form, u32 mask, const char *arcName, BOOL useTransfer, BOOL alloc);
 
 public:
-    u8 unk_34[0x50838 - 0x34];
+    u8 unk_34[0x50800];
+    u16 unk_50834;
 };
+
+STATIC_SIZE_ASSERT(CActorDataPlayer, 0x50838);
 
 class CActorDataPartner : public CFieldDrawActorData {
 public:

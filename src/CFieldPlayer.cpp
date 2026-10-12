@@ -12,6 +12,7 @@
 #include "UnkClass_02041D80.hpp"
 #include "UnkClass_020B26A0.hpp"
 #include "UnkStruct_020107A8.hpp"
+#include "field/CFieldEffect.hpp"
 #include "field/CFieldMap.hpp"
 #include "field/CFieldMapLayer.hpp"
 #include "field/CFieldPartnerManage.hpp"
@@ -23,7 +24,7 @@ extern CFieldPlayer *MAIN_BSS_0210CA48;
 extern CFieldScene *MAIN_BSS_0210CA40;
 extern u16 DAT_0208d58c;
 extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
-extern UnkClass_02041D80 *MAIN_BSS_0210CA6C;
+extern UnkClass_02041C80 *MAIN_BSS_0210CA6C;
 extern void *MAIN_BSS_0210CA60;
 extern u16 *MAIN_BSS_0210CA70;
 
@@ -31,7 +32,6 @@ extern "C" {
 void ov0_02143344(void *mgr, fx32 x, fx32 y);
 void ov0_0214332C(void *mgr, int arg1, int arg2, CFieldPlayer *player);
 void ov0_0213EA6C(Point2D *out, Point2D cell, int floor, int arg3);
-void sub_02041A70(CFieldActor *actor, int arg1, int arg2);
 void sub_02016DA4(UnkClass_020B26A0 *save, int arg1);
 }
 

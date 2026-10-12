@@ -55,7 +55,6 @@
 .public NNSi_objSizeHTbl
 .public NNSi_objSizeWTbl
 .public OS_SPrintf
-.public PTR_LAB_0208e074
 .public RTC_GetDate
 .public RTC_GetTime
 .public _Z12sub_020060007Point2D9Rectanglem
@@ -171,6 +170,7 @@
 .public _ZN16CEffectActorData8GetCountEv
 .public _ZN16CEffectActorData8IsLoadedEv
 .public _ZN16CEffectActorDataD2Ev
+.public _ZN16CSimpleSpriteNTFD1Ev
 .public _ZN17CFieldActorManage12sub_0203F7F4EP11PointPair2DliP7Point2D
 .public _ZN17CFieldActorManage12sub_02040158E7Point2Dli
 .public _ZN17CFieldActorScript12sub_0203BE48EP11CFieldActorPKc
@@ -178,6 +178,7 @@
 .public _ZN17CFieldActorScript12sub_0203BF20Ev
 .public _ZN17CFieldActorScriptC2Ei
 .public _ZN17CFieldActorScriptD2Ev
+.public _ZN17CFieldEffectManpu7SetTypeEi
 .public _ZN17CFieldEnemyManage12ov0_02135E30Eitti
 .public _ZN17CFieldEnemyManage12ov0_02136384Ev
 .public _ZN17CFieldEnemyManage12ov0_0213669CEmt
@@ -249,6 +250,7 @@
 .public _ZN17UnkClass_0203447812sub_02034CF4Eii
 .public _ZN17UnkClass_0203447812sub_02034D54Eii
 .public _ZN17UnkClass_0203447812sub_02034F4CEi
+.public _ZN17UnkClass_02041D984BindE15GXTexPlttColor08GXTexGen
 .public _ZN17UnkClass_0211D85012sub_020359FCEv
 .public _ZN17UnkClass_0211D85012sub_02035D38Ei
 .public _ZN17UnkClass_0211D85012sub_02035DA0Eiiii
@@ -291,6 +293,7 @@
 .public _ZTI17CFieldActorScript
 .public _ZTV11CDrawObject
 .public _ZTV16CEffectActorData
+.public _ZTV16CSimpleSpriteNTF
 .public _ZTV17CPrimitiveRectNTF
 .public _ZTVN10__cxxabiv117__class_type_infoE
 .public _ZTVN10__cxxabiv120__si_class_type_infoE
@@ -352,12 +355,9 @@
 .public sub_02034374
 .public sub_02034F9C
 .public sub_02041A70
-.public sub_02041C14
 .public sub_02041C1C
 .public sub_02041D6C
 .public sub_02041D80
-.public sub_02041D98
-.public sub_020420A8
 .public sub_02044AC8
 .public sub_02044B38
 .public sub_02044B48

@@ -40,9 +40,22 @@ public:
     CFieldActor *unk_1C;
 };
 
+// Emotion balloon over an actor (CFieldActor::unk_D0 holds its effect id). Defined in ov0, except SetType.
+class CFieldEffectManpu : public CFieldEffect {
+public:
+    virtual ~CFieldEffectManpu();
+    virtual void SetType(int type);
+
+public:
+    u8 unk_20[0x4];
+    int unk_24;
+};
+
 extern "C" {
 CFieldEffect *ov0_02143088(UnkClass_02142428 *mgr, u16 id);
 u16 ov0_02142F6C(UnkClass_02142428 *mgr, int arg1, int arg2);
+int ov0_021430D8(UnkClass_02142428 *mgr, u16 id);
+int sub_02041A70(CFieldActor *actor, int type, int arg2);
 }
 
 #endif // POKERANGER2_FIELD_CFIELDEFFECT_HPP

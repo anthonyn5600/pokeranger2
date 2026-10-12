@@ -5,13 +5,24 @@
 
 #include "common.hpp"
 
-// Defined in main (still asm); CGame::unk_14CC, opened on data/field/fielddata.bin
+class CBinaryFile;
+struct FieldEnemyData;
+struct FieldTargetObjectData;
+struct UnkStruct_02041D80;
+
+// Field data tables (CGame::unk_14CC, singleton MAIN_BSS_0210CA6C), opened on data/field/fielddata.bin:
+// NPC (4 bytes), enemy (0x40), target object (0x20) and map (0x54) records.
 class UnkClass_02041C80 {
 public:
-    UnkClass_02041C80(const char *path, int arg1);
+    UnkClass_02041C80(const char *path, int heapId);
+    void Load(const char *path, int heapId);
 
 public:
-    u8 unk_00[0x14];
+    CBinaryFile *unk_00;
+    u32 *unk_04;
+    FieldEnemyData *unk_08;
+    FieldTargetObjectData *unk_0C;
+    UnkStruct_02041D80 *unk_10;
 };
 
 STATIC_SIZE_ASSERT(UnkClass_02041C80, 0x14);

@@ -11,7 +11,7 @@
 #include "UnkClass_02041D80.hpp"
 #include "common.hpp"
 
-extern UnkClass_02041D80 *MAIN_BSS_0210CA6C;
+extern UnkClass_02041C80 *MAIN_BSS_0210CA6C;
 
 UnkClass_0202163C::UnkClass_0202163C(CGame *game)
 {
@@ -179,7 +179,7 @@ void UnkClass_0202163C::LoadOAMToVram()
 void UnkClass_0202163C::LoadMapScr()
 {
     char path[0x40];
-    UnkClass_02041D80 *table = MAIN_BSS_0210CA6C;
+    UnkClass_02041C80 *table = MAIN_BSS_0210CA6C;
     u8 a = sub_02041D80(table, unk_38)->unk_00;
     u8 b = sub_02041D80(table, unk_38)->unk_01;
     u8 c = sub_02041D80(table, unk_38)->unk_02;

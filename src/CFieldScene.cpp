@@ -74,7 +74,7 @@ extern CFieldScene *MAIN_BSS_0210CA40;
 extern u16 DAT_0208d58c;
 extern UnkStruct_0208AC1C s_c000First_0208ac1c[];
 extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
-extern UnkClass_02041D80 *MAIN_BSS_0210CA6C;
+extern UnkClass_02041C80 *MAIN_BSS_0210CA6C;
 extern void *MAIN_BSS_0210CA74;
 
 CFieldScene::CFieldScene(CGame *game)
@@ -658,7 +658,6 @@ int ov0_0213DEE8(UnkClass_0213DDCC *obj, Point2D *tile, int dir, BOOL arg3);
 void ov0_02159D7C(UnkClass_0215994C *obj);
 void ov0_021428EC(UnkClass_02142428 *obj, int fps, BOOL paused);
 void ov0_021433D0(UnkClass_02142428 *obj);
-void sub_02041920(UnkClass_020416AC *obj);
 void sub_0201094C(void *obj, int arg1);
 void sub_02010954(void *obj, u8 arg1);
 void sub_0201095C(void *obj, u8 arg1);
@@ -1525,18 +1524,16 @@ u32 CFieldScene::func0()
 }
 
 extern "C" {
-void sub_02041D58(UnkClass_02041D80 *obj, u32 arg1);
+void sub_02041D58(UnkClass_02041C80 *obj, u32 arg1);
 void ov0_02148480(UnkClass_021480E4 *obj, Point2D *pos, Point2D *target);
 void ov0_021481EC(UnkClass_021480E4 *obj, int fps);
 void ov0_0214FD00(UnkClass_0214FB28 *obj, Camera2D *camera);
 void ov0_0214FF20(UnkClass_0214FD4C *obj, Camera2D *camera);
 void ov0_02159DB4(UnkClass_0215994C *obj, UnkClass_0211E3FC *renderLists, UnkClass_020416AC *hud);
 void ov0_02143380(UnkClass_02142428 *obj, UnkClass_0211E3FC *renderLists);
-void sub_02041924(UnkClass_020416AC *hud, Camera2D *camera, int layer, int budget);
 int ov0_0214336C(UnkClass_02142428 *obj, int layer, int budget);
 void ov0_02142D88(UnkClass_02142428 *obj, Camera2D *camera);
 void ov0_0216D62C(UnkClass_0216D5F4 *obj, int time, int arg2, Camera2D *camera);
-void sub_020419AC(UnkClass_020416AC *hud);
 void ov0_02148288(UnkClass_021480E4 *obj, Camera2D *camera);
 void ov0_0213DFA4(UnkClass_0213DDCC *obj, Camera2D *camera);
 void ov0_02142F08(UnkClass_02142428 *obj);
@@ -1553,7 +1550,6 @@ void sub_02015C08(UnkClass_020B26A0 *save, int idx, int mapId);
 BOOL sub_02015B1C(UnkClass_020B26A0 *save, int idx, int mapId);
 void sub_02015AAC(UnkClass_020B26A0 *save, int idx, int mapId);
 BOOL sub_02015434(UnkClass_020B26A0 *save, int mapId, int idx);
-void sub_02041A60(UnkClass_020416AC *hud, u8 arg1);
 void ov0_02143410(UnkClass_02142428 *obj);
 void sub_020109C0(void *record, u16 arg1, int arg2);
 }

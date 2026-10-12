@@ -6,6 +6,7 @@
 #include "UnkClass_02041D80.hpp"
 #include "UnkClass_020B26A0.hpp"
 #include "UnkStruct_020107A8.hpp"
+#include "field/CFieldEffect.hpp"
 #include "field/CFieldEnemy.hpp"
 #include "field/CFieldPartnerManage.hpp"
 #include "field/CFieldPlayer.hpp"
@@ -21,7 +22,7 @@ struct UnkStruct_0210C228 {
 
 extern CFieldPlayer *MAIN_BSS_0210CA48;
 extern CFieldPartnerManage *MAIN_BSS_0210CA4C;
-extern UnkClass_02041D80 *MAIN_BSS_0210CA6C;
+extern UnkClass_02041C80 *MAIN_BSS_0210CA6C;
 extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
 extern UnkStruct_0210C228 MAIN_BSS_0210C228;
 extern MATHRandContext16 MAIN_BSS_0210CEC8;
@@ -30,9 +31,8 @@ extern "C" {
 void LogError(const char *fmt, ...);
 void LogInfo(const char *fmt, ...);
 void sub_02044AC8(void *script);
-FieldEnemyData *sub_02041D58(UnkClass_02041D80 *obj, int kind);
+FieldEnemyData *sub_02041D58(UnkClass_02041C80 *obj, int kind);
 BOOL sub_02015434(UnkClass_020B26A0 *save, int mapId, int idx);
-void sub_02041A70(CFieldActor *actor, int arg1, int arg2);
 }
 
 UnkStruct_021357DC::UnkStruct_021357DC()
@@ -206,7 +206,7 @@ static inline void SetUnk70(CFieldActor *actor, fx32 x, fx32 y)
 int CFieldEnemyManage::ov0_02135E30(int slot, u16 kind, u16 script, int arg4)
 {
     if (m_actors != NULL) {
-        UnkClass_02041D80 *table = MAIN_BSS_0210CA6C;
+        UnkClass_02041C80 *table = MAIN_BSS_0210CA6C;
         // Spilled under register pressure and rematerialized at its use (the NPC/object managers keep it in a
         // register); reading MAIN_BSS_020B26A0 directly schedules the id computation differently.
         UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;

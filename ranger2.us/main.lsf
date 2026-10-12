@@ -129,7 +129,15 @@ Static main
     Object main.nef.p/src_FieldActorManage.cpp.o
     Object main.nef.p/src_FieldDrawObject.cpp.o
     Object main.nef.p/src_FieldDrawActorData.cpp.o
-    Object main.nef.p/asm_arm9_020412A0.s.o
+    Object main.nef.p/src_ActorDataPlayer.cpp.o
+    Object main.nef.p/src_FieldShadow.cpp.o
+    Object main.nef.p/src_FieldData.cpp.o
+    Object main.nef.p/src_SimpleSpriteNTF.cpp.o
+    Object main.nef.p/src_UnkClass_02042108.cpp.o
+    Object main.nef.p/src_CDownloadMissionStartScene.cpp.o
+    Object main.nef.p/src_CDownloadMissionEndScene.cpp.o
+    Object main.nef.p/src_CDownloadMissionRestartScene.cpp.o
+    Object main.nef.p/src_Log.cpp.o
     Object main.nef.p/src_sub_0204436C.cpp.o
     Object main.nef.p/asm_arm9_0204439C.s.o
     Object main.nef.p/src_sub_02044440.cpp.o

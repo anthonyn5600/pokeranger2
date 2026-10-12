@@ -3718,7 +3718,7 @@ ov3_0212518C: ; 0x0212518C
 	ldr r0, _021251D4 ; =_ZTV17CPrimitiveRectNTF+8
 	mov r2, #0
 	str r0, [r4]
-	ldr r0, _021251D8 ; =PTR_LAB_0208e074
+	ldr r0, _021251D8 ; =_ZTV16CSimpleSpriteNTF+8
 	str r2, [r4, #0x18]
 	str r0, [r4]
 	str r2, [r4, #0x4c]
@@ -3732,7 +3732,7 @@ ov3_0212518C: ; 0x0212518C
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021251D4: .word _ZTV17CPrimitiveRectNTF+8
-_021251D8: .word PTR_LAB_0208e074
+_021251D8: .word _ZTV16CSimpleSpriteNTF+8
 	arm_func_end ov3_0212518C
 
 	arm_func_start ov3_021251DC
@@ -3740,7 +3740,7 @@ ov3_021251DC: ; 0x021251DC
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _02125500 ; =ptr_FUN_overlay_3_021255b8_overlay_3_0212aee8
 	mov r4, r0
-	ldr ip, _02125504 ; =sub_020420A8
+	ldr ip, _02125504 ; =_ZN16CSimpleSpriteNTFD1Ev
 	str r1, [r4]
 	ldr r3, _02125508 ; =ov3_0212518C
 	add r0, r4, #0xc
@@ -3951,7 +3951,7 @@ _02125460:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02125500: .word ptr_FUN_overlay_3_021255b8_overlay_3_0212aee8
-_02125504: .word sub_020420A8
+_02125504: .word _ZN16CSimpleSpriteNTFD1Ev
 _02125508: .word ov3_0212518C
 _0212550C: .word ptr_FUN_overlay_3_02129a68_overlay_3_0212b4e0
 _02125510: .word ov3_02125594
@@ -3970,7 +3970,7 @@ ov3_0212552C: ; 0x0212552C
 	ldr r0, _02125588 ; =_ZTV17CPrimitiveRectNTF+8
 	mov r1, #0
 	str r0, [r4]
-	ldr r0, _0212558C ; =PTR_LAB_0208e074
+	ldr r0, _0212558C ; =_ZTV16CSimpleSpriteNTF+8
 	str r1, [r4, #0x18]
 	str r0, [r4]
 	str r1, [r4, #0x4c]
@@ -3989,7 +3989,7 @@ ov3_0212552C: ; 0x0212552C
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02125588: .word _ZTV17CPrimitiveRectNTF+8
-_0212558C: .word PTR_LAB_0208e074
+_0212558C: .word _ZTV16CSimpleSpriteNTF+8
 _02125590: .word 0x00000622
 	arm_func_end ov3_0212552C
 
@@ -4088,7 +4088,7 @@ _0212568C:
 	bl ov3_02129F54
 	add r0, r4, #0x290
 	bl ov3_02129A68
-	ldr r3, _021256C0 ; =sub_020420A8
+	ldr r3, _021256C0 ; =_ZN16CSimpleSpriteNTFD1Ev
 	add r0, r4, #0xc
 	mov r1, #7
 	mov r2, #0x5c
@@ -4098,7 +4098,7 @@ _0212568C:
 	.align 2, 0
 _021256B8: .word ptr_FUN_overlay_3_021255b8_overlay_3_0212aee8
 _021256BC: .word ov3_02125594
-_021256C0: .word sub_020420A8
+_021256C0: .word _ZN16CSimpleSpriteNTFD1Ev
 
 	arm_func_start ov3_021256C4
 ov3_021256C4: ; 0x021256C4
@@ -4166,7 +4166,7 @@ _02125798:
 	bl ov3_02129F54
 	add r0, r4, #0x290
 	bl ov3_02129A68
-	ldr r3, _021257D4 ; =sub_020420A8
+	ldr r3, _021257D4 ; =_ZN16CSimpleSpriteNTFD1Ev
 	add r0, r4, #0xc
 	mov r1, #7
 	mov r2, #0x5c
@@ -4178,7 +4178,7 @@ _02125798:
 	.align 2, 0
 _021257CC: .word ptr_FUN_overlay_3_021255b8_overlay_3_0212aee8
 _021257D0: .word ov3_02125594
-_021257D4: .word sub_020420A8
+_021257D4: .word _ZN16CSimpleSpriteNTFD1Ev
 
 	arm_func_start ov3_021257D8
 ov3_021257D8: ; 0x021257D8
@@ -5808,7 +5808,7 @@ ov3_02126E9C: ; 0x02126E9C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl _ZN10CPrimitiveC2Ev
-	ldr r0, _02126EC8 ; =ptr_FUN_020420d8_0208e088
+	ldr r0, _02126EC8 ; =_ZTV23CSimplePrimitiveQuadNTF+8
 	mov r1, #0
 	str r0, [r4]
 	str r1, [r4, #0x18]
@@ -5817,7 +5817,7 @@ ov3_02126E9C: ; 0x02126E9C
 	str r1, [r4, #0x1c]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02126EC8: .word ptr_FUN_020420d8_0208e088
+_02126EC8: .word _ZTV23CSimplePrimitiveQuadNTF+8
 	arm_func_end ov3_02126E9C
 
 	arm_func_start ov3_02126ECC
@@ -5834,7 +5834,7 @@ ov3_02126ECC: ; 0x02126ECC
 	str ip, [sp]
 	bl __cxa_vec_ctor
 	mov r0, #0
-	ldr ip, _0212723C ; =sub_020420A8
+	ldr ip, _0212723C ; =_ZN16CSimpleSpriteNTFD1Ev
 	strh r0, [r4, #0x5c]
 	ldr r3, _02127240 ; =ov3_0212518C
 	add r0, r4, #0x60
@@ -6025,7 +6025,7 @@ _02127180:
 	str r3, [r4, #0x34c]
 	str r1, [r4, #0x350]
 	ldr r0, _02127264 ; =PTR_LAB_overlay_3_02129128_overlay_3_0212b1b8
-	ldr ip, _02127268 ; =sub_020420D8
+	ldr ip, _02127268 ; =_ZN23CSimplePrimitiveQuadNTFD1Ev
 	str r0, [r4, #0x354]
 	str r3, [r4, #0x368]
 	str r3, [r4, #0x358]
@@ -6054,7 +6054,7 @@ _02127180:
 _02127230: .word ptr_FUN_overlay_3_02127350_overlay_3_0212b218
 _02127234: .word _ZN15CSoftwareSpriteD1Ev
 _02127238: .word _ZN15CSoftwareSpriteC1Ev
-_0212723C: .word sub_020420A8
+_0212723C: .word _ZN16CSimpleSpriteNTFD1Ev
 _02127240: .word ov3_0212518C
 _02127244: .word ptr_FUN_overlay_3_02129130_overlay_3_0212b458
 _02127248: .word ov3_021272C8
@@ -6065,7 +6065,7 @@ _02127258: .word PTR_LAB_overlay_3_02129124_overlay_3_0212b19c
 _0212725C: .word PTR_LAB_overlay_3_02127340_overlay_3_0212b1d4
 _02127260: .word PTR_LAB_overlay_3_02127344_overlay_3_0212b118
 _02127264: .word PTR_LAB_overlay_3_02129128_overlay_3_0212b1b8
-_02127268: .word sub_020420D8
+_02127268: .word _ZN23CSimplePrimitiveQuadNTFD1Ev
 _0212726C: .word PTR_LAB_overlay_3_02127348_overlay_3_0212b180
 _02127270: .word PTR_LAB_overlay_3_0212734c_overlay_3_0212b154
 _02127274: .word ov3_02126E9C
@@ -6179,7 +6179,7 @@ ov3_02127350: ; 0x02127350
 	ldr r1, [r0]
 	ldr r1, [r1, #0xc]
 	blx r1
-	ldr r3, _02127474 ; =sub_020420D8
+	ldr r3, _02127474 ; =_ZN23CSimplePrimitiveQuadNTFD1Ev
 	add r0, r4, #0x374
 	mov r1, #0xa
 	mov r2, #0x64
@@ -6235,7 +6235,7 @@ _02127414:
 _02127438:
 	add r0, r4, #0x138
 	bl ov3_02129130
-	ldr r3, _02127480 ; =sub_020420A8
+	ldr r3, _02127480 ; =_ZN16CSimpleSpriteNTFD1Ev
 	add r0, r4, #0x60
 	mov r1, #2
 	mov r2, #0x5c
@@ -6249,10 +6249,10 @@ _02127438:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02127470: .word ptr_FUN_overlay_3_02127350_overlay_3_0212b218
-_02127474: .word sub_020420D8
+_02127474: .word _ZN23CSimplePrimitiveQuadNTFD1Ev
 _02127478: .word ov3_0212732C
 _0212747C: .word ov3_021272C8
-_02127480: .word sub_020420A8
+_02127480: .word _ZN16CSimpleSpriteNTFD1Ev
 _02127484: .word _ZN15CSoftwareSpriteD1Ev
 
 	arm_func_start ov3_02127488
@@ -6268,7 +6268,7 @@ ov3_02127488: ; 0x02127488
 	ldr r1, [r0]
 	ldr r1, [r1, #0xc]
 	blx r1
-	ldr r3, _021275B4 ; =sub_020420D8
+	ldr r3, _021275B4 ; =_ZN23CSimplePrimitiveQuadNTFD1Ev
 	add r0, r4, #0x374
 	mov r1, #0xa
 	mov r2, #0x64
@@ -6324,7 +6324,7 @@ _0212754C:
 _02127570:
 	add r0, r4, #0x138
 	bl ov3_02129130
-	ldr r3, _021275C0 ; =sub_020420A8
+	ldr r3, _021275C0 ; =_ZN16CSimpleSpriteNTFD1Ev
 	add r0, r4, #0x60
 	mov r1, #2
 	mov r2, #0x5c
@@ -6340,10 +6340,10 @@ _02127570:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021275B0: .word ptr_FUN_overlay_3_02127350_overlay_3_0212b218
-_021275B4: .word sub_020420D8
+_021275B4: .word _ZN23CSimplePrimitiveQuadNTFD1Ev
 _021275B8: .word ov3_0212732C
 _021275BC: .word ov3_021272C8
-_021275C0: .word sub_020420A8
+_021275C0: .word _ZN16CSimpleSpriteNTFD1Ev
 _021275C4: .word _ZN15CSoftwareSpriteD1Ev
 
 	arm_func_start ov3_021275C8
@@ -9113,7 +9113,7 @@ ov3_02129C90: ; 0x02129C90
 	beq _02129CB4
 	mov r1, #0
 	mov r2, r1
-	bl sub_02041D98
+	bl _ZN17UnkClass_02041D984BindE15GXTexPlttColor08GXTexGen
 	arm_func_end ov3_02129C90
 _02129CB4:
 	ldr r3, _02129E88 ; =0x04000450

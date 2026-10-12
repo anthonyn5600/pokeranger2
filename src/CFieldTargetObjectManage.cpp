@@ -6,7 +6,7 @@
 #include "UnkClass_020B26A0.hpp"
 #include "field/CFieldTargetObject.hpp"
 
-extern UnkClass_02041D80 *MAIN_BSS_0210CA6C;
+extern UnkClass_02041C80 *MAIN_BSS_0210CA6C;
 extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
 
 extern "C" {
@@ -44,7 +44,7 @@ int CFieldTargetObjectManage::ov0_0213D1AC(int slot, u16 kind, u16 script, u16 t
 {
     if (m_actors != NULL) {
         int i;
-        UnkClass_02041D80 *table = MAIN_BSS_0210CA6C;
+        UnkClass_02041C80 *table = MAIN_BSS_0210CA6C;
         UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
         for (i = 0; i < m_count; i++) {
             if (Get(i) != NULL) {

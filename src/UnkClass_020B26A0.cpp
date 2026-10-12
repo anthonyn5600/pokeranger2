@@ -5,6 +5,7 @@
 #include <string.h>
 
 #include "CGame.hpp"
+#include "Log.hpp"
 #include "UnkClass_02041D80.hpp"
 #include "UnkStruct_020107A8.hpp"
 #include "constants/scene.hpp"
@@ -17,13 +18,13 @@ struct FieldNpcData {
     s8 unk_03;
 };
 
-extern UnkClass_02041D80 *MAIN_BSS_0210CA6C;
+extern UnkClass_02041C80 *MAIN_BSS_0210CA6C;
 extern MATHRandContext16 MAIN_BSS_0210CEC8;
 
 extern "C" {
 void LogInfo(const char *fmt, ...);
-FieldNpcData *sub_02041D44(UnkClass_02041D80 *obj, int kind);
-FieldEnemyData *sub_02041D58(UnkClass_02041D80 *obj, int kind);
+FieldNpcData *sub_02041D44(UnkClass_02041C80 *obj, int kind);
+FieldEnemyData *sub_02041D58(UnkClass_02041C80 *obj, int kind);
 }
 
 UnkClass_020B26A0 MAIN_BSS_020B26A0;
@@ -697,8 +698,6 @@ void UnkClass_020B26A0::sub_0201630C(RTCTime *time, RTCDate *date)
     unk_8B84.week = date->week;
 }
 
-extern "C" void thunk_FUN_020442cc(const char *fmt, va_list args);
-
 extern "C" void sub_020167B4(UnkClass_020B26A0 *save);
 
 extern "C" void sub_0201668C(UnkClass_020B26A0 *save)
@@ -1338,7 +1337,7 @@ extern "C" void sub_02017948(UnkClass_020B26A0 *save, BOOL force)
     }
 
     if (!force) {
-        UnkClass_02041D80 *table = MAIN_BSS_0210CA6C;
+        UnkClass_02041C80 *table = MAIN_BSS_0210CA6C;
         if (table != NULL) {
             u32 used = 0;
             for (int i = 0; i < 2; i++) {
@@ -1394,7 +1393,7 @@ extern "C" void sub_02017948(UnkClass_020B26A0 *save, BOOL force)
 
     if (force) {
         sub_02017E44(save);
-        UnkClass_02041D80 *table = MAIN_BSS_0210CA6C;
+        UnkClass_02041C80 *table = MAIN_BSS_0210CA6C;
         if (table == NULL) {
             return;
         }
@@ -1424,7 +1423,7 @@ extern "C" void sub_02017948(UnkClass_020B26A0 *save, BOOL force)
             }
         }
     } else {
-        UnkClass_02041D80 *table = MAIN_BSS_0210CA6C;
+        UnkClass_02041C80 *table = MAIN_BSS_0210CA6C;
         if (table == NULL) {
             return;
         }
@@ -1464,7 +1463,7 @@ extern "C" void sub_02017E44(UnkClass_020B26A0 *save)
 extern "C" u32 sub_02017E5C(UnkClass_020B26A0 *save)
 {
     u32 used = 0;
-    UnkClass_02041D80 *table = MAIN_BSS_0210CA6C;
+    UnkClass_02041C80 *table = MAIN_BSS_0210CA6C;
     u32 missing = 0;
     if (table != NULL) {
         for (int i = 0; i < 2; i++) {

@@ -73,6 +73,13 @@ public:
         unk_3C = arg2;
     }
 
+    inline void SetResources(UnkClass_CPrimitive_ImageProxy *image, UnkClass_CSoftwareSprite_30 *pal, UnkClass_CPrimitive_ImagePaletteProxy *palette, UnkClass_CSoftwareSprite_38 *cells)
+    {
+        unk_2C = image;
+        unk_30 = pal;
+        unk_34 = palette;
+        unk_38 = cells;
+    }
     inline void SetImage(UnkClass_CPrimitive_ImageProxy *image, UnkClass_CSoftwareSprite_30 *pal)
     {
         unk_2C = image;

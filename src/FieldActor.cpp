@@ -17,9 +17,7 @@
 #include "heap.hpp"
 
 extern "C" {
-void ov0_021430D8(UnkClass_02142428 *mgr, u16 id);
 void ov0_021652DC(CFieldEffect *effect, CFieldActor *actor, UnkClass_02142428 *mgr);
-void sub_020419D8(UnkClass_020416AC *hud, int layer, Rectangle rect);
 void ov0_021431A4(UnkClass_02142428 *mgr, int attr, fx32 x, fx32 y, int layer, UnkStruct_02041D80 *info);
 }
 
@@ -33,7 +31,7 @@ extern CFieldActorManage *MAIN_BSS_0210CA50;
 extern CFieldActorManage *MAIN_BSS_0210CA5C;
 extern CFieldActorManage *MAIN_BSS_0210CA7C;
 extern UnkClass_02142428 *MAIN_BSS_0210CA60;
-extern UnkClass_02041D80 *MAIN_BSS_0210CA6C;
+extern UnkClass_02041C80 *MAIN_BSS_0210CA6C;
 extern u32 MAIN_BSS_0210CA74;
 extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
 extern u16 DAT_0208d58c;

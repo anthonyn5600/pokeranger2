@@ -10,7 +10,7 @@
 #include "UnkClass_02021404.hpp"
 #include "common.hpp"
 
-class UnkClass_02041D80;
+class UnkClass_02041C80;
 
 // One area of the sub-screen region map (DAT_0208c938).
 struct MapMenuArea {
@@ -60,7 +60,7 @@ public:
 public:
     u16 unk_00;
     int unk_04;
-    UnkClass_02041D80 *unk_08;
+    UnkClass_02041C80 *unk_08;
     UnkClass_02021404 *unk_0C;
     UnkClass_0200ECD0 *unk_10;
     UnkClass_0200ECD0 *unk_14;

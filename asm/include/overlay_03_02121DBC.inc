@@ -42,7 +42,6 @@
 .public NNSi_G2dFontGetTextWidth
 .public OS_GetTick
 .public OS_SPrintf
-.public PTR_LAB_0208e074
 .public _Z12sub_020060007Point2D9Rectanglem
 .public _Z12sub_02007254ll
 .public _Z23Heap_AllocWithAlignmentmm
@@ -66,6 +65,7 @@
 .public _ZN14CPrimitiveRECTD1Ev
 .public _ZN15CSoftwareSpriteC1Ev
 .public _ZN15CSoftwareSpriteD1Ev
+.public _ZN16CSimpleSpriteNTFD1Ev
 .public _ZN17UnkClass_0200878812sub_02008828Et
 .public _ZN17UnkClass_0200878812sub_020089ECEv
 .public _ZN17UnkClass_0200878812sub_02008A80Emm
@@ -120,6 +120,8 @@
 .public _ZN17UnkClass_0203447812sub_02034DC8Ei
 .public _ZN17UnkClass_0203447812sub_02034E48Ei
 .public _ZN17UnkClass_0203447812sub_02034ED8Ei
+.public _ZN17UnkClass_02041D984BindE15GXTexPlttColor08GXTexGen
+.public _ZN23CSimplePrimitiveQuadNTFD1Ev
 .public _ZN5CGame11GetInstanceEv
 .public _ZN5CGame12sub_020100E4EPFvPvES0_
 .public _ZN5CGame12sub_020101F4Emmm
@@ -138,7 +140,9 @@
 .public _ZTI14CPrimitiveLINE
 .public _ZTI14CPrimitiveQUAD
 .public _ZTI6CScene
+.public _ZTV16CSimpleSpriteNTF
 .public _ZTV17CPrimitiveRectNTF
+.public _ZTV23CSimplePrimitiveQuadNTF
 .public _ZTVN10__cxxabiv117__class_type_infoE
 .public _ZTVN10__cxxabiv120__si_class_type_infoE
 .public _ZdaPv
@@ -180,8 +184,4 @@
 .public ov3_02121D0C
 .public ov3_02121D10
 .public ov3_02121D20
-.public ptr_FUN_020420d8_0208e088
 .public s_game
-.public sub_02041D98
-.public sub_020420A8
-.public sub_020420D8

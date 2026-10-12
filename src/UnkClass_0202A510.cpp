@@ -7,7 +7,7 @@
 #include "UnkClass_020B26A0.hpp"
 #include "common.hpp"
 
-extern UnkClass_02041D80 *MAIN_BSS_0210CA6C;
+extern UnkClass_02041C80 *MAIN_BSS_0210CA6C;
 
 static MapMenuArea sMapMenuAreas[] = {
     { 8, 0x100ULL, 0, 0, 0 },
