@@ -17,6 +17,9 @@ public:
     void ov0_0213E3E4(u16 kind, u8 arg1);
 
 public:
+    u32 unk_268;
+    u8 unk_26C[0x8];
+    UnkStruct_0211EA94 *unk_274;
     u8 unk_278[0x4];
 };
 

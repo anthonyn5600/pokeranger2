@@ -72,14 +72,8 @@ public:
     u32 unk_1FC;
     u32 unk_200;
     FieldTrail unk_204;
-    // TODO: the fields below belong to the derived partner classes (still asm), read by CFieldScene
-    u32 unk_268;
-    u8 unk_26C[0x8];
-    UnkStruct_0211EA94 *unk_274;
 };
 
-extern "C" {
-void ov0_0213E158(CFieldActor *actor, void *arg1);
-}
+STATIC_SIZE_ASSERT(CFieldPartner, 0x268);
 
 #endif // POKERANGER2_FIELD_CFIELDPARTNER_HPP

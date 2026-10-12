@@ -13,6 +13,7 @@ class CFieldActor;
 class CFieldEnemy;
 class CFieldEnemyManage;
 class CFieldPartner;
+class CFieldPartnerPokemon;
 class CFieldNpcManage;
 class CFieldPartnerManage;
 class CFieldPlayer;
@@ -116,7 +117,7 @@ public:
     int unk_0070;
     int unk_0074;
     int unk_0078;
-    CFieldPartner *unk_007C;
+    CFieldPartnerPokemon *unk_007C;
     CFieldActor *unk_0080;
     int unk_0084;
     int unk_0088;

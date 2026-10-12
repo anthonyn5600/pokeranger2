@@ -7,6 +7,7 @@
 #include "UnkClass_020B26A0.hpp"
 #include "field/CFieldMap.hpp"
 #include "field/CFieldPartnerManage.hpp"
+#include "field/CFieldPartnerPokemon.hpp"
 #include "field/CFieldPlayer.hpp"
 #include "fx_utils.hpp"
 #include "scene/CFieldScene.hpp"
@@ -308,7 +309,7 @@ BOOL CFieldPartner::ov0_0213803C(int arg)
     // The partner two places ahead in the chain.
     CFieldPartner *prev = unk_E0->FindByOrder(unk_1E8 - 2);
     int move = prev->unk_EC.unk_68;
-    int kind = prev->unk_268;
+    int kind = ((CFieldPartnerPokemon *)prev)->unk_268;
     if (move != 5 && kind != 0x27) {
         Point2D d = prevPos = prev->GetPos();
         d -= GetPos();

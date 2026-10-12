@@ -42,6 +42,8 @@
 #include "field/CFieldNpcManage.hpp"
 #include "field/CFieldPartner.hpp"
 #include "field/CFieldPartnerManage.hpp"
+#include "field/CFieldPartnerNpc.hpp"
+#include "field/CFieldPartnerPokemon.hpp"
 #include "field/CFieldPlayer.hpp"
 #include "field/CFieldTargetObject.hpp"
 #include "field/CFieldTargetObjectManage.hpp"
@@ -330,7 +332,7 @@ void CFieldScene::func6()
                         actor->SetPos((Point2D) { partner->unk_0C.x, partner->unk_0C.y });
                         actor->sub_020128EC_(partner->unk_0A);
                         actor->sub_0201287C_();
-                        ov0_0213E158(actor, partner->unk_14);
+                        ((CFieldPartnerNpc *)actor)->SetName(partner->unk_14);
                     }
                 }
             }
@@ -1854,7 +1856,7 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
                                 actor->SetPos((Point2D) { partner->unk_0C.x, partner->unk_0C.y });
                                 actor->sub_020128EC_(partner->unk_0A);
                                 actor->sub_0201287C_();
-                                ov0_0213E158(actor, partner->unk_14);
+                                ((CFieldPartnerNpc *)actor)->SetName(partner->unk_14);
                             }
                         }
                     }
