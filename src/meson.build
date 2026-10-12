@@ -155,5 +155,6 @@ pokeranger2_cxx = files(
     'CLineEffect.cpp',
     'UnkClass_0212E88C.cpp',
     'CBattleAssist.cpp',
+    'UnkClass_0212EEB4.cpp',
     'CNameInputScene.cpp',
     'debug.cpp', )

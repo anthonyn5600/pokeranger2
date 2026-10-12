@@ -93,11 +93,6 @@
 .public _ZN17UnkClass_0200CAB412sub_0200CCD0Eiiiiiiii
 .public _ZN17UnkClass_0200CAB412sub_0200CDA0EiiiiPhii
 .public _ZN17UnkClass_0200CAB412sub_0200CF7CEi
-.public _ZN17UnkClass_0200D11412sub_0200D148EPKc
-.public _ZN17UnkClass_0200D11412sub_0200D390Ev
-.public _ZN17UnkClass_0200D11412sub_0200D3B8EiiPm
-.public _ZN17UnkClass_0200D114C1Em
-.public _ZN17UnkClass_0200D114D1Ev
 .public _ZN17UnkClass_0200D3F812sub_0200D8C8El
 .public _ZN17UnkClass_0200D3F812sub_0200D924El
 .public _ZN17UnkClass_0200D3F812sub_0200D980Ev
@@ -139,6 +134,7 @@
 .public _ZN17UnkClass_0203447812sub_02034DE8Eiii
 .public _ZN17UnkClass_0212306C12ov1_02124650Ell
 .public _ZN17UnkClass_0212841412ov1_02128598Ei
+.public _ZN17UnkClass_0212EEB412ov1_0212F32CEitt
 .public _ZN19CBattleAttackEffect12ov1_021270FCEP23CBattleAttackEffectData
 .public _ZN19CBattleAttackEffect12ov1_02127300Ev
 .public _ZN19CBattleAttackEffect12ov1_02127388Ei
