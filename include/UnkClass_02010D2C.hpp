@@ -16,4 +16,8 @@ public:
 
 STATIC_SIZE_ASSERT(UnkClass_02010D2C, 0x10);
 
+extern "C" {
+u16 sub_02010E90(UnkClass_02010D2C *obj, u8 idx);
+}
+
 #endif // POKERANGER2_UNKCLASS_02010D2C_HPP

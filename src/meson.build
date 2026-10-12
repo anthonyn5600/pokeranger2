@@ -15,8 +15,9 @@ pokeranger2_cxx = files(
     'primitive/CPrimitiveSPHERE.cpp',
     'primitive/CPrimitiveTRIANGLE.cpp',
     'primitive/CSoftwareSprite.cpp',
-    'CTouchPanel.cpp', # This needs to be placed before `CTPEmulator.cpp`
-                       # for the RTTI to be linked in the correct order.
+    'CTouchPanel.cpp',
+    #This needs to be placed before `CTPEmulator.cpp`
+#for the RTTI to be linked in the correct order.
     'CTPEmulator.cpp',
     'heap.cpp',
     'main.cpp',
@@ -132,6 +133,6 @@ pokeranger2_cxx = files(
     'CFieldTargetObject.cpp',
     'CFieldTargetObjectManage.cpp',
     'UnkClass_0213D624.cpp',
+    'CBattleScene.cpp',
     'CNameInputScene.cpp',
-    'debug.cpp',
-)
+    'debug.cpp', )

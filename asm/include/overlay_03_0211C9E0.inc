@@ -45,7 +45,7 @@
 .public RTC_GetTime
 .public _Z11BGS_LoadScrPKcS0_iS0_mmim
 .public _Z12sub_020060007Point2D9Rectanglem
-.public _Z12sub_020061007Point2DS_18UnkStruct_02006100
+.public _Z12sub_020061007Point2D6Circle
 .public _Z12sub_02007D68v
 .public _Z12sub_02007D98v
 .public _Z19BGS_LoadCharAndPlttPKcS0_iS0_mS0_m

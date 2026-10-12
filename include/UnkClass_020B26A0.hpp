@@ -261,7 +261,8 @@ public:
     u32 unk_4518[MAP_COUNT][4];
     u32 unk_60A8[MAP_COUNT][4];
     u32 unk_7C38;
-    u32 unk_7C3C[0x9D];
+    u32 unk_7C3C[0x20];
+    u8 unk_7CBC[500];
     u32 unk_7EB0[0x20];
     u8 unk_7F30[0x30];
     u32 unk_7F60;

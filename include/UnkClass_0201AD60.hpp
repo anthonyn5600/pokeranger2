@@ -23,6 +23,11 @@ public:
     void Render(Camera2D *camera);
     void Open();
     void Close();
+
+    inline BOOL IsOpen()
+    {
+        return (unk_00 & 1) != 0;
+    }
     void Show();
     void SetZ(fx32 backZ, fx32 linesZ, fx32 barsZ);
     void SetPolygonID(int backID, int linesID, int barsID);

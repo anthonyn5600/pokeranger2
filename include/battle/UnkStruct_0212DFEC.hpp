@@ -1,0 +1,23 @@
+#ifndef POKERANGER2_BATTLE_UNKSTRUCT_0212DFEC_HPP
+#define POKERANGER2_BATTLE_UNKSTRUCT_0212DFEC_HPP
+
+#include <nitro.h>
+
+#include "common.hpp"
+
+// Battle pokemon parameter record (UnkClass_0212DC20::ov1_0212DFEC)
+struct UnkStruct_0212DFEC {
+    u16 unk_00;
+    u16 unk_02;
+    u8 unk_04;
+    u8 unk_05;
+    s8 unk_06;
+    s8 unk_07;
+    u8 unk_08;
+    u8 unk_09[0x5];
+    u8 unk_0E;
+    s8 unk_0F;
+    s8 unk_10;
+};
+
+#endif // POKERANGER2_BATTLE_UNKSTRUCT_0212DFEC_HPP

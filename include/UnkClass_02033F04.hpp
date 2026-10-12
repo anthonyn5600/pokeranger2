@@ -18,4 +18,10 @@ public:
 
 STATIC_SIZE_ASSERT(UnkClass_02033F04, 0x1881C);
 
+extern "C" {
+void sub_02033F90(void *scriptManager, int arg1);
+void sub_02034184(UnkClass_02033F04 *mgr, const char *name);
+void sub_02034290(UnkClass_02033F04 *mgr);
+}
+
 #endif // POKERANGER2_UNKCLASS_02033F04_HPP

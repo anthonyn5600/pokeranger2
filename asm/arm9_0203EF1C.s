@@ -3804,24 +3804,24 @@ sub_020420EC: ; 0x020420EC
 	ldmia sp!, {r4, pc}
 	arm_func_end sub_020420EC
 
-	arm_func_start sub_02042108
-sub_02042108: ; 0x02042108
+	arm_func_start _ZN17UnkClass_02042108C1Eh
+_ZN17UnkClass_02042108C1Eh: ; 0x02042108
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	strb r1, [r4]
 	bl sub_02042134
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	arm_func_end sub_02042108
+	arm_func_end _ZN17UnkClass_02042108C1Eh
 
-	arm_func_start sub_02042120
-sub_02042120: ; 0x02042120
+	arm_func_start _ZN17UnkClass_02042108D1Ev
+_ZN17UnkClass_02042108D1Ev: ; 0x02042120
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl sub_02042318
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	arm_func_end sub_02042120
+	arm_func_end _ZN17UnkClass_02042108D1Ev
 
 	arm_func_start sub_02042134
 sub_02042134: ; 0x02042134

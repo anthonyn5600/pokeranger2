@@ -118,8 +118,8 @@
 .public _ZN17UnkClass_0203447812sub_02034C5CEi
 .public _ZN17UnkClass_0203447812sub_02034D54Eii
 .public _ZN17UnkClass_0203447812sub_02034DC8Ei
-.public _ZN17UnkClass_0203447812sub_02034E48Ev
-.public _ZN17UnkClass_0203447812sub_02034ED8Ev
+.public _ZN17UnkClass_0203447812sub_02034E48Ei
+.public _ZN17UnkClass_0203447812sub_02034ED8Ei
 .public _ZN5CGame11GetInstanceEv
 .public _ZN5CGame12sub_020100E4EPFvPvES0_
 .public _ZN5CGame12sub_020101F4Emmm

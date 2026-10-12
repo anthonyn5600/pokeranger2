@@ -322,7 +322,7 @@ ov7_0211CDB4: ; 0x0211CDB4
 	beq _0211CDE8
 	beq _0211CDE0
 	mov r0, r5
-	bl sub_02042120
+	bl _ZN17UnkClass_02042108D1Ev
 	mov r0, r5
 	bl _ZdlPv
 	arm_func_end ov7_0211CDB4
@@ -1295,7 +1295,7 @@ _0211DB04:
 	beq _0211DB6C
 	beq _0211DB64
 	mov r0, r4
-	bl sub_02042120
+	bl _ZN17UnkClass_02042108D1Ev
 	mov r0, r4
 	bl _ZdlPv
 _0211DB64:
@@ -1310,7 +1310,7 @@ _0211DB6C:
 	add r1, r1, #0x8000
 	ldr r1, [r1, #0xba0]
 	and r1, r1, #0xff
-	bl sub_02042108
+	bl _ZN17UnkClass_02042108C1Eh
 _0211DB90:
 	str r0, [sl, #0x14]
 	mov r0, #8
