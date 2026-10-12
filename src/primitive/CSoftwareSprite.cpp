@@ -3,6 +3,8 @@
 #include <nitro.h>
 #include <nnsys.h>
 
+#include "Camera2D.hpp"
+
 extern "C" {
 extern NNSGfdPlttKey MAIN_BSS_020AF320;
 extern NNSG2dImagePaletteProxy MAIN_BSS_020AF324;
@@ -80,7 +82,7 @@ void CSoftwareSprite::SetTransformParams(fx32 posX, fx32 posY, fx32 scaleX, fx32
     m_z = posZ;
 }
 
-u32 CSoftwareSprite::Render(CPrimitive_Render_arg *arg0)
+u32 CSoftwareSprite::Render(Camera2D *camera)
 {
     if (m_alpha == 0) {
         return 0;
@@ -89,15 +91,15 @@ u32 CSoftwareSprite::Render(CPrimitive_Render_arg *arg0)
     u16 v0 = 0;
 
     if (unk_2C != NULL) {
-        v0 += sub_0200527C(arg0);
+        v0 += sub_0200527C(camera);
     } else if (unk_30 != NULL) {
-        v0 += sub_020058BC(arg0);
+        v0 += sub_020058BC(camera);
     }
 
     return v0;
 }
 
-u16 CSoftwareSprite::sub_0200527C(CPrimitive_Render_arg *arg0)
+u16 CSoftwareSprite::sub_0200527C(Camera2D *camera)
 {
     UnkClass_CPrimitive_ImagePaletteProxy *v3;
     UnkClass_CPrimitive_ImageProxy *v4;
@@ -108,7 +110,7 @@ u16 CSoftwareSprite::sub_0200527C(CPrimitive_Render_arg *arg0)
         OS_Terminate();
     }
 
-    u16 v1 = arg0->unk_28;
+    u16 v1 = camera->unk_28;
 
     G3_RestoreMtx(0);
     G3_Translate(FX_Whole(m_coords[0]) << v1, FX_Whole(m_coords[1]) << v1, 0);
@@ -232,14 +234,14 @@ u16 CSoftwareSprite::sub_0200527C(CPrimitive_Render_arg *arg0)
     return cellData->numOAMAttrs;
 }
 
-u16 CSoftwareSprite::sub_020058BC(CPrimitive_Render_arg *arg0)
+u16 CSoftwareSprite::sub_020058BC(Camera2D *camera)
 {
     UnkClass_CPrimitive_ImagePaletteProxy *v3;
     UnkClass_CPrimitive_ImageProxy *v4;
 
     const NNSG2dCellData *cellData = NNS_G2dGetCellDataByIdx(unk_38->unk_B8, m_cellDataIdx);
 
-    u16 v1 = arg0->unk_28;
+    u16 v1 = camera->unk_28;
 
     G3_RestoreMtx(0);
     G3_Translate(FX_Whole(m_coords[0]) << v1, FX_Whole(m_coords[1]) << v1, 0);

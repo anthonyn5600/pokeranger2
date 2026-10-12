@@ -5,12 +5,12 @@
 
 #include "common.hpp"
 
-class UnkClass_02003718;
+class Camera2D;
 
 class CDrawObject {
 public:
     virtual ~CDrawObject();
-    virtual int sub_020091D4(UnkClass_02003718 *camera, int budget);
+    virtual int sub_020091D4(Camera2D *camera, int budget);
 
 public:
     int unk_04;
@@ -29,7 +29,7 @@ public:
     }
 
     BOOL sub_0200912C(CDrawObject *obj);
-    int sub_02009188(UnkClass_02003718 *camera, int budget);
+    int sub_02009188(Camera2D *camera, int budget);
     void sub_020091DC();
 
 public:

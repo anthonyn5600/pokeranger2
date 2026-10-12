@@ -92,7 +92,7 @@ ov19_0211CAE0: ; 0x0211CAE0
 	bl _Znwm
 	cmp r0, #0
 	beq _0211CB04
-	bl _ZN17UnkClass_02003718C1Ev
+	bl _ZN8Camera2DC1Ev
 	arm_func_end ov19_0211CAE0
 _0211CB04:
 	mov r1, #0x100000
@@ -108,7 +108,7 @@ _0211CB04:
 	ldr r0, [r4, #0x20]
 	mov r3, r1
 	mov r2, #0xc0000
-	bl _ZN17UnkClass_0200371812sub_02003788Elllllll
+	bl _ZN8Camera2D12sub_02003788Elllllll
 	mov r0, r4
 	bl ov19_0211CFC0
 	mov r0, r4
@@ -179,7 +179,7 @@ _0211CC1C:
 	beq _0211CC44
 	beq _0211CC3C
 	mov r0, r5
-	bl _ZN17UnkClass_02003718D1Ev
+	bl _ZN8Camera2DD1Ev
 	mov r0, r5
 	bl _ZdlPv
 _0211CC3C:
@@ -251,7 +251,7 @@ _0211CD08:
 	beq _0211CD34
 	beq _0211CD2C
 	mov r0, r7
-	bl sub_0201AB14
+	bl _ZN17UnkClass_0201AAE0D1Ev
 	mov r0, r7
 	bl _ZdlPv
 _0211CD2C:
@@ -583,7 +583,7 @@ ov19_0211D17C: ; 0x0211D17C
 	ldr r2, _0211D2B8 ; =s_data_player_player3_LZ_bin_overlay_19_0211e494
 	ldr r3, _0211D2BC ; =s_SS6_player3_00_NCBR_overlay_19_0211e4b0
 	str ip, [sp, #8]
-	bl sub_0201AAE0
+	bl _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
 	arm_func_end ov19_0211D17C
 _0211D1C0:
 	str r0, [r4, #0x2c]
@@ -600,7 +600,7 @@ _0211D1C0:
 	ldr r2, _0211D2D0 ; =s_data_player_player4_LZ_bin_overlay_19_0211e504
 	ldr r3, _0211D2D4 ; =s_SS7_player4_00_NCBR_overlay_19_0211e520
 	str ip, [sp, #8]
-	bl sub_0201AAE0
+	bl _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
 _0211D1FC:
 	str r0, [r4, #0x34]
 	mov r0, #0x18
@@ -616,7 +616,7 @@ _0211D1FC:
 	ldr r2, _0211D2B8 ; =s_data_player_player3_LZ_bin_overlay_19_0211e494
 	ldr r3, _0211D2E8 ; =s_SS8_player3_02_NCBR_overlay_19_0211e574
 	str ip, [sp, #8]
-	bl sub_0201AAE0
+	bl _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
 _0211D238:
 	str r0, [r4, #0x30]
 	ldr r0, [r0, #0xc]
@@ -637,7 +637,7 @@ _0211D238:
 	ldr r2, _0211D2D0 ; =s_data_player_player4_LZ_bin_overlay_19_0211e504
 	ldr r3, _0211D2FC ; =s_SS9_player4_02_NCBR_overlay_19_0211e5c8
 	str ip, [sp, #8]
-	bl sub_0201AAE0
+	bl _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
 _0211D288:
 	str r0, [r4, #0x38]
 	ldr r0, [r0, #0xc]
@@ -1631,9 +1631,9 @@ ov19_0211E064: ; 0x0211E064
 	ldr r0, [r4, #0x20]
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
-	bl _ZN17UnkClass_0200371812sub_020037B4Ev
+	bl _ZN8Camera2D12sub_020037B4Ev
 	ldr r0, [r4, #0x20]
-	bl _ZN17UnkClass_0200371812sub_0200381CEv
+	bl _ZN8Camera2D12sub_0200381CEv
 	ldr r0, _0211E138 ; =0x0400044C
 	mov r1, #0
 	str r1, [r0]
@@ -1682,9 +1682,9 @@ _0211E104:
 	str r1, [r0, #0x1c]
 	str r1, [r0, #0x20]
 	ldr r0, [r4, #0x20]
-	bl _ZN17UnkClass_0200371812sub_020037B4Ev
+	bl _ZN8Camera2D12sub_020037B4Ev
 	ldr r0, [r4, #0x20]
-	bl _ZN17UnkClass_0200371812sub_0200381CEv
+	bl _ZN8Camera2D12sub_0200381CEv
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0211E138: .word 0x0400044C

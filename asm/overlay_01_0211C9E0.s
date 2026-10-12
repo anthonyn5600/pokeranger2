@@ -472,14 +472,14 @@ _0211D07C:
 	bl _Znwm
 	cmp r0, #0
 	beq _0211D094
-	bl _ZN17UnkClass_02003718C1Ev
+	bl _ZN8Camera2DC1Ev
 _0211D094:
 	str r0, [sl, #0xc4]
 	mov r0, #0x2c
 	bl _Znwm
 	cmp r0, #0
 	beq _0211D0AC
-	bl _ZN17UnkClass_02003718C1Ev
+	bl _ZN8Camera2DC1Ev
 _0211D0AC:
 	str r0, [sl, #0xc8]
 	mov r0, #0x28
@@ -502,7 +502,7 @@ _0211D0C8:
 	ldr r0, [sl, #0xc4]
 	mov r3, r1
 	mov r2, #0xc0000
-	bl _ZN17UnkClass_0200371812sub_02003788Elllllll
+	bl _ZN8Camera2D12sub_02003788Elllllll
 	mov r0, #0x100000
 	mov r1, #0
 	str r0, [sp]
@@ -515,7 +515,7 @@ _0211D0C8:
 	ldr r0, [sl, #0xc8]
 	mov r3, r1
 	mov r2, #0xc0000
-	bl _ZN17UnkClass_0200371812sub_02003788Elllllll
+	bl _ZN8Camera2D12sub_02003788Elllllll
 	mov r0, #0xd8
 	bl _Znwm
 	cmp r0, #0
@@ -887,14 +887,14 @@ _0211D66C:
 	bl _Znwm
 	cmp r0, #0
 	beq _0211D684
-	bl sub_02018B9C
+	bl _ZN17UnkClass_02018B9CC1Ev
 _0211D684:
 	str r0, [sl, #0xc28]
 	mov r1, #0x3f
-	bl sub_02018DC4
+	bl _ZN17UnkClass_02018B9C12SetPolygonIDEi
 	ldr r0, [sl, #0xc28]
 	mov r1, #8
-	bl sub_02018DD0
+	bl _ZN17UnkClass_02018B9C8SetAlphaEi
 	mov r0, #0x18
 	bl _Znwm
 	cmp r0, #0
@@ -1077,22 +1077,22 @@ _0211D910:
 	bl _Znwm
 	cmp r0, #0
 	beq _0211D93C
-	bl _ZN17UnkClass_02019284C1Ev
+	bl _ZN14CPlayerHPGaugeC1Ev
 _0211D93C:
 	str r0, [sl, #0xbb0]
 	mov r1, #1
-	bl sub_0201A140
+	bl _ZN14CPlayerHPGauge10SetVisibleEi
 	ldr r0, [sl, #0xbb0]
 	mov r1, r4
 	mov r2, r5
-	bl sub_0201A000
+	bl _ZN14CPlayerHPGauge5SetHPEtt
 	ldr r0, [sl, #0x1c]
 	bl sub_02010B3C
 	cmp r0, #0
 	ldr r0, [sl, #0xbb0]
 	beq _0211D998
 	mov r1, #1
-	bl sub_0201A178
+	bl _ZN14CPlayerHPGauge17SetPartnerVisibleEi
 	ldr r1, [sl, #0x74]
 	ldr r0, [sl, #0x78]
 	mov r1, r1, lsl #4
@@ -1100,11 +1100,11 @@ _0211D93C:
 	ldr r0, [sl, #0xbb0]
 	mov r1, r1, lsr #0x10
 	mov r2, r2, lsr #0x10
-	bl sub_0201A220
+	bl _ZN14CPlayerHPGauge10SetPartnerEtt
 	b _0211D9A0
 _0211D998:
 	mov r1, #0
-	bl sub_0201A178
+	bl _ZN14CPlayerHPGauge17SetPartnerVisibleEi
 _0211D9A0:
 	mov r0, #0x10
 	bl _Znwm
@@ -1459,7 +1459,7 @@ ov1_0211DE7C: ; 0x0211DE7C
 	beq _0211DEEC
 	beq _0211DEE4
 	mov r0, r5
-	bl _ZN17UnkClass_02003718D1Ev
+	bl _ZN8Camera2DD1Ev
 	mov r0, r5
 	bl _ZdlPv
 	arm_func_end ov1_0211DE7C
@@ -1472,7 +1472,7 @@ _0211DEEC:
 	beq _0211DF14
 	beq _0211DF0C
 	mov r0, r5
-	bl _ZN17UnkClass_02003718D1Ev
+	bl _ZN8Camera2DD1Ev
 	mov r0, r5
 	bl _ZdlPv
 _0211DF0C:
@@ -2025,7 +2025,7 @@ _0211E620:
 	beq _0211E648
 	beq _0211E640
 	mov r0, r5
-	bl sub_02018BB0
+	bl _ZN17UnkClass_02018B9CD1Ev
 	mov r0, r5
 	bl _ZdlPv
 _0211E640:
@@ -2908,13 +2908,13 @@ _0211F1F4:
 	ldr r1, [r5, #0xd8]
 	ldr r0, [r5, #0xbb0]
 	ldrb r1, [r1, #0x19c]
-	bl sub_0201A018
+	bl _ZN14CPlayerHPGauge12SetCurrentHPEt
 	ldr r0, [r5, #0xbb0]
 	ldr r1, [r0]
 	ldr r1, [r1, #8]
 	blx r1
 	ldr r0, [r5, #0xbb0]
-	bl sub_0201A198
+	bl _ZN14CPlayerHPGauge10GetHPLevelEv
 	ldr r1, [r5, #0xd8]
 	strb r0, [r1, #0x19d]
 	ldr r0, [r5, #0xd0]
@@ -3118,7 +3118,7 @@ _0211F448:
 	ldr r0, [r5, #0xbb0]
 	mov r1, r1, lsl #4
 	mov r1, r1, lsr #0x10
-	bl sub_0201A1A4
+	bl _ZN14CPlayerHPGauge16SetPartnerEnergyEt
 	ldr r0, [r5, #0xcc]
 	bl _ZN17UnkClass_0200D3F812sub_0200D9CCEv
 	ldr r1, [r5, #0x10]
@@ -4745,7 +4745,7 @@ _02120BB8:
 _02120C4C:
 	add r0, r5, #1
 	and r5, r0, #0xff
-	ldr r0, _02121178 ; =MAIN_BSS_020BAE7B
+	ldr r0, _02121178 ; =MAIN_BSS_020B26A0+34779
 	ldr r2, [sl, #4]
 	ldrb r1, [r0]
 	add r0, r2, #0x1000
@@ -4943,7 +4943,7 @@ _02120F24:
 	movhs r1, r0
 	strb r1, [r2, #0x19c]
 	ldr r0, [sl, #0xbb0]
-	bl sub_0201A018
+	bl _ZN14CPlayerHPGauge12SetCurrentHPEt
 _02120F40:
 	add r0, sb, #1
 	and sb, r0, #0xff
@@ -5100,7 +5100,7 @@ _0212114C:
 	add sp, sp, #0x40
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
 	.align 2, 0
-_02121178: .word MAIN_BSS_020BAE7B
+_02121178: .word MAIN_BSS_020B26A0+34779
 _0212117C: .word 0x00007FFF
 _02121180: .word MAIN_BSS_020B26A0
 
@@ -5810,9 +5810,9 @@ ov1_02121B44: ; 0x02121B44
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r4, r0
 	ldr r0, [r4, #0xc4]
-	bl _ZN17UnkClass_0200371812sub_020037B4Ev
+	bl _ZN8Camera2D12sub_020037B4Ev
 	ldr r0, [r4, #0xc4]
-	bl _ZN17UnkClass_0200371812sub_0200381CEv
+	bl _ZN8Camera2D12sub_0200381CEv
 	ldr r0, _02121D48 ; =0x0400044C
 	mov r1, #0
 	str r1, [r0]
@@ -5919,7 +5919,7 @@ _02121CBC:
 _02121CCC:
 	ldr r0, [r4, #0xbb0]
 	mov r1, #0x3ac
-	bl sub_0201A10C
+	bl _ZN14CPlayerHPGauge4SetZEt
 	mov r5, r0
 	ldr r0, [r4, #0xbb0]
 	ldr r1, [r4, #0xc8]
@@ -6224,9 +6224,9 @@ ov1_021220B4: ; 0x021220B4
 	str r3, [r1]
 	ldr r0, [r5, #0xc8]
 	mov r4, r2
-	bl _ZN17UnkClass_0200371812sub_020037B4Ev
+	bl _ZN8Camera2D12sub_020037B4Ev
 	ldr r0, [r5, #0xc8]
-	bl _ZN17UnkClass_0200371812sub_0200381CEv
+	bl _ZN8Camera2D12sub_0200381CEv
 	ldr r0, _021222E0 ; =0x0400044C
 	mov r1, #0
 	str r1, [r0]
@@ -6380,14 +6380,14 @@ ov1_021222E8: ; 0x021222E8
 	str r3, [r0, #0x1c]
 	str r3, [r0, #0x20]
 	ldr r0, [r5, #0xc4]
-	bl _ZN17UnkClass_0200371812sub_020037B4Ev
+	bl _ZN8Camera2D12sub_020037B4Ev
 	ldr r0, [r5, #0xc4]
-	bl _ZN17UnkClass_0200371812sub_0200381CEv
+	bl _ZN8Camera2D12sub_0200381CEv
 	ldr r0, [r5, #0xc2c]
 	cmp r0, #0
 	beq _02122330
 	ldr r1, [r5, #0xc4]
-	bl _ZN17UnkClass_0211D85012sub_020358ACEP17UnkClass_02003718
+	bl _ZN17UnkClass_0211D85012sub_020358ACEP8Camera2D
 	arm_func_end ov1_021222E8
 _02122330:
 	mov r0, r4
@@ -6476,10 +6476,10 @@ _02122364:
 	ldr r0, [r6, #0xc28]
 	mov r1, r7
 	mov r2, r5
-	bl sub_02018D94
+	bl _ZN17UnkClass_02018B9C12SetRectangleEP9Rectanglel
 	ldr r0, [r6, #0xc28]
 	ldr r1, [r6, #0xc4]
-	bl sub_02018DDC
+	bl _ZN17UnkClass_02018B9C6RenderEP8Camera2D
 _02122480:
 	add r0, r4, #1
 	and r4, r0, #0xff
@@ -6561,10 +6561,10 @@ _021224A4:
 	ldr r0, [r6, #0xc28]
 	mov r1, r7
 	mov r2, r5
-	bl sub_02018D94
+	bl _ZN17UnkClass_02018B9C12SetRectangleEP9Rectanglel
 	ldr r0, [r6, #0xc28]
 	ldr r1, [r6, #0xc4]
-	bl sub_02018DDC
+	bl _ZN17UnkClass_02018B9C6RenderEP8Camera2D
 _021225CC:
 	add r0, r4, #1
 	and r4, r0, #0xff
@@ -6643,10 +6643,10 @@ _021225F0:
 	ldr r0, [r6, #0xc28]
 	mov r1, r4
 	mov r2, r5
-	bl sub_02018D94
+	bl _ZN17UnkClass_02018B9C12SetRectangleEP9Rectanglel
 	ldr r0, [r6, #0xc28]
 	ldr r1, [r6, #0xc4]
-	bl sub_02018DDC
+	bl _ZN17UnkClass_02018B9C6RenderEP8Camera2D
 _0212270C:
 	add r0, sl, #1
 	and sl, r0, #0xff
@@ -6865,7 +6865,7 @@ _021229AC:
 	orrls r0, r0, #2
 	strls r0, [r6, #0xc]
 	ldr r0, [r6, #0xbb0]
-	bl sub_0201A198
+	bl _ZN14CPlayerHPGauge10GetHPLevelEv
 	cmp r0, #2
 	ldreq r0, [r6, #0xc]
 	orreq r0, r0, #0x8000
@@ -12918,7 +12918,7 @@ ov1_02127D00: ; 0x02127D00
 	ldr r2, _02127D9C ; =s_data_interface_i027_LZ_bin_overlay_1_02140c48
 	ldr r3, _02127DA0 ; =s_BHM_i027_00_NCBR_overlay_1_02140c64
 	str ip, [sp, #8]
-	bl sub_0201AAE0
+	bl _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
 	arm_func_end ov1_02127D00
 _02127D44:
 	str r0, [r4]
@@ -12935,7 +12935,7 @@ _02127D44:
 	ldr r2, _02127DB0 ; =s_data_interface_i068_LZ_bin_overlay_1_02140cac
 	ldr r3, _02127DB4 ; =s_BHM_i068_00_NCBR_overlay_1_02140cc8
 	str ip, [sp, #8]
-	bl sub_0201AAE0
+	bl _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
 _02127D80:
 	str r0, [r4, #4]
 	add sp, sp, #0xc
@@ -12962,7 +12962,7 @@ ov1_02127DB8: ; 0x02127DB8
 	beq _02127DE8
 	beq _02127DE0
 	mov r0, r4
-	bl sub_0201AB14
+	bl _ZN17UnkClass_0201AAE0D1Ev
 	mov r0, r4
 	bl _ZdlPv
 	arm_func_end ov1_02127DB8
@@ -12975,7 +12975,7 @@ _02127DE8:
 	ldmeqia sp!, {r3, r4, r5, pc}
 	beq _02127E08
 	mov r0, r4
-	bl sub_0201AB14
+	bl _ZN17UnkClass_0201AAE0D1Ev
 	mov r0, r4
 	bl _ZdlPv
 _02127E08:
@@ -13956,7 +13956,7 @@ ov1_02128A88: ; 0x02128A88
 	ldr r2, _02128AE8 ; =s_data_interface_i069_LZ_bin_overlay_1_02140e18
 	ldr r3, _02128AEC ; =s_BDN_i069_00_NCBR_overlay_1_02140e34
 	str ip, [sp, #8]
-	bl sub_0201AAE0
+	bl _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
 	arm_func_end ov1_02128A88
 _02128ACC:
 	str r0, [r4]
@@ -13979,7 +13979,7 @@ ov1_02128AF0: ; 0x02128AF0
 	ldmeqia sp!, {r3, r4, r5, pc}
 	beq _02128B18
 	mov r0, r4
-	bl sub_0201AB14
+	bl _ZN17UnkClass_0201AAE0D1Ev
 	mov r0, r4
 	bl _ZdlPv
 	arm_func_end ov1_02128AF0
@@ -17855,7 +17855,7 @@ ov1_0212BAD0: ; 0x0212BAD0
 	ldr r2, _0212BC30 ; =s_data_interface_i019_LZ_bin_overlay_1_02141210
 	ldr r3, _0212BC34 ; =s_BDS_i019_00_NCBR_overlay_1_0214122c
 	str r4, [sp, #8]
-	bl sub_0201AAE0
+	bl _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
 	arm_func_end ov1_0212BAD0
 _0212BB14:
 	str r0, [sl, #0x22c]
@@ -17905,7 +17905,7 @@ _0212BB58:
 	ldr r1, [r8, sb, lsl #2]
 	add r2, sp, #0x18c
 	mov r3, fp
-	bl sub_0201AAE0
+	bl _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
 _0212BBD0:
 	add r1, sl, sb, lsl #2
 	str r0, [r1, #0x238]
@@ -17957,7 +17957,7 @@ _0212BC64:
 	beq _0212BC90
 	beq _0212BC88
 	mov r0, r7
-	bl sub_0201AB14
+	bl _ZN17UnkClass_0201AAE0D1Ev
 	mov r0, r7
 	bl _ZdlPv
 _0212BC88:
@@ -18086,7 +18086,7 @@ _0212BE18:
 	beq _0212BE40
 	beq _0212BE38
 	mov r0, r5
-	bl sub_0201AB14
+	bl _ZN17UnkClass_0201AAE0D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _0212BE38:
@@ -19625,7 +19625,7 @@ ov1_0212D2C4: ; 0x0212D2C4
 	ldr r2, _0212D514 ; =s_data_interface_i071_LZ_bin_overlay_1_021412d4
 	ldr r3, _0212D518 ; =s_BSE_i071_00_NCBR_overlay_1_021412f0
 	str r4, [sp, #8]
-	bl sub_0201AAE0
+	bl _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
 	arm_func_end ov1_0212D2C4
 _0212D324:
 	str r0, [sb, #0x14]
@@ -19806,7 +19806,7 @@ _0212D584:
 	beq _0212D5BC
 	beq _0212D5B4
 	mov r0, r4
-	bl sub_0201AB14
+	bl _ZN17UnkClass_0201AAE0D1Ev
 	mov r0, r4
 	bl _ZdlPv
 _0212D5B4:
@@ -22356,7 +22356,7 @@ _0212F800:
 	mov r0, #0x18000
 	str r1, [sb, #0x38]
 	ldr r1, [sb, #0x28]
-	ldr r6, _0212F9C8 ; =MAIN_BSS_020BAE7B
+	ldr r6, _0212F9C8 ; =MAIN_BSS_020B26A0+34779
 	str r1, [sb, #0x3c]
 	str r0, [sb, #0x40]
 	sub r5, sp, #4
@@ -22463,7 +22463,7 @@ _0212F9AC:
 	.align 2, 0
 _0212F9C0: .word 0x0000013E
 _0212F9C4: .word 0x0000013F
-_0212F9C8: .word MAIN_BSS_020BAE7B
+_0212F9C8: .word MAIN_BSS_020B26A0+34779
 
 	arm_func_start ov1_0212F9CC
 ov1_0212F9CC: ; 0x0212F9CC
@@ -22770,7 +22770,7 @@ _0212FD5C:
 	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 _0212FDA0:
 	ldrb r0, [sb, #0x18]
-	ldr r6, _0212FFE8 ; =MAIN_BSS_020BAE7B
+	ldr r6, _0212FFE8 ; =MAIN_BSS_020B26A0+34779
 	tst r0, #1
 	beq _0212FFD8
 	ldrh r0, [sb, #0x1a]
@@ -22923,7 +22923,7 @@ _0212FFD8:
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
 	.align 2, 0
 _0212FFE4: .word 0x00000131
-_0212FFE8: .word MAIN_BSS_020BAE7B
+_0212FFE8: .word MAIN_BSS_020B26A0+34779
 _0212FFEC: .word 0x00000132
 _0212FFF0: .word 0x00000133
 
@@ -23578,7 +23578,7 @@ _02130840:
 	ldr r1, [r0]
 	ldr r1, [r1, #0x10]
 	blx r1
-	ldr r2, _021309E8 ; =MAIN_BSS_020BAE7B
+	ldr r2, _021309E8 ; =MAIN_BSS_020B26A0+34779
 	mov r1, r0
 	ldrb r2, [r2]
 	ldr r0, [sl, #0x10]
@@ -23644,7 +23644,7 @@ _021309CC:
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
 	.align 2, 0
 _021309E4: .word 0x00000147
-_021309E8: .word MAIN_BSS_020BAE7B
+_021309E8: .word MAIN_BSS_020B26A0+34779
 
 	arm_func_start ov1_021309EC
 ov1_021309EC: ; 0x021309EC
@@ -23754,7 +23754,7 @@ ov1_02130B10: ; 0x02130B10
 	ldr r1, [r1, #0x10]
 	mov r4, r2
 	blx r1
-	ldr r2, _02130B64 ; =MAIN_BSS_020BA6A0
+	ldr r2, _02130B64 ; =MAIN_BSS_020B26A0+32768
 	mov r1, r0
 	ldrb r2, [r2, #0x7db]
 	ldr r0, [r5, #0x10]
@@ -23770,7 +23770,7 @@ ov1_02130B10: ; 0x02130B10
 	movne r0, #1
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_02130B64: .word MAIN_BSS_020BA6A0
+_02130B64: .word MAIN_BSS_020B26A0+32768
 	arm_func_end ov1_02130B10
 
 	arm_func_start ov1_02130B68
@@ -23831,7 +23831,7 @@ ov1_02130BD4: ; 0x02130BD4
 	mov sb, r2
 	mov r8, r3
 	blx r1
-	ldr r2, _02130E20 ; =MAIN_BSS_020BA6A0
+	ldr r2, _02130E20 ; =MAIN_BSS_020B26A0+32768
 	mov r1, r0
 	ldrb r2, [r2, #0x7db]
 	ldr r0, [sl, #0x10]
@@ -23978,7 +23978,7 @@ _02130E00:
 	add sp, sp, #0x30
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
 	.align 2, 0
-_02130E20: .word MAIN_BSS_020BA6A0
+_02130E20: .word MAIN_BSS_020B26A0+32768
 _02130E24: .word 0x0000012E
 
 	arm_func_start ov1_02130E28
@@ -24091,7 +24091,7 @@ _02130F38:
 	mov r0, #0
 	str r0, [r8, #0x28]
 _02130F6C:
-	ldr fp, _021311D4 ; =MAIN_BSS_020BAE7B
+	ldr fp, _021311D4 ; =MAIN_BSS_020B26A0+34779
 	mov r5, #0
 _02130F74:
 	ldr r1, [r7, r5, lsl #2]
@@ -24257,7 +24257,7 @@ _021311B4:
 	add sp, sp, #0x2c
 	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
 	.align 2, 0
-_021311D4: .word MAIN_BSS_020BAE7B
+_021311D4: .word MAIN_BSS_020B26A0+34779
 _021311D8: .word 0x0000014D
 
 	arm_func_start ov1_021311DC
@@ -24554,7 +24554,7 @@ ov1_02131578: ; 0x02131578
 	sub r0, r0, #1
 	strh r0, [sb, #4]
 	mov r0, #0
-	ldr fp, _02131A0C ; =MAIN_BSS_020BAE7B
+	ldr fp, _02131A0C ; =MAIN_BSS_020B26A0+34779
 	str r0, [sp, #0x10]
 	arm_func_end ov1_02131578
 _021315B4:
@@ -24847,7 +24847,7 @@ _02131A00:
 	add sp, sp, #0x48
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
 	.align 2, 0
-_02131A0C: .word MAIN_BSS_020BAE7B
+_02131A0C: .word MAIN_BSS_020B26A0+34779
 _02131A10: .word FX_SinCosTable_
 _02131A14: .word 0x0000013B
 
@@ -24937,7 +24937,7 @@ ov1_02131AE4: ; 0x02131AE4
 	ldr r1, [r1, #0x10]
 	mov r4, r2
 	blx r1
-	ldr r2, _02131B38 ; =MAIN_BSS_020BA6A0
+	ldr r2, _02131B38 ; =MAIN_BSS_020B26A0+32768
 	mov r1, r0
 	ldrb r2, [r2, #0x7db]
 	ldr r0, [r5, #0x10]
@@ -24953,7 +24953,7 @@ ov1_02131AE4: ; 0x02131AE4
 	movne r0, #1
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_02131B38: .word MAIN_BSS_020BA6A0
+_02131B38: .word MAIN_BSS_020B26A0+32768
 	arm_func_end ov1_02131AE4
 
 	arm_func_start ov1_02131B3C
@@ -25529,7 +25529,7 @@ _021322DC:
 	cmp r0, #5
 	bne _021324A4
 	mov sl, #0
-	ldr r6, _021324AC ; =MAIN_BSS_020BAE7B
+	ldr r6, _021324AC ; =MAIN_BSS_020B26A0+34779
 	mov r5, sl
 	mov r7, sl
 	mov fp, sl
@@ -25652,7 +25652,7 @@ _021324A4:
 	mov r0, #1
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
 	.align 2, 0
-_021324AC: .word MAIN_BSS_020BAE7B
+_021324AC: .word MAIN_BSS_020B26A0+34779
 _021324B0: .word 0x0000012D
 _021324B4: .word 0x0000014A
 _021324B8: .word 0x0000014B
@@ -26287,7 +26287,7 @@ _02132D00:
 	ldr r1, [r0]
 	ldr r1, [r1, #0x10]
 	blx r1
-	ldr r2, _02132EB0 ; =MAIN_BSS_020BA6A0
+	ldr r2, _02132EB0 ; =MAIN_BSS_020B26A0+32768
 	mov r1, r0
 	ldrb r2, [r2, #0x7db]
 	ldr r0, [sl, #0x10]
@@ -26370,7 +26370,7 @@ _02132E98:
 	add sp, sp, #0x28
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
 	.align 2, 0
-_02132EB0: .word MAIN_BSS_020BA6A0
+_02132EB0: .word MAIN_BSS_020B26A0+32768
 _02132EB4: .word 0x00000126
 _02132EB8: .word 0x00000145
 
@@ -26657,7 +26657,7 @@ _0213325C:
 	and sl, r0, #0xff
 	cmp sl, #0x10
 	blo _02133210
-	ldr fp, _02133594 ; =MAIN_BSS_020BAE7B
+	ldr fp, _02133594 ; =MAIN_BSS_020B26A0+34779
 	mov r5, #0
 _02133274:
 	ldr r1, [r7, r5, lsl #2]
@@ -26871,7 +26871,7 @@ _02133574:
 	add sp, sp, #0x40
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
 	.align 2, 0
-_02133594: .word MAIN_BSS_020BAE7B
+_02133594: .word MAIN_BSS_020B26A0+34779
 _02133598: .word 0x0000013A
 
 	arm_func_start ov1_0213359C
@@ -27324,7 +27324,7 @@ ov1_02133BA4: ; 0x02133BA4
 	ldr r1, [r1, #0x10]
 	mov r4, r2
 	blx r1
-	ldr r2, _02133BF8 ; =MAIN_BSS_020BA6A0
+	ldr r2, _02133BF8 ; =MAIN_BSS_020B26A0+32768
 	mov r1, r0
 	ldrb r2, [r2, #0x7db]
 	ldr r0, [r5, #0x10]
@@ -27340,7 +27340,7 @@ ov1_02133BA4: ; 0x02133BA4
 	movne r0, #1
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_02133BF8: .word MAIN_BSS_020BA6A0
+_02133BF8: .word MAIN_BSS_020B26A0+32768
 	arm_func_end ov1_02133BA4
 
 	arm_func_start ov1_02133BFC
@@ -27866,14 +27866,14 @@ ov1_021342A4: ; 0x021342A4
 	movhs r1, r0
 	strb r1, [r2, #0x19c]
 	ldr r0, [r4, #0x1c]
-	bl sub_0201A018
+	bl _ZN14CPlayerHPGauge12SetCurrentHPEt
 	ldrh r1, [r4, #4]
 	mov r0, r4
 	and r1, r1, #0xff
 	bl ov1_02134354
 	mov r1, r0
 	ldr r0, [r4, #0x1c]
-	bl sub_0201A024
+	bl _ZN14CPlayerHPGauge9StartHealEt
 	ldr r0, [r4, #0x14]
 	ldr r1, _0213434C ; =0x00000143
 	bl _ZN17UnkClass_0203447812sub_02034C44Ei
@@ -27884,7 +27884,7 @@ ov1_021342A4: ; 0x021342A4
 	arm_func_end ov1_021342A4
 _0213431C:
 	ldr r0, [r4, #0x1c]
-	bl sub_0201A0DC
+	bl _ZN14CPlayerHPGauge9IsHealingEv
 	cmp r0, #0
 	bne _02134340
 	ldr r0, [r4, #0x14]
@@ -28317,7 +28317,7 @@ _02134870:
 	ldr r1, [r0]
 	ldr r1, [r1, #0x10]
 	blx r1
-	ldr r2, _021349E0 ; =MAIN_BSS_020BA6A0
+	ldr r2, _021349E0 ; =MAIN_BSS_020B26A0+32768
 	mov r1, r0
 	ldrb r2, [r2, #0x7db]
 	ldr r0, [sl, #0x10]
@@ -28384,7 +28384,7 @@ _021349C8:
 	add sp, sp, #0x24
 	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
 	.align 2, 0
-_021349E0: .word MAIN_BSS_020BA6A0
+_021349E0: .word MAIN_BSS_020B26A0+32768
 _021349E4: .word 0x0000012B
 _021349E8: .word 0x00000149
 
@@ -28902,7 +28902,7 @@ _02135080:
 	ldr r1, [r0]
 	ldr r1, [r1, #0x10]
 	blx r1
-	ldr r2, _02135218 ; =MAIN_BSS_020BA6A0
+	ldr r2, _02135218 ; =MAIN_BSS_020B26A0+32768
 	mov r1, r0
 	ldrb r2, [r2, #0x7db]
 	ldr r0, [sl, #0x10]
@@ -28979,7 +28979,7 @@ _02135200:
 	add sp, sp, #0x28
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
 	.align 2, 0
-_02135218: .word MAIN_BSS_020BA6A0
+_02135218: .word MAIN_BSS_020B26A0+32768
 _0213521C: .word 0x00000142
 _02135220: .word 0x0000014E
 _02135224: .word 0x0000014F
@@ -29560,7 +29560,7 @@ _0213598C:
 	ldr r1, [r0]
 	ldr r1, [r1, #0x10]
 	blx r1
-	ldr r2, _02135B0C ; =MAIN_BSS_020BA6A0
+	ldr r2, _02135B0C ; =MAIN_BSS_020B26A0+32768
 	mov r1, r0
 	ldrb r2, [r2, #0x7db]
 	ldr r0, [sl, #0x10]
@@ -29631,7 +29631,7 @@ _02135AF4:
 	add sp, sp, #0x28
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
 	.align 2, 0
-_02135B0C: .word MAIN_BSS_020BA6A0
+_02135B0C: .word MAIN_BSS_020B26A0+32768
 _02135B10: .word 0x00000123
 
 	arm_func_start ov1_02135B14
@@ -30497,7 +30497,7 @@ _02136608:
 	ldr r2, _02136670 ; =s_data_interface_i070_LZ_bin_overlay_1_02141958
 	ldr r3, _02136674 ; =s_BDN_i070_00_NCBR_overlay_1_02141974
 	str ip, [sp, #8]
-	bl sub_0201AAE0
+	bl _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
 _02136640:
 	str r0, [r4, #0x14]
 	add sp, sp, #0x10
@@ -30564,7 +30564,7 @@ _021366F4:
 	ldmeqia sp!, {r3, r4, r5, pc}
 	beq _02136724
 	mov r0, r5
-	bl sub_0201AB14
+	bl _ZN17UnkClass_0201AAE0D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _02136724:
@@ -30793,7 +30793,7 @@ ov1_02136930: ; 0x02136930
 	beq _021369E0
 	mov r1, r5
 	mov r2, r4
-	bl _ZN14CPrimitiveQUAD8RenderDLEP21CPrimitive_Render_argP8GXDLInfo
+	bl _ZN14CPrimitiveQUAD8RenderDLEP8Camera2DP8GXDLInfo
 	add sp, sp, #0x18
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	arm_func_end ov1_02136930
@@ -31194,7 +31194,7 @@ _02136E30:
 	ldr r1, [r8, sb, lsl #2]
 	mov r2, fp
 	add r3, sp, #0x12c
-	bl sub_0201AAE0
+	bl _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
 _02136EB4:
 	add r1, sl, sb, lsl #2
 	str r0, [r1, #0x188]
@@ -31221,7 +31221,7 @@ _02136EB4:
 	ldr r2, _02136FB0 ; =s_data_interface_i066_LZ_bin_overlay_1_02141a78
 	ldr r3, _02136FB4 ; =s_BLD_i066_00_NCBR_overlay_1_02141a94
 	str r4, [sp, #8]
-	bl sub_0201AAE0
+	bl _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
 _02136F1C:
 	str r0, [sl, #0x210]
 	ldmia r0, {r0, r1, r3}
@@ -31309,7 +31309,7 @@ _02137030:
 	beq _0213705C
 	beq _02137054
 	mov r0, r7
-	bl sub_0201AB14
+	bl _ZN17UnkClass_0201AAE0D1Ev
 	mov r0, r7
 	bl _ZdlPv
 _02137054:
@@ -31324,7 +31324,7 @@ _0213705C:
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
 	beq _02137088
 	mov r0, r5
-	bl sub_0201AB14
+	bl _ZN17UnkClass_0201AAE0D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _02137088:
@@ -32559,7 +32559,7 @@ _021380F4:
 	ldr r2, _021381B4 ; =s_data_interface_i046_LZ_bin_overlay_1_02141afc
 	ldr r3, _021381B8 ; =s_BAS_i046_00_NCBR_overlay_1_02141b18
 	str ip, [sp, #8]
-	bl sub_0201AAE0
+	bl _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
 _02138150:
 	str r0, [r4, #0xc]
 	mov r0, #0x4c
@@ -32623,7 +32623,7 @@ _0213820C:
 	ldmeqia sp!, {r3, r4, r5, pc}
 	beq _0213822C
 	mov r0, r4
-	bl sub_0201AB14
+	bl _ZN17UnkClass_0201AAE0D1Ev
 	mov r0, r4
 	bl _ZdlPv
 _0213822C:
@@ -32738,7 +32738,7 @@ _02138318:
 	ldr r2, _021383DC ; =s_data_interface_i047_LZ_bin_overlay_1_02141b64
 	ldr r3, _021383E0 ; =s_BES_i047_00_NCBR_overlay_1_02141b80
 	str ip, [sp, #8]
-	bl sub_0201AAE0
+	bl _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
 _02138378:
 	str r0, [r4, #0xc]
 	mov r0, #0x4c
@@ -32802,7 +32802,7 @@ _02138434:
 	ldmeqia sp!, {r3, r4, r5, pc}
 	beq _02138454
 	mov r0, r4
-	bl sub_0201AB14
+	bl _ZN17UnkClass_0201AAE0D1Ev
 	mov r0, r4
 	bl _ZdlPv
 _02138454:
@@ -34069,7 +34069,7 @@ _0213954C:
 	strb r1, [r0, #0x19c]
 	ldr r0, [r4, #0x44]
 	mov r2, r1
-	bl sub_0201A000
+	bl _ZN14CPlayerHPGauge5SetHPEtt
 	ldr r0, [r4, #0x3c]
 	mov r1, #0x36
 	bl _ZN17UnkClass_0203447812sub_02034C5CEi
@@ -35207,7 +35207,7 @@ ov1_0213A540: ; 0x0213A540
 	beq _0213A578
 	beq _0213A570
 	mov r0, r5
-	bl sub_0201AB14
+	bl _ZN17UnkClass_0201AAE0D1Ev
 	mov r0, r5
 	bl _ZdlPv
 	arm_func_end ov1_0213A540
@@ -35220,7 +35220,7 @@ _0213A578:
 	beq _0213A5A0
 	beq _0213A598
 	mov r0, r5
-	bl sub_0201AB14
+	bl _ZN17UnkClass_0201AAE0D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _0213A598:
@@ -35232,7 +35232,7 @@ _0213A5A0:
 	beq _0213A5C8
 	beq _0213A5C0
 	mov r0, r5
-	bl sub_0201AB14
+	bl _ZN17UnkClass_0201AAE0D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _0213A5C0:
@@ -35257,7 +35257,7 @@ ov1_0213A5DC: ; 0x0213A5DC
 	beq _0213A614
 	beq _0213A60C
 	mov r0, r5
-	bl sub_0201AB14
+	bl _ZN17UnkClass_0201AAE0D1Ev
 	mov r0, r5
 	bl _ZdlPv
 	arm_func_end ov1_0213A5DC
@@ -35270,7 +35270,7 @@ _0213A614:
 	beq _0213A63C
 	beq _0213A634
 	mov r0, r5
-	bl sub_0201AB14
+	bl _ZN17UnkClass_0201AAE0D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _0213A634:
@@ -35282,7 +35282,7 @@ _0213A63C:
 	beq _0213A664
 	beq _0213A65C
 	mov r0, r5
-	bl sub_0201AB14
+	bl _ZN17UnkClass_0201AAE0D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _0213A65C:
@@ -35351,7 +35351,7 @@ ov1_0213A6A0: ; 0x0213A6A0
 	add r2, sp, #0xc
 	add r3, sp, #0x6c
 	str ip, [sp, #8]
-	bl sub_0201AAE0
+	bl _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
 	arm_func_end ov1_0213A6A0
 _0213A740:
 	str r0, [r4, #0x1a0]
@@ -35412,7 +35412,7 @@ ov1_0213A77C: ; 0x0213A77C
 	add r2, sp, #0xc
 	add r3, sp, #0x6c
 	str ip, [sp, #8]
-	bl sub_0201AAE0
+	bl _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
 	arm_func_end ov1_0213A77C
 _0213A81C:
 	str r0, [r4, #0x1a4]
@@ -35465,7 +35465,7 @@ ov1_0213A858: ; 0x0213A858
 	add r2, sp, #0xc
 	add r3, sp, #0x6c
 	str ip, [sp, #8]
-	bl sub_0201AAE0
+	bl _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
 	arm_func_end ov1_0213A858
 _0213A8D8:
 	str r0, [r4, #0x1a8]
@@ -36221,7 +36221,7 @@ ov1_0213B27C: ; 0x0213B27C
 	ldr r2, _0213B40C ; =s_data_interface_i062_LZ_bin_overlay_1_02141da8
 	ldr r3, _0213B410 ; =s_BAM_i062_00_NCBR_overlay_1_02141dc4
 	str r5, [sp, #8]
-	bl sub_0201AAE0
+	bl _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
 	arm_func_end ov1_0213B27C
 _0213B2C0:
 	str r0, [r4, #0xfe4]
@@ -36255,7 +36255,7 @@ _0213B2D8:
 	str ip, [sp, #4]
 	mov ip, #0
 	str ip, [sp, #8]
-	bl sub_0201AAE0
+	bl _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
 _0213B33C:
 	str r0, [r4, #0xfe8]
 	mov r0, #0x18
@@ -36271,7 +36271,7 @@ _0213B33C:
 	str ip, [sp, #4]
 	mov ip, #0
 	str ip, [sp, #8]
-	bl sub_0201AAE0
+	bl _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
 _0213B378:
 	str r0, [r4, #0xfec]
 	mov r0, #0x18
@@ -36287,7 +36287,7 @@ _0213B378:
 	str ip, [sp, #4]
 	mov ip, #0
 	str ip, [sp, #8]
-	bl sub_0201AAE0
+	bl _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
 _0213B3B4:
 	str r0, [r4, #0xff0]
 	mov r0, #0x18
@@ -36303,7 +36303,7 @@ _0213B3B4:
 	str ip, [sp, #4]
 	mov ip, #0
 	str ip, [sp, #8]
-	bl sub_0201AAE0
+	bl _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
 _0213B3F0:
 	str r0, [r4, #0xff4]
 	add sp, sp, #0xc
@@ -36341,7 +36341,7 @@ ov1_0213B454: ; 0x0213B454
 	beq _0213B484
 	beq _0213B47C
 	mov r0, r5
-	bl sub_0201AB14
+	bl _ZN17UnkClass_0201AAE0D1Ev
 	mov r0, r5
 	bl _ZdlPv
 	arm_func_end ov1_0213B454
@@ -36354,7 +36354,7 @@ _0213B484:
 	beq _0213B4AC
 	beq _0213B4A4
 	mov r0, r5
-	bl sub_0201AB14
+	bl _ZN17UnkClass_0201AAE0D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _0213B4A4:
@@ -36366,7 +36366,7 @@ _0213B4AC:
 	beq _0213B4D4
 	beq _0213B4CC
 	mov r0, r5
-	bl sub_0201AB14
+	bl _ZN17UnkClass_0201AAE0D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _0213B4CC:
@@ -36378,7 +36378,7 @@ _0213B4D4:
 	beq _0213B4FC
 	beq _0213B4F4
 	mov r0, r5
-	bl sub_0201AB14
+	bl _ZN17UnkClass_0201AAE0D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _0213B4F4:
@@ -36390,7 +36390,7 @@ _0213B4FC:
 	ldmeqia sp!, {r3, r4, r5, pc}
 	beq _0213B51C
 	mov r0, r5
-	bl sub_0201AB14
+	bl _ZN17UnkClass_0201AAE0D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _0213B51C:
@@ -40858,7 +40858,7 @@ ov1_0213F0C8: ; 0x0213F0C8
 	add r2, sp, #0x18c
 	add r3, sp, #0x12c
 	str ip, [sp, #8]
-	bl sub_0201AAE0
+	bl _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
 	arm_func_end ov1_0213F0C8
 _0213F178:
 	str r0, [r4, #0x60]
@@ -40889,7 +40889,7 @@ _0213F178:
 	str ip, [sp, #4]
 	mov ip, #0
 	str ip, [sp, #8]
-	bl sub_0201AAE0
+	bl _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
 _0213F1EC:
 	str r0, [r4, #0xfc]
 	ldmia r0, {r0, r1, r2}
@@ -40917,7 +40917,7 @@ _0213F1EC:
 	str ip, [sp, #4]
 	mov ip, #0
 	str ip, [sp, #8]
-	bl sub_0201AAE0
+	bl _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
 _0213F258:
 	str r0, [r4, #0x14c]
 	ldmia r0, {r1, r2, r3}
@@ -40953,7 +40953,7 @@ ov1_0213F2B4: ; 0x0213F2B4
 	beq _0213F2E4
 	beq _0213F2DC
 	mov r0, r4
-	bl sub_0201AB14
+	bl _ZN17UnkClass_0201AAE0D1Ev
 	mov r0, r4
 	bl _ZdlPv
 	arm_func_end ov1_0213F2B4
@@ -40966,7 +40966,7 @@ _0213F2E4:
 	beq _0213F30C
 	beq _0213F304
 	mov r0, r4
-	bl sub_0201AB14
+	bl _ZN17UnkClass_0201AAE0D1Ev
 	mov r0, r4
 	bl _ZdlPv
 _0213F304:
@@ -40978,7 +40978,7 @@ _0213F30C:
 	ldmeqia sp!, {r3, r4, r5, pc}
 	beq _0213F32C
 	mov r0, r4
-	bl sub_0201AB14
+	bl _ZN17UnkClass_0201AAE0D1Ev
 	mov r0, r4
 	bl _ZdlPv
 _0213F32C:

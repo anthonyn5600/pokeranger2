@@ -335,7 +335,7 @@ _0211CDE8:
 	beq _0211CE10
 	beq _0211CE08
 	mov r0, r5
-	bl _ZN17UnkClass_02003718D1Ev
+	bl _ZN8Camera2DD1Ev
 	mov r0, r5
 	bl _ZdlPv
 _0211CE08:
@@ -440,7 +440,7 @@ _0211CF48:
 	beq _0211CF70
 	beq _0211CF68
 	mov r0, r5
-	bl sub_0201AB14
+	bl _ZN17UnkClass_0201AAE0D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _0211CF68:
@@ -988,9 +988,9 @@ _0211D6D0:
 	ldr r0, [r4, #0xc]
 	cmp r0, #0
 	ldmeqia sp!, {r4, r5, r6, pc}
-	bl _ZN17UnkClass_0200371812sub_020037B4Ev
+	bl _ZN8Camera2D12sub_020037B4Ev
 	ldr r0, [r4, #0xc]
-	bl _ZN17UnkClass_0200371812sub_0200381CEv
+	bl _ZN8Camera2D12sub_0200381CEv
 	ldr r0, _0211D7F4 ; =0x0400044C
 	mov r1, #0
 	str r1, [r0]
@@ -1028,7 +1028,7 @@ _0211D760:
 	ldr r1, [r4, #0xc]
 	mov r0, r6
 	mov r2, #0
-	bl _ZN17UnkClass_0211E3FC12sub_02009188EP17UnkClass_02003718i
+	bl _ZN17UnkClass_0211E3FC12sub_02009188EP8Camera2Di
 	mov r5, r0
 	mov r0, r6
 	bl _ZN17UnkClass_0211E3FC12sub_020091DCEv
@@ -1041,7 +1041,7 @@ _0211D760:
 	ldr r1, [r4, #0xc]
 	ldr r2, _0211D7F8 ; =0x00000618
 	add r0, r6, #0x10
-	bl _ZN17UnkClass_0211E3FC12sub_02009188EP17UnkClass_02003718i
+	bl _ZN17UnkClass_0211E3FC12sub_02009188EP8Camera2Di
 	mov r5, r0
 	add r0, r6, #0x10
 	bl _ZN17UnkClass_0211E3FC12sub_020091DCEv
@@ -1241,7 +1241,7 @@ _0211D9A0:
 	beq _0211DAAC
 	beq _0211DAA4
 	mov r0, r4
-	bl _ZN17UnkClass_02003718D1Ev
+	bl _ZN8Camera2DD1Ev
 	mov r0, r4
 	bl _ZdlPv
 _0211DAA4:
@@ -1252,7 +1252,7 @@ _0211DAAC:
 	bl _Znwm
 	cmp r0, #0
 	beq _0211DAC0
-	bl _ZN17UnkClass_02003718C1Ev
+	bl _ZN8Camera2DC1Ev
 _0211DAC0:
 	str r0, [sl, #0xc]
 	ldr r4, [sl, #0x10]
@@ -1287,7 +1287,7 @@ _0211DB04:
 	ldr r0, [sl, #0xc]
 	mov r3, r1
 	mov r2, #0xc0000
-	bl _ZN17UnkClass_0200371812sub_02003788Elllllll
+	bl _ZN8Camera2D12sub_02003788Elllllll
 	ldr r0, _0211DFF8 ; =MAIN_BSS_020B26A0
 	str r0, [sl, #0xb0]
 	ldr r4, [sl, #0x14]
@@ -1572,19 +1572,19 @@ _0211DF40:
 	bl _Znwm
 	cmp r0, #0
 	beq _0211DF54
-	bl _ZN17UnkClass_02019284C1Ev
+	bl _ZN14CPlayerHPGaugeC1Ev
 _0211DF54:
 	str r0, [sl, #0x278]
 	mov r1, #1
-	bl sub_0201A140
+	bl _ZN14CPlayerHPGauge10SetVisibleEi
 	ldr r2, [sl, #0xb0]
 	ldr r0, [sl, #0x278]
 	ldrb r1, [r2, #1]
 	ldrb r2, [r2, #2]
-	bl sub_0201A000
+	bl _ZN14CPlayerHPGauge5SetHPEtt
 	ldr r0, [sl, #0x278]
 	mov r1, #0
-	bl sub_0201A178
+	bl _ZN14CPlayerHPGauge17SetPartnerVisibleEi
 	mov r0, sl
 	bl ov7_0211F2E0
 	mov r3, #0x100000
@@ -2188,10 +2188,10 @@ _0211E770:
 	strb r1, [r0, #1]
 	ldrh r1, [sp]
 	ldr r0, [r4, #0x278]
-	bl sub_0201A018
+	bl _ZN14CPlayerHPGauge12SetCurrentHPEt
 	ldrh r1, [sp, #2]
 	ldr r0, [r4, #0x278]
-	bl sub_0201A024
+	bl _ZN14CPlayerHPGauge9StartHealEt
 	ldr r0, [r4, #0x27c]
 	ldr r1, _0211E890 ; =0x00000143
 	add r0, r0, #0x1000
@@ -2205,7 +2205,7 @@ _0211E770:
 	bl ov7_0211ED10
 _0211E81C:
 	ldr r0, [r4, #0x278]
-	bl sub_0201A0DC
+	bl _ZN14CPlayerHPGauge9IsHealingEv
 	cmp r0, #0
 	bne _0211E880
 	ldr r0, [r4, #0x27c]
@@ -3038,7 +3038,7 @@ ov7_0211F2E0: ; 0x0211F2E0
 	beq _0211F314
 	beq _0211F30C
 	mov r0, r4
-	bl sub_0201AB14
+	bl _ZN17UnkClass_0201AAE0D1Ev
 	mov r0, r4
 	bl _ZdlPv
 	arm_func_end ov7_0211F2E0
@@ -3059,7 +3059,7 @@ _0211F314:
 	ldr r2, _0211F368 ; =s_data_menu_mr001_00_LZ_bin_overlay_7_0211f7dc
 	ldr r3, _0211F36C ; =s_RSC_mr001_00_NCBR_overlay_7_0211f7f8
 	str ip, [sp, #8]
-	bl sub_0201AAE0
+	bl _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
 _0211F34C:
 	str r0, [r5, #0x228]
 	add sp, sp, #0xc

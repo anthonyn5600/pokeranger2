@@ -3,7 +3,8 @@
 .public _ZN10CActorData7GetAnimEh
 .public _ZN10CActorData9GetAnimAtEi
 .public _ZN10CActorData9GetAnimIdEim
-.public _ZN11CDrawObject12sub_020091D4EP17UnkClass_02003718i
+.public _ZN11CDrawObject12sub_020091D4EP8Camera2Di
+.public _ZN17CActorDataPartnerD1Ev
 .public _ZN17CFieldActorManage12sub_0203EFE4Ei
 .public _ZN17CFieldActorManage12sub_0203F034Ev
 .public _ZN17CFieldActorManage12sub_0203F0C0Ev
@@ -23,6 +24,8 @@
 .public _ZN17CFieldActorManage12sub_02040384Ev
 .public _ZN17CFieldActorManage12sub_02040428Ev
 .public _ZN17CFieldActorManage12sub_02040460Ev
+.public _ZN17UnkClass_020412A0D1Ev
+.public _ZN19CFieldDrawActorData12sub_02040E80Ev
 .public _ZN19CFieldDrawActorDataD0Ev
 .public _ZN6CScene5func3Ev
 .public _ZN6CScene5func4Ev
@@ -42,14 +45,11 @@
 .public sub_0204078C
 .public sub_02040D44
 .public sub_02040E2C
-.public sub_02040E80
 .public sub_02040F20
-.public sub_0204114C
 .public sub_0204117C
 .public sub_020411B4
 .public sub_020411D8
 .public sub_0204129C
-.public sub_020412DC
 .public sub_0204130C
 .public sub_020415C8
 .public sub_02041604

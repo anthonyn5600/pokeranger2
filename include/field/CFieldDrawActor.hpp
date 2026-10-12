@@ -15,13 +15,13 @@ public:
     CFieldDrawActor();
     virtual ~CFieldDrawActor();
     virtual void vfunc_08();
-    virtual u32 vfunc_0C(CPrimitive_Render_arg *arg);
+    virtual void vfunc_0C(Camera2D *camera);
     virtual void vfunc_10();
 
     void sub_0203DBB8(int type, u16 id, int form, u32 mask, BOOL useTransfer);
     void sub_0203E10C(int type, u16 id, int form, u32 mask, BOOL useTransfer);
     void sub_0203E55C();
-    u32 sub_0203E934(CPrimitive_Render_arg *arg, fx32 z);
+    u32 sub_0203E934(Camera2D *camera, fx32 z);
     void sub_0203EE3C();
     void sub_0203EEA8(u16 arg0, u8 alpha, int duration);
     void sub_0203EEEC(int duration);

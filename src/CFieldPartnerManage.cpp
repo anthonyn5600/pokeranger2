@@ -3,7 +3,7 @@
 #include <nitro.h>
 
 #include "CGame.hpp"
-#include "UnkClass_02019284.hpp"
+#include "CPlayerHPGauge.hpp"
 #include "UnkClass_02041D80.hpp"
 #include "UnkClass_020B26A0.hpp"
 #include "UnkStruct_020107A8.hpp"
@@ -388,7 +388,7 @@ BOOL CFieldPartnerManage::sub_0203F190()
     unk_88 = 0;
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (scene != NULL && scene->unk_00D8 != NULL) {
-        sub_0201A178(scene->unk_00D8, 0);
+        scene->unk_00D8->SetPartnerVisible(FALSE);
     }
     return CFieldActorManage::sub_0203F190();
 }
@@ -458,11 +458,11 @@ BOOL CFieldPartnerManage::ov0_0213A57C(u16 kind, CFieldPartner *partner)
         CFieldScene *scene = MAIN_BSS_0210CA40;
         if (scene != NULL) {
             UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
-            UnkClass_02019284 *obj = scene->unk_00D8;
+            CPlayerHPGauge *obj = scene->unk_00D8;
             if (obj != NULL && save != NULL) {
                 save->unk_0008 = ov0_0213A658(kind);
-                sub_0201A178(obj, 1);
-                sub_0201A220(obj, (u16)(save->unk_0004 >> FX32_SHIFT), save->unk_0008);
+                obj->SetPartnerVisible(TRUE);
+                obj->SetPartner(save->unk_0004 >> FX32_SHIFT, save->unk_0008);
                 u8 mood = save->unk_0009[sub_02035088(kind)];
                 if (mood == 2) {
                     sub_02041A70(partner, 0xB, -1);

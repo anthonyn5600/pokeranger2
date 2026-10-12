@@ -7,7 +7,7 @@
 #include "field/CFieldTargetObjectManage.hpp"
 #include "heap.hpp"
 
-int CFieldMapLayerObject::Draw(UnkClass_02003718 *camera)
+int CFieldMapLayerObject::Draw(Camera2D *camera)
 {
     return 0;
 }

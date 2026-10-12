@@ -71,7 +71,7 @@ void CFieldMapLayerCollision::Release()
     m_solidCount = 0;
 }
 
-int CFieldMapLayerCollision::Draw(UnkClass_02003718 *camera)
+int CFieldMapLayerCollision::Draw(Camera2D *camera)
 {
     return 1;
 }

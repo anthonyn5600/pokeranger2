@@ -10,10 +10,10 @@ public:
     CPrimitiveTRIANGLE();
     virtual ~CPrimitiveTRIANGLE();
 
-    virtual u32 Render(CPrimitive_Render_arg *arg0);
+    virtual u32 Render(Camera2D *camera);
 
-    u32 RenderWithTexture(CPrimitive_Render_arg *arg0);
-    u32 RenderWithoutTexture(CPrimitive_Render_arg *arg0);
+    u32 RenderWithTexture(Camera2D *camera);
+    u32 RenderWithoutTexture(Camera2D *camera);
 
 public:
     struct TriangleCoordinates {

@@ -9,7 +9,7 @@
 class CFieldPlayer;
 class CTouchPanel;
 class UnkClass_02001C04;
-class UnkClass_02003718;
+class Camera2D;
 
 // Defined in ov0
 class CFieldPlayer : public CFieldActor {
@@ -23,7 +23,7 @@ public:
     BOOL ov0_02132EE4(u16 arg1, int arg2, u32 arg3);
     BOOL ov0_02132F14(u8 arg1, int arg2, u8 arg3);
     void ov0_02132FA0(u8 mode);
-    void ov0_021307B0(UnkClass_02001C04 *pad, CTouchPanel *touch, UnkClass_02003718 *camera, CFieldMap *map, u32 flags);
+    void ov0_021307B0(UnkClass_02001C04 *pad, CTouchPanel *touch, Camera2D *camera, CFieldMap *map, u32 flags);
     BOOL ov0_021333A0(fx32 dx, fx32 dy, int arg3, int damage, int arg5);
     BOOL ov0_021337DC(int dir, int dir2, fx32 vx, fx32 vy, int arg5, int arg6, fx32 distX, fx32 distY, int arg9, int mode);
     void ov0_02133E8C(int arg1);

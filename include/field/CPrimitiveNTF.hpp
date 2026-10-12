@@ -68,7 +68,7 @@ public:
     virtual ~CPrimitiveRectNTF()
     {
     }
-    virtual u32 Render(CPrimitive_Render_arg *arg0);
+    virtual u32 Render(Camera2D *camera);
 
     void SetRect(fx32 x, fx32 y, fx32 width, fx32 height)
     {
@@ -110,7 +110,7 @@ public:
     virtual ~CPrimitiveQuadNTF()
     {
     }
-    virtual u32 Render(CPrimitive_Render_arg *arg0);
+    virtual u32 Render(Camera2D *camera);
 
 public:
     void *unk_18;

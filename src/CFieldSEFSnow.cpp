@@ -88,7 +88,7 @@ int CFieldSEFSnow::Update(int fps)
     return m_state;
 }
 
-void CFieldSEFSnow::Draw(UnkClass_02003718 *camera)
+void CFieldSEFSnow::Draw(Camera2D *camera)
 {
     UnkClass_02008788 *cac = m_actorData->GetCac(0);
     Point2D offset = camera->GetOffsetCopy();
@@ -120,7 +120,7 @@ void CFieldSEFSnow::Draw(UnkClass_02003718 *camera)
         pos.x -= FX32_MUL(FX_SinIdx(flake->angle), FX32_CONST(6)) + FX32_CONST(160);
         pos.y -= FX32_CONST(128);
         m_sprite->SetPos(pos);
-        m_sprite->Render((CPrimitive_Render_arg *)camera);
+        m_sprite->Render(camera);
     }
 
     if (m_rect.m_alpha == 0) {
@@ -132,7 +132,7 @@ void CFieldSEFSnow::Draw(UnkClass_02003718 *camera)
     m_rect.m_polygonID = unk_1C;
     m_rect.SetRect(0, 0, FX32_CONST(256), FX32_CONST(256));
     m_tex.Bind();
-    m_rect.Render((CPrimitive_Render_arg *)camera);
+    m_rect.Render(camera);
 
     G3_PopMtx(0);
 }

@@ -123,7 +123,7 @@ PTR_LAB_0208de68: ; 0x0208DE68
 	.global ptr_FUN_02040778_0208de6c
 ptr_FUN_02040778_0208de6c: ; 0x0208DE6C
 	.word sub_02040778
-	.word _ZN11CDrawObject12sub_020091D4EP17UnkClass_02003718i
+	.word _ZN11CDrawObject12sub_020091D4EP8Camera2Di
 
 	.global PTR_ptr_FUN_020835bc_0208de74
 PTR_ptr_FUN_020835bc_0208de74: ; 0x0208DE74
@@ -175,13 +175,13 @@ ptr_FUN_02040e2c_0208dedc: ; 0x0208DEDC
 
 	.global ptr_FUN_02040e80_0208dee0
 ptr_FUN_02040e80_0208dee0: ; 0x0208DEE0
-	.word sub_02040E80
+	.word _ZN19CFieldDrawActorData12sub_02040E80Ev
 	.byte 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_020835bc_0208de74
 
 	.global ptr_FUN_0204114c_0208deec
 ptr_FUN_0204114c_0208deec: ; 0x0208DEEC
-	.word sub_0204114C
+	.word _ZN17CActorDataPartnerD1Ev
 
 	.global ptr_FUN_0204117c_0208def0
 ptr_FUN_0204117c_0208def0: ; 0x0208DEF0
@@ -283,7 +283,7 @@ _0208DFAB:
 
 	.global ptr_FUN_020412dc_0208dfb4
 ptr_FUN_020412dc_0208dfb4: ; 0x0208DFB4
-	.word sub_020412DC
+	.word _ZN17UnkClass_020412A0D1Ev
 
 	.global ptr_FUN_0204130c_0208dfb8
 ptr_FUN_0204130c_0208dfb8: ; 0x0208DFB8
@@ -309,7 +309,7 @@ ptr_FUN_02040e2c_0208dfd0: ; 0x0208DFD0
 
 	.global ptr_FUN_02040e80_0208dfd4
 ptr_FUN_02040e80_0208dfd4: ; 0x0208DFD4
-	.word sub_02040E80
+	.word _ZN19CFieldDrawActorData12sub_02040E80Ev
 
 	.global s_player_1d_0208dfd8
 s_player_1d_0208dfd8: ; 0x0208DFD8

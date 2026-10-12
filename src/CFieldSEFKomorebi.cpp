@@ -2,7 +2,7 @@
 
 #include "field/CFieldScreenEffect.hpp"
 
-static inline void DrawRay(CPrimitiveQuadNTF *quad, KomorebiRay *ray, fx32 alpha, UnkClass_02003718 *camera, fx32 x0, fx32 dx0, fx32 dy0, fx32 x1, fx32 dx1, fx32 dy1)
+static inline void DrawRay(CPrimitiveQuadNTF *quad, KomorebiRay *ray, fx32 alpha, Camera2D *camera, fx32 x0, fx32 dx0, fx32 dy0, fx32 x1, fx32 dx1, fx32 dy1)
 {
     fx32 len = ray->len;
 
@@ -16,7 +16,7 @@ static inline void DrawRay(CPrimitiveQuadNTF *quad, KomorebiRay *ray, fx32 alpha
     quad->m_vtx[2].y = -FX32_CONST(96) + FX32_MUL(len, dy1);
     quad->m_vtx[3].x = x1;
     quad->m_vtx[3].y = -FX32_CONST(96);
-    quad->Render((CPrimitive_Render_arg *)camera);
+    quad->Render(camera);
 }
 
 CFieldSEFKomorebi::CFieldSEFKomorebi()
@@ -64,7 +64,7 @@ int CFieldSEFKomorebi::Update(int fps)
     return m_state;
 }
 
-void CFieldSEFKomorebi::Draw(UnkClass_02003718 *camera)
+void CFieldSEFKomorebi::Draw(Camera2D *camera)
 {
     if (m_drawAlpha == 0) {
         return;

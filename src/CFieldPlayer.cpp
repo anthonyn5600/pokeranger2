@@ -4,8 +4,8 @@
 
 #include "CGame.hpp"
 #include "CTouchPanel.hpp"
+#include "Camera2D.hpp"
 #include "UnkClass_02001C04.hpp"
-#include "UnkClass_02003718.hpp"
 #include "UnkClass_02007F98.hpp"
 #include "UnkClass_0200E0B4.hpp"
 #include "UnkClass_02022404.hpp"
@@ -19,16 +19,10 @@
 #include "interpolation.hpp"
 #include "scene/CFieldScene.hpp"
 
-struct UnkStruct_020BA6A0 {
-    u8 unk_000[0xB64];
-    u8 unk_B64;
-};
-
 extern CFieldPlayer *MAIN_BSS_0210CA48;
 extern CFieldScene *MAIN_BSS_0210CA40;
 extern u16 DAT_0208d58c;
 extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
-extern UnkStruct_020BA6A0 MAIN_BSS_020BA6A0;
 extern UnkClass_02041D80 *MAIN_BSS_0210CA6C;
 extern void *MAIN_BSS_0210CA60;
 extern u16 *MAIN_BSS_0210CA70;
@@ -89,7 +83,7 @@ CFieldPlayer::~CFieldPlayer()
     MAIN_BSS_0210CA48 = NULL;
 }
 
-void CFieldPlayer::ov0_021307B0(UnkClass_02001C04 *pad, CTouchPanel *touch, UnkClass_02003718 *camera, CFieldMap *map, u32 flags)
+void CFieldPlayer::ov0_021307B0(UnkClass_02001C04 *pad, CTouchPanel *touch, Camera2D *camera, CFieldMap *map, u32 flags)
 {
     int quantDir = 0xFFFF;
     int baseSpeed = 0xF0000 / DAT_0208d58c;
@@ -677,7 +671,7 @@ void CFieldPlayer::ov0_021307B0(UnkClass_02001C04 *pad, CTouchPanel *touch, UnkC
     if (s_game->currentScene->getSceneId() != 1) {
         return;
     }
-    if (MAIN_BSS_020BA6A0.unk_B64 == 1) {
+    if (MAIN_BSS_020B26A0.unk_8B64 == 1) {
         unk_14C += 60 / DAT_0208d58c;
         if ((u32)unk_14C >= (u32)unk_148) {
             void *mgr = MAIN_BSS_0210CA60;

@@ -21,7 +21,6 @@
 .public GX_SetBankForTexPltt
 .public GX_SetGraphicsMode
 .public MAIN_BSS_020B26A0
-.public MAIN_BSS_020BA6A0
 .public MAIN_BSS_0210C1C0
 .public MAIN_BSS_0210C228
 .public MAIN_BSS_0210CA6C

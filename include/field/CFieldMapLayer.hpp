@@ -7,7 +7,7 @@
 #include "field/CFieldMap.hpp"
 #include "sub_02006000.hpp"
 
-class UnkClass_02003718;
+class Camera2D;
 
 // Map layers, one list per layer group. CFieldMap::ov0_02125904 creates them from the map file's MLG chunks.
 // The base and CharacterPriority layers are inline-only (their vtables live in FieldMap.cpp); every other
@@ -25,7 +25,7 @@ public:
         return 0;
     }
 
-    virtual int Draw(UnkClass_02003718 *camera)
+    virtual int Draw(Camera2D *camera)
     {
         return 0;
     }
@@ -80,7 +80,7 @@ class CFieldMapLayerStatic : public CFieldMapLayerBase {
 public:
     CFieldMapLayerStatic();
     virtual int GetType();
-    virtual int Draw(UnkClass_02003718 *camera);
+    virtual int Draw(Camera2D *camera);
     virtual int GetPolygonCount();
     virtual ~CFieldMapLayerStatic();
     virtual BOOL Load(void *data);
@@ -124,7 +124,7 @@ class CFieldMapLayerCollision : public CFieldMapLayerBase {
 public:
     CFieldMapLayerCollision();
     virtual int GetType();
-    virtual int Draw(UnkClass_02003718 *camera);
+    virtual int Draw(Camera2D *camera);
     virtual int GetPolygonCount();
     virtual ~CFieldMapLayerCollision();
     virtual BOOL Load(void *data);
@@ -179,7 +179,7 @@ class CFieldMapLayerCharaTrans : public CFieldMapLayerBase {
 public:
     CFieldMapLayerCharaTrans();
     virtual int GetType();
-    virtual int Draw(UnkClass_02003718 *camera);
+    virtual int Draw(Camera2D *camera);
 
     virtual int GetPolygonCount()
     {
@@ -213,7 +213,7 @@ class CFieldMapLayerNormalView : public CFieldMapLayerBase {
 public:
     CFieldMapLayerNormalView();
     virtual int GetType();
-    virtual int Draw(UnkClass_02003718 *camera);
+    virtual int Draw(Camera2D *camera);
     virtual int GetPolygonCount();
     virtual ~CFieldMapLayerNormalView();
     virtual BOOL Load(void *data);
@@ -246,7 +246,7 @@ class CFieldMapLayerNpc : public CFieldMapLayerBase {
 public:
     CFieldMapLayerNpc();
     virtual int GetType();
-    virtual int Draw(UnkClass_02003718 *camera);
+    virtual int Draw(Camera2D *camera);
     virtual int GetPolygonCount();
     virtual ~CFieldMapLayerNpc();
     virtual BOOL Load(void *data);
@@ -286,7 +286,7 @@ class CFieldMapLayerObject : public CFieldMapLayerBase {
 public:
     CFieldMapLayerObject();
     virtual int GetType();
-    virtual int Draw(UnkClass_02003718 *camera);
+    virtual int Draw(Camera2D *camera);
     virtual int GetPolygonCount();
     virtual ~CFieldMapLayerObject();
     virtual BOOL Load(void *data);
@@ -310,7 +310,7 @@ class CFieldMapLayerEventRect : public CFieldMapLayerBase {
 public:
     CFieldMapLayerEventRect();
     virtual int GetType();
-    virtual int Draw(UnkClass_02003718 *camera);
+    virtual int Draw(Camera2D *camera);
     virtual int GetPolygonCount();
     virtual ~CFieldMapLayerEventRect();
     virtual BOOL Load(void *data);
@@ -326,7 +326,7 @@ class CFieldMapLayerAttribute : public CFieldMapLayerBase {
 public:
     CFieldMapLayerAttribute();
     virtual int GetType();
-    virtual int Draw(UnkClass_02003718 *camera);
+    virtual int Draw(Camera2D *camera);
     virtual int GetPolygonCount();
     virtual ~CFieldMapLayerAttribute();
     virtual BOOL Load(void *data);
@@ -364,7 +364,7 @@ public:
     }
 
     virtual int GetType();
-    virtual int Draw(UnkClass_02003718 *camera);
+    virtual int Draw(Camera2D *camera);
     virtual int GetPolygonCount();
     virtual void Update(int fps);
     virtual ~CFieldMapLayerMultiScroll();
@@ -392,7 +392,7 @@ public:
     }
 
     virtual int GetType();
-    virtual int Draw(UnkClass_02003718 *camera);
+    virtual int Draw(Camera2D *camera);
     virtual int GetPolygonCount();
     virtual void Update(int fps);
     virtual ~CFieldMapLayerUVScroll();

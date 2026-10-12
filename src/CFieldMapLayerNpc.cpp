@@ -10,7 +10,7 @@
 
 extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
 
-int CFieldMapLayerNpc::Draw(UnkClass_02003718 *camera)
+int CFieldMapLayerNpc::Draw(Camera2D *camera)
 {
     return 0;
 }

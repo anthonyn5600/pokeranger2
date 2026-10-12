@@ -56,7 +56,7 @@ int CFieldSEFWarning::Update(int fps)
     return m_state;
 }
 
-void CFieldSEFWarning::Draw(UnkClass_02003718 *camera)
+void CFieldSEFWarning::Draw(Camera2D *camera)
 {
     if (m_rect.m_alpha == 0) {
         return;
@@ -70,7 +70,7 @@ void CFieldSEFWarning::Draw(UnkClass_02003718 *camera)
     rect->SetRect(0, 0, FX32_CONST(256), FX32_CONST(256));
     m_tex.Bind();
     G3_PolygonAttr(GX_LIGHTMASK_NONE, GX_POLYGONMODE_MODULATE, GX_CULL_NONE, unk_1C + 3, rect->m_alpha, GX_POLYGON_ATTR_MISC_NONE);
-    rect->Render((CPrimitive_Render_arg *)camera);
+    rect->Render(camera);
 
     G3_PopMtx(0);
 }

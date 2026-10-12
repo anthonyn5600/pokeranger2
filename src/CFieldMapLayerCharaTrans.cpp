@@ -1,7 +1,7 @@
 #include <nitro.h>
 #include <string.h>
 
-#include "UnkClass_02003718.hpp"
+#include "Camera2D.hpp"
 #include "field/CFieldMap.hpp"
 #include "field/CFieldMapLayer.hpp"
 #include "heap.hpp"
@@ -30,7 +30,7 @@ void CFieldMapLayerCharaTrans::DrawEntries(Rectangle view, int baseX, int baseY,
     }
 }
 
-int CFieldMapLayerCharaTrans::Draw(UnkClass_02003718 *camera)
+int CFieldMapLayerCharaTrans::Draw(Camera2D *camera)
 {
     if (m_mct != NULL && m_entries != NULL && m_count > 0) {
         fx32 scale = FX32_ONE << camera->unk_28;

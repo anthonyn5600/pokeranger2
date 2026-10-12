@@ -29,11 +29,6 @@
 .public _ZN13CArchiveGuardD1Ev
 .public _ZN14CPrimitiveRECTC1Ev
 .public _ZN15CSoftwareSpriteC1Ev
-.public _ZN17UnkClass_0200371812sub_02003788Elllllll
-.public _ZN17UnkClass_0200371812sub_020037B4Ev
-.public _ZN17UnkClass_0200371812sub_0200381CEv
-.public _ZN17UnkClass_02003718C1Ev
-.public _ZN17UnkClass_02003718D1Ev
 .public _ZN17UnkClass_0200878812sub_02008828Et
 .public _ZN17UnkClass_0200878812sub_02008844Et
 .public _ZN17UnkClass_0200878812sub_02008860Et
@@ -56,6 +51,8 @@
 .public _ZN17UnkClass_0200ECD012sub_0200F71CEv
 .public _ZN17UnkClass_0200ECD0C1EP9GXOamAttrmii
 .public _ZN17UnkClass_0200ECD0D1Ev
+.public _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
+.public _ZN17UnkClass_0201AAE0D1Ev
 .public _ZN17UnkClass_0203447812sub_020345D4Ev
 .public _ZN17UnkClass_0203447812sub_0203499CEi
 .public _ZN17UnkClass_0203447812sub_020349E8Ei
@@ -69,6 +66,11 @@
 .public _ZN6CScene5func4Ev
 .public _ZN6CSceneC2Ev
 .public _ZN6CSceneD2Ev
+.public _ZN8Camera2D12sub_02003788Elllllll
+.public _ZN8Camera2D12sub_020037B4Ev
+.public _ZN8Camera2D12sub_0200381CEv
+.public _ZN8Camera2DC1Ev
+.public _ZN8Camera2DD1Ev
 .public _ZN9CNCLRFileC1EPKcmmm
 .public _ZN9CNSCRFileC1EPKcmmm
 .public _ZTI6CScene
@@ -79,8 +81,6 @@
 .public sub_020116C0
 .public sub_02018E30
 .public sub_02018E94
-.public sub_0201AAE0
-.public sub_0201AB14
 .public sub_0201FC9C
 .public sub_0201FCB4
 .public sub_0201FE18

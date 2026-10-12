@@ -1179,7 +1179,7 @@ ov9_0211D8F8: ; 0x0211D8F8
 	ldr r2, _0211D970 ; =DAT_overlay_9_0211dcb0
 	ldr r1, _0211D974 ; =s_sFlying_overlay_9_0211df70
 	ldrh ip, [ip, lr]
-	ldr r0, _0211D978 ; =MAIN_BSS_020BB1A0
+	ldr r0, _0211D978 ; =MAIN_BSS_020B26A0+35584
 	cmp r1, #0
 	ldrsh r3, [r3, lr]
 	strh ip, [r0, #0x78]
@@ -1204,7 +1204,7 @@ _0211D968: .word DAT_overlay_9_0211dcac
 _0211D96C: .word DAT_overlay_9_0211dcae
 _0211D970: .word DAT_overlay_9_0211dcb0
 _0211D974: .word s_sFlying_overlay_9_0211df70
-_0211D978: .word MAIN_BSS_020BB1A0
+_0211D978: .word MAIN_BSS_020B26A0+35584
 _0211D97C: .word MAIN_BSS_020B26A0
 
 	arm_func_start ov9_0211D980

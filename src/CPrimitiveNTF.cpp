@@ -3,6 +3,7 @@
 #include <nitro.h>
 #include <nnsys.h>
 
+#include "Camera2D.hpp"
 #include "field/CFieldScreenEffect.hpp"
 #include "file/CArchiveGuard.hpp"
 
@@ -117,13 +118,13 @@ void NtfTexture::Bind()
     G3_TexPlttBase(m_plttAddr, m_format->texFmt);
 }
 
-u32 CPrimitiveRectNTF::Render(CPrimitive_Render_arg *arg0)
+u32 CPrimitiveRectNTF::Render(Camera2D *camera)
 {
     if (m_alpha == 0) {
         return 0;
     }
 
-    u16 shift = arg0->unk_28;
+    u16 shift = camera->unk_28;
     fx32 width = m_width;
     fx32 height = m_height;
 
@@ -147,13 +148,13 @@ u32 CPrimitiveRectNTF::Render(CPrimitive_Render_arg *arg0)
     return 1;
 }
 
-u32 CPrimitiveQuadNTF::Render(CPrimitive_Render_arg *arg0)
+u32 CPrimitiveQuadNTF::Render(Camera2D *camera)
 {
     if (m_alpha == 0) {
         return 0;
     }
 
-    u16 shift = arg0->unk_28;
+    u16 shift = camera->unk_28;
 
     G3_Color(m_color);
     G3_PolygonAttr(GX_LIGHTMASK_NONE, m_polygonMode, GX_CULL_NONE, m_polygonID, m_alpha, GX_POLYGON_ATTR_MISC_NONE);

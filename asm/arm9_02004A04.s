@@ -3,8 +3,8 @@
 
     .text
 
-	arm_func_start _ZN16CPrimitiveSPHERE6RenderEP21CPrimitive_Render_arg
-_ZN16CPrimitiveSPHERE6RenderEP21CPrimitive_Render_arg: ; 0x02004A04
+	arm_func_start _ZN16CPrimitiveSPHERE6RenderEP8Camera2D
+_ZN16CPrimitiveSPHERE6RenderEP8Camera2D: ; 0x02004A04
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0x1c
 	ldrh r5, [r1, #0x28]
@@ -33,7 +33,7 @@ _ZN16CPrimitiveSPHERE6RenderEP21CPrimitive_Render_arg: ; 0x02004A04
 	mov r7, r6
 	str r1, [sp, #0x14]
 	b _02004C80
-	arm_func_end _ZN16CPrimitiveSPHERE6RenderEP21CPrimitive_Render_arg
+	arm_func_end _ZN16CPrimitiveSPHERE6RenderEP8Camera2D
 _02004A74:
 	ldr r2, [r0, #0x1c]
 	ldr r1, [r0, #0x18]

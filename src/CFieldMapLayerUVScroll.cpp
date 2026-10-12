@@ -35,7 +35,7 @@ void CFieldMapLayerUVScroll::Update(int fps)
     }
 }
 
-int CFieldMapLayerUVScroll::Draw(UnkClass_02003718 *camera)
+int CFieldMapLayerUVScroll::Draw(Camera2D *camera)
 {
     // The game's MTX_Identity43_ fills a 4x4 matrix (see the NitroSDK patch for it).
     MtxFx44 mtx;

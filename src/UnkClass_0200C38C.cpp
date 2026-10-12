@@ -1,11 +1,11 @@
 #include "UnkClass_0200C38C.hpp"
 
+#include "UnkClass_020B26A0.hpp"
 #include "file/CNCLRFile.hpp"
 
 extern "C" {
 u8 *sub_02018B10(void *, u32);
 
-extern u8 MAIN_BSS_020BAE83;
 extern char s_data_font_prs_lc_jp_NCLR_0208aa0c;
 extern char s_data_font_prs_jp_NCLR_0208aa28;
 }
@@ -134,7 +134,7 @@ void UnkClass_0200C38C::sub_0200C7A4(int idx, int x, int y, int color, u8 *str, 
                     break;
                 case 'M':
                     unk_2C = ++str;
-                    str = &MAIN_BSS_020BAE83;
+                    str = &MAIN_BSS_020B26A0.unk_87E3;
                     unk_30 = 1;
                     break;
                 case 'P': {

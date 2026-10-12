@@ -11,7 +11,7 @@ public:
     CPrimitiveLINE();
     virtual ~CPrimitiveLINE();
 
-    virtual u32 Render(CPrimitive_Render_arg *arg0);
+    virtual u32 Render(Camera2D *camera);
 
     inline Point2D GetStart()
     {

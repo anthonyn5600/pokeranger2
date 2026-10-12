@@ -109,7 +109,7 @@ int CFieldSEFFog::Update(int fps)
     return m_state;
 }
 
-void CFieldSEFFog::Draw(UnkClass_02003718 *camera)
+void CFieldSEFFog::Draw(Camera2D *camera)
 {
     if (m_rect.m_alpha == 0) {
         return;
@@ -123,13 +123,13 @@ void CFieldSEFFog::Draw(UnkClass_02003718 *camera)
     rect->SetRect(0, 0, FX32_CONST(256), FX32_CONST(256));
     rect->SetTexCoords(m_s[0], m_t[0], m_s[0] + FX32_CONST(128), m_t[0] + FX32_CONST(128));
     m_tex[0].Bind();
-    rect->Render((CPrimitive_Render_arg *)camera);
+    rect->Render(camera);
 
     rect->m_polygonID = unk_1C + 1;
     rect->SetRect(0, 0, FX32_CONST(256), FX32_CONST(256));
     rect->SetTexCoords(m_s[1], m_t[1], m_s[1] + FX32_CONST(128), m_t[1] + FX32_CONST(128));
     m_tex[1].Bind();
-    rect->Render((CPrimitive_Render_arg *)camera);
+    rect->Render(camera);
 
     G3_PopMtx(0);
 }

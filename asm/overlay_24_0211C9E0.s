@@ -160,7 +160,7 @@ _0211CBC0:
 	ldr r0, [r2]
 	bl sub_02041D80
 	ldrb r0, [r0, #4]
-	ldr r1, _0211CFFC ; =MAIN_BSS_020BA6A0
+	ldr r1, _0211CFFC ; =MAIN_BSS_020B26A0+32768
 	mov r2, #0
 	strb r0, [r1, #0xb64]
 	str r2, [r1, #0xb68]
@@ -268,7 +268,7 @@ _0211CD60:
 	ldr r0, [r2]
 	bl sub_02041D80
 	ldrb r0, [r0, #4]
-	ldr r1, _0211CFFC ; =MAIN_BSS_020BA6A0
+	ldr r1, _0211CFFC ; =MAIN_BSS_020B26A0+32768
 	mov r2, #0
 	strb r0, [r1, #0xb64]
 	str r2, [r1, #0xb68]
@@ -408,7 +408,7 @@ _0211CF54:
 	add r0, sp, #8
 	bl RTC_GetDate
 	ldr r1, [sp, #0x18]
-	ldr r0, _0211CFFC ; =MAIN_BSS_020BA6A0
+	ldr r0, _0211CFFC ; =MAIN_BSS_020B26A0+32768
 	ldr r2, [sp, #0x1c]
 	str r1, [r0, #0xb94]
 	str r2, [r0, #0xb98]
@@ -433,7 +433,7 @@ _0211CFE4:
 _0211CFF0: .word s_game
 _0211CFF4: .word MAIN_BSS_020B26A0
 _0211CFF8: .word MAIN_BSS_0210CA6C
-_0211CFFC: .word MAIN_BSS_020BA6A0
+_0211CFFC: .word MAIN_BSS_020B26A0+32768
 _0211D000: .word MAIN_BSS_0210C1C0
 _0211D004: .word MAIN_BSS_0210C228
 

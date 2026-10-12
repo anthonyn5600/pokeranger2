@@ -1,7 +1,7 @@
 #include <nitro.h>
 #include <string.h>
 
-#include "UnkClass_02003718.hpp"
+#include "Camera2D.hpp"
 #include "field/CFieldMap.hpp"
 #include "field/CFieldMapLayer.hpp"
 
@@ -55,7 +55,7 @@ void CFieldMapLayerMultiScroll::Update(int fps)
     }
 }
 
-int CFieldMapLayerMultiScroll::Draw(UnkClass_02003718 *camera)
+int CFieldMapLayerMultiScroll::Draw(Camera2D *camera)
 {
     Point2D cam = camera->GetOffset();
     int x = (-cam.x >> FX32_SHIFT) - m_offsetX;

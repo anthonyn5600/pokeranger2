@@ -32,11 +32,11 @@ public:
     CSoftwareSprite();
     virtual ~CSoftwareSprite();
 
-    virtual u32 Render(CPrimitive_Render_arg *arg0);
+    virtual u32 Render(Camera2D *camera);
 
     void SetTransformParams(fx32 posX, fx32 posY, fx32 scaleX, fx32 scaleY, u16 rotAngle, fx32 posZ);
-    u16 sub_0200527C(CPrimitive_Render_arg *arg0);
-    u16 sub_020058BC(CPrimitive_Render_arg *arg0);
+    u16 sub_0200527C(Camera2D *camera);
+    u16 sub_020058BC(Camera2D *camera);
     s16 GetObjPosX(const GXOamAttr *oamAttr);
     s16 GetObjPosY(const GXOamAttr *oamAttr);
     s16 FixObjPosX(s16 objPosX);

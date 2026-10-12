@@ -3,6 +3,8 @@
 #include <nitro.h>
 #include <nnsys.h>
 
+#include "Camera2D.hpp"
+
 CPrimitiveQUAD::CPrimitiveQUAD()
 {
     MI_CpuFill8(&m_vtxCoords, 0, sizeof(m_vtxCoords));
@@ -29,29 +31,29 @@ void CPrimitiveQUAD::SetVertexCoordinates(fx32 x1, fx32 y1, fx32 x2, fx32 y2, fx
     m_z = z;
 }
 
-u32 CPrimitiveQUAD::Render(CPrimitive_Render_arg *arg0)
+u32 CPrimitiveQUAD::Render(Camera2D *camera)
 {
     if (unk_58 != NULL && unk_5C != NULL) {
-        return RenderWithTexture(arg0);
+        return RenderWithTexture(camera);
     } else {
-        return RenderWithoutTexture(arg0);
+        return RenderWithoutTexture(camera);
     }
 }
 
-u32 CPrimitiveQUAD::RenderDL(CPrimitive_Render_arg *arg0, GXDLInfo *arg1)
+u32 CPrimitiveQUAD::RenderDL(Camera2D *camera, GXDLInfo *arg1)
 {
     if (unk_58 != NULL && unk_5C != NULL) {
-        return RenderWithTextureDL(arg0, arg1);
+        return RenderWithTextureDL(camera, arg1);
     } else {
-        return RenderWithoutTextureDL(arg0, arg1);
+        return RenderWithoutTextureDL(camera, arg1);
     }
 }
 
-u32 CPrimitiveQUAD::RenderWithTexture(CPrimitive_Render_arg *arg0)
+u32 CPrimitiveQUAD::RenderWithTexture(Camera2D *camera)
 {
     UnkClass_CPrimitive_ImagePaletteProxy *v0 = unk_5C;
     UnkClass_CPrimitive_ImageProxy *v1 = unk_58;
-    u16 v2 = arg0->unk_28;
+    u16 v2 = camera->unk_28;
 
     G3_TexImageParam(v1->imageProxy.attr.fmt, GX_TEXGEN_TEXCOORD, v1->imageProxy.attr.sizeS, v1->imageProxy.attr.sizeT, GX_TEXREPEAT_NONE, GX_TEXFLIP_NONE, v1->imageProxy.attr.plttUse, NNS_G2dGetImageLocation((NNSG2dImageProxy *)&v1->imageProxy.vramLocation.baseAddrOfVram[NNS_G2D_VRAM_TYPE_3DMAIN], NNS_G2D_VRAM_TYPE_3DMAIN));
     G3_TexPlttBase(NNS_G2dGetImagePaletteLocation(&v0->imagePlttProxy, NNS_G2D_VRAM_TYPE_3DMAIN), v1->imageProxy.attr.fmt);
@@ -79,9 +81,9 @@ u32 CPrimitiveQUAD::RenderWithTexture(CPrimitive_Render_arg *arg0)
     return 1;
 }
 
-u32 CPrimitiveQUAD::RenderWithoutTexture(CPrimitive_Render_arg *arg0)
+u32 CPrimitiveQUAD::RenderWithoutTexture(Camera2D *camera)
 {
-    u16 v0 = arg0->unk_28;
+    u16 v0 = camera->unk_28;
 
     G3_TexImageParam(GX_TEXFMT_NONE, GX_TEXGEN_TEXCOORD, GX_TEXSIZE_S8, GX_TEXSIZE_T8, GX_TEXREPEAT_NONE, GX_TEXFLIP_NONE, GX_TEXPLTTCOLOR0_USE, 0);
     G3_PolygonAttr(GX_LIGHTMASK_NONE, m_polygonMode, GX_CULL_NONE, m_polygonID, m_alpha, GX_POLYGON_ATTR_MISC_NONE);
@@ -100,11 +102,11 @@ u32 CPrimitiveQUAD::RenderWithoutTexture(CPrimitive_Render_arg *arg0)
     return 1;
 }
 
-u32 CPrimitiveQUAD::RenderWithTextureDL(CPrimitive_Render_arg *arg0, GXDLInfo *arg1)
+u32 CPrimitiveQUAD::RenderWithTextureDL(Camera2D *camera, GXDLInfo *arg1)
 {
     UnkClass_CPrimitive_ImagePaletteProxy *v0 = unk_5C;
     UnkClass_CPrimitive_ImageProxy *v1 = unk_58;
-    u16 v2 = arg0->unk_28;
+    u16 v2 = camera->unk_28;
 
     G3C_TexImageParam(arg1, v1->imageProxy.attr.fmt, GX_TEXGEN_TEXCOORD, v1->imageProxy.attr.sizeS, v1->imageProxy.attr.sizeT, GX_TEXREPEAT_NONE, GX_TEXFLIP_NONE, v1->imageProxy.attr.plttUse, NNS_G2dGetImageLocation((NNSG2dImageProxy *)&v1->imageProxy.vramLocation.baseAddrOfVram[NNS_G2D_VRAM_TYPE_3DMAIN], NNS_G2D_VRAM_TYPE_3DMAIN));
     G3C_TexPlttBase(arg1, NNS_G2dGetImagePaletteLocation(&v0->imagePlttProxy, NNS_G2D_VRAM_TYPE_3DMAIN), v1->imageProxy.attr.fmt);
@@ -132,9 +134,9 @@ u32 CPrimitiveQUAD::RenderWithTextureDL(CPrimitive_Render_arg *arg0, GXDLInfo *a
     return 1;
 }
 
-u32 CPrimitiveQUAD::RenderWithoutTextureDL(CPrimitive_Render_arg *arg0, GXDLInfo *arg1)
+u32 CPrimitiveQUAD::RenderWithoutTextureDL(Camera2D *camera, GXDLInfo *arg1)
 {
-    u16 v0 = arg0->unk_28;
+    u16 v0 = camera->unk_28;
 
     G3C_TexImageParam(arg1, GX_TEXFMT_NONE, GX_TEXGEN_TEXCOORD, GX_TEXSIZE_S8, GX_TEXSIZE_T8, GX_TEXREPEAT_NONE, GX_TEXFLIP_NONE, GX_TEXPLTTCOLOR0_USE, 0);
     G3C_PolygonAttr(arg1, GX_LIGHTMASK_NONE, m_polygonMode, GX_CULL_NONE, m_polygonID, m_alpha, GX_POLYGON_ATTR_MISC_NONE);

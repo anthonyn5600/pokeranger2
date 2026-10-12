@@ -51,11 +51,6 @@
 .public _ZN14CPrimitiveQUAD20SetVertexCoordinatesElllllllll
 .public _ZN14CPrimitiveQUADC1Ev
 .public _ZN14CPrimitiveQUADD1Ev
-.public _ZN17UnkClass_0200371812sub_02003788Elllllll
-.public _ZN17UnkClass_0200371812sub_020037B4Ev
-.public _ZN17UnkClass_0200371812sub_0200381CEv
-.public _ZN17UnkClass_02003718C1Ev
-.public _ZN17UnkClass_02003718D1Ev
 .public _ZN17UnkClass_02008D5012sub_02008DB4Et
 .public _ZN17UnkClass_0200C38C12sub_0200C3D0Ev
 .public _ZN17UnkClass_0200CAB412sub_0200CAE0Ev
@@ -81,6 +76,11 @@
 .public _ZN6CScene5func4Ev
 .public _ZN6CSceneC2Ev
 .public _ZN6CSceneD2Ev
+.public _ZN8Camera2D12sub_02003788Elllllll
+.public _ZN8Camera2D12sub_020037B4Ev
+.public _ZN8Camera2D12sub_0200381CEv
+.public _ZN8Camera2DC1Ev
+.public _ZN8Camera2DD1Ev
 .public _ZN9CNCLRFileC1EPKcmmm
 .public _ZN9CNCLRFileD1Ev
 .public _ZTI6CScene

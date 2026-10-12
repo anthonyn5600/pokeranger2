@@ -22,7 +22,6 @@
 .public GX_SetBankForTexPltt
 .public GX_SetGraphicsMode
 .public MAIN_BSS_020B26A0
-.public MAIN_BSS_020BB1A0
 .public MAIN_BSS_0210CA6C
 .public _ZN17UnkClass_02008D5012sub_02008DB4Et
 .public _ZN17UnkClass_020091E812sub_020092D4Ev

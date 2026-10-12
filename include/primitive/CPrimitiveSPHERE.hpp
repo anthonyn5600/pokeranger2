@@ -12,7 +12,7 @@ public:
     virtual ~CPrimitiveSPHERE();
 
     // https://decomp.me/scratch/48yEZ
-    virtual u32 Render(CPrimitive_Render_arg *arg0);
+    virtual u32 Render(Camera2D *camera);
 
 public:
     Circle m_circle;

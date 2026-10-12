@@ -4612,12 +4612,12 @@ _0202F1A8: .word MAIN_BSS_020B26A0
 
 	arm_func_start sub_0202F1AC
 sub_0202F1AC: ; 0x0202F1AC
-	ldr r1, _0202F1BC ; =MAIN_BSS_020BA6A0
+	ldr r1, _0202F1BC ; =MAIN_BSS_020B26A0+32768
 	mov r0, #0
 	strb r0, [r1, #0xb44]
 	bx lr
 	.align 2, 0
-_0202F1BC: .word MAIN_BSS_020BA6A0
+_0202F1BC: .word MAIN_BSS_020B26A0+32768
 	arm_func_end sub_0202F1AC
 
 	arm_func_start sub_0202F1C0
@@ -5079,13 +5079,13 @@ _0202F6F4:
 	ldrb r1, [r4, #1]
 	ldrb r2, [r4, #2]
 	mov r0, r5
-	bl sub_0201A000
+	bl _ZN14CPlayerHPGauge5SetHPEtt
 	ldr r0, [r4, #4]
 	ldrb r2, [r4, #8]
 	mov r1, r0, lsl #4
 	mov r0, r5
 	mov r1, r1, lsr #0x10
-	bl sub_0201A220
+	bl _ZN14CPlayerHPGauge10SetPartnerEtt
 _0202F734:
 	bl sub_020233A4
 	cmp r0, #0
@@ -5666,14 +5666,14 @@ sub_0202FE30: ; 0x0202FE30
 	mov r1, r1, lsl #0x10
 	bne _0202FE84
 	mov r1, r1, lsr #0x10
-	bl sub_0201A018
+	bl _ZN14CPlayerHPGauge12SetCurrentHPEt
 	b _0202FE94
 	arm_func_end sub_0202FE30
 _0202FE84:
 	mov r2, r2, lsl #0x10
 	mov r1, r1, lsr #0x10
 	mov r2, r2, lsr #0x10
-	bl sub_0201A000
+	bl _ZN14CPlayerHPGauge5SetHPEtt
 _0202FE94:
 	mov r0, #0
 	ldmia sp!, {r4, pc}
@@ -5708,7 +5708,7 @@ sub_0202FEC0: ; 0x0202FEC0
 	mov r1, r1, lsl #0x10
 	ldr r0, [r0, #0xd8]
 	mov r1, r1, lsr #0x10
-	bl sub_0201A018
+	bl _ZN14CPlayerHPGauge12SetCurrentHPEt
 	arm_func_end sub_0202FEC0
 _0202FEF8:
 	mov r0, #0
@@ -6235,7 +6235,7 @@ sub_020304F4: ; 0x020304F4
 	cmp r0, #0
 	beq _0203051C
 	ldr r0, [r0, #0xd8]
-	bl sub_0201A0F4
+	bl _ZN14CPlayerHPGauge12IsHPChangingEv
 	cmp r0, #0
 	movne r0, #1
 	ldmneia sp!, {r3, pc}
@@ -6807,7 +6807,7 @@ _02030BEC: .word MAIN_BSS_020B26A0
 
 	arm_func_start sub_02030BF0
 sub_02030BF0: ; 0x02030BF0
-	ldr r0, _02030C18 ; =MAIN_BSS_020BA6A0
+	ldr r0, _02030C18 ; =MAIN_BSS_020B26A0+32768
 	add r0, r0, #0xb00
 	ldrsb r0, [r0, #0x44]
 	cmp r0, #0
@@ -6818,7 +6818,7 @@ sub_02030BF0: ; 0x02030BF0
 	moveq r0, #0
 	bx lr
 	.align 2, 0
-_02030C18: .word MAIN_BSS_020BA6A0
+_02030C18: .word MAIN_BSS_020B26A0+32768
 	arm_func_end sub_02030BF0
 
 	arm_func_start sub_02030C1C
@@ -7972,7 +7972,7 @@ sub_020319E8: ; 0x020319E8
 	mov r1, r1, lsl #0x10
 	ldr r0, [r0, #0xd8]
 	mov r1, r1, lsr #0x10
-	bl sub_0201A018
+	bl _ZN14CPlayerHPGauge12SetCurrentHPEt
 	arm_func_end sub_020319E8
 _02031A64:
 	ldr r0, _02031B28 ; =_0208F304
@@ -10364,11 +10364,11 @@ sub_02033660: ; 0x02033660
 	mov r7, r1, lsr #0x10
 	mov r0, r5
 	mov r1, r2, lsr #0x10
-	bl sub_0201A018
+	bl _ZN14CPlayerHPGauge12SetCurrentHPEt
 	mov r0, r5
 	mov r1, r7
 	strb r6, [r4, #1]
-	bl sub_0201A024
+	bl _ZN14CPlayerHPGauge9StartHealEt
 	mov r0, #0
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
@@ -10388,7 +10388,7 @@ sub_020336E4: ; 0x020336E4
 	cmp r0, #0
 	moveq r0, #0
 	ldmeqia sp!, {r3, pc}
-	bl sub_0201A0DC
+	bl _ZN14CPlayerHPGauge9IsHealingEv
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02033714: .word MAIN_BSS_0210CA40

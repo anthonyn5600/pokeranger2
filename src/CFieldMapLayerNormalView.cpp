@@ -1,11 +1,11 @@
 #include <nitro.h>
 #include <string.h>
 
-#include "UnkClass_02003718.hpp"
+#include "Camera2D.hpp"
 #include "field/CFieldMap.hpp"
 #include "field/CFieldMapLayer.hpp"
 
-int CFieldMapLayerNormalView::Draw(UnkClass_02003718 *camera)
+int CFieldMapLayerNormalView::Draw(Camera2D *camera)
 {
     int count = 0;
     if (m_chara != NULL) {

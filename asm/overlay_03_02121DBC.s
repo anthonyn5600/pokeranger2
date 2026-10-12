@@ -2632,10 +2632,10 @@ ov3_02124218: ; 0x02124218
 	str r0, [r1]
 	add r0, r4, #0x1000
 	ldr r0, [r0, #0xc0]
-	bl _ZN17UnkClass_0200371812sub_020037B4Ev
+	bl _ZN8Camera2D12sub_020037B4Ev
 	add r0, r4, #0x1000
 	ldr r0, [r0, #0xc0]
-	bl _ZN17UnkClass_0200371812sub_0200381CEv
+	bl _ZN8Camera2D12sub_0200381CEv
 	ldr r0, _021242DC ; =0x0400044C
 	mov r1, #0
 	str r1, [r0]
@@ -2847,7 +2847,7 @@ ov3_021244F4: ; 0x021244F4
 	bl _Znwm
 	cmp r0, #0
 	beq _02124544
-	bl _ZN17UnkClass_02003718C1Ev
+	bl _ZN8Camera2DC1Ev
 	arm_func_end ov3_021244F4
 _02124544:
 	add r2, sl, #0x1000
@@ -2864,7 +2864,7 @@ _02124544:
 	ldr r0, [r2, #0xc0]
 	mov r3, r1
 	mov r2, #0xc0000
-	bl _ZN17UnkClass_0200371812sub_02003788Elllllll
+	bl _ZN8Camera2D12sub_02003788Elllllll
 	add r0, sl, #0x1000
 	ldr r1, [r0, #0xc0]
 	mov r2, #0
@@ -3464,7 +3464,7 @@ _02124E20:
 	beq _02124E50
 	beq _02124E44
 	mov r0, r5
-	bl _ZN17UnkClass_02003718D1Ev
+	bl _ZN8Camera2DD1Ev
 	mov r0, r5
 	bl _ZdlPv
 _02124E44:
@@ -6364,7 +6364,7 @@ ov3_021275C8: ; 0x021275C8
 	ldr r2, _02127658 ; =s_data_interface_i019_LZ_bin_overlay_3_0212b3cc
 	ldr r3, _0212765C ; =s_OPD_i019_00_NCBR_overlay_3_0212b3e8
 	str ip, [sp, #8]
-	bl sub_0201AAE0
+	bl _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
 	arm_func_end ov3_021275C8
 _0212760C:
 	str r0, [r4, #0x58]
@@ -6420,7 +6420,7 @@ _021276AC:
 	ldmeqia sp!, {r3, r4, r5, pc}
 	beq _021276CC
 	mov r0, r4
-	bl sub_0201AB14
+	bl _ZN17UnkClass_0201AAE0D1Ev
 	mov r0, r4
 	bl _ZdlPv
 _021276CC:
@@ -8368,7 +8368,7 @@ _021291DC:
 	ldr r2, _02129278 ; =s_data_interface_i001_LZ_bin_overlay_3_0212b468
 	ldr r3, _0212927C ; =s_OPD_i001_00_NCBR_overlay_3_0212b484
 	str ip, [sp, #8]
-	bl sub_0201AAE0
+	bl _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
 _02129214:
 	str r0, [r4, #0x2c]
 	ldmia r0, {r0, r1, r3}
@@ -8421,7 +8421,7 @@ _021292B0:
 	beq _021292D8
 	beq _021292D0
 	mov r0, r4
-	bl sub_0201AB14
+	bl _ZN17UnkClass_0201AAE0D1Ev
 	mov r0, r4
 	bl _ZdlPv
 _021292D0:
@@ -10945,7 +10945,7 @@ ptr_FUN_overlay_3_021290e0_overlay_3_0212b130: ; 0x0212B130
 
     .global ptr_FUN_02003a2c_overlay_3_0212b134
 ptr_FUN_02003a2c_overlay_3_0212b134: ; 0x0212B134
-	.word _ZN14CPrimitiveLINE6RenderEP21CPrimitive_Render_arg
+	.word _ZN14CPrimitiveLINE6RenderEP8Camera2D
 	.byte 0x00, 0x00, 0x00, 0x00
 
     .global ptr_FUN_overlay_11_0212b0c0_overlay_3_0212b13c
@@ -10962,7 +10962,7 @@ ptr_FUN_overlay_3_021290c4_overlay_3_0212b144: ; 0x0212B144
 
     .global ptr_FUN_020041e4_overlay_3_0212b148
 ptr_FUN_020041e4_overlay_3_0212b148: ; 0x0212B148
-	.word _ZN14CPrimitiveQUAD6RenderEP21CPrimitive_Render_arg
+	.word _ZN14CPrimitiveQUAD6RenderEP8Camera2D
 	.byte 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_020835bc_overlay_3_0212b0e4
 

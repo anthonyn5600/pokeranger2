@@ -1794,13 +1794,13 @@ _020406EC:
 	add r1, sp, #0
 	mov r0, r6
 	str r3, [sp, #4]
-	bl _ZN17UnkClass_0200371812sub_020038A8EP9Rectanglel
+	bl _ZN8Camera2D12sub_020038A8EP9Rectanglel
 	cmp r0, #0
 	beq _02040728
 	ldr r0, [r7, #0xc]
 	mov r1, r6
 	sub r2, r5, r4
-	bl _ZN15CFieldDrawActor12sub_0203E934EP21CPrimitive_Render_argl
+	bl _ZN15CFieldDrawActor12sub_0203E934EP8Camera2Dl
 	add r4, r4, r0
 _02040728:
 	sub r0, r5, r4
@@ -2343,8 +2343,8 @@ _02040E64:
 	str r0, [r4, #0x30]
 	ldmia sp!, {r4, pc}
 
-	arm_func_start sub_02040E80
-sub_02040E80: ; 0x02040E80
+	arm_func_start _ZN19CFieldDrawActorData12sub_02040E80Ev
+_ZN19CFieldDrawActorData12sub_02040E80Ev: ; 0x02040E80
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x2c]
@@ -2353,7 +2353,7 @@ sub_02040E80: ; 0x02040E80
 	bl NNS_GfdFreeLnkTexVram
 	mov r0, #0
 	str r0, [r4, #0x2c]
-	arm_func_end sub_02040E80
+	arm_func_end _ZN19CFieldDrawActorData12sub_02040E80Ev
 _02040EA0:
 	ldr r0, [r4, #0x30]
 	cmp r0, #0
@@ -2554,8 +2554,8 @@ _02041108:
 _0204111C: .word s_F_02d_0208df64
 _02041120: .word s_NO_EMPTY_m_nActorDataMax_d_0208df6c
 
-	arm_func_start sub_02041124
-sub_02041124: ; 0x02041124
+	arm_func_start _ZN17CActorDataPartnerC1Ev
+_ZN17CActorDataPartnerC1Ev: ; 0x02041124
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl sub_02040790
@@ -2567,10 +2567,10 @@ sub_02041124: ; 0x02041124
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02041148: .word ptr_FUN_0204114c_0208deec
-	arm_func_end sub_02041124
+	arm_func_end _ZN17CActorDataPartnerC1Ev
 
-	arm_func_start sub_0204114C
-sub_0204114C: ; 0x0204114C
+	arm_func_start _ZN17CActorDataPartnerD1Ev
+_ZN17CActorDataPartnerD1Ev: ; 0x0204114C
 	stmdb sp!, {r4, lr}
 	ldr r1, _02041178 ; =ptr_FUN_0204114c_0208deec
 	mov r4, r0
@@ -2584,7 +2584,7 @@ sub_0204114C: ; 0x0204114C
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02041178: .word ptr_FUN_0204114c_0208deec
-	arm_func_end sub_0204114C
+	arm_func_end _ZN17CActorDataPartnerD1Ev
 
 	arm_func_start sub_0204117C
 sub_0204117C: ; 0x0204117C
@@ -2645,8 +2645,8 @@ _02041208:
 	str r0, [r4, #0x30]
 	ldmia sp!, {r4, pc}
 
-	arm_func_start sub_02041230
-sub_02041230: ; 0x02041230
+	arm_func_start _ZN17CActorDataPartner12sub_02041230Eitit
+_ZN17CActorDataPartner12sub_02041230Eitit: ; 0x02041230
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	sub sp, sp, #0x10
 	mov r7, r0
@@ -2659,7 +2659,7 @@ sub_02041230: ; 0x02041230
 	ldr r1, [r0]
 	ldr r1, [r1, #8]
 	blx r1
-	arm_func_end sub_02041230
+	arm_func_end _ZN17CActorDataPartner12sub_02041230Eitit
 _02041260:
 	ldrh r1, [sp, #0x28]
 	mov r0, #1
@@ -2702,8 +2702,8 @@ _020412D4: .word 0x0000FFFF
 _020412D8: .word 0x00050834
 	arm_func_end _ZN17UnkClass_020412A0C1Ev
 
-	arm_func_start sub_020412DC
-sub_020412DC: ; 0x020412DC
+	arm_func_start _ZN17UnkClass_020412A0D1Ev
+_ZN17UnkClass_020412A0D1Ev: ; 0x020412DC
 	stmdb sp!, {r4, lr}
 	ldr r1, _02041308 ; =ptr_FUN_020412dc_0208dfb4
 	mov r4, r0
@@ -2717,7 +2717,7 @@ sub_020412DC: ; 0x020412DC
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02041308: .word ptr_FUN_020412dc_0208dfb4
-	arm_func_end sub_020412DC
+	arm_func_end _ZN17UnkClass_020412A0D1Ev
 
 	arm_func_start sub_0204130C
 sub_0204130C: ; 0x0204130C
@@ -3654,7 +3654,7 @@ _02041F00:
 _02041F1C:
 	mov r0, r7
 	mov r1, r6
-	bl _ZN17CPrimitiveRectNTF6RenderEP21CPrimitive_Render_arg
+	bl _ZN17CPrimitiveRectNTF6RenderEP8Camera2D
 	ldr r1, _02041F4C ; =0x04000448
 	mov r2, #0
 	str r2, [r1]
@@ -4050,7 +4050,7 @@ sub_0204240C: ; 0x0204240C
 sub_02042434: ; 0x02042434
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x18
-	ldr r1, _020424F0 ; =MAIN_BSS_020BA6A0
+	ldr r1, _020424F0 ; =MAIN_BSS_020B26A0+32768
 	mov r4, r0
 	ldr r1, [r1, #0x1ac]
 	mov r0, #0x74
@@ -4098,7 +4098,7 @@ _02042464:
 	add sp, sp, #0x18
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_020424F0: .word MAIN_BSS_020BA6A0
+_020424F0: .word MAIN_BSS_020B26A0+32768
 
 	arm_func_start sub_020424F4
 sub_020424F4: ; 0x020424F4
@@ -4271,7 +4271,7 @@ _0204270C:
 	ldr r0, [r2]
 	bl sub_02041D80
 	ldrb r1, [r0, #4]
-	ldr r0, _02042F70 ; =MAIN_BSS_020BA6A0
+	ldr r0, _02042F70 ; =MAIN_BSS_020B26A0+32768
 	strb r1, [r0, #0xb64]
 	b _02042F54
 _02042748:
@@ -4328,7 +4328,7 @@ _020427DC:
 	ldr r0, [r2]
 	bl sub_02041D80
 	ldrb r1, [r0, #4]
-	ldr r0, _02042F70 ; =MAIN_BSS_020BA6A0
+	ldr r0, _02042F70 ; =MAIN_BSS_020B26A0+32768
 	strb r1, [r0, #0xb64]
 	b _02042F54
 _02042810:
@@ -4338,7 +4338,7 @@ _02042810:
 	mov r1, #0
 	str r2, [sp, #8]
 	bl sub_020162BC
-	ldr r1, _02042F70 ; =MAIN_BSS_020BA6A0
+	ldr r1, _02042F70 ; =MAIN_BSS_020B26A0+32768
 	mov r3, #0
 	strb r3, [r1, #0x802]
 	ldr r2, [r4, #0x10]
@@ -4522,7 +4522,7 @@ _02042954:
 	add r0, sp, #0xc
 	bl RTC_GetDate
 	ldr r2, [sp, #0x1c]
-	ldr r1, _02042F70 ; =MAIN_BSS_020BA6A0
+	ldr r1, _02042F70 ; =MAIN_BSS_020B26A0+32768
 	ldr r0, [sp, #0x20]
 	str r2, [r1, #0xb94]
 	str r0, [r1, #0xb98]
@@ -4825,7 +4825,7 @@ _02042F60: .word MAIN_BSS_020AF624
 _02042F64: .word DAT_0208e11c
 _02042F68: .word MAIN_BSS_020B26A0
 _02042F6C: .word MAIN_BSS_0210CA6C
-_02042F70: .word MAIN_BSS_020BA6A0
+_02042F70: .word MAIN_BSS_020B26A0+32768
 _02042F74: .word MAIN_BSS_0210C0B0
 _02042F78: .word MAIN_BSS_020B2638
 _02042F7C: .word MAIN_BSS_0210C1C0
@@ -4996,8 +4996,8 @@ sub_02043180: ; 0x02043180
 	ldr r3, _0204331C ; =MAIN_BSS_020B26A0
 	mov r4, r0
 	ldrb r2, [r3, #2]
-	ldr r1, _02043320 ; =MAIN_BSS_020BA6A0
-	ldr r0, _02043324 ; =MAIN_BSS_020BA2DC
+	ldr r1, _02043320 ; =MAIN_BSS_020B26A0+32768
+	ldr r0, _02043324 ; =MAIN_BSS_020B26A0+31804
 	strb r2, [r4, #0x10]
 	ldrb r5, [r1, #0x7db]
 	add r1, r4, #0x1c
@@ -5008,16 +5008,16 @@ sub_02043180: ; 0x02043180
 	ldr r3, [r3, #0x2c]
 	str r3, [r4, #0x18]
 	bl MIi_CpuCopyFast
-	ldr r0, _02043328 ; =MAIN_BSS_020BA550
+	ldr r0, _02043328 ; =MAIN_BSS_020B26A0+32432
 	add r1, r4, #0x9c
 	mov r2, #0x80
 	bl MIi_CpuCopyFast
-	ldr r0, _0204332C ; =MAIN_BSS_020BA35C
+	ldr r0, _0204332C ; =MAIN_BSS_020B26A0+31932
 	add r1, r4, #0x11c
 	mov r2, #0x1f4
 	bl MI_CpuCopy8
-	ldr r3, _02043320 ; =MAIN_BSS_020BA6A0
-	ldr r0, _02043330 ; =MAIN_BSS_020BAE0C
+	ldr r3, _02043320 ; =MAIN_BSS_020B26A0+32768
+	ldr r0, _02043330 ; =MAIN_BSS_020B26A0+34668
 	ldr r2, [r3, #0x758]
 	add r1, r4, #0x328
 	str r2, [r4, #0x314]
@@ -5031,8 +5031,8 @@ sub_02043180: ; 0x02043180
 	ldr r3, [r3, #0x768]
 	str r3, [r4, #0x324]
 	bl MIi_CpuCopyFast
-	ldr r2, _02043320 ; =MAIN_BSS_020BA6A0
-	ldr r1, _02043334 ; =MAIN_BSS_020BADA0
+	ldr r2, _02043320 ; =MAIN_BSS_020B26A0+32768
+	ldr r1, _02043334 ; =MAIN_BSS_020B26A0+34560
 	ldr r3, [r2, #0x7b0]
 	add r0, r4, #0x300
 	str r3, [r4, #0x36c]
@@ -5096,12 +5096,12 @@ sub_02043180: ; 0x02043180
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0204331C: .word MAIN_BSS_020B26A0
-_02043320: .word MAIN_BSS_020BA6A0
-_02043324: .word MAIN_BSS_020BA2DC
-_02043328: .word MAIN_BSS_020BA550
-_0204332C: .word MAIN_BSS_020BA35C
-_02043330: .word MAIN_BSS_020BAE0C
-_02043334: .word MAIN_BSS_020BADA0
+_02043320: .word MAIN_BSS_020B26A0+32768
+_02043324: .word MAIN_BSS_020B26A0+31804
+_02043328: .word MAIN_BSS_020B26A0+32432
+_0204332C: .word MAIN_BSS_020B26A0+31932
+_02043330: .word MAIN_BSS_020B26A0+34668
+_02043334: .word MAIN_BSS_020B26A0+34560
 	arm_func_end sub_02043180
 
 	arm_func_start sub_02043338
@@ -5221,20 +5221,20 @@ _02043498:
 	str r1, [r0, #0x28]
 	ldr r1, [r4, #0x18]
 	bl sub_02016D4C
-	ldr r1, _02043864 ; =MAIN_BSS_020BA2DC
+	ldr r1, _02043864 ; =MAIN_BSS_020B26A0+31804
 	add r0, r4, #0x1c
 	mov r2, #0x80
 	bl MIi_CpuCopyFast
-	ldr r1, _02043868 ; =MAIN_BSS_020BA550
+	ldr r1, _02043868 ; =MAIN_BSS_020B26A0+32432
 	add r0, r4, #0x9c
 	mov r2, #0x80
 	bl MIi_CpuCopyFast
-	ldr r1, _0204386C ; =MAIN_BSS_020BA35C
+	ldr r1, _0204386C ; =MAIN_BSS_020B26A0+31932
 	add r0, r4, #0x11c
 	mov r2, #0x1f4
 	bl MI_CpuCopy8
 	ldrb r2, [r4, #0x310]
-	ldr r1, _02043870 ; =MAIN_BSS_020BA6A0
+	ldr r1, _02043870 ; =MAIN_BSS_020B26A0+32768
 	ldr r0, _02043860 ; =MAIN_BSS_020B26A0
 	strb r2, [r1, #0x803]
 	ldr r1, [r4, #0x314]
@@ -5252,7 +5252,7 @@ _02043498:
 	ldr r1, [r4, #0x324]
 	bl sub_02016EA8
 	add r0, r4, #0x328
-	ldr r1, _02043874 ; =MAIN_BSS_020BAE0C
+	ldr r1, _02043874 ; =MAIN_BSS_020B26A0+34668
 	mov r2, #0x44
 	bl MIi_CpuCopyFast
 	ldr r0, _02043860 ; =MAIN_BSS_020B26A0
@@ -5274,7 +5274,7 @@ _02043498:
 	ldrh r1, [r1, #0x78]
 	bl sub_02017150
 	ldr r1, [r4, #0x37c]
-	ldr r0, _02043870 ; =MAIN_BSS_020BA6A0
+	ldr r0, _02043870 ; =MAIN_BSS_020B26A0+32768
 	str r1, [r0, #0x7cc]
 	ldrb r1, [r4, #0x380]
 	strb r1, [r0, #0x7d0]
@@ -5465,11 +5465,11 @@ _02043854:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02043860: .word MAIN_BSS_020B26A0
-_02043864: .word MAIN_BSS_020BA2DC
-_02043868: .word MAIN_BSS_020BA550
-_0204386C: .word MAIN_BSS_020BA35C
-_02043870: .word MAIN_BSS_020BA6A0
-_02043874: .word MAIN_BSS_020BAE0C
+_02043864: .word MAIN_BSS_020B26A0+31804
+_02043868: .word MAIN_BSS_020B26A0+32432
+_0204386C: .word MAIN_BSS_020B26A0+31932
+_02043870: .word MAIN_BSS_020B26A0+32768
+_02043874: .word MAIN_BSS_020B26A0+34668
 _02043878: .word MAIN_BSS_020AF598
 _0204387C: .word MAIN_BSS_020AF5E4
 
@@ -5592,7 +5592,7 @@ sub_020439D4: ; 0x020439D4
 sub_020439E8: ; 0x020439E8
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x18
-	ldr r1, _02043AA4 ; =MAIN_BSS_020BA6A0
+	ldr r1, _02043AA4 ; =MAIN_BSS_020B26A0+32768
 	mov r4, r0
 	ldr r1, [r1, #0x1ac]
 	mov r0, #0x74
@@ -5640,7 +5640,7 @@ _02043A18:
 	add sp, sp, #0x18
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02043AA4: .word MAIN_BSS_020BA6A0
+_02043AA4: .word MAIN_BSS_020B26A0+32768
 
 	arm_func_start sub_02043AA8
 sub_02043AA8: ; 0x02043AA8
@@ -5750,7 +5750,7 @@ _02043BEC:
 	ldr r0, [r2]
 	bl sub_02041D80
 	ldrb r1, [r0, #4]
-	ldr r0, _02043FBC ; =MAIN_BSS_020BA6A0
+	ldr r0, _02043FBC ; =MAIN_BSS_020B26A0+32768
 	strb r1, [r0, #0xb64]
 	b _02043FA8
 _02043C20:
@@ -6003,7 +6003,7 @@ _02043FA8:
 	.align 2, 0
 _02043FB4: .word MAIN_BSS_020B26A0
 _02043FB8: .word MAIN_BSS_0210CA6C
-_02043FBC: .word MAIN_BSS_020BA6A0
+_02043FBC: .word MAIN_BSS_020B26A0+32768
 _02043FC0: .word MAIN_BSS_020AF624
 _02043FC4: .word DAT_0208e11c
 

@@ -4,7 +4,7 @@
 #include <nitro.h>
 
 #include "CEffectActorData.hpp"
-#include "UnkClass_02003718.hpp"
+#include "Camera2D.hpp"
 #include "common.hpp"
 #include "field/CPrimitiveNTF.hpp"
 #include "primitive/CPrimitiveLINE.hpp"
@@ -37,13 +37,13 @@ public:
         return 0;
     }
     virtual int Update(int fps);
-    virtual void Draw(UnkClass_02003718 *camera)
+    virtual void Draw(Camera2D *camera)
     {
     }
     virtual BOOL Start(int fadeIn, int hold, int fadeOut);
     virtual BOOL Stop(int fadeOut);
 
-    void SetupMatrix(UnkClass_02003718 *camera);
+    void SetupMatrix(Camera2D *camera);
 
     static void InitScroll();
     static void UpdateScroll();
@@ -88,7 +88,7 @@ public:
         return 14;
     }
     virtual int Update(int fps);
-    virtual void Draw(UnkClass_02003718 *camera);
+    virtual void Draw(Camera2D *camera);
     virtual BOOL Start(int fadeIn, int hold, int fadeOut);
 
     BOOL Load();
@@ -143,7 +143,7 @@ public:
         return m_withSparks ? 1 : 12;
     }
     virtual int Update(int fps);
-    virtual void Draw(UnkClass_02003718 *camera);
+    virtual void Draw(Camera2D *camera);
     virtual BOOL Start(int fadeIn, int hold, int fadeOut);
 
     BOOL Load();
@@ -196,7 +196,7 @@ public:
         return 2;
     }
     virtual int Update(int fps);
-    virtual void Draw(UnkClass_02003718 *camera);
+    virtual void Draw(Camera2D *camera);
     virtual BOOL Start(int fadeIn, int hold, int fadeOut)
     {
         BOOL result = CFieldScreenEffectObjectBase::Start(fadeIn, hold, fadeOut);
@@ -234,7 +234,7 @@ public:
         return 3;
     }
     virtual int Update(int fps);
-    virtual void Draw(UnkClass_02003718 *camera);
+    virtual void Draw(Camera2D *camera);
     virtual BOOL Start(int fadeIn, int hold, int fadeOut);
 
     BOOL Load();
@@ -269,7 +269,7 @@ public:
         return m_type;
     }
     virtual int Update(int fps);
-    virtual void Draw(UnkClass_02003718 *camera);
+    virtual void Draw(Camera2D *camera);
     virtual BOOL Start(int fadeIn, int hold, int fadeOut);
 
     BOOL Load();
@@ -347,7 +347,7 @@ public:
         return 8;
     }
     virtual int Update(int fps);
-    virtual void Draw(UnkClass_02003718 *camera);
+    virtual void Draw(Camera2D *camera);
     virtual BOOL Start(int fadeIn, int hold, int fadeOut);
 
     BOOL Load();
@@ -377,7 +377,7 @@ public:
         return 9;
     }
     virtual int Update(int fps);
-    virtual void Draw(UnkClass_02003718 *camera);
+    virtual void Draw(Camera2D *camera);
     virtual BOOL Start(int fadeIn, int hold, int fadeOut);
 
     BOOL Load();
@@ -409,7 +409,7 @@ public:
         return m_type;
     }
     virtual int Update(int fps);
-    virtual void Draw(UnkClass_02003718 *camera);
+    virtual void Draw(Camera2D *camera);
     virtual BOOL Start(int fadeIn, int hold, int fadeOut);
 
     BOOL Load();
@@ -435,7 +435,7 @@ public:
         return 13;
     }
     virtual int Update(int fps);
-    virtual void Draw(UnkClass_02003718 *camera);
+    virtual void Draw(Camera2D *camera);
 
     BOOL Load();
     BOOL Unload();
@@ -462,7 +462,7 @@ public:
         return m_type;
     }
     virtual int Update(int fps);
-    virtual void Draw(UnkClass_02003718 *camera);
+    virtual void Draw(Camera2D *camera);
     virtual BOOL Start(int fadeIn, int hold, int fadeOut);
 
     BOOL Load();

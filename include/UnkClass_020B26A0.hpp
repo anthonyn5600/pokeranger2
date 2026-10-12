@@ -3,36 +3,58 @@
 
 #include <nitro.h>
 
+#include "field/CFieldDrawActorData.hpp"
 #include "sub_02006000.hpp"
 
 #define MAP_COUNT 441
 
-struct UnkStruct_020B26A0_8AD4 {
+// Plain data of a partner slot / field entry; the backup at 0x8BC4 holds copies of them.
+struct UnkStruct_020B26A0_8AD4_Data {
     u32 unk_00;
     u32 unk_04;
     u16 unk_08;
     u16 unk_0A;
-    fx32 unk_0C;
-    fx32 unk_10;
-    u8 unk_14[0x24];
+    Point2D unk_0C;
+    char unk_14[0x20];
+    u16 unk_34;
 };
 
-struct UnkStruct_020155FC {
-    inline void SetPos(Point2D pos)
-    {
-        unk_0C = pos.x;
-        unk_10 = pos.y;
-    }
+struct UnkStruct_020B26A0_8AD4 : public UnkStruct_020B26A0_8AD4_Data {
+    UnkStruct_020B26A0_8AD4();
+    ~UnkStruct_020B26A0_8AD4();
+};
 
+struct UnkStruct_020155FC_Data {
     u16 unk_00;
     u16 unk_02;
     u16 unk_04;
-    u16 unk_06;
     u32 unk_08;
-    fx32 unk_0C;
-    fx32 unk_10;
+    Point2D unk_0C;
     u16 unk_14;
     u16 unk_16;
+};
+
+struct UnkStruct_020155FC : public UnkStruct_020155FC_Data {
+    UnkStruct_020155FC();
+    ~UnkStruct_020155FC();
+
+    inline void SetPos(Point2D pos)
+    {
+        unk_0C.x = pos.x;
+        unk_0C.y = pos.y;
+    }
+};
+
+struct UnkStruct_020B26A0_Backup {
+    u8 unk_00;
+    u8 unk_01;
+    u8 unk_02;
+    u8 unk_03[7];
+    UnkStruct_020155FC_Data unk_0C[3][10];
+    UnkStruct_020B26A0_8AD4_Data unk_2DC[2];
+    u32 unk_34C;
+    u8 unk_350;
+    u8 unk_351[0x11];
 };
 
 class UnkClass_020B26A0 {
@@ -215,6 +237,9 @@ public:
     }
 
 public:
+    UnkClass_020B26A0();
+    ~UnkClass_020B26A0();
+
     u8 unk_0000;
     u8 unk_0001;
     u8 unk_0002;
@@ -229,13 +254,16 @@ public:
     s16 unk_0022;
     u16 unk_0024;
     s16 unk_0026;
-    u8 unk_0028[0x8];
+    u32 unk_0028;
+    u32 unk_002C;
     u32 unk_0030[MAP_COUNT][6];
     u32 unk_2988[MAP_COUNT][4];
     u32 unk_4518[MAP_COUNT][4];
     u32 unk_60A8[MAP_COUNT][4];
     u32 unk_7C38;
-    u8 unk_7C3C[0x324];
+    u8 unk_7C3C[0x274];
+    u32 unk_7EB0[0x20];
+    u8 unk_7F30[0x30];
     u32 unk_7F60;
     u64 unk_7F64;
     s16 unk_7F6C[64];
@@ -249,45 +277,76 @@ public:
     u32 unk_81B4[0x50];
     u8 unk_82F4[0x462];
     u8 unk_8756;
-    u8 unk_8757[0xD];
-    int unk_8764;
-    u8 unk_8768[0x57];
+    u8 unk_8757;
+    u32 unk_8758;
+    u32 unk_875C;
+    u32 unk_8760;
+    u32 unk_8764;
+    u32 unk_8768;
+    u32 unk_876C[17];
+    u32 unk_87B0;
+    u32 unk_87B4;
+    u16 unk_87B8;
+    u16 unk_87BA;
+    u16 unk_87BC;
+    u8 unk_87BE;
     u8 unk_87BF;
     int unk_87C0;
     int unk_87C4;
-    u8 unk_87C8[0xC];
+    u32 unk_87C8;
+    u32 unk_87CC;
+    u8 unk_87D0;
     u32 unk_87D4;
     u8 unk_87D8;
     u8 unk_87D9;
     u8 unk_87DA;
-    u8 unk_87DB[0x8];
+    u8 unk_87DB;
+    u8 unk_87DC[7];
     u8 unk_87E3;
     u8 unk_87E4[0x1E];
     u8 unk_8802;
     u8 unk_8803;
-    u8 unk_8804[0x2D0];
+    UnkStruct_020155FC unk_8804[3][10];
     UnkStruct_020B26A0_8AD4 unk_8AD4[2];
     char unk_8B44[0x20];
     u8 unk_8B64;
     u32 unk_8B68;
     u32 unk_8B6C;
-    u8 unk_8B70[0x4];
+    u32 unk_8B70;
     u32 unk_8B74;
     u8 unk_8B78[0x8];
     int unk_8B80;
     RTCDate unk_8B84;
     RTCTime unk_8B94;
-    // TODO: Confirm this class is that big.
-    // Not 100% sure, but very likely. This size is needed to match functions
-    // sub_0200F8BC and ov0_0214F830.
     int unk_8BA0;
     u8 unk_8BA4[0x1C];
     int unk_8BC0;
-    u8 unk_8BC4[0x8B75];
+    UnkStruct_020B26A0_Backup unk_8BC4;
+    UnkClass_020412A0 unk_8F28;
+    CActorDataPartner unk_59760[2];
+    CActorDataPartner unk_597D0[10];
+    u32 unk_59A00;
 };
 
+extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
+
 extern "C" {
+void sub_020150B8(UnkStruct_020155FC *entry);
+void sub_02015124(UnkStruct_020B26A0_8AD4 *partner);
+void sub_02015164(UnkStruct_020B26A0_8AD4 *partner, const char *name);
+void sub_0201518C(UnkStruct_020B26A0_8AD4 *partner);
+void sub_02015198(UnkClass_020B26A0 *save);
+UnkStruct_020155FC *sub_02015520(UnkClass_020B26A0 *save, u32 id);
 UnkStruct_020155FC *sub_020155FC(UnkClass_020B26A0 *save, int idx);
+int sub_02015658(UnkClass_020B26A0 *save, u32 level);
+void sub_020160B8(UnkClass_020B26A0 *save, u32 arg1);
+int sub_02016138(UnkClass_020B26A0 *save, int group);
+BOOL sub_0201621C(UnkClass_020B26A0 *save, int group);
+int sub_02016C14(UnkClass_020B26A0 *save, int idx);
+void sub_0201772C(UnkClass_020B26A0 *save);
+void sub_02017E44(UnkClass_020B26A0 *save);
+
+u8 sub_02010E78(void *obj, u32 arg1);
 }
 
 #endif // POKERANGER2_UNKCLASS_020B26A0_HPP

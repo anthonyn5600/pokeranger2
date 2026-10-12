@@ -254,103 +254,6 @@ _020470C0:
 	ldmia sp!, {r4, r5, r6, r7, r8, sb, pc}
 
     .section .init, 4
-	arm_func_start sub_020840B0
-sub_020840B0: ; 0x020840B0
-	stmdb sp!, {r3, lr}
-	ldr r0, _0208412C ; =MAIN_BSS_020AF5D0
-	bl sub_02010EC8
-	ldr r0, _0208412C ; =MAIN_BSS_020AF5D0
-	ldr r1, _02084130 ; =sub_02010ED4
-	ldr r2, _02084134 ; =MAIN_BSS_020AF5B8
-	bl __register_global_object
-	ldr ip, _02084130 ; =sub_02010ED4
-	ldr r0, _02084138 ; =MAIN_BSS_020AF5E4
-	ldr r3, _0208413C ; =sub_02010EC8
-	mov r1, #3
-	mov r2, #0x14
-	str ip, [sp]
-	bl __cxa_vec_ctor
-	ldr r1, _02084140 ; =sub_02011338
-	ldr r2, _02084144 ; =MAIN_BSS_020AF5C4
-	mov r0, #0
-	bl __register_global_object
-	ldr r0, _02084148 ; =MAIN_BSS_020AF620
-	bl sub_0201100C
-	ldr r0, _02084148 ; =MAIN_BSS_020AF620
-	ldr r1, _0208414C ; =sub_0201101C
-	ldr r2, _02084150 ; =MAIN_BSS_020AF5AC
-	bl __register_global_object
-	ldr r0, _02084154 ; =MAIN_BSS_020AF598
-	bl sub_02011248
-	ldr r0, _02084154 ; =MAIN_BSS_020AF598
-	ldr r1, _02084158 ; =sub_02011254
-	ldr r2, _0208415C ; =MAIN_BSS_020AF5A0
-	bl __register_global_object
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0208412C: .word MAIN_BSS_020AF5D0
-_02084130: .word sub_02010ED4
-_02084134: .word MAIN_BSS_020AF5B8
-_02084138: .word MAIN_BSS_020AF5E4
-_0208413C: .word sub_02010EC8
-_02084140: .word sub_02011338
-_02084144: .word MAIN_BSS_020AF5C4
-_02084148: .word MAIN_BSS_020AF620
-_0208414C: .word sub_0201101C
-_02084150: .word MAIN_BSS_020AF5AC
-_02084154: .word MAIN_BSS_020AF598
-_02084158: .word sub_02011254
-_0208415C: .word MAIN_BSS_020AF5A0
-	arm_func_end sub_020840B0
-
-	arm_func_start sub_02084160
-sub_02084160: ; 0x02084160
-	stmdb sp!, {r3, lr}
-	ldr r0, _02084180 ; =MAIN_BSS_020B2638
-	bl sub_02011370
-	ldr r0, _02084180 ; =MAIN_BSS_020B2638
-	ldr r1, _02084184 ; =sub_02011384
-	ldr r2, _02084188 ; =MAIN_BSS_020B262C
-	bl __register_global_object
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02084180: .word MAIN_BSS_020B2638
-_02084184: .word sub_02011384
-_02084188: .word MAIN_BSS_020B262C
-	arm_func_end sub_02084160
-
-	arm_func_start sub_0208418C
-sub_0208418C: ; 0x0208418C
-	stmdb sp!, {r3, lr}
-	ldr r0, _020841AC ; =MAIN_BSS_020B26A0
-	bl sub_020152D0
-	ldr r0, _020841AC ; =MAIN_BSS_020B26A0
-	ldr r1, _020841B0 ; =sub_020153AC
-	ldr r2, _020841B4 ; =MAIN_BSS_020B2694
-	bl __register_global_object
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_020841AC: .word MAIN_BSS_020B26A0
-_020841B0: .word sub_020153AC
-_020841B4: .word MAIN_BSS_020B2694
-	arm_func_end sub_0208418C
-
-	arm_func_start sub_020841B8
-sub_020841B8: ; 0x020841B8
-	stmdb sp!, {r3, lr}
-	ldr r0, _020841D8 ; =MAIN_BSS_0210C0B0
-	bl sub_02018DF4
-	ldr r0, _020841D8 ; =MAIN_BSS_0210C0B0
-	ldr r1, _020841DC ; =sub_02018E08
-	ldr r2, _020841E0 ; =MAIN_BSS_0210C0A4
-	bl __register_global_object
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_020841D8: .word MAIN_BSS_0210C0B0
-_020841DC: .word sub_02018E08
-_020841E0: .word MAIN_BSS_0210C0A4
-	arm_func_end sub_020841B8
-
 	arm_func_start sub_020841E4
 sub_020841E4: ; 0x020841E4
 	stmdb sp!, {r3, lr}
@@ -410,15 +313,9 @@ _02084284: .word MAIN_BSS_0210C228
     .section .ctor, 4
 ; mwld keeps a .ctor section only through an object named .p__sinit_* (like mwcc's), .sinit is KEEP_SECTION
 ; but comes after every object's .ctor
-	.global ptr_FUN_020840b0_0208a35c
-ptr_FUN_020840b0_0208a35c: ; 0x0208A35C
 	.type .p__sinit_arm9_02046D5C, @object
-	.size .p__sinit_arm9_02046D5C, 0x1C
+	.size .p__sinit_arm9_02046D5C, 0xC
 .p__sinit_arm9_02046D5C:
-	.word sub_020840B0
-	.word sub_02084160
-	.word sub_0208418C
-	.word sub_020841B8
 
 	.global ptr_FUN_020841e4_0208a36c
 ptr_FUN_020841e4_0208a36c: ; 0x0208A36C

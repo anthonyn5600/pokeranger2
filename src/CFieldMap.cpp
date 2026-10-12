@@ -4,7 +4,7 @@
 #include <string.h>
 
 #include "CGame.hpp"
-#include "UnkClass_02003718.hpp"
+#include "Camera2D.hpp"
 #include "UnkClass_020074D4.hpp"
 #include "UnkClass_02007AA4.hpp"
 #include "field/CFieldMapLayer.hpp"
@@ -163,7 +163,7 @@ void CFieldMap::ov0_021251D8(BOOL runScript, int fps)
     }
 }
 
-void CFieldMap::ov0_02125338(UnkClass_02003718 *camera)
+void CFieldMap::ov0_02125338(Camera2D *camera)
 {
     G3_RestoreMtx(0);
     if (unk_24 > 0 && unk_20 != NULL) {

@@ -1,7 +1,7 @@
 #include <nitro.h>
 #include <string.h>
 
-#include "UnkClass_02003718.hpp"
+#include "Camera2D.hpp"
 #include "UnkClass_020074D4.hpp"
 #include "UnkClass_02007AA4.hpp"
 #include "field/CFieldMap.hpp"
@@ -18,7 +18,7 @@ void CFieldMapLayerStatic::DrawPieces(Rectangle view)
     }
 }
 
-int CFieldMapLayerStatic::Draw(UnkClass_02003718 *camera)
+int CFieldMapLayerStatic::Draw(Camera2D *camera)
 {
     if (m_pieceCount > 0) {
         fx32 scale = FX32_ONE << camera->unk_28;

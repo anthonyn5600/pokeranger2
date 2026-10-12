@@ -3,6 +3,8 @@
 #include <nitro.h>
 #include <nnsys.h>
 
+#include "Camera2D.hpp"
+
 CPrimitiveRECT::CPrimitiveRECT()
 {
     MI_CpuFill8(&m_rectangle, 0, sizeof(m_rectangle));
@@ -31,20 +33,20 @@ void CPrimitiveRECT::sub_02003C00(Point2D *arg0, CPrimitiveRECT *arg1)
     *arg0 = v0;
 }
 
-u32 CPrimitiveRECT::Render(CPrimitive_Render_arg *arg0)
+u32 CPrimitiveRECT::Render(Camera2D *camera)
 {
     if (unk_38 != NULL && unk_3C != NULL) {
-        return RenderWithTexture(arg0);
+        return RenderWithTexture(camera);
     } else {
-        return RenderWithoutTexture(arg0);
+        return RenderWithoutTexture(camera);
     }
 }
 
-u32 CPrimitiveRECT::RenderWithTexture(CPrimitive_Render_arg *arg0)
+u32 CPrimitiveRECT::RenderWithTexture(Camera2D *camera)
 {
     UnkClass_CPrimitive_ImagePaletteProxy *v0 = unk_3C;
     UnkClass_CPrimitive_ImageProxy *v1 = unk_38;
-    u16 v2 = arg0->unk_28;
+    u16 v2 = camera->unk_28;
 
     fx32 halfW = m_rectangle.size.x >> 1;
     fx32 halfH = m_rectangle.size.y >> 1;
@@ -75,9 +77,9 @@ u32 CPrimitiveRECT::RenderWithTexture(CPrimitive_Render_arg *arg0)
     return 1;
 }
 
-u32 CPrimitiveRECT::RenderWithoutTexture(CPrimitive_Render_arg *arg0)
+u32 CPrimitiveRECT::RenderWithoutTexture(Camera2D *camera)
 {
-    u16 v0 = arg0->unk_28;
+    u16 v0 = camera->unk_28;
 
     fx32 halfW = m_rectangle.size.x / 2;
     fx32 halfH = m_rectangle.size.y / 2;

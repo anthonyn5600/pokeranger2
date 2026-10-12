@@ -134,7 +134,7 @@ int CFieldSEFRain::Update(int fps)
     return m_state;
 }
 
-void CFieldSEFRain::Draw(UnkClass_02003718 *camera)
+void CFieldSEFRain::Draw(Camera2D *camera)
 {
     Point2D offset = camera->GetOffsetCopy();
 
@@ -152,7 +152,7 @@ void CFieldSEFRain::Draw(UnkClass_02003718 *camera)
             drawEnd.y -= FX32_CONST(128);
             m_drops[i].m_line.SetStart(drawStart);
             m_drops[i].m_line.SetEnd(drawEnd);
-            m_drops[i].m_line.Render((CPrimitive_Render_arg *)camera);
+            m_drops[i].m_line.Render(camera);
             m_drops[i].m_line.SetStart(start);
             m_drops[i].m_line.SetEnd(end);
         }
@@ -167,7 +167,7 @@ void CFieldSEFRain::Draw(UnkClass_02003718 *camera)
             pos.x -= FX32_CONST(128);
             pos.y -= FX32_CONST(96);
             m_sprite->SetPos(pos);
-            m_sprite->Render((CPrimitive_Render_arg *)camera);
+            m_sprite->Render(camera);
         }
     }
 }

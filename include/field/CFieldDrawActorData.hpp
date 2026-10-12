@@ -20,12 +20,39 @@ public:
     void sub_02040EF8();
 
 public:
-    u8 unk_18[0x10];
+    int unk_18;
+    u16 unk_1C;
+    u16 unk_1E;
+    u16 unk_20;
+    u8 unk_22[6];
     int unk_28;
     NNSGfdTexKey unk_2C;
     NNSGfdPlttKey unk_30;
 };
 
 STATIC_SIZE_ASSERT(CFieldDrawActorData, 0x34);
+
+class UnkClass_020412A0 : public CFieldDrawActorData {
+public:
+    UnkClass_020412A0();
+    ~UnkClass_020412A0();
+    void sub_02041344(u16 id, int form, u32 mask, const char *name, BOOL useTransfer, BOOL arg5);
+
+public:
+    u8 unk_34[0x50838 - 0x34];
+};
+
+class CActorDataPartner : public CFieldDrawActorData {
+public:
+    CActorDataPartner();
+    virtual ~CActorDataPartner();
+
+    void sub_02041230(int type, u16 id, int form, u16 mask);
+
+public:
+    u32 unk_34;
+};
+
+STATIC_SIZE_ASSERT(CActorDataPartner, 0x38);
 
 #endif // POKERANGER2_FIELD_CFIELDDRAWACTORDATA_HPP

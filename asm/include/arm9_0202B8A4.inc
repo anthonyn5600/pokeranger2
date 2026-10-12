@@ -15,7 +15,6 @@
 .public G2x_SetBlendBrightness_
 .public LogInfo
 .public MAIN_BSS_020B26A0
-.public MAIN_BSS_020BA6A0
 .public MAIN_BSS_0210C1BC
 .public MAIN_BSS_0210CA3C
 .public MAIN_BSS_0210CA40
@@ -48,6 +47,12 @@
 .public _ZN11CTPEmulator12sub_02002198Ellt
 .public _ZN12CFieldPlayer12ov0_02132F14Ehih
 .public _ZN12CFieldPlayer12ov0_02132FA0Eh
+.public _ZN14CPlayerHPGauge10SetPartnerEtt
+.public _ZN14CPlayerHPGauge12IsHPChangingEv
+.public _ZN14CPlayerHPGauge12SetCurrentHPEt
+.public _ZN14CPlayerHPGauge5SetHPEtt
+.public _ZN14CPlayerHPGauge9IsHealingEv
+.public _ZN14CPlayerHPGauge9StartHealEt
 .public _ZN15CFieldDrawActor12sub_0203EEA8Ethi
 .public _ZN15CFieldDrawActor12sub_0203EEECEi
 .public _ZN17CFieldEnemyManage12ov0_0213690CEii
@@ -226,12 +231,6 @@
 .public sub_02018E94
 .public sub_0201926C
 .public sub_02019278
-.public sub_0201A000
-.public sub_0201A018
-.public sub_0201A024
-.public sub_0201A0DC
-.public sub_0201A0F4
-.public sub_0201A220
 .public sub_020229F4
 .public sub_02022B20
 .public sub_02022B60

@@ -300,7 +300,7 @@ _0211CDA4:
 	mov r0, r8
 	mov r1, #8
 	bl _ZN17UnkClass_0200CAB412sub_0200CC88Ei
-	ldr r0, _0211D1A0 ; =MAIN_BSS_020BA6A0
+	ldr r0, _0211D1A0 ; =MAIN_BSS_020B26A0+32768
 	mov r5, #0x3b
 	ldrb r1, [r0, #0x7da]
 	mov r0, #0x63
@@ -540,7 +540,7 @@ _0211D17C:
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
 	.align 2, 0
 _0211D19C: .word DAT_overlay_3_0212a138
-_0211D1A0: .word MAIN_BSS_020BA6A0
+_0211D1A0: .word MAIN_BSS_020B26A0+32768
 _0211D1A4: .word MAIN_BSS_020B26A0
 _0211D1A8: .word 0xCCCCCCCD
 _0211D1AC: .word 0x66666667
@@ -1302,7 +1302,7 @@ _0211DCAC:
 	add r0, sp, #0x18
 	bl RTC_GetDate
 	ldr r1, [sp, #0x28]
-	ldr r0, _0211DD8C ; =MAIN_BSS_020BA6A0
+	ldr r0, _0211DD8C ; =MAIN_BSS_020B26A0+32768
 	ldr r2, [sp, #0x2c]
 	str r1, [r0, #0xb94]
 	str r2, [r0, #0xb98]
@@ -1347,7 +1347,7 @@ _0211DD7C: .word s_data_menu_overlay_3_0212a74c
 _0211DD80: .word 0xFFCFFFEF
 _0211DD84: .word s_data_message_etc_menu_mes_overlay_3_0212a84c
 _0211DD88: .word s_data_message_system_system_mes_overlay_3_0212a868
-_0211DD8C: .word MAIN_BSS_020BA6A0
+_0211DD8C: .word MAIN_BSS_020B26A0+32768
 
 	arm_func_start ov3_0211DD90
 ov3_0211DD90: ; 0x0211DD90
@@ -3781,7 +3781,7 @@ _02120084:
 	add r0, sp, #0x14
 	bl RTC_GetDate
 	ldr r1, [sp, #0x24]
-	ldr r0, _02120114 ; =MAIN_BSS_020BA6A0
+	ldr r0, _02120114 ; =MAIN_BSS_020B26A0+32768
 	ldr r2, [sp, #0x28]
 	str r1, [r0, #0xb94]
 	str r2, [r0, #0xb98]
@@ -3803,7 +3803,7 @@ _02120108:
 	add sp, sp, #0x30
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
-_02120114: .word MAIN_BSS_020BA6A0
+_02120114: .word MAIN_BSS_020B26A0+32768
 
 	arm_func_start ov3_02120118
 ov3_02120118: ; 0x02120118

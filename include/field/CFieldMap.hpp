@@ -24,7 +24,7 @@ class CBinaryFile;
 class CFieldMapLayerAttribute;
 class CFieldMapLayerBase;
 class CFieldMapLayerCollision;
-class UnkClass_02003718;
+class Camera2D;
 class UnkClass_02007AA4;
 class UnkClass_020074D4;
 
@@ -152,7 +152,7 @@ public:
     void ov0_02124E9C();
     void ov0_02124EE4();
     void ov0_021251D8(BOOL runScript, int fps);
-    void ov0_02125338(UnkClass_02003718 *camera);
+    void ov0_02125338(Camera2D *camera);
     int ov0_0212546C(int group);
     UnkClass_021302BC *ov0_0212550C(void *data, int id);
     CFieldMapLayerBase *ov0_02125904(void *data, int group, int index);

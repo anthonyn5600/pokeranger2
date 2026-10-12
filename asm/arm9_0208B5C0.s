@@ -5,542 +5,6 @@
 
     .data
     .balign 4
-	.global DAT_0208b5c0
-DAT_0208b5c0: ; 0x0208B5C0
-	.byte 0x4C, 0x3D, 0x2E, 0x1F
-
-	.global DAT_0208b5c4
-DAT_0208b5c4: ; 0x0208B5C4
-	.byte 0x4D, 0x55, 0x4D, 0x41, 0x00, 0x00, 0x00, 0x00
-
-	.global s_NYULA_0208b5cc
-s_NYULA_0208b5cc: ; 0x0208B5CC
-	.asciz "NYULA"
-
-	.global _0208B5D2
-_0208B5D2:
-	.byte 0x00, 0x00
-
-	.global s_GONBE_0208b5d4
-s_GONBE_0208b5d4: ; 0x0208B5D4
-	.asciz "GONBE"
-
-	.global _0208B5DA
-_0208B5DA:
-	.byte 0x00, 0x00
-
-	.global s_MANENE_0208b5dc
-s_MANENE_0208b5dc: ; 0x0208B5DC
-	.asciz "MANENE"
-
-	.global _0208B5E3
-_0208B5E3:
-	.byte 0x00
-
-	.global s_NAETLE_0208b5e4
-s_NAETLE_0208b5e4: ; 0x0208B5E4
-	.asciz "NAETLE"
-
-	.global _0208B5EB
-_0208B5EB:
-	.byte 0x00
-
-	.global s_POCHAMA_0208b5ec
-s_POCHAMA_0208b5ec: ; 0x0208B5EC
-	.asciz "POCHAMA"
-
-	.global s_MUKKURU_0208b5f4
-s_MUKKURU_0208b5f4: ; 0x0208B5F4
-	.asciz "MUKKURU"
-
-	.global s_WANRIKY_0208b5fc
-s_WANRIKY_0208b5fc: ; 0x0208B5FC
-	.asciz "WANRIKY"
-
-	.global s_GUREGGRU_0208b604
-s_GUREGGRU_0208b604: ; 0x0208B604
-	.asciz "GUREGGRU"
-
-	.global _0208B60D
-_0208B60D:
-	.byte 0x00, 0x00, 0x00
-
-	.global s_FUKAMARU_0208b610
-s_FUKAMARU_0208b610: ; 0x0208B610
-	.asciz "FUKAMARU"
-
-	.global _0208B619
-_0208B619:
-	.byte 0x00, 0x00, 0x00
-
-	.global s_HIKOZARU_0208b61c
-s_HIKOZARU_0208b61c: ; 0x0208B61C
-	.asciz "HIKOZARU"
-
-	.global _0208B625
-_0208B625:
-	.byte 0x00, 0x00, 0x00
-
-	.global s_ZUGAIDOS_0208b628
-s_ZUGAIDOS_0208b628: ; 0x0208B628
-	.asciz "ZUGAIDOS"
-
-	.global _0208B631
-_0208B631:
-	.byte 0x00, 0x00, 0x00
-
-	.global s_TATETOPSU_0208b634
-s_TATETOPSU_0208b634: ; 0x0208B634
-	.asciz "TATETOPSU"
-
-	.global _0208B63E
-_0208B63E:
-	.byte 0x00, 0x00
-
-	.global s_PACHIRISU_0208b640
-s_PACHIRISU_0208b640: ; 0x0208B640
-	.asciz "PACHIRISU"
-
-	.global _0208B64A
-_0208B64A:
-	.byte 0x00, 0x00
-
-	.global s_YUKIKABURI_0208b64c
-s_YUKIKABURI_0208b64c: ; 0x0208B64C
-	.asciz "YUKIKABURI"
-
-	.global _0208B657
-_0208B657:
-	.byte 0x00
-
-	.global s_HIPPOPOTAS_0208b658
-s_HIPPOPOTAS_0208b658: ; 0x0208B658
-	.asciz "HIPPOPOTAS"
-
-	.global _0208B663
-_0208B663:
-	.byte 0x00
-
-	.global DAT_0208b664
-DAT_0208b664: ; 0x0208B664
-	.byte 0x03, 0x03, 0x03, 0x04, 0x04, 0x05, 0x05, 0x06, 0x06, 0x07, 0x07, 0x00
-
-	.global s_KOROBOHSHI_0208b670
-s_KOROBOHSHI_0208b670: ; 0x0208B670
-	.asciz "KOROBOHSHI"
-
-	.global _0208B67B
-_0208B67B:
-	.byte 0x00
-
-	.global s_0208b67c
-s_0208b67c: ; 0x0208B67C
-	.asciz "************"
-
-	.global _0208B689
-_0208B689:
-	.byte 0x00, 0x00, 0x00
-
-	.global s_LotTimeCheck_0208b68c
-s_LotTimeCheck_0208b68c: ; 0x0208B68C
-	.asciz "LotTimeCheck"
-
-	.global _0208B699
-_0208B699:
-	.byte 0x00, 0x00, 0x00
-
-	.global s_PlayTime_d_d_0208b69c
-s_PlayTime_d_d_0208b69c: ; 0x0208B69C
-	.asciz "PlayTime %d:%d"
-
-	.global _0208B6AB
-_0208B6AB:
-	.byte 0x00
-
-	.global s_LastTime_d_d_0208b6ac
-s_LastTime_d_d_0208b6ac: ; 0x0208B6AC
-	.asciz "LastTime %d:%d"
-
-	.global _0208B6BB
-_0208B6BB:
-	.byte 0x00
-
-	.global s_DivTime_d_0208b6bc
-s_DivTime_d_0208b6bc: ; 0x0208B6BC
-	.asciz "DivTime %d"
-
-	.global _0208B6C7
-_0208B6C7:
-	.byte 0x00
-
-	.global s_0208b6c8
-s_0208b6c8: ; 0x0208B6C8
-	.asciz "/*********************"
-
-	.global _0208B6DF
-_0208B6DF:
-	.byte 0x00
-
-	.global s_LotGokigenParameter_0208b6e0
-s_LotGokigenParameter_0208b6e0: ; 0x0208B6E0
-	.asciz "LotGokigenParameter()"
-
-	.global _0208B6F6
-_0208B6F6:
-	.byte 0x00, 0x00
-
-	.global DAT_0208b6f8
-DAT_0208b6f8: ; 0x0208B6F8
-	.byte 0x25, 0x73, 0x00, 0x00
-
-	.global s_GetpartnerNum_d_0208b6fc
-s_GetpartnerNum_d_0208b6fc: ; 0x0208B6FC
-	.asciz "GetpartnerNum= %d"
-
-	.global _0208B70E
-_0208B70E:
-	.byte 0x00, 0x00
-
-	.global s_0208b710
-s_0208b710: ; 0x0208B710
-	.asciz "*********************/"
-
-	.global _0208B727
-_0208B727:
-	.byte 0x00
-
-	.global s_SetVeryGood_s_0208b728
-s_SetVeryGood_s_0208b728: ; 0x0208B728
-	.asciz "SetVeryGood= %s"
-
-	.global s_SetGood_s_0208b738
-s_SetGood_s_0208b738: ; 0x0208B738
-	.asciz "SetGood= %s"
-
-	.global s_SetNormal_s_0208b744
-s_SetNormal_s_0208b744: ; 0x0208B744
-	.asciz "SetNormal= %s"
-
-	.global _0208B752
-_0208B752:
-	.byte 0x00, 0x00
-
-	.global s_Probability_d_0208b754
-s_Probability_d_0208b754: ; 0x0208B754
-	.asciz "Probability= %d"
-
-	.global s_Probability2_d_0208b764
-s_Probability2_d_0208b764: ; 0x0208B764
-	.asciz "Probability2= %d"
-
-	.global _0208B775
-_0208B775:
-	.byte 0x00, 0x00, 0x00
-
-	.global s_data_message_etc_pokemon_name_0208b778
-s_data_message_etc_pokemon_name_0208b778: ; 0x0208B778
-	.asciz "/data/message/etc/pokemon_name"
-
-	.global _0208B797
-_0208B797:
-	.byte 0x00
-
-	.global s_data_message_etc_item_name_0208b798
-s_data_message_etc_item_name_0208b798: ; 0x0208B798
-	.asciz "/data/message/etc/item_name"
-
-	.global s_data_message_etc_yakumono_name_0208b7b4
-s_data_message_etc_yakumono_name_0208b7b4: ; 0x0208B7B4
-	.asciz "/data/message/etc/yakumono_name"
-
-	.global s_data_message_etc_npc_name_0208b7d4
-s_data_message_etc_npc_name_0208b7d4: ; 0x0208B7D4
-	.asciz "/data/message/etc/npc_name"
-
-	.global _0208B7EF
-_0208B7EF:
-	.byte 0x00
-
-	.global s_data_message_etc_fieldwaza_name_0208b7f0
-s_data_message_etc_fieldwaza_name_0208b7f0: ; 0x0208B7F0
-	.asciz "/data/message/etc/fieldwaza_name"
-
-	.global _0208B811
-_0208B811:
-	.byte 0x00, 0x00, 0x00
-
-	.global s_data_shadow_NCBR_0208b814
-s_data_shadow_NCBR_0208b814: ; 0x0208B814
-	.asciz "data/shadow.NCBR"
-
-	.global _0208B825
-_0208B825:
-	.byte 0x00, 0x00, 0x00
-
-	.global s_data_shadow_NCLR_0208b828
-s_data_shadow_NCLR_0208b828: ; 0x0208B828
-	.asciz "data/shadow.NCLR"
-
-	.global _0208B839
-_0208B839:
-	.byte 0x00, 0x00, 0x00
-
-	.global PTR_ptr_FUN_020835bc_0208b83c
-PTR_ptr_FUN_020835bc_0208b83c: ; 0x0208B83C
-	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
-	.word s_14CPlayerHPGauge_0208b848
-	.word _ZTI6CActor
-
-	.global s_14CPlayerHPGauge_0208b848
-s_14CPlayerHPGauge_0208b848: ; 0x0208B848
-	.asciz "14CPlayerHPGauge"
-
-	.global _0208B859
-_0208B859:
-	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-	.word PTR_ptr_FUN_020835bc_0208b83c
-
-	.global ptr_FUN_0201933c_0208b864
-ptr_FUN_0201933c_0208b864: ; 0x0208B864
-	.word sub_0201933C
-
-	.global ptr_FUN_020193c4_0208b868
-ptr_FUN_020193c4_0208b868: ; 0x0208B868
-	.word sub_020193C4
-
-	.global ptr_FUN_020199ac_0208b86c
-ptr_FUN_020199ac_0208b86c: ; 0x0208B86C
-	.word sub_020199AC
-
-	.global ptr_FUN_0201a388_0208b870
-ptr_FUN_0201a388_0208b870: ; 0x0208B870
-	.word sub_0201A388
-	.word sub_0201A40C
-
-	.global s_PGM_0208b878
-s_PGM_0208b878: ; 0x0208B878
-	.asciz "PGM"
-
-	.global s_data_interface_i021_LZ_bin_0208b87c
-s_data_interface_i021_LZ_bin_0208b87c: ; 0x0208B87C
-	.asciz "data/interface/i021_LZ.bin"
-
-	.global _0208B897
-_0208B897:
-	.byte 0x00
-
-	.global s_PGM_i021_00_NCBR_0208b898
-s_PGM_i021_00_NCBR_0208b898: ; 0x0208B898
-	.asciz "PGM:i021_00.NCBR"
-
-	.global _0208B8A9
-_0208B8A9:
-	.byte 0x00, 0x00, 0x00
-
-	.global s_PGM_i021_NCLR_0208b8ac
-s_PGM_i021_NCLR_0208b8ac: ; 0x0208B8AC
-	.asciz "PGM:i021.NCLR"
-
-	.global _0208B8BA
-_0208B8BA:
-	.byte 0x00, 0x00
-
-	.global s_PGM_i021_00_NCER_0208b8bc
-s_PGM_i021_00_NCER_0208b8bc: ; 0x0208B8BC
-	.asciz "PGM:i021_00.NCER"
-
-	.global _0208B8CD
-_0208B8CD:
-	.byte 0x00, 0x00, 0x00
-
-	.global s_PGM_i021_00_cac_0208b8d0
-s_PGM_i021_00_cac_0208b8d0: ; 0x0208B8D0
-	.asciz "PGM:i021_00.cac"
-
-	.global DAT_0208b8e0
-DAT_0208b8e0: ; 0x0208B8E0
-	.byte 0x50, 0x47, 0x41, 0x00
-
-	.global s_data_interface_i024_LZ_bin_0208b8e4
-s_data_interface_i024_LZ_bin_0208b8e4: ; 0x0208B8E4
-	.asciz "data/interface/i024_LZ.bin"
-
-	.global _0208B8FF
-_0208B8FF:
-	.byte 0x00
-
-	.global s_PGA_i024_00_NCBR_0208b900
-s_PGA_i024_00_NCBR_0208b900: ; 0x0208B900
-	.asciz "PGA:i024_00.NCBR"
-
-	.global _0208B911
-_0208B911:
-	.byte 0x00, 0x00, 0x00
-
-	.global s_PGA_i024_NCLR_0208b914
-s_PGA_i024_NCLR_0208b914: ; 0x0208B914
-	.asciz "PGA:i024.NCLR"
-
-	.global _0208B922
-_0208B922:
-	.byte 0x00, 0x00
-
-	.global s_PGB_0208b924
-s_PGB_0208b924: ; 0x0208B924
-	.asciz "PGB"
-
-	.global s_data_interface_i023_LZ_bin_0208b928
-s_data_interface_i023_LZ_bin_0208b928: ; 0x0208B928
-	.asciz "data/interface/i023_LZ.bin"
-
-	.global _0208B943
-_0208B943:
-	.byte 0x00
-
-	.global s_PGB_i023_00_NCBR_0208b944
-s_PGB_i023_00_NCBR_0208b944: ; 0x0208B944
-	.asciz "PGB:i023_00.NCBR"
-
-	.global _0208B955
-_0208B955:
-	.byte 0x00, 0x00, 0x00
-
-	.global s_PGB_i023_NCLR_0208b958
-s_PGB_i023_NCLR_0208b958: ; 0x0208B958
-	.asciz "PGB:i023.NCLR"
-
-	.global _0208B966
-_0208B966:
-	.byte 0x00, 0x00
-
-	.global s_PGF_0208b968
-s_PGF_0208b968: ; 0x0208B968
-	.asciz "PGF"
-
-	.global s_data_interface_i020_LZ_bin_0208b96c
-s_data_interface_i020_LZ_bin_0208b96c: ; 0x0208B96C
-	.asciz "data/interface/i020_LZ.bin"
-
-	.global _0208B987
-_0208B987:
-	.byte 0x00
-
-	.global s_PGF_i020_00_NCBR_0208b988
-s_PGF_i020_00_NCBR_0208b988: ; 0x0208B988
-	.asciz "PGF:i020_00.NCBR"
-
-	.global _0208B999
-_0208B999:
-	.byte 0x00, 0x00, 0x00
-
-	.global s_PGF_i020_NCLR_0208b99c
-s_PGF_i020_NCLR_0208b99c: ; 0x0208B99C
-	.asciz "PGF:i020.NCLR"
-
-	.global _0208B9AA
-_0208B9AA:
-	.byte 0x00, 0x00
-
-	.global s_PGF_i020_00_NCER_0208b9ac
-s_PGF_i020_00_NCER_0208b9ac: ; 0x0208B9AC
-	.asciz "PGF:i020_00.NCER"
-
-	.global _0208B9BD
-_0208B9BD:
-	.byte 0x00, 0x00, 0x00
-
-	.global s_PGF_i020_00_cac_0208b9c0
-s_PGF_i020_00_cac_0208b9c0: ; 0x0208B9C0
-	.asciz "PGF:i020_00.cac"
-
-	.global s_PGP_0208b9d0
-s_PGP_0208b9d0: ; 0x0208B9D0
-	.asciz "PGP"
-
-	.global s_data_interface_i022_LZ_bin_0208b9d4
-s_data_interface_i022_LZ_bin_0208b9d4: ; 0x0208B9D4
-	.asciz "data/interface/i022_LZ.bin"
-
-	.global _0208B9EF
-_0208B9EF:
-	.byte 0x00
-
-	.global s_PGP_i022_00_NCBR_0208b9f0
-s_PGP_i022_00_NCBR_0208b9f0: ; 0x0208B9F0
-	.asciz "PGP:i022_00.NCBR"
-
-	.global _0208BA01
-_0208BA01:
-	.byte 0x00, 0x00, 0x00
-
-	.global s_PGP_i022_NCLR_0208ba04
-s_PGP_i022_NCLR_0208ba04: ; 0x0208BA04
-	.asciz "PGP:i022.NCLR"
-
-	.global _0208BA12
-_0208BA12:
-	.byte 0x00, 0x00
-
-	.global s_PGG_0208ba14
-s_PGG_0208ba14: ; 0x0208BA14
-	.asciz "PGG"
-
-	.global s_data_interface_i057_LZ_bin_0208ba18
-s_data_interface_i057_LZ_bin_0208ba18: ; 0x0208BA18
-	.asciz "data/interface/i057_LZ.bin"
-
-	.global _0208BA33
-_0208BA33:
-	.byte 0x00
-
-	.global s_PGG_i057_00_NCBR_0208ba34
-s_PGG_i057_00_NCBR_0208ba34: ; 0x0208BA34
-	.asciz "PGG:i057_00.NCBR"
-
-	.global _0208BA45
-_0208BA45:
-	.byte 0x00, 0x00, 0x00
-
-	.global s_PGG_i057_NCLR_0208ba48
-s_PGG_i057_NCLR_0208ba48: ; 0x0208BA48
-	.asciz "PGG:i057.NCLR"
-
-	.global _0208BA56
-_0208BA56:
-	.byte 0x00, 0x00
-
-	.global s_PGC_0208ba58
-s_PGC_0208ba58: ; 0x0208BA58
-	.asciz "PGC"
-
-	.global s_PGC_i020_01_NCBR_0208ba5c
-s_PGC_i020_01_NCBR_0208ba5c: ; 0x0208BA5C
-	.asciz "PGC:i020_01.NCBR"
-
-	.global _0208BA6D
-_0208BA6D:
-	.byte 0x00, 0x00, 0x00
-
-	.global s_PGC_i020_NCLR_0208ba70
-s_PGC_i020_NCLR_0208ba70: ; 0x0208BA70
-	.asciz "PGC:i020.NCLR"
-
-	.global _0208BA7E
-_0208BA7E:
-	.byte 0x00, 0x00
-
-	.global s_PGC_i020_01_NCER_0208ba80
-s_PGC_i020_01_NCER_0208ba80: ; 0x0208BA80
-	.asciz "PGC:i020_01.NCER"
-
-	.global _0208BA91
-_0208BA91:
-	.byte 0x00, 0x00, 0x00
-
-	.global s_PGC_i020_01_cac_0208ba94
-s_PGC_i020_01_cac_0208ba94: ; 0x0208BA94
-	.asciz "PGC:i020_01.cac"
-
 	.global s_data_message_etc_place_name_0208baa4
 s_data_message_etc_place_name_0208baa4: ; 0x0208BAA4
 	.asciz "/data/message/etc/place_name"
@@ -1400,57 +864,57 @@ PTR_PTR_LAB_0208c1e4: ; 0x0208C1E4
 PTR_LAB_0208c204: ; 0x0208C204
 	.word MAIN_BSS_020B26A0
 	.byte 0x04, 0x88, 0x00, 0x00
-	.word MAIN_BSS_020BAEA4
+	.word MAIN_BSS_020B26A0+34820
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BAEBC
+	.word MAIN_BSS_020B26A0+34844
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BAED4
+	.word MAIN_BSS_020B26A0+34868
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BAEEC
+	.word MAIN_BSS_020B26A0+34892
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BAF04
+	.word MAIN_BSS_020B26A0+34916
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BAF1C
+	.word MAIN_BSS_020B26A0+34940
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BAF34
+	.word MAIN_BSS_020B26A0+34964
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BAF4C
+	.word MAIN_BSS_020B26A0+34988
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BAF94
+	.word MAIN_BSS_020B26A0+35060
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BAFAC
+	.word MAIN_BSS_020B26A0+35084
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BAFC4
+	.word MAIN_BSS_020B26A0+35108
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BAFDC
+	.word MAIN_BSS_020B26A0+35132
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BAFF4
+	.word MAIN_BSS_020B26A0+35156
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BB00C
+	.word MAIN_BSS_020B26A0+35180
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BB024
+	.word MAIN_BSS_020B26A0+35204
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BB03C
+	.word MAIN_BSS_020B26A0+35228
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BB084
+	.word MAIN_BSS_020B26A0+35300
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BB09C
+	.word MAIN_BSS_020B26A0+35324
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BB0B4
+	.word MAIN_BSS_020B26A0+35348
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BB0CC
+	.word MAIN_BSS_020B26A0+35372
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BB0E4
+	.word MAIN_BSS_020B26A0+35396
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BB0FC
+	.word MAIN_BSS_020B26A0+35420
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BB114
+	.word MAIN_BSS_020B26A0+35444
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BB12C
+	.word MAIN_BSS_020B26A0+35468
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BB174
+	.word MAIN_BSS_020B26A0+35540
 	.byte 0x38, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BB1AC
+	.word MAIN_BSS_020B26A0+35596
 	.byte 0x38, 0x00, 0x00, 0x00
 	.word MAIN_BSS_020B2638
 	.byte 0x54, 0x00, 0x00, 0x00
@@ -1487,57 +951,57 @@ DAT_0208c2f8: ; 0x0208C2F8
 DAT_0208c32c: ; 0x0208C32C
 	.word MAIN_BSS_020B26A0
 	.byte 0x04, 0x88, 0x00, 0x00
-	.word MAIN_BSS_020BAEA4
+	.word MAIN_BSS_020B26A0+34820
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BAEBC
+	.word MAIN_BSS_020B26A0+34844
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BAED4
+	.word MAIN_BSS_020B26A0+34868
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BAEEC
+	.word MAIN_BSS_020B26A0+34892
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BAF04
+	.word MAIN_BSS_020B26A0+34916
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BAF1C
+	.word MAIN_BSS_020B26A0+34940
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BAF34
+	.word MAIN_BSS_020B26A0+34964
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BAF4C
+	.word MAIN_BSS_020B26A0+34988
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BAF94
+	.word MAIN_BSS_020B26A0+35060
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BAFAC
+	.word MAIN_BSS_020B26A0+35084
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BAFC4
+	.word MAIN_BSS_020B26A0+35108
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BAFDC
+	.word MAIN_BSS_020B26A0+35132
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BAFF4
+	.word MAIN_BSS_020B26A0+35156
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BB00C
+	.word MAIN_BSS_020B26A0+35180
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BB024
+	.word MAIN_BSS_020B26A0+35204
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BB03C
+	.word MAIN_BSS_020B26A0+35228
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BB084
+	.word MAIN_BSS_020B26A0+35300
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BB09C
+	.word MAIN_BSS_020B26A0+35324
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BB0B4
+	.word MAIN_BSS_020B26A0+35348
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BB0CC
+	.word MAIN_BSS_020B26A0+35372
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BB0E4
+	.word MAIN_BSS_020B26A0+35396
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BB0FC
+	.word MAIN_BSS_020B26A0+35420
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BB114
+	.word MAIN_BSS_020B26A0+35444
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BB12C
+	.word MAIN_BSS_020B26A0+35468
 	.byte 0x18, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BB174
+	.word MAIN_BSS_020B26A0+35540
 	.byte 0x38, 0x00, 0x00, 0x00
-	.word MAIN_BSS_020BB1AC
+	.word MAIN_BSS_020B26A0+35596
 	.byte 0x38, 0x00, 0x00, 0x00
 	.word MAIN_BSS_020B2638
 	.byte 0x54, 0x00, 0x00, 0x00

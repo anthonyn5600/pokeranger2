@@ -7,7 +7,7 @@
 #include "field/CFieldMapLayer.hpp"
 #include "heap.hpp"
 
-int CFieldMapLayerEventRect::Draw(UnkClass_02003718 *camera)
+int CFieldMapLayerEventRect::Draw(Camera2D *camera)
 {
     return 0;
 }

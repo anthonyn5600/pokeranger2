@@ -120,7 +120,7 @@ BOOL CFieldScreenEffectObjectBase::Stop(int fadeOut)
     return TRUE;
 }
 
-void CFieldScreenEffectObjectBase::SetupMatrix(UnkClass_02003718 *camera)
+void CFieldScreenEffectObjectBase::SetupMatrix(Camera2D *camera)
 {
     G3_RestoreMtx(0);
     G3_Identity();
@@ -202,7 +202,7 @@ void UnkClass_0211D850::sub_0203580C(int fps)
     }
 }
 
-void UnkClass_0211D850::sub_020358AC(UnkClass_02003718 *camera)
+void UnkClass_0211D850::sub_020358AC(Camera2D *camera)
 {
     for (int i = 0; i < m_count; i++) {
         if (m_effects[i] != NULL) {

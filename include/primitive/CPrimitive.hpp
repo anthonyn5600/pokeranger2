@@ -4,12 +4,7 @@
 #include <nitro.h>
 #include <nnsys.h>
 
-// TODO: Figure out what this is
-class CPrimitive_Render_arg {
-public:
-    u8 unk_00[0x28];
-    u16 unk_28;
-};
+class Camera2D;
 
 // TODO: Figure out what this is
 class UnkClass_CPrimitive_ImageProxy {
@@ -30,7 +25,7 @@ public:
     CPrimitive();
     virtual ~CPrimitive();
 
-    virtual u32 Render(CPrimitive_Render_arg *arg0) = 0;
+    virtual u32 Render(Camera2D *camera) = 0;
 
 public:
     struct CoordinatesPair2D {

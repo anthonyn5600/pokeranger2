@@ -136,7 +136,7 @@ int CFieldSEFHinoko::Update(int fps)
     return m_state;
 }
 
-void CFieldSEFHinoko::Draw(UnkClass_02003718 *camera)
+void CFieldSEFHinoko::Draw(Camera2D *camera)
 {
     UnkClass_02008788 *cac = m_actorData->GetCac(0);
     Point2D offset = camera->GetOffsetCopy();
@@ -175,7 +175,7 @@ void CFieldSEFHinoko::Draw(UnkClass_02003718 *camera)
                 pos.x -= FX32_CONST(160);
                 pos.y -= FX32_CONST(128);
                 m_sprite->SetPos(pos);
-                m_sprite->Render((CPrimitive_Render_arg *)camera);
+                m_sprite->Render(camera);
             }
         }
 
@@ -212,7 +212,7 @@ void CFieldSEFHinoko::Draw(UnkClass_02003718 *camera)
                 pos.x -= FX32_CONST(160);
                 pos.y -= FX32_CONST(128);
                 m_sprite->SetPos(pos);
-                m_sprite->Render((CPrimitive_Render_arg *)camera);
+                m_sprite->Render(camera);
             }
         }
     }
@@ -229,7 +229,7 @@ void CFieldSEFHinoko::Draw(UnkClass_02003718 *camera)
     rect->SetRect(0, 0, FX32_CONST(256), FX32_CONST(256));
     rect->SetTexCoords(m_s, m_t, m_s + FX32_CONST(128), m_t + FX32_CONST(128));
     m_tex.Bind();
-    rect->Render((CPrimitive_Render_arg *)camera);
+    rect->Render(camera);
 
     G3_PopMtx(0);
 }

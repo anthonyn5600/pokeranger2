@@ -16,14 +16,6 @@
 .public LogInfo
 .public MAIN_BSS_020B2638
 .public MAIN_BSS_020B26A0
-.public MAIN_BSS_020BA604
-.public MAIN_BSS_020BA6A0
-.public MAIN_BSS_020BA854
-.public MAIN_BSS_020BA994
-.public MAIN_BSS_020BADA0
-.public MAIN_BSS_020BAE0C
-.public MAIN_BSS_020BB174
-.public MAIN_BSS_020BB1A0
 .public MAIN_BSS_0210C0B0
 .public MAIN_BSS_0210C1C0
 .public MAIN_BSS_0210C220
@@ -127,7 +119,7 @@
 .public _ZN11CFieldScene12ov0_021247E4Ev
 .public _ZN11CFieldScene12ov0_021248DCEv
 .public _ZN11CFieldScene12ov0_02124BFCEv
-.public _ZN12CFieldPlayer12ov0_021307B0EP17UnkClass_02001C04P11CTouchPanelP17UnkClass_02003718P9CFieldMapm
+.public _ZN12CFieldPlayer12ov0_021307B0EP17UnkClass_02001C04P11CTouchPanelP8Camera2DP9CFieldMapm
 .public _ZN12CFieldPlayer12ov0_02132F14Ehih
 .public _ZN12CFieldPlayer12ov0_02132FA0Eh
 .public _ZN12CFieldPlayer12ov0_021333A0Elliii
@@ -149,6 +141,9 @@
 .public _ZN13CFieldPartner9SetUnk1ECEi
 .public _ZN13CFieldPartnerC2Ev
 .public _ZN13CFieldPartnerD2Ev
+.public _ZN14CPlayerHPGauge12SetCurrentHPEt
+.public _ZN14CPlayerHPGauge5SetHPEtt
+.public _ZN14CPlayerHPGauge7GetPartEi
 .public _ZN14CPrimitiveRECT12SetRectangleElllll
 .public _ZN14CPrimitiveRECT12sub_02003C00EP7Point2DPS_
 .public _ZN14CPrimitiveRECTC1Ev
@@ -177,7 +172,6 @@
 .public _ZN17CFieldEnemyManage12ov0_02136384Ev
 .public _ZN17CFieldEnemyManage12ov0_0213669CEmt
 .public _ZN17CFieldEnemyManage12ov0_02136730Em
-.public _ZN17UnkClass_0200371812sub_020038A8EP9Rectanglel
 .public _ZN17UnkClass_020074D412sub_02007590EPKcmmm
 .public _ZN17UnkClass_020074D412sub_020076B0Ev
 .public _ZN17UnkClass_020074D412sub_020076E8Em
@@ -224,6 +218,8 @@
 .public _ZN17UnkClass_0201179C12sub_02011D1CEl
 .public _ZN17UnkClass_0201179C12sub_02011D2CEl
 .public _ZN17UnkClass_0201179C12sub_02011D3CE7Point2D
+.public _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
+.public _ZN17UnkClass_0201AAE0D1Ev
 .public _ZN17UnkClass_0203447812sub_020346CCEmii
 .public _ZN17UnkClass_0203447812sub_0203499CEi
 .public _ZN17UnkClass_0203447812sub_02034A40Eii
@@ -265,6 +261,7 @@
 .public _ZN6CActor12sub_02012E1CEv
 .public _ZN6CActor12sub_02012E68Ev
 .public _ZN6CActor12sub_02012F5CEP7Point2DS1_i
+.public _ZN8Camera2D12sub_020038A8EP9Rectanglel
 .public _ZN9CNCERFileC1EPKcmmm
 .public _ZTI10CPrimitive
 .public _ZTI11CFieldActor
@@ -328,11 +325,6 @@
 .public sub_02018E88
 .public sub_02018E94
 .public sub_02019278
-.public sub_0201A000
-.public sub_0201A018
-.public sub_0201AAC0
-.public sub_0201AAE0
-.public sub_0201AB14
 .public sub_02022B20
 .public sub_02022B60
 .public sub_02022BC0

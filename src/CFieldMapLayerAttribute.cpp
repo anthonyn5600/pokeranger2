@@ -55,7 +55,7 @@ void CFieldMapLayerAttribute::Release()
     m_cellCount = 0;
 }
 
-int CFieldMapLayerAttribute::Draw(UnkClass_02003718 *camera)
+int CFieldMapLayerAttribute::Draw(Camera2D *camera)
 {
     return 0;
 }

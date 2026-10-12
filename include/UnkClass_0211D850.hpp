@@ -6,7 +6,7 @@
 #include "common.hpp"
 
 class CFieldScreenEffectObjectBase;
-class UnkClass_02003718;
+class Camera2D;
 class UnkClass_0211D850;
 
 extern UnkClass_0211D850 *MAIN_BSS_0210CA78;
@@ -31,7 +31,7 @@ public:
     void sub_02035720(int count);
     void sub_02035774();
     void sub_0203580C(int fps);
-    void sub_020358AC(UnkClass_02003718 *camera);
+    void sub_020358AC(Camera2D *camera);
     int sub_02035900(CFieldScreenEffectObjectBase *effect);
     int sub_02035940(CFieldScreenEffectObjectBase *effect);
     void sub_02035998();

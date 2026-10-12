@@ -16,15 +16,6 @@ public:
     CFieldDrawActorData *sub_02041008(int type, u16 id, int form, u16 mask, BOOL useTransfer);
 };
 
-class UnkClass_020412A0 : public CFieldDrawActorData {
-public:
-    UnkClass_020412A0();
-    void sub_02041344(u16 id, int form, u32 mask, const char *name, BOOL useTransfer, BOOL arg5);
-
-public:
-    u8 unk_34[0x50838 - 0x34];
-};
-
 extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
 extern UnkClass_02040F34 *MAIN_BSS_0210CA64;
 
@@ -365,9 +356,9 @@ void CFieldDrawActor::vfunc_08()
     }
 }
 
-u32 CFieldDrawActor::vfunc_0C(CPrimitive_Render_arg *arg)
+void CFieldDrawActor::vfunc_0C(Camera2D *camera)
 {
-    return sub_0203E934(arg, 0);
+    sub_0203E934(camera, 0);
 }
 
 void CFieldDrawActor::vfunc_10()
@@ -381,7 +372,7 @@ static inline void BlendToWhite(int &r, int &g, int &b, int t, int w)
     g = (g * t + w * 31) / 300;
     b = (b * t + w * 31) / 300;
 }
-u32 CFieldDrawActor::sub_0203E934(CPrimitive_Render_arg *arg, fx32 z)
+u32 CFieldDrawActor::sub_0203E934(Camera2D *camera, fx32 z)
 {
     fx32 y;
     fx32 x;
@@ -435,11 +426,11 @@ u32 CFieldDrawActor::sub_0203E934(CPrimitive_Render_arg *arg, fx32 z)
             if (unk_1A8 & 2) {
                 sprite->SetColorAlpha(unk_1B8, unk_1C6 * alpha / 31, TRUE);
                 sprite->m_z = z;
-                count += sprite->Render(arg);
+                count += sprite->Render(camera);
                 sprite->SetColorAlpha(color, alpha, unk3C);
             }
             sprite->m_z = z - count;
-            count += sprite->Render(arg);
+            count += sprite->Render(camera);
             if (unk_1A8 & 1) {
                 int b;
                 int t;
@@ -477,7 +468,7 @@ u32 CFieldDrawActor::sub_0203E934(CPrimitive_Render_arg *arg, fx32 z)
                     }
                     sprite->SetPos(p);
                     sprite->m_z = z - count;
-                    count += sprite->Render(arg);
+                    count += sprite->Render(camera);
                 }
                 sprite->SetColorAlpha(color, alpha, unk3C);
             }
@@ -499,7 +490,7 @@ u32 CFieldDrawActor::sub_0203E934(CPrimitive_Render_arg *arg, fx32 z)
                             ghost->unk_2C = sprite->unk_2C;
                             ghost->unk_30 = NULL;
                         }
-                        count += ghost->Render(arg);
+                        count += ghost->Render(camera);
                     }
                 }
             }

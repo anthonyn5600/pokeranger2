@@ -1,15 +1,15 @@
-#ifndef POKERANGER2_UNKCLASS_02003718_HPP
-#define POKERANGER2_UNKCLASS_02003718_HPP
+#ifndef POKERANGER2_CAMERA2D_HPP
+#define POKERANGER2_CAMERA2D_HPP
 
 #include <nitro.h>
 
 #include "common.hpp"
 #include "sub_02006000.hpp"
 
-class UnkClass_02003718 {
+class Camera2D {
 public:
-    UnkClass_02003718();
-    ~UnkClass_02003718();
+    Camera2D();
+    ~Camera2D();
 
     void sub_02003730();
     void sub_02003788(fx32 arg0, fx32 arg1, fx32 arg2, fx32 arg3, fx32 arg4, fx32 arg5, fx32 arg6);
@@ -61,6 +61,6 @@ public:
     u16 unk_28;
 };
 
-STATIC_SIZE_ASSERT(UnkClass_02003718, 0x2C);
+STATIC_SIZE_ASSERT(Camera2D, 0x2C);
 
-#endif // POKERANGER2_UNKCLASS_02003718_HPP
+#endif // POKERANGER2_CAMERA2D_HPP

@@ -25,7 +25,7 @@ BOOL UnkClass_0211E3FC::sub_0200912C(CDrawObject *obj)
     return FALSE;
 }
 
-int UnkClass_0211E3FC::sub_02009188(UnkClass_02003718 *camera, int budget)
+int UnkClass_0211E3FC::sub_02009188(Camera2D *camera, int budget)
 {
     int total = 0;
     for (CDrawObject *obj = unk_00; obj != NULL; obj = obj->unk_08) {
@@ -34,7 +34,7 @@ int UnkClass_0211E3FC::sub_02009188(UnkClass_02003718 *camera, int budget)
     return total;
 }
 
-int CDrawObject::sub_020091D4(UnkClass_02003718 *camera, int budget)
+int CDrawObject::sub_020091D4(Camera2D *camera, int budget)
 {
     return 0;
 }

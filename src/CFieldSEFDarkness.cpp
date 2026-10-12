@@ -89,7 +89,7 @@ int CFieldSEFDarkness::Update(int fps)
     return m_state;
 }
 
-void CFieldSEFDarkness::Draw(UnkClass_02003718 *camera)
+void CFieldSEFDarkness::Draw(Camera2D *camera)
 {
     fx32 x;
     fx32 y;
@@ -172,7 +172,7 @@ void CFieldSEFDarkness::Draw(UnkClass_02003718 *camera)
 
     for (int i = 0; i < 16; i++) {
         CPrimitiveQuadNTF *quad = &m_quads[i];
-        quad->Render((CPrimitive_Render_arg *)camera);
+        quad->Render(camera);
     }
 
     if (m_rect.m_alpha != 0) {
@@ -181,7 +181,7 @@ void CFieldSEFDarkness::Draw(UnkClass_02003718 *camera)
         rect->m_polygonID = unk_1C + 1;
         rect->SetRect(0, 0, FX32_CONST(260), FX32_CONST(200));
         m_rectTex.Bind();
-        rect->Render((CPrimitive_Render_arg *)camera);
+        rect->Render(camera);
     }
 
     G3_PopMtx(0);

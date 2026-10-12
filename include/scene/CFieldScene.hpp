@@ -17,8 +17,8 @@ class CFieldNpcManage;
 class CFieldPartnerManage;
 class CFieldPlayer;
 class CFieldTargetObjectManage;
-class UnkClass_02003718;
-class UnkClass_02019284;
+class Camera2D;
+class CPlayerHPGauge;
 class UnkClass_02022404;
 class UnkClass_020233C8;
 class UnkClass_02029800;
@@ -87,8 +87,8 @@ public:
 
 public:
     CGame *m_game;
-    UnkClass_02003718 *unk_0008;
-    UnkClass_02003718 *unk_000C;
+    Camera2D *unk_0008;
+    Camera2D *unk_000C;
     CFieldMap *unk_0010;
     CFieldPlayer *unk_0014;
     CFieldEnemyManage *unk_0018;
@@ -131,7 +131,7 @@ public:
     int unk_00CC;
     u32 unk_00D0;
     u32 unk_00D4;
-    UnkClass_02019284 *unk_00D8;
+    CPlayerHPGauge *unk_00D8;
     UnkClass_021480E4 *unk_00DC;
     UnkClass_0213D624 *unk_00E0;
     UnkClass_0214B984 *unk_00E4;

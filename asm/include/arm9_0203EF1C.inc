@@ -36,12 +36,6 @@
 .public MAIN_BSS_020AF624
 .public MAIN_BSS_020B2638
 .public MAIN_BSS_020B26A0
-.public MAIN_BSS_020BA2DC
-.public MAIN_BSS_020BA35C
-.public MAIN_BSS_020BA550
-.public MAIN_BSS_020BA6A0
-.public MAIN_BSS_020BADA0
-.public MAIN_BSS_020BAE0C
 .public MAIN_BSS_0210C0B0
 .public MAIN_BSS_0210C1C0
 .public MAIN_BSS_0210C228
@@ -108,12 +102,11 @@
 .public _ZN14CPrimitiveRECTC1Ev
 .public _ZN15CFieldDrawActor12sub_0203DBB8Eitimi
 .public _ZN15CFieldDrawActor12sub_0203E10CEitimi
-.public _ZN15CFieldDrawActor12sub_0203E934EP21CPrimitive_Render_argl
+.public _ZN15CFieldDrawActor12sub_0203E934EP8Camera2Dl
 .public _ZN15CFieldDrawActorC1Ev
 .public _ZN15CSoftwareSprite18GetCellNumOAMAttrsEt
 .public _ZN15CSoftwareSpriteC1Ev
-.public _ZN17CPrimitiveRectNTF6RenderEP21CPrimitive_Render_arg
-.public _ZN17UnkClass_0200371812sub_020038A8EP9Rectanglel
+.public _ZN17CPrimitiveRectNTF6RenderEP8Camera2D
 .public _ZN17UnkClass_020074D412sub_020076B0Ev
 .public _ZN17UnkClass_020074D412sub_020076E8Em
 .public _ZN17UnkClass_020074D4C1EPKcmmm
@@ -143,6 +136,7 @@
 .public _ZN17UnkClass_02027FE8D1Ev
 .public _ZN5CGame12sub_0201024CEv
 .public _ZN6CSceneD2Ev
+.public _ZN8Camera2D12sub_020038A8EP9Rectanglel
 .public _ZN9CNCERFileC1EPKcmmm
 .public _ZdaPv
 .public _ZdlPv

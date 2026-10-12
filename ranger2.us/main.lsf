@@ -30,7 +30,7 @@ Static main
     Object main.nef.p/src_file_CNSCRFile.cpp.o
     Object main.nef.p/src_file_CNANRFile.cpp.o
     Object main.nef.p/src_file_CBGNCGRFile.cpp.o
-    Object main.nef.p/src_UnkClass_02003718.cpp.o
+    Object main.nef.p/src_Camera2D.cpp.o
     Object main.nef.p/src_primitive_CPrimitive.cpp.o
     Object main.nef.p/src_primitive_CPrimitiveLINE.cpp.o
     Object main.nef.p/src_primitive_CPrimitiveRECT.cpp.o
@@ -73,9 +73,14 @@ Static main
     Object main.nef.p/src_UnkClass_0201179C.cpp.o
     Object main.nef.p/src_CActor.cpp.o
     Object main.nef.p/src_CActorData.cpp.o
-    Object main.nef.p/asm_arm9_020150B8.s.o
+    Object main.nef.p/asm_arm9_020AF35C.s.o
     Object main.nef.p/src_UnkClass_020B26A0.cpp.o
-    Object main.nef.p/asm_arm9_0201668C.s.o
+    Object main.nef.p/asm_arm9_02084574.s.o
+    Object main.nef.p/src_UnkClass_02018208.cpp.o
+    Object main.nef.p/src_UnkClass_02018B9C.cpp.o
+    Object main.nef.p/src_UnkClass_02018DF4.cpp.o
+    Object main.nef.p/src_CPlayerHPGauge.cpp.o
+    Object main.nef.p/asm_arm9_0201AD60.s.o
     Object main.nef.p/src_sub_0202B80C.cpp.o
     Object main.nef.p/asm_arm9_0202B8A4.s.o
     Object main.nef.p/asm_arm9_0208B5C0.s.o
@@ -83,7 +88,7 @@ Static main
     Object main.nef.p/asm_arm9_0208C49C.s.o
     Object main.nef.p/src_UnkClass_02034478.cpp.o
     Object main.nef.p/src_FieldPartnerIndex.cpp.o
-    Object main.nef.p/asm_arm9_020AF35C.s.o
+    Object main.nef.p/asm_arm9_0210C0A4.s.o
     Object main.nef.p/src_CFieldScreenEffect.cpp.o
     Object main.nef.p/src_CPrimitiveNTF.cpp.o
     Object main.nef.p/src_CFieldSEFKomorebi.cpp.o
