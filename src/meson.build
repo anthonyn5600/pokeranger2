@@ -58,6 +58,8 @@ pokeranger2_cxx = files(
     'CFieldSEFTheWater.cpp',
     'CFieldSEFHinoko.cpp',
     'CFieldSEFRain.cpp',
+    'CFieldSEFWarning.cpp',
+    'CFieldSEFSnow.cpp',
     'FieldActor.cpp',
     'FieldDrawActor.cpp',
     'overlay_manager.cpp',

@@ -11,6 +11,8 @@
 #include "primitive/CSoftwareSprite.hpp"
 #include "sub_02006000.hpp"
 
+class CFieldScreenEffectActorData;
+
 class CFieldScreenEffectObjectBase {
 public:
     enum State {
@@ -61,6 +63,52 @@ public:
 
 STATIC_SIZE_ASSERT(CFieldScreenEffectObjectBase, 0x20);
 
+struct SnowFlake {
+    Point2D pos;
+    Point2D basePos;
+    Point2D vel;
+    Point2D baseVel;
+    u8 phase;
+    u8 timer;
+    u8 type;
+    u16 angle;
+};
+
+STATIC_SIZE_ASSERT(SnowFlake, 0x28);
+
+class CFieldSEFSnow : public CFieldScreenEffectObjectBase {
+public:
+    CFieldSEFSnow();
+    virtual ~CFieldSEFSnow()
+    {
+        Unload();
+    }
+    virtual int GetType()
+    {
+        return 14;
+    }
+    virtual int Update(int fps);
+    virtual void Draw(UnkClass_02003718 *camera);
+    virtual BOOL Start(int fadeIn, int hold, int fadeOut);
+
+    BOOL Load();
+    BOOL Unload();
+
+    CFieldScreenEffectActorData *m_actorData;
+    CSoftwareSprite *m_sprite;
+    u16 m_cells[8];
+    SnowFlake m_flakes[32];
+    NtfTexture m_tex;
+    CPrimitiveRectNTF m_rect;
+    int m_density;
+    int unk_594;
+    int unk_598;
+};
+
+STATIC_SIZE_ASSERT(CFieldSEFSnow, 0x59C);
+
+// Defined after CFieldSEFSnow and before CFieldSEFHinoko: mwcc orders same-size data objects by where their
+// classes are defined (Hinoko's typeinfo before this one's, Snow's speed table before Snow's typeinfo).
 class CFieldScreenEffectActorData : public CEffectActorData {
 public:
     virtual void Update()
@@ -378,16 +426,29 @@ STATIC_SIZE_ASSERT(CFieldSEFTheWater, 0x80);
 class CFieldSEFWarning : public CFieldScreenEffectObjectBase {
 public:
     CFieldSEFWarning();
+    virtual ~CFieldSEFWarning()
+    {
+        Unload();
+    }
+    virtual int GetType()
+    {
+        return 13;
+    }
+    virtual int Update(int fps);
+    virtual void Draw(UnkClass_02003718 *camera);
 
-    u8 unk_20[0x88 - 0x20];
+    BOOL Load();
+    BOOL Unload();
+
+    NtfTexture m_tex;
+    int unk_3C;
+    int m_density;
+    int m_pulseTimer;
+    int m_pulsePeriod;
+    CPrimitiveRectNTF m_rect;
 };
 
-class CFieldSEFSnow : public CFieldScreenEffectObjectBase {
-public:
-    CFieldSEFSnow();
-
-    u8 unk_20[0x59C - 0x20];
-};
+STATIC_SIZE_ASSERT(CFieldSEFWarning, 0x88);
 
 class CFieldSEFDarkness : public CFieldScreenEffectObjectBase {
 public:
