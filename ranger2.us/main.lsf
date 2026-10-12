@@ -216,7 +216,9 @@ Overlay overlay1
     Object main.nef.p/src_UnkClass_0212306C.cpp.o
     Object main.nef.p/src_CBattleEnemyData.cpp.o
     Object main.nef.p/src_CBattleEnemy.cpp.o
-    Object main.nef.p/asm_overlay_01_02126800.s.o
+    Object main.nef.p/src_CBattleAttackEffectData.cpp.o
+    Object main.nef.p/src_CBattleAttackEffect.cpp.o
+    Object main.nef.p/asm_overlay_01_021274AC.s.o
 }
 
 Overlay overlay2

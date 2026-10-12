@@ -9,11 +9,14 @@
 // Attack effect parameter record (UnkClass_0212E008 table entry)
 struct UnkStruct_0212E008 {
     u16 unk_00;
-    u8 unk_02[0x6];
+    u16 unk_02;
+    int unk_04;
     u8 unk_08;
     u8 unk_09[0x3];
     u32 unk_0C;
-    u8 unk_10[0x3];
+    s8 unk_10;
+    s8 unk_11;
+    u8 unk_12;
     u8 unk_13;
     u8 unk_14;
     u8 unk_15;
@@ -23,6 +26,12 @@ struct UnkStruct_0212E008 {
     s8 unk_19;
     u8 unk_1A;
     u8 unk_1B;
+
+    inline Circle GetCircle()
+    {
+        Circle circle = { unk_10 << 12, unk_11 << 12, unk_12 << 12 };
+        return circle;
+    }
 
     inline Rectangle GetShadowRect()
     {

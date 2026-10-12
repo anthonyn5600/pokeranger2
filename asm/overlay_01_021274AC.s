@@ -1,948 +1,7 @@
     .include "macros.inc"
-    .include "include/overlay_01_02126800.inc"
+    .include "include/overlay_01_021274AC.inc"
 
     .text
-
-	arm_func_start _ZN23CBattleAttackEffectDataC1EtP18UnkStruct_0212E008m
-_ZN23CBattleAttackEffectDataC1EtP18UnkStruct_0212E008m: ; 0x02126800
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
-	sub sp, sp, #0xd4
-	mov r4, #0x20
-	str r3, [sp, #0x10]
-	str r4, [sp]
-	mov r3, #0
-	str r3, [sp, #4]
-	str r3, [sp, #8]
-	str r1, [sp, #0xc]
-	mov sb, r2
-	ldrh r2, [sb, #2]
-	mov r1, #3
-	mov sl, r0
-	bl _ZN10CActorDataC2EiiitiPKc
-	ldr r2, _021269AC ; =ptr_FUN_overlay_1_021269b8_overlay_1_02140ab4
-	mov r0, sl
-	add r1, sl, #0x98
-	str r2, [sl]
-	bl _ZN10CActorData12sub_02014218EPm
-	mov r0, sl
-	bl _ZN10CActorData12sub_020142B4Ev
-	mov r0, sl
-	bl _ZN10CActorData12sub_02014364Ev
-	mov r1, #0
-	mov r2, r1
-	bl NNS_GfdAllocLnkPlttVram
-	str r0, [sl, #0x10c]
-	ldr r1, [sl, #0x10c]
-	mov r0, sl
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0xd
-	bl _ZN10CActorData12sub_0201429CEm
-	mov r0, sl
-	bl _ZN10CActorData12sub_020142F8Ev
-	mov r8, #0
-	ldr r6, _021269B0 ; =s_ACT_e_03d_a_02d_NANR_overlay_1_02140ad0
-	str sb, [sl, #0x18]
-	mov fp, r8
-	add r7, sp, #0x74
-	mov r4, #0xbc
-	mov r5, r8
-	arm_func_end _ZN23CBattleAttackEffectDataC1EtP18UnkStruct_0212E008m
-_021268A4:
-	ldrh r2, [sb, #2]
-	mov r0, r7
-	mov r1, r6
-	add r3, r8, #1
-	bl OS_SPrintf
-	mov r0, r7
-	mov r1, r5
-	bl _ZN11CBinaryFile12sub_02003108EPKcm
-	cmp r0, #0
-	beq _021268F8
-	mov r0, r4
-	bl _Znwm
-	cmp r0, #0
-	beq _021268F0
-	mov r1, r7
-	mov r2, #1
-	mov r3, fp
-	str fp, [sp]
-	bl _ZN9CNANRFileC1EPKcmmm
-_021268F0:
-	add r1, sl, r8, lsl #2
-	str r0, [r1, #0x38]
-_021268F8:
-	add r0, r8, #1
-	and r8, r0, #0xff
-	cmp r8, #0xc
-	blo _021268A4
-	ldr r1, _021269B4 ; =s_data_script_battle_effect_e_03d_overlay_1_02140ae8
-	ldr r2, [sp, #0xc]
-	add r0, sp, #0x14
-	bl OS_SPrintf
-	ldr r1, [sp, #0x10]
-	add r0, sp, #0x14
-	bl _ZN11CBinaryFile12sub_02003108EPKcm
-	cmp r0, #0
-	beq _0212696C
-	mov r0, #0xb8
-	bl _Znwm
-	cmp r0, #0
-	beq _02126958
-	ldr r1, [sp, #0x10]
-	mov r2, #0
-	stmia sp, {r1, r2}
-	add r1, sp, #0x14
-	mov r3, r2
-	str r2, [sp, #8]
-	bl _ZN11CBinaryFileC1EPKcmmmPvm
-_02126958:
-	str r0, [sl, #0x90]
-	ldr r0, [r0, #0x4c]
-	str r0, [sl, #0x94]
-	bl sub_02044AC8
-	b _02126978
-_0212696C:
-	mov r0, #0
-	str r0, [sl, #0x90]
-	str r0, [sl, #0x94]
-_02126978:
-	ldr r4, [sl, #8]
-	cmp r4, #0
-	beq _021269A0
-	beq _02126998
-	mov r0, r4
-	bl _ZN13CArchiveGuardD1Ev
-	mov r0, r4
-	bl _ZdlPv
-_02126998:
-	mov r0, #0
-	str r0, [sl, #8]
-_021269A0:
-	mov r0, sl
-	add sp, sp, #0xd4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
-	.align 2, 0
-_021269AC: .word ptr_FUN_overlay_1_021269b8_overlay_1_02140ab4
-_021269B0: .word s_ACT_e_03d_a_02d_NANR_overlay_1_02140ad0
-_021269B4: .word s_data_script_battle_effect_e_03d_overlay_1_02140ae8
-
-	arm_func_start ov1_021269B8
-ov1_021269B8: ; 0x021269B8
-	stmdb sp!, {r4, r5, r6, lr}
-	ldr r1, _02126A70 ; =ptr_FUN_overlay_1_021269b8_overlay_1_02140ab4
-	mov r4, r0
-	str r1, [r4]
-	ldr r1, [r0]
-	ldr r1, [r1, #8]
-	blx r1
-	mov r6, #0
-	mov r5, r6
-	arm_func_end ov1_021269B8
-_021269DC:
-	add r0, r4, r6, lsl #2
-	ldr r0, [r0, #0x1c]
-	cmp r0, #0
-	beq _02126A04
-	beq _021269FC
-	ldr r1, [r0]
-	ldr r1, [r1, #4]
-	blx r1
-_021269FC:
-	add r0, r4, r6, lsl #2
-	str r5, [r0, #0x1c]
-_02126A04:
-	add r0, r6, #1
-	and r6, r0, #0xff
-	cmp r6, #0xc
-	blo _021269DC
-	ldr r0, [r4, #0x90]
-	cmp r0, #0
-	beq _02126A38
-	beq _02126A30
-	ldr r1, [r0]
-	ldr r1, [r1, #4]
-	blx r1
-_02126A30:
-	mov r0, #0
-	str r0, [r4, #0x90]
-_02126A38:
-	mov r5, #0
-_02126A3C:
-	add r0, r4, r5, lsl #2
-	ldr r0, [r0, #0x98]
-	bl NNS_GfdFreeLnkTexVram
-	add r0, r5, #1
-	and r5, r0, #0xff
-	cmp r5, #0x1d
-	blo _02126A3C
-	ldr r0, [r4, #0x10c]
-	bl NNS_GfdFreeLnkPlttVram
-	mov r0, r4
-	bl _ZN10CActorDataD2Ev
-	mov r0, r4
-	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_02126A70: .word ptr_FUN_overlay_1_021269b8_overlay_1_02140ab4
-
-	arm_func_start ov1_02126A74
-ov1_02126A74: ; 0x02126A74
-	stmdb sp!, {r4, r5, r6, lr}
-	ldr r1, _02126B34 ; =ptr_FUN_overlay_1_021269b8_overlay_1_02140ab4
-	mov r4, r0
-	str r1, [r4]
-	ldr r1, [r0]
-	ldr r1, [r1, #8]
-	blx r1
-	mov r6, #0
-	mov r5, r6
-	arm_func_end ov1_02126A74
-_02126A98:
-	add r0, r4, r6, lsl #2
-	ldr r0, [r0, #0x1c]
-	cmp r0, #0
-	beq _02126AC0
-	beq _02126AB8
-	ldr r1, [r0]
-	ldr r1, [r1, #4]
-	blx r1
-_02126AB8:
-	add r0, r4, r6, lsl #2
-	str r5, [r0, #0x1c]
-_02126AC0:
-	add r0, r6, #1
-	and r6, r0, #0xff
-	cmp r6, #0xc
-	blo _02126A98
-	ldr r0, [r4, #0x90]
-	cmp r0, #0
-	beq _02126AF4
-	beq _02126AEC
-	ldr r1, [r0]
-	ldr r1, [r1, #4]
-	blx r1
-_02126AEC:
-	mov r0, #0
-	str r0, [r4, #0x90]
-_02126AF4:
-	mov r5, #0
-_02126AF8:
-	add r0, r4, r5, lsl #2
-	ldr r0, [r0, #0x98]
-	bl NNS_GfdFreeLnkTexVram
-	add r0, r5, #1
-	and r5, r0, #0xff
-	cmp r5, #0x1d
-	blo _02126AF8
-	ldr r0, [r4, #0x10c]
-	bl NNS_GfdFreeLnkPlttVram
-	mov r0, r4
-	bl _ZN10CActorDataD2Ev
-	mov r0, r4
-	bl _ZdlPv
-	mov r0, r4
-	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_02126B34: .word ptr_FUN_overlay_1_021269b8_overlay_1_02140ab4
-
-	arm_func_start _ZN19CBattleAttackEffectC1Eh
-_ZN19CBattleAttackEffectC1Eh: ; 0x02126B38
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r4, r0
-	mov r5, r1
-	bl _ZN6CActorC2Ev
-	add r0, r4, #0x18
-	ldr r1, _02126BD0 ; =ptr_FUN_overlay_1_02126bd4_overlay_1_02140b38
-	add r0, r0, #0x400
-	str r1, [r4]
-	bl _ZN16CPrimitiveSPHEREC1Ev
-	add r0, r4, #0x440
-	bl _ZN14CPrimitiveLINEC1Ev
-	mov r1, #0x3f
-	strb r5, [r4, #0x1f0]
-	mov r0, #0
-	str r0, [r4, #0x184]
-	str r0, [r4, #0x190]
-	add r0, r4, #0x100
-	mov r2, #1
-	strh r2, [r0, #0x8e]
-	add r0, r4, #0x400
-	mov r3, #0x7c00
-	strh r3, [r0, #0x20]
-	mov r2, #0x400
-	str r2, [r4, #0x41c]
-	mov r2, #8
-	str r2, [r4, #0x42c]
-	mov r2, #0x8000
-	str r2, [r4, #0x438]
-	str r1, [r4, #0x428]
-	strh r3, [r0, #0x48]
-	rsb r0, r1, #0x440
-	str r0, [r4, #0x444]
-	mov r0, #0x1f
-	str r0, [r4, #0x454]
-	mov r1, #0x3e
-	mov r0, r4
-	str r1, [r4, #0x450]
-	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02126BD0: .word ptr_FUN_overlay_1_02126bd4_overlay_1_02140b38
-	arm_func_end _ZN19CBattleAttackEffectC1Eh
-
-	arm_func_start ov1_02126BD4
-ov1_02126BD4: ; 0x02126BD4
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	add r0, r4, #0x440
-	bl _ZN14CPrimitiveLINED1Ev
-	add r0, r4, #0x18
-	add r0, r0, #0x400
-	bl _ZN16CPrimitiveSPHERED1Ev
-	mov r0, r4
-	bl _ZN6CActorD2Ev
-	mov r0, r4
-	ldmia sp!, {r4, pc}
-	arm_func_end ov1_02126BD4
-
-	arm_func_start ov1_02126C00
-ov1_02126C00: ; 0x02126C00
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	add r0, r4, #0x440
-	bl _ZN14CPrimitiveLINED1Ev
-	add r0, r4, #0x18
-	add r0, r0, #0x400
-	bl _ZN16CPrimitiveSPHERED1Ev
-	mov r0, r4
-	bl _ZN6CActorD2Ev
-	mov r0, r4
-	bl _ZdlPv
-	mov r0, r4
-	ldmia sp!, {r4, pc}
-	arm_func_end ov1_02126C00
-
-	arm_func_start ov1_02126C34
-ov1_02126C34: ; 0x02126C34
-	stmdb sp!, {r3, r4, r5, r6, lr}
-	sub sp, sp, #0x5c
-	mov r4, r0
-	ldr r0, [r4, #0x104]
-	cmp r0, #0
-	movne r0, #1
-	moveq r0, #0
-	cmp r0, #0
-	addeq sp, sp, #0x5c
-	ldmeqia sp!, {r3, r4, r5, r6, pc}
-	ldr r1, [r4, #0x190]
-	cmp r1, #0
-	beq _02126D04
-	ldr r0, [r4, #0x194]
-	cmp r0, #0
-	beq _02126C88
-	cmp r0, #1
-	beq _02126CB0
-	cmp r0, #2
-	beq _02126CDC
-	b _02126D04
-	arm_func_end ov1_02126C34
-_02126C88:
-	ldr r0, [r1, #0x104]
-	cmp r0, #0
-	movne r0, #1
-	moveq r0, #0
-	cmp r0, #0
-	bne _02126D04
-	mov r0, r4
-	bl _ZN19CBattleAttackEffect12ov1_02127300Ev
-	add sp, sp, #0x5c
-	ldmia sp!, {r3, r4, r5, r6, pc}
-_02126CB0:
-	add r0, r1, #0x100
-	ldrh r0, [r0, #0x88]
-	cmp r0, #0
-	movne r0, #1
-	moveq r0, #0
-	cmp r0, #0
-	bne _02126D04
-	mov r0, r4
-	bl _ZN19CBattleAttackEffect12ov1_02127300Ev
-	add sp, sp, #0x5c
-	ldmia sp!, {r3, r4, r5, r6, pc}
-_02126CDC:
-	ldr r0, [r1, #0x104]
-	cmp r0, #0
-	movne r0, #1
-	moveq r0, #0
-	cmp r0, #0
-	bne _02126D04
-	mov r0, r4
-	bl _ZN19CBattleAttackEffect12ov1_02127300Ev
-	add sp, sp, #0x5c
-	ldmia sp!, {r3, r4, r5, r6, pc}
-_02126D04:
-	add r0, r4, #0x100
-	ldrh r1, [r0, #0x88]
-	add r1, r1, #1
-	strh r1, [r0, #0x88]
-	ldr r0, [r4, #0x104]
-	cmp r0, #0
-	movne r0, #1
-	moveq r0, #0
-	cmp r0, #0
-	addeq sp, sp, #0x5c
-	ldmeqia sp!, {r3, r4, r5, r6, pc}
-	mov r0, r4
-	bl _ZN6CActor12sub_02012340Ev
-	mov r0, r4
-	bl _ZN6CActor12sub_020123ACEv
-	mov r0, r4
-	bl _ZN6CActor12sub_020123FCEv
-	mov r0, r4
-	bl _ZN6CActor12sub_020124BCEv
-	add r0, r4, #0x198
-	mov r1, #0x1000
-	bl NNS_G2dTickCellAnimation
-	ldr r1, [r4, #0x198]
-	mov r0, r4
-	ldr r2, [r1]
-	add r1, r4, #0x100
-	ldrh r2, [r2]
-	strh r2, [r1, #0x8a]
-	bl _ZN6CActor12sub_02012648Ev
-	mov r0, r4
-	bl _ZN6CActor12sub_020126C8Ev
-	ldr r3, [r4, #0x20]
-	ldr r1, [r4, #0x8c]
-	ldr r0, [r4, #0xa0]
-	str r3, [sp, #0x30]
-	add r0, r1, r0
-	ldr r1, [r4, #0xb0]
-	str r3, [sp, #0x20]
-	add r1, r1, r0
-	ldr r2, [r4, #0x24]
-	ldr r0, [r4, #0xc4]
-	sub r1, r2, r1
-	str r3, [r0, #0x18]
-	str r1, [r0, #0x1c]
-	ldr r0, [r4, #0x190]
-	str r1, [sp, #0x34]
-	str r1, [sp, #0x24]
-	cmp r0, #0
-	beq _02126E0C
-	ldr ip, [r0, #0x20]
-	ldr r5, [r4, #0x20]
-	ldr r6, [r0, #0x24]
-	ldr r3, [r4, #0x24]
-	add r2, r5, ip
-	add r1, r3, r6
-	ldr r0, [r4, #0xc4]
-	str ip, [sp, #0x18]
-	str r2, [r0, #0x18]
-	str r6, [sp, #0x1c]
-	str r5, [sp, #0x28]
-	str r3, [sp, #0x2c]
-	str r2, [sp, #0x10]
-	str r1, [sp, #0x14]
-	str r2, [sp, #8]
-	str r1, [sp, #0xc]
-	str r1, [r0, #0x1c]
-_02126E0C:
-	ldr r0, [r4, #0x184]
-	ldr r0, [r0, #0x18]
-	ldr r0, [r0, #4]
-	cmp r0, #2
-	bne _02126E58
-	ldrh r1, [r4, #0x72]
-	mov r0, r4
-	bl ov1_02127484
-	ldrb r1, [r4, #0x18c]
-	cmp r1, r0
-	beq _02126E58
-	ldrh r1, [r4, #0x72]
-	mov r0, r4
-	bl ov1_02127484
-	strb r0, [r4, #0x18c]
-	and r2, r0, #0xff
-	ldrb r1, [r4, #0x18d]
-	mov r0, r4
-	bl ov1_021273A0
-_02126E58:
-	ldr r1, [r4, #0x184]
-	add r0, sp, #0x44
-	ldr r3, [r1, #0x18]
-	add r5, sp, #0x50
-	ldrsb r6, [r3, #0x10]
-	ldrsb r2, [r3, #0x11]
-	ldrb r1, [r3, #0x12]
-	mov r6, r6, lsl #0xc
-	mov r2, r2, lsl #0xc
-	mov r1, r1, lsl #0xc
-	str r6, [sp, #0x44]
-	str r2, [sp, #0x48]
-	str r1, [sp, #0x4c]
-	ldmia r0, {r0, r1, r2}
-	stmia r5, {r0, r1, r2}
-	ldr ip, [r4, #0x11c]
-	ldr r1, [sp, #0x50]
-	ldr r0, [sp, #0x54]
-	smull r5, r2, r1, ip
-	mov r1, r5, lsr #0xc
-	orr r1, r1, r2, lsl #20
-	str r1, [sp, #0x50]
-	ldr r2, [r4, #0x134]
-	smull r6, r5, r0, r2
-	mov r0, r6, lsr #0xc
-	orr r0, r0, r5, lsl #20
-	str r0, [sp, #0x54]
-	ldr r3, [r3, #4]
-	cmp r3, #1
-	bne _02126F14
-	ldrh r3, [r4, #0x72]
-	ldr r5, _02126F8C ; =FX_SinCosTable_
-	mov r3, r3, asr #4
-	mov r6, r3, lsl #1
-	add r3, r6, #1
-	mov lr, r3, lsl #1
-	mov r3, r6, lsl #1
-	ldrsh lr, [r5, lr]
-	ldrsh r3, [r5, r3]
-	smull lr, r5, r1, lr
-	smull r3, r1, r0, r3
-	mov lr, lr, lsr #0xc
-	mov r0, r3, lsr #0xc
-	orr lr, lr, r5, lsl #20
-	orr r0, r0, r1, lsl #20
-	str lr, [sp, #0x50]
-	str r0, [sp, #0x54]
-_02126F14:
-	ldr r0, [sp, #0x58]
-	cmp ip, r2
-	movgt ip, r2
-	smull r3, r2, r0, ip
-	mov r0, r3, lsr #0xc
-	orr r0, r0, r2, lsl #20
-	str r0, [sp, #0x58]
-	ldr r2, [r4, #0xc4]
-	ldr r1, [sp, #0x50]
-	ldr ip, [r2, #0x18]
-	ldr r3, [r2, #0x1c]
-	add r2, r1, ip
-	ldr r0, [sp, #0x54]
-	add lr, sp, #0x38
-	add r1, r0, r3
-	add r0, sp, #0x50
-	str r2, [sp, #0x50]
-	str r1, [sp, #0x54]
-	ldmia r0, {r0, r1, r2}
-	stmia lr, {r0, r1, r2}
-	ldr r1, [sp, #0x38]
-	ldr r0, [sp, #0x3c]
-	str ip, [sp]
-	str r1, [r4, #0x430]
-	str r0, [r4, #0x434]
-	ldr r0, [sp, #0x40]
-	str r3, [sp, #4]
-	str r0, [r4, #0x438]
-	add sp, sp, #0x5c
-	ldmia sp!, {r3, r4, r5, r6, pc}
-	.align 2, 0
-_02126F8C: .word FX_SinCosTable_
-
-	arm_func_start _ZN19CBattleAttackEffect12ov1_02126F90Ev
-_ZN19CBattleAttackEffect12ov1_02126F90Ev: ; 0x02126F90
-	stmdb sp!, {r3, lr}
-	ldr r1, [r0, #0x104]
-	cmp r1, #0
-	movne r1, #1
-	moveq r1, #0
-	cmp r1, #0
-	ldmeqia sp!, {r3, pc}
-	ldr r2, [r0, #0x190]
-	cmp r2, #0
-	beq _02126FEC
-	ldr r1, [r0, #0x194]
-	cmp r1, #1
-	bne _02126FEC
-	ldr r1, [r2, #0x18c]
-	cmp r1, #4
-	ldrne r1, [r0, #0x184]
-	ldrne r1, [r1, #0x94]
-	cmpne r1, #0
-	ldmeqia sp!, {r3, pc}
-	ldr r1, _0212700C ; =0x000FFFFF
-	add r0, r0, #0x3f4
-	bl sub_02044C9C
-	ldmia sp!, {r3, pc}
-	arm_func_end _ZN19CBattleAttackEffect12ov1_02126F90Ev
-_02126FEC:
-	ldr r1, [r0, #0x184]
-	ldr r1, [r1, #0x94]
-	cmp r1, #0
-	ldmeqia sp!, {r3, pc}
-	ldr r1, _0212700C ; =0x000FFFFF
-	add r0, r0, #0x3f4
-	bl sub_02044C9C
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0212700C: .word 0x000FFFFF
-
-	arm_func_start ov1_02127010
-ov1_02127010: ; 0x02127010
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	ldr r0, [r5, #0x184]
-	mov r4, r1
-	ldr r1, [r0, #0x18]
-	ldr r0, [r5, #0x104]
-	ldrh r1, [r1, #2]
-	cmp r1, #0
-	ldmeqia sp!, {r3, r4, r5, pc}
-	ldr r2, [r0]
-	ldrb r1, [r5, #0x18d]
-	ldr r2, [r2, #0xc]
-	blx r2
-	ldr r1, [r5, #0xc4]
-	ldr r3, [r0, #4]
-	mov r2, #0
-	str r3, [r1, #0x2c]
-	str r2, [r1, #0x30]
-	ldr r2, [r0, #8]
-	add r0, r5, #0x100
-	str r2, [r1, #0x38]
-	ldrh r0, [r0, #0x8a]
-	strh r0, [r1, #0x2a]
-	ldrb r0, [r5, #0x108]
-	str r0, [r1, #0x14]
-	ldr r0, [r5, #0x11c]
-	str r0, [r1, #0x20]
-	ldr r0, [r5, #0x134]
-	str r0, [r1, #0x24]
-	ldr r0, [r5, #0x184]
-	ldr r0, [r0, #0x18]
-	ldr r0, [r0, #4]
-	cmp r0, #1
-	ldreqh r0, [r5, #0x72]
-	streqh r0, [r1, #0x28]
-	mov r0, r1
-	ldr r2, [r0]
-	mov r1, r4
-	ldr r2, [r2, #8]
-	blx r2
-	strh r0, [r5, #6]
-	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ov1_02127010
-
-	arm_func_start ov1_021270B8
-ov1_021270B8: ; 0x021270B8
-	stmdb sp!, {r3, lr}
-	add r2, r0, #0x400
-	ldrh r2, [r2, #0x3c]
-	tst r2, #2
-	ldmeqia sp!, {r3, pc}
-	ldrh r2, [r0, #4]
-	tst r2, #0x100
-	moveq r2, #1
-	movne r2, #0
-	cmp r2, #0
-	ldmeqia sp!, {r3, pc}
-	add r0, r0, #0x18
-	add r0, r0, #0x400
-	ldr r2, [r0]
-	ldr r2, [r2, #8]
-	blx r2
-	ldmia sp!, {r3, pc}
-	arm_func_end ov1_021270B8
-
-	arm_func_start ov1_021270FC
-ov1_021270FC: ; 0x021270FC
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #0x18
-	mov r5, r0
-	mov r4, r1
-	bl _ZN6CActor12sub_02011FF4EP10CActorData
-	mov r0, r5
-	str r4, [r5, #0x184]
-	add r3, r5, #0x100
-	mov r2, #0
-	mov r1, #7
-	strh r2, [r3, #0x88]
-	bl ov1_021273A0
-	mov r2, #0x1000
-	mov r0, r5
-	mov r3, r2
-	mov r1, #0
-	bl _ZN6CActor12sub_02012A3CEill
-	mov r0, r5
-	mov r1, #0
-	mov r2, #0x1f
-	bl _ZN6CActor12sub_020129F4Eih
-	ldr r2, [r5, #0xc4]
-	mov r1, #0
-	mov r0, r5
-	strh r1, [r2, #0x28]
-	bl _ZN6CActor12sub_020128ECEt
-	mov r0, r5
-	bl _ZN6CActor12sub_0201287CEv
-	ldr r1, [r4, #0x18]
-	add r0, sp, #0
-	ldrsb r3, [r1, #0x10]
-	ldrsb r2, [r1, #0x11]
-	ldrb r1, [r1, #0x12]
-	mov r3, r3, lsl #0xc
-	str r3, [sp]
-	mov r2, r2, lsl #0xc
-	mov r1, r1, lsl #0xc
-	add r3, sp, #0xc
-	str r2, [sp, #4]
-	str r1, [sp, #8]
-	ldmia r0, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-	ldr r0, [sp, #0x14]
-	cmp r0, #0
-	mov r0, r5
-	bne _021271C0
-	mov r1, #0
-	bl ov1_02127388
-	b _021271C8
-	arm_func_end ov1_021270FC
-_021271C0:
-	mov r1, #1
-	bl ov1_02127388
-_021271C8:
-	mov r1, #0
-	mov r0, r5
-	mov r2, #1
-	str r1, [r5, #0xc]
-	bl _ZN6CActor12sub_02012860Eli
-	mov r1, #0
-	mov r0, r5
-	mov r2, r1
-	bl _ZN6CActor12sub_020127D0Eli
-	add r0, r5, #0x100
-	mov r1, #0
-	strh r1, [r0, #0x8a]
-	strb r1, [r5, #0x18c]
-	mov r0, #7
-	strb r0, [r5, #0x18d]
-	ldr r0, [r4, #0x94]
-	cmp r0, #0
-	addeq sp, sp, #0x18
-	ldmeqia sp!, {r3, r4, r5, pc}
-	add r0, r5, #0x3f4
-	add r1, r5, #0x1f4
-	mov r2, #0x80
-	bl sub_02044B48
-	ldr r0, [r5, #0x3f8]
-	ldr r2, _02127278 ; =s_initialize_overlay_1_02140b4c
-	sub r3, r0, #4
-	str r3, [r5, #0x3f8]
-	ldrb r1, [r5, #0x1f0]
-	add r0, r5, #0x3f4
-	str r1, [r3]
-	ldr r1, [r4, #0x94]
-	mov r3, #1
-	bl sub_02046040
-	ldr r0, [r5, #0x3f8]
-	ldr r2, _0212727C ; =s_proc_overlay_1_02140b58
-	sub r3, r0, #4
-	str r3, [r5, #0x3f8]
-	ldrb r1, [r5, #0x1f0]
-	add r0, r5, #0x3f4
-	str r1, [r3]
-	ldr r1, [r4, #0x94]
-	bl sub_02045A18
-	add sp, sp, #0x18
-	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02127278: .word s_initialize_overlay_1_02140b4c
-_0212727C: .word s_proc_overlay_1_02140b58
-
-	arm_func_start thunk_FUN_020120b0
-thunk_FUN_020120b0: ; 0x02127280
-	ldr ip, _02127288 ; =FUN_020120B0
-	bx ip
-	.align 2, 0
-_02127288: .word _ZN6CActor12sub_020120B0Ev
-	arm_func_end thunk_FUN_020120b0
-
-	arm_func_start ov1_0212728C
-ov1_0212728C: ; 0x0212728C
-	ldr r3, [r0, #0x104]
-	cmp r3, #0
-	movne r3, #1
-	moveq r3, #0
-	cmp r3, #0
-	strne r1, [r0, #0x190]
-	strne r2, [r0, #0x194]
-	bx lr
-	arm_func_end ov1_0212728C
-
-	arm_func_start _ZN19CBattleAttackEffect12ov1_021272ACEv
-_ZN19CBattleAttackEffect12ov1_021272ACEv: ; 0x021272AC
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r0, [r4, #0x184]
-	cmp r0, #0
-	ldrne r0, [r0, #0x94]
-	cmpne r0, #0
-	ldmeqia sp!, {r4, pc}
-	add r0, r4, #0x3f4
-	bl sub_02044B84
-	ldr r0, [r4, #0x3f8]
-	ldr r2, _021272FC ; =s_vanish_overlay_1_02140b60
-	sub r3, r0, #4
-	str r3, [r4, #0x3f8]
-	ldrb r1, [r4, #0x1f0]
-	add r0, r4, #0x3f4
-	str r1, [r3]
-	ldr r1, [r4, #0x184]
-	ldr r1, [r1, #0x94]
-	bl sub_02045A18
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_021272FC: .word s_vanish_overlay_1_02140b60
-	arm_func_end _ZN19CBattleAttackEffect12ov1_021272ACEv
-
-	arm_func_start _ZN19CBattleAttackEffect12ov1_02127300Ev
-_ZN19CBattleAttackEffect12ov1_02127300Ev: ; 0x02127300
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r0, [r4, #0x184]
-	cmp r0, #0
-	ldrne r0, [r0, #0x94]
-	cmpne r0, #0
-	beq _02127350
-	add r0, r4, #0x3f4
-	bl sub_02044B84
-	ldr r0, [r4, #0x3f8]
-	ldr r2, _0212736C ; =s_terminate_overlay_1_02140b68
-	sub r3, r0, #4
-	str r3, [r4, #0x3f8]
-	ldrb r1, [r4, #0x1f0]
-	add r0, r4, #0x3f4
-	str r1, [r3]
-	ldr r1, [r4, #0x184]
-	mov r3, #1
-	ldr r1, [r1, #0x94]
-	bl sub_02046040
-	arm_func_end _ZN19CBattleAttackEffect12ov1_02127300Ev
-_02127350:
-	mov r0, r4
-	bl thunk_FUN_020120b0
-	add r0, r4, #0x100
-	mov r1, #0
-	strh r1, [r0, #0x88]
-	str r1, [r4, #0x190]
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0212736C: .word s_terminate_overlay_1_02140b68
-
-	arm_func_start ov1_02127370
-ov1_02127370: ; 0x02127370
-	cmp r1, #0
-	ldrh r1, [r0, #4]
-	bicne r1, r1, #0x200
-	orreq r1, r1, #0x200
-	strh r1, [r0, #4]
-	bx lr
-	arm_func_end ov1_02127370
-
-	arm_func_start ov1_02127388
-ov1_02127388: ; 0x02127388
-	cmp r1, #0
-	ldrh r1, [r0, #4]
-	bicne r1, r1, #0x100
-	orreq r1, r1, #0x100
-	strh r1, [r0, #4]
-	bx lr
-	arm_func_end ov1_02127388
-
-	arm_func_start ov1_021273A0
-ov1_021273A0: ; 0x021273A0
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r5, r0
-	ldr r0, [r5, #0x184]
-	mov r4, r1
-	add r0, r0, r4, lsl #2
-	ldr r0, [r0, #0x1c]
-	mov r1, r2
-	ldr r0, [r0, #0xb8]
-	bl NNS_G2dGetAnimSequenceByIdx
-	mov r6, r0
-	ldr r0, [r5, #0x184]
-	mov r1, r4
-	ldr r2, [r0]
-	ldr r2, [r2, #0xc]
-	blx r2
-	cmp r0, #0
-	ldrne r0, [r0, #8]
-	mov r1, r6
-	ldrne r2, [r0, #0xb8]
-	add r0, r5, #0x198
-	moveq r2, #0
-	bl NNS_G2dInitCellAnimation
-	mov r0, #1
-	str r0, [r5, #0x1a4]
-	strb r4, [r5, #0x18d]
-	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end ov1_021273A0
-
-	arm_func_start ov1_02127408
-ov1_02127408: ; 0x02127408
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	ldr r2, [r5, #0x184]
-	mov r4, r1
-	ldr r2, [r2, #0x18]
-	ldr r2, [r2, #4]
-	cmp r2, #2
-	bne _02127448
-	ldrh r1, [r5, #0x72]
-	bl ov1_02127484
-	strb r0, [r5, #0x18c]
-	and r2, r0, #0xff
-	mov r0, r5
-	mov r1, r4
-	bl ov1_021273A0
-	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ov1_02127408
-_02127448:
-	mov r2, #0
-	bl ov1_021273A0
-	ldmia sp!, {r3, r4, r5, pc}
-
-	arm_func_start ov1_02127454
-ov1_02127454: ; 0x02127454
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r0, [r4, #0x184]
-	ldr r3, [r0]
-	ldr r3, [r3, #0x14]
-	blx r3
-	mov r1, r0
-	mov r0, r4
-	bl ov1_02127408
-	ldmia sp!, {r4, pc}
-	arm_func_end ov1_02127454
-
-	arm_func_start ov1_0212747C
-ov1_0212747C: ; 0x0212747C
-	ldr r0, [r0, #0x1a4]
-	bx lr
-	arm_func_end ov1_0212747C
-
-	arm_func_start ov1_02127484
-ov1_02127484: ; 0x02127484
-	cmp r1, #0x4000
-	movlo r0, #3
-	bxlo lr
-	cmp r1, #0x8000
-	movlo r0, #0
-	bxlo lr
-	cmp r1, #0xc000
-	movlo r0, #1
-	movhs r0, #2
-	bx lr
-	arm_func_end ov1_02127484
 
 	arm_func_start _ZN17UnkClass_021274ACC1Ev
 _ZN17UnkClass_021274ACC1Ev: ; 0x021274AC
@@ -4620,7 +3679,7 @@ ov1_0212A36C: ; 0x0212A36C
 	bl ov1_0212A1D0
 	mov r1, r5
 	mov r5, r0
-	bl ov1_021270FC
+	bl _ZN19CBattleAttackEffect12ov1_021270FCEP23CBattleAttackEffectData
 	ldr r0, [r6, #8]
 	ldr r2, [r6, #4]
 	str r0, [sp, #4]
@@ -4660,7 +3719,7 @@ ov1_0212A3FC: ; 0x0212A3FC
 	bl ov1_0212A1D0
 	mov r1, r6
 	mov r6, r0
-	bl ov1_021270FC
+	bl _ZN19CBattleAttackEffect12ov1_021270FCEP23CBattleAttackEffectData
 	ldr r0, [r5, #8]
 	ldr r2, [r5, #4]
 	str r0, [sp, #4]
@@ -4879,7 +3938,7 @@ ov1_0212A6D4: ; 0x0212A6D4
 	ldmib r4, {r1, r2}
 	sub r2, r2, #1
 	and r2, r2, #0xff
-	bl ov1_02127454
+	bl _ZN19CBattleAttackEffect12ov1_02127454Eim
 	b _0212A74C
 	arm_func_end ov1_0212A6D4
 _0212A734:
@@ -4976,7 +4035,7 @@ _0212A844:
 	mov r0, r4
 	bl ov1_0212A1D0
 	mov r1, #1
-	bl ov1_02127388
+	bl _ZN19CBattleAttackEffect12ov1_02127388Ei
 _0212A854:
 	mov r0, #0
 	ldmia sp!, {r4, pc}
@@ -5004,7 +4063,7 @@ _0212A898:
 	mov r0, r4
 	bl ov1_0212A1D0
 	mov r1, #0
-	bl ov1_02127388
+	bl _ZN19CBattleAttackEffect12ov1_02127388Ei
 _0212A8A8:
 	mov r0, #0
 	ldmia sp!, {r4, pc}
@@ -5031,7 +4090,7 @@ ov1_0212A8B0: ; 0x0212A8B0
 	mov r2, r0
 	mov r0, r5
 	mov r1, r4
-	bl ov1_0212728C
+	bl _ZN19CBattleAttackEffect12ov1_0212728CEP12CBattleEnemyi
 	mov r0, #1
 	ldmia sp!, {r4, r5, r6, pc}
 	arm_func_end ov1_0212A8B0
@@ -5283,7 +4342,7 @@ _0212AC0C:
 	mov r0, r4
 	bl ov1_0212A1D0
 	mov r1, #1
-	bl ov1_02127370
+	bl _ZN19CBattleAttackEffect12ov1_02127370Ei
 _0212AC1C:
 	mov r0, #1
 	ldmia sp!, {r4, pc}
@@ -5311,7 +4370,7 @@ _0212AC60:
 	mov r0, r4
 	bl ov1_0212A1D0
 	mov r1, #0
-	bl ov1_02127370
+	bl _ZN19CBattleAttackEffect12ov1_02127370Ei
 _0212AC70:
 	mov r0, #1
 	ldmia sp!, {r4, pc}
@@ -5649,7 +4708,7 @@ ov1_0212B02C: ; 0x0212B02C
 	cmp r0, #2
 	mov r0, r4
 	bne _0212B068
-	bl ov1_0212747C
+	bl _ZN19CBattleAttackEffect12ov1_0212747CEv
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end ov1_0212B02C
 _0212B068:
@@ -10847,7 +9906,7 @@ _0212F524:
 	ldr r0, [r0, #0x50]
 	cmp r0, #0
 	beq _0212F554
-	bl ov1_0212747C
+	bl _ZN19CBattleAttackEffect12ov1_0212747CEv
 	cmp r0, #0
 	bne _0212F554
 	add r0, r4, r6, lsl #2
@@ -10893,11 +9952,11 @@ ov1_0212F56C: ; 0x0212F56C
 	str r0, [r4, #0x48]
 	ldr r1, [r4, #0xc]
 	ldr r1, [r1]
-	bl ov1_021270FC
+	bl _ZN19CBattleAttackEffect12ov1_021270FCEP23CBattleAttackEffectData
 	ldr r0, [r4, #0x48]
 	mov r1, #0x20
 	mov r2, #0
-	bl ov1_02127454
+	bl _ZN19CBattleAttackEffect12ov1_02127454Eim
 	ldr r0, [r4, #0x48]
 	add r1, r4, #0x24
 	add r0, r0, #0xc
@@ -10969,7 +10028,7 @@ _0212F69C:
 	ldr r0, [r4, #0x48]
 	and r2, r1, #0xff
 	mov r1, #7
-	bl ov1_021273A0
+	bl _ZN19CBattleAttackEffect12ov1_021273A0Eht
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
@@ -11004,11 +10063,11 @@ _0212F74C:
 	str r0, [sb, #0x4c]
 	ldr r1, [sb, #0xc]
 	ldr r1, [r1]
-	bl ov1_021270FC
+	bl _ZN19CBattleAttackEffect12ov1_021270FCEP23CBattleAttackEffectData
 	ldr r0, [sb, #0x4c]
 	mov r1, #0x20
 	mov r2, #1
-	bl ov1_02127454
+	bl _ZN19CBattleAttackEffect12ov1_02127454Eim
 	ldr r2, [sb, #0x24]
 	ldr r1, [sb, #0x28]
 	ldr r0, [sb, #0x24]
@@ -11345,11 +10404,11 @@ ov1_0212FBD0: ; 0x0212FBD0
 	beq _0212FC20
 	ldr r1, [r7, #0xc]
 	ldr r1, [r1]
-	bl ov1_021270FC
+	bl _ZN19CBattleAttackEffect12ov1_021270FCEP23CBattleAttackEffectData
 	mov r0, r4
 	mov r1, #0x20
 	mov r2, #2
-	bl ov1_02127454
+	bl _ZN19CBattleAttackEffect12ov1_02127454Eim
 	mov r1, r6
 	add r0, r4, #0xc
 	bl _ZN17UnkClass_0201179C12sub_02011D1CEl
@@ -11495,7 +10554,7 @@ _0212FDE4:
 	ldr r0, [sb, #0x1c]
 	mov r1, #0x20
 	mov r2, #0
-	bl ov1_02127454
+	bl _ZN19CBattleAttackEffect12ov1_02127454Eim
 	ldr r0, [sb, #0x1c]
 	ldr r1, [r0, #0x24]
 	add r0, r0, #0xc
@@ -11509,7 +10568,7 @@ _0212FE18:
 	ldr r0, [sb, #0x1c]
 	mov r1, #0x20
 	mov r2, #2
-	bl ov1_02127454
+	bl _ZN19CBattleAttackEffect12ov1_02127454Eim
 	ldr r0, [sb, #0x1c]
 	ldr r1, [r0, #0x24]
 	add r0, r0, #0xc
@@ -11706,11 +10765,11 @@ _021300A8:
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
 	ldr r1, [r7, #0xc]
 	ldr r1, [r1]
-	bl ov1_021270FC
+	bl _ZN19CBattleAttackEffect12ov1_021270FCEP23CBattleAttackEffectData
 	ldr r0, [r4, #4]
 	mov r1, #0x20
 	mov r2, #3
-	bl ov1_02127454
+	bl _ZN19CBattleAttackEffect12ov1_02127454Eim
 	ldr r0, [r4, #4]
 	mov r1, r6
 	add r0, r0, #0xc
@@ -11919,7 +10978,7 @@ _021302F4:
 	mov r1, #0
 	add r0, sl, r0, lsl #2
 	ldr r0, [r0, #0x28]
-	bl ov1_02127388
+	bl _ZN19CBattleAttackEffect12ov1_02127388Ei
 	ldrb r0, [sp, #0xc]
 	mov r1, #0
 	mov r2, #0x1000
@@ -12040,11 +11099,11 @@ _02130518:
 	str r7, [r0, #0xc]
 	ldr r0, [r2, #0x28]
 	mov r2, #2
-	bl ov1_02127454
+	bl _ZN19CBattleAttackEffect12ov1_02127454Eim
 	add r0, sl, r8, lsl #2
 	ldr r0, [r0, #0x28]
 	mov r1, #0
-	bl ov1_02127388
+	bl _ZN19CBattleAttackEffect12ov1_02127388Ei
 	mla r0, r8, r5, sl
 	strb r6, [r0, #0x39]
 _021305A0:
@@ -12091,7 +11150,7 @@ ov1_02130628: ; 0x02130628
 	mov r4, r1
 	add r0, r5, r4, lsl #2
 	ldr r0, [r0, #0x28]
-	bl ov1_0212747C
+	bl _ZN19CBattleAttackEffect12ov1_0212747CEv
 	cmp r0, #0
 	bne _02130688
 	mov r0, #0x14
@@ -12105,16 +11164,16 @@ ov1_02130628: ; 0x02130628
 	add r0, r5, r4, lsl #2
 	ldr r0, [r0, #0x28]
 	mov r1, #0x20
-	bl ov1_02127454
+	bl _ZN19CBattleAttackEffect12ov1_02127454Eim
 	add r0, r5, r4, lsl #2
 	ldr r0, [r0, #0x28]
 	mov r1, #1
-	bl ov1_02127388
+	bl _ZN19CBattleAttackEffect12ov1_02127388Ei
 	arm_func_end ov1_02130628
 _02130688:
 	add r0, r5, r4, lsl #2
 	ldr r0, [r0, #0x28]
-	bl ov1_0212747C
+	bl _ZN19CBattleAttackEffect12ov1_0212747CEv
 	cmp r0, #0
 	ldmneia sp!, {r3, r4, r5, pc}
 	mov r0, #0x14
@@ -12190,14 +11249,14 @@ ov1_0213071C: ; 0x0213071C
 	strh ip, [r1, #0x3a]
 	ldr r1, [r6, #0xc]
 	ldr r1, [r1]
-	bl ov1_021270FC
+	bl _ZN19CBattleAttackEffect12ov1_021270FCEP23CBattleAttackEffectData
 	mov r0, r4
 	mov r1, #0x20
 	mov r2, #0
-	bl ov1_02127454
+	bl _ZN19CBattleAttackEffect12ov1_02127454Eim
 	mov r0, r4
 	mov r1, #1
-	bl ov1_02127388
+	bl _ZN19CBattleAttackEffect12ov1_02127388Ei
 	mov r0, r4
 	mov r1, #0
 	mov r2, r1
@@ -12557,7 +11616,7 @@ _02130C20:
 	moveq r1, r4
 	cmp r1, #0
 	beq _02130C58
-	bl ov1_0212747C
+	bl _ZN19CBattleAttackEffect12ov1_0212747CEv
 	cmp r0, #0
 	bne _02130C58
 	ldr r0, [sl, #8]
@@ -12619,18 +11678,18 @@ _02130C98:
 	beq _02130DEC
 	ldr r1, [sl, #0xc]
 	ldr r1, [r1]
-	bl ov1_021270FC
+	bl _ZN19CBattleAttackEffect12ov1_021270FCEP23CBattleAttackEffectData
 	mov r0, r4
 	mov r1, #0x20
 	mov r2, #0
-	bl ov1_02127454
+	bl _ZN19CBattleAttackEffect12ov1_02127454Eim
 	ldr r2, [r8, r7, lsl #2]
 	mov r0, r4
 	ldr r2, [r2, #0x184]
 	mov r1, #7
 	ldr r2, [r2, #0x1c]
 	ldrb r2, [r2, #0xe]
-	bl ov1_021273A0
+	bl _ZN19CBattleAttackEffect12ov1_021273A0Eht
 	ldr r2, [r8, r7, lsl #2]
 	add r0, r4, #0xc
 	ldr r4, [r2, #0x484]
@@ -13150,11 +12209,11 @@ _02131430:
 	str r0, [r6, #0x28]
 	ldr r1, [r6, #0xc]
 	ldr r1, [r1]
-	bl ov1_021270FC
+	bl _ZN19CBattleAttackEffect12ov1_021270FCEP23CBattleAttackEffectData
 	ldr r0, [r6, #0x28]
 	mov r1, #0x20
 	mov r2, #0
-	bl ov1_02127454
+	bl _ZN19CBattleAttackEffect12ov1_02127454Eim
 	mov r1, r4
 	ldr r4, [r6, #0x28]
 	add r0, r4, #0xc
@@ -13185,11 +12244,11 @@ ov1_021314A0: ; 0x021314A0
 	ldmeqia sp!, {r4, r5, r6, r7, r8, pc}
 	ldr r1, [r8, #0xc]
 	ldr r1, [r1]
-	bl ov1_021270FC
+	bl _ZN19CBattleAttackEffect12ov1_021270FCEP23CBattleAttackEffectData
 	mov r0, r4
 	mov r1, #7
 	mov r2, #1
-	bl ov1_021273A0
+	bl _ZN19CBattleAttackEffect12ov1_021273A0Eht
 	mov r1, r7
 	add r0, r4, #0xc
 	bl _ZN17UnkClass_0201179C12sub_02011D1CEl
@@ -13327,7 +12386,7 @@ _021315B4:
 	bl _ZN6CActor12sub_02012A3CEill
 	ldr r0, [r6, #0x28]
 	mov r1, #0
-	bl ov1_02127388
+	bl _ZN19CBattleAttackEffect12ov1_02127388Ei
 	ldrb r0, [r6, #0x18]
 	bic r0, r0, #1
 	strb r0, [r6, #0x18]
@@ -13524,7 +12583,7 @@ _02131930:
 	str r0, [r4, #0x10]
 	ldr r1, [sb, #0xc]
 	ldr r1, [r1]
-	bl ov1_021270FC
+	bl _ZN19CBattleAttackEffect12ov1_021270FCEP23CBattleAttackEffectData
 	ldr r0, [r4, #0x10]
 	add r1, sp, #0x1c
 	add r0, r0, #0xc
@@ -13743,17 +12802,17 @@ _02131BFC:
 	tst r1, #4
 	beq _02131C58
 	ldr r0, [r6, #4]
-	bl ov1_0212747C
+	bl _ZN19CBattleAttackEffect12ov1_0212747CEv
 	cmp r0, #0
 	bne _02131C58
 	ldr r0, [r6, #4]
 	mov r1, #0x20
 	mov r2, #1
-	bl ov1_02127454
+	bl _ZN19CBattleAttackEffect12ov1_02127454Eim
 	ldrb r2, [r6, #1]
 	ldr r0, [r6, #4]
 	mov r1, #8
-	bl ov1_021273A0
+	bl _ZN19CBattleAttackEffect12ov1_021273A0Eht
 	ldrb r0, [r6]
 	bic r0, r0, #4
 	strb r0, [r6]
@@ -13876,11 +12935,11 @@ _02131DF8:
 	ldr r0, [r6, #4]
 	mov r1, #0x20
 	mov r2, #2
-	bl ov1_02127454
+	bl _ZN19CBattleAttackEffect12ov1_02127454Eim
 	ldrb r2, [r6, #1]
 	ldr r0, [r6, #4]
 	mov r1, #9
-	bl ov1_021273A0
+	bl _ZN19CBattleAttackEffect12ov1_021273A0Eht
 	ldrb r0, [sb, #0x19]
 	add r0, r0, #1
 	strb r0, [sb, #0x19]
@@ -13895,11 +12954,11 @@ _02131E48:
 	ldr r0, [r6, #4]
 	mov r1, #0x20
 	mov r2, #1
-	bl ov1_02127454
+	bl _ZN19CBattleAttackEffect12ov1_02127454Eim
 	ldrb r2, [r6, #1]
 	ldr r0, [r6, #4]
 	mov r1, #8
-	bl ov1_021273A0
+	bl _ZN19CBattleAttackEffect12ov1_021273A0Eht
 	ldrb r0, [sb, #0x19]
 	sub r0, r0, #1
 	strb r0, [sb, #0x19]
@@ -14056,15 +13115,15 @@ _02132084:
 	ldr r1, [r7, #0xc]
 	ldr r0, [r4, #4]
 	ldr r1, [r1]
-	bl ov1_021270FC
+	bl _ZN19CBattleAttackEffect12ov1_021270FCEP23CBattleAttackEffectData
 	ldr r0, [r4, #4]
 	mov r1, #0x20
 	mov r2, #0
-	bl ov1_02127454
+	bl _ZN19CBattleAttackEffect12ov1_02127454Eim
 	ldrb r2, [r4, #1]
 	ldr r0, [r4, #4]
 	mov r1, #7
-	bl ov1_021273A0
+	bl _ZN19CBattleAttackEffect12ov1_021273A0Eht
 	ldr r8, [r4, #4]
 	mov r1, r6
 	add r0, r8, #0xc
@@ -14674,7 +13733,7 @@ _021328E8: ; jump table
 	b _0213297C ; case 3
 _021328F8:
 	ldr r0, [r1, #0x70]
-	bl ov1_0212747C
+	bl _ZN19CBattleAttackEffect12ov1_0212747CEv
 	cmp r0, #0
 	bne _021329A4
 	mov r0, #0xc
@@ -14683,7 +13742,7 @@ _021328F8:
 	ldrb r2, [r1, #0x6c]
 	ldr r0, [r1, #0x70]
 	mov r1, #8
-	bl ov1_021273A0
+	bl _ZN19CBattleAttackEffect12ov1_021273A0Eht
 	b _021329A4
 _02132928:
 	ldr r1, [r8, r7, lsl #2]
@@ -14703,14 +13762,14 @@ _02132950:
 	ldrb r2, [r1, #0x6c]
 	ldr r0, [r1, #0x70]
 	mov r1, #9
-	bl ov1_021273A0
+	bl _ZN19CBattleAttackEffect12ov1_021273A0Eht
 	ldr r0, [sb, #0x14]
 	ldr r1, _021329C4 ; =0x00000151
 	bl _ZN17UnkClass_0203447812sub_02034C44Ei
 	b _021329A4
 _0213297C:
 	ldr r0, [r1, #0x70]
-	bl ov1_0212747C
+	bl _ZN19CBattleAttackEffect12ov1_0212747CEv
 	cmp r0, #0
 	bne _021329A4
 	mov r0, #0xc
@@ -14786,11 +13845,11 @@ _02132A40:
 	str r6, [r0, #0xc]
 	ldr r0, [r2, #0x28]
 	mov r2, #2
-	bl ov1_02127454
+	bl _ZN19CBattleAttackEffect12ov1_02127454Eim
 	add r0, sl, r8, lsl #2
 	ldr r0, [r0, #0x28]
 	mov r1, #0
-	bl ov1_02127388
+	bl _ZN19CBattleAttackEffect12ov1_02127388Ei
 	strb r5, [r7, #0x39]
 _02132AA8:
 	add r0, sl, r8, lsl #2
@@ -14812,11 +13871,11 @@ _02132AA8:
 	ldr r0, [r0, #0x28]
 	mov r1, #0x20
 	mov r2, #2
-	bl ov1_02127454
+	bl _ZN19CBattleAttackEffect12ov1_02127454Eim
 	add r0, sl, r8, lsl #2
 	ldr r0, [r0, #0x28]
 	mov r1, #0
-	bl ov1_02127388
+	bl _ZN19CBattleAttackEffect12ov1_02127388Ei
 	mov r0, #0xc
 	mla r1, r8, r0, sl
 	strb fp, [r1, #0x39]
@@ -14833,7 +13892,7 @@ _02132B2C:
 	bne _02132B64
 	add r0, sl, r8, lsl #2
 	ldr r0, [r0, #0x28]
-	bl ov1_0212747C
+	bl _ZN19CBattleAttackEffect12ov1_0212747CEv
 	cmp r0, #0
 	bne _02132B64
 	add r0, sl, r8, lsl #2
@@ -14915,14 +13974,14 @@ ov1_02132BD4: ; 0x02132BD4
 	strb lr, [r1, #0x3a]
 	ldr r1, [r6, #0xc]
 	ldr r1, [r1]
-	bl ov1_021270FC
+	bl _ZN19CBattleAttackEffect12ov1_021270FCEP23CBattleAttackEffectData
 	mov r0, r4
 	mov r1, #0x20
 	mov r2, #0
-	bl ov1_02127454
+	bl _ZN19CBattleAttackEffect12ov1_02127454Eim
 	mov r0, r4
 	mov r1, #1
-	bl ov1_02127388
+	bl _ZN19CBattleAttackEffect12ov1_02127388Ei
 	mov r0, r4
 	mov r1, #0
 	mov r2, #0x800
@@ -15205,11 +14264,11 @@ _02133054:
 	ldr r1, [r6, #0xc]
 	ldr r0, [r5, #8]
 	ldr r1, [r1, #4]
-	bl ov1_021270FC
+	bl _ZN19CBattleAttackEffect12ov1_021270FCEP23CBattleAttackEffectData
 	ldrb r2, [r5, #4]
 	ldr r0, [r5, #8]
 	mov r1, #7
-	bl ov1_021273A0
+	bl _ZN19CBattleAttackEffect12ov1_021273A0Eht
 	ldr r2, [r4, #0x484]
 	ldr r0, [r5, #8]
 	ldr r3, [r4, #0x20]
@@ -15510,11 +14569,11 @@ _02133488:
 	beq _02133510
 	ldr r1, [r8, #0xc]
 	ldr r1, [r1, #4]
-	bl ov1_021270FC
+	bl _ZN19CBattleAttackEffect12ov1_021270FCEP23CBattleAttackEffectData
 	ldr r0, [sl, #4]
 	mov r1, #0x20
 	mov r2, #2
-	bl ov1_02127454
+	bl _ZN19CBattleAttackEffect12ov1_02127454Eim
 	ldr r3, [r7, r5, lsl #2]
 	ldr r0, [sl, #4]
 	ldr r2, [r3, #0x484]
@@ -15610,7 +14669,7 @@ ov1_021335A4: ; 0x021335A4
 	str r0, [r4, #0x40]
 	ldr r1, [r4, #0xc]
 	ldr r1, [r1]
-	bl ov1_021270FC
+	bl _ZN19CBattleAttackEffect12ov1_021270FCEP23CBattleAttackEffectData
 	ldr r0, [r4, #0x40]
 	add r1, r4, #0x1c
 	add r0, r0, #0xc
@@ -15619,13 +14678,13 @@ ov1_021335A4: ; 0x021335A4
 	ldr r0, [r4, #0x40]
 	mov r1, #0x20
 	mov r2, #0
-	bl ov1_02127454
+	bl _ZN19CBattleAttackEffect12ov1_02127454Eim
 	mov r0, r4
 	bl ov1_0212EE3C
 	str r0, [r4, #0x44]
 	ldr r1, [r4, #0xc]
 	ldr r1, [r1]
-	bl ov1_021270FC
+	bl _ZN19CBattleAttackEffect12ov1_021270FCEP23CBattleAttackEffectData
 	ldr r0, [r4, #0x44]
 	add r1, r4, #0x1c
 	add r0, r0, #0xc
@@ -15634,7 +14693,7 @@ ov1_021335A4: ; 0x021335A4
 	ldr r0, [r4, #0x44]
 	mov r1, #0x20
 	mov r2, #1
-	bl ov1_02127454
+	bl _ZN19CBattleAttackEffect12ov1_02127454Eim
 	mov r2, #0x28
 	ldr r0, [r4, #0x44]
 	mov r1, #0
@@ -15645,7 +14704,7 @@ ov1_021335A4: ; 0x021335A4
 	str r0, [r4, #0x48]
 	ldr r1, [r4, #0xc]
 	ldr r1, [r1]
-	bl ov1_021270FC
+	bl _ZN19CBattleAttackEffect12ov1_021270FCEP23CBattleAttackEffectData
 	ldr r0, [r4, #0x48]
 	add r1, r4, #0x24
 	add r0, r0, #0xc
@@ -15654,7 +14713,7 @@ ov1_021335A4: ; 0x021335A4
 	ldr r0, [r4, #0x48]
 	mov r1, #0x20
 	mov r2, #2
-	bl ov1_02127454
+	bl _ZN19CBattleAttackEffect12ov1_02127454Eim
 	ldr r0, [r4, #0x14]
 	mov r1, #0x138
 	bl _ZN17UnkClass_0203447812sub_02034C44Ei
@@ -15697,11 +14756,11 @@ ov1_021336CC: ; 0x021336CC
 	str r4, [r1, #0x4c]
 	ldr r1, [sl, #0xc]
 	ldr r1, [r1]
-	bl ov1_021270FC
+	bl _ZN19CBattleAttackEffect12ov1_021270FCEP23CBattleAttackEffectData
 	mov r0, r4
 	mov r1, #0x20
 	mov r2, #2
-	bl ov1_02127454
+	bl _ZN19CBattleAttackEffect12ov1_02127454Eim
 	add r1, sl, #0x24
 	add r0, r4, #0xc
 	ldmia r1, {r1, r2}
@@ -16400,7 +15459,7 @@ _02134068:
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
 	ldr r1, [sl, #0xc]
 	ldr r1, [r1]
-	bl ov1_021270FC
+	bl _ZN19CBattleAttackEffect12ov1_021270FCEP23CBattleAttackEffectData
 	add r1, sl, #0x1c
 	add r0, r4, #0xc
 	ldmia r1, {r1, r2}
@@ -16408,7 +15467,7 @@ _02134068:
 	mov r0, r4
 	mov r1, #0x20
 	mov r2, #0
-	bl ov1_02127454
+	bl _ZN19CBattleAttackEffect12ov1_02127454Eim
 	mov r0, r4
 	mov r1, #0
 	mov r2, #0x28
@@ -16860,7 +15919,7 @@ _02134664:
 	mov r0, r1
 	str r0, [r2, #0xc]
 	ldr r0, [r3, #0x28]
-	bl ov1_02127388
+	bl _ZN19CBattleAttackEffect12ov1_02127388Ei
 	mla r3, r8, r5, sl
 	ldrb r2, [r3, #0x38]
 	add r0, sl, r8, lsl #2
@@ -16869,7 +15928,7 @@ _02134664:
 	strb r2, [r3, #0x38]
 	ldr r0, [r0, #0x28]
 	mov r2, #1
-	bl ov1_02127454
+	bl _ZN19CBattleAttackEffect12ov1_02127454Eim
 _021346D0:
 	mla r0, r8, r4, sl
 	ldrb r0, [r0, #0x38]
@@ -16877,7 +15936,7 @@ _021346D0:
 	beq _02134700
 	add r0, sl, r8, lsl #2
 	ldr r0, [r0, #0x28]
-	bl ov1_0212747C
+	bl _ZN19CBattleAttackEffect12ov1_0212747CEv
 	cmp r0, #0
 	bne _02134700
 	add r0, sl, r8, lsl #2
@@ -16955,10 +16014,10 @@ ov1_02134770: ; 0x02134770
 	strb r2, [r1, #0x3a]
 	ldr r1, [r6, #0xc]
 	ldr r1, [r1]
-	bl ov1_021270FC
+	bl _ZN19CBattleAttackEffect12ov1_021270FCEP23CBattleAttackEffectData
 	mov r0, r4
 	mov r1, #1
-	bl ov1_02127388
+	bl _ZN19CBattleAttackEffect12ov1_02127388Ei
 	ldrb r2, [sp]
 	mov r0, #1
 	add r1, r6, r2, lsl #2
@@ -17442,11 +16501,11 @@ _02134E64:
 	str r6, [r0, #0xc]
 	ldr r0, [r2, #0x28]
 	mov r2, #2
-	bl ov1_021273A0
+	bl _ZN19CBattleAttackEffect12ov1_021273A0Eht
 	add r0, sl, r8, lsl #2
 	ldr r0, [r0, #0x28]
 	mov r1, #0
-	bl ov1_02127388
+	bl _ZN19CBattleAttackEffect12ov1_02127388Ei
 	strb r5, [r7, #0x39]
 _02134EC8:
 	mla r0, r8, fp, sl
@@ -17455,7 +16514,7 @@ _02134EC8:
 	bne _02134EF8
 	add r0, sl, r8, lsl #2
 	ldr r0, [r0, #0x28]
-	bl ov1_0212747C
+	bl _ZN19CBattleAttackEffect12ov1_0212747CEv
 	cmp r0, #0
 	bne _02134EF8
 	add r0, sl, r8, lsl #2
@@ -17533,14 +16592,14 @@ ov1_02134F68: ; 0x02134F68
 	str r2, [r1, #0x3c]
 	ldr r1, [r6, #0xc]
 	ldr r1, [r1]
-	bl ov1_021270FC
+	bl _ZN19CBattleAttackEffect12ov1_021270FCEP23CBattleAttackEffectData
 	mov r0, r4
 	mov r1, #7
 	mov r2, #2
-	bl ov1_021273A0
+	bl _ZN19CBattleAttackEffect12ov1_021273A0Eht
 	mov r0, r4
 	mov r1, #1
-	bl ov1_02127388
+	bl _ZN19CBattleAttackEffect12ov1_02127388Ei
 	ldrb r2, [sp]
 	mov r0, #1
 	add r1, r6, r2, lsl #2
@@ -18004,11 +17063,11 @@ _02135610:
 	str r6, [r0, #0xc]
 	ldr r0, [r2, #0x28]
 	mov r2, #2
-	bl ov1_021273A0
+	bl _ZN19CBattleAttackEffect12ov1_021273A0Eht
 	add r0, sl, r8, lsl #2
 	ldr r0, [r0, #0x28]
 	mov r1, #0
-	bl ov1_02127388
+	bl _ZN19CBattleAttackEffect12ov1_02127388Ei
 	strb r5, [r7, #0x39]
 _02135678:
 	add r0, sl, r8, lsl #2
@@ -18032,11 +17091,11 @@ _02135678:
 	ldr r0, [r0, #0x28]
 	mov r1, #0x20
 	mov r2, #1
-	bl ov1_02127454
+	bl _ZN19CBattleAttackEffect12ov1_02127454Eim
 	add r0, sl, r8, lsl #2
 	ldr r0, [r0, #0x28]
 	mov r1, #0
-	bl ov1_02127388
+	bl _ZN19CBattleAttackEffect12ov1_02127388Ei
 	mov r0, #0xc
 	mla r1, r8, r0, sl
 	strb fp, [r1, #0x39]
@@ -18050,7 +17109,7 @@ _021356FC:
 _02135704:
 	add r0, sl, r8, lsl #2
 	ldr r0, [r0, #0x28]
-	bl ov1_0212747C
+	bl _ZN19CBattleAttackEffect12ov1_0212747CEv
 	cmp r0, #0
 	bne _02135724
 	add r0, sl, r8, lsl #2
@@ -18185,14 +17244,14 @@ ov1_02135848: ; 0x02135848
 	str r3, [r2, #0x40]
 	ldr r1, [r6, #0xc]
 	ldr r1, [r1]
-	bl ov1_021270FC
+	bl _ZN19CBattleAttackEffect12ov1_021270FCEP23CBattleAttackEffectData
 	mov r0, r4
 	mov r1, #7
 	mov r2, #2
-	bl ov1_021273A0
+	bl _ZN19CBattleAttackEffect12ov1_021273A0Eht
 	mov r0, r4
 	mov r1, #1
-	bl ov1_02127388
+	bl _ZN19CBattleAttackEffect12ov1_02127388Ei
 	ldrb r2, [sp]
 	mov r1, #0xc
 	mov r0, r4
@@ -30651,123 +29710,6 @@ DAT_overlay_1_021404f8: ; 0x021404F8
     .section .sinit,4 ; 0x02140734
 
     .data
-
-    .global PTR_ptr_FUN_020835bc_overlay_1_02140a84
-PTR_ptr_FUN_020835bc_overlay_1_02140a84: ; 0x02140A84
-	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
-	.word s_23CBattleAttackEffectData_overlay_1_02140a90
-	.word _ZTI10CActorData
-
-    .global s_23CBattleAttackEffectData_overlay_1_02140a90
-s_23CBattleAttackEffectData_overlay_1_02140a90: ; 0x02140A90
-	.asciz "23CBattleAttackEffectData"
-
-    .global DAT_overlay_1_02140AAA
-DAT_overlay_1_02140AAA:
-	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-	.word PTR_ptr_FUN_020835bc_overlay_1_02140a84
-
-    .global ptr_FUN_overlay_1_021269b8_overlay_1_02140ab4
-ptr_FUN_overlay_1_021269b8_overlay_1_02140ab4: ; 0x02140AB4
-	.word ov1_021269B8
-
-    .global ptr_FUN_overlay_1_02126a74_overlay_1_02140ab8
-ptr_FUN_overlay_1_02126a74_overlay_1_02140ab8: ; 0x02140AB8
-	.word ov1_02126A74
-
-    .global ptr_FUN_02014034_overlay_1_02140abc
-ptr_FUN_02014034_overlay_1_02140abc: ; 0x02140ABC
-	.word _ZN10CActorData7ReleaseEv
-
-    .global ptr_FUN_0201437c_overlay_1_02140ac0
-ptr_FUN_0201437c_overlay_1_02140ac0: ; 0x02140AC0
-	.word _ZN10CActorData7GetAnimEh
-
-    .global ptr_FUN_020143b8_overlay_1_02140ac4
-ptr_FUN_020143b8_overlay_1_02140ac4: ; 0x02140AC4
-	.word _ZN10CActorData12sub_020143B8Eim
-	.word _ZN10CActorData9GetAnimIdEim
-	.word _ZN10CActorData9GetAnimAtEi
-
-    .global s_ACT_e_03d_a_02d_NANR_overlay_1_02140ad0
-s_ACT_e_03d_a_02d_NANR_overlay_1_02140ad0: ; 0x02140AD0
-	.asciz "ACT:e%03d_a%02d.NANR"
-
-    .global DAT_overlay_1_02140AE5
-DAT_overlay_1_02140AE5:
-	.byte 0x00, 0x00, 0x00
-
-    .global s_data_script_battle_effect_e_03d_overlay_1_02140ae8
-s_data_script_battle_effect_e_03d_overlay_1_02140ae8: ; 0x02140AE8
-	.asciz "data/script/battle/effect/e%03d.fsb"
-
-    .global PTR_ptr_FUN_020835bc_overlay_1_02140b0c
-PTR_ptr_FUN_020835bc_overlay_1_02140b0c: ; 0x02140B0C
-	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
-	.word s_19CBattleAttackEffect_overlay_1_02140b18
-	.word _ZTI6CActor
-
-    .global s_19CBattleAttackEffect_overlay_1_02140b18
-s_19CBattleAttackEffect_overlay_1_02140b18: ; 0x02140B18
-	.asciz "19CBattleAttackEffect"
-
-    .global DAT_overlay_1_02140B2E
-DAT_overlay_1_02140B2E:
-	.byte 0x00, 0x00
-	.byte 0x00, 0x00, 0x00, 0x00
-	.word PTR_ptr_FUN_020835bc_overlay_1_02140b0c
-
-    .global ptr_FUN_overlay_1_02126bd4_overlay_1_02140b38
-ptr_FUN_overlay_1_02126bd4_overlay_1_02140b38: ; 0x02140B38
-	.word ov1_02126BD4
-
-    .global ptr_FUN_overlay_1_02126c00_overlay_1_02140b3c
-ptr_FUN_overlay_1_02126c00_overlay_1_02140b3c: ; 0x02140B3C
-	.word ov1_02126C00
-
-    .global ptr_FUN_overlay_1_02126c34_overlay_1_02140b40
-ptr_FUN_overlay_1_02126c34_overlay_1_02140b40: ; 0x02140B40
-	.word ov1_02126C34
-
-    .global ptr_FUN_overlay_1_02127010_overlay_1_02140b44
-ptr_FUN_overlay_1_02127010_overlay_1_02140b44: ; 0x02140B44
-	.word ov1_02127010
-
-    .global ptr_FUN_overlay_1_021270b8_overlay_1_02140b48
-ptr_FUN_overlay_1_021270b8_overlay_1_02140b48: ; 0x02140B48
-	.word ov1_021270B8
-
-    .global s_initialize_overlay_1_02140b4c
-s_initialize_overlay_1_02140b4c: ; 0x02140B4C
-	.asciz "initialize"
-
-    .global DAT_overlay_1_02140B57
-DAT_overlay_1_02140B57:
-	.byte 0x00
-
-    .global s_proc_overlay_1_02140b58
-s_proc_overlay_1_02140b58: ; 0x02140B58
-	.asciz "proc"
-
-    .global DAT_overlay_1_02140B5D
-DAT_overlay_1_02140B5D:
-	.byte 0x00, 0x00, 0x00
-
-    .global s_vanish_overlay_1_02140b60
-s_vanish_overlay_1_02140b60: ; 0x02140B60
-	.asciz "vanish"
-
-    .global DAT_overlay_1_02140B67
-DAT_overlay_1_02140B67:
-	.byte 0x00
-
-    .global s_terminate_overlay_1_02140b68
-s_terminate_overlay_1_02140b68: ; 0x02140B68
-	.asciz "terminate"
-
-    .global DAT_overlay_1_02140B72
-DAT_overlay_1_02140B72:
-	.byte 0x00, 0x00
 
     .global s_BEX_overlay_1_02140b74
 s_BEX_overlay_1_02140b74: ; 0x02140B74
