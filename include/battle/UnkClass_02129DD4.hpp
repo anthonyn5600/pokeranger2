@@ -10,6 +10,8 @@
 class UnkClass_02129B74;
 
 class Camera2D;
+class CSoftwareSprite;
+class CPrimitiveSPHERE;
 
 // Defined in ov1
 class UnkClass_02129DD4 {
@@ -27,18 +29,18 @@ public:
         unk_1A = 0;
         unk_0C = FX32_ONE;
     }
-    void ov1_0212A058(UnkClass_02129B74 *arg0);
+    void ov1_0212A058(UnkClass_02129B74 *data);
 
 public:
-    u8 unk_00[0x4];
+    UnkClass_02129B74 *m_data;
     CSoftwareSprite *unk_04;
     CSoftwareSprite *unk_08;
     fx32 unk_0C;
-    u8 unk_10[0x4];
+    CPrimitiveSPHERE *m_sphere;
     BOOL unk_14;
     u16 unk_18;
     u16 unk_1A;
-    u8 unk_1C[0x4];
+    u16 m_animId;
 };
 
 STATIC_SIZE_ASSERT(UnkClass_02129DD4, 0x20);

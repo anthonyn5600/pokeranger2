@@ -103,7 +103,7 @@ public:
     void sub_0200B21C(s32 arg0);
     void sub_0200B36C();
     void sub_0200B410(u32 arg0, u32 arg1, u32 arg2, u32 arg3);
-    void sub_0200B45C(s32 arg0, u32 arg1);
+    void sub_0200B45C(s32 arg0);
     void sub_0200B59C();
     void sub_0200B640(u32 arg0, u32 arg1, u32 arg2, u32 arg3);
     void sub_0200B68C();
