@@ -7,6 +7,7 @@
 #include "UnkStruct_020107A8.hpp"
 #include "battle/UnkStruct_0212DFEC.hpp"
 #include "common.hpp"
+#include "file/CBinaryFile.hpp"
 #include "sub_02006000.hpp"
 
 // Defined in ov1
@@ -19,9 +20,14 @@ public:
     u16 unk_16;
     UnkStruct_020107A8 *unk_18;
     UnkStruct_0212DFEC *unk_1C;
-    u8 unk_20[0xC];
+    fx32 unk_20;
+    fx32 unk_24;
+    fx32 unk_28;
     Rectangle unk_2C;
-    u8 unk_3C[0x24];
+    fx32 unk_3C[6];
+    CBinaryFile *m_scriptFile;
+    void *m_script;
+    NNSGfdPlttKey m_plttKey;
 };
 
 STATIC_SIZE_ASSERT(CBattleEnemyData, 0x60);

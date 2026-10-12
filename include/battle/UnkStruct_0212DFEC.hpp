@@ -18,6 +18,11 @@ struct UnkStruct_0212DFEC {
     u8 unk_0E;
     s8 unk_0F;
     s8 unk_10;
+    s8 unk_11;
+    s8 unk_12;
+    s8 unk_13;
+    s8 unk_14;
+    s8 unk_15;
 };
 
 #endif // POKERANGER2_BATTLE_UNKSTRUCT_0212DFEC_HPP
