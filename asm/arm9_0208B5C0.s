@@ -5,30 +5,6 @@
 
     .data
     .balign 4
-	.global s_BGS_0208bd80
-s_BGS_0208bd80: ; 0x0208BD80
-	.asciz "BGS"
-
-	.global s_data_s_sLZ_bin_0208bd84
-s_data_s_sLZ_bin_0208bd84: ; 0x0208BD84
-	.asciz "data/%s%sLZ.bin"
-
-	.global s_BGS_s_NCGR_0208bd94
-s_BGS_s_NCGR_0208bd94: ; 0x0208BD94
-	.asciz "BGS:%s.NCGR"
-
-	.global s_BGS_s_NCLR_0208bda0
-s_BGS_s_NCLR_0208bda0: ; 0x0208BDA0
-	.asciz "BGS:%s.NCLR"
-
-	.global s_s_s_NSCR_0208bdac
-s_s_s_NSCR_0208bdac: ; 0x0208BDAC
-	.asciz "%s:%s.NSCR"
-
-	.global _0208BDB7
-_0208BDB7:
-	.byte 0x00
-
 	.global DAT_0208bdb8
 DAT_0208bdb8: ; 0x0208BDB8
 	.byte 0x00, 0x00, 0x00, 0x00

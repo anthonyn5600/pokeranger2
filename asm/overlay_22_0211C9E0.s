@@ -885,7 +885,7 @@ _0211D58C:
 	ldr r1, _0211D8F8 ; =s_md000_bg_overlay_22_021219bc
 	mov r2, #5
 	stmib sp, {r3, r4}
-	bl sub_02020804
+	bl _Z19BGS_LoadCharAndPlttPKcS0_iS0_mS0_m
 	ldr r0, _0211D8FC ; =0x05000400
 	add r1, sl, #0x170
 	mov r2, #0x60
@@ -899,7 +899,7 @@ _0211D58C:
 	ldr r1, _0211D8F8 ; =s_md000_bg_overlay_22_021219bc
 	ldr r3, _0211D900 ; =s_md000_02_overlay_22_021219d0
 	mov r2, #5
-	bl sub_02020FF0
+	bl _Z11BGS_LoadScrPKcS0_iS0_mmim
 	mov r0, r4
 	str r0, [sp]
 	str r0, [sp, #4]
@@ -909,7 +909,7 @@ _0211D58C:
 	ldr r1, _0211D8F8 ; =s_md000_bg_overlay_22_021219bc
 	ldr r3, _0211D904 ; =s_md000_01_overlay_22_021219dc
 	mov r2, #6
-	bl sub_02020FF0
+	bl _Z11BGS_LoadScrPKcS0_iS0_mmim
 	mov r0, r4
 	str r0, [sp]
 	str r0, [sp, #4]
@@ -919,7 +919,7 @@ _0211D58C:
 	ldr r1, _0211D8F8 ; =s_md000_bg_overlay_22_021219bc
 	ldr r3, _0211D908 ; =s_md000_03_overlay_22_021219e8
 	mov r2, #7
-	bl sub_02020FF0
+	bl _Z11BGS_LoadScrPKcS0_iS0_mmim
 	mvn r1, #0
 	str r1, [sp]
 	ldr r0, [sp, #0x20]
@@ -1876,7 +1876,7 @@ ov22_0211E2D8: ; 0x0211E2D8
 	ldr r1, _0211E490 ; =s_md001_bg_overlay_22_02121ad4
 	mov r2, #5
 	str ip, [sp, #8]
-	bl sub_02020804
+	bl _Z19BGS_LoadCharAndPlttPKcS0_iS0_mS0_m
 	ldr r0, _0211E494 ; =0x05000420
 	add r1, r5, #0x68
 	mov r2, #0x60
@@ -1892,7 +1892,7 @@ ov22_0211E2D8: ; 0x0211E2D8
 	ldr r1, _0211E490 ; =s_md001_bg_overlay_22_02121ad4
 	ldr r3, _0211E498 ; =s_md001_01_overlay_22_02121ae8
 	mov r2, #5
-	bl sub_02020FF0
+	bl _Z11BGS_LoadScrPKcS0_iS0_mmim
 	mov r0, #1
 	str r0, [sp]
 	mov r0, #0
@@ -1904,7 +1904,7 @@ ov22_0211E2D8: ; 0x0211E2D8
 	ldr r1, _0211E490 ; =s_md001_bg_overlay_22_02121ad4
 	ldr r3, _0211E49C ; =s_md001_02_overlay_22_02121af4
 	mov r2, #6
-	bl sub_02020FF0
+	bl _Z11BGS_LoadScrPKcS0_iS0_mmim
 	mov r0, #1
 	str r0, [sp]
 	mov r0, #0
@@ -1916,7 +1916,7 @@ ov22_0211E2D8: ; 0x0211E2D8
 	ldr r1, _0211E490 ; =s_md001_bg_overlay_22_02121ad4
 	ldr r3, _0211E4A0 ; =s_md001_03_overlay_22_02121b00
 	mov r2, #7
-	bl sub_02020FF0
+	bl _Z11BGS_LoadScrPKcS0_iS0_mmim
 	mvn r0, #0
 	str r0, [sp]
 	ldr r1, _0211E4A4 ; =s_data_menu_overlay_22_02121b0c

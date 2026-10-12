@@ -30,7 +30,9 @@
 .public MIi_CpuCopyFast
 .public NNS_G2dBGSetupEx
 .public OS_Terminate
+.public _Z11BGS_LoadScrPKcS0_iS0_mmim
 .public _Z12sub_02007D98v
+.public _Z19BGS_LoadCharAndPlttPKcS0_iS0_mS0_m
 .public _ZN11CBGNCGRFileC1EPKcmmm
 .public _ZN13CArchiveGuardC1EPKcS1_mmmPvm
 .public _ZN13CArchiveGuardD1Ev
@@ -87,8 +89,6 @@
 .public sub_02016C40
 .public sub_0201926C
 .public sub_02019278
-.public sub_02020804
-.public sub_02020FF0
 .public sub_0202A2AC
 .public sub_0202A2EC
 .public sub_0202A32C

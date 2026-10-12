@@ -724,7 +724,7 @@ ov26_0211D3C0: ; 0x0211D3C0
 	beq _0211D410
 	ldr r1, _0211D5B8 ; =s_game
 	ldr r1, [r1]
-	bl sub_0201FC9C
+	bl _ZN17UnkClass_0201FC80C1Ei
 	mov r5, r0
 	arm_func_end ov26_0211D3C0
 _0211D410:
@@ -734,28 +734,28 @@ _0211D410:
 	beq _0211D430
 	ldr r1, _0211D5B8 ; =s_game
 	ldr r1, [r1]
-	bl sub_0201FC9C
+	bl _ZN17UnkClass_0201FC80C1Ei
 	mov r6, r0
 _0211D430:
 	mov r0, r5
 	mov r1, #4
-	bl sub_02020328
+	bl _ZN17UnkClass_0201FC805SetBGEi
 	add r2, sp, #0x2a
 	mov r0, r5
 	mov r1, r4
-	bl sub_0202048C
+	bl _ZN17UnkClass_0201FC8011LoadArchiveEPKcS1_
 	mov r2, #0
 	add r1, sp, #0xc
 	mov r0, r5
 	mov r3, r2
 	str r2, [sp]
-	bl sub_020204DC
+	bl _ZN17UnkClass_0201FC808LoadCharEPKcimm
 	mov r2, #0
 	mov r0, r5
 	add r1, sp, #0xc
 	mov r3, r2
 	str r2, [sp]
-	bl sub_0202055C
+	bl _ZN17UnkClass_0201FC808LoadPlttEPKcimm
 	mov r2, #0
 	str r2, [sp]
 	str r2, [sp, #4]
@@ -763,16 +763,16 @@ _0211D430:
 	add r1, sp, #0xc
 	mov r3, r2
 	str r2, [sp, #8]
-	bl sub_020205DC
+	bl _ZN17UnkClass_0201FC807LoadScrEPKcimmmm
 	mov r0, r5
-	bl sub_020204A8
+	bl _ZN17UnkClass_0201FC8014ReleaseArchiveEv
 	mov r0, r5
-	bl sub_0201FD24
+	bl _ZN17UnkClass_0201FC8014LoadCharToVramEv
 	mov r0, r5
 	mov r1, #1
-	bl sub_0201FDE8
+	bl _ZN17UnkClass_0201FC8014LoadPlttToVramEi
 	mov r0, r5
-	bl sub_0201FEBC
+	bl _ZN17UnkClass_0201FC8013LoadScrToVramEv
 	ldr r1, _0211D5BC ; =s_event_03d_01_overlay_26_0211db3c
 	add r0, sp, #0x2a
 	mov r2, r7
@@ -783,23 +783,23 @@ _0211D430:
 	bl OS_SPrintf
 	mov r0, r6
 	mov r1, #0
-	bl sub_02020328
+	bl _ZN17UnkClass_0201FC805SetBGEi
 	mov r1, r4
 	mov r0, r6
 	add r2, sp, #0x2a
-	bl sub_0202048C
+	bl _ZN17UnkClass_0201FC8011LoadArchiveEPKcS1_
 	mov r2, #0
 	mov r0, r6
 	add r1, sp, #0xc
 	mov r3, r2
 	str r2, [sp]
-	bl sub_020204DC
+	bl _ZN17UnkClass_0201FC808LoadCharEPKcimm
 	mov r2, #0
 	mov r0, r6
 	add r1, sp, #0xc
 	mov r3, r2
 	str r2, [sp]
-	bl sub_0202055C
+	bl _ZN17UnkClass_0201FC808LoadPlttEPKcimm
 	mov r2, #0
 	str r2, [sp]
 	str r2, [sp, #4]
@@ -807,20 +807,20 @@ _0211D430:
 	mov r0, r6
 	mov r3, r2
 	str r2, [sp, #8]
-	bl sub_020205DC
+	bl _ZN17UnkClass_0201FC807LoadScrEPKcimmmm
 	mov r0, r6
-	bl sub_020204A8
+	bl _ZN17UnkClass_0201FC8014ReleaseArchiveEv
 	mov r0, r6
-	bl sub_0201FD24
+	bl _ZN17UnkClass_0201FC8014LoadCharToVramEv
 	mov r0, r6
 	mov r1, #1
-	bl sub_0201FDE8
+	bl _ZN17UnkClass_0201FC8014LoadPlttToVramEi
 	mov r0, r6
-	bl sub_0201FEBC
+	bl _ZN17UnkClass_0201FC8013LoadScrToVramEv
 	cmp r6, #0
 	beq _0211D588
 	mov r0, r6
-	bl sub_0201FCB4
+	bl _ZN17UnkClass_0201FC80D1Ev
 	mov r0, r6
 	bl _ZdlPv
 _0211D588:
@@ -828,7 +828,7 @@ _0211D588:
 	addeq sp, sp, #0x48
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
 	mov r0, r5
-	bl sub_0201FCB4
+	bl _ZN17UnkClass_0201FC80D1Ev
 	mov r0, r5
 	bl _ZdlPv
 	add sp, sp, #0x48

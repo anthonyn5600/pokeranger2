@@ -24,6 +24,8 @@
 .public MAIN_BSS_020B26A0
 .public MAIN_BSS_0210CA6C
 .public OS_SPrintf
+.public _Z11BGS_LoadScrPKcS0_iS0_mmim
+.public _Z19BGS_LoadCharAndPlttPKcS0_iS0_mS0_m
 .public _ZN11CFieldActor12sub_0203C4BCEitimi
 .public _ZN11CFieldActor12sub_0203C87CEP9CFieldMap
 .public _ZN11CFieldActorC1Ev
@@ -76,8 +78,6 @@
 .public _Znwm
 .public __cxa_vec_cleanup
 .public __cxa_vec_ctor
-.public sub_02020804
-.public sub_02020FF0
 .public sub_02021404
 .public sub_02021428
 .public sub_020215F8

@@ -52,6 +52,7 @@ pokeranger2_cxx = files(
     'UnkClass_0201AD60.cpp',
     'UnkClass_0201B724.cpp',
     'UnkClass_0201CA6C.cpp',
+    'UnkClass_0201FC80.cpp',
     'sub_0202B80C.cpp',
     'CEffectActorData.cpp',
     'UnkClass_02034478.cpp',

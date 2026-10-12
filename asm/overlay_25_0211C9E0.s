@@ -824,7 +824,7 @@ ov25_0211D514: ; 0x0211D514
 	ldmeqia sp!, {r3, r4, r5, pc}
 	beq _0211D53C
 	mov r0, r4
-	bl sub_0201FCB4
+	bl _ZN17UnkClass_0201FC80D1Ev
 	mov r0, r4
 	bl _ZdlPv
 	arm_func_end ov25_0211D514
@@ -851,7 +851,7 @@ _0211D560: ; jump table
 	arm_func_end ov25_0211D548
 _0211D578:
 	ldmib r4, {r0, r1, r2}
-	bl sub_0201FD4C
+	bl _ZN17UnkClass_0201FC8021LoadCharToVramPartialEii
 	ldr r0, [r4, #8]
 	add r1, r0, #1
 	str r1, [r4, #8]
@@ -863,13 +863,13 @@ _0211D578:
 _0211D5A0:
 	ldr r0, [r4, #4]
 	mov r1, #1
-	bl sub_0201FDE8
+	bl _ZN17UnkClass_0201FC8014LoadPlttToVramEi
 	mov r0, #4
 	strh r0, [r4]
 	b _0211D5D4
 _0211D5B8:
 	ldr r0, [r4, #4]
-	bl sub_0201FEBC
+	bl _ZN17UnkClass_0201FC8013LoadScrToVramEv
 	mov r0, #5
 	strh r0, [r4]
 	b _0211D5D4
@@ -900,7 +900,7 @@ ov25_0211D5EC: ; 0x0211D5EC
 	cmp r4, #0
 	beq _0211D620
 	mov r0, r4
-	bl sub_0201FCB4
+	bl _ZN17UnkClass_0201FC80D1Ev
 	mov r0, r4
 	bl _ZdlPv
 	arm_func_end ov25_0211D5EC
@@ -910,24 +910,24 @@ _0211D620:
 	cmp r0, #0
 	beq _0211D638
 	ldr r1, [r8, #0x10]
-	bl sub_0201FC9C
+	bl _ZN17UnkClass_0201FC80C1Ei
 _0211D638:
 	mov r1, r7
 	mov r2, r6
 	str r0, [r8, #4]
-	bl sub_0202048C
+	bl _ZN17UnkClass_0201FC8011LoadArchiveEPKcS1_
 	mov r2, #0
 	str r2, [sp]
 	ldr r0, [r8, #4]
 	ldr r3, [sp, #0x28]
 	mov r1, r5
-	bl sub_020204DC
+	bl _ZN17UnkClass_0201FC808LoadCharEPKcimm
 	mov r2, #0
 	str r2, [sp]
 	ldr r0, [r8, #4]
 	ldr r3, [sp, #0x2c]
 	mov r1, r5
-	bl sub_0202055C
+	bl _ZN17UnkClass_0201FC808LoadPlttEPKcimm
 	ldr r0, [sp, #0x28]
 	mov r2, #0
 	stmia sp, {r0, r2}
@@ -935,9 +935,9 @@ _0211D638:
 	ldr r0, [r8, #4]
 	ldr r3, [sp, #0x2c]
 	mov r1, r5
-	bl sub_020205DC
+	bl _ZN17UnkClass_0201FC807LoadScrEPKcimmmm
 	ldr r0, [r8, #4]
-	bl sub_020204A8
+	bl _ZN17UnkClass_0201FC8014ReleaseArchiveEv
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
 
@@ -949,7 +949,7 @@ ov25_0211D6A8: ; 0x0211D6A8
 	strh r0, [r5]
 	ldr r0, [r5, #4]
 	mov r4, r2
-	bl sub_02020328
+	bl _ZN17UnkClass_0201FC805SetBGEi
 	str r4, [r5, #0xc]
 	mov r0, #0
 	str r0, [r5, #8]

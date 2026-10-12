@@ -1169,30 +1169,30 @@ ov21_0211D950: ; 0x0211D950
 	bl _Znwm
 	movs r6, r0
 	beq _0211D974
-	bl sub_0201FC80
+	bl _ZN17UnkClass_0201FC80C1Ev
 	mov r6, r0
 	arm_func_end ov21_0211D950
 _0211D974:
 	mov r0, r6
 	mov r1, #1
-	bl sub_02020328
+	bl _ZN17UnkClass_0201FC805SetBGEi
 	ldr r1, _0211DAA8 ; =s_interface_overlay_21_02122d40
 	ldr r2, _0211DAAC ; =s_i059_overlay_21_02122d4c
 	mov r0, r6
-	bl sub_0202048C
+	bl _ZN17UnkClass_0201FC8011LoadArchiveEPKcS1_
 	mov r2, #0
 	ldr r1, _0211DAB0 ; =s_i059_00_overlay_21_02122d54
 	mov r0, r6
 	mov r3, r2
 	str r2, [sp]
-	bl sub_020204DC
+	bl _ZN17UnkClass_0201FC808LoadCharEPKcimm
 	mov r2, #0
 	mov r5, r0
 	ldr r1, _0211DAB0 ; =s_i059_00_overlay_21_02122d54
 	mov r0, r6
 	mov r3, r2
 	str r2, [sp]
-	bl sub_0202055C
+	bl _ZN17UnkClass_0201FC808LoadPlttEPKcimm
 	mov r2, #0
 	str r2, [sp]
 	mov r8, r0
@@ -1201,12 +1201,12 @@ _0211D974:
 	mov r0, r6
 	mov r3, r2
 	str r2, [sp, #8]
-	bl sub_020205DC
+	bl _ZN17UnkClass_0201FC807LoadScrEPKcimmmm
 	mov r4, r0
 	mov r0, r6
-	bl sub_020204A8
+	bl _ZN17UnkClass_0201FC8014ReleaseArchiveEv
 	mov r0, r6
-	bl sub_0201FD24
+	bl _ZN17UnkClass_0201FC8014LoadCharToVramEv
 	ldr r0, [r7]
 	mov r1, #1
 	add r0, r0, #0x1000
@@ -1245,7 +1245,7 @@ _0211D974:
 	addeq sp, sp, #0xc
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, pc}
 	mov r0, r6
-	bl sub_0201FCB4
+	bl _ZN17UnkClass_0201FC80D1Ev
 	mov r0, r6
 	bl _ZdlPv
 	add sp, sp, #0xc
@@ -1746,7 +1746,7 @@ ov21_0211E14C: ; 0x0211E14C
 	strh r6, [lr, #0xe]
 	str r4, [sp]
 	stmib sp, {r3, ip}
-	bl sub_02020804
+	bl _Z19BGS_LoadCharAndPlttPKcS0_iS0_mS0_m
 	mov r4, #0
 	str r4, [sp]
 	mov r0, #0x80
@@ -1756,7 +1756,7 @@ ov21_0211E14C: ; 0x0211E14C
 	ldr r3, _0211E5E4 ; =s_mb000_03_overlay_21_02122df0
 	mov r2, #2
 	str r4, [sp, #0xc]
-	bl sub_02020FF0
+	bl _Z11BGS_LoadScrPKcS0_iS0_mmim
 	str r4, [sp]
 	mov r0, #0x80
 	stmib sp, {r0, r4}
@@ -1765,7 +1765,7 @@ ov21_0211E14C: ; 0x0211E14C
 	ldr r3, _0211E5E8 ; =s_mb000_02_overlay_21_02122dfc
 	mov r2, #3
 	str r4, [sp, #0xc]
-	bl sub_02020FF0
+	bl _Z11BGS_LoadScrPKcS0_iS0_mmim
 	bl G2_GetBG3ScrPtr
 	mov r4, r0
 	bl G2_GetBG3ScrPtr
@@ -6558,7 +6558,7 @@ _021221E8:
 	ldmeqia sp!, {r3, r4, r5, pc}
 	beq _02122208
 	mov r0, r5
-	bl sub_0201FCB4
+	bl _ZN17UnkClass_0201FC80D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _02122208:
@@ -6610,7 +6610,7 @@ _02122294:
 	beq _021222C0
 	beq _021222B8
 	mov r0, r5
-	bl sub_0201FCB4
+	bl _ZN17UnkClass_0201FC80D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _021222B8:
@@ -6622,27 +6622,27 @@ _021222C0:
 	cmp r0, #0
 	beq _021222D8
 	ldr r1, [r4, #0x48]
-	bl sub_0201FC9C
+	bl _ZN17UnkClass_0201FC80C1Ei
 _021222D8:
 	str r0, [r4, #0x3c]
 	mov r1, #5
-	bl sub_02020328
+	bl _ZN17UnkClass_0201FC805SetBGEi
 	ldr r0, [r4, #0x3c]
 	ldr r1, _02122358 ; =s_menu_overlay_21_02123170
 	ldr r2, _0212235C ; =s_mam000_bg_overlay_21_02123178
-	bl sub_0202048C
+	bl _ZN17UnkClass_0201FC8011LoadArchiveEPKcS1_
 	mov r2, #0
 	str r2, [sp]
 	ldr r0, [r4, #0x3c]
 	ldr r1, _02122360 ; =s_mam000_overlay_21_02123184
 	mov r3, r2
-	bl sub_020204DC
+	bl _ZN17UnkClass_0201FC808LoadCharEPKcimm
 	mov r2, #0
 	str r2, [sp]
 	ldr r0, [r4, #0x3c]
 	ldr r1, _02122360 ; =s_mam000_overlay_21_02123184
 	mov r3, #8
-	bl sub_0202055C
+	bl _ZN17UnkClass_0201FC808LoadPlttEPKcimm
 	mov r2, #0
 	str r2, [sp]
 	str r2, [sp, #4]
@@ -6650,9 +6650,9 @@ _021222D8:
 	ldr r0, [r4, #0x3c]
 	ldr r1, _02122364 ; =s_mam000_01_overlay_21_0212318c
 	mov r3, #8
-	bl sub_020205DC
+	bl _ZN17UnkClass_0201FC807LoadScrEPKcimmmm
 	ldr r0, [r4, #0x3c]
-	bl sub_020204A8
+	bl _ZN17UnkClass_0201FC8014ReleaseArchiveEv
 	add sp, sp, #0x18
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
@@ -6717,12 +6717,12 @@ ov21_021223FC: ; 0x021223FC
 	arm_func_end ov21_021223FC
 _0212241C:
 	ldr r0, [r4, #0x3c]
-	bl sub_0201FD24
+	bl _ZN17UnkClass_0201FC8014LoadCharToVramEv
 	ldr r0, [r4, #0x3c]
 	mov r1, #0
-	bl sub_0201FDE8
+	bl _ZN17UnkClass_0201FC8014LoadPlttToVramEi
 	ldr r0, [r4, #0x3c]
-	bl sub_0201FEBC
+	bl _ZN17UnkClass_0201FC8013LoadScrToVramEv
 	mov r0, r4
 	bl ov21_021226AC
 	ldr r0, [r4, #0x48]

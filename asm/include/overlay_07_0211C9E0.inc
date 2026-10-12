@@ -24,9 +24,11 @@
 .public MAIN_BSS_020B26A0
 .public NNS_GfdResetLnkPlttVramState
 .public NNS_GfdResetLnkTexVramState
+.public _Z11BGS_LoadScrPKcS0_iS0_mmim
 .public _Z12sub_020060007Point2D9Rectanglem
 .public _Z12sub_02007D98v
 .public _Z17LinearInterpolatellll
+.public _Z19BGS_LoadCharAndPlttPKcS0_iS0_mS0_m
 .public _ZN11CFieldActor12sub_0203C418Eitimi
 .public _ZN11CFieldActor12sub_0203D404E7Point2D
 .public _ZN11CFieldActorC1Ev
@@ -116,8 +118,6 @@
 .public sub_02015E54
 .public sub_020161AC
 .public sub_020161E4
-.public sub_02020804
-.public sub_02020FF0
 .public sub_0203EF40
 .public sub_02041924
 .public sub_020419AC

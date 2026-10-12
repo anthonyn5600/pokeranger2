@@ -41,7 +41,9 @@
 .public NNS_G2dMapScrToCharText
 .public NNS_GfdRegisterNewVramTransferTask
 .public OS_SPrintf
+.public _Z11BGS_LoadScrPKcS0_iS0_mmim
 .public _Z12sub_02007D98v
+.public _Z19BGS_LoadCharAndPlttPKcS0_iS0_mS0_m
 .public _ZN11CBinaryFileC1EPKcmmmPvm
 .public _ZN11CBinaryFileD1Ev
 .public _ZN11CBinaryFileD2Ev
@@ -93,5 +95,3 @@
 .public __cxa_vec_cleanup
 .public __cxa_vec_ctor
 .public __cxa_vec_new
-.public sub_02020804
-.public sub_02020FF0

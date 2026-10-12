@@ -3016,27 +3016,27 @@ _0212479C:
 	cmp r0, #0
 	beq _021247C8
 	mov r1, r4
-	bl sub_0201FC9C
+	bl _ZN17UnkClass_0201FC80C1Ei
 _021247C8:
 	str r0, [r8]
 	mov r1, #5
-	bl sub_02020328
+	bl _ZN17UnkClass_0201FC805SetBGEi
 	ldr r0, [r8]
 	ldr r1, _02124C4C ; =s_menu_overlay_3_0212a6e8
 	ldr r2, _02124C50 ; =s_title000_bg_overlay_3_0212a7f8
-	bl sub_0202048C
+	bl _ZN17UnkClass_0201FC8011LoadArchiveEPKcS1_
 	mov r2, #0
 	str r2, [sp]
 	ldr r0, [r8]
 	ldr r1, _02124C54 ; =s_title000_overlay_3_0212a728
 	mov r3, r2
-	bl sub_020204DC
+	bl _ZN17UnkClass_0201FC808LoadCharEPKcimm
 	mov r2, #0
 	str r2, [sp]
 	ldr r0, [r8]
 	ldr r1, _02124C58 ; =s_title000_overlay_3_0212a71c
 	mov r3, r2
-	bl sub_0202055C
+	bl _ZN17UnkClass_0201FC808LoadPlttEPKcimm
 	mov r2, #0
 	str r2, [sp]
 	str r2, [sp, #4]
@@ -3044,39 +3044,39 @@ _021247C8:
 	ldr r0, [r8]
 	ldr r1, _02124C5C ; =s_title000_00_overlay_3_0212a7d0
 	mov r3, r2
-	bl sub_020205DC
+	bl _ZN17UnkClass_0201FC807LoadScrEPKcimmmm
 	ldr r0, [r8]
-	bl sub_020204A8
+	bl _ZN17UnkClass_0201FC8014ReleaseArchiveEv
 	mov r1, #0x100
 	ldr r0, [r8]
 	mov r2, r1
-	bl sub_0201FE18
+	bl _ZN17UnkClass_0201FC805SetupEii
 	mov r0, #0x64
 	bl _Znwm
 	cmp r0, #0
 	beq _02124864
 	mov r1, r4
-	bl sub_0201FC9C
+	bl _ZN17UnkClass_0201FC80C1Ei
 _02124864:
 	str r0, [r8, #4]
 	mov r1, #5
-	bl sub_02020328
+	bl _ZN17UnkClass_0201FC805SetBGEi
 	ldr r0, [r8, #4]
 	ldr r1, _02124C60 ; =s_menu_overlay_3_0212a6e0
 	ldr r2, _02124C64 ; =s_title004_bg_overlay_3_0212a7e8
-	bl sub_0202048C
+	bl _ZN17UnkClass_0201FC8011LoadArchiveEPKcS1_
 	mov r2, #0
 	str r2, [sp]
 	ldr r0, [r8, #4]
 	ldr r1, _02124C68 ; =s_title004_overlay_3_0212a704
 	mov r3, r2
-	bl sub_020204DC
+	bl _ZN17UnkClass_0201FC808LoadCharEPKcimm
 	mov r2, #0
 	str r2, [sp]
 	ldr r0, [r8, #4]
 	ldr r1, _02124C6C ; =s_title004_overlay_3_0212a710
 	mov r3, r2
-	bl sub_0202055C
+	bl _ZN17UnkClass_0201FC808LoadPlttEPKcimm
 	mov r2, #0
 	str r2, [sp]
 	str r2, [sp, #4]
@@ -3084,13 +3084,13 @@ _02124864:
 	ldr r0, [r8, #4]
 	ldr r1, _02124C70 ; =s_title004_00_overlay_3_0212a7c4
 	mov r3, r2
-	bl sub_020205DC
+	bl _ZN17UnkClass_0201FC807LoadScrEPKcimmmm
 	ldr r0, [r8, #4]
-	bl sub_020204A8
+	bl _ZN17UnkClass_0201FC8014ReleaseArchiveEv
 	mov r1, #0x100
 	ldr r0, [r8, #4]
 	mov r2, r1
-	bl sub_0201FE18
+	bl _ZN17UnkClass_0201FC805SetupEii
 	mov r0, #0x44
 	bl _Znwm
 	cmp r0, #0
@@ -3424,7 +3424,7 @@ _02124D94:
 	beq _02124DC8
 	beq _02124DC0
 	mov r0, r5
-	bl sub_0201FCB4
+	bl _ZN17UnkClass_0201FC80D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _02124DC0:
@@ -3436,7 +3436,7 @@ _02124DC8:
 	beq _02124DF0
 	beq _02124DE8
 	mov r0, r5
-	bl sub_0201FCB4
+	bl _ZN17UnkClass_0201FC80D1Ev
 	mov r0, r5
 	bl _ZdlPv
 _02124DE8:

@@ -1382,9 +1382,9 @@ ov27_0211DC64: ; 0x0211DC64
 	ldr r2, _0211DDAC ; =s_ql000_overlay_27_02121334
 	mov r1, #5
 	str r3, [sp, #4]
-	bl sub_020208B4
+	bl _Z18BGS_LoadCharByNamePKciS0_mim
 	str r0, [r4, #0x10]
-	ldr r0, _0211DDB0 ; =MAIN_BSS_0210C1B0
+	ldr r0, _0211DDB0 ; =gBGLoadedSize
 	mov r1, #1
 	ldr r0, [r0]
 	mov r3, #0
@@ -1393,9 +1393,9 @@ ov27_0211DC64: ; 0x0211DC64
 	ldr r0, _0211DDA4 ; =s_BGS_overlay_27_02121314
 	ldr r2, _0211DDAC ; =s_ql000_overlay_27_02121334
 	mov r1, #5
-	bl sub_02020DA0
+	bl _Z18BGS_LoadPlttByNamePKciS0_mim
 	str r0, [r4, #0x18]
-	ldr r0, _0211DDB0 ; =MAIN_BSS_0210C1B0
+	ldr r0, _0211DDB0 ; =gBGLoadedSize
 	mov r3, #0
 	ldr r1, [r0]
 	mov r0, #1
@@ -1406,9 +1406,9 @@ ov27_0211DC64: ; 0x0211DC64
 	ldr r2, _0211DDB4 ; =s_ql000_02_overlay_27_0212133c
 	str r3, [sp, #0xc]
 	mov r1, #5
-	bl sub_0202108C
+	bl _Z17BGS_LoadScrByNamePKciS0_mmimm
 	str r0, [r4, #0x30]
-	ldr r0, _0211DDB0 ; =MAIN_BSS_0210C1B0
+	ldr r0, _0211DDB0 ; =gBGLoadedSize
 	mov r3, #0
 	ldr r1, [r0]
 	mov r0, #1
@@ -1419,9 +1419,9 @@ ov27_0211DC64: ; 0x0211DC64
 	ldr r2, _0211DDB8 ; =s_ql000_01_overlay_27_02121348
 	str r3, [sp, #0xc]
 	mov r1, #6
-	bl sub_0202108C
+	bl _Z17BGS_LoadScrByNamePKciS0_mmimm
 	str r0, [r4, #0x28]
-	ldr r0, _0211DDB0 ; =MAIN_BSS_0210C1B0
+	ldr r0, _0211DDB0 ; =gBGLoadedSize
 	mov r3, #0
 	ldr r0, [r0]
 	ldr r2, _0211DDBC ; =s_ql000_03_overlay_27_02121354
@@ -1432,9 +1432,9 @@ ov27_0211DC64: ; 0x0211DC64
 	ldr r0, _0211DDA4 ; =s_BGS_overlay_27_02121314
 	mov r1, #7
 	str r3, [sp, #0xc]
-	bl sub_0202108C
+	bl _Z17BGS_LoadScrByNamePKciS0_mmimm
 	str r0, [r4, #0x20]
-	ldr r1, _0211DDB0 ; =MAIN_BSS_0210C1B0
+	ldr r1, _0211DDB0 ; =gBGLoadedSize
 	add r0, sp, #0x10
 	ldr r1, [r1]
 	str r1, [r4, #0x24]
@@ -1445,7 +1445,7 @@ ov27_0211DC64: ; 0x0211DC64
 _0211DDA4: .word s_BGS_overlay_27_02121314
 _0211DDA8: .word s_data_menu_ql000_bg_LZ_bin_overlay_27_02121318
 _0211DDAC: .word s_ql000_overlay_27_02121334
-_0211DDB0: .word MAIN_BSS_0210C1B0
+_0211DDB0: .word gBGLoadedSize
 _0211DDB4: .word s_ql000_02_overlay_27_0212133c
 _0211DDB8: .word s_ql000_01_overlay_27_02121348
 _0211DDBC: .word s_ql000_03_overlay_27_02121354
@@ -1460,23 +1460,23 @@ ov27_0211DDC0: ; 0x0211DDC0
 	ldr r2, [r4, #0x14]
 	mov r0, #5
 	mov r3, #0
-	bl sub_02020A14
+	bl _Z11BG_LoadChariPvmm
 	mov r3, #0
 	str r3, [sp]
 	ldr r1, [r4, #0x18]
 	ldr r2, [r4, #0x1c]
 	mov r0, #5
-	bl sub_02020F04
+	bl _Z11BG_LoadPlttiPvmmi
 	ldr r1, [r4, #0x30]
 	ldr r2, [r4, #0x34]
 	mov r0, #5
 	mov r3, #0
-	bl sub_02021318
+	bl _Z10BG_LoadScriPvmm
 	mov r0, #6
 	ldr r1, [r4, #0x28]
 	ldr r2, [r4, #0x2c]
 	mov r3, #0
-	bl sub_02021318
+	bl _Z10BG_LoadScriPvmm
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
 	arm_func_end ov27_0211DDC0
@@ -4787,7 +4787,7 @@ ov27_02120870: ; 0x02120870
 	str ip, [sp]
 	str r3, [sp, #4]
 	str r2, [sp, #8]
-	bl sub_02020804
+	bl _Z19BGS_LoadCharAndPlttPKcS0_iS0_mS0_m
 	mov r0, #1
 	str r0, [sp]
 	mov r0, #0
@@ -4798,7 +4798,7 @@ ov27_02120870: ; 0x02120870
 	ldr r1, _02120C94 ; =s_mmq000_bg_overlay_27_021215e0
 	mov r2, #2
 	ldr r3, _02120C98 ; =s_mmq000_02_overlay_27_021215f4
-	bl sub_02020FF0
+	bl _Z11BGS_LoadScrPKcS0_iS0_mmim
 	mov r2, #1
 	str r2, [sp]
 	mov ip, #0
@@ -4808,7 +4808,7 @@ ov27_02120870: ; 0x02120870
 	ldr r1, _02120C94 ; =s_mmq000_bg_overlay_27_021215e0
 	ldr r3, _02120C9C ; =s_mmq000_01_overlay_27_02121600
 	str ip, [sp, #0xc]
-	bl sub_02020FF0
+	bl _Z11BGS_LoadScrPKcS0_iS0_mmim
 	mov r3, #0x4000000
 	ldr r2, [r3]
 	ldr r0, _02120C88 ; =0xFFCFFFEF

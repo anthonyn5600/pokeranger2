@@ -1223,7 +1223,7 @@ _0211D9A0:
 	ldr r0, _0211DFF0 ; =s_menu_overlay_7_0211f7bc
 	ldr r1, _0211DFF4 ; =s_mr000_bg_overlay_7_0211f7c4
 	mov r2, #2
-	bl sub_02020804
+	bl _Z19BGS_LoadCharAndPlttPKcS0_iS0_mS0_m
 	mov r0, #1
 	str r0, [sp]
 	mov r0, #0x100
@@ -1235,7 +1235,7 @@ _0211D9A0:
 	ldr r1, _0211DFF4 ; =s_mr000_bg_overlay_7_0211f7c4
 	mov r2, #2
 	ldr r3, _0211DFE4 ; =s_mr000_00_overlay_7_0211f7a4
-	bl sub_02020FF0
+	bl _Z11BGS_LoadScrPKcS0_iS0_mmim
 	ldr r4, [sl, #0xc]
 	cmp r4, #0
 	beq _0211DAAC

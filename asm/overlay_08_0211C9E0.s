@@ -1376,7 +1376,7 @@ ov8_0211DA98: ; 0x0211DA98
 	str r4, [sp]
 	str r3, [sp, #4]
 	str r2, [sp, #8]
-	bl sub_02020804
+	bl _Z19BGS_LoadCharAndPlttPKcS0_iS0_mS0_m
 	mov r0, #1
 	stmia sp, {r0, r4}
 	str r4, [sp, #8]
@@ -1385,7 +1385,7 @@ ov8_0211DA98: ; 0x0211DA98
 	ldr r3, _0211E080 ; =s_mmq000_02_overlay_8_0211e5f4
 	mov r2, #2
 	str r4, [sp, #0xc]
-	bl sub_02020FF0
+	bl _Z11BGS_LoadScrPKcS0_iS0_mmim
 	mov r2, #1
 	str r2, [sp]
 	mov r1, r4
@@ -1395,7 +1395,7 @@ ov8_0211DA98: ; 0x0211DA98
 	ldr r0, _0211E078 ; =s_menu_overlay_8_0211e5d8
 	ldr r1, _0211E07C ; =s_mmq000_bg_overlay_8_0211e5e0
 	ldr r3, _0211E084 ; =s_mmq000_01_overlay_8_0211e600
-	bl sub_02020FF0
+	bl _Z11BGS_LoadScrPKcS0_iS0_mmim
 	mov r3, r5
 	ldr r2, [r3]
 	ldr r0, _0211E070 ; =0xFFCFFFEF

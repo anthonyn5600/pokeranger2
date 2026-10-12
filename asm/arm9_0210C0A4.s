@@ -4,14 +4,6 @@
 ; Main .bss of the objects before src/CFieldScreenEffect.cpp (whose bss comes from C++)
 
     .bss
-    .global MAIN_BSS_0210C1AC
-MAIN_BSS_0210C1AC: ; 0x0210C1AC
-    .space 0x4
-
-    .global MAIN_BSS_0210C1B0
-MAIN_BSS_0210C1B0: ; 0x0210C1B0
-    .space 0x8
-
     .global MAIN_BSS_0210C1B8
 MAIN_BSS_0210C1B8: ; 0x0210C1B8
     .space 0x4

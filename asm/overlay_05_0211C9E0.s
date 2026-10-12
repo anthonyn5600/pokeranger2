@@ -2772,7 +2772,7 @@ ov5_0211EF80: ; 0x0211EF80
 	mov r5, #8
 	mov r2, #2
 	str r5, [sp, #8]
-	bl sub_02020804
+	bl _Z19BGS_LoadCharAndPlttPKcS0_iS0_mS0_m
 	mov r0, r5
 	str r0, [sp]
 	mov r0, #0x200
@@ -2785,7 +2785,7 @@ ov5_0211EF80: ; 0x0211EF80
 	ldr r3, _0211F080 ; =s_stl000_01_overlay_5_02120870
 	mov r2, #2
 	str r5, [sp, #0xc]
-	bl sub_02020FF0
+	bl _Z11BGS_LoadScrPKcS0_iS0_mmim
 	mov r0, #8
 	str r0, [sp]
 	mov r0, #0x200
@@ -2797,7 +2797,7 @@ ov5_0211EF80: ; 0x0211EF80
 	ldr r1, _0211F07C ; =s_stl000_bg_overlay_5_0212085c
 	ldr r3, _0211F084 ; =s_stl000_00_overlay_5_02120848
 	mov r2, #3
-	bl sub_02020FF0
+	bl _Z11BGS_LoadScrPKcS0_iS0_mmim
 	mov r6, r5
 	ldr r7, _0211F088 ; =DAT_overlay_5_021206e8
 	add r5, sp, #0x10
@@ -3630,7 +3630,7 @@ ov5_0211FB04: ; 0x0211FB04
 	ldr r1, _0211FB64 ; =s_stl001_bg_overlay_5_02120d60
 	mov r2, #3
 	stmib sp, {r3, ip}
-	bl sub_02020804
+	bl _Z19BGS_LoadCharAndPlttPKcS0_iS0_mS0_m
 	mov ip, #0
 	str ip, [sp]
 	str ip, [sp, #4]
@@ -3640,7 +3640,7 @@ ov5_0211FB04: ; 0x0211FB04
 	ldr r3, _0211FB68 ; =s_stl001_00_overlay_5_02120d40
 	mov r2, #3
 	str ip, [sp, #0xc]
-	bl sub_02020FF0
+	bl _Z11BGS_LoadScrPKcS0_iS0_mmim
 	add sp, sp, #0x10
 	ldmia sp!, {r3, pc}
 	.align 2, 0

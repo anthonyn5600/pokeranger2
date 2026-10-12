@@ -611,7 +611,7 @@ ov11_0211D0D0: ; 0x0211D0D0
 	str r4, [sp]
 	str r3, [sp, #4]
 	str r2, [sp, #8]
-	bl sub_02020804
+	bl _Z19BGS_LoadCharAndPlttPKcS0_iS0_mS0_m
 	mov r0, #1
 	stmia sp, {r0, r4}
 	str r4, [sp, #8]
@@ -620,7 +620,7 @@ ov11_0211D0D0: ; 0x0211D0D0
 	ldr r3, _0211D4A8 ; =s_rn000_02_overlay_11_02166148
 	mov r2, #2
 	str r4, [sp, #0xc]
-	bl sub_02020FF0
+	bl _Z11BGS_LoadScrPKcS0_iS0_mmim
 	mov r2, #1
 	str r2, [sp]
 	mov r3, r4
@@ -630,7 +630,7 @@ ov11_0211D0D0: ; 0x0211D0D0
 	ldr r0, _0211D4A0 ; =s_menu_overlay_11_0216612c
 	ldr r1, _0211D4A4 ; =s_rn000_bg_overlay_11_02166134
 	ldr r3, _0211D4AC ; =s_rn000_01_overlay_11_02166154
-	bl sub_02020FF0
+	bl _Z11BGS_LoadScrPKcS0_iS0_mmim
 	mov r3, r5
 	ldr r2, [r3]
 	ldr r0, _0211D498 ; =0xFFCFFFEF
@@ -3424,7 +3424,7 @@ _0211F860:
 	beq _0211F88C
 	beq _0211F884
 	mov r0, r6
-	bl sub_0201FCB4
+	bl _ZN17UnkClass_0201FC80D1Ev
 	mov r0, r6
 	bl _ZdlPv
 _0211F884:
@@ -6080,7 +6080,7 @@ _02121BF8:
 	ldr r2, [r0, #0x100]
 	mov r0, r6
 	mov r3, r5
-	bl sub_0201FC50
+	bl _Z17SetOamAffineScaleilli
 	add r6, r6, #1
 	cmp r6, #2
 	blt _02121BF8
@@ -6145,7 +6145,7 @@ ov11_02121C20: ; 0x02121C20
 	strh r7, [r5, #0xe]
 	str r6, [sp]
 	stmib sp, {r3, r4}
-	bl sub_02020804
+	bl _Z19BGS_LoadCharAndPlttPKcS0_iS0_mS0_m
 	str r4, [sp]
 	mov r0, r6
 	stmib sp, {r0, r4}
@@ -6154,7 +6154,7 @@ ov11_02121C20: ; 0x02121C20
 	ldr r3, _02121ED0 ; =s_rn001_02_overlay_11_0216635c
 	mov r2, #6
 	str r4, [sp, #0xc]
-	bl sub_02020FF0
+	bl _Z11BGS_LoadScrPKcS0_iS0_mmim
 	str r4, [sp]
 	mov r0, r6
 	stmib sp, {r0, r4}
@@ -6163,7 +6163,7 @@ ov11_02121C20: ; 0x02121C20
 	ldr r3, _02121ED4 ; =s_rn001_01_overlay_11_02166350
 	mov r2, #5
 	str r4, [sp, #0xc]
-	bl sub_02020FF0
+	bl _Z11BGS_LoadScrPKcS0_iS0_mmim
 	ldr r6, _02121ED8 ; =DAT_overlay_11_02166268
 	mov sb, r4
 	mov fp, #7
@@ -6177,17 +6177,17 @@ _02121D68:
 	cmp r0, #0
 	beq _02121D80
 	ldr r1, [sl, #0x72c]
-	bl sub_0201FC9C
+	bl _ZN17UnkClass_0201FC80C1Ei
 _02121D80:
 	add r1, sl, sb, lsl #2
 	str r0, [r1, #0x584]
 	mov r1, fp
-	bl sub_02020328
+	bl _ZN17UnkClass_0201FC805SetBGEi
 	add r0, sl, sb, lsl #2
 	ldr r0, [r0, #0x584]
 	ldr r1, _02121EC8 ; =s_menu_overlay_11_02166380
 	ldr r2, _02121ECC ; =s_rn001_bg_overlay_11_02166388
-	bl sub_0202048C
+	bl _ZN17UnkClass_0201FC8011LoadArchiveEPKcS1_
 	ldr r1, _02121EDC ; =s_rn001_02d_overlay_11_02166338
 	ldr r2, [r6, sb, lsl #2]
 	mov r0, r7
@@ -6200,15 +6200,15 @@ _02121D80:
 	mov r1, r7
 	mov r2, r4
 	mov r3, r4
-	bl sub_020205DC
+	bl _ZN17UnkClass_0201FC807LoadScrEPKcimmmm
 	add r0, sl, sb, lsl #2
 	ldr r0, [r0, #0x584]
-	bl sub_020204A8
+	bl _ZN17UnkClass_0201FC8014ReleaseArchiveEv
 	add r0, sl, sb, lsl #2
 	mov r1, #0x100
 	ldr r0, [r0, #0x584]
 	mov r2, r1
-	bl sub_0201FE18
+	bl _ZN17UnkClass_0201FC805SetupEii
 	add sb, sb, #1
 	cmp sb, #2
 	ble _02121D68
@@ -8226,7 +8226,7 @@ _02123954:
 _021239E4:
 	add r0, r5, r4, lsl #2
 	ldr r0, [r0, #0x584]
-	bl sub_0201FEBC
+	bl _ZN17UnkClass_0201FC8013LoadScrToVramEv
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, pc}
 _021239F8:
@@ -25736,7 +25736,7 @@ _02131AA4:
 	beq _02131AD0
 	beq _02131AC8
 	mov r0, r7
-	bl sub_0201FCB4
+	bl _ZN17UnkClass_0201FC80D1Ev
 	mov r0, r7
 	bl _ZdlPv
 _02131AC8:
@@ -25793,7 +25793,7 @@ _02131B58:
 	beq _02131B84
 	beq _02131B7C
 	mov r0, r7
-	bl sub_0201FCB4
+	bl _ZN17UnkClass_0201FC80D1Ev
 	mov r0, r7
 	bl _ZdlPv
 _02131B7C:
@@ -25996,12 +25996,12 @@ _02131E10:
 	mov r0, #8
 	str r0, [r4, #8]
 	ldr r0, [r4, #0x18]
-	bl sub_0201FD24
+	bl _ZN17UnkClass_0201FC8014LoadCharToVramEv
 	ldr r0, [r4, #0x18]
 	mov r1, #0
-	bl sub_0201FDE8
+	bl _ZN17UnkClass_0201FC8014LoadPlttToVramEi
 	ldr r0, [r4, #0x18]
-	bl sub_0201FEBC
+	bl _ZN17UnkClass_0201FC8013LoadScrToVramEv
 	ldr r2, _02132010 ; =0x001F001F
 	b _02131E70
 _02131E58:
@@ -26289,7 +26289,7 @@ _021321D0:
 	beq _0213225C
 	ldr r1, _0213245C ; =s_game
 	ldr r1, [r1]
-	bl sub_0201FC9C
+	bl _ZN17UnkClass_0201FC80C1Ei
 _0213225C:
 	str r0, [r4, #0x10]
 	mov r0, #0x64
@@ -26298,7 +26298,7 @@ _0213225C:
 	beq _0213227C
 	ldr r1, _0213245C ; =s_game
 	ldr r1, [r1]
-	bl sub_0201FC9C
+	bl _ZN17UnkClass_0201FC80C1Ei
 _0213227C:
 	str r0, [r4, #0x14]
 	mov r0, #0x64
@@ -26307,34 +26307,34 @@ _0213227C:
 	beq _0213229C
 	ldr r1, _0213245C ; =s_game
 	ldr r1, [r1]
-	bl sub_0201FC9C
+	bl _ZN17UnkClass_0201FC80C1Ei
 _0213229C:
 	str r0, [r4, #0x18]
 	ldr r0, [r4, #0x10]
 	mov r1, #4
-	bl sub_02020328
+	bl _ZN17UnkClass_0201FC805SetBGEi
 	ldr r0, [r4, #0x14]
 	mov r1, #0
-	bl sub_02020328
+	bl _ZN17UnkClass_0201FC805SetBGEi
 	ldr r0, [r4, #0x18]
 	mov r1, #4
-	bl sub_02020328
+	bl _ZN17UnkClass_0201FC805SetBGEi
 	ldr r0, [r4, #0x10]
 	ldr r1, _02132460 ; =s_title_overlay_11_021666d0
 	ldr r2, _02132464 ; =s_copyright000_overlay_11_021666d8
-	bl sub_0202048C
+	bl _ZN17UnkClass_0201FC8011LoadArchiveEPKcS1_
 	mov r2, #0
 	str r2, [sp]
 	ldr r0, [r4, #0x10]
 	ldr r1, _02132468 ; =s_copyright000_overlay_11_021666e8
 	mov r3, r2
-	bl sub_020204DC
+	bl _ZN17UnkClass_0201FC808LoadCharEPKcimm
 	mov r2, #0
 	str r2, [sp]
 	ldr r0, [r4, #0x10]
 	ldr r1, _02132468 ; =s_copyright000_overlay_11_021666e8
 	mov r3, r2
-	bl sub_0202055C
+	bl _ZN17UnkClass_0201FC808LoadPlttEPKcimm
 	mov r2, #0
 	strh r2, [r0]
 	str r2, [sp]
@@ -26343,25 +26343,25 @@ _0213229C:
 	ldr r0, [r4, #0x10]
 	ldr r1, _02132468 ; =s_copyright000_overlay_11_021666e8
 	mov r3, r2
-	bl sub_020205DC
+	bl _ZN17UnkClass_0201FC807LoadScrEPKcimmmm
 	ldr r0, [r4, #0x10]
-	bl sub_020204A8
+	bl _ZN17UnkClass_0201FC8014ReleaseArchiveEv
 	ldr r0, [r4, #0x14]
 	ldr r1, _02132460 ; =s_title_overlay_11_021666d0
 	ldr r2, _0213246C ; =s_copyright001_overlay_11_021666f8
-	bl sub_0202048C
+	bl _ZN17UnkClass_0201FC8011LoadArchiveEPKcS1_
 	mov r2, #0
 	str r2, [sp]
 	ldr r0, [r4, #0x14]
 	ldr r1, _02132470 ; =s_copyright001_overlay_11_02166708
 	mov r3, r2
-	bl sub_020204DC
+	bl _ZN17UnkClass_0201FC808LoadCharEPKcimm
 	mov r2, #0
 	str r2, [sp]
 	ldr r0, [r4, #0x14]
 	ldr r1, _02132470 ; =s_copyright001_overlay_11_02166708
 	mov r3, r2
-	bl sub_0202055C
+	bl _ZN17UnkClass_0201FC808LoadPlttEPKcimm
 	mov r2, #0
 	strh r2, [r0]
 	str r2, [sp]
@@ -26370,25 +26370,25 @@ _0213229C:
 	ldr r0, [r4, #0x14]
 	ldr r1, _02132470 ; =s_copyright001_overlay_11_02166708
 	mov r3, r2
-	bl sub_020205DC
+	bl _ZN17UnkClass_0201FC807LoadScrEPKcimmmm
 	ldr r0, [r4, #0x14]
-	bl sub_020204A8
+	bl _ZN17UnkClass_0201FC8014ReleaseArchiveEv
 	ldr r0, [r4, #0x18]
 	ldr r1, _02132460 ; =s_title_overlay_11_021666d0
 	ldr r2, _02132474 ; =s_copyright002_overlay_11_02166718
-	bl sub_0202048C
+	bl _ZN17UnkClass_0201FC8011LoadArchiveEPKcS1_
 	mov r2, #0
 	str r2, [sp]
 	ldr r0, [r4, #0x18]
 	ldr r1, _02132478 ; =s_copyright002_overlay_11_02166728
 	mov r3, r2
-	bl sub_020204DC
+	bl _ZN17UnkClass_0201FC808LoadCharEPKcimm
 	mov r2, #0
 	str r2, [sp]
 	ldr r0, [r4, #0x18]
 	ldr r1, _02132478 ; =s_copyright002_overlay_11_02166728
 	mov r3, r2
-	bl sub_0202055C
+	bl _ZN17UnkClass_0201FC808LoadPlttEPKcimm
 	mov r2, #0
 	strh r2, [r0]
 	str r2, [sp]
@@ -26397,23 +26397,23 @@ _0213229C:
 	ldr r0, [r4, #0x18]
 	ldr r1, _02132478 ; =s_copyright002_overlay_11_02166728
 	mov r3, r2
-	bl sub_020205DC
+	bl _ZN17UnkClass_0201FC807LoadScrEPKcimmmm
 	ldr r0, [r4, #0x18]
-	bl sub_020204A8
+	bl _ZN17UnkClass_0201FC8014ReleaseArchiveEv
 	ldr r0, [r4, #0x10]
-	bl sub_0201FD24
+	bl _ZN17UnkClass_0201FC8014LoadCharToVramEv
 	ldr r0, [r4, #0x10]
 	mov r1, #0
-	bl sub_0201FDE8
+	bl _ZN17UnkClass_0201FC8014LoadPlttToVramEi
 	ldr r0, [r4, #0x10]
-	bl sub_0201FEBC
+	bl _ZN17UnkClass_0201FC8013LoadScrToVramEv
 	ldr r0, [r4, #0x14]
-	bl sub_0201FD24
+	bl _ZN17UnkClass_0201FC8014LoadCharToVramEv
 	ldr r0, [r4, #0x14]
 	mov r1, #0
-	bl sub_0201FDE8
+	bl _ZN17UnkClass_0201FC8014LoadPlttToVramEi
 	ldr r0, [r4, #0x14]
-	bl sub_0201FEBC
+	bl _ZN17UnkClass_0201FC8013LoadScrToVramEv
 	ldr r0, _0213245C ; =s_game
 	ldr r0, [r0]
 	add r0, r0, #0x1000
