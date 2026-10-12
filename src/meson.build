@@ -99,6 +99,7 @@ pokeranger2_cxx = files(
     'sub_02046D40.cpp',
     'sub_02044440.cpp',
     'sub_0204436C.cpp',
+    'ScriptSymbol.cpp',
     'heap_operators.cpp',
     'UnkClass_02001C04.cpp',
     'UnkClass_020023EC.cpp',

@@ -139,7 +139,7 @@ Static main
     Object main.nef.p/src_CDownloadMissionRestartScene.cpp.o
     Object main.nef.p/src_Log.cpp.o
     Object main.nef.p/src_sub_0204436C.cpp.o
-    Object main.nef.p/asm_arm9_0204439C.s.o
+    Object main.nef.p/src_ScriptSymbol.cpp.o
     Object main.nef.p/src_sub_02044440.cpp.o
     Object main.nef.p/asm_arm9_02044464.s.o
     Object main.nef.p/src_sub_02046D40.cpp.o
