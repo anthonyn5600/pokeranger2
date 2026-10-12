@@ -35,7 +35,7 @@
 .public _ZN10CActorData12sub_020142F8Ev
 .public _ZN10CActorData12sub_02014310Ev
 .public _ZN10CActorData12sub_02014364Ev
-.public _ZN10CActorDataC2EPKcS1_iiS1_
+.public _ZN10CActorDataC1EPKcS1_iiS1_
 .public _ZN11CBGNCGRFileC1EPKcmmm
 .public _ZN11CBattleDisk12ov1_0212C4CCEv
 .public _ZN11CBattleDisk12ov1_0212C4ECEh
@@ -152,7 +152,6 @@
 .public _ZN5CGame11GetInstanceEv
 .public _ZN5CGame12sub_020100E4EPFvPvES0_
 .public _ZN6CActor12sub_02011FF4EP10CActorData
-.public _ZN6CActor12sub_020121F4Ev
 .public _ZN6CActor12sub_020127D0Eli
 .public _ZN6CActor12sub_02012894E7Point2D
 .public _ZN6CActor12sub_020128ECEt
