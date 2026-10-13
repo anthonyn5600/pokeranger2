@@ -10,9 +10,7 @@
 #include "UnkStruct_02044464.hpp"
 #include "common.hpp"
 #include "field/CFieldEffect.hpp"
-#include "field/CFieldEffectAirBubbles.hpp"
 #include "field/CFieldEffectFactory.hpp"
-#include "field/CFieldEffectFootStepSmoke.hpp"
 #include "field/TFieldEffectParticle.hpp"
 #include "primitive/CPrimitiveRECT.hpp"
 #include "primitive/CSoftwareSprite.hpp"
@@ -22,6 +20,8 @@ class UnkClass_0211E3FC;
 class Camera2D;
 
 // Members of CFieldEffectManage defined in other ov0 TUs.
+#include "field/CFieldEffectFootStepSmoke.hpp"
+
 class CFieldEffectDamageIndication : public CFieldEffect {
 public:
     CFieldEffectDamageIndication();
@@ -31,6 +31,8 @@ public:
     CPrimitiveRECT m_rects[2];
     u8 unk_98[0x18];
 };
+
+#include "field/CFieldEffectAirBubbles.hpp"
 
 class CFieldEffectAttackActorData : public CEffectActorData {
 public:

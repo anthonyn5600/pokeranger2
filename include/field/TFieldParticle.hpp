@@ -55,9 +55,9 @@ struct TFieldParticle {
 template <class T>
 TFieldParticle<T>::TFieldParticle()
 {
-    sprite.m_z = 0x622;
-    sprite.m_polygonID = 8;
     animIdx = 0;
+    sprite.m_polygonID = 8;
+    sprite.m_z = 0x622;
 }
 
 template <class T>
