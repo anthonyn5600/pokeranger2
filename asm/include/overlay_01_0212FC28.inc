@@ -93,11 +93,8 @@
 .public _ZN17UnkClass_0200CAB412sub_0200CCD0Eiiiiiiii
 .public _ZN17UnkClass_0200CAB412sub_0200CDA0EiiiiPhii
 .public _ZN17UnkClass_0200CAB412sub_0200CF7CEi
-.public _ZN17UnkClass_0200D3F812sub_0200D8C8El
 .public _ZN17UnkClass_0200D3F812sub_0200D924El
-.public _ZN17UnkClass_0200D3F812sub_0200D980Ev
 .public _ZN17UnkClass_0200D3F812sub_0200D994Ev
-.public _ZN17UnkClass_0200D3F812sub_0200D9A8El
 .public _ZN17UnkClass_0200D3F812sub_0200E098Ev
 .public _ZN17UnkClass_0200E0B412sub_0200E0E0Ett
 .public _ZN17UnkClass_0200E0B412sub_0200E310Ev
@@ -114,7 +111,6 @@
 .public _ZN17UnkClass_0200ECD0C1EP9GXOamAttrmii
 .public _ZN17UnkClass_0200ECD0D1Ev
 .public _ZN17UnkClass_0201179C12sub_020117B0Ev
-.public _ZN17UnkClass_0201179C12sub_02011AB0E7Point2Dm
 .public _ZN17UnkClass_0201179C12sub_02011B18E7Point2DS0_m
 .public _ZN17UnkClass_0201179C12sub_02011C90Etl
 .public _ZN17UnkClass_0201179C12sub_02011D1CEl
@@ -143,9 +139,7 @@
 .public _ZN19CBattleAttackEffect12ov1_0212747CEv
 .public _ZN5CGame11GetInstanceEv
 .public _ZN5CGame12sub_020100E4EPFvPvES0_
-.public _ZN6CActor12sub_020127D0Eli
 .public _ZN6CActor12sub_02012894E7Point2D
-.public _ZN6CActor12sub_020128ECEt
 .public _ZN6CActor12sub_020129F4Eih
 .public _ZN6CActor12sub_02012A3CEill
 .public _ZN6CActorC2Ev

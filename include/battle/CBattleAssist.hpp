@@ -4,6 +4,7 @@
 #include <nitro.h>
 
 #include "common.hpp"
+#include "sub_02006000.hpp"
 
 class CBattleAttackEffect;
 class CBattleDisk;
@@ -234,10 +235,26 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
+    void ov1_0212F56C(CTouchPanel *touch);
+    void ov1_0212F620(CTouchPanel *touch);
+    void ov1_0212F700(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
+    void ov1_0212F9D4();
+    BOOL ov1_0212FA80(fx32 x, fx32 y, u8 level, u8 frame);
+    CBattleAttackEffect *ov1_0212FBD0(fx32 x, fx32 y);
+
 public:
-    u8 unk_18[0x2C];
+    int m_state;
+    u16 m_chargeTimer;
+    u16 m_frame;
+    u8 m_burstFrame;
+    u8 m_level;
+    Point2D m_pos;
+    Circle m_touchArea;
+    Circle m_hitArea;
     UnkClass_0200D3F8 *unk_44;
-    u8 unk_48[0x1C];
+    CBattleAttackEffect *m_charge;
+    CBattleAttackEffect *m_dragon;
+    CBattleAttackEffect *m_bursts[5];
 };
 
 STATIC_SIZE_ASSERT(CBattleAssistDragon, 0x64);
