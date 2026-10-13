@@ -176,6 +176,7 @@ pokeranger2_cxx = files(
     'CFieldEffectActor.cpp',
     'FieldEffectActorData.cpp',
     'CFieldEffectFootStepSmoke.cpp',
+    'FieldEffectFactories.cpp',
     'CBattleScene.cpp',
     'UnkClass_0212306C.cpp',
     'CBattleEnemyData.cpp',

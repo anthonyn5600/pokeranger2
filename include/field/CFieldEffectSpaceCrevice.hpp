@@ -4,8 +4,10 @@
 #include <nitro.h>
 
 #include "UnkClass_0211E3FC.hpp"
+#include "common.hpp"
 #include "field/CFieldEffect.hpp"
 #include "field/CFieldEffectFactory.hpp"
+#include "field/UnkClass_02151244.hpp"
 
 // size 0x198, ctor ov0_02171938
 class CFieldEffectSpaceCrevice : public CFieldEffect {
@@ -29,8 +31,14 @@ public:
 
 class CFieldEffectSpaceCreviceFactory : public CFieldEffectFactory {
 public:
+    virtual ~CFieldEffectSpaceCreviceFactory();
     virtual CFieldEffect *Create(int arg);
     virtual void Reset();
+
+public:
+    UnkClass_02151244 m_tex[2];
 };
+
+STATIC_SIZE_ASSERT(CFieldEffectSpaceCreviceFactory, 0x5C);
 
 #endif // POKERANGER2_FIELD_CFIELDEFFECTSPACECREVICE_HPP

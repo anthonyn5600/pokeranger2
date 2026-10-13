@@ -3,6 +3,7 @@
 
 #include <nitro.h>
 
+#include "common.hpp"
 #include "field/CFieldEffectActor.hpp"
 #include "field/CFieldEffectFactory.hpp"
 
@@ -22,9 +23,16 @@ public:
 
 class CFieldEffectSlimeFactory : public CFieldEffectFactory {
 public:
+    CFieldEffectSlimeFactory(CFieldEffectManage *mgr);
+    virtual ~CFieldEffectSlimeFactory();
     virtual CFieldEffect *Create(int arg);
     virtual void Update(int frames);
     virtual void Reset();
+
+public:
+    u8 unk_04[0x40];
 };
+
+STATIC_SIZE_ASSERT(CFieldEffectSlimeFactory, 0x44);
 
 #endif // POKERANGER2_FIELD_CFIELDEFFECTSLIME_HPP

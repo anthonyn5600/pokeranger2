@@ -257,7 +257,8 @@ Overlay overlay0
     Object main.nef.p/src_CFieldEffectActor.cpp.o
     Object main.nef.p/src_FieldEffectActorData.cpp.o
     Object main.nef.p/src_CFieldEffectFootStepSmoke.cpp.o
-    Object main.nef.p/asm_overlay_00_02151244.s.o
+    Object main.nef.p/src_FieldEffectFactories.cpp.o
+    Object main.nef.p/asm_overlay_00_021519C0.s.o
 }
 
 Overlay overlay1

@@ -3,8 +3,10 @@
 
 #include <nitro.h>
 
+#include "common.hpp"
 #include "field/CFieldEffect.hpp"
 #include "field/CFieldEffectFactory.hpp"
+#include "field/UnkClass_02151244.hpp"
 
 // size 0x90, ctor ov0_0217087C
 class CFieldEffectGlitter : public CFieldEffect {
@@ -21,8 +23,14 @@ public:
 
 class CFieldEffectGlitterFactory : public CFieldEffectFactory {
 public:
+    virtual ~CFieldEffectGlitterFactory();
     virtual CFieldEffect *Create(int arg);
     virtual void Reset();
+
+public:
+    UnkClass_02151244 m_tex;
 };
+
+STATIC_SIZE_ASSERT(CFieldEffectGlitterFactory, 0x30);
 
 #endif // POKERANGER2_FIELD_CFIELDEFFECTGLITTER_HPP
