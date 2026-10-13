@@ -77,7 +77,9 @@ extern UnkClass_0201100C MAIN_BSS_020AF620;
 extern UnkClass_02011248 MAIN_BSS_020AF598;
 
 extern "C" {
+u8 sub_02010E60(UnkClass_02010D2C *obj);
 u16 sub_02010E90(UnkClass_02010D2C *obj, u8 idx);
+u16 sub_02010EAC(UnkClass_02010D2C *obj, u8 idx);
 void sub_02010F18(UnkClass_02010EC8 *obj);
 void sub_02010F5C(UnkClass_02010EC8 *obj, int bit);
 void sub_0201128C(UnkClass_02011248 *obj);

@@ -4,28 +4,63 @@
 #include <nitro.h>
 
 #include "common.hpp"
+#include "primitive/CSoftwareSprite.hpp"
+#include "sub_02006000.hpp"
 
 class Camera2D;
+class UnkClass_02008788;
+class UnkClass_0201AAE0;
 
 // Defined in ov1
+// Capture result banner (slides in, flashes, then shrinks away)
 class UnkClass_0213F028 {
 public:
-    UnkClass_0213F028(u16 arg0);
-    ~UnkClass_0213F028(); // ov1_0213F094
+    UnkClass_0213F028(u16 type);
+    ~UnkClass_0213F028();
+    void ov1_0213F0C8(u16 type);
+    void ov1_0213F2B4();
     void ov1_0213F338();
+    void ov1_0213F3D4();
+    void ov1_0213F41C();
+    void ov1_0213F490();
+    void ov1_0213F504();
+    void ov1_0213F578();
+    void ov1_0213F5A0();
+    void ov1_0213F608();
+    void ov1_0213F688();
+    void ov1_0213F6D0();
+    void ov1_0213F794();
+    void ov1_0213F7E4();
     void ov1_0213F82C(Camera2D *camera);
-    int ov1_0213F970(int z);
     void ov1_0213F8B4();
+    void ov1_0213F960(int state);
+    int ov1_0213F970(int z);
 
     inline BOOL IsActive()
     {
-        return unk_004 != 0;
+        return m_state != 0;
+    }
+
+    inline void SetPos(Point2D pos)
+    {
+        m_pos = pos;
     }
 
 public:
-    u8 unk_000[0x4];
-    u32 unk_004;
-    u8 unk_008[0x150];
+    u16 m_frame;
+    u16 m_type;
+    int m_state;
+    Point2D m_pos;
+    u8 unk_10[0x4];
+    CSoftwareSprite m_banner;
+    UnkClass_0201AAE0 *m_bannerRes;
+    CSoftwareSprite m_flash;
+    CSoftwareSprite m_flash2;
+    UnkClass_0201AAE0 *m_flashRes;
+    CSoftwareSprite m_ring;
+    UnkClass_0201AAE0 *m_ringRes;
+    UnkClass_02008788 *m_anim;
+    u16 m_animId;
 };
 
 STATIC_SIZE_ASSERT(UnkClass_0213F028, 0x158);

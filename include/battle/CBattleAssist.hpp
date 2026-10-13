@@ -60,6 +60,17 @@ public:
 
 STATIC_SIZE_ASSERT(CBattleAssistFire, 0x18);
 
+struct WaterSlot {
+    u8 m_thrown;
+    u8 m_state;
+    u8 m_level;
+    u16 m_timer;
+    u16 m_growTimer;
+    fx32 m_scale;
+};
+
+STATIC_SIZE_ASSERT(WaterSlot, 0xC);
+
 class CBattleAssistWater : public CBattleAssist {
 public:
     CBattleAssistWater(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3);
@@ -68,8 +79,20 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
+    void ov1_021355B0(CBattleEnemy **enemies);
+    BOOL ov1_02135738(u8 *idx);
+    void ov1_02135794(u8 idx);
+    BOOL ov1_02135848(u8 *outIdx);
+    BOOL ov1_02135938(CBattleAttackEffect *effect, CBattleEnemy **enemies, u8 level);
+
 public:
-    u8 unk_18[0x50];
+    u8 m_flags;
+    u8 m_selected;
+    u16 unk_1A;
+    u16 m_timer;
+    Point2D m_last;
+    CBattleAttackEffect *m_effects[4];
+    WaterSlot m_slots[4];
 };
 
 STATIC_SIZE_ASSERT(CBattleAssistWater, 0x68);

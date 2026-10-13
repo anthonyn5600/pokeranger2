@@ -65,7 +65,6 @@ struct TextWindow {
         }                                          \
     }
 
-extern "C" int sub_02010EAC(UnkClass_02010D2C *obj, u8 rank);
 extern "C" s32 sub_02019278(void *obj, int index);
 
 static inline u32 GetPokemonState(UnkClass_020B26A0 *save, int i)

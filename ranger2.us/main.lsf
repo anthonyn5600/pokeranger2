@@ -282,7 +282,21 @@ Overlay overlay1
     Object main.nef.p/src_CBattleAssistRecover.cpp.o
     Object main.nef.p/src_CBattleAssistRock.cpp.o
     Object main.nef.p/src_CBattleAssistSteel.cpp.o
-    Object main.nef.p/asm_overlay_01_021352D4.s.o
+    Object main.nef.p/src_CBattleAssistWater.cpp.o
+    Object main.nef.p/src_UnkClass_02135BB4.cpp.o
+    Object main.nef.p/src_CBattleEnemyGauge.cpp.o
+    Object main.nef.p/src_UnkClass_02136730.cpp.o
+    Object main.nef.p/src_CBattlePowerSave.cpp.o
+    Object main.nef.p/src_UnkClass_02137DA4.cpp.o
+    Object main.nef.p/src_UnkClass_021380AC.cpp.o
+    Object main.nef.p/src_UnkClass_021382D0.cpp.o
+    Object main.nef.p/src_UnkClass_021384F8.cpp.o
+    Object main.nef.p/src_CBattleGameOver.cpp.o
+    Object main.nef.p/src_UnkClass_0213AE18.cpp.o
+    Object main.nef.p/src_UnkClass_0213CC28.cpp.o
+    Object main.nef.p/src_UnkClass_0213F028.cpp.o
+    Object main.nef.p/src_UnkClass_0213F9D0.cpp.o
+    Object main.nef.p/asm_overlay_01_0213F9D0.s.o
 }
 
 Overlay overlay2

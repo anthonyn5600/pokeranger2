@@ -3,25 +3,32 @@
 
 #include <nitro.h>
 
-#include "UnkClass_0214FB28.hpp"
 #include "common.hpp"
 
 class Camera2D;
+class CPrimitiveRECT;
+class CSoftwareSprite;
+class UnkClass_0201AAE0;
 
 // Defined in ov1
+// Battle icon i046 (BAS archive), animated for 16 frames after Start
 class UnkClass_021380AC {
 public:
     UnkClass_021380AC();
     ~UnkClass_021380AC(); // ov1_021380C0
+    void Init();
+    void Release();
     void ov1_02138238();
     void ov1_02138268(Camera2D *camera);
-    u16 ov1_021382A4(u16 z);
     void ov1_02138280();
+    int ov1_021382A4(int z);
 
 public:
-    u8 unk_00[0x4];
-    UnkStruct_0214FB28 *unk_04;
-    u8 unk_08[0x8];
+    u8 m_flags;
+    u8 m_frame;
+    CPrimitiveRECT *m_rect;
+    CSoftwareSprite *m_sprite;
+    UnkClass_0201AAE0 *m_res;
 };
 
 STATIC_SIZE_ASSERT(UnkClass_021380AC, 0x10);

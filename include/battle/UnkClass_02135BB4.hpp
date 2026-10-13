@@ -6,12 +6,13 @@
 #include "common.hpp"
 
 class CGame;
+class UnkClass_02008FA8;
 
 // Defined in ov1
 class UnkClass_02135BB4 {
 public:
     UnkClass_02135BB4(CGame *game);
-    ~UnkClass_02135BB4(); // ov1_02135BEC
+    ~UnkClass_02135BB4();
     void ov1_02135C2C();
     void ov1_02135C58();
     int ov1_02135C68();
@@ -19,7 +20,8 @@ public:
     int ov1_02135C8C();
 
 public:
-    u8 unk_00[0x8];
+    CGame *m_game;
+    UnkClass_02008FA8 *unk_04;
 };
 
 STATIC_SIZE_ASSERT(UnkClass_02135BB4, 0x8);

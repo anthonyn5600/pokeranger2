@@ -67,6 +67,7 @@
 #include "battle/UnkStruct_0212DFEC.hpp"
 #include "file/CBinaryFile.hpp"
 #include "interpolation.hpp"
+#include "primitive/CPrimitiveRECT.hpp"
 #include "sub_02007254.hpp"
 
 static inline u32 GetPokemonState(UnkClass_020B26A0 *save, int i)
@@ -282,14 +283,14 @@ void CBattleScene::func6()
         unk_00D8->unk_190 = 0;
     }
     if ((u32)(MAIN_BSS_020B26A0.unk_0003 & 0xF) >= 8) {
-        unk_00D8->unk_1C0->unk_C71 = 2;
+        unk_00D8->unk_1C0->m_maxLevel = 2;
     } else {
-        unk_00D8->unk_1C0->unk_C71 = 1;
+        unk_00D8->unk_1C0->m_maxLevel = 1;
     }
     if ((u32)(MAIN_BSS_020B26A0.unk_0003 & 0xF) >= 6) {
-        unk_00D8->unk_1C0->SetUnkC74(70, 90);
+        unk_00D8->unk_1C0->SetChargeTimes(70, 90);
     } else {
-        unk_00D8->unk_1C0->SetUnkC74(100, 120);
+        unk_00D8->unk_1C0->SetChargeTimes(100, 120);
     }
 
     table = m_game->unk_1434;
@@ -339,7 +340,7 @@ void CBattleScene::func6()
     }
     for (int i = 0; i < 8; i++) {
         unk_0BC4[i] = new UnkClass_02137DA4();
-        unk_0BC4[i]->unk_0C = i * -0x80;
+        unk_0BC4[i]->m_z = i * -0x80;
     }
     unk_0BAC = new UnkClass_0212E88C();
     unk_0C28 = new UnkClass_02018B9C();
@@ -885,14 +886,14 @@ int CBattleScene::ov1_0211F404()
     if (unk_0044 != sub_02010B7C(unk_001C)) {
         if (unk_0010->unk_04 != 0) {
             if (sub_02010BE0(unk_001C)) {
-                if (sub_02006000(touchPos, unk_0C08->unk_04->unk_18, 0)) {
+                if (sub_02006000(touchPos, unk_0C08->m_rect->m_rectangle, 0)) {
                     unk_0C08->ov1_02138280();
                     unk_0080 |= 1;
                     unk_0081 = 0;
                 }
             }
             if (sub_02010BF4(unk_001C)) {
-                if (sub_02006000(touchPos, unk_0C0C->unk_04->unk_18, 0)) {
+                if (sub_02006000(touchPos, unk_0C0C->m_rect->m_rectangle, 0)) {
                     unk_0C0C->ov1_021384A8();
                     unk_0080 |= 2;
                     unk_0081 = 0;
@@ -901,10 +902,10 @@ int CBattleScene::ov1_0211F404()
         }
         if (unk_0010->unk_05 != 0) {
             BOOL held = TRUE;
-            if ((unk_0080 & 1) && !sub_02006000(touchPos, unk_0C08->unk_04->unk_18, 0)) {
+            if ((unk_0080 & 1) && !sub_02006000(touchPos, unk_0C08->m_rect->m_rectangle, 0)) {
                 unk_0080 &= ~1;
                 held = FALSE;
-            } else if ((unk_0080 & 2) && !sub_02006000(touchPos, unk_0C0C->unk_04->unk_18, 0)) {
+            } else if ((unk_0080 & 2) && !sub_02006000(touchPos, unk_0C0C->m_rect->m_rectangle, 0)) {
                 unk_0080 &= ~2;
                 held = FALSE;
             }
@@ -914,7 +915,7 @@ int CBattleScene::ov1_0211F404()
         }
         if (unk_0010->unk_06 != 0) {
             if (unk_0081 <= 12) {
-                if (sub_02006000(touchPos, unk_0C08->unk_04->unk_18, 0)) {
+                if (sub_02006000(touchPos, unk_0C08->m_rect->m_rectangle, 0)) {
                     if (unk_0080 & 1) {
                         unk_0080 &= ~1;
                         unk_0034--;
@@ -941,7 +942,7 @@ int CBattleScene::ov1_0211F404()
                         m_game->m_audioEngine->sub_02034C44(0xFA);
                         unk_0020 = 5;
                     }
-                } else if (sub_02006000(touchPos, unk_0C0C->unk_04->unk_18, 0)) {
+                } else if (sub_02006000(touchPos, unk_0C0C->m_rect->m_rectangle, 0)) {
                     if (unk_0080 & 2) {
                         unk_0080 &= ~2;
                         unk_0034--;
@@ -1032,8 +1033,8 @@ int CBattleScene::ov1_0211FB88()
         m_game->unk_14BC->sub_0200E0E0(4, 10);
         m_game->unk_14C0->sub_0200E0E0(4, 10);
         CBattleResultParameter *result = m_game->unk_1444;
-        result->unk_6A = unk_0BB8->ov1_0213A4A0(unk_0BB8->unk_02E);
-        result->unk_80 = unk_0BB8->unk_008;
+        result->unk_6A = unk_0BB8->ov1_0213A4A0(unk_0BB8->m_score);
+        result->unk_80 = unk_0BB8->m_exp;
         u8 hp = unk_0BB0->m_hp;
         unk_00D8->unk_19C = hp;
         result->unk_04 = hp;
@@ -1683,7 +1684,7 @@ void CBattleScene::func1()
         ov1_021220AC(unk_00C4, z + 3);
         break;
     }
-    u16 subZ = unk_0BB0->SetZ(0x3AC);
+    int subZ = unk_0BB0->SetZ(0x3AC);
     unk_0BB0->vfunc_0C(unk_00C8);
     if (sub_02010BE0(unk_001C)) {
         subZ = unk_0C08->ov1_021382A4(subZ);
@@ -1738,23 +1739,23 @@ int CBattleScene::ov1_02121DB0(Camera2D *camera, int z)
     }
     z = sub_0204240C(unk_00D4, z);
     sub_020423F4(unk_00D4, unk_00C4);
-    unk_0BC4[7]->unk_0C = z;
-    unk_0BC4[6]->unk_0C = unk_0BC4[7]->ov1_02137F28(unk_00C4);
+    unk_0BC4[7]->m_z = z;
+    unk_0BC4[6]->m_z = unk_0BC4[7]->ov1_02137F28(unk_00C4);
     z = unk_0BC4[6]->ov1_02137F28(unk_00C4);
     z = ov1_0212233C(unk_00C4, z);
     z = unk_0BAC->ov1_0212EDB4(z);
     unk_0BAC->ov1_0212E998(unk_00C4);
     z = unk_00D8->ov1_0212D124(z);
     unk_00D8->ov1_0212C00C(unk_00C4);
-    unk_0BC4[5]->unk_0C = z;
-    unk_0BC4[4]->unk_0C = unk_0BC4[5]->ov1_02137F28(unk_00C4);
+    unk_0BC4[5]->m_z = z;
+    unk_0BC4[4]->m_z = unk_0BC4[5]->ov1_02137F28(unk_00C4);
     z = unk_0BC4[4]->ov1_02137F28(unk_00C4);
     z = unk_00D8->ov1_0212D0D4(z);
     unk_00D8->vfunc_0C(unk_00C4);
-    unk_0BC4[3]->unk_0C = z;
-    unk_0BC4[2]->unk_0C = unk_0BC4[3]->ov1_02137F28(unk_00C4);
-    unk_0BC4[1]->unk_0C = unk_0BC4[2]->ov1_02137F28(unk_00C4);
-    unk_0BC4[0]->unk_0C = unk_0BC4[1]->ov1_02137F28(unk_00C4);
+    unk_0BC4[3]->m_z = z;
+    unk_0BC4[2]->m_z = unk_0BC4[3]->ov1_02137F28(unk_00C4);
+    unk_0BC4[1]->m_z = unk_0BC4[2]->ov1_02137F28(unk_00C4);
+    unk_0BC4[0]->m_z = unk_0BC4[1]->ov1_02137F28(unk_00C4);
     z = unk_0BC4[0]->ov1_02137F28(unk_00C4);
     unk_0BA8->ov1_02136B88(unk_00C4);
     return z;
@@ -1954,7 +1955,7 @@ void CBattleScene::ov1_021227CC(int result)
         unk_0020 = 8;
         return;
     }
-    unk_0BB8->unk_00A = unk_002C;
+    unk_0BB8->m_baseExp = unk_002C;
     res->unk_58 = unk_0044;
     for (u8 i = 0; i < unk_0044; i++) {
         res->unk_5A[i] = unk_0046[i];
@@ -2013,7 +2014,7 @@ void CBattleScene::ov1_021227CC(int result)
         }
         ov1_02122DB4();
     }
-    unk_0BB8->unk_028 = unk_000C;
+    unk_0BB8->m_bonusFlags = unk_000C;
     if (result == 0) {
         m_game->m_audioEngine->sub_02034A40(3, 0);
         unk_006C = 0;

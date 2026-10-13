@@ -31,6 +31,12 @@ public:
         m_rectangle.pos.y = y;
     }
 
+    inline void SetSize(fx32 w, fx32 h)
+    {
+        m_rectangle.size.x = w;
+        m_rectangle.size.y = h;
+    }
+
     inline void SetTexCoords(fx32 x1, fx32 y1, fx32 x2, fx32 y2)
     {
         m_texCoords.x1 = x1;

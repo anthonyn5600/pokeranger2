@@ -5,6 +5,8 @@
 
 #include "CActor.hpp"
 #include "common.hpp"
+#include "primitive/CPrimitiveQUAD.hpp"
+#include "primitive/CSoftwareSprite.hpp"
 #include "sub_02006000.hpp"
 
 class UnkClass_021364AC;
@@ -21,9 +23,30 @@ public:
     int ov1_02136248(int z);
     void ov1_021362A0(int damage);
     void ov1_02135E70(int arg0, u16 arg1, u16 arg2, Point2D pos);
+    void ov1_02135D8C();
+    BOOL ov1_0213607C();
+    void ov1_02136344();
+    void ov1_021363D0();
+    void ov1_0213642C();
 
 public:
-    u8 unk_184[0x204];
+    CPrimitiveQUAD m_bar;
+    int unk_1E4;
+    int m_z;
+    u16 m_flags;
+    u16 m_hp;
+    u16 m_maxHP;
+    u8 m_width;
+    UnkClass_021364AC *m_res;
+    u16 m_cell;
+    fx32 m_barLen;
+    u8 m_dmgFrame;
+    u8 m_dmgState;
+    u8 m_digitCount;
+    u16 m_damage;
+    fx32 m_dmgOffset;
+    CSoftwareSprite m_dmgLabel;
+    CSoftwareSprite m_digits[4];
 };
 
 STATIC_SIZE_ASSERT(CBattleEnemyGauge, 0x388);
