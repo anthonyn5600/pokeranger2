@@ -277,6 +277,7 @@
 .public _ZTV21TFieldParticleEmitterI15CSoftwareSpriteE
 .public _ZTV23CFieldEffectManpuSimple
 .public _ZTV25CFieldEffectBulletFactory
+.public _ZTV25CFieldEffectChargeFactory
 .public _ZTV27CFieldEffectWaterGunFactory
 .public _ZTV29CFieldEffectSandBurialFactory
 .public _ZTVN10__cxxabiv117__class_type_infoE
