@@ -344,6 +344,15 @@ public:
 
 STATIC_SIZE_ASSERT(CBattleAssistInsect, 0xE8);
 
+struct RockSlot {
+    u8 m_flags;
+    u8 unk_01;
+    u8 unk_02;
+    u16 unk_04;
+};
+
+STATIC_SIZE_ASSERT(RockSlot, 0x6);
+
 class CBattleAssistRock : public CBattleAssist {
 public:
     CBattleAssistRock(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3);
@@ -352,8 +361,19 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
+    void ov1_02134600(CBattleEnemy **enemies);
+    BOOL ov1_02134714(u8 *idx);
+    BOOL ov1_02134770(u8 *outIdx);
+    BOOL ov1_02134820(CBattleAttackEffect *effect, CBattleEnemy **enemies);
+
 public:
-    u8 unk_18[0x38];
+    u8 m_flags;
+    u8 m_selected;
+    u16 unk_1A;
+    u16 m_timer;
+    Point2D m_last;
+    CBattleAttackEffect *m_effects[4];
+    RockSlot m_slots[4];
 };
 
 STATIC_SIZE_ASSERT(CBattleAssistRock, 0x50);

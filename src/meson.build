@@ -171,5 +171,6 @@ pokeranger2_cxx = files(
     'CBattleAssistNormal.cpp',
     'CBattleAssistPoison.cpp',
     'CBattleAssistRecover.cpp',
+    'CBattleAssistRock.cpp',
     'CNameInputScene.cpp',
     'debug.cpp', )
