@@ -39,21 +39,25 @@ public:
     CFieldEffectAttackActorData()
     {
     }
-    virtual UnkClass_020074D4 *GetNcbr(int i);
+    virtual void Update();
 
-    // Loads data/effect/e_<id>.LZ.bin with count entries.
-    void ov0_0214FFF0(int id, int arg2, int count);
+    // Loads data/effect/e<id>_LZ.bin: count entries a<first>, a<first + 1>...
+    BOOL ov0_0214FFF0(int id, int first, int count);
 };
+
+// Between the Attack and Normal actor data on purpose: the class order (Attack, Manpu, Normal) decides the order of
+// their vtables in FieldEffectActorData.cpp's data.
+#include "field/CFieldManpuEffectActorData.hpp"
 
 class CFieldEffectNormalActorData : public CEffectActorData {
 public:
     CFieldEffectNormalActorData()
     {
     }
-    virtual ~CFieldEffectNormalActorData();
     virtual void Update();
 
-    void ov0_021503B8(int id, int arg1);
+    // Loads data/field/effect/ef<id>_LZ.bin.
+    BOOL ov0_021503B8(int id, BOOL immediate);
 };
 
 class UnkClass_021638B8 {

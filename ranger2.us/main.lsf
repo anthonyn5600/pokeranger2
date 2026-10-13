@@ -254,7 +254,9 @@ Overlay overlay0
     Object main.nef.p/src_UnkClass_0214B984.cpp.o
     Object main.nef.p/src_UnkClass_0214FB28.cpp.o
     Object main.nef.p/src_UnkClass_0214FD4C.cpp.o
-    Object main.nef.p/asm_overlay_00_0214FF68.s.o
+    Object main.nef.p/src_CFieldEffectActor.cpp.o
+    Object main.nef.p/src_FieldEffectActorData.cpp.o
+    Object main.nef.p/asm_overlay_00_021505F4.s.o
 }
 
 Overlay overlay1
