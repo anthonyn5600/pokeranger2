@@ -301,7 +301,7 @@ Overlay overlay1
 Overlay overlay2
 {
     After main
-    Object main.nef.p/asm_overlay_02_0211C9E0.s.o
+    Object main.nef.p/src_CBattleToFieldScene.cpp.o
 }
 
 Overlay overlay3
