@@ -74,6 +74,15 @@ public:
 
 STATIC_SIZE_ASSERT(CBattleAssistWater, 0x68);
 
+struct ElectricBolt {
+    u8 m_flags;
+    u16 m_timer;
+    CBattleAttackEffect *m_effect;
+    CBattleAttackEffect *m_effect2;
+};
+
+STATIC_SIZE_ASSERT(ElectricBolt, 0xC);
+
 class CBattleAssistElectric : public CBattleAssist {
 public:
     CBattleAssistElectric(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3);
@@ -82,8 +91,11 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
+    ElectricBolt *ov1_02130038();
+    void ov1_02130074(ElectricBolt *bolt, fx32 x, fx32 y);
+
 public:
-    u8 unk_18[0xC];
+    ElectricBolt m_bolts[1];
 };
 
 STATIC_SIZE_ASSERT(CBattleAssistElectric, 0x24);

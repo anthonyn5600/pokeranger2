@@ -238,7 +238,8 @@ Overlay overlay1
     Object main.nef.p/src_CBattleAssist.cpp.o
     Object main.nef.p/src_UnkClass_0212EEB4.cpp.o
     Object main.nef.p/src_CBattleAssistDragon.cpp.o
-    Object main.nef.p/asm_overlay_01_0212FC28.s.o
+    Object main.nef.p/src_CBattleAssistElectric.cpp.o
+    Object main.nef.p/asm_overlay_01_0213011C.s.o
 }
 
 Overlay overlay2
