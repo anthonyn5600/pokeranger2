@@ -244,7 +244,7 @@ struct TFieldParticleSystem {
         }
     }
 
-    void Update(int step)
+    u32 Update(int step)
     {
         int dt = step * m_speed;
         UpdateParticles(dt);
@@ -265,6 +265,7 @@ struct TFieldParticleSystem {
                 }
             }
         }
+        return total;
     }
 
     void UpdateParticles(int dt)
