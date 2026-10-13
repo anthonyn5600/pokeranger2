@@ -7,6 +7,7 @@
 #include "UnkClass_02010854.hpp"
 #include "UnkClass_02034478.hpp"
 #include "UnkClass_020B26A0.hpp"
+#include "UnkStruct_02044464.hpp"
 #include "battle/CBattleAssist.hpp"
 #include "battle/CBattleAttackEffect.hpp"
 #include "battle/CBattleAttackEffectData.hpp"
@@ -18,8 +19,6 @@
 #include "battle/UnkStruct_0212DFEC.hpp"
 #include "battle/UnkStruct_0212E008.hpp"
 #include "scene/CBattleScene.hpp"
-
-typedef int (*ScriptSyscall)(int *args);
 
 static inline CBattleScene *BattleScene()
 {

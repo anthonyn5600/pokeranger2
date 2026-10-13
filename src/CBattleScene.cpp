@@ -228,7 +228,7 @@ void CBattleScene::func5()
     GXS_DispOn();
 }
 
-extern u32 gBattleSyscalls[];
+extern ScriptSyscall gBattleSyscalls[];
 
 void CBattleScene::func6()
 {

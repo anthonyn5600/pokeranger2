@@ -54,7 +54,6 @@
 extern "C" {
 void sub_0201164C(UnkClass_0201164C *missionQuestData, u32 mapIdx);
 void sub_02018E30(void *arg0);
-void sub_02033F90(void *scriptManager, int arg1);
 void sub_0203401C(void *scriptManager, u8 arg1);
 void sub_02034120(void *scriptManager, u8 arg1);
 void ov0_02143730(UnkClass_02143714 *obj, CFieldEffectManageEventListener *listener);

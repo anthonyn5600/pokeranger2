@@ -2,14 +2,16 @@
 
 #include <nitro.h>
 
+#include "UnkStruct_02044464.hpp"
+
 extern "C" {
-void sub_02044B38(u32, u32 *);
 extern u32 MAIN_BSS_0210CED4;
-extern u32 PTR_LAB_0208e334;
 }
+
+extern ScriptSyscall gScriptBuiltinSyscalls[4][32];
 
 void sub_02044440(void)
 {
     MAIN_BSS_0210CED4 = 0;
-    sub_02044B38(0, &PTR_LAB_0208e334);
+    sub_02044B38(0, gScriptBuiltinSyscalls[0]);
 }

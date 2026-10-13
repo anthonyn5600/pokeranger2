@@ -161,11 +161,27 @@ alias_target('data', nitrofs_files)
 subdir('src')
 subdir('asm')
 
+# fsc builtin syscalls: built with the SDK 2.0/sp2 compiler (mwccarm 3.0-136) like the original; linked as plain
+# objects so they keep their place in main.lsf
+pokeranger2_sp2 = static_library('pokeranger2_sp2',
+    files('src/ScriptBuiltin.cpp'),
+    cpp_args: [pokeranger2_args, '-wrap:sdk', '2.0/sp2'],
+    cpp_pch: 'include/pch/global_pch.hpp',
+    include_directories: public_includes,
+    dependencies: [
+        nitrosdk_dep,
+        nitrosystem_dep,
+    ],
+    pic: false,
+    native: false
+)
+
 main = executable('main',
     sources: [
         pokeranger2_cxx,
         pokeranger2_asm,
     ],
+    objects: pokeranger2_sp2.extract_all_objects(recursive: false),
     c_args: pokeranger2_args,
     cpp_args: pokeranger2_args,
     nasm_args: asm_args,

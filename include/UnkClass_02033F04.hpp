@@ -5,22 +5,29 @@
 
 #include "common.hpp"
 
-// Defined in main (still asm); CGame::m_scriptManager
+class ScriptFile;
+
+// Script manager (src/UnkClass_02033F04.cpp); CGame::m_scriptManager
 class UnkClass_02033F04 {
 public:
-    UnkClass_02033F04(u32 arg0);
+    UnkClass_02033F04(u32 heap);
 
 public:
-    u8 unk_00[0x18];
+    u32 m_heap;
+    ScriptFile *m_system;
+    ScriptFile *m_area;
+    ScriptFile *m_chapter;
+    ScriptFile *m_quest;
+    int unk_14;
     int unk_18;
-    u8 unk_1C[0x18800];
+    u8 m_chapterBuffer[0x18800];
 };
 
 STATIC_SIZE_ASSERT(UnkClass_02033F04, 0x1881C);
 
 extern "C" {
-void sub_02033F90(void *scriptManager, int arg1);
-void sub_02034184(UnkClass_02033F04 *mgr, const char *name);
+int sub_02033F90(UnkClass_02033F04 *mgr, int id);
+int sub_02034184(UnkClass_02033F04 *mgr, const char *name);
 void sub_02034290(UnkClass_02033F04 *mgr);
 }
 

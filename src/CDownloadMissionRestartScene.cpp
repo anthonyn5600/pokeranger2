@@ -76,19 +76,19 @@ u32 CDownloadMissionRestartScene::func0()
         CRYPTO_RC4FastEncrypt(&ctx, data, 0x3000, data);
         switch ((int)(*data & 0xF0)) {
         case 0x10:
-            MI_UncompressLZ8(data, script->unk_1C);
+            MI_UncompressLZ8(data, script->m_chapterBuffer);
             break;
         case 0x20:
-            MI_UncompressHuffman(data, script->unk_1C);
+            MI_UncompressHuffman(data, script->m_chapterBuffer);
             break;
         case 0x30:
-            MI_UncompressRL8(data, script->unk_1C);
+            MI_UncompressRL8(data, script->m_chapterBuffer);
             break;
         case 0x80:
-            MI_UnfilterDiff8(data, script->unk_1C);
+            MI_UnfilterDiff8(data, script->m_chapterBuffer);
             break;
         }
-        sub_02044AC8(script->unk_1C);
+        sub_02044AC8(script->m_chapterBuffer);
         return 1;
     }
     case 3:

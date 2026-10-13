@@ -107,8 +107,7 @@ Static main
     Object main.nef.p/src_sub_0202B80C.cpp.o
     Object main.nef.p/src_CBackupSync.cpp.o
     Object main.nef.p/src_Syscall.cpp.o
-    Object main.nef.p/asm_arm9_02033C4C.s.o
-    Object main.nef.p/asm_arm9_0208C49C.s.o
+    Object main.nef.p/src_UnkClass_02033F04.cpp.o
     Object main.nef.p/src_UnkClass_02034478.cpp.o
     Object main.nef.p/src_FieldPartnerIndex.cpp.o
     Object main.nef.p/asm_arm9_0210C0A4.s.o
@@ -141,10 +140,12 @@ Static main
     Object main.nef.p/src_sub_0204436C.cpp.o
     Object main.nef.p/src_ScriptSymbol.cpp.o
     Object main.nef.p/src_sub_02044440.cpp.o
-    Object main.nef.p/asm_arm9_02044464.s.o
+    Object main.nef.p/src_ScriptVM.cpp.o
+    Object libpokeranger2_sp2.a.p/src_ScriptBuiltin.cpp.o
+    Object main.nef.p/asm_arm9_0210CAB0.s.o
+    Object main.nef.p/src_Wvr.cpp.o
     Object main.nef.p/src_sub_02046D40.cpp.o
     Object main.nef.p/asm_arm9_02046D5C.s.o
-    Object main.nef.p/asm_arm9_0208DDB8.s.o
     Object main.nef.p/src_debug.cpp.o
     Library libsoc.a
     Library libcps.a

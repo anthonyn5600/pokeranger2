@@ -13487,7 +13487,7 @@ ov11_02127A3C: ; 0x02127A3C
 _02127A58:
 	mov r0, #0
 	mov r1, r0
-	bl sub_02046B84
+	bl WVR_TerminateAsync
 	mov r0, #0
 	bl ov11_021272F8
 	ldmia sp!, {r3, pc}
@@ -15299,7 +15299,7 @@ ov11_02128FEC: ; 0x02128FEC
 	mov r0, #4
 	mov r2, #0
 	str ip, [r3, #4]
-	bl sub_02046948
+	bl WVR_StartUpAsync
 	cmp r0, #1
 	ldmeqia sp!, {r3, pc}
 	bl OS_Terminate
@@ -15328,7 +15328,7 @@ ov11_02129040: ; 0x02129040
 	mov r1, #0
 	bx ip
 	.align 2, 0
-_02129050: .word sub_02046B84
+_02129050: .word WVR_TerminateAsync
 _02129054: .word ov11_02128FD8
 	arm_func_end ov11_02129040
 

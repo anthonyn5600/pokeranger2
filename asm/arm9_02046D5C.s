@@ -324,34 +324,6 @@ ptr_FUN_020841e4_0208a36c: ; 0x0208A36C
 	.word sub_02084260
 
     .bss
-    .global MAIN_BSS_0210CAB0
-MAIN_BSS_0210CAB0: ; 0x0210CAB0
-    .space 0x4
-
-    .global MAIN_BSS_0210CAB4
-MAIN_BSS_0210CAB4: ; 0x0210CAB4
-    .space 0x14
-
-    .global MAIN_BSS_0210CAC8
-MAIN_BSS_0210CAC8: ; 0x0210CAC8
-    .space 0x400
-
-    .global MAIN_BSS_0210CEC8
-MAIN_BSS_0210CEC8: ; 0x0210CEC8
-    .space 0xC
-
-    .global MAIN_BSS_0210CED4
-MAIN_BSS_0210CED4: ; 0x0210CED4
-    .space 0x4
-
-    .global MAIN_BSS_0210CED8
-MAIN_BSS_0210CED8: ; 0x0210CED8
-    .space 0x100
-
-    .global MAIN_BSS_0210CFD8
-MAIN_BSS_0210CFD8: ; 0x0210CFD8
-    .space 0xC
-
     .global sHeapAllocFunc
 sHeapAllocFunc: ; 0x0210CFE4
     .space 0x4

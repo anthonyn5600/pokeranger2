@@ -123,6 +123,8 @@
 .public WM_StartParent
 .public WM_StartScan
 .public WMi_GetStatusAddress
+.public WVR_StartUpAsync
+.public WVR_TerminateAsync
 .public _Z10Heap_Allocm
 .public _Z11BGS_LoadScrPKcS0_iS0_mmim
 .public _Z15SetupInterruptsv
@@ -245,5 +247,3 @@
 .public sub_020110F8
 .public sub_02011188
 .public sub_02011318
-.public sub_02046948
-.public sub_02046B84
