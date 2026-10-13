@@ -323,7 +323,8 @@ Overlay overlay5
     After main
     Object main.nef.p/src_CStylerScene.cpp.o
     Object main.nef.p/src_CStylerUpperScreen.cpp.o
-    Object main.nef.p/asm_overlay_05_0211EAE4.s.o
+    Object main.nef.p/src_CStylerStatusScreen.cpp.o
+    Object main.nef.p/src_CStylerPartsScreen.cpp.o
 }
 
 Overlay overlay6
