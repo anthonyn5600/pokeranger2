@@ -87,6 +87,75 @@ public:
 
 STATIC_SIZE_ASSERT(CStylerStatusScreen, 0x230);
 
+// Entry of the parts screen's power-up grid: sprite, position, the styler level that unlocks it, the
+// CStylerData::m_powerLevels index and the level it shows
+struct StylerPartEntry {
+    int anim;
+    int x;
+    int y;
+    int unlockLevel;
+    int idx;
+    int level;
+};
+
+// Touchable power-up icon on the parts screen (ov5)
+class CStylerPartButton {
+public:
+    CStylerPartButton()
+    {
+        m_id = 0;
+        m_sprites = NULL;
+        m_obj = NULL;
+    }
+
+    ~CStylerPartButton()
+    {
+    }
+
+    void Init(int id, UnkClass_0200ECD0 *sprites, int anim, int x, int y, BOOL large);
+    u8 IsTouched();
+
+public:
+    int m_slot;
+    int m_id;
+    UnkClass_0200ECD0 *m_sprites;
+    UnkClass_0200E960 *m_obj;
+};
+
+STATIC_SIZE_ASSERT(CStylerPartButton, 0x10);
+
+// Animated selection frame on the parts screen (ov5)
+class CStylerPartCursor {
+public:
+    CStylerPartCursor()
+    {
+        m_size = -1;
+        m_counter = 0;
+        m_frame = 0;
+        m_sprites = NULL;
+        MI_CpuFill8(m_objs, 0, sizeof(m_objs));
+        MI_CpuFill8(m_slots, 0, sizeof(m_slots));
+    }
+
+    ~CStylerPartCursor()
+    {
+    }
+
+    void Init(UnkClass_0200ECD0 *sprites);
+    void Set(int x, int y, int size);
+    void Update();
+
+public:
+    int m_size;
+    int m_slots[2];
+    int m_counter;
+    int m_frame;
+    UnkClass_0200ECD0 *m_sprites;
+    UnkClass_0200E960 *m_objs[2];
+};
+
+STATIC_SIZE_ASSERT(CStylerPartCursor, 0x20);
+
 // Styler power-up parts screen (ov5)
 class CStylerPartsScreen : public CStylerScreen {
 public:
@@ -101,8 +170,29 @@ public:
     virtual void func7();
     virtual void func8();
 
+    void LoadData();
+    void SetupBG();
+    void LoadSprites();
+    void LoadBG();
+    void DrawTexts();
+    CStylerPartButton *CreateButton(int id, StylerPartEntry *entry);
+    void CreateButtons();
+    void UpdateButtons();
+    StylerPartEntry *FindEntry(int unlockLevel);
+
 public:
-    u8 unk_0C[0x2E4];
+    int m_level;
+    StylerPartEntry *m_selected;
+    CStylerPartButton *m_selectedButton;
+    u8 m_palette[0x200];
+    CStylerData *m_data;
+    CGame *m_game;
+    UnkClass_0202A2AC *unk_220;
+    UnkClass_020091E8_004 *m_menuMessages;
+    UnkClass_0200ECD0 *m_sprites;
+    UnkClass_0200ECD0 *m_cursorSprites;
+    CStylerPartButton *m_buttons[47];
+    CStylerPartCursor *m_cursor;
 };
 
 STATIC_SIZE_ASSERT(CStylerPartsScreen, 0x2F0);
