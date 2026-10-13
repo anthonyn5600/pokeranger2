@@ -241,7 +241,8 @@ Overlay overlay0
     Object main.nef.p/src_CFieldEffectCharge.cpp.o
     Object main.nef.p/src_CFieldEffectFlash.cpp.o
     Object main.nef.p/src_CFieldEffectFogcut.cpp.o
-    Object main.nef.p/asm_overlay_00_0214764C.s.o
+    Object main.nef.p/src_CFieldEffectFlowerStorm.cpp.o
+    Object main.nef.p/asm_overlay_00_021480E4.s.o
 }
 
 Overlay overlay1

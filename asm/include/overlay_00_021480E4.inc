@@ -282,6 +282,7 @@
 .public _ZTV25CFieldEffectFogcutFactory
 .public _ZTV27CFieldEffectWaterGunFactory
 .public _ZTV29CFieldEffectSandBurialFactory
+.public _ZTV30CFieldEffectFlowerStormFactory
 .public _ZTVN10__cxxabiv117__class_type_infoE
 .public _ZTVN10__cxxabiv120__si_class_type_infoE
 .public _ZdaPv
