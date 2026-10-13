@@ -1,6 +1,4 @@
 #pragma once
-.public DAT_overlay_3_0212a218
-.public DAT_overlay_3_0212a234
 .public DAT_overlay_3_0212a250
 .public G2x_SetBlendAlpha_
 .public GX_DispOn
@@ -24,7 +22,6 @@
 .public GX_SetBankForTexPltt
 .public GX_SetGraphicsMode
 .public MIi_CpuCopyFast
-.public PTR_LAB_overlay_3_02120b18_overlay_3_0212a954
 .public PTR_LAB_overlay_3_02121498_overlay_3_0212aa08
 .public _Z12sub_020061007Point2D6Circle
 .public _ZN14CBinaryFileMesC1EPKcm
@@ -34,7 +31,6 @@
 .public _ZN17UnkClass_0200CAB412sub_0200CC88Ei
 .public _ZN17UnkClass_0200CAB412sub_0200CCD0Eiiiiiiii
 .public _ZN17UnkClass_0200CAB412sub_0200CDA0EiiiiPhii
-.public _ZN17UnkClass_0200CAB412sub_0200CF7CEi
 .public _ZN17UnkClass_0200E96012sub_0200EB34Eii
 .public _ZN17UnkClass_0200ECD012sub_0200EE14EPKcS1_mm
 .public _ZN17UnkClass_0200ECD012sub_0200F4FCEiiii
@@ -60,17 +56,10 @@
 .public _ZdlPv
 .public _Znam
 .public _Znwm
-.public s_data_menu_overlay_3_0212a9cc
 .public s_data_menu_overlay_3_0212aa80
-.public s_data_message_etc_menu_mes_overlay_3_0212a9b0
 .public s_data_message_etc_menu_mes_overlay_3_0212aa64
-.public s_menu_overlay_3_0212a980
 .public s_menu_overlay_3_0212aa34
-.public s_title003_00_overlay_3_0212a9d8
 .public s_title003_00_overlay_3_0212aa8c
-.public s_title004_00_overlay_3_0212a9a4
 .public s_title004_00_overlay_3_0212aa58
-.public s_title004_bg_overlay_3_0212a988
 .public s_title004_bg_overlay_3_0212aa3c
-.public s_title004_overlay_3_0212a998
 .public s_title004_overlay_3_0212aa4c

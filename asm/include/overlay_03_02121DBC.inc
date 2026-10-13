@@ -180,15 +180,6 @@
 .public _ll_div
 .public _s32_div_f
 .public g_ntfTextureFormats
-.public ov3_02120B18
-.public ov3_02120B2C
-.public ov3_02120B48
-.public ov3_02120E58
-.public ov3_02121178
-.public ov3_02121260
-.public ov3_02121430
-.public ov3_02121434
-.public ov3_02121444
 .public ov3_02121498
 .public ov3_021214AC
 .public ov3_021214C8
