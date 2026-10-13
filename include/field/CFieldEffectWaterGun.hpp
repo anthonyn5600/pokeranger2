@@ -19,7 +19,7 @@ STATIC_SIZE_ASSERT(TFieldParticlePointEmitter<CSoftwareSprite>, 0x18);
 // Water jet from m_start to m_end (ov0): a nozzle and a head sprite plus a particle spray.
 class CFieldEffectWaterGun : public CFieldEffectActor {
 public:
-    // Picks a random cell animation per particle and fades it in.
+    // Sprays particles from the head along the jet's direction.
     class CEmitter : public TFieldParticlePointEmitter<CSoftwareSprite> {
     public:
         CEmitter()
@@ -49,6 +49,7 @@ public:
         int unk_34;
     };
 
+    // Picks a random cell animation per particle and fades it in.
     class CAnimator : public TFieldParticleForceField<CSoftwareSprite> {
     public:
         CAnimator();
@@ -63,8 +64,6 @@ public:
         u16 m_ids[16];
         int m_count;
     };
-
-    // Sprays particles from the head along the jet's direction.
 
     CFieldEffectWaterGun(int id);
     virtual ~CFieldEffectWaterGun();
