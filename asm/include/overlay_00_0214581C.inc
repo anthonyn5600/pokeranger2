@@ -180,7 +180,6 @@
 .public _ZN17UnkClass_0200878812sub_02008860Et
 .public _ZN17UnkClass_0200878812sub_02008990Ett
 .public _ZN17UnkClass_0200878812sub_020089B8Et
-.public _ZN17UnkClass_0200878812sub_020089D0Et
 .public _ZN17UnkClass_0200878812sub_020089ECEv
 .public _ZN17UnkClass_0200878812sub_02008A38Et
 .public _ZN17UnkClass_0200878812sub_02008A80Emm
@@ -277,6 +276,7 @@
 .public _ZTV17CPrimitiveRectNTF
 .public _ZTV21TFieldParticleEmitterI15CSoftwareSpriteE
 .public _ZTV23CFieldEffectManpuSimple
+.public _ZTV25CFieldEffectBulletFactory
 .public _ZTV27CFieldEffectWaterGunFactory
 .public _ZTVN10__cxxabiv117__class_type_infoE
 .public _ZTVN10__cxxabiv120__si_class_type_infoE
