@@ -23,7 +23,6 @@
 .public OS_SPrintf
 .public _Z12sub_02001210v
 .public _Z12sub_020060007Point2D9Rectanglem
-.public _Z12sub_020061007Point2D6Circle
 .public _Z12sub_020061646CircleS_P7Point2D
 .public _Z12sub_02007254ll
 .public _Z17LinearInterpolatellll
@@ -34,7 +33,6 @@
 .public _ZN11CBinaryFileC1EPKcmmmPvm
 .public _ZN12CBattleEnemy12ov1_02126310Eii
 .public _ZN12CBattleEnemy12ov1_021263A4Eii
-.public _ZN12CBattleEnemy12ov1_02126424Ev
 .public _ZN12CBattleScene12ov1_0211EF74Etm
 .public _ZN12CBattleScene12ov1_0211F010Et
 .public _ZN13CArchiveGuardC1EPKcS1_mmmPvm
@@ -131,7 +129,6 @@
 .public _ZN19CBattleAttackEffect12ov1_0212747CEv
 .public _ZN5CGame11GetInstanceEv
 .public _ZN5CGame12sub_020100E4EPFvPvES0_
-.public _ZN6CActor12sub_020129F4Eih
 .public _ZN6CActor12sub_02012A3CEill
 .public _ZN6CActorC2Ev
 .public _ZN6CActorD2Ev

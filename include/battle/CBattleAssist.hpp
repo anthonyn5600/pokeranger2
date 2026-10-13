@@ -190,6 +190,15 @@ public:
 
 STATIC_SIZE_ASSERT(CBattleAssistGrapple, 0x18);
 
+struct PoisonSlot {
+    u8 m_flags;
+    u16 m_timer;
+    u8 unk_04[0x4];
+    CBattleAttackEffect *m_effect;
+};
+
+STATIC_SIZE_ASSERT(PoisonSlot, 0xC);
+
 class CBattleAssistPoison : public CBattleAssist {
 public:
     CBattleAssistPoison(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3);
@@ -198,8 +207,16 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
+    void ov1_02133F9C(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
+    void ov1_02134120(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
+    PoisonSlot *ov1_021341FC();
+
 public:
-    u8 unk_18[0xDC];
+    int m_state;
+    Point2D m_pos;
+    Circle m_area;
+    PoisonSlot *m_current;
+    PoisonSlot m_slots[16];
 };
 
 STATIC_SIZE_ASSERT(CBattleAssistPoison, 0xF4);
