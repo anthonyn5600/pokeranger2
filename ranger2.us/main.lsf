@@ -315,7 +315,7 @@ Overlay overlay3
 Overlay overlay4
 {
     After main
-    Object main.nef.p/asm_overlay_04_0211C9E0.s.o
+    Object main.nef.p/src_CLetterScene.cpp.o
 }
 
 Overlay overlay5
