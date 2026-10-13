@@ -176,8 +176,17 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
+    void ov1_021311E4(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
+    void ov1_021311F8(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
+    void ov1_02131410(fx32 x, fx32 y);
+    void ov1_021314A0(fx32 x, fx32 y, u16 angle);
+
 public:
-    u8 unk_18[0x14];
+    int m_state;
+    u8 unk_1C[0x8];
+    u8 m_level;
+    u16 m_angle;
+    CBattleAttackEffect *m_bird;
 };
 
 STATIC_SIZE_ASSERT(CBattleAssistFly, 0x2C);
