@@ -23,11 +23,14 @@ class UnkClass_0213F9D0 {
 public:
     UnkClass_0213F9D0(const char *ntft, const char *ntfp);
     ~UnkClass_0213F9D0();
+    void Load(const char *ntft, const char *ntfp);
+    void Release();
 
 public:
-    u8 unk_00[0x8];
-    u32 unk_08;
-    u32 unk_0C;
+    NNSGfdTexKey m_texKey;
+    NNSGfdPlttKey m_plttKey;
+    u32 m_texAddr;
+    u32 m_plttAddr;
 };
 
 // Styler line: ring buffer of the last 0x60 segments drawn on the touch screen

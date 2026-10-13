@@ -1,14 +1,1 @@
 #pragma once
-.public DC_FlushRange
-.public GX_BeginLoadTex
-.public GX_BeginLoadTexPltt
-.public GX_EndLoadTex
-.public GX_EndLoadTexPltt
-.public GX_LoadTex
-.public GX_LoadTexPltt
-.public NNS_GfdAllocLnkPlttVram
-.public NNS_GfdAllocLnkTexVram
-.public NNS_GfdFreeLnkPlttVram
-.public NNS_GfdFreeLnkTexVram
-.public _ZN11CBinaryFileC1EPKcmmmPvm
-.public _Znwm
