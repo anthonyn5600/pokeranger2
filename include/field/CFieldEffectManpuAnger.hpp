@@ -7,9 +7,10 @@
 #include "field/TFieldParticle.hpp"
 #include "primitive/CSoftwareSprite.hpp"
 
-// size 0x94, ctor ov0_02163A88
+// size 0x94
 class CFieldEffectManpuAnger : public CFieldEffectManpu {
 public:
+    CFieldEffectManpuAnger(CEffectActorData *data);
     class CAnimator : public TFieldParticleForceField<CSoftwareSprite> {
     public:
         virtual ~CAnimator();
@@ -29,6 +30,10 @@ public:
     virtual int ov0_02142264(int step);
     virtual int Draw(Camera2D *camera);
     virtual void SetDepth(fx32 z);
+
+    u8 unk_2C[0x68];
 };
+
+STATIC_SIZE_ASSERT(CFieldEffectManpuAnger, 0x94);
 
 #endif // POKERANGER2_FIELD_CFIELDEFFECTMANPUANGER_HPP

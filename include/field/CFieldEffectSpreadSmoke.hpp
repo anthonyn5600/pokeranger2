@@ -3,20 +3,33 @@
 
 #include <nitro.h>
 
-#include "field/CFieldEffect.hpp"
 #include "field/CFieldEffectFactory.hpp"
+#include "field/CFieldParticleSmokeAnimator.hpp"
 #include "field/TFieldEffectParticle.hpp"
 #include "primitive/CSoftwareSprite.hpp"
 
-// size 0x94, ctor ov0_0215C75C
 class CFieldEffectSpreadSmoke : public TFieldEffectParticle<CSoftwareSprite> {
 public:
+    CFieldEffectSpreadSmoke(int kind);
     virtual ~CFieldEffectSpreadSmoke();
-    virtual int sub_02033028();
+    virtual int sub_02033028()
+    {
+        return 10;
+    }
     virtual int sub_0203312C(int param, int value);
-    virtual TFieldParticleForceField<CSoftwareSprite> *GetForceField();
-    virtual TFieldParticleEmitter<CSoftwareSprite> *GetEmitter();
+    virtual TFieldParticleForceField<CSoftwareSprite> *GetForceField()
+    {
+        return &m_animator;
+    }
+    virtual TFieldParticleEmitter<CSoftwareSprite> *GetEmitter()
+    {
+        return &m_emitter;
+    }
+
+    TFieldParticleSmokeRectEmitter<CSoftwareSprite> m_emitter;
+    CFieldParticleSmokeAnimator m_animator;
 };
+STATIC_SIZE_ASSERT(CFieldEffectSpreadSmoke, 0x94);
 
 class CFieldEffectSpreadSmokeFactory : public CFieldEffectFactory {
 public:

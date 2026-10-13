@@ -3,11 +3,22 @@
 
 #include <nitro.h>
 
+#include "CGame.hpp"
 #include "UnkClass_020074D4.hpp"
 #include "UnkClass_02007AA4.hpp"
 #include "common.hpp"
+#include "field/CPrimitiveNTF.hpp"
+#include "field/CSimpleSpriteNTF.hpp"
 #include "file/CNCERFile.hpp"
 #include "primitive/CSoftwareSprite.hpp"
+
+extern MATHRandContext16 MAIN_BSS_0210CEC8;
+
+// Random value in [-range / 2, range / 2) (fx32).
+static inline fx32 RandCentered(fx32 range)
+{
+    return FX_Mul((MATH_Rand16(&MAIN_BSS_0210CEC8, 0) & 0x7FFF) >> 3, range) - (range >> 1);
+}
 
 // Particle effects (ov0): a pool of sprites fed by emitters and moved by an optional force field.
 
@@ -65,6 +76,52 @@ TFieldParticle<T>::~TFieldParticle()
 {
 }
 
+// What a particle sprite type is drawn with, and how a particle's sprite takes it.
+template <class T>
+struct TFieldParticleRes;
+
+template <>
+struct TFieldParticleRes<CSoftwareSprite> {
+    typedef FieldEffectSpriteRes Type;
+
+    static void Clear(Type &res)
+    {
+        res.ncbr = NULL;
+        res.palette = NULL;
+        res.ncer = NULL;
+    }
+
+    static void Set(TFieldParticle<CSoftwareSprite> *p, const Type &res)
+    {
+        p->SetRes(res.ncbr, res.palette, res.ncer);
+    }
+
+    static void SetCell(TFieldParticle<CSoftwareSprite> *p, u16 cell)
+    {
+        p->sprite.m_cellDataIdx = cell;
+    }
+};
+
+template <>
+struct TFieldParticleRes<CSimpleSpriteNTF> {
+    typedef UnkClass_02041D98 *Type;
+
+    static void Clear(Type &res)
+    {
+        res = NULL;
+    }
+
+    static void Set(TFieldParticle<CSimpleSpriteNTF> *p, const Type &res)
+    {
+        p->sprite.unk_18 = res;
+    }
+
+    // NTF sprites have no cell banks.
+    static void SetCell(TFieldParticle<CSimpleSpriteNTF> *p, u16 cell)
+    {
+    }
+};
+
 template <class T>
 class TFieldParticleEmitter {
 public:
@@ -112,21 +169,23 @@ public:
     }
 };
 
-// Emits from a rectangle (ov0). Fields not mapped yet (the smoke subclass uses up to about 0x58).
+// Emits from a rectangle (ov0) centred on m_pos.
 template <class T>
 class TFieldParticleRectEmitter : public TFieldParticleEmitter<T> {
 public:
-    virtual ~TFieldParticleRectEmitter();
-};
+    TFieldParticleRectEmitter()
+    {
+        m_width = 0;
+        m_height = 0;
+        m_mtx[0] = 0x1000;
+        m_mtx[1] = 0;
+        m_mtx[2] = 0;
+        m_mtx[3] = -0x1000;
+    }
 
-template <class T>
-class TFieldParticleSmokeRectEmitter : public TFieldParticleRectEmitter<T> {
-public:
-    virtual ~TFieldParticleSmokeRectEmitter();
-    virtual void func2();
-    virtual u32 Update(int dt);
-    virtual void Emit(TFieldParticle<T> *p);
-    virtual void ov0_0215B988(); // clears +0x30
+    fx32 m_mtx[4];
+    fx32 m_width;
+    fx32 m_height;
 };
 
 // No user ctor: see TFieldParticlePointEmitter.
@@ -145,9 +204,7 @@ struct TFieldParticleSystem {
     {
         m_speed = 0x1000;
         m_emitterCount = emitterCount;
-        m_res.ncbr = NULL;
-        m_res.palette = NULL;
-        m_res.ncer = NULL;
+        TFieldParticleRes<T>::Clear(m_res);
         m_forceField = NULL;
         m_poolSize = poolSize;
         m_active = NULL;
@@ -190,7 +247,7 @@ struct TFieldParticleSystem {
     TFieldParticleEmitter<T> **m_emitters;
     u32 *m_emitCounts;
     u32 m_emitterCount;
-    FieldEffectSpriteRes m_res;
+    typename TFieldParticleRes<T>::Type m_res;
     TFieldParticleForceField<T> *m_forceField;
     TFieldParticle<T> *m_pool;
     u32 m_poolSize;
@@ -205,7 +262,7 @@ struct TFieldParticleSystem {
         }
     }
 
-    void SetRes(const FieldEffectSpriteRes &res)
+    void SetRes(const typename TFieldParticleRes<T>::Type &res)
     {
         m_res = res;
     }
@@ -255,7 +312,7 @@ struct TFieldParticleSystem {
                     for (u32 j = 0; j < m_emitCounts[i]; j++) {
                         TFieldParticle<T> *np = Alloc();
                         if (np != NULL) {
-                            np->SetRes(m_res.ncbr, m_res.palette, m_res.ncer);
+                            TFieldParticleRes<T>::Set(np, m_res);
                             m_emitters[i]->Emit(np);
                             if (m_forceField != NULL) {
                                 m_forceField->Apply(np, dt);
