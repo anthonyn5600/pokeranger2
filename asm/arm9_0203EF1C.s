@@ -462,8 +462,8 @@ _0203F4A4:
 	blt _0203F46C
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 
-	arm_func_start _ZN17CFieldActorManage12sub_0203F4B8Ev
-_ZN17CFieldActorManage12sub_0203F4B8Ev: ; 0x0203F4B8
+	arm_func_start _ZN17CFieldActorManage12sub_0203F4B8Ethi
+_ZN17CFieldActorManage12sub_0203F4B8Ethi: ; 0x0203F4B8
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
 	ldr r4, [r0, #8]
 	cmp r4, #0
@@ -477,7 +477,7 @@ _ZN17CFieldActorManage12sub_0203F4B8Ev: ; 0x0203F4B8
 	mov lr, r6
 	mov ip, r6
 	mov sb, r6
-	arm_func_end _ZN17CFieldActorManage12sub_0203F4B8Ev
+	arm_func_end _ZN17CFieldActorManage12sub_0203F4B8Ethi
 _0203F4EC:
 	ldr r7, [r0, #8]
 	ldr r7, [r7, r6, lsl #2]
@@ -3301,7 +3301,7 @@ sub_02041A70: ; 0x02041A70
 	beq _02041AD8
 	mov r0, r7
 	mov r1, r8
-	bl ov0_02143088
+	bl _ZN18CFieldEffectManage12ov0_02143088Et
 	cmp r0, #0
 	beq _02041AD8
 	ldr r0, [r0, #0x24]
@@ -3311,7 +3311,7 @@ sub_02041A70: ; 0x02041A70
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
 	mov r0, r7
 	mov r1, r8
-	bl ov0_021430D8
+	bl _ZN18CFieldEffectManage12ov0_021430D8Et
 	arm_func_end sub_02041A70
 _02041AD8:
 	cmp r5, #0xe
@@ -3380,12 +3380,12 @@ _02041B94:
 	blt _02041C08
 	mov r0, r7
 	mov r1, #1
-	bl ov0_02142F6C
+	bl _ZN18CFieldEffectManage12ov0_02142F6CEii
 	mov r8, r0
 	mov r0, r7
 	mov r1, r8
 	str r8, [r6, #0xd0]
-	bl ov0_02143088
+	bl _ZN18CFieldEffectManage12ov0_02143088Et
 	movs r7, r0
 	beq _02041C08
 	ldr r2, [r0]
@@ -3431,7 +3431,7 @@ sub_02041C1C: ; 0x02041C1C
 	ldmeqia sp!, {r4, r5, r6, pc}
 	mov r0, r6
 	mov r1, r5
-	bl ov0_02143088
+	bl _ZN18CFieldEffectManage12ov0_02143088Et
 	cmp r0, #0
 	beq _02041C70
 	ldr r0, [r0, #0x1c]
@@ -3439,7 +3439,7 @@ sub_02041C1C: ; 0x02041C1C
 	bne _02041C70
 	mov r0, r6
 	mov r1, r5
-	bl ov0_021430D8
+	bl _ZN18CFieldEffectManage12ov0_021430D8Et
 	arm_func_end sub_02041C1C
 _02041C70:
 	mov r0, #0

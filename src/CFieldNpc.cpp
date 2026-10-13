@@ -56,7 +56,7 @@ BOOL CFieldNpc::sub_0203DA38()
     if (MAIN_BSS_0210CA44 == NULL) {
         return FALSE;
     }
-    ov0_0213FC24(MAIN_BSS_0210CA44, this, "main", -1);
+    MAIN_BSS_0210CA44->ov0_0213FC24(this, "main", -1);
     return TRUE;
 }
 

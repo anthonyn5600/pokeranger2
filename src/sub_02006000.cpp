@@ -66,8 +66,8 @@ BOOL sub_02006238(Circle arg0, UnkStruct_02006238 arg1)
 {
     Circle v0 = {
         .pos = {
-            .x = arg1.unk_00,
-            .y = arg1.unk_04,
+            .x = arg1.pos.x,
+            .y = arg1.pos.y,
         },
         .r = arg1.unk_08,
     };

@@ -23,8 +23,6 @@
 #include "UnkClass_0213D624.hpp"
 #include "UnkClass_0213DDCC.hpp"
 #include "UnkClass_0213F918.hpp"
-#include "UnkClass_0213FF64.hpp"
-#include "UnkClass_02142428.hpp"
 #include "UnkClass_021480E4.hpp"
 #include "UnkClass_0214B984.hpp"
 #include "UnkClass_0214F9DC.hpp"
@@ -34,6 +32,7 @@
 #include "UnkClass_0216D5F4.hpp"
 #include "UnkStruct_020107A8.hpp"
 #include "field/CFieldEffect.hpp"
+#include "field/CFieldEffectManage.hpp"
 #include "field/CFieldEnemy.hpp"
 #include "field/CFieldEnemyManage.hpp"
 #include "field/CFieldMap.hpp"
@@ -45,6 +44,7 @@
 #include "field/CFieldPartnerNpc.hpp"
 #include "field/CFieldPartnerPokemon.hpp"
 #include "field/CFieldPlayer.hpp"
+#include "field/CFieldPlayerInputControlManage.hpp"
 #include "field/CFieldTargetObject.hpp"
 #include "field/CFieldTargetObjectManage.hpp"
 #include "interpolation.hpp"
@@ -58,9 +58,7 @@ void sub_02018E30(void *arg0);
 void sub_02033F90(void *scriptManager, int arg1);
 void sub_0203401C(void *scriptManager, u8 arg1);
 void sub_02034120(void *scriptManager, u8 arg1);
-void ov0_02143730(UnkClass_02143714 *obj, CFieldEffectManageEventListener *listener);
-void ov0_021518B8(UnkClass_021518AC *obj, UnkClass_02142428 *arg1);
-void ov0_02143760(UnkClass_02143714 *obj, CFieldEffectManageEventListener *listener);
+void ov0_021518B8(UnkClass_021518AC *obj, CFieldEffectManage *arg1);
 void sub_02017E44(UnkClass_020B26A0 *save);
 void sub_020180F4(UnkClass_020B26A0 *save);
 void sub_02034450(void *scriptManager);
@@ -264,7 +262,7 @@ void CFieldScene::func6()
 
     unk_001C = new CFieldPartnerManage();
     unk_001C->sub_0203EFE4(0x10);
-    ov0_02143730(&unk_0144, unk_001C);
+    unk_0144.ov0_02143730(unk_001C);
 
     unk_0020 = new CFieldNpcManage();
     unk_0020->sub_0203EFE4(0x20);
@@ -276,7 +274,7 @@ void CFieldScene::func6()
     unk_0030 = new UnkClass_0213DDCC();
     unk_0030->Create(0x30);
     unk_0034 = new UnkClass_0213F918(m_game);
-    ov0_0213F960(unk_0034);
+    unk_0034->ov0_0213F960();
 
     unk_00D8 = new CPlayerHPGauge();
     unk_00D8->SetVisible(TRUE);
@@ -378,22 +376,22 @@ void CFieldScene::func6()
 
     unk_003C = new UnkClass_0211E3FC[10];
     unk_0060 = new UnkClass_02029800();
-    unk_0028 = new UnkClass_02142428(&unk_0144);
+    unk_0028 = new CFieldEffectManage(&unk_0144);
     ov0_021518B8(&unk_013C, unk_0028);
     unk_002C = new UnkClass_0211D850();
     unk_0048 = new UnkClass_020416AC(5);
 
     unk_00DC = new UnkClass_021480E4();
     if (unk_00DC != NULL) {
-        int a = unk_0028->unk_67C.func4(6);
-        int b = unk_0028->unk_67C.func3(6);
-        int c = unk_0028->unk_67C.func5();
-        int d = unk_0028->unk_67C.func2(0);
-        ov0_0214816C(unk_00DC, d, c, b, a);
+        UnkClass_02008788 *cac = unk_0028->m_resident.GetCac(6);
+        CNCERFile *ncer = unk_0028->m_resident.GetNcer(6);
+        UnkClass_02007AA4 *palette = unk_0028->m_resident.GetPalette();
+        UnkClass_020074D4 *ncbr = unk_0028->m_resident.GetNcbr(0);
+        ov0_0214816C(unk_00DC, ncbr, palette, ncer, cac);
     }
 
     m_game->unk_14B8->sub_0200E0AC((UnkStruct_0200D3F8_Target *)unk_0008);
-    unk_0040 = new UnkClass_0213FF64();
+    unk_0040 = new CFieldPlayerInputControlManage();
     if (unk_00D8 != NULL) {
         unk_0064 = new UnkClass_0216D5F4();
         ov0_0216D5F4(unk_0064, unk_00D8->GetPart(1));
@@ -529,10 +527,10 @@ void CFieldScene::func6()
     }
 
     if (save->HasString()) {
-        ov0_0213FB0C(unk_0034, save->unk_8B44, 0, -1);
+        unk_0034->ov0_0213FB0C(save->unk_8B44, 0, -1);
         save->unk_8B44[0] = '\0';
     } else if (doorEventId > 0) {
-        ov0_0213FB0C(unk_0034, "sDokaRelease", doorEventId, -1);
+        unk_0034->ov0_0213FB0C("sDokaRelease", doorEventId, -1);
     } else {
         switch (m_game->unk_14BC->sub_0200E324()) {
         case 2:
@@ -559,7 +557,7 @@ void CFieldScene::func6()
         unk_0054->sub_02022C74();
         unk_0058->sub_020234F0();
     }
-    ov0_021434F0(unk_0028);
+    unk_0028->ov0_021434F0();
     unk_0018->ov0_02136878();
 }
 
@@ -587,7 +585,7 @@ void CFieldScene::func7()
     SAFE_DELETE(unk_0024);
     SAFE_DELETE(unk_0018);
     SAFE_DELETE(unk_0020);
-    ov0_02143760(&unk_0144, unk_001C);
+    unk_0144.ov0_02143760(unk_001C);
     SAFE_DELETE(unk_001C);
     SAFE_DELETE(unk_0044);
     SAFE_DELETE(unk_0008);
@@ -636,9 +634,6 @@ struct UnkStruct_0201549C {
 };
 
 extern "C" {
-int ov0_0213FEEC(UnkClass_0213F918 *obj);
-int ov0_0213FF2C(UnkClass_0213F918 *obj);
-void ov0_0213F9B0(UnkClass_0213F918 *obj, BOOL arg1);
 void ov0_0214FB08(UnkClass_0214F9DC *obj);
 int ov0_0214FB18(UnkClass_0214F9DC *obj);
 void ov0_0214FAA0(UnkClass_0214F9DC *obj);
@@ -654,11 +649,8 @@ void ov0_0214FD24(UnkClass_0214FB28 *obj);
 void ov0_0214FCD0(UnkClass_0214FB28 *obj);
 void ov0_0214FF44(UnkClass_0214FD4C *obj);
 void ov0_0214FEF0(UnkClass_0214FD4C *obj);
-int ov0_0213FFC4(UnkClass_0213FF64 *obj, CFieldScene *scene, UnkClass_02001C04 *arg2, CTouchPanel *touch);
 void ov0_02161F88(void);
 void ov0_02159D7C(UnkClass_0215994C *obj);
-void ov0_021428EC(UnkClass_02142428 *obj, int fps, BOOL paused);
-void ov0_021433D0(UnkClass_02142428 *obj);
 void sub_02041920(UnkClass_020416AC *obj);
 void sub_0201094C(void *obj, int arg1);
 void sub_02010954(void *obj, u8 arg1);
@@ -702,7 +694,7 @@ u32 CFieldScene::func0()
     Point2D playerPos = unk_0014->GetPos();
     BOOL doUpdate = TRUE;
     u16 fps = 30;
-    if (ov0_0213FEEC(unk_0034) != 0 || (unk_00D0 & 0x48) || unk_0084 == 3 || unk_0084 == 4 || unk_0084 == 7 || unk_0084 == 5 || unk_0084 == 6 || unk_0084 == 8 || unk_0084 == 9 || unk_0084 == 0x14 || unk_0058->IsActive() != 0) {
+    if (unk_0034->ov0_0213FEEC() != 0 || (unk_00D0 & 0x48) || unk_0084 == 3 || unk_0084 == 4 || unk_0084 == 7 || unk_0084 == 5 || unk_0084 == 6 || unk_0084 == 8 || unk_0084 == 9 || unk_0084 == 0x14 || unk_0058->IsActive() != 0) {
         fps = 60;
     }
     m_game->unk_146C.sub_02008DB4(fps);
@@ -727,7 +719,7 @@ u32 CFieldScene::func0()
         doUpdate = FALSE;
     } else {
         held = FALSE;
-        BOOL canControl = (ov0_0213FEEC(unk_0034) == 0 && (unk_00D0 & 0x1FE07B) == 0) ? TRUE : FALSE;
+        BOOL canControl = (unk_0034->ov0_0213FEEC() == 0 && (unk_00D0 & 0x1FE07B) == 0) ? TRUE : FALSE;
         ok = TRUE;
         if (canControl) {
             switch (unk_0084) {
@@ -791,9 +783,9 @@ u32 CFieldScene::func0()
                     case 0:
                     case 7:
                         if (save->unk_8B64 == 1) {
-                            ov0_0213FB0C(unk_0034, "sGameOverFS", 0, -2);
+                            unk_0034->ov0_0213FB0C("sGameOverFS", 0, -2);
                         } else {
-                            ov0_0213FB0C(unk_0034, "sGameOverF", 0, -2);
+                            unk_0034->ov0_0213FB0C("sGameOverF", 0, -2);
                         }
                         unk_00D0 |= 0x440;
                         break;
@@ -805,9 +797,9 @@ u32 CFieldScene::func0()
                                 unk_0014->unk_08->unk_0C->unk_8C = 0;
                             }
                             if (save->unk_8B64 == 1) {
-                                ov0_0213FB0C(unk_0034, "sGameOverFS", 0, -2);
+                                unk_0034->ov0_0213FB0C("sGameOverFS", 0, -2);
                             } else {
-                                ov0_0213FB0C(unk_0034, "sGameOverF", 0, -2);
+                                unk_0034->ov0_0213FB0C("sGameOverF", 0, -2);
                             }
                             unk_00D0 |= 0x440;
                             if (unk_0014->unk_110 == 3 && unk_001C != NULL) {
@@ -820,7 +812,7 @@ u32 CFieldScene::func0()
                     }
                 } else {
                     if (unk_0040 != NULL && ok && unk_0014->unk_110 == 0) {
-                        ok = ov0_0213FFC4(unk_0040, this, pad, held ? NULL : touch);
+                        ok = unk_0040->ov0_0213FFC4(this, pad, held ? NULL : touch);
                     }
                 }
                 break;
@@ -852,7 +844,7 @@ u32 CFieldScene::func0()
                     if (m_game->m_textboxData->sub_0200B6D4() == 0) {
                         UnkStruct_020107A8 *info = sub_020107A8(m_game->unk_1434, partner->unk_200);
                         if (info->unk_05 != 0 && info->unk_05 == unk_0090 && unk_0098[0] != '\0') {
-                            ov0_0213FB0C(unk_0034, unk_0098, partner->unk_58, -1);
+                            unk_0034->ov0_0213FB0C(unk_0098, partner->unk_58, -1);
                         }
                     }
                     unk_0054->sub_02022DD4();
@@ -869,7 +861,7 @@ u32 CFieldScene::func0()
                     m_game->m_textboxData->sub_0200AA14();
                     if (m_game->m_textboxData->sub_0200B6D4() == 0) {
                         unk_0084 = 0;
-                        ov0_0213FB0C(unk_0034, "sCharge", partner->unk_58, -1);
+                        unk_0034->ov0_0213FB0C("sCharge", partner->unk_58, -1);
                     } else {
                         unk_0084 = 0;
                     }
@@ -901,7 +893,7 @@ u32 CFieldScene::func0()
                     m_game->m_textboxData->sub_0200AA14();
                     unk_0084 = 0;
                     if (m_game->m_textboxData->sub_0200B6D4() == 0) {
-                        ov0_0213FB0C(unk_0034, "sRideDodo", partner->unk_58, -1);
+                        unk_0034->ov0_0213FB0C("sRideDodo", partner->unk_58, -1);
                     }
                     unk_0054->sub_02022DD4();
                 } else {
@@ -915,7 +907,7 @@ u32 CFieldScene::func0()
                     m_game->m_textboxData->sub_0200AA14();
                     unk_0084 = 0;
                     if (m_game->m_textboxData->sub_0200B6D4() == 0) {
-                        ov0_0213FB0C(unk_0034, "sGtOfDodo", 0, -1);
+                        unk_0034->ov0_0213FB0C("sGtOfDodo", 0, -1);
                     }
                 }
                 break;
@@ -955,7 +947,7 @@ u32 CFieldScene::func0()
                     if (m_game->m_textboxData->sub_0200B6D4() == 0) {
                         unk_0084 = 0;
                         ov0_02161F88();
-                        ov0_0213FB0C(unk_0034, "sTeleport", partner->unk_58, -1);
+                        unk_0034->ov0_0213FB0C("sTeleport", partner->unk_58, -1);
                     } else {
                         unk_0084 = 0;
                     }
@@ -993,7 +985,7 @@ u32 CFieldScene::func0()
         }
 
         if (unk_0058->IsActive() == 0) {
-            BOOL canMove = (ov0_0213FF2C(unk_0034) == 0 && (unk_00D0 & 0x1FE07B) == 0 && ok) ? TRUE : FALSE;
+            BOOL canMove = (unk_0034->ov0_0213FF2C() == 0 && (unk_00D0 & 0x1FE07B) == 0 && ok) ? TRUE : FALSE;
             if (canMove) {
                 switch (unk_0084) {
                 case 0x1A:
@@ -1080,8 +1072,8 @@ u32 CFieldScene::func0()
                 }
             }
 
-            ov0_0213F9B0(unk_0034, unk_0084 == 0);
-            if (ov0_0213FEEC(unk_0034) == 0 && (unk_00D0 & 0x1FE07B) == 0 && unk_0084 == 0 && ok) {
+            unk_0034->ov0_0213F9B0(unk_0084 == 0);
+            if (unk_0034->ov0_0213FEEC() == 0 && (unk_00D0 & 0x1FE07B) == 0 && unk_0084 == 0 && ok) {
                 updateActors = TRUE;
             } else {
                 updateActors = FALSE;
@@ -1107,12 +1099,12 @@ u32 CFieldScene::func0()
                 Point2D tile;
                 tile.x = (s16)(pos.x >> FX32_SHIFT) << FX32_SHIFT;
                 tile.y = (s16)(pos.y >> FX32_SHIFT) << FX32_SHIFT;
-                BOOL arg = (ov0_0213FEEC(unk_0034) == 0 && save->unk_0001 != 0 && ok) ? TRUE : FALSE;
+                BOOL arg = (unk_0034->ov0_0213FEEC() == 0 && save->unk_0001 != 0 && ok) ? TRUE : FALSE;
                 int hit = unk_0030->Update(&tile, unk_0014->unk_14, arg);
                 if (save->unk_0001 == 0 && unk_0014->unk_110 == 1 && hit != 0) {
                     unk_0014->SetPos(playerPos);
                 }
-                if (ov0_0213FEEC(unk_0034) == 0 && (unk_00D0 & 0x1FE07B) == 0 && unk_0084 == 0 && ok && updateActors) {
+                if (unk_0034->ov0_0213FEEC() == 0 && (unk_00D0 & 0x1FE07B) == 0 && unk_0084 == 0 && ok && updateActors) {
                     updateActors = TRUE;
                 } else {
                     updateActors = FALSE;
@@ -1309,7 +1301,7 @@ u32 CFieldScene::func0()
             unk_0010->ov0_021251D8(1, fps);
         }
         if (unk_0028 != NULL) {
-            ov0_021428EC(unk_0028, fps, !updateActors);
+            unk_0028->ov0_021428EC(fps, !updateActors);
         }
         if (unk_002C != NULL) {
             unk_002C->sub_0203580C(fps);
@@ -1457,7 +1449,7 @@ u32 CFieldScene::func0()
         if (flags & 2) {
             DAT_0208aaf8 = 0;
             sub_02016024(save);
-            ov0_021433D0(unk_0028);
+            unk_0028->ov0_021433D0();
             unk_0054->sub_02022924();
             unk_0054->sub_02023200();
             ov0_021220D0(unk_0068, TRUE);
@@ -1480,7 +1472,7 @@ u32 CFieldScene::func0()
             ov0_0212451C();
             unk_001C->ov0_02139F98(x, y, unk_0014->unk_14);
             if (save->HasString()) {
-                ov0_0213FB0C(unk_0034, save->unk_8B44, 0, -1);
+                unk_0034->ov0_0213FB0C(save->unk_8B44, 0, -1);
                 save->unk_8B44[0] = '\0';
             }
             unk_0054->sub_0202293C(unk_0068, unk_006C, unk_0070);
@@ -1532,14 +1524,10 @@ void ov0_021481EC(UnkClass_021480E4 *obj, int fps);
 void ov0_0214FD00(UnkClass_0214FB28 *obj, Camera2D *camera);
 void ov0_0214FF20(UnkClass_0214FD4C *obj, Camera2D *camera);
 void ov0_02159DB4(UnkClass_0215994C *obj, UnkClass_0211E3FC *renderLists, UnkClass_020416AC *hud);
-void ov0_02143380(UnkClass_02142428 *obj, UnkClass_0211E3FC *renderLists);
 void sub_02041924(UnkClass_020416AC *hud, Camera2D *camera, int layer, int budget);
-int ov0_0214336C(UnkClass_02142428 *obj, int layer, int budget);
-void ov0_02142D88(UnkClass_02142428 *obj, Camera2D *camera);
 void ov0_0216D62C(UnkClass_0216D5F4 *obj, int time, int arg2, Camera2D *camera);
 void sub_020419AC(UnkClass_020416AC *hud);
 void ov0_02148288(UnkClass_021480E4 *obj, Camera2D *camera);
-void ov0_02142F08(UnkClass_02142428 *obj);
 void ov0_02159D70(UnkClass_0215994C *obj);
 void sub_0201668C(UnkClass_020B26A0 *save);
 void sub_020342A0(void *scriptManager);
@@ -1554,7 +1542,6 @@ BOOL sub_02015B1C(UnkClass_020B26A0 *save, int idx, int mapId);
 void sub_02015AAC(UnkClass_020B26A0 *save, int idx, int mapId);
 BOOL sub_02015434(UnkClass_020B26A0 *save, int mapId, int idx);
 void sub_02041A60(UnkClass_020416AC *hud, u8 arg1);
-void ov0_02143410(UnkClass_02142428 *obj);
 void sub_02010868(void *record);
 void sub_020109C0(void *record, u16 arg1, int arg2);
 }
@@ -1642,7 +1629,7 @@ void CFieldScene::func1()
                     printer->sub_020028A4(0, 1, "InTargetClearEvent");
                 } else if (unk_0084 == 8) {
                     printer->sub_020028A4(0, 1, "InReleaseEventAfterTargetClear");
-                } else if (ov0_0213FEEC(unk_0034)) {
+                } else if (unk_0034->ov0_0213FEEC()) {
                     printer->sub_020028A4(0, 1, "InAuthoringEvent");
                 }
                 if (unk_0090 >= 0) {
@@ -1694,7 +1681,7 @@ void CFieldScene::func1()
             if (!(unk_00D0 & 0x40)) {
                 ov0_02159DB4(unk_005C, unk_003C, unk_0048);
             }
-            ov0_02143380(unk_0028, unk_003C);
+            unk_0028->ov0_02143380(unk_003C);
             for (int i = 0; i < 4; i++) {
                 int budget = unk_0010->ov0_0212546C(i);
                 UnkClass_0211E3FC *list = &unk_003C[i];
@@ -1702,7 +1689,7 @@ void CFieldScene::func1()
                 list->sub_020091DC();
                 sub_02041924(unk_0048, unk_0008, i, budget - count);
                 int total = count + 1;
-                total += ov0_0214336C(unk_0028, i, budget - total);
+                total += unk_0028->ov0_0214336C(i, budget - total);
                 list = &unk_003C[i + 5];
                 count = list->sub_02009188(unk_0008, budget - total);
                 list->sub_020091DC();
@@ -1710,7 +1697,7 @@ void CFieldScene::func1()
                 unk_0010->SetPolygonCount(i, total);
             }
             unk_0010->ov0_02125338(unk_0008);
-            ov0_02142D88(unk_0028, unk_0008);
+            unk_0028->ov0_02142D88(unk_0008);
 
             G3_Identity();
             unk_0008->SetOffset(0, 0);
@@ -1814,7 +1801,7 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
                 SAFE_DELETE(items->m_items[i]);
             }
         }
-        ov0_02142F08(unk_0028);
+        unk_0028->ov0_02142F08();
         unk_002C->sub_02035998();
         unk_002C->sub_020359FC();
         ov0_02159D70(unk_005C);
@@ -2036,7 +2023,7 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
     }
     unk_0010->ov0_02124D98(name);
     sub_02041A60(unk_0048, info->unk_05);
-    ov0_02143410(unk_0028);
+    unk_0028->ov0_02143410();
     return TRUE;
 }
 
@@ -2297,10 +2284,10 @@ void CFieldScene::ov0_02123E58(int flags)
 void CFieldScene::ov0_02123FEC(u32 arg0, int arg1)
 {
     ov0_02124054();
-    unk_00AA = ov0_02142F6C(unk_0028, 1, 0x25);
-    CFieldEffect *effect = ov0_02143088(unk_0028, unk_00AA);
+    unk_00AA = unk_0028->ov0_02142F6C(1, 0x25);
+    CFieldEffect *effect = unk_0028->ov0_02143088(unk_00AA);
     if (effect != NULL) {
-        effect->unk_1C = unk_0014;
+        ((CFieldEffectActor *)effect)->unk_1C = unk_0014;
         effect->ov0_021421F0(0, -1, 0);
     }
     unk_00B0 = arg0;
@@ -2310,7 +2297,7 @@ void CFieldScene::ov0_02123FEC(u32 arg0, int arg1)
 void CFieldScene::ov0_02124054()
 {
     if (unk_00AA != 0xFFFF) {
-        CFieldEffect *effect = ov0_02143088(unk_0028, unk_00AA);
+        CFieldEffect *effect = unk_0028->ov0_02143088(unk_00AA);
         if (effect != NULL) {
             effect->ov0_02142240(0);
         }
@@ -2613,7 +2600,7 @@ extern "C" void ov0_02124BD4(void)
 
 BOOL CFieldScene::ov0_02124BFC()
 {
-    if (ov0_0213FEEC(unk_0034) != 0 || (unk_00D0 & 0x49)) {
+    if (unk_0034->ov0_0213FEEC() != 0 || (unk_00D0 & 0x49)) {
         return FALSE;
     }
     return TRUE;

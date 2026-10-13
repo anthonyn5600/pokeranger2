@@ -43,7 +43,7 @@ public:
     virtual void sub_0203F2B0(CFieldMap *map, BOOL update);
     virtual void sub_0203F348(UnkClass_0211E3FC *renderLists, UnkClass_020416AC *hud);
 
-    virtual void func0();
+    virtual void func0(CFieldEffectManage *mgr);
 
     int ov0_02139920(u32 id, u16 kind, u16 flags, int type, int arg5);
     void ov0_02139E14(int mode);

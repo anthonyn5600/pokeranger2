@@ -212,7 +212,12 @@ Overlay overlay0
     Object main.nef.p/src_CFieldPartnerNpc.cpp.o
     Object main.nef.p/src_CFieldPartnerPokemon.cpp.o
     Object main.nef.p/src_FieldPartnerPath.cpp.o
-    Object main.nef.p/asm_overlay_00_0213F918.s.o
+    Object main.nef.p/src_UnkClass_0213F918.cpp.o
+    Object main.nef.p/src_FieldPlayerInputControlManage.cpp.o
+    Object main.nef.p/src_FieldTargetObjectScript.cpp.o
+    Object main.nef.p/src_CFieldEffect.cpp.o
+    Object main.nef.p/src_FieldEffectManage.cpp.o
+    Object main.nef.p/asm_overlay_00_02143B10.s.o
 }
 
 Overlay overlay1

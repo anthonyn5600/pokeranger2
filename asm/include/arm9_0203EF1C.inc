@@ -136,6 +136,9 @@
 .public _ZN17UnkClass_02027FE85ClearEt
 .public _ZN17UnkClass_02027FE8C1Em
 .public _ZN17UnkClass_02027FE8D1Ev
+.public _ZN18CFieldEffectManage12ov0_02142F6CEii
+.public _ZN18CFieldEffectManage12ov0_02143088Et
+.public _ZN18CFieldEffectManage12ov0_021430D8Et
 .public _ZN5CGame12sub_0201024CEv
 .public _ZN6CSceneD2Ev
 .public _ZN8Camera2D12sub_020038A8EP9Rectanglel
@@ -149,9 +152,6 @@
 .public _ll_div
 .public fflush
 .public fwrite
-.public ov0_02142F6C
-.public ov0_02143088
-.public ov0_021430D8
 .public ptr_FUN_02040f20_0208dec0
 .public ptr_FUN_0204114c_0208deec
 .public ptr_FUN_020412dc_0208dfb4

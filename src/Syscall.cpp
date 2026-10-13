@@ -22,12 +22,12 @@
 #include "UnkClass_020B26A0.hpp"
 #include "UnkClass_0211D850.hpp"
 #include "UnkClass_0213DDCC.hpp"
-#include "UnkClass_02142428.hpp"
 #include "UnkStruct_020107A8.hpp"
 #include "common.hpp"
 #include "field/CFieldActor.hpp"
 #include "field/CFieldActorManage.hpp"
 #include "field/CFieldEffect.hpp"
+#include "field/CFieldEffectManage.hpp"
 #include "field/CFieldEnemy.hpp"
 #include "field/CFieldEnemyManage.hpp"
 #include "field/CFieldEventRect.hpp"
@@ -47,7 +47,7 @@ extern CFieldPlayer *MAIN_BSS_0210CA48;
 extern CFieldPartnerManage *MAIN_BSS_0210CA4C;
 extern CFieldActorManage *MAIN_BSS_0210CA50;
 extern CFieldEnemyManage *MAIN_BSS_0210CA5C;
-extern UnkClass_02142428 *MAIN_BSS_0210CA60;
+extern CFieldEffectManage *MAIN_BSS_0210CA60;
 extern UnkClass_02041D80 *MAIN_BSS_0210CA6C;
 extern UnkClass_0211D850 *MAIN_BSS_0210CA78;
 extern CFieldTargetObjectManage *MAIN_BSS_0210CA7C;
@@ -96,7 +96,6 @@ void ov0_0217248C(void *obj);
 void ov0_021633CC(CFieldEffect *effect);
 int sub_02016138(UnkClass_020B26A0 *save, int group);
 void sub_02015164(UnkStruct_020B26A0_8AD4 *partner, const char *name);
-int ov0_021430D8(UnkClass_02142428 *mgr, u16 id);
 int sub_02011630(UnkClass_0201164C *obj, int arg1);
 void sub_020115F8(UnkClass_0201164C *obj);
 void sub_020114C4(UnkClass_0201164C *obj, int arg1);
@@ -112,7 +111,6 @@ void sub_020115A8(UnkClass_0201164C *obj);
 void sub_02015714(UnkClass_020B26A0 *save, int idx, int mapId);
 void sub_0201577C(UnkClass_020B26A0 *save, int idx, int mapId);
 void ov0_02161FD4(int arg0);
-int sub_02034374(UnkClass_02033F04 *script, int arg1);
 void sub_0201164C(UnkClass_0201164C *missionQuestData, u32 mapIdx);
 void sub_02010B08(void *record, u8 arg1);
 void sub_02010A98(void *record, u8 arg1);
@@ -3688,13 +3686,13 @@ int sub_020324A8(int *args)
 
 int sub_020324DC(int *args)
 {
-    UnkClass_02142428 *manage = MAIN_BSS_0210CA60;
+    CFieldEffectManage *manage = MAIN_BSS_0210CA60;
     if (manage == NULL) {
         return 0;
     }
     u32 i = args[0];
     if ((int)i >= 0 && i < 41) {
-        return ov0_02142F6C(manage, sEffectParams[i].arg1, sEffectParams[i].arg2);
+        return manage->ov0_02142F6C(sEffectParams[i].arg1, sEffectParams[i].arg2);
     }
     return 0;
 }
@@ -3702,7 +3700,7 @@ int sub_020324DC(int *args)
 int sub_02032538(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
-        CFieldEffect *effect = ov0_02143088(MAIN_BSS_0210CA60, args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
         if (effect != NULL) {
             effect->ov0_021421F0(args[1], args[2], args[3]);
         }
@@ -3713,7 +3711,7 @@ int sub_02032538(int *args)
 int sub_02032584(int *args)
 {
     u16 id = args[0];
-    if (MAIN_BSS_0210CA60 != NULL && ov0_02143088(MAIN_BSS_0210CA60, id) != NULL) {
+    if (MAIN_BSS_0210CA60 != NULL && MAIN_BSS_0210CA60->ov0_02143088(id) != NULL) {
         return TRUE;
     }
     return FALSE;
@@ -3725,16 +3723,16 @@ int sub_020325C0(int *args)
     if (MAIN_BSS_0210CA60 == NULL) {
         return 0;
     }
-    return ov0_021430D8(MAIN_BSS_0210CA60, id);
+    return MAIN_BSS_0210CA60->ov0_021430D8(id);
 }
 
 int sub_020325F0(int *args)
 {
     int type = args[0];
-    UnkClass_02142428 *manage = MAIN_BSS_0210CA60;
+    CFieldEffectManage *manage = MAIN_BSS_0210CA60;
     switch (type) {
     case 1:
-        return ov0_02142F6C(manage, 0x1F, 0);
+        return manage->ov0_02142F6C(0x1F, 0);
     }
     return 0;
 }
@@ -3742,7 +3740,7 @@ int sub_020325F0(int *args)
 int sub_02032624(int *args)
 {
     u16 id = args[0];
-    UnkClass_02142428 *manage = MAIN_BSS_0210CA60;
+    CFieldEffectManage *manage = MAIN_BSS_0210CA60;
     Point2D pos;
     pos.x = args[1] << 12;
     pos.y = args[2] << 12;
@@ -3750,7 +3748,7 @@ int sub_02032624(int *args)
     int b = args[4];
     int c = args[5];
     if (manage != NULL) {
-        CFieldEffect *effect = ov0_02143088(manage, id);
+        CFieldEffect *effect = manage->ov0_02143088(id);
         if (effect != NULL) {
             effect->ov0_0214234C(pos, 0, 0, 0, 0);
             effect->ov0_021421F0(a, b, c);
@@ -3762,7 +3760,7 @@ int sub_02032624(int *args)
 int sub_020326CC(int *args)
 {
     u16 id = args[0];
-    if (MAIN_BSS_0210CA60 != NULL && ov0_02143088(MAIN_BSS_0210CA60, id) != NULL) {
+    if (MAIN_BSS_0210CA60 != NULL && MAIN_BSS_0210CA60->ov0_02143088(id) != NULL) {
         return TRUE;
     }
     return FALSE;
@@ -3774,9 +3772,9 @@ int sub_02032708(int *args)
     int value = args[1];
     if (MAIN_BSS_0210CA60 != NULL) {
         if (value == -1) {
-            return ov0_021430D8(MAIN_BSS_0210CA60, id);
+            return MAIN_BSS_0210CA60->ov0_021430D8(id);
         }
-        CFieldEffect *effect = ov0_02143088(MAIN_BSS_0210CA60, id);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(id);
         if (effect != NULL) {
             return effect->ov0_02142240(value);
         }
@@ -3924,47 +3922,47 @@ int sub_02032A48(int *args)
 
 int sub_02032A74(int *args)
 {
-    UnkClass_02142428 *manage = MAIN_BSS_0210CA60;
+    CFieldEffectManage *manage = MAIN_BSS_0210CA60;
     if (manage != NULL) {
         switch (args[0]) {
         case 200:
-            if (manage->unk_608 != NULL) {
-                ov0_0215F410(manage->unk_608);
+            if (manage->m_factories[12] != NULL) {
+                ov0_0215F410(manage->m_factories[12]);
             }
             break;
         case 201:
-            if (manage->unk_60C != NULL) {
-                ov0_02162988(manage->unk_60C);
+            if (manage->m_factories[13] != NULL) {
+                ov0_02162988(manage->m_factories[13]);
             }
             break;
         case 202:
-            if (manage->unk_620 != NULL) {
-                ov0_02163788(manage->unk_620, 0x84);
+            if (manage->m_factories[18] != NULL) {
+                ov0_02163788(manage->m_factories[18], 0x84);
             }
             break;
         case 203:
-            if (manage->unk_620 != NULL) {
-                ov0_02163788(manage->unk_620, 0x85);
+            if (manage->m_factories[18] != NULL) {
+                ov0_02163788(manage->m_factories[18], 0x85);
             }
             break;
         case 204:
-            if (manage->unk_620 != NULL) {
-                ov0_02163788(manage->unk_620, 0x86);
+            if (manage->m_factories[18] != NULL) {
+                ov0_02163788(manage->m_factories[18], 0x86);
             }
             break;
         case 0x10:
-            if (manage->unk_63C != NULL) {
-                ov0_0216EE1C(manage->unk_63C);
+            if (manage->m_factories[25] != NULL) {
+                ov0_0216EE1C(manage->m_factories[25]);
             }
             break;
         case 0x11:
-            if (manage->unk_640 != NULL) {
-                ov0_0216FEA4(manage->unk_640);
+            if (manage->m_factories[26] != NULL) {
+                ov0_0216FEA4(manage->m_factories[26]);
             }
             break;
         case 0x16:
-            if (manage->unk_650 != NULL) {
-                ov0_0217248C(manage->unk_650);
+            if (manage->m_factories[30] != NULL) {
+                ov0_0217248C(manage->m_factories[30]);
             }
             break;
         }
@@ -3974,75 +3972,75 @@ int sub_02032A74(int *args)
 
 int sub_02032BAC(int *args)
 {
-    UnkClass_02142428 *manage = MAIN_BSS_0210CA60;
+    CFieldEffectManage *manage = MAIN_BSS_0210CA60;
     if (manage != NULL) {
         switch (args[0]) {
         case 0:
-            return ov0_02142F6C(manage, 9, 0);
+            return manage->ov0_02142F6C(9, 0);
         case 1:
-            return ov0_02142F6C(manage, 0xB, 0);
+            return manage->ov0_02142F6C(0xB, 0);
         case 2:
-            return ov0_02142F6C(manage, 0xA, 0);
+            return manage->ov0_02142F6C(0xA, 0);
         case 8:
-            return ov0_02142F6C(manage, 0x26, 0);
+            return manage->ov0_02142F6C(0x26, 0);
         case 9:
-            return ov0_02142F6C(manage, 0x13, 0);
+            return manage->ov0_02142F6C(0x13, 0);
         case 10:
-            return ov0_02142F6C(manage, 0x14, 1);
+            return manage->ov0_02142F6C(0x14, 1);
         case 11:
-            return ov0_02142F6C(manage, 0x15, 0);
+            return manage->ov0_02142F6C(0x15, 0);
         case 12:
-            return ov0_02142F6C(manage, 0x16, 2);
+            return manage->ov0_02142F6C(0x16, 2);
         case 13:
-            return ov0_02142F6C(manage, 0x17, 1);
+            return manage->ov0_02142F6C(0x17, 1);
         case 14:
-            return ov0_02142F6C(manage, 0xE, -12);
+            return manage->ov0_02142F6C(0xE, -12);
         case 15:
-            return ov0_02142F6C(manage, 0x18, 0);
+            return manage->ov0_02142F6C(0x18, 0);
         case 16:
-            return ov0_02142F6C(manage, 0x19, 0);
+            return manage->ov0_02142F6C(0x19, 0);
         case 17:
-            return ov0_02142F6C(manage, 0x1A, 0);
+            return manage->ov0_02142F6C(0x1A, 0);
         case 18:
-            return ov0_02142F6C(manage, 0x1B, 0);
+            return manage->ov0_02142F6C(0x1B, 0);
         case 20:
-            return ov0_02142F6C(manage, 0x1C, 0);
+            return manage->ov0_02142F6C(0x1C, 0);
         case 21:
-            return ov0_02142F6C(manage, 0x1C, 1);
+            return manage->ov0_02142F6C(0x1C, 1);
         case 22:
-            return ov0_02142F6C(manage, 0x1E, 0);
+            return manage->ov0_02142F6C(0x1E, 0);
         case 19:
-            return ov0_02142F6C(manage, 9, 1);
+            return manage->ov0_02142F6C(9, 1);
         case 100:
-            return ov0_02142F6C(manage, 0x22, 0);
+            return manage->ov0_02142F6C(0x22, 0);
         case 102:
-            return ov0_02142F6C(manage, 0x20, 0x79);
+            return manage->ov0_02142F6C(0x20, 0x79);
         case 103:
-            return ov0_02142F6C(manage, 0x20, 0x78);
+            return manage->ov0_02142F6C(0x20, 0x78);
         case 3:
-            return ov0_02142F6C(manage, 0xE, 10);
+            return manage->ov0_02142F6C(0xE, 10);
         case 4:
-            return ov0_02142F6C(manage, 0xF, 12);
+            return manage->ov0_02142F6C(0xF, 12);
         case 5:
-            return ov0_02142F6C(manage, 0x10, 0);
+            return manage->ov0_02142F6C(0x10, 0);
         case 6:
-            return ov0_02142F6C(manage, 0x11, 13);
+            return manage->ov0_02142F6C(0x11, 13);
         case 7:
-            return ov0_02142F6C(manage, 0xE, 14);
+            return manage->ov0_02142F6C(0xE, 14);
         case 200:
-            return ov0_02142F6C(manage, 0xC, 0);
+            return manage->ov0_02142F6C(0xC, 0);
         case 201:
-            return ov0_02142F6C(manage, 0xD, 0);
+            return manage->ov0_02142F6C(0xD, 0);
         case 202:
-            return ov0_02142F6C(manage, 0x12, 0x84);
+            return manage->ov0_02142F6C(0x12, 0x84);
         case 203:
-            return ov0_02142F6C(manage, 0x12, 0x85);
+            return manage->ov0_02142F6C(0x12, 0x85);
         case 204:
-            return ov0_02142F6C(manage, 0x12, 0x486);
+            return manage->ov0_02142F6C(0x12, 0x486);
         case 104:
-            return ov0_02142F6C(manage, 0x21, 0x6E);
+            return manage->ov0_02142F6C(0x21, 0x6E);
         case 105:
-            return ov0_02142F6C(manage, 0x1D, 0);
+            return manage->ov0_02142F6C(0x1D, 0);
         }
     }
     return 0;
@@ -4054,7 +4052,7 @@ int sub_02032F5C(int *args)
     if (MAIN_BSS_0210CA60 == NULL) {
         return 0;
     }
-    return ov0_021430D8(MAIN_BSS_0210CA60, id);
+    return MAIN_BSS_0210CA60->ov0_021430D8(id);
 }
 
 int sub_02032F8C(int *args)
@@ -4063,7 +4061,7 @@ int sub_02032F8C(int *args)
         int a = args[1];
         int b = args[2];
         int c = args[3];
-        CFieldEffect *effect = ov0_02143088(MAIN_BSS_0210CA60, args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
         if (effect != NULL) {
             effect->ov0_021421F0(a, b, c);
             effect->ov0_02142264(0);
@@ -4075,19 +4073,11 @@ int sub_02032F8C(int *args)
     }
     return 0;
 }
-}
-
-int CFieldEffect::sub_02033028()
-{
-    return 0;
-}
-
-extern "C" {
 int sub_02033030(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
         int value = args[1];
-        CFieldEffect *effect = ov0_02143088(MAIN_BSS_0210CA60, args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
         if (effect != NULL) {
             effect->ov0_02142240(value);
         }
@@ -4097,7 +4087,7 @@ int sub_02033030(int *args)
 
 int sub_0203307C(int *args)
 {
-    if (MAIN_BSS_0210CA60 != NULL && ov0_02143088(MAIN_BSS_0210CA60, args[0]) != NULL) {
+    if (MAIN_BSS_0210CA60 != NULL && MAIN_BSS_0210CA60->ov0_02143088(args[0]) != NULL) {
         return TRUE;
     }
     return FALSE;
@@ -4106,7 +4096,7 @@ int sub_0203307C(int *args)
 int sub_020330BC(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
-        CFieldEffect *effect = ov0_02143088(MAIN_BSS_0210CA60, args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
         if (effect != NULL) {
             effect->sub_0203312C(1, args[1]);
             effect->sub_0203312C(2, args[2]);
@@ -4115,18 +4105,10 @@ int sub_020330BC(int *args)
     }
     return 0;
 }
-}
-
-int CFieldEffect::sub_0203312C(int param, int value)
-{
-    return 0;
-}
-
-extern "C" {
 int sub_02033134(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
-        CFieldEffect *effect = ov0_02143088(MAIN_BSS_0210CA60, args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
         if (effect != NULL) {
             effect->sub_0203312C(3, args[1]);
             effect->sub_0203312C(4, args[2]);
@@ -4139,7 +4121,7 @@ int sub_02033134(int *args)
 int sub_020331A4(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
-        CFieldEffect *effect = ov0_02143088(MAIN_BSS_0210CA60, args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
         if (effect != NULL) {
             return effect->sub_0203312C(args[1], args[2]);
         }
@@ -4150,44 +4132,28 @@ int sub_020331A4(int *args)
 int sub_020331F4(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
-        CFieldEffect *effect = ov0_02143088(MAIN_BSS_0210CA60, args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
         if (effect != NULL) {
             return effect->sub_02033244(args[1], args[2], args[3]);
         }
     }
     return 0;
 }
-}
-
-int CFieldEffect::sub_02033244(int arg0, int arg1, int arg2)
-{
-    return 0;
-}
-
-extern "C" {
 
 int sub_0203324C(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
-        CFieldEffect *effect = ov0_02143088(MAIN_BSS_0210CA60, args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
         if (effect != NULL) {
             return effect->sub_020332A4() == 0 ? TRUE : FALSE;
         }
     }
     return FALSE;
 }
-}
-
-int CFieldEffect::sub_020332A4()
-{
-    return 1;
-}
-
-extern "C" {
 int sub_020332AC(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
-        CFieldEffect *effect = ov0_02143088(MAIN_BSS_0210CA60, args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
         if (effect != NULL) {
             Point2D pos;
             pos.x = args[1] << 12;
@@ -4197,17 +4163,10 @@ int sub_020332AC(int *args)
     }
     return 0;
 }
-}
-
-void CFieldEffect::sub_0203331C(const Point2D &pos, int arg1)
-{
-}
-
-extern "C" {
 int sub_02033320(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
-        CFieldEffect *effect = ov0_02143088(MAIN_BSS_0210CA60, args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
         if (effect != NULL) {
             Point2D pos;
             pos.x = args[1];
@@ -4217,51 +4176,30 @@ int sub_02033320(int *args)
     }
     return 0;
 }
-}
-
-void CFieldEffect::sub_02033388(const Point2D &pos, int arg1)
-{
-}
-
-extern "C" {
 int sub_0203338C(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
-        CFieldEffect *effect = ov0_02143088(MAIN_BSS_0210CA60, args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
         if (effect != NULL) {
             effect->sub_020333D8(args[1], args[2]);
         }
     }
     return 0;
 }
-}
-
-void CFieldEffect::sub_020333D8(int arg0, int arg1)
-{
-}
-
-extern "C" {
 int sub_020333DC(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
-        CFieldEffect *effect = ov0_02143088(MAIN_BSS_0210CA60, args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
         if (effect != NULL) {
             effect->sub_02033440(args[1] | (args[2] << 5) | (args[3] << 10));
         }
     }
     return 0;
 }
-}
-
-void CFieldEffect::sub_02033440(u16 color)
-{
-}
-
-extern "C" {
 int sub_02033444(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
-        CFieldEffect *effect = ov0_02143088(MAIN_BSS_0210CA60, args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
         if (effect != NULL) {
             effect->sub_0203312C(1, args[1]);
             effect->sub_0203312C(2, args[2]);
@@ -4274,7 +4212,7 @@ int sub_02033444(int *args)
 int sub_020334B4(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
-        CFieldEffect *effect = ov0_02143088(MAIN_BSS_0210CA60, args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
         if (effect != NULL) {
             effect->sub_0203312C(9, args[1]);
             effect->sub_0203312C(10, args[2]);
@@ -4286,7 +4224,7 @@ int sub_020334B4(int *args)
 int sub_0203351C(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
-        CFieldEffect *effect = ov0_02143088(MAIN_BSS_0210CA60, args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
         if (effect != NULL) {
             return effect->sub_0203312C(args[1], args[2]);
         }
@@ -4298,7 +4236,7 @@ int sub_0203356C(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
         int value = args[1];
-        CFieldEffect *effect = ov0_02143088(MAIN_BSS_0210CA60, args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
         if (effect != NULL) {
             effect->ov0_02142240(value);
         }
@@ -4309,7 +4247,7 @@ int sub_0203356C(int *args)
 int sub_020335B8(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
-        CFieldEffect *effect = ov0_02143088(MAIN_BSS_0210CA60, args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
         if (effect != NULL) {
             return effect->sub_020332A4() == 0 ? TRUE : FALSE;
         }
@@ -4320,20 +4258,13 @@ int sub_020335B8(int *args)
 int sub_02033610(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
-        CFieldEffect *effect = ov0_02143088(MAIN_BSS_0210CA60, args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
         if (effect != NULL) {
             effect->sub_0203365C(args[1]);
         }
     }
     return 0;
 }
-}
-
-void CFieldEffect::sub_0203365C(int arg0)
-{
-}
-
-extern "C" {
 int sub_02033660(int *args)
 {
     UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;

@@ -14,18 +14,32 @@ public:
     UnkClass_0213F918(CGame *game);
     ~UnkClass_0213F918();
 
+    void ov0_0213F960();
+    void ov0_0213F990();
+    void ov0_0213F9B0(BOOL startPending);
+    BOOL ov0_0213FB0C(const char *label, int arg, int fade);
+    BOOL ov0_0213FC24(CFieldActor *actor, const char *label, int fade);
+    void ov0_0213FD60(const char *label, int arg, int fade);
+    BOOL ov0_0213FDFC(CFieldActor *actor, const char *label, int fade);
+    BOOL ov0_0213FEEC();
+    BOOL ov0_0213FF2C();
+
 public:
-    u8 unk_00[0x64];
+    CGame *m_game;
+    int m_state; // 0 idle, 1 global script, 2 actor script, 3 target object script
+    char m_label[0x20];
+    int unk_28;
+    CFieldActor *m_actor;
+    BOOL unk_30;
+    int m_pendingKind; // 0 none, 1 global (ov0_0213FB0C), 2 actor (ov0_0213FC24)
+    char m_pendingLabel[0x20];
+    int m_pendingArg;
+    CFieldActor *m_pendingActor;
+    int m_pendingFade;
 };
 
 STATIC_SIZE_ASSERT(UnkClass_0213F918, 0x64);
 
 extern UnkClass_0213F918 *MAIN_BSS_0210CA44;
-
-extern "C" {
-void ov0_0213F960(UnkClass_0213F918 *obj);
-void ov0_0213FB0C(UnkClass_0213F918 *obj, const char *name, int arg2, int arg3);
-void ov0_0213FC24(UnkClass_0213F918 *obj, CFieldActor *actor, const char *func, int arg3);
-}
 
 #endif // POKERANGER2_UNKCLASS_0213F918_HPP

@@ -60,7 +60,7 @@ ptr_FUN_0203f348_0208ddf4: ; 0x0208DDF4
 
 	.global ptr_FUN_0203f4b8_0208ddf8
 ptr_FUN_0203f4b8_0208ddf8: ; 0x0208DDF8
-	.word _ZN17CFieldActorManage12sub_0203F4B8Ev
+	.word _ZN17CFieldActorManage12sub_0203F4B8Ethi
 
 	.global ptr_FUN_0203f58c_0208ddfc
 ptr_FUN_0203f58c_0208ddfc: ; 0x0208DDFC

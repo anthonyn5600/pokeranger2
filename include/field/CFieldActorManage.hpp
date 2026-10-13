@@ -27,7 +27,7 @@ public:
     virtual void sub_02040428();
     virtual void sub_02040384();
     virtual void sub_0203F348(UnkClass_0211E3FC *renderLists, UnkClass_020416AC *hud);
-    virtual void sub_0203F4B8();
+    virtual void sub_0203F4B8(u16 color, u8 width, int time);
     virtual void sub_0203F58C();
     virtual void sub_0203F604();
     virtual void sub_0203F688();

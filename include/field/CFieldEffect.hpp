@@ -7,42 +7,92 @@
 #include "sub_02006000.hpp"
 
 class CFieldActor;
-class UnkClass_02142428;
+class CFieldEffectManage;
+class UnkClass_0211E3FC;
+class Camera2D;
 
 // Defined in ov0
 class CFieldEffect {
 public:
-    virtual ~CFieldEffect();
-    virtual void ov0_021423A4();
-    virtual int sub_02033028();
-    virtual int sub_020332A4();
-    virtual void ov0_021421D0();
-    virtual void ov0_02142380();
-    virtual void ov0_021421F0(int arg0, int arg1, int arg2);
-    virtual int ov0_02142240(int arg0);
-    virtual void ov0_02142264(int arg0);
-    virtual void ov0_02142344();
-    virtual void ov0_0214239C();
-    virtual void ov0_02142398();
+    virtual ~CFieldEffect()
+    {
+        ov0_02142380();
+    }
+    virtual void ov0_021423A4()
+    {
+        delete this;
+    }
+    virtual int sub_02033028()
+    {
+        return 0;
+    }
+    virtual int sub_020332A4()
+    {
+        return 1;
+    }
+    virtual int ov0_021421D0();
+    virtual int ov0_02142380()
+    {
+        return TRUE;
+    }
+    virtual BOOL ov0_021421F0(int inTime, int holdTime, int outTime);
+    virtual int ov0_02142240(int outTime);
+    virtual int ov0_02142264(int step);
+    virtual int ov0_02142344(Camera2D *camera);
+    virtual int ov0_0214239C(int layer)
+    {
+        return 0;
+    }
+    virtual void ov0_02142398(UnkClass_0211E3FC *renderLists)
+    {
+    }
     virtual void ov0_0214234C(Point2D pos, int arg1, int arg2, int arg3, int arg4);
-    virtual int sub_0203312C(int param, int value);
-    virtual int sub_02033244(int arg0, int arg1, int arg2);
-    virtual void sub_02033440(u16 color);
-    virtual void sub_0203331C(const Point2D &pos, int arg1);
-    virtual void sub_02033388(const Point2D &pos, int arg1);
-    virtual void sub_020333D8(int arg0, int arg1);
-    virtual void sub_0203365C(int arg0);
-    virtual void ov0_02142390();
-    virtual void ov0_02142388();
+    virtual int sub_0203312C(int param, int value)
+    {
+        return 0;
+    }
+    virtual int sub_02033244(int arg0, int arg1, int arg2)
+    {
+        return 0;
+    }
+    virtual void sub_02033440(u16 color)
+    {
+    }
+    virtual void sub_0203331C(const Point2D &pos, int arg1)
+    {
+    }
+    virtual void sub_02033388(const Point2D &pos, int arg1)
+    {
+    }
+    virtual void sub_020333D8(int arg0, int arg1)
+    {
+    }
+    virtual void sub_0203365C(int arg0)
+    {
+    }
+    virtual int ov0_02142390(void *buf, void *end)
+    {
+        return 0;
+    }
+    virtual BOOL ov0_02142388(const void *data)
+    {
+        return 0;
+    }
 
 public:
-    u8 unk_04[0x18];
-    CFieldActor *unk_1C;
+    // Fade-in, hold (-1 = until stopped), fade-out: m_state 1/2/3, 4 when done.
+    int m_inTime;
+    int m_holdTime;
+    int m_outTime;
+    int m_frame;
+    int m_state;
 };
 
-extern "C" {
-CFieldEffect *ov0_02143088(UnkClass_02142428 *mgr, u16 id);
-u16 ov0_02142F6C(UnkClass_02142428 *mgr, int arg1, int arg2);
-}
+// TODO: the effect FieldScene starts with ov0_02142F6C(1, 0x25); its real class is unknown.
+class CFieldEffectActor : public CFieldEffect {
+public:
+    void *unk_18;
+    CFieldActor *unk_1C;
+};
 
 #endif // POKERANGER2_FIELD_CFIELDEFFECT_HPP

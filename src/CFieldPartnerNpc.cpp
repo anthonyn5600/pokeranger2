@@ -40,7 +40,7 @@ BOOL CFieldPartnerNpc::sub_0203DA38()
     if (m_name[0] == '\0' || MAIN_BSS_0210CA44 == NULL) {
         return FALSE;
     }
-    ov0_0213FB0C(MAIN_BSS_0210CA44, m_name, unk_58, -1);
+    MAIN_BSS_0210CA44->ov0_0213FB0C(m_name, unk_58, -1);
     return TRUE;
 }
 

@@ -138,6 +138,11 @@ pokeranger2_cxx = files(
     'CFieldPartnerNpc.cpp',
     'CFieldPartnerPokemon.cpp',
     'FieldPartnerPath.cpp',
+    'UnkClass_0213F918.cpp',
+    'FieldPlayerInputControlManage.cpp',
+    'FieldTargetObjectScript.cpp',
+    'CFieldEffect.cpp',
+    'FieldEffectManage.cpp',
     'CBattleScene.cpp',
     'CNameInputScene.cpp',
     'debug.cpp', )
