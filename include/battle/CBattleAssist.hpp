@@ -281,6 +281,21 @@ public:
 
 STATIC_SIZE_ASSERT(CBattleAssistEsper, 0x88);
 
+struct InsectSlot {
+    u8 m_flags;
+    u8 m_level;
+};
+
+STATIC_SIZE_ASSERT(InsectSlot, 0x2);
+
+struct InsectBug {
+    u8 m_flags;
+    u8 m_timer;
+    CBattleAttackEffect *m_effect;
+};
+
+STATIC_SIZE_ASSERT(InsectBug, 0x8);
+
 class CBattleAssistInsect : public CBattleAssist {
 public:
     CBattleAssistInsect(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3);
@@ -288,10 +303,26 @@ public:
     virtual int vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
     virtual void vfunc_0C();
     virtual int vfunc_10();
+    void ov1_021335A4(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
+    void ov1_021336CC(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
+    u8 ov1_02133AAC(fx32 dist);
+    BOOL ov1_02133AD4(u8 *idx);
+    BOOL ov1_02133B08(u8 *idx);
     void ov1_02133B3C(CBattleAttackEffect **effects);
 
 public:
-    u8 unk_18[0xD0];
+    int m_state;
+    Point2D m_start;
+    Point2D m_end;
+    PointPair2D m_line;
+    u8 unk_3C[0x4];
+    CBattleAttackEffect *m_startMark;
+    CBattleAttackEffect *m_string;
+    CBattleAttackEffect *m_endMark;
+    CBattleAttackEffect *m_effects[4];
+    CBattleAttackEffect **m_targets;
+    InsectSlot m_slots[4];
+    InsectBug m_bugs[16];
 };
 
 STATIC_SIZE_ASSERT(CBattleAssistInsect, 0xE8);

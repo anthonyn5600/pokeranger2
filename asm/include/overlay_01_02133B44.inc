@@ -14,7 +14,6 @@
 .public GX_LoadTex
 .public GX_LoadTexPltt
 .public MAIN_BSS_020B26A0
-.public MI_CpuFill8
 .public MIi_CpuCopyFast
 .public NNS_G2dBGSetupEx
 .public NNS_GfdAllocLnkPlttVram
@@ -26,7 +25,6 @@
 .public _Z12sub_020060007Point2D9Rectanglem
 .public _Z12sub_020061007Point2D6Circle
 .public _Z12sub_020061646CircleS_P7Point2D
-.public _Z12sub_0200676411PointPair2D6CircleP7Point2Dl
 .public _Z12sub_02007254ll
 .public _Z17LinearInterpolatellll
 .public _ZN11CBGNCGRFileC1EPKcmmm
@@ -133,7 +131,6 @@
 .public _ZN19CBattleAttackEffect12ov1_0212747CEv
 .public _ZN5CGame11GetInstanceEv
 .public _ZN5CGame12sub_020100E4EPFvPvES0_
-.public _ZN6CActor12sub_02012894E7Point2D
 .public _ZN6CActor12sub_020129F4Eih
 .public _ZN6CActor12sub_02012A3CEill
 .public _ZN6CActorC2Ev
