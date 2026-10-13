@@ -2,6 +2,8 @@
 #define POKERANGER2_SCENE_CLETTERSCENE_HPP
 
 #include "CGame.hpp"
+#include "UnkClass_020091E8.hpp"
+#include "UnkClass_0200ECD0.hpp"
 #include "common.hpp"
 #include "scene/CScene.hpp"
 
@@ -18,8 +20,22 @@ public:
     virtual void func7();
     virtual u32 getSceneId();
 
+    void ov4_0211D060();
+    void ov4_0211D394();
+    void ov4_0211D440();
+
 public:
-    u8 unk_0004[0x2B];
+    CGame *m_game;
+    UnkClass_020091E8_004 *m_messages;
+    s32 m_chapter;
+    u32 unk_10;
+    s32 unk_14;
+    s32 unk_18;
+    s32 unk_1C;
+    s32 unk_20;
+    s32 unk_24;
+    s32 unk_28;
+    UnkClass_0200ECD0 *unk_2C;
 };
 
 STATIC_SIZE_ASSERT(CLetterScene, 0x30);

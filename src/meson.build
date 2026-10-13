@@ -221,4 +221,5 @@ pokeranger2_cxx = files(
     'UnkClass_0213F028.cpp',
     'UnkClass_0213F9D0.cpp',
     'CNameInputScene.cpp',
+    'CLetterScene.cpp',
     'debug.cpp', )
