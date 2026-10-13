@@ -6,9 +6,8 @@
 #include "common.hpp"
 #include "field/CFieldActor.hpp"
 #include "field/CFieldEffect.hpp"
+#include "field/CFieldEffectManage.hpp"
 #include "primitive/CPrimitiveRECT.hpp"
-
-extern UnkClass_02142428 *MAIN_BSS_0210CA60;
 
 UnkClass_020416AC::UnkClass_020416AC(int layerCount)
 {
@@ -114,18 +113,18 @@ extern "C" void sub_02041A60(UnkClass_020416AC *obj, u8 alpha)
 
 extern "C" int sub_02041A70(CFieldActor *actor, int type, int arg2)
 {
-    UnkClass_02142428 *mgr;
+    CFieldEffectManage *mgr;
     u16 id = 0;
 
     if (actor != NULL && (mgr = MAIN_BSS_0210CA60) != NULL) {
         id = actor->unk_D0;
         if (id != 0) {
-            CFieldEffectManpu *effect = (CFieldEffectManpu *)ov0_02143088(mgr, id);
+            CFieldEffectManpu *effect = (CFieldEffectManpu *)mgr->ov0_02143088(id);
             if (effect != NULL) {
                 if (effect->unk_24 == 0xD || effect->unk_24 == 9) {
                     return 0;
                 }
-                ov0_021430D8(mgr, id);
+                mgr->ov0_021430D8(id);
             }
         }
 
@@ -178,9 +177,9 @@ extern "C" int sub_02041A70(CFieldActor *actor, int type, int arg2)
         }
 
         if (kind >= 0) {
-            id = ov0_02142F6C(mgr, 1, kind);
+            id = mgr->ov0_02142F6C(1, kind);
             actor->unk_D0 = id;
-            CFieldEffectManpu *effect = (CFieldEffectManpu *)ov0_02143088(mgr, id);
+            CFieldEffectManpu *effect = (CFieldEffectManpu *)mgr->ov0_02143088(id);
             if (effect != NULL) {
                 effect->SetType(type);
                 effect->unk_1C = actor;
@@ -203,13 +202,13 @@ extern "C" void sub_02041C1C(CFieldActor *actor)
         return;
     }
     u16 id = actor->unk_D0;
-    UnkClass_02142428 *mgr = MAIN_BSS_0210CA60;
+    CFieldEffectManage *mgr = MAIN_BSS_0210CA60;
     if (id == 0 || mgr == NULL) {
         return;
     }
-    CFieldEffect *effect = ov0_02143088(mgr, id);
+    CFieldEffectActor *effect = (CFieldEffectActor *)mgr->ov0_02143088(id);
     if (effect != NULL && effect->unk_1C == actor) {
-        ov0_021430D8(mgr, id);
+        mgr->ov0_021430D8(id);
     }
     actor->unk_D0 = 0;
 }

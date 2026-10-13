@@ -82,7 +82,7 @@ CFieldTargetObject::~CFieldTargetObject()
 BOOL CFieldTargetObject::sub_0203DA38()
 {
     if (MAIN_BSS_0210CA44 != NULL && unk_F8 != NULL && HasScriptBlock(unk_F8)) {
-        ov0_0213FC24(MAIN_BSS_0210CA44, this, "main", -1);
+        MAIN_BSS_0210CA44->ov0_0213FC24(this, "main", -1);
         return TRUE;
     }
     return FALSE;

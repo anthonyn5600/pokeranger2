@@ -29,6 +29,9 @@ extern "C" {
 int sub_02033F90(UnkClass_02033F04 *mgr, int id);
 int sub_02034184(UnkClass_02033F04 *mgr, const char *name);
 void sub_02034290(UnkClass_02033F04 *mgr);
+int sub_020342D0(UnkClass_02033F04 *mgr);
+BOOL sub_02034328(UnkClass_02033F04 *mgr);
+void sub_02034374(UnkClass_02033F04 *mgr, int value);
 }
 
 #endif // POKERANGER2_UNKCLASS_02033F04_HPP

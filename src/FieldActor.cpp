@@ -11,14 +11,14 @@
 #include "field/CFieldActorManage.hpp"
 #include "field/CFieldActorScript.hpp"
 #include "field/CFieldEffect.hpp"
+#include "field/CFieldEffectManage.hpp"
 #include "field/CFieldMap.hpp"
 #include "field/CFieldMapLayer.hpp"
 #include "fx_utils.hpp"
 #include "heap.hpp"
 
 extern "C" {
-void ov0_021652DC(CFieldEffect *effect, CFieldActor *actor, UnkClass_02142428 *mgr);
-void ov0_021431A4(UnkClass_02142428 *mgr, int attr, fx32 x, fx32 y, int layer, UnkStruct_02041D80 *info);
+void ov0_021652DC(CFieldEffect *effect, CFieldActor *actor, CFieldEffectManage *mgr);
 }
 
 extern "C" {
@@ -30,7 +30,7 @@ extern CFieldActorManage *MAIN_BSS_0210CA4C;
 extern CFieldActorManage *MAIN_BSS_0210CA50;
 extern CFieldActorManage *MAIN_BSS_0210CA5C;
 extern CFieldActorManage *MAIN_BSS_0210CA7C;
-extern UnkClass_02142428 *MAIN_BSS_0210CA60;
+extern CFieldEffectManage *MAIN_BSS_0210CA60;
 extern UnkClass_02041C80 *MAIN_BSS_0210CA6C;
 extern u32 MAIN_BSS_0210CA74;
 extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
@@ -116,7 +116,7 @@ CFieldActor::~CFieldActor()
     sub_0203C560();
     SAFE_DELETE(unk_DC);
     if (unk_D8 != 0 && MAIN_BSS_0210CA60 != NULL) {
-        ov0_021430D8(MAIN_BSS_0210CA60, unk_D8);
+        MAIN_BSS_0210CA60->ov0_021430D8(unk_D8);
     }
     sub_02041C1C(this);
 }
@@ -355,7 +355,7 @@ void CFieldActor::sub_0203C87C(CFieldMap *map)
         unk_7E += 60 / DAT_0208d58c;
         if (unk_7E >= unk_7D) {
             if (MAIN_BSS_0210CA60 != NULL) {
-                ov0_021431A4(MAIN_BSS_0210CA60, attr, x, y, unk_14, info);
+                MAIN_BSS_0210CA60->ov0_021431A4(attr, x, y, unk_14, info);
             }
             unk_7E = 0;
         }
@@ -750,16 +750,16 @@ void CFieldActor::sub_0203D890(int attr)
 
 void CFieldActor::sub_0203D910()
 {
-    UnkClass_02142428 *mgr = MAIN_BSS_0210CA60;
+    CFieldEffectManage *mgr = MAIN_BSS_0210CA60;
     if (mgr == NULL) {
         return;
     }
 
-    unk_D8 = ov0_02142F6C(mgr, 0x25, 0);
+    unk_D8 = mgr->ov0_02142F6C(0x25, 0);
     if (unk_D8 == 0) {
         return;
     }
-    CFieldEffect *effect = ov0_02143088(mgr, unk_D8);
+    CFieldEffect *effect = mgr->ov0_02143088(unk_D8);
     if (effect != NULL) {
         ov0_021652DC(effect, this, mgr);
     }
@@ -779,7 +779,7 @@ void CFieldActor::sub_0203D910()
 void CFieldActor::sub_0203DA10()
 {
     if (unk_D8 != 0 && MAIN_BSS_0210CA60 != NULL) {
-        ov0_021430D8(MAIN_BSS_0210CA60, unk_D8);
+        MAIN_BSS_0210CA60->ov0_021430D8(unk_D8);
     }
 }
 

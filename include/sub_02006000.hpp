@@ -93,8 +93,7 @@ struct Circle {
 };
 
 struct UnkStruct_02006238 {
-    fx32 unk_00;
-    fx32 unk_04;
+    Point2D pos;
     fx32 unk_08;
     u32 unk_0C;
     u32 unk_10;

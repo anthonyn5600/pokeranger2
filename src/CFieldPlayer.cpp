@@ -13,6 +13,7 @@
 #include "UnkClass_020B26A0.hpp"
 #include "UnkStruct_020107A8.hpp"
 #include "field/CFieldEffect.hpp"
+#include "field/CFieldEffectManage.hpp"
 #include "field/CFieldMap.hpp"
 #include "field/CFieldMapLayer.hpp"
 #include "field/CFieldPartnerManage.hpp"
@@ -25,12 +26,9 @@ extern CFieldScene *MAIN_BSS_0210CA40;
 extern u16 DAT_0208d58c;
 extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
 extern UnkClass_02041C80 *MAIN_BSS_0210CA6C;
-extern void *MAIN_BSS_0210CA60;
 extern u16 *MAIN_BSS_0210CA70;
 
 extern "C" {
-void ov0_02143344(void *mgr, fx32 x, fx32 y);
-void ov0_0214332C(void *mgr, int arg1, int arg2, CFieldPlayer *player);
 void ov0_0213EA6C(Point2D *out, Point2D cell, int floor, int arg3);
 void sub_02016DA4(UnkClass_020B26A0 *save, int arg1);
 }
@@ -672,10 +670,10 @@ void CFieldPlayer::ov0_021307B0(UnkClass_02001C04 *pad, CTouchPanel *touch, Came
     if (MAIN_BSS_020B26A0.unk_8B64 == 1) {
         unk_14C += 60 / DAT_0208d58c;
         if ((u32)unk_14C >= (u32)unk_148) {
-            void *mgr = MAIN_BSS_0210CA60;
+            CFieldEffectManage *mgr = MAIN_BSS_0210CA60;
             if (mgr != NULL) {
                 int i = sub_02007DF0(8, GetDir(), 0);
-                ov0_02143344(mgr, sTrailOffsets[i].x + GetX(), sTrailOffsets[i].y + GetY());
+                mgr->ov0_02143344(sTrailOffsets[i].x + GetX(), sTrailOffsets[i].y + GetY());
             }
             unk_14C = 0;
         }
@@ -979,7 +977,7 @@ void CFieldPlayer::sub_0202E68C(int arg0)
 void CFieldPlayer::ov0_02133E8C(int arg1)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
-        ov0_0214332C(MAIN_BSS_0210CA60, arg1, 0x78, this);
+        MAIN_BSS_0210CA60->ov0_0214332C(arg1, 0x78, this);
     }
 }
 

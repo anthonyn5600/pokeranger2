@@ -533,7 +533,7 @@ void CFieldPartnerManage::ov0_0213A7FC(BOOL arg)
     }
 }
 
-void CFieldPartnerManage::func0()
+void CFieldPartnerManage::func0(CFieldEffectManage *mgr)
 {
     CFieldPartner *leader = (CFieldPartner *)FindLeader();
     CFieldScene *scene = MAIN_BSS_0210CA40;

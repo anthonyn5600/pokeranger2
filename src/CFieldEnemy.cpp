@@ -4,6 +4,7 @@
 
 #include "CGame.hpp"
 #include "field/CFieldEffect.hpp"
+#include "field/CFieldEffectManage.hpp"
 #include "field/CFieldMap.hpp"
 #include "field/CFieldMapLayer.hpp"
 #include "field/CFieldPlayer.hpp"
@@ -12,7 +13,7 @@
 
 extern CFieldPlayer *MAIN_BSS_0210CA48;
 extern CFieldScene *MAIN_BSS_0210CA40;
-extern UnkClass_02142428 *MAIN_BSS_0210CA60;
+extern CFieldEffectManage *MAIN_BSS_0210CA60;
 
 extern "C" {
 void LogError(const char *fmt, ...);
@@ -322,7 +323,7 @@ CFieldActor *CFieldEnemy::ov0_02135278()
 
 void CFieldEnemy::ov0_021352E4(int arg1)
 {
-    UnkClass_02142428 *manage = MAIN_BSS_0210CA60;
+    CFieldEffectManage *manage = MAIN_BSS_0210CA60;
     if (manage == NULL) {
         return;
     }
@@ -341,7 +342,7 @@ void CFieldEnemy::ov0_021352E4(int arg1)
         break;
     case 1:
     case 6:
-        effect = ov0_02143088(manage, ov0_02142F6C(manage, 0xB, 0));
+        effect = manage->ov0_02143088(manage->ov0_02142F6C(0xB, 0));
         if (effect == NULL) {
             return;
         }
@@ -356,7 +357,7 @@ void CFieldEnemy::ov0_021352E4(int arg1)
     case 3:
     case 4:
     case 8:
-        effect = ov0_02143088(manage, ov0_02142F6C(manage, 0xA, 0));
+        effect = manage->ov0_02143088(manage->ov0_02142F6C(0xA, 0));
         if (effect == NULL) {
             return;
         }
@@ -369,7 +370,7 @@ void CFieldEnemy::ov0_021352E4(int arg1)
         break;
     case 2:
     case 5:
-        effect = ov0_02143088(manage, ov0_02142F6C(manage, 0x26, 0));
+        effect = manage->ov0_02143088(manage->ov0_02142F6C(0x26, 0));
         if (effect == NULL) {
             return;
         }
@@ -382,7 +383,7 @@ void CFieldEnemy::ov0_021352E4(int arg1)
     case 10:
         break;
     case 11:
-        effect = ov0_02143088(manage, ov0_02142F6C(manage, 0xA, 0));
+        effect = manage->ov0_02143088(manage->ov0_02142F6C(0xA, 0));
         if (effect == NULL) {
             return;
         }

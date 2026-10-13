@@ -7,6 +7,7 @@
 #include "field/CFieldActorManage.hpp"
 
 class CFieldTargetObjectManage;
+class UnkStruct_02141F40;
 
 extern CFieldTargetObjectManage *MAIN_BSS_0210CA7C;
 
@@ -19,7 +20,7 @@ public:
     void *ov0_021420AC(int id, BOOL touch);
 
 public:
-    void *m_scripts[32];
+    UnkStruct_02141F40 *m_scripts[32];
 };
 
 // Defined in ov0
