@@ -246,4 +246,6 @@ pokeranger2_cxx = files(
     'CBattleToFieldScene.cpp',
     'CNameInputScene.cpp',
     'CLetterScene.cpp',
+    'CStylerScene.cpp',
+    'CStylerUpperScreen.cpp',
     'debug.cpp', )
