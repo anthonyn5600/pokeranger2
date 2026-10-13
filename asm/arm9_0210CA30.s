@@ -1,29 +1,9 @@
     .include "macros.inc"
-    .include "include/arm9_0210C0A4.inc"
+    .include "include/arm9_0210CA30.inc"
 
-; Main .bss of the objects before src/CFieldScreenEffect.cpp (whose bss comes from C++)
+; Main .bss of the objects before src/CFieldScreenEffect.cpp: card backup info and field/script pointers (owning TUs not established)
 
     .bss
-    .global MAIN_BSS_0210C1BC
-MAIN_BSS_0210C1BC: ; 0x0210C1BC
-    .space 0x4
-
-    .global MAIN_BSS_0210C1C0
-MAIN_BSS_0210C1C0: ; 0x0210C1C0
-    .space 0x60
-
-    .global MAIN_BSS_0210C220
-MAIN_BSS_0210C220: ; 0x0210C220
-    .space 0x8
-
-    .global MAIN_BSS_0210C228
-MAIN_BSS_0210C228: ; 0x0210C228
-    .space 0x800
-
-    .global MAIN_BSS_0210CA28
-MAIN_BSS_0210CA28: ; 0x0210CA28
-    .space 0x8
-
     .global sCardBackupInfo
 sCardBackupInfo: ; 0x0210CA30
     .space 0x8

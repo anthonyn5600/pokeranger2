@@ -101,6 +101,7 @@ Static main
     Object main.nef.p/src_UnkClass_02029800.cpp.o
     Object main.nef.p/src_UnkClass_0202A2AC.cpp.o
     Object main.nef.p/src_sub_0202A4A0.cpp.o
+    Object main.nef.p/src_sub_0202A4D8.cpp.o
     Object main.nef.p/src_UnkClass_0202A510.cpp.o
     Object main.nef.p/src_CBackupBase.cpp.o
     Object main.nef.p/src_sub_0202B80C.cpp.o
@@ -109,7 +110,7 @@ Static main
     Object main.nef.p/src_UnkClass_02033F04.cpp.o
     Object main.nef.p/src_UnkClass_02034478.cpp.o
     Object main.nef.p/src_FieldPartnerIndex.cpp.o
-    Object main.nef.p/asm_arm9_0210C0A4.s.o
+    Object main.nef.p/asm_arm9_0210CA30.s.o
     Object main.nef.p/src_CFieldScreenEffect.cpp.o
     Object main.nef.p/src_CPrimitiveNTF.cpp.o
     Object main.nef.p/src_CFieldSEFKomorebi.cpp.o
@@ -143,10 +144,9 @@ Static main
     Object libpokeranger2_sp2.a.p/src_ScriptBuiltin.cpp.o
     Object main.nef.p/asm_arm9_0210CAB0.s.o
     Object main.nef.p/src_Wvr.cpp.o
-    Object main.nef.p/src_sub_02046D40.cpp.o
+    Object libpokeranger2_crypto.a.p/src_sub_02046D40.cpp.o
     Object libpokeranger2_crypto.a.p/src_CryptoRC4.cpp.o
     Object libpokeranger2_crypto.a.p/src_CryptoRC4Asm.cpp.o
-    Object main.nef.p/asm_arm9_02046D5C.s.o
     Object main.nef.p/src_debug.cpp.o
     Library libsoc.a
     Library libcps.a
