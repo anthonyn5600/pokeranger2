@@ -1,8 +1,12 @@
 #ifndef POKERANGER2_SCENE_CCOMPANYLOGOSCENE_HPP
 #define POKERANGER2_SCENE_CCOMPANYLOGOSCENE_HPP
 
+#include "UnkClass_0201FC80.hpp"
+#include "UnkClass_02027FE8.hpp"
 #include "common.hpp"
 #include "scene/CScene.hpp"
+
+class UnkClass_0212F3DC; // ov11, ctor not identified yet
 
 // Defined in ov11
 class CCompanyLogoScene : public CScene {
@@ -19,7 +23,13 @@ public:
     virtual u32 getSceneId();
 
 public:
-    u8 unk_0004[0x24];
+    int unk_04;
+    int unk_08;
+    UnkClass_02027FE8 *unk_0C;
+    UnkClass_0201FC80 *unk_10[3];
+    UnkClass_0212F3DC *unk_1C;
+    int unk_20;
+    int unk_24;
 };
 
 STATIC_SIZE_ASSERT(CCompanyLogoScene, 0x28);

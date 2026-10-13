@@ -250,4 +250,7 @@ pokeranger2_cxx = files(
     'CStylerUpperScreen.cpp',
     'CStylerStatusScreen.cpp',
     'CStylerPartsScreen.cpp',
+    'CRangerNetScene.cpp',
+    'UnkClass_0211CD68.cpp',
+    'CRangerNetAGBScene.cpp',
     'debug.cpp', )

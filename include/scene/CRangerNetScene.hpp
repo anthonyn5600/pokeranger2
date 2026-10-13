@@ -5,6 +5,8 @@
 #include "common.hpp"
 #include "scene/CScene.hpp"
 
+class UnkClass_0211E05C; // ov11 Ranger Net menu
+
 // Defined in ov11
 class CRangerNetScene : public CScene {
 public:
@@ -19,8 +21,11 @@ public:
     virtual void func7();
     virtual u32 getSceneId();
 
+    void ov11_0211CAE4();
+
 public:
-    u8 unk_0004[0x8];
+    CGame *m_game;
+    UnkClass_0211E05C *unk_08;
 };
 
 STATIC_SIZE_ASSERT(CRangerNetScene, 0xC);
