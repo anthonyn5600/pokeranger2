@@ -239,7 +239,8 @@ Overlay overlay0
     Object main.nef.p/src_CFieldEffectBullet.cpp.o
     Object main.nef.p/src_CFieldEffectSandBurial.cpp.o
     Object main.nef.p/src_CFieldEffectCharge.cpp.o
-    Object main.nef.p/asm_overlay_00_021466B0.s.o
+    Object main.nef.p/src_CFieldEffectFlash.cpp.o
+    Object main.nef.p/asm_overlay_00_02146B38.s.o
 }
 
 Overlay overlay1

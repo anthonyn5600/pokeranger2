@@ -276,6 +276,7 @@
 .public _ZTV17CPrimitiveRectNTF
 .public _ZTV21TFieldParticleEmitterI15CSoftwareSpriteE
 .public _ZTV23CFieldEffectManpuSimple
+.public _ZTV24CFieldEffectFlashFactory
 .public _ZTV25CFieldEffectBulletFactory
 .public _ZTV25CFieldEffectChargeFactory
 .public _ZTV27CFieldEffectWaterGunFactory

@@ -5,18 +5,33 @@
 
 #include "field/CFieldEffectActor.hpp"
 #include "field/CFieldEffectFactory.hpp"
+#include "primitive/CSoftwareSprite.hpp"
 
-// size 0x80, ctor ov0_021466B0
+// Flash sprite of an attack effect (ov0): kind 0x79 grows, kind 0x78 scales with the fade in/out.
 class CFieldEffectFlash : public CFieldEffectActor {
 public:
+    CFieldEffectFlash(int kind);
     virtual ~CFieldEffectFlash();
-    virtual int sub_02033028();
+    virtual int sub_02033028()
+    {
+        return 0x20;
+    }
     virtual BOOL ov0_021421F0(int inTime, int holdTime, int outTime);
     virtual int ov0_02142240(int outTime);
     virtual int ov0_02142264(int step);
     virtual int ov0_02142344(Camera2D *camera);
     virtual void ov0_0214234C(Point2D pos, int arg1, int arg2, int arg3, int arg4);
     virtual int sub_0203312C(int param, int value);
+
+    void InitSprite();
+
+public:
+    Point2D m_pos;
+    int m_kind;
+    fx32 m_scale;
+    u8 unk_2C[0x4];
+    CSoftwareSprite m_sprites[1];
+    u16 m_cacId;
 };
 
 class CFieldEffectFlashFactory : public CFieldEffectFactory {
