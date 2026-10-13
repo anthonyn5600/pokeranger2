@@ -1,84 +1,7 @@
     .include "macros.inc"
-    .include "include/overlay_11_0211DF6C.inc"
+    .include "include/overlay_11_0211E05C.inc"
 
     .text
-
-	arm_func_start ov11_0211DF6C
-ov11_0211DF6C: ; 0x0211DF6C
-	stmdb sp!, {r3, lr}
-	bl CTRDG_GetAgbGameCode
-	mov r2, r0, lsr #8
-	ldr r1, _0211DFDC ; =DAT_overlay_11_021661f4
-	mov ip, r0, lsr #0x10
-	mov lr, r0, lsr #0x18
-	ldr r1, [r1]
-	mov r3, r0, lsl #0x18
-	mov r0, r2, lsl #0x18
-	mov r2, ip, lsl #0x18
-	orr r0, r3, r0, lsr #8
-	and r3, lr, #0xff
-	orr r0, r0, r2, lsr #16
-	cmp r1, #0
-	orr r3, r3, r0
-	mov r2, #0
-	bls _0211DFD4
-	ldr r1, _0211DFE0 ; =DAT_overlay_11_021661f4
-	arm_func_end ov11_0211DF6C
-_0211DFB4:
-	ldr r0, [r1, r2, lsl #2]
-	cmp r3, r0
-	moveq r0, #1
-	ldmeqia sp!, {r3, pc}
-	add r2, r2, #1
-	ldr r0, [r1, r2, lsl #2]
-	cmp r2, r0
-	blo _0211DFB4
-_0211DFD4:
-	mov r0, #0
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0211DFDC: .word DAT_overlay_11_021661f4
-_0211DFE0: .word DAT_overlay_11_021661f4
-
-	arm_func_start ov11_0211DFE4
-ov11_0211DFE4: ; 0x0211DFE4
-	stmdb sp!, {r3, lr}
-	bl CTRDG_Init
-	bl CTRDG_IsAgbCartridge
-	cmp r0, #0
-	moveq r0, #0
-	ldmeqia sp!, {r3, pc}
-	mov r0, #1
-	bl CTRDG_Enable
-	bl CTRDG_GetAgbMakerCode
-	ldr r1, _0211E02C ; =0x00003130
-	cmp r0, r1
-	movne r0, #0
-	ldmneia sp!, {r3, pc}
-	bl ov11_0211DF6C
-	cmp r0, #0
-	movne r0, #1
-	moveq r0, #0
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0211E02C: .word 0x00003130
-	arm_func_end ov11_0211DFE4
-
-	arm_func_start ov11_0211E030
-ov11_0211E030: ; 0x0211E030
-	stmdb sp!, {r3, lr}
-	bl ov11_0211DFE4
-	cmp r0, #0
-	mvneq r0, #0
-	ldmeqia sp!, {r3, pc}
-	ldr r0, _0211E058 ; =0x08100004
-	add r1, sp, #0
-	bl CTRDG_Read32
-	ldr r0, [sp]
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0211E058: .word 0x08100004
-	arm_func_end ov11_0211E030
 
 	arm_func_start _ZN17UnkClass_0211E05CC1EP5CGamei
 _ZN17UnkClass_0211E05CC1EP5CGamei: ; 0x0211E05C
@@ -6941,7 +6864,7 @@ _02123DD8: .word s_RNS_s_overlay_11_02166410
 ov11_02123DDC: ; 0x02123DDC
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ov11_0211E030
+	bl _Z13ov11_0211E030v
 	str r0, [r4, #0x6ec]
 	mov r2, #0
 	mvn r1, #0
@@ -25081,22 +25004,6 @@ DAT_overlay_11_02162b14: ; 0x02162B14
     .section .sinit,4 ; 0x021660AC
 
     .data
-
-    .global DAT_overlay_11_021661f4
-DAT_overlay_11_021661f4: ; 0x021661F4
-	.byte 0x4A, 0x41, 0x37, 0x42
-
-    .global DAT_overlay_11_021661f8
-DAT_overlay_11_021661f8: ; 0x021661F8
-	.byte 0x4A, 0x42, 0x37, 0x42
-
-    .global s_JC7BJD7BJE7BJJ7BJK7BJL7BJN7BJO7B_overlay_11_021661fc
-s_JC7BJD7BJE7BJJ7BJK7BJL7BJN7BJO7B_overlay_11_021661fc: ; 0x021661FC
-	.asciz "JC7BJD7BJE7BJJ7BJK7BJL7BJN7BJO7BJP7BJQ7BJR7BJS7BJT7BJU7BJV7BJW7BJX7BJY7B"
-
-    .global DAT_overlay_11_02166245
-DAT_overlay_11_02166245:
-	.byte 0x00, 0x00, 0x00
 
     .global DAT_overlay_11_02166248
 DAT_overlay_11_02166248: ; 0x02166248

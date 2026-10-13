@@ -3,12 +3,6 @@
 .public CRYPTO_RC4FastEncrypt
 .public CRYPTO_RC4FastInit
 .public CRYPTO_RC4Init
-.public CTRDG_Enable
-.public CTRDG_GetAgbGameCode
-.public CTRDG_GetAgbMakerCode
-.public CTRDG_Init
-.public CTRDG_IsAgbCartridge
-.public CTRDG_Read32
 .public DC_FlushRange
 .public DC_InvalidateRange
 .public DWC_CheckInet
@@ -126,6 +120,7 @@
 .public WVR_TerminateAsync
 .public _Z10Heap_Allocm
 .public _Z11BGS_LoadScrPKcS0_iS0_mmim
+.public _Z13ov11_0211E030v
 .public _Z15SetupInterruptsv
 .public _Z17SetOamAffineScaleilli
 .public _Z19BGS_LoadCharAndPlttPKcS0_iS0_mS0_m

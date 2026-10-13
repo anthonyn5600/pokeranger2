@@ -253,4 +253,5 @@ pokeranger2_cxx = files(
     'CRangerNetScene.cpp',
     'UnkClass_0211CD68.cpp',
     'CRangerNetAGBScene.cpp',
+    'RangerNetAgbCheck.cpp',
     'debug.cpp', )

@@ -13,9 +13,17 @@ public:
     UnkClass_02124578();
     ~UnkClass_02124578();
     void ov11_02124888();
+    void ov11_021248CC();
+    void ov11_02124680(int a, int b);
+    void ov11_02124820(int id);
+    void ov11_02124C28();
+    void ov11_021249E0();
+    void ov11_02124C64(int slot, int pos);
+    void ov11_021247A8(int a);
+    void ov11_0212494C(fx32 v);
     BOOL IsEmpty()
     {
-        return unk_38 == 0;
+        return unk_38 == 0 ? TRUE : FALSE;
     }
     void ov11_021245A8(UnkClass_0200ECD0 **res, int idx, int v);
     void ov11_02124604(UnkClass_0200ECD0 *res);
@@ -50,7 +58,7 @@ public:
     int unk_3C;
     int unk_40;
     int unk_44;
-    u8 unk_48[0x4];
+    int unk_48;
     int unk_4C;
     int unk_50;
     int unk_54;

@@ -17,7 +17,6 @@ class UnkClass_0211E05C;
 class UnkClass_0211CD68 {
 public:
     void ov11_0211CE20();
-    void ov11_0211D804();
     void ov11_0211CF04(); // thunk to ov11_0211D02C
     void ov11_0211CF10(); // thunk to ov11_0211D8C4
     UnkClass_0211CD68(CGame *game, UnkClass_0211E05C *menu);
