@@ -447,6 +447,16 @@ public:
 
 STATIC_SIZE_ASSERT(CBattleAssistEvil, 0x18);
 
+struct SteelSlot {
+    u8 m_flags;
+    u8 m_state;
+    u16 m_timer;
+    fx32 m_scale;
+    u8 m_level;
+};
+
+STATIC_SIZE_ASSERT(SteelSlot, 0xC);
+
 class CBattleAssistSteel : public CBattleAssist {
 public:
     CBattleAssistSteel(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3);
@@ -455,8 +465,20 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
+    void ov1_02134E04(CBattleEnemy **enemies);
+    BOOL ov1_02134F0C(u8 *idx);
+    BOOL ov1_02134F68(u8 *outIdx);
+    BOOL ov1_0213502C(CBattleAttackEffect *effect, CBattleEnemy **enemies, u8 level);
+    u8 ov1_021352B0(fx32 scale);
+
 public:
-    u8 unk_18[0x50];
+    u8 m_flags;
+    u8 m_selected;
+    u16 unk_1A;
+    u16 m_timer;
+    Point2D m_last;
+    CBattleAttackEffect *m_effects[4];
+    SteelSlot m_slots[4];
 };
 
 STATIC_SIZE_ASSERT(CBattleAssistSteel, 0x68);
