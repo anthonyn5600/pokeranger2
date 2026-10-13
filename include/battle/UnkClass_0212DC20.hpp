@@ -14,7 +14,9 @@ public:
     UnkStruct_0212DFEC *ov1_0212DFEC(u16 id);
 
 public:
-    u8 unk_00[0x8];
+    u16 m_count;
+    u8 unk_02[0x2];
+    UnkStruct_0212DFEC *m_entries;
 };
 
 STATIC_SIZE_ASSERT(UnkClass_0212DC20, 0x8);

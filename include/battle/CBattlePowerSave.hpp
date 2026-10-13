@@ -15,7 +15,13 @@ public:
     virtual void vfunc_0C(Camera2D *camera);
     virtual void vfunc_10(Camera2D *camera);
 
+    void ov1_02137094(Point2D pos);
+    void ov1_02137144();
+    void ov1_021371F0();
+    BOOL ov1_02137ABC();
     u16 ov1_02137AD4();
+    fx32 ov1_02137ADC();
+    int ov1_02137D7C(int z);
 
     inline void SetUnkC74(u16 a, u16 b)
     {

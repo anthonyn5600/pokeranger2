@@ -4,6 +4,7 @@
 #include <nitro.h>
 
 #include "common.hpp"
+#include "sub_02006000.hpp"
 
 class CBattleAttackEffect;
 class CBattleDisk;
@@ -23,6 +24,8 @@ public:
     virtual int vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies) = 0;
     virtual void vfunc_0C() = 0;
     virtual int vfunc_10() = 0;
+
+    CBattleAttackEffect *ov1_0212EE3C();
 
 public:
     u16 unk_04;
@@ -71,6 +74,15 @@ public:
 
 STATIC_SIZE_ASSERT(CBattleAssistWater, 0x68);
 
+struct ElectricBolt {
+    u8 m_flags;
+    u16 m_timer;
+    CBattleAttackEffect *m_effect;
+    CBattleAttackEffect *m_effect2;
+};
+
+STATIC_SIZE_ASSERT(ElectricBolt, 0xC);
+
 class CBattleAssistElectric : public CBattleAssist {
 public:
     CBattleAssistElectric(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3);
@@ -79,11 +91,23 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
+    ElectricBolt *ov1_02130038();
+    void ov1_02130074(ElectricBolt *bolt, fx32 x, fx32 y);
+
 public:
-    u8 unk_18[0xC];
+    ElectricBolt m_bolts[1];
 };
 
 STATIC_SIZE_ASSERT(CBattleAssistElectric, 0x24);
+
+struct GrassSlot {
+    u8 m_flags;
+    u8 m_size;
+    u16 m_timer;
+    CBattleAttackEffect *m_effect;
+};
+
+STATIC_SIZE_ASSERT(GrassSlot, 0x8);
 
 class CBattleAssistGrass : public CBattleAssist {
 public:
@@ -93,11 +117,37 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
+    GrassSlot *ov1_02131FE4(fx32 x, fx32 y);
+
 public:
-    u8 unk_18[0xCC];
+    u8 m_next;
+    u8 m_bound;
+    u8 m_prevBound;
+    Point2D m_last;
+    GrassSlot m_slots[0x18];
 };
 
 STATIC_SIZE_ASSERT(CBattleAssistGrass, 0xE4);
+
+struct IceSlot {
+    u8 thrown;
+    u8 state;
+    u8 growth;
+    u8 level;
+    u16 timer;
+    fx32 scale;
+};
+
+STATIC_SIZE_ASSERT(IceSlot, 0xC);
+
+struct IceFreeze {
+    int state;
+    u8 size;
+    u16 timer;
+    CBattleAttackEffect *effect;
+};
+
+STATIC_SIZE_ASSERT(IceFreeze, 0xC);
 
 class CBattleAssistIce : public CBattleAssist {
 public:
@@ -107,8 +157,24 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
+    void ov1_021329C8(CBattleEnemy **enemies);
+    BOOL ov1_02132B78(u8 *idx);
+    BOOL ov1_02132BD4(u8 *outIdx);
+    BOOL ov1_02132CAC(CBattleAttackEffect *effect, CBattleEnemy **enemies, u8 level);
+    u8 ov1_02132EC4(Point2D pos);
+    void ov1_02132FD4(IceFreeze *freeze, CBattleEnemy *enemy);
+    u8 ov1_021330DC(u32 value);
+
 public:
-    u8 unk_18[0xB4];
+    u8 m_flags;
+    u8 m_selected;
+    u16 unk_1A;
+    u16 m_timer;
+    Point2D m_last;
+    CBattleAttackEffect *m_effects[4];
+    IceSlot m_slots[4];
+    IceFreeze m_freeze[8];
+    CBattleDisk *m_disk;
 };
 
 STATIC_SIZE_ASSERT(CBattleAssistIce, 0xCC);
@@ -124,6 +190,15 @@ public:
 
 STATIC_SIZE_ASSERT(CBattleAssistGrapple, 0x18);
 
+struct PoisonSlot {
+    u8 m_flags;
+    u16 m_timer;
+    u8 unk_04[0x4];
+    CBattleAttackEffect *m_effect;
+};
+
+STATIC_SIZE_ASSERT(PoisonSlot, 0xC);
+
 class CBattleAssistPoison : public CBattleAssist {
 public:
     CBattleAssistPoison(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3);
@@ -132,8 +207,16 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
+    void ov1_02133F9C(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
+    void ov1_02134120(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
+    PoisonSlot *ov1_021341FC();
+
 public:
-    u8 unk_18[0xDC];
+    int m_state;
+    Point2D m_pos;
+    Circle m_area;
+    PoisonSlot *m_current;
+    PoisonSlot m_slots[16];
 };
 
 STATIC_SIZE_ASSERT(CBattleAssistPoison, 0xF4);
@@ -145,10 +228,13 @@ public:
     virtual int vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
     virtual void vfunc_0C();
     virtual int vfunc_10();
-    void ov1_0213219C(UnkClass_0200D3F8 *arg0);
+    void ov1_0213219C(UnkClass_0200D3F8 *quake);
 
 public:
-    u8 unk_18[0x14];
+    u16 m_shakes;
+    BOOL m_touching;
+    Point2D m_last;
+    UnkClass_0200D3F8 *m_quake;
 };
 
 STATIC_SIZE_ASSERT(CBattleAssistGround, 0x2C);
@@ -161,11 +247,29 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
+    void ov1_021311E4(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
+    void ov1_021311F8(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
+    void ov1_02131410(fx32 x, fx32 y);
+    void ov1_021314A0(fx32 x, fx32 y, u16 angle);
+
 public:
-    u8 unk_18[0x14];
+    int m_state;
+    u8 unk_1C[0x8];
+    u8 m_level;
+    u16 m_angle;
+    CBattleAttackEffect *m_bird;
 };
 
 STATIC_SIZE_ASSERT(CBattleAssistFly, 0x2C);
+
+struct EsperSlot {
+    u8 unk_00;
+    u8 state;
+    u16 unk_02;
+    Rectangle rect;
+};
+
+STATIC_SIZE_ASSERT(EsperSlot, 0x14);
 
 class CBattleAssistEsper : public CBattleAssist {
 public:
@@ -175,11 +279,39 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
+    void ov1_021304F0(CBattleEnemy **enemies);
+    void ov1_02130628(u8 i);
+    BOOL ov1_021306C0(u8 *idx);
+    BOOL ov1_0213071C(u8 *outIdx);
+    BOOL ov1_021307E8(CBattleAttackEffect *effect, CBattleEnemy **enemies);
+    BOOL ov1_021309F4(Point2D pos, Rectangle rect);
+
 public:
-    u8 unk_18[0x70];
+    u8 m_flags;
+    u8 m_selected;
+    u16 unk_1A;
+    u16 m_timer;
+    Point2D m_last;
+    CBattleAttackEffect *m_effects[4];
+    EsperSlot m_slots[4];
 };
 
 STATIC_SIZE_ASSERT(CBattleAssistEsper, 0x88);
+
+struct InsectSlot {
+    u8 m_flags;
+    u8 m_level;
+};
+
+STATIC_SIZE_ASSERT(InsectSlot, 0x2);
+
+struct InsectBug {
+    u8 m_flags;
+    u8 m_timer;
+    CBattleAttackEffect *m_effect;
+};
+
+STATIC_SIZE_ASSERT(InsectBug, 0x8);
 
 class CBattleAssistInsect : public CBattleAssist {
 public:
@@ -188,13 +320,38 @@ public:
     virtual int vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
     virtual void vfunc_0C();
     virtual int vfunc_10();
+    void ov1_021335A4(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
+    void ov1_021336CC(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
+    u8 ov1_02133AAC(fx32 dist);
+    BOOL ov1_02133AD4(u8 *idx);
+    BOOL ov1_02133B08(u8 *idx);
     void ov1_02133B3C(CBattleAttackEffect **effects);
 
 public:
-    u8 unk_18[0xD0];
+    int m_state;
+    Point2D m_start;
+    Point2D m_end;
+    PointPair2D m_line;
+    u8 unk_3C[0x4];
+    CBattleAttackEffect *m_startMark;
+    CBattleAttackEffect *m_string;
+    CBattleAttackEffect *m_endMark;
+    CBattleAttackEffect *m_effects[4];
+    CBattleAttackEffect **m_targets;
+    InsectSlot m_slots[4];
+    InsectBug m_bugs[16];
 };
 
 STATIC_SIZE_ASSERT(CBattleAssistInsect, 0xE8);
+
+struct RockSlot {
+    u8 m_flags;
+    u8 unk_01;
+    u8 unk_02;
+    u16 unk_04;
+};
+
+STATIC_SIZE_ASSERT(RockSlot, 0x6);
 
 class CBattleAssistRock : public CBattleAssist {
 public:
@@ -204,11 +361,32 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
+    void ov1_02134600(CBattleEnemy **enemies);
+    BOOL ov1_02134714(u8 *idx);
+    BOOL ov1_02134770(u8 *outIdx);
+    BOOL ov1_02134820(CBattleAttackEffect *effect, CBattleEnemy **enemies);
+
 public:
-    u8 unk_18[0x38];
+    u8 m_flags;
+    u8 m_selected;
+    u16 unk_1A;
+    u16 m_timer;
+    Point2D m_last;
+    CBattleAttackEffect *m_effects[4];
+    RockSlot m_slots[4];
 };
 
 STATIC_SIZE_ASSERT(CBattleAssistRock, 0x50);
+
+struct GhostSlot {
+    u8 m_flags;
+    u16 m_timer;
+    u16 m_angle;
+    Point2D m_center;
+    CBattleAttackEffect *m_effect;
+};
+
+STATIC_SIZE_ASSERT(GhostSlot, 0x14);
 
 class CBattleAssistGhost : public CBattleAssist {
 public:
@@ -218,8 +396,10 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
+    GhostSlot *ov1_02131A48();
+
 public:
-    u8 unk_18[0x64];
+    GhostSlot m_ghosts[5];
 };
 
 STATIC_SIZE_ASSERT(CBattleAssistGhost, 0x7C);
@@ -232,10 +412,26 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
+    void ov1_0212F56C(CTouchPanel *touch);
+    void ov1_0212F620(CTouchPanel *touch);
+    void ov1_0212F700(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
+    void ov1_0212F9D4();
+    BOOL ov1_0212FA80(fx32 x, fx32 y, u8 level, u8 frame);
+    CBattleAttackEffect *ov1_0212FBD0(fx32 x, fx32 y);
+
 public:
-    u8 unk_18[0x2C];
+    int m_state;
+    u16 m_chargeTimer;
+    u16 m_frame;
+    u8 m_burstFrame;
+    u8 m_level;
+    Point2D m_pos;
+    Circle m_touchArea;
+    Circle m_hitArea;
     UnkClass_0200D3F8 *unk_44;
-    u8 unk_48[0x1C];
+    CBattleAttackEffect *m_charge;
+    CBattleAttackEffect *m_dragon;
+    CBattleAttackEffect *m_bursts[5];
 };
 
 STATIC_SIZE_ASSERT(CBattleAssistDragon, 0x64);
@@ -251,6 +447,16 @@ public:
 
 STATIC_SIZE_ASSERT(CBattleAssistEvil, 0x18);
 
+struct SteelSlot {
+    u8 m_flags;
+    u8 m_state;
+    u16 m_timer;
+    fx32 m_scale;
+    u8 m_level;
+};
+
+STATIC_SIZE_ASSERT(SteelSlot, 0xC);
+
 class CBattleAssistSteel : public CBattleAssist {
 public:
     CBattleAssistSteel(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3);
@@ -259,8 +465,20 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
+    void ov1_02134E04(CBattleEnemy **enemies);
+    BOOL ov1_02134F0C(u8 *idx);
+    BOOL ov1_02134F68(u8 *outIdx);
+    BOOL ov1_0213502C(CBattleAttackEffect *effect, CBattleEnemy **enemies, u8 level);
+    u8 ov1_021352B0(fx32 scale);
+
 public:
-    u8 unk_18[0x50];
+    u8 m_flags;
+    u8 m_selected;
+    u16 unk_1A;
+    u16 m_timer;
+    Point2D m_last;
+    CBattleAttackEffect *m_effects[4];
+    SteelSlot m_slots[4];
 };
 
 STATIC_SIZE_ASSERT(CBattleAssistSteel, 0x68);
@@ -273,8 +491,10 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
+    u8 ov1_02134354(u8 amount);
+
 public:
-    u8 unk_18[0x4];
+    u8 m_flags;
     CPlayerHPGauge *unk_1C;
 };
 
