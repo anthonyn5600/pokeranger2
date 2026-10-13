@@ -34,8 +34,6 @@
 .public _ZN13CArchiveGuardD1Ev
 .public _ZN14CBinaryFileMesC1EPKcm
 .public _ZN14CPlayerHPGauge5SetHPEtt
-.public _ZN14CPrimitiveLINEC1Ev
-.public _ZN14CPrimitiveLINED1Ev
 .public _ZN14CPrimitiveQUADC1Ev
 .public _ZN14CPrimitiveQUADD1Ev
 .public _ZN14CPrimitiveRECTC1Ev
@@ -53,9 +51,7 @@
 .public _ZN17UnkClass_02007AA4C1EPKcmm
 .public _ZN17UnkClass_02007AA4D1Ev
 .public _ZN17UnkClass_0200878812sub_02008828Et
-.public _ZN17UnkClass_0200878812sub_02008860Et
 .public _ZN17UnkClass_0200878812sub_02008990Ett
-.public _ZN17UnkClass_0200878812sub_020089B8Et
 .public _ZN17UnkClass_0200878812sub_020089ECEv
 .public _ZN17UnkClass_0200878812sub_02008A38Et
 .public _ZN17UnkClass_0200878812sub_02008A80Emm
@@ -98,18 +94,6 @@
 .public _ZN17UnkClass_0203447812sub_02034C5CEi
 .public _ZN17UnkClass_0203447812sub_02034CF4Eii
 .public _ZN17UnkClass_0203447812sub_02034DE8Eiii
-.public _ZN17UnkClass_0213673012ov1_02136A40Ell
-.public _ZN17UnkClass_0213673012ov1_02136A58Ell
-.public _ZN17UnkClass_0213673012ov1_02136A88Ehh
-.public _ZN17UnkClass_0213673012ov1_02136AA0Eli
-.public _ZN17UnkClass_02136730C1Ev
-.public _ZN17UnkClass_02136730D1Ev
-.public _ZN17UnkClass_02136AD412ov1_02136AECEv
-.public _ZN17UnkClass_02136AD412ov1_02136B24Etllilt
-.public _ZN17UnkClass_02136AD412ov1_02136B88EP8Camera2D
-.public _ZN17UnkClass_02136AD412ov1_02136BD0Ei
-.public _ZN17UnkClass_02136AD4C1EPP17UnkClass_02136730i
-.public _ZN17UnkClass_02136AD4D1Ev
 .public _ZN5CGame11GetInstanceEv
 .public _ZN5CGame12sub_020100E4EPFvPvES0_
 .public _ZN6CActorC2Ev

@@ -282,14 +282,14 @@ void CBattleScene::func6()
         unk_00D8->unk_190 = 0;
     }
     if ((u32)(MAIN_BSS_020B26A0.unk_0003 & 0xF) >= 8) {
-        unk_00D8->unk_1C0->unk_C71 = 2;
+        unk_00D8->unk_1C0->m_maxLevel = 2;
     } else {
-        unk_00D8->unk_1C0->unk_C71 = 1;
+        unk_00D8->unk_1C0->m_maxLevel = 1;
     }
     if ((u32)(MAIN_BSS_020B26A0.unk_0003 & 0xF) >= 6) {
-        unk_00D8->unk_1C0->SetUnkC74(70, 90);
+        unk_00D8->unk_1C0->SetChargeTimes(70, 90);
     } else {
-        unk_00D8->unk_1C0->SetUnkC74(100, 120);
+        unk_00D8->unk_1C0->SetChargeTimes(100, 120);
     }
 
     table = m_game->unk_1434;
