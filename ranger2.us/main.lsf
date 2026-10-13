@@ -369,7 +369,7 @@ Overlay overlay5
 Overlay overlay6
 {
     After main
-    Object main.nef.p/asm_overlay_06_0211C9E0.s.o
+    Object main.nef.p/src_COptionScene.cpp.o
 }
 
 Overlay overlay7
