@@ -244,7 +244,8 @@ Overlay overlay1
     Object main.nef.p/src_CBattleAssistFire.cpp.o
     Object main.nef.p/src_CBattleAssistFly.cpp.o
     Object main.nef.p/src_CBattleAssistGhost.cpp.o
-    Object main.nef.p/asm_overlay_01_02131A84.s.o
+    Object main.nef.p/src_CBattleAssistGrapple.cpp.o
+    Object main.nef.p/asm_overlay_01_02131B48.s.o
 }
 
 Overlay overlay2
