@@ -154,6 +154,7 @@ pokeranger2_cxx = files(
     'FieldTargetObjectScript.cpp',
     'CFieldEffect.cpp',
     'FieldEffectManage.cpp',
+    'CFieldEffectManpu.cpp',
     'CBattleScene.cpp',
     'UnkClass_0212306C.cpp',
     'CBattleEnemyData.cpp',

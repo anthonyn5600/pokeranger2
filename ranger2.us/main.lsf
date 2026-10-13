@@ -234,7 +234,8 @@ Overlay overlay0
     Object main.nef.p/src_FieldTargetObjectScript.cpp.o
     Object main.nef.p/src_CFieldEffect.cpp.o
     Object main.nef.p/src_FieldEffectManage.cpp.o
-    Object main.nef.p/asm_overlay_00_02143B10.s.o
+    Object main.nef.p/src_CFieldEffectManpu.cpp.o
+    Object main.nef.p/asm_overlay_00_02143FE4.s.o
 }
 
 Overlay overlay1

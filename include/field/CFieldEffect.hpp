@@ -3,7 +3,9 @@
 
 #include <nitro.h>
 
+#include "CEffectActorData.hpp"
 #include "common.hpp"
+#include "primitive/CSoftwareSprite.hpp"
 #include "sub_02006000.hpp"
 
 class CFieldActor;
@@ -14,6 +16,10 @@ class Camera2D;
 // Defined in ov0
 class CFieldEffect {
 public:
+    CFieldEffect()
+    {
+        ov0_021421D0();
+    }
     virtual ~CFieldEffect()
     {
         ov0_02142380();
@@ -88,22 +94,58 @@ public:
     int m_state;
 };
 
-// TODO: the effect FieldScene starts with ov0_02142F6C(1, 0x25); its real class is unknown.
+// Effect attached to an actor data object (factory kind 1 = Manpu balloons, incl. FieldScene's ov0_02142F6C(1, 0x25)).
 class CFieldEffectActor : public CFieldEffect {
 public:
-    void *unk_18;
-    CFieldActor *unk_1C;
+    CFieldEffectActor()
+    {
+        unk_18 = NULL;
+    }
+    virtual ~CFieldEffectActor()
+    {
+    }
+
+    virtual int sub_020332A4();
+    virtual int ov0_02142264(int step);
+
+public:
+    CEffectActorData *unk_18;
 };
 
 // Emotion balloon over an actor (CFieldActor::unk_D0 holds its effect id). Defined in ov0, except SetType.
 class CFieldEffectManpu : public CFieldEffectActor {
 public:
+    static void *operator new(size_t size);
+    static void operator delete(void *ptr);
+
     virtual ~CFieldEffectManpu();
+    virtual int sub_02033028();
+    virtual int ov0_02142344(Camera2D *camera);
     virtual void SetType(int type);
+    virtual int Draw(Camera2D *camera) = 0;
+    virtual void SetDepth(fx32 z) = 0;
+
+    BOOL IsVisible();
+    inline void Detach();
 
 public:
-    u8 unk_20[0x4];
+    CFieldActor *unk_1C;
+    u8 unk_20;
+    u8 unk_21[0x3];
     int unk_24;
+    int unk_28;
+};
+
+class CFieldEffectManpuSimple : public CFieldEffectManpu {
+public:
+    virtual int Draw(Camera2D *camera);
+    virtual void SetDepth(fx32 z);
+
+    void Init(int type);
+
+public:
+    CSoftwareSprite m_sprite;
+    int unk_78;
 };
 
 extern "C" {

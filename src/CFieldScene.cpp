@@ -2279,7 +2279,7 @@ void CFieldScene::ov0_02123FEC(u32 arg0, int arg1)
     unk_00AA = unk_0028->ov0_02142F6C(1, 0x25);
     CFieldEffect *effect = unk_0028->ov0_02143088(unk_00AA);
     if (effect != NULL) {
-        ((CFieldEffectActor *)effect)->unk_1C = unk_0014;
+        ((CFieldEffectManpu *)effect)->unk_1C = unk_0014;
         effect->ov0_021421F0(0, -1, 0);
     }
     unk_00B0 = arg0;

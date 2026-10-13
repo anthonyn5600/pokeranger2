@@ -206,7 +206,7 @@ extern "C" void sub_02041C1C(CFieldActor *actor)
     if (id == 0 || mgr == NULL) {
         return;
     }
-    CFieldEffectActor *effect = (CFieldEffectActor *)mgr->ov0_02143088(id);
+    CFieldEffectManpu *effect = (CFieldEffectManpu *)mgr->ov0_02143088(id);
     if (effect != NULL && effect->unk_1C == actor) {
         mgr->ov0_021430D8(id);
     }

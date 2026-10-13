@@ -57,6 +57,20 @@ public:
     {
     }
     virtual UnkClass_020074D4 *GetNcbr(int i);
+
+    // Loads data/effect/e_<id>.LZ.bin with count entries.
+    void ov0_0214FFF0(int id, int arg2, int count);
+};
+
+class CFieldEffectNormalActorData : public CEffectActorData {
+public:
+    CFieldEffectNormalActorData()
+    {
+    }
+    virtual ~CFieldEffectNormalActorData();
+    virtual void Update();
+
+    void ov0_021503B8(int id, int arg1);
 };
 
 class UnkClass_021638B8 {
