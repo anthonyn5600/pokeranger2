@@ -144,6 +144,8 @@ Static main
     Object main.nef.p/asm_arm9_0210CAB0.s.o
     Object main.nef.p/src_Wvr.cpp.o
     Object main.nef.p/src_sub_02046D40.cpp.o
+    Object libpokeranger2_crypto.a.p/src_CryptoRC4.cpp.o
+    Object libpokeranger2_crypto.a.p/src_CryptoRC4Asm.cpp.o
     Object main.nef.p/asm_arm9_02046D5C.s.o
     Object main.nef.p/src_debug.cpp.o
     Library libsoc.a
