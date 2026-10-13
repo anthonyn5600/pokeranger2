@@ -4,29 +4,24 @@
 
 #include "CGame.hpp"
 #include "CPowerManage.hpp"
+#include "SaveDataBuffer.hpp"
+#include "UnkClass_02010C3C.hpp"
 #include "UnkClass_020B26A0.hpp"
 #include "common.hpp"
 #include "heap.hpp"
 
 extern u8 MAIN_BSS_0210C0B0[];
 extern u32 DAT_0208b5c0;
-extern u32 MAIN_BSS_0210CA38;
 
 extern "C" u32 sub_02016E7C(UnkClass_020B26A0 *save, u32 value);
+
+extern u32 MAIN_BSS_0210CA38;
 
 #define SAVE_FIELD(offset) ((u8 *)&MAIN_BSS_020B26A0 + (offset))
 
 const char *sSaveMagic = "DSPRS\0\0\0";
 
-SaveBlock sEmptyBlocks[] = {
-    { NULL, 0x1C8 },
-    { NULL, 1 },
-};
-
-SaveBlock sOptionBlocks[] = {
-    { &MAIN_BSS_020AF620, 0x3004 },
-    { NULL, 1 },
-};
+extern SaveBlock sOptionBlocks[];
 
 extern SaveBlock sMainBlocks[];
 extern SaveBlock sMainBlocks1[];
@@ -42,24 +37,37 @@ SaveBlock *sSaveLists[] = {
     sOptionBlocks,
 };
 
-#define SAVE_BLOCKS(copies)                                                                                              \
-    { SAVE_FIELD(0), 0x8804 }, { SAVE_FIELD(0x8804), 0x18 }, { SAVE_FIELD(0x881C), 0x18 }, { SAVE_FIELD(0x8834), 0x18 }, \
-        { SAVE_FIELD(0x884C), 0x18 }, { SAVE_FIELD(0x8864), 0x18 }, { SAVE_FIELD(0x887C), 0x18 },                        \
-        { SAVE_FIELD(0x8894), 0x18 }, { SAVE_FIELD(0x88AC), 0x18 }, { SAVE_FIELD(0x88F4), 0x18 },                        \
-        { SAVE_FIELD(0x890C), 0x18 }, { SAVE_FIELD(0x8924), 0x18 }, { SAVE_FIELD(0x893C), 0x18 },                        \
-        { SAVE_FIELD(0x8954), 0x18 }, { SAVE_FIELD(0x896C), 0x18 }, { SAVE_FIELD(0x8984), 0x18 },                        \
-        { SAVE_FIELD(0x899C), 0x18 }, { SAVE_FIELD(0x89E4), 0x18 }, { SAVE_FIELD(0x89FC), 0x18 },                        \
-        { SAVE_FIELD(0x8A14), 0x18 }, { SAVE_FIELD(0x8A2C), 0x18 }, { SAVE_FIELD(0x8A44), 0x18 },                        \
-        { SAVE_FIELD(0x8A5C), 0x18 }, { SAVE_FIELD(0x8A74), 0x18 }, { SAVE_FIELD(0x8A8C), 0x18 },                        \
-        { SAVE_FIELD(0x8AD4), 0x38 }, { SAVE_FIELD(0x8B0C), 0x38 }, { &MAIN_BSS_020B2638, 0x54 },                        \
-        { MAIN_BSS_0210C0B0, 0xFC }, { NULL, 0 }, { NULL, 0 }, { &DAT_0208b5c0, 4 }, { &MAIN_BSS_020AF5E4[0], 8 },       \
-        { &MAIN_BSS_020AF5E4[1], 8 }, { &MAIN_BSS_020AF5E4[2], 8 }, { &MAIN_BSS_020AF598, 2 },                           \
-    {                                                                                                                    \
-        NULL, copies                                                                                                     \
+#define SAVE_BLOCKS(copies)                                                                                               \
+    { SAVE_FIELD(0), 0x8804 }, { SAVE_FIELD(0x8804), 0x18 }, { SAVE_FIELD(0x881C), 0x18 }, { SAVE_FIELD(0x8834), 0x18 },  \
+        { SAVE_FIELD(0x884C), 0x18 }, { SAVE_FIELD(0x8864), 0x18 }, { SAVE_FIELD(0x887C), 0x18 },                         \
+        { SAVE_FIELD(0x8894), 0x18 }, { SAVE_FIELD(0x88AC), 0x18 }, { SAVE_FIELD(0x88F4), 0x18 },                         \
+        { SAVE_FIELD(0x890C), 0x18 }, { SAVE_FIELD(0x8924), 0x18 }, { SAVE_FIELD(0x893C), 0x18 },                         \
+        { SAVE_FIELD(0x8954), 0x18 }, { SAVE_FIELD(0x896C), 0x18 }, { SAVE_FIELD(0x8984), 0x18 },                         \
+        { SAVE_FIELD(0x899C), 0x18 }, { SAVE_FIELD(0x89E4), 0x18 }, { SAVE_FIELD(0x89FC), 0x18 },                         \
+        { SAVE_FIELD(0x8A14), 0x18 }, { SAVE_FIELD(0x8A2C), 0x18 }, { SAVE_FIELD(0x8A44), 0x18 },                         \
+        { SAVE_FIELD(0x8A5C), 0x18 }, { SAVE_FIELD(0x8A74), 0x18 }, { SAVE_FIELD(0x8A8C), 0x18 },                         \
+        { SAVE_FIELD(0x8AD4), 0x38 }, { SAVE_FIELD(0x8B0C), 0x38 }, { &MAIN_BSS_020B2638, 0x54 },                         \
+        { MAIN_BSS_0210C0B0, 0xFC }, { MAIN_BSS_0210C1C0.GetData(), MAIN_BSS_0210C1C0.GetSize() },                        \
+        { MAIN_BSS_0210C228.GetData(), MAIN_BSS_0210C228.GetSize() }, { &DAT_0208b5c0, 4 }, { &MAIN_BSS_020AF5E4[0], 8 }, \
+        { &MAIN_BSS_020AF5E4[1], 8 }, { &MAIN_BSS_020AF5E4[2], 8 }, { &MAIN_BSS_020AF598, 2 },                            \
+    {                                                                                                                     \
+        NULL, copies                                                                                                      \
     }
+
+// Definition order matters: the same-size tie puts sOptionBlocks before sEmptyBlocks in .data, and
+// sEmptyBlocks' dynamic initializer must run after the main tables'
+SaveBlock sOptionBlocks[] = {
+    { &MAIN_BSS_020AF620, 0x3004 },
+    { NULL, 1 },
+};
 
 SaveBlock sMainBlocks[] = { SAVE_BLOCKS(2) };
 SaveBlock sMainBlocks1[] = { SAVE_BLOCKS(1) };
+
+SaveBlock sEmptyBlocks[] = {
+    { sub_02010CC0(), 0x1C8 },
+    { NULL, 1 },
+};
 
 UnkClass_02027FE8::UnkClass_02027FE8(u32 card)
 {
@@ -674,10 +682,4 @@ BOOL UnkClass_02027FE8::FinishWriteSteps()
     }
     SetState(8, 0);
     return TRUE;
-}
-
-// Not referenced (mwld strips it); it places sEmptyBlocks among the TU's data
-SaveBlock *GetEmptyBlocks()
-{
-    return sEmptyBlocks;
 }

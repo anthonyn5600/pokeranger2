@@ -179,7 +179,7 @@ pokeranger2_sp2 = static_library('pokeranger2_sp2',
 # NitroSDK libcrypto RC4: the SDK built it with the SDK 1.2 compiler (mwccarm 2.0-87, which has no -ipa) for
 # ARMv4T (-proc arm9tdmi: `ldmia {..., lr}; bx lr` returns); linked as plain objects to keep its place in main.lsf
 pokeranger2_crypto = static_library('pokeranger2_crypto',
-    files('src/CryptoRC4.cpp', 'src/CryptoRC4Asm.cpp'),
+    files('src/sub_02046D40.cpp', 'src/CryptoRC4.cpp', 'src/CryptoRC4Asm.cpp'),
     cpp_args: [pokeranger2_args, '-wrap:noipa', '-wrap:sdk', '1.2/sp4', '-proc', 'arm9tdmi'],
     include_directories: public_includes,
     dependencies: [

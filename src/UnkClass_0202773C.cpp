@@ -37,6 +37,8 @@ UnkStruct_0202773C_Step DAT_0208c12c[] = {
     { -1, 5, 1, 0 },
 };
 
+UnkClass_0202773C *MAIN_BSS_0210C1BC;
+
 UnkClass_0202773C::UnkClass_0202773C(CGame *game)
 {
     unk_14 = game;

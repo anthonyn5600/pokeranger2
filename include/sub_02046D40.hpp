@@ -1,7 +1,7 @@
 #ifndef POKERANGER2_SUB_02046D40_HPP
 #define POKERANGER2_SUB_02046D40_HPP
 
-#include <nitro.h>
+#include <nitro/types.h>
 
 typedef void *(*HeapAllocFunc)(u32);
 typedef void (*HeapFreeFunc)(void *);

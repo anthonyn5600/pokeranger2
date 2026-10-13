@@ -1,24 +1,7 @@
 #include <nitro.h>
 
+#include "SaveDataBuffer.hpp"
 #include "common.hpp"
-#include "field/IFieldEnemyDataBuilder.hpp"
-
-class IDataBuilder {
-public:
-    virtual void BuildData(void *buf, int size) = 0;
-};
-
-struct UnkStruct_0210C1C0 {
-    u8 unk_00[0x60];
-    u8 unk_60;
-    IDataBuilder *unk_64;
-};
-
-struct UnkStruct_0210C228 {
-    u8 unk_000[0x800];
-    u8 unk_800;
-    IFieldEnemyDataBuilder *unk_804;
-};
 
 // Read by UnkClass_0201CA6C and overlays 0 and 21.
 u16 DAT_0208c55c[] = {
@@ -518,23 +501,12 @@ u16 DAT_0208c55c[] = {
     0x0000,
 };
 
-extern "C" {
-void sub_0202A4A0(UnkStruct_0210C1C0 *obj);
-void sub_0202A4D8(UnkStruct_0210C228 *obj);
-}
+UnkStruct_0210C1C0 MAIN_BSS_0210C1C0;
 
 void sub_0202A4A0(UnkStruct_0210C1C0 *obj)
 {
     MI_CpuFill8(obj, 0, sizeof(obj->unk_00));
     if (obj->unk_64 != NULL) {
         obj->unk_64->BuildData(obj, sizeof(obj->unk_00));
-    }
-}
-
-void sub_0202A4D8(UnkStruct_0210C228 *obj)
-{
-    MI_CpuFill8(obj, 0, sizeof(obj->unk_000));
-    if (obj->unk_804 != NULL) {
-        obj->unk_804->BuildData(obj, sizeof(obj->unk_000));
     }
 }

@@ -74,6 +74,7 @@ pokeranger2_cxx = files(
     'UnkClass_02029800.cpp',
     'UnkClass_0202A2AC.cpp',
     'sub_0202A4A0.cpp',
+    'sub_0202A4D8.cpp',
     'UnkClass_0202A510.cpp',
     'CBackupBase.cpp',
     'sub_0202B80C.cpp',
@@ -97,7 +98,6 @@ pokeranger2_cxx = files(
     'FieldActor.cpp',
     'FieldDrawActor.cpp',
     'overlay_manager.cpp',
-    'sub_02046D40.cpp',
     'sub_02044440.cpp',
     'ScriptVM.cpp',
     'Wvr.cpp',
@@ -243,4 +243,5 @@ pokeranger2_cxx = files(
     'UnkClass_0213F028.cpp',
     'UnkClass_0213F9D0.cpp',
     'CNameInputScene.cpp',
+    'CLetterScene.cpp',
     'debug.cpp', )
