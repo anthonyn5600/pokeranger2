@@ -1305,10 +1305,10 @@ ov0_02145134: ; 0x02145134
 	bx lr
 	arm_func_end ov0_02145134
 
-	arm_func_start ov0_02145138
-ov0_02145138: ; 0x02145138
+	arm_func_start _ZN21TFieldParticleEmitterI15CSoftwareSpriteE5func2Ev
+_ZN21TFieldParticleEmitterI15CSoftwareSpriteE5func2Ev: ; 0x02145138
 	bx lr
-	arm_func_end ov0_02145138
+	arm_func_end _ZN21TFieldParticleEmitterI15CSoftwareSpriteE5func2Ev
 
 	arm_func_start ov0_0214513C
 ov0_0214513C: ; 0x0214513C
@@ -2639,15 +2639,15 @@ _021462B0: .word _ZN15CSoftwareSpriteC1Ev
 _021462B4: .word _ZTV16CEffectActorData+8
 _021462B8: .word PTR_LAB_overlay_0_021426e4_overlay_0_02177b5c
 
-	arm_func_start ov0_021462BC
-ov0_021462BC: ; 0x021462BC
+	arm_func_start _ZN18CFieldEffectChargeD1Ev
+_ZN18CFieldEffectChargeD1Ev: ; 0x021462BC
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r1, _02146358 ; =ptr_FUN_overlay_0_021462bc_overlay_0_02174c30
 	mov r4, r0
 	mov r6, #0
 	str r1, [r4]
 	mov r5, r6
-	arm_func_end ov0_021462BC
+	arm_func_end _ZN18CFieldEffectChargeD1Ev
 _021462D4:
 	ldr r0, [r4, #0x18]
 	mov r1, r5
@@ -2741,8 +2741,8 @@ _02146408: .word ptr_FUN_overlay_0_021462bc_overlay_0_02174c30
 _0214640C: .word _ZN15CSoftwareSpriteD1Ev
 _02146410: .word _ZTV12CFieldEffect+8
 
-	arm_func_start ov0_02146414
-ov0_02146414: ; 0x02146414
+	arm_func_start _ZN18CFieldEffectCharge12ov0_02142264Ei
+_ZN18CFieldEffectCharge12ov0_02142264Ei: ; 0x02146414
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl _ZN17CFieldEffectActor12ov0_02142264Ei
@@ -2753,13 +2753,13 @@ ov0_02146414: ; 0x02146414
 	ldr r1, [r0]
 	ldr r1, [r1, #0x18]
 	blx r1
-	arm_func_end ov0_02146414
+	arm_func_end _ZN18CFieldEffectCharge12ov0_02142264Ei
 _0214643C:
 	ldr r0, [r4, #0x14]
 	ldmia sp!, {r4, pc}
 
-	arm_func_start ov0_02146444
-ov0_02146444: ; 0x02146444
+	arm_func_start _ZN18CFieldEffectCharge12ov0_02142344EP8Camera2D
+_ZN18CFieldEffectCharge12ov0_02142344EP8Camera2D: ; 0x02146444
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
 	mov sb, r0
 	ldr r0, [sb, #0x18]
@@ -2773,7 +2773,7 @@ ov0_02146444: ; 0x02146444
 	mov r6, sb
 	add r7, sb, #0x24
 	mov r5, #0
-	arm_func_end ov0_02146444
+	arm_func_end _ZN18CFieldEffectCharge12ov0_02142344EP8Camera2D
 _02146478:
 	add r0, sb, r5, lsl #1
 	ldrh r1, [r0, #0xbc]
@@ -2794,13 +2794,13 @@ _021464B4:
 	mov r0, #1
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
 
-	arm_func_start ov0_021464BC
-ov0_021464BC: ; 0x021464BC
+	arm_func_start _ZN18CFieldEffectCharge12ov0_0214234CE7Point2Diiii
+_ZN18CFieldEffectCharge12ov0_0214234CE7Point2Diiii: ; 0x021464BC
 	bx lr
-	arm_func_end ov0_021464BC
+	arm_func_end _ZN18CFieldEffectCharge12ov0_0214234CE7Point2Diiii
 
-	arm_func_start ov0_021464C0
-ov0_021464C0: ; 0x021464C0
+	arm_func_start _ZN18CFieldEffectCharge12ov0_021421F0Eiii
+_ZN18CFieldEffectCharge12ov0_021421F0Eiii: ; 0x021464C0
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
 	sub sp, sp, #0x18
 	ldr r4, _02146564 ; =FX_SinCosTable_+0x600
@@ -2844,25 +2844,25 @@ ov0_021464C0: ; 0x021464C0
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
 	.align 2, 0
 _02146564: .word FX_SinCosTable_+0x600
-	arm_func_end ov0_021464C0
+	arm_func_end _ZN18CFieldEffectCharge12ov0_021421F0Eiii
 
-	arm_func_start ov0_02146568
-ov0_02146568: ; 0x02146568
+	arm_func_start _ZN18CFieldEffectCharge12ov0_02142240Ei
+_ZN18CFieldEffectCharge12ov0_02142240Ei: ; 0x02146568
 	ldr ip, _02146570 ; =_ZN12CFieldEffect12ov0_02142240Ei
 	bx ip
 	.align 2, 0
 _02146570: .word _ZN12CFieldEffect12ov0_02142240Ei
-	arm_func_end ov0_02146568
+	arm_func_end _ZN18CFieldEffectCharge12ov0_02142240Ei
 
-	arm_func_start ov0_02146574
-ov0_02146574: ; 0x02146574
+	arm_func_start _ZN18CFieldEffectCharge12sub_0203312CEii
+_ZN18CFieldEffectCharge12sub_0203312CEii: ; 0x02146574
 	cmp r1, #1
 	beq _0214658C
 	cmp r1, #2
 	moveq r1, r2, lsl #0xc
 	streq r1, [r0, #0x20]
 	b _02146594
-	arm_func_end ov0_02146574
+	arm_func_end _ZN18CFieldEffectCharge12sub_0203312CEii
 _0214658C:
 	mov r1, r2, lsl #0xc
 	str r1, [r0, #0x1c]
@@ -2928,8 +2928,8 @@ ov0_0214659C: ; 0x0214659C
 	ldmia sp!, {r4, r5, r6, pc}
 	arm_func_end ov0_0214659C
 
-	arm_func_start ov0_02146674
-ov0_02146674: ; 0x02146674
+	arm_func_start _ZN25CFieldEffectChargeFactory6CreateEi
+_ZN25CFieldEffectChargeFactory6CreateEi: ; 0x02146674
 	stmdb sp!, {r3, lr}
 	mov r0, #0xc0
 	bl _Znwm
@@ -2937,18 +2937,18 @@ ov0_02146674: ; 0x02146674
 	ldmeqia sp!, {r3, pc}
 	bl ov0_02146180
 	ldmia sp!, {r3, pc}
-	arm_func_end ov0_02146674
+	arm_func_end _ZN25CFieldEffectChargeFactory6CreateEi
 
-	arm_func_start ov0_02146690
-ov0_02146690: ; 0x02146690
+	arm_func_start _ZN18CFieldEffectCharge12sub_02033028Ev
+_ZN18CFieldEffectCharge12sub_02033028Ev: ; 0x02146690
 	mov r0, #0x22
 	bx lr
-	arm_func_end ov0_02146690
+	arm_func_end _ZN18CFieldEffectCharge12sub_02033028Ev
 
-	arm_func_start ov0_02146698
-ov0_02146698: ; 0x02146698
+	arm_func_start _ZN25CFieldEffectChargeFactoryD1Ev
+_ZN25CFieldEffectChargeFactoryD1Ev: ; 0x02146698
 	bx lr
-	arm_func_end ov0_02146698
+	arm_func_end _ZN25CFieldEffectChargeFactoryD1Ev
 
 	arm_func_start ov0_0214669C
 ov0_0214669C: ; 0x0214669C
@@ -3043,8 +3043,8 @@ _021467D4: .word _ZN15CSoftwareSpriteC1Ev
 _021467D8: .word _ZTV16CEffectActorData+8
 _021467DC: .word PTR_LAB_overlay_0_021426e4_overlay_0_02177b5c
 
-	arm_func_start ov0_021467E0
-ov0_021467E0: ; 0x021467E0
+	arm_func_start _ZN17CFieldEffectFlashD1Ev
+_ZN17CFieldEffectFlashD1Ev: ; 0x021467E0
 	stmdb sp!, {r4, lr}
 	ldr r1, _02146864 ; =ptr_FUN_overlay_0_021467e0_overlay_0_02174cfc
 	mov r4, r0
@@ -3063,7 +3063,7 @@ ov0_021467E0: ; 0x021467E0
 	ldr r1, [r0]
 	ldr r1, [r1, #4]
 	blx r1
-	arm_func_end ov0_021467E0
+	arm_func_end _ZN17CFieldEffectFlashD1Ev
 _02146828:
 	mov r0, #0
 	str r0, [r4, #0x18]
@@ -3131,8 +3131,8 @@ _021468FC: .word ptr_FUN_overlay_0_021467e0_overlay_0_02174cfc
 _02146900: .word _ZN15CSoftwareSpriteD1Ev
 _02146904: .word _ZTV12CFieldEffect+8
 
-	arm_func_start ov0_02146908
-ov0_02146908: ; 0x02146908
+	arm_func_start _ZN17CFieldEffectFlash12ov0_02142264Ei
+_ZN17CFieldEffectFlash12ov0_02142264Ei: ; 0x02146908
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl _ZN17CFieldEffectActor12ov0_02142264Ei
@@ -3143,7 +3143,7 @@ ov0_02146908: ; 0x02146908
 	ldr r1, [r0]
 	ldr r1, [r1, #0x18]
 	blx r1
-	arm_func_end ov0_02146908
+	arm_func_end _ZN17CFieldEffectFlash12ov0_02142264Ei
 _02146930:
 	ldr r0, [r4, #0x24]
 	cmp r0, #0x79
@@ -3188,8 +3188,8 @@ _021469C0:
 	ldr r0, [r4, #0x14]
 	ldmia sp!, {r4, pc}
 
-	arm_func_start ov0_021469C8
-ov0_021469C8: ; 0x021469C8
+	arm_func_start _ZN17CFieldEffectFlash12ov0_02142344EP8Camera2D
+_ZN17CFieldEffectFlash12ov0_02142344EP8Camera2D: ; 0x021469C8
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r0, [r5, #0x18]
@@ -3208,18 +3208,18 @@ ov0_021469C8: ; 0x021469C8
 	mov r1, r4
 	ldr r2, [r2, #8]
 	blx r2
-	arm_func_end ov0_021469C8
+	arm_func_end _ZN17CFieldEffectFlash12ov0_02142344EP8Camera2D
 _02146A10:
 	mov r0, #1
 	ldmia sp!, {r3, r4, r5, pc}
 
-	arm_func_start ov0_02146A18
-ov0_02146A18: ; 0x02146A18
+	arm_func_start _ZN17CFieldEffectFlash12ov0_0214234CE7Point2Diiii
+_ZN17CFieldEffectFlash12ov0_0214234CE7Point2Diiii: ; 0x02146A18
 	bx lr
-	arm_func_end ov0_02146A18
+	arm_func_end _ZN17CFieldEffectFlash12ov0_0214234CE7Point2Diiii
 
-	arm_func_start ov0_02146A1C
-ov0_02146A1C: ; 0x02146A1C
+	arm_func_start _ZN17CFieldEffectFlash12ov0_021421F0Eiii
+_ZN17CFieldEffectFlash12ov0_021421F0Eiii: ; 0x02146A1C
 	stmdb sp!, {r3, lr}
 	sub sp, sp, #8
 	ldr lr, [r0, #0x1c]
@@ -3231,25 +3231,25 @@ ov0_02146A1C: ; 0x02146A1C
 	bl _ZN12CFieldEffect12ov0_021421F0Eiii
 	add sp, sp, #8
 	ldmia sp!, {r3, pc}
-	arm_func_end ov0_02146A1C
+	arm_func_end _ZN17CFieldEffectFlash12ov0_021421F0Eiii
 
-	arm_func_start ov0_02146A48
-ov0_02146A48: ; 0x02146A48
+	arm_func_start _ZN17CFieldEffectFlash12ov0_02142240Ei
+_ZN17CFieldEffectFlash12ov0_02142240Ei: ; 0x02146A48
 	ldr ip, _02146A50 ; =_ZN12CFieldEffect12ov0_02142240Ei
 	bx ip
 	.align 2, 0
 _02146A50: .word _ZN12CFieldEffect12ov0_02142240Ei
-	arm_func_end ov0_02146A48
+	arm_func_end _ZN17CFieldEffectFlash12ov0_02142240Ei
 
-	arm_func_start ov0_02146A54
-ov0_02146A54: ; 0x02146A54
+	arm_func_start _ZN17CFieldEffectFlash12sub_0203312CEii
+_ZN17CFieldEffectFlash12sub_0203312CEii: ; 0x02146A54
 	cmp r1, #1
 	beq _02146A6C
 	cmp r1, #2
 	moveq r1, r2, lsl #0xc
 	streq r1, [r0, #0x20]
 	b _02146A74
-	arm_func_end ov0_02146A54
+	arm_func_end _ZN17CFieldEffectFlash12sub_0203312CEii
 _02146A6C:
 	mov r1, r2, lsl #0xc
 	str r1, [r0, #0x1c]
@@ -3292,8 +3292,8 @@ ov0_02146A7C: ; 0x02146A7C
 _02146AF0: .word 0x0000067C
 	arm_func_end ov0_02146A7C
 
-	arm_func_start ov0_02146AF4
-ov0_02146AF4: ; 0x02146AF4
+	arm_func_start _ZN24CFieldEffectFlashFactory6CreateEi
+_ZN24CFieldEffectFlashFactory6CreateEi: ; 0x02146AF4
 	stmdb sp!, {r4, lr}
 	mov r0, #0x80
 	mov r4, r1
@@ -3303,18 +3303,18 @@ ov0_02146AF4: ; 0x02146AF4
 	mov r1, r4
 	bl ov0_021466B0
 	ldmia sp!, {r4, pc}
-	arm_func_end ov0_02146AF4
+	arm_func_end _ZN24CFieldEffectFlashFactory6CreateEi
 
-	arm_func_start ov0_02146B18
-ov0_02146B18: ; 0x02146B18
+	arm_func_start _ZN17CFieldEffectFlash12sub_02033028Ev
+_ZN17CFieldEffectFlash12sub_02033028Ev: ; 0x02146B18
 	mov r0, #0x20
 	bx lr
-	arm_func_end ov0_02146B18
+	arm_func_end _ZN17CFieldEffectFlash12sub_02033028Ev
 
-	arm_func_start ov0_02146B20
-ov0_02146B20: ; 0x02146B20
+	arm_func_start _ZN24CFieldEffectFlashFactoryD1Ev
+_ZN24CFieldEffectFlashFactoryD1Ev: ; 0x02146B20
 	bx lr
-	arm_func_end ov0_02146B20
+	arm_func_end _ZN24CFieldEffectFlashFactoryD1Ev
 
 	arm_func_start ov0_02146B24
 ov0_02146B24: ; 0x02146B24
@@ -15686,8 +15686,8 @@ _02150370: .word s_MEF_i_03d_00_NCBR_overlay_0_02177c7c
 _02150374: .word s_MEF_i_03d_00_NCER_overlay_0_02177c90
 _02150378: .word s_MEF_i_03d_00_cac_overlay_0_02177ca4
 
-	arm_func_start ov0_0215037C
-ov0_0215037C: ; 0x0215037C
+	arm_func_start _ZN26CFieldManpuEffectActorData6UpdateEv
+_ZN26CFieldManpuEffectActorData6UpdateEv: ; 0x0215037C
 	stmdb sp!, {r4, lr}
 	ldr r2, [r0]
 	mov r1, #0
@@ -15703,7 +15703,7 @@ ov0_0215037C: ; 0x0215037C
 	blx r2
 	bl _ZN17UnkClass_0200878812sub_020089ECEv
 	ldmia sp!, {r4, pc}
-	arm_func_end ov0_0215037C
+	arm_func_end _ZN26CFieldManpuEffectActorData6UpdateEv
 
 	arm_func_start ov0_021503B8
 ov0_021503B8: ; 0x021503B8
@@ -15841,14 +15841,14 @@ ov0_02150578: ; 0x02150578
 	ldmia sp!, {r4, pc}
 	arm_func_end ov0_02150578
 
-	arm_func_start ov0_02150594
-ov0_02150594: ; 0x02150594
+	arm_func_start _ZN26CFieldManpuEffectActorDataD1Ev
+_ZN26CFieldManpuEffectActorDataD1Ev: ; 0x02150594
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl _ZN16CEffectActorDataD2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	arm_func_end ov0_02150594
+	arm_func_end _ZN26CFieldManpuEffectActorDataD1Ev
 
 	arm_func_start ov0_021505A8
 ov0_021505A8: ; 0x021505A8
@@ -15896,10 +15896,10 @@ _02150614: .word _ZTV11CDrawObject+8
 _02150618: .word PTR_LAB_overlay_0_0215061c_overlay_0_02177d64
 	arm_func_end ov0_021505F4
 
-	arm_func_start ov0_0215061C
-ov0_0215061C: ; 0x0215061C
+	arm_func_start _ZN25CFieldEffectFootStepSmoke19CDrawObjectParticleD1Ev
+_ZN25CFieldEffectFootStepSmoke19CDrawObjectParticleD1Ev: ; 0x0215061C
 	bx lr
-	arm_func_end ov0_0215061C
+	arm_func_end _ZN25CFieldEffectFootStepSmoke19CDrawObjectParticleD1Ev
 
 	arm_func_start ov0_02150620
 ov0_02150620: ; 0x02150620
@@ -16058,8 +16058,8 @@ _0215084C: .word PTR_LAB_overlay_0_02150880_overlay_0_02177d50
 _02150850: .word _ZN15CSoftwareSpriteD1Ev
 _02150854: .word _ZN15CSoftwareSpriteC1Ev
 
-	arm_func_start ov0_02150858
-ov0_02150858: ; 0x02150858
+	arm_func_start _ZN25CFieldEffectFootStepSmoke28CFieldParticleOneShotEmitterD1Ev
+_ZN25CFieldEffectFootStepSmoke28CFieldParticleOneShotEmitterD1Ev: ; 0x02150858
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r3, _0215087C ; =0x02150620
@@ -16071,12 +16071,12 @@ ov0_02150858: ; 0x02150858
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215087C: .word ov0_02150620
-	arm_func_end ov0_02150858
+	arm_func_end _ZN25CFieldEffectFootStepSmoke28CFieldParticleOneShotEmitterD1Ev
 
-	arm_func_start ov0_02150880
-ov0_02150880: ; 0x02150880
+	arm_func_start _ZN25CFieldEffectFootStepSmoke27CFieldParticleAlphaAnimatorD1Ev
+_ZN25CFieldEffectFootStepSmoke27CFieldParticleAlphaAnimatorD1Ev: ; 0x02150880
 	bx lr
-	arm_func_end ov0_02150880
+	arm_func_end _ZN25CFieldEffectFootStepSmoke27CFieldParticleAlphaAnimatorD1Ev
 
 	arm_func_start _ZN25CFieldEffectFootStepSmokeD1Ev
 _ZN25CFieldEffectFootStepSmokeD1Ev: ; 0x02150884
@@ -16348,8 +16348,8 @@ _02150BF4:
 _02150BFC: .word 0x0000439C
 _02150C00: .word 0x00007FFF
 
-	arm_func_start ov0_02150C04
-ov0_02150C04: ; 0x02150C04
+	arm_func_start _ZN25CFieldEffectFootStepSmoke12ov0_02142264Ei
+_ZN25CFieldEffectFootStepSmoke12ov0_02142264Ei: ; 0x02150C04
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0x14
 	mov sl, r0
@@ -16360,7 +16360,7 @@ ov0_02150C04: ; 0x02150C04
 	cmp r4, #0
 	beq _02150D48
 	mov r6, sb, asr #0x1f
-	arm_func_end ov0_02150C04
+	arm_func_end _ZN25CFieldEffectFootStepSmoke12ov0_02142264Ei
 _02150C2C:
 	ldr r0, [r4, #0x60]
 	ldr r5, [r4, #0x70]
@@ -16559,24 +16559,24 @@ _02150EE8:
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
 
-	arm_func_start ov0_02150F00
-ov0_02150F00: ; 0x02150F00
+	arm_func_start _ZN25CFieldEffectFootStepSmoke12ov0_02142398EP17UnkClass_0211E3FC
+_ZN25CFieldEffectFootStepSmoke12ov0_02142398EP17UnkClass_0211E3FC: ; 0x02150F00
 	ldr ip, _02150F0C ; =ov0_02151080
 	add r0, r0, #0x54
 	bx ip
 	.align 2, 0
 _02150F0C: .word ov0_02151080
-	arm_func_end ov0_02150F00
+	arm_func_end _ZN25CFieldEffectFootStepSmoke12ov0_02142398EP17UnkClass_0211E3FC
 
-	arm_func_start ov0_02150F10
-ov0_02150F10: ; 0x02150F10
+	arm_func_start _ZN25CFieldEffectFootStepSmoke12ov0_02142344EP8Camera2D
+_ZN25CFieldEffectFootStepSmoke12ov0_02142344EP8Camera2D: ; 0x02150F10
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
 	mov sb, r0
 	ldr r4, [sb, #0x48]
 	mov r8, r1
 	cmp r4, #0
 	beq _02150F7C
-	arm_func_end ov0_02150F10
+	arm_func_end _ZN25CFieldEffectFootStepSmoke12ov0_02142344EP8Camera2D
 _02150F28:
 	ldr r0, [sb, #0x50]
 	cmp r0, #0
@@ -16640,8 +16640,8 @@ _02150FE8:
 	.align 2, 0
 _02151004: .word MAIN_BSS_0210CA60
 
-	arm_func_start ov0_02151008
-ov0_02151008: ; 0x02151008
+	arm_func_start _ZN25CFieldEffectFootStepSmoke28CFieldParticleOneShotEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE
+_ZN25CFieldEffectFootStepSmoke28CFieldParticleOneShotEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE: ; 0x02151008
 	stmdb sp!, {r4, lr}
 	ldrb lr, [r0, #0x119]
 	add ip, r0, #0x18
@@ -16672,7 +16672,7 @@ ov0_02151008: ; 0x02151008
 	str r0, [r4, #0x14]
 	str r1, [r4, #0x1c]
 	ldmia sp!, {r4, pc}
-	arm_func_end ov0_02151008
+	arm_func_end _ZN25CFieldEffectFootStepSmoke28CFieldParticleOneShotEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE
 
 	arm_func_start ov0_02151080
 ov0_02151080: ; 0x02151080
@@ -16725,17 +16725,17 @@ ov0_021510E0: ; 0x021510E0
 	ldmia sp!, {r4, pc}
 	arm_func_end ov0_021510E0
 
-	arm_func_start ov0_02151124
-ov0_02151124: ; 0x02151124
+	arm_func_start _ZN25CFieldEffectFootStepSmoke19CDrawObjectParticle12sub_020091D4EP8Camera2Di
+_ZN25CFieldEffectFootStepSmoke19CDrawObjectParticle12sub_020091D4EP8Camera2Di: ; 0x02151124
 	ldr r0, [r0, #0xc]
 	cmp r0, #0
 	strne r2, [r0, #4]
 	mov r0, #1
 	bx lr
-	arm_func_end ov0_02151124
+	arm_func_end _ZN25CFieldEffectFootStepSmoke19CDrawObjectParticle12sub_020091D4EP8Camera2Di
 
-	arm_func_start ov0_02151138
-ov0_02151138: ; 0x02151138
+	arm_func_start _ZN25CFieldEffectFootStepSmoke27CFieldParticleAlphaAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
+_ZN25CFieldEffectFootStepSmoke27CFieldParticleAlphaAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi: ; 0x02151138
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r1
 	ldrh r6, [r5, #0x2a]
@@ -16748,7 +16748,7 @@ ov0_02151138: ; 0x02151138
 	cmp r0, #0x1000
 	movgt r0, #0x1000
 	b _02151184
-	arm_func_end ov0_02151138
+	arm_func_end _ZN25CFieldEffectFootStepSmoke27CFieldParticleAlphaAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
 _02151168:
 	mov r0, r3, asr #0x1f
 	mov r1, r0, lsl #0xc
@@ -16775,27 +16775,27 @@ _02151184:
 	str r0, [r5, #0x14]
 	ldmia sp!, {r4, r5, r6, pc}
 
-	arm_func_start ov0_021511C4
-ov0_021511C4: ; 0x021511C4
+	arm_func_start _ZN25CFieldEffectFootStepSmoke12ov0_0214239CEi
+_ZN25CFieldEffectFootStepSmoke12ov0_0214239CEi: ; 0x021511C4
 	mov r0, #1
 	bx lr
-	arm_func_end ov0_021511C4
+	arm_func_end _ZN25CFieldEffectFootStepSmoke12ov0_0214239CEi
 
-	arm_func_start ov0_021511CC
-ov0_021511CC: ; 0x021511CC
+	arm_func_start _ZN25CFieldEffectFootStepSmoke12sub_02033028Ev
+_ZN25CFieldEffectFootStepSmoke12sub_02033028Ev: ; 0x021511CC
 	mov r0, #0x27
 	bx lr
-	arm_func_end ov0_021511CC
+	arm_func_end _ZN25CFieldEffectFootStepSmoke12sub_02033028Ev
 
-	arm_func_start ov0_021511D4
-ov0_021511D4: ; 0x021511D4
+	arm_func_start _ZN25CFieldEffectFootStepSmoke28CFieldParticleOneShotEmitter6UpdateEi
+_ZN25CFieldEffectFootStepSmoke28CFieldParticleOneShotEmitter6UpdateEi: ; 0x021511D4
 	ldrb r2, [r0, #0x118]
 	mov r1, #0
 	strb r1, [r0, #0x118]
 	strb r1, [r0, #0x119]
 	mov r0, r2
 	bx lr
-	arm_func_end ov0_021511D4
+	arm_func_end _ZN25CFieldEffectFootStepSmoke28CFieldParticleOneShotEmitter6UpdateEi
 
 	arm_func_start ov0_021511EC
 ov0_021511EC: ; 0x021511EC
@@ -17219,71 +17219,71 @@ _02151810: .word ptr_FUN_overlay_0_02171730_overlay_0_0217ae18
 _02151814: .word ptr_FUN_overlay_0_0217230c_overlay_0_0217af98
 	arm_func_end ov0_02151294
 
-	arm_func_start ov0_02151818
-ov0_02151818: ; 0x02151818
+	arm_func_start _ZN24CFieldEffectLaserFactoryD1Ev
+_ZN24CFieldEffectLaserFactoryD1Ev: ; 0x02151818
 	bx lr
-	arm_func_end ov0_02151818
+	arm_func_end _ZN24CFieldEffectLaserFactoryD1Ev
 
-	arm_func_start ov0_0215181C
-ov0_0215181C: ; 0x0215181C
+	arm_func_start _ZN30CFieldEffectSpreadSmokeFactoryD1Ev
+_ZN30CFieldEffectSpreadSmokeFactoryD1Ev: ; 0x0215181C
 	bx lr
-	arm_func_end ov0_0215181C
+	arm_func_end _ZN30CFieldEffectSpreadSmokeFactoryD1Ev
 
-	arm_func_start ov0_02151820
-ov0_02151820: ; 0x02151820
+	arm_func_start _ZN24CFieldEffectSteamFactoryD1Ev
+_ZN24CFieldEffectSteamFactoryD1Ev: ; 0x02151820
 	bx lr
-	arm_func_end ov0_02151820
+	arm_func_end _ZN24CFieldEffectSteamFactoryD1Ev
 
-	arm_func_start ov0_02151824
-ov0_02151824: ; 0x02151824
+	arm_func_start _ZN32CFieldEffectScatterLeavesFactoryD1Ev
+_ZN32CFieldEffectScatterLeavesFactoryD1Ev: ; 0x02151824
 	bx lr
-	arm_func_end ov0_02151824
+	arm_func_end _ZN32CFieldEffectScatterLeavesFactoryD1Ev
 
-	arm_func_start ov0_02151828
-ov0_02151828: ; 0x02151828
+	arm_func_start _ZN29CFieldEffectWaveBulletFactoryD1Ev
+_ZN29CFieldEffectWaveBulletFactoryD1Ev: ; 0x02151828
 	bx lr
-	arm_func_end ov0_02151828
+	arm_func_end _ZN29CFieldEffectWaveBulletFactoryD1Ev
 
-	arm_func_start ov0_0215182C
-ov0_0215182C: ; 0x0215182C
+	arm_func_start _ZN34CFieldEffectAttackCellAnimeFactoryD1Ev
+_ZN34CFieldEffectAttackCellAnimeFactoryD1Ev: ; 0x0215182C
 	bx lr
-	arm_func_end ov0_0215182C
+	arm_func_end _ZN34CFieldEffectAttackCellAnimeFactoryD1Ev
 
-	arm_func_start ov0_02151830
-ov0_02151830: ; 0x02151830
+	arm_func_start _ZN33CFieldEffectParabolaBulletFactoryD1Ev
+_ZN33CFieldEffectParabolaBulletFactoryD1Ev: ; 0x02151830
 	bx lr
-	arm_func_end ov0_02151830
+	arm_func_end _ZN33CFieldEffectParabolaBulletFactoryD1Ev
 
-	arm_func_start ov0_02151834
-ov0_02151834: ; 0x02151834
+	arm_func_start _ZN24CFieldEffectSprayFactoryD1Ev
+_ZN24CFieldEffectSprayFactoryD1Ev: ; 0x02151834
 	bx lr
-	arm_func_end ov0_02151834
+	arm_func_end _ZN24CFieldEffectSprayFactoryD1Ev
 
-	arm_func_start ov0_02151838
-ov0_02151838: ; 0x02151838
+	arm_func_start _ZN34CFieldEffectNormalCellAnimeFactoryD1Ev
+_ZN34CFieldEffectNormalCellAnimeFactoryD1Ev: ; 0x02151838
 	bx lr
-	arm_func_end ov0_02151838
+	arm_func_end _ZN34CFieldEffectNormalCellAnimeFactoryD1Ev
 
-	arm_func_start ov0_0215183C
-ov0_0215183C: ; 0x0215183C
+	arm_func_start _ZN23CFieldEffectFireFactoryD1Ev
+_ZN23CFieldEffectFireFactoryD1Ev: ; 0x0215183C
 	bx lr
-	arm_func_end ov0_0215183C
+	arm_func_end _ZN23CFieldEffectFireFactoryD1Ev
 
-	arm_func_start ov0_02151840
-ov0_02151840: ; 0x02151840
+	arm_func_start _ZN24CFieldEffectSparkFactoryD1Ev
+_ZN24CFieldEffectSparkFactoryD1Ev: ; 0x02151840
 	bx lr
-	arm_func_end ov0_02151840
+	arm_func_end _ZN24CFieldEffectSparkFactoryD1Ev
 
-	arm_func_start ov0_02151844
-ov0_02151844: ; 0x02151844
+	arm_func_start _ZN24CFieldEffectJumonFactoryD1Ev
+_ZN24CFieldEffectJumonFactoryD1Ev: ; 0x02151844
 	bx lr
-	arm_func_end ov0_02151844
+	arm_func_end _ZN24CFieldEffectJumonFactoryD1Ev
 
-	arm_func_start ov0_02151848
-ov0_02151848: ; 0x02151848
+	arm_func_start _ZN23CFieldEffectBushFactoryD1Ev
+_ZN23CFieldEffectBushFactoryD1Ev: ; 0x02151848
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r3, _0215186C ; =ov0_0216521C
+	ldr r3, _0215186C ; =_ZN16CFieldEffectBushD1Ev
 	add r0, r4, #4
 	mov r1, #0x10
 	mov r2, #0x74
@@ -17291,14 +17291,14 @@ ov0_02151848: ; 0x02151848
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215186C: .word ov0_0216521C
-	arm_func_end ov0_02151848
+_0215186C: .word _ZN16CFieldEffectBushD1Ev
+	arm_func_end _ZN23CFieldEffectBushFactoryD1Ev
 
-	arm_func_start ov0_02151870
-ov0_02151870: ; 0x02151870
+	arm_func_start _ZN30CFieldEffectWaterSplashFactoryD1Ev
+_ZN30CFieldEffectWaterSplashFactoryD1Ev: ; 0x02151870
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r3, _02151894 ; =ov0_0216586C
+	ldr r3, _02151894 ; =_ZN23CFieldEffectWaterSplashD1Ev
 	add r0, r4, #4
 	mov r1, #0x10
 	mov r2, #0x80
@@ -17306,33 +17306,33 @@ ov0_02151870: ; 0x02151870
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02151894: .word ov0_0216586C
-	arm_func_end ov0_02151870
+_02151894: .word _ZN23CFieldEffectWaterSplashD1Ev
+	arm_func_end _ZN30CFieldEffectWaterSplashFactoryD1Ev
 
-	arm_func_start ov0_02151898
-ov0_02151898: ; 0x02151898
+	arm_func_start _ZN28CFieldEffectDarkCloudFactoryD1Ev
+_ZN28CFieldEffectDarkCloudFactoryD1Ev: ; 0x02151898
 	bx lr
-	arm_func_end ov0_02151898
+	arm_func_end _ZN28CFieldEffectDarkCloudFactoryD1Ev
 
-	arm_func_start ov0_0215189C
-ov0_0215189C: ; 0x0215189C
+	arm_func_start _ZN28CFieldEffectFireworksFactoryD1Ev
+_ZN28CFieldEffectFireworksFactoryD1Ev: ; 0x0215189C
 	bx lr
-	arm_func_end ov0_0215189C
+	arm_func_end _ZN28CFieldEffectFireworksFactoryD1Ev
 
-	arm_func_start ov0_021518A0
-ov0_021518A0: ; 0x021518A0
+	arm_func_start _ZN29CFieldEffectDarkShadowFactoryD1Ev
+_ZN29CFieldEffectDarkShadowFactoryD1Ev: ; 0x021518A0
 	bx lr
-	arm_func_end ov0_021518A0
+	arm_func_end _ZN29CFieldEffectDarkShadowFactoryD1Ev
 
-	arm_func_start ov0_021518A4
-ov0_021518A4: ; 0x021518A4
+	arm_func_start _ZN32CFieldEffectDarknessClearFactoryD1Ev
+_ZN32CFieldEffectDarknessClearFactoryD1Ev: ; 0x021518A4
 	bx lr
-	arm_func_end ov0_021518A4
+	arm_func_end _ZN32CFieldEffectDarknessClearFactoryD1Ev
 
-	arm_func_start ov0_021518A8
-ov0_021518A8: ; 0x021518A8
+	arm_func_start _ZN31CFieldEffectRisingPhotonFactoryD1Ev
+_ZN31CFieldEffectRisingPhotonFactoryD1Ev: ; 0x021518A8
 	bx lr
-	arm_func_end ov0_021518A8
+	arm_func_end _ZN31CFieldEffectRisingPhotonFactoryD1Ev
 
 	arm_func_start _ZN17UnkClass_021518ACC1Ev
 _ZN17UnkClass_021518ACC1Ev: ; 0x021518AC
@@ -17372,42 +17372,42 @@ _ZN17UnkClass_021518AC12ov0_021518F4Ev: ; 0x021518F4
 	beq _021519AC
 	add r0, r4, #0x3b8
 	add r0, r0, #0x3000
-	bl ov0_0217230C
+	bl _ZN31CFieldEffectSpaceCreviceFactoryD1Ev
 	add r0, r4, #0x388
 	add r0, r0, #0x3000
-	bl ov0_02171730
+	bl _ZN33CFieldEffectBlackStoneAuraFactoryD1Ev
 	add r0, r4, #0x358
 	add r0, r0, #0x3000
-	bl ov0_02170E44
+	bl _ZN26CFieldEffectGlitterFactoryD1Ev
 	add r0, r4, #0x31c
 	add r0, r0, #0x3000
-	bl ov0_0216FE40
+	bl _ZN30CFieldEffectFuwanteWindFactoryD1Ev
 	add r0, r4, #0x2ec
 	add r0, r0, #0x3000
-	bl ov0_0216EDB8
+	bl _ZN32CFieldEffectVolcanicSteamFactoryD1Ev
 	add r0, r4, #0x24c
 	add r0, r0, #0x3000
-	bl ov0_021672A0
+	bl _ZN24CFieldEffectBloomFactoryD1Ev
 	add r0, r4, #0x88
 	add r0, r0, #0x1000
-	bl ov0_02151B64
+	bl _ZN24CFieldEffectManpuFactoryD1Ev
 	add r0, r4, #0x88
 	add r0, r0, #0x800
 	mov r1, #0x10
 	mov r2, #0x80
-	ldr r3, _021519B8 ; =ov0_0216586C
+	ldr r3, _021519B8 ; =_ZN23CFieldEffectWaterSplashD1Ev
 	bl __cxa_vec_cleanup
 	add r0, r4, #0x144
 	mov r1, #0x10
 	mov r2, #0x74
-	ldr r3, _021519BC ; =ov0_0216521C
+	ldr r3, _021519BC ; =_ZN16CFieldEffectBushD1Ev
 	bl __cxa_vec_cleanup
 	add r0, r4, #0xf4
-	bl ov0_02163690
+	bl _ZN24CFieldEffectSlimeFactoryD1Ev
 	add r0, r4, #0x80
-	bl ov0_0216288C
+	bl _ZN28CFieldEffectExplosionFactoryD1Ev
 	add r0, r4, #0x2c
-	bl ov0_0215F34C
+	bl _ZN28CFieldEffectPoisonGasFactoryD1Ev
 	mov r0, r4
 	bl _ZdlPv
 	arm_func_end _ZN17UnkClass_021518AC12ov0_021518F4Ev
@@ -17416,15 +17416,15 @@ _021519AC:
 	str r0, [r5]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_021519B8: .word ov0_0216586C
-_021519BC: .word ov0_0216521C
+_021519B8: .word _ZN23CFieldEffectWaterSplashD1Ev
+_021519BC: .word _ZN16CFieldEffectBushD1Ev
 
 	arm_func_start ov0_021519C0
 ov0_021519C0: ; 0x021519C0
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _02151B0C ; =ptr_FUN_overlay_0_02151b64_overlay_0_02177ee8
 	mov r4, r0
-	ldr r5, _02151B10 ; =ov0_02150594
+	ldr r5, _02151B10 ; =_ZN26CFieldManpuEffectActorDataD1Ev
 	str r1, [r4]
 	ldr r3, _02151B14 ; =ov0_02151B28
 	add r0, r4, #4
@@ -17506,7 +17506,7 @@ ov0_021519C0: ; 0x021519C0
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02151B0C: .word ptr_FUN_overlay_0_02151b64_overlay_0_02177ee8
-_02151B10: .word ov0_02150594
+_02151B10: .word _ZN26CFieldManpuEffectActorDataD1Ev
 _02151B14: .word ov0_02151B28
 _02151B18: .word ov0_0216D430
 _02151B1C: .word ov0_0216D420
@@ -17534,8 +17534,8 @@ _02151B5C: .word _ZTV16CEffectActorData+8
 _02151B60: .word ptr_FUN_overlay_0_02150594_overlay_0_02177bb4
 	arm_func_end ov0_02151B28
 
-	arm_func_start ov0_02151B64
-ov0_02151B64: ; 0x02151B64
+	arm_func_start _ZN24CFieldEffectManpuFactoryD1Ev
+_ZN24CFieldEffectManpuFactoryD1Ev: ; 0x02151B64
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _02151C34 ; =ptr_FUN_overlay_0_02151b64_overlay_0_02177ee8
 	mov r4, r0
@@ -17572,7 +17572,7 @@ ov0_02151B64: ; 0x02151B64
 	add r0, r4, #0x1ac
 	add r0, r0, #0x2000
 	bl ov0_0216D508
-	arm_func_end ov0_02151B64
+	arm_func_end _ZN24CFieldEffectManpuFactoryD1Ev
 _02151BF4:
 	add r0, r4, #0x1ac
 	ldr r5, _02151C3C ; =OVERLAY0_BSS_0217B0E0
@@ -17583,7 +17583,7 @@ _02151BF4:
 	mov r2, #8
 	str ip, [r5]
 	bl __cxa_vec_cleanup
-	ldr r3, _02151C44 ; =ov0_02150594
+	ldr r3, _02151C44 ; =_ZN26CFieldManpuEffectActorDataD1Ev
 	add r0, r4, #4
 	mov r1, #8
 	mov r2, #0x34
@@ -17595,7 +17595,7 @@ _02151C34: .word ptr_FUN_overlay_0_02151b64_overlay_0_02177ee8
 _02151C38: .word MAIN_BSS_0210CA60
 _02151C3C: .word OVERLAY0_BSS_0217B0E0
 _02151C40: .word ov0_0216D430
-_02151C44: .word ov0_02150594
+_02151C44: .word _ZN26CFieldManpuEffectActorDataD1Ev
 
 	arm_func_start ov0_02151C48
 ov0_02151C48: ; 0x02151C48
@@ -17646,7 +17646,7 @@ _02151CD8:
 	mov r2, #8
 	str ip, [r5]
 	bl __cxa_vec_cleanup
-	ldr r3, _02151D30 ; =ov0_02150594
+	ldr r3, _02151D30 ; =_ZN26CFieldManpuEffectActorDataD1Ev
 	add r0, r4, #4
 	mov r1, #8
 	mov r2, #0x34
@@ -17660,10 +17660,10 @@ _02151D20: .word ptr_FUN_overlay_0_02151b64_overlay_0_02177ee8
 _02151D24: .word MAIN_BSS_0210CA60
 _02151D28: .word OVERLAY0_BSS_0217B0E0
 _02151D2C: .word ov0_0216D430
-_02151D30: .word ov0_02150594
+_02151D30: .word _ZN26CFieldManpuEffectActorDataD1Ev
 
-	arm_func_start ov0_02151D34
-ov0_02151D34: ; 0x02151D34
+	arm_func_start _ZN24CFieldEffectManpuFactory6CreateEi
+_ZN24CFieldEffectManpuFactory6CreateEi: ; 0x02151D34
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #4
 	mov r5, r1
@@ -17675,7 +17675,7 @@ ov0_02151D34: ; 0x02151D34
 	cmp r5, #0x2a
 	suble r5, r5, #0x24
 	ble _02151D6C
-	arm_func_end ov0_02151D34
+	arm_func_end _ZN24CFieldEffectManpuFactory6CreateEi
 _02151D60:
 	cmp r5, #0x41
 	moveq r5, #7
@@ -17958,12 +17958,12 @@ ov0_0215215C: ; 0x0215215C
 	bx lr
 	arm_func_end ov0_0215215C
 
-	arm_func_start ov0_02152160
-ov0_02152160: ; 0x02152160
+	arm_func_start _ZN24CFieldEffectManpuFactory6UpdateEi
+_ZN24CFieldEffectManpuFactory6UpdateEi: ; 0x02152160
 	stmdb sp!, {r3, r4, r5, lr}
 	add r5, r0, #4
 	mov r4, #0
-	arm_func_end ov0_02152160
+	arm_func_end _ZN24CFieldEffectManpuFactory6UpdateEi
 _0215216C:
 	cmp r4, #5
 	beq _02152184
@@ -17978,17 +17978,17 @@ _02152184:
 	blt _0215216C
 	ldmia sp!, {r3, r4, r5, pc}
 
-	arm_func_start ov0_02152198
-ov0_02152198: ; 0x02152198
+	arm_func_start _ZN24CFieldEffectManpuFactory5ResetEv
+_ZN24CFieldEffectManpuFactory5ResetEv: ; 0x02152198
 	ldr ip, _021521A4 ; =ov0_0215215C
 	mov r1, #0x2b
 	bx ip
 	.align 2, 0
 _021521A4: .word ov0_0215215C
-	arm_func_end ov0_02152198
+	arm_func_end _ZN24CFieldEffectManpuFactory5ResetEv
 
-	arm_func_start ov0_021521A8
-ov0_021521A8: ; 0x021521A8
+	arm_func_start _ZN24CFieldEffectManpuFactory7ReleaseEP18CFieldEffectManage
+_ZN24CFieldEffectManpuFactory7ReleaseEP18CFieldEffectManage: ; 0x021521A8
 	stmdb sp!, {r3, r4, r5, lr}
 	add r4, r1, #0x27c
 	mov r5, r0
@@ -18020,20 +18020,20 @@ ov0_021521A8: ; 0x021521A8
 	add r0, r2, #0x2000
 	bl ov0_0216D508
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ov0_021521A8
+	arm_func_end _ZN24CFieldEffectManpuFactory7ReleaseEP18CFieldEffectManage
 
-	arm_func_start ov0_02152224
-ov0_02152224: ; 0x02152224
+	arm_func_start _ZN24CFieldEffectManpuBalloon7SetTypeEi
+_ZN24CFieldEffectManpuBalloon7SetTypeEi: ; 0x02152224
 	cmp r1, #0
 	cmpne r1, #1
 	cmpne r1, #2
 	streqh r1, [r0, #0x56]
 	str r1, [r0, #0x24]
 	bx lr
-	arm_func_end ov0_02152224
+	arm_func_end _ZN24CFieldEffectManpuBalloon7SetTypeEi
 
-	arm_func_start ov0_0215223C
-ov0_0215223C: ; 0x0215223C
+	arm_func_start _ZN24CFieldEffectManpuBalloon12ov0_02142264Ei
+_ZN24CFieldEffectManpuBalloon12ov0_02142264Ei: ; 0x0215223C
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	sub sp, sp, #0x40
 	mov r6, r0
@@ -18056,7 +18056,7 @@ ov0_0215223C: ; 0x0215223C
 	str r3, [sp, #0x10]
 	str r1, [sp, #0x14]
 	b _021522A8
-	arm_func_end ov0_0215223C
+	arm_func_end _ZN24CFieldEffectManpuBalloon12ov0_02142264Ei
 _02152294:
 	add r1, sp, #0x28
 	str r4, [sp, #0x10]
@@ -18159,8 +18159,8 @@ _021523BC:
 	add sp, sp, #0x40
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 
-	arm_func_start ov0_02152400
-ov0_02152400: ; 0x02152400
+	arm_func_start _ZN24CFieldEffectManpuBalloon4DrawEP8Camera2D
+_ZN24CFieldEffectManpuBalloon4DrawEP8Camera2D: ; 0x02152400
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r2, _02152440 ; =MAIN_BSS_0210CA40
 	mov r5, r0
@@ -18179,10 +18179,10 @@ ov0_02152400: ; 0x02152400
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02152440: .word MAIN_BSS_0210CA40
-	arm_func_end ov0_02152400
+	arm_func_end _ZN24CFieldEffectManpuBalloon4DrawEP8Camera2D
 
-	arm_func_start ov0_02152444
-ov0_02152444: ; 0x02152444
+	arm_func_start _ZN24CFieldEffectManpuBalloonD1Ev
+_ZN24CFieldEffectManpuBalloonD1Ev: ; 0x02152444
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x2c
@@ -18191,7 +18191,7 @@ ov0_02152444: ; 0x02152444
 	bl _ZN17CFieldEffectManpuD2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	arm_func_end ov0_02152444
+	arm_func_end _ZN24CFieldEffectManpuBalloonD1Ev
 
 	arm_func_start ov0_02152464
 ov0_02152464: ; 0x02152464
@@ -18207,8 +18207,8 @@ ov0_02152464: ; 0x02152464
 	ldmia sp!, {r4, pc}
 	arm_func_end ov0_02152464
 
-	arm_func_start ov0_0215248C
-ov0_0215248C: ; 0x0215248C
+	arm_func_start _ZN24CFieldEffectManpuJumping12ov0_02142264Ei
+_ZN24CFieldEffectManpuJumping12ov0_02142264Ei: ; 0x0215248C
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #0x38
 	mov r5, r0
@@ -18226,7 +18226,7 @@ ov0_0215248C: ; 0x0215248C
 	str r3, [sp, #0x10]
 	str r1, [sp, #0x14]
 	b _021524E8
-	arm_func_end ov0_0215248C
+	arm_func_end _ZN24CFieldEffectManpuJumping12ov0_02142264Ei
 _021524D0:
 	mov r1, #0
 	add r3, sp, #0x28
@@ -18343,8 +18343,8 @@ _0215262C:
 _0215266C: .word 0x00001333
 _02152670: .word 0xFFFFFCCD
 
-	arm_func_start ov0_02152674
-ov0_02152674: ; 0x02152674
+	arm_func_start _ZN24CFieldEffectManpuJumping4DrawEP8Camera2D
+_ZN24CFieldEffectManpuJumping4DrawEP8Camera2D: ; 0x02152674
 	stmdb sp!, {r3, lr}
 	ldr r2, [r0, #0x1c]
 	cmp r2, #0
@@ -18355,20 +18355,20 @@ ov0_02152674: ; 0x02152674
 	blx r2
 	mov r0, #0
 	ldmia sp!, {r3, pc}
-	arm_func_end ov0_02152674
+	arm_func_end _ZN24CFieldEffectManpuJumping4DrawEP8Camera2D
 
-	arm_func_start ov0_0215269C
-ov0_0215269C: ; 0x0215269C
+	arm_func_start _ZN24CFieldEffectManpuJumping12ov0_021421F0Eiii
+_ZN24CFieldEffectManpuJumping12ov0_021421F0Eiii: ; 0x0215269C
 	ldr ip, _021526AC ; =_ZN12CFieldEffect12ov0_021421F0Eiii
 	cmp r1, #0
 	addgt r1, r1, #4
 	bx ip
 	.align 2, 0
 _021526AC: .word _ZN12CFieldEffect12ov0_021421F0Eiii
-	arm_func_end ov0_0215269C
+	arm_func_end _ZN24CFieldEffectManpuJumping12ov0_021421F0Eiii
 
-	arm_func_start ov0_021526B0
-ov0_021526B0: ; 0x021526B0
+	arm_func_start _ZN24CFieldEffectManpuJumpingD1Ev
+_ZN24CFieldEffectManpuJumpingD1Ev: ; 0x021526B0
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x2c
@@ -18377,7 +18377,7 @@ ov0_021526B0: ; 0x021526B0
 	bl _ZN17CFieldEffectManpuD2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	arm_func_end ov0_021526B0
+	arm_func_end _ZN24CFieldEffectManpuJumpingD1Ev
 
 	arm_func_start ov0_021526D0
 ov0_021526D0: ; 0x021526D0
@@ -18441,8 +18441,8 @@ _0215279C: .word _ZTV23CFieldEffectManpuSimple+8
 _021527A0: .word ptr_FUN_overlay_0_021527a4_overlay_0_02178060
 	arm_func_end ov0_021526F8
 
-	arm_func_start ov0_021527A4
-ov0_021527A4: ; 0x021527A4
+	arm_func_start _ZN22CFieldEffectManpuAnimeD1Ev
+_ZN22CFieldEffectManpuAnimeD1Ev: ; 0x021527A4
 	stmdb sp!, {r4, lr}
 	ldr r1, _021527D8 ; =ptr_FUN_overlay_0_021527a4_overlay_0_02178060
 	mov r4, r0
@@ -18458,7 +18458,7 @@ ov0_021527A4: ; 0x021527A4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021527D8: .word ptr_FUN_overlay_0_021527a4_overlay_0_02178060
-	arm_func_end ov0_021527A4
+	arm_func_end _ZN22CFieldEffectManpuAnimeD1Ev
 
 	arm_func_start ov0_021527DC
 ov0_021527DC: ; 0x021527DC
@@ -18500,8 +18500,8 @@ ov0_0215281C: ; 0x0215281C
 _02152850: .word ptr_FUN_overlay_0_021527a4_overlay_0_02178060
 	arm_func_end ov0_0215281C
 
-	arm_func_start ov0_02152854
-ov0_02152854: ; 0x02152854
+	arm_func_start _ZN22CFieldEffectManpuAnime12ov0_02142264Ei
+_ZN22CFieldEffectManpuAnime12ov0_02142264Ei: ; 0x02152854
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r2, [r0]
 	mov r6, r0
@@ -18522,7 +18522,7 @@ ov0_02152854: ; 0x02152854
 	mov r0, r4
 	bl _ZN17UnkClass_0200878812sub_02008828Et
 	strh r0, [r6, #0x56]
-	arm_func_end ov0_02152854
+	arm_func_end _ZN22CFieldEffectManpuAnime12ov0_02142264Ei
 _021528A4:
 	mov r0, r6
 	mov r1, r5
@@ -18607,8 +18607,8 @@ _0215299C:
 	add sp, sp, #0x38
 	ldmia sp!, {r3, pc}
 
-	arm_func_start ov0_021529C4
-ov0_021529C4: ; 0x021529C4
+	arm_func_start _ZN22CFieldEffectManpuAnime4DrawEP8Camera2D
+_ZN22CFieldEffectManpuAnime4DrawEP8Camera2D: ; 0x021529C4
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r2, [r5, #0x1c]
@@ -18620,7 +18620,7 @@ ov0_021529C4: ; 0x021529C4
 	bl _ZN17CFieldEffectManpu9IsVisibleEv
 	cmp r0, #0
 	bne _021529F8
-	arm_func_end ov0_021529C4
+	arm_func_end _ZN22CFieldEffectManpuAnime4DrawEP8Camera2D
 _021529F0:
 	mov r0, #0
 	ldmia sp!, {r3, r4, r5, pc}
@@ -26994,8 +26994,8 @@ _02159E48:
 	.align 2, 0
 _02159E74: .word PTR_LAB_overlay_0_02159e78_overlay_0_02178200
 
-	arm_func_start ov0_02159E78
-ov0_02159E78: ; 0x02159E78
+	arm_func_start _ZN12CFieldCannonD1Ev
+_ZN12CFieldCannonD1Ev: ; 0x02159E78
 	stmdb sp!, {r4, lr}
 	ldr r1, _02159E9C ; =PTR_LAB_overlay_0_02159e78_overlay_0_02178200
 	mov r4, r0
@@ -27007,7 +27007,7 @@ ov0_02159E78: ; 0x02159E78
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02159E9C: .word PTR_LAB_overlay_0_02159e78_overlay_0_02178200
-	arm_func_end ov0_02159E78
+	arm_func_end _ZN12CFieldCannonD1Ev
 
 	arm_func_start ov0_02159EA0
 ov0_02159EA0: ; 0x02159EA0
@@ -27514,8 +27514,8 @@ _0215A544: .word PTR_LAB_overlay_0_0215a54c_overlay_0_02178248
 _0215A548: .word MAIN_BSS_0210CA48
 	arm_func_end ov0_0215A500
 
-	arm_func_start ov0_0215A54C
-ov0_0215A54C: ; 0x0215A54C
+	arm_func_start _ZN16CFieldCannonUnitD1Ev
+_ZN16CFieldCannonUnitD1Ev: ; 0x0215A54C
 	stmdb sp!, {r4, lr}
 	ldr r1, _0215A570 ; =PTR_LAB_overlay_0_0215a54c_overlay_0_02178248
 	mov r4, r0
@@ -27527,7 +27527,7 @@ ov0_0215A54C: ; 0x0215A54C
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215A570: .word PTR_LAB_overlay_0_0215a54c_overlay_0_02178248
-	arm_func_end ov0_0215A54C
+	arm_func_end _ZN16CFieldCannonUnitD1Ev
 
 	arm_func_start ov0_0215A574
 ov0_0215A574: ; 0x0215A574
@@ -28025,8 +28025,8 @@ ov0_0215ABF8: ; 0x0215ABF8
 _0215AC20: .word PTR_LAB_overlay_0_0215ad00_overlay_0_0217829c
 	arm_func_end ov0_0215ABF8
 
-	arm_func_start ov0_0215AC24
-ov0_0215AC24: ; 0x0215AC24
+	arm_func_start _ZN27CFieldParticleSmokeAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
+_ZN27CFieldParticleSmokeAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi: ; 0x0215AC24
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
 	mov sb, r0
 	mov r8, r1
@@ -28083,12 +28083,12 @@ ov0_0215AC24: ; 0x0215AC24
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
 	.align 2, 0
 _0215ACFC: .word FX_SinCosTable_
-	arm_func_end ov0_0215AC24
+	arm_func_end _ZN27CFieldParticleSmokeAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
 
-	arm_func_start ov0_0215AD00
-ov0_0215AD00: ; 0x0215AD00
+	arm_func_start _ZN27CFieldParticleSmokeAnimatorD1Ev
+_ZN27CFieldParticleSmokeAnimatorD1Ev: ; 0x0215AD00
 	bx lr
-	arm_func_end ov0_0215AD00
+	arm_func_end _ZN27CFieldParticleSmokeAnimatorD1Ev
 
 	arm_func_start ov0_0215AD04
 ov0_0215AD04: ; 0x0215AD04
@@ -28165,21 +28165,21 @@ _0215ADFC:
 	.align 2, 0
 _0215AE04: .word ptr_FUN_overlay_0_0215af0c_overlay_0_0217845c
 
-	arm_func_start ov0_0215AE08
-ov0_0215AE08: ; 0x0215AE08
+	arm_func_start _ZN17CFieldEffectSteam12sub_0203312CEii
+_ZN17CFieldEffectSteam12sub_0203312CEii: ; 0x0215AE08
 	stmdb sp!, {r3, lr}
 	cmp r1, #7
 	bne _0215AE20
 	strb r2, [r0, #0x90]
 	mov r0, #1
 	ldmia sp!, {r3, pc}
-	arm_func_end ov0_0215AE08
+	arm_func_end _ZN17CFieldEffectSteam12sub_0203312CEii
 _0215AE20:
-	bl ov0_0215B01C
+	bl _ZN17TFieldEffectSmokeI15CSoftwareSpriteE12sub_0203312CEii
 	ldmia sp!, {r3, pc}
 
-	arm_func_start ov0_0215AE28
-ov0_0215AE28: ; 0x0215AE28
+	arm_func_start _ZN24CFieldEffectSteamFactory6CreateEi
+_ZN24CFieldEffectSteamFactory6CreateEi: ; 0x0215AE28
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0xc
 	mov r0, #0x94
@@ -28190,7 +28190,7 @@ ov0_0215AE28: ; 0x0215AE28
 	mov r1, r5
 	bl ov0_0215AD18
 	mov r4, r0
-	arm_func_end ov0_0215AE28
+	arm_func_end _ZN24CFieldEffectSteamFactory6CreateEi
 _0215AE50:
 	cmp r4, #0
 	ldrne r0, _0215AEDC ; =MAIN_BSS_0210CA60
@@ -28242,26 +28242,26 @@ ov0_0215AEE0: ; 0x0215AEE0
 	ldmia sp!, {r4, pc}
 	arm_func_end ov0_0215AEE0
 
-	arm_func_start ov0_0215AEFC
-ov0_0215AEFC: ; 0x0215AEFC
+	arm_func_start _ZN17CFieldEffectSteam13GetForceFieldEv
+_ZN17CFieldEffectSteam13GetForceFieldEv: ; 0x0215AEFC
 	add r0, r0, #0x80
 	bx lr
-	arm_func_end ov0_0215AEFC
+	arm_func_end _ZN17CFieldEffectSteam13GetForceFieldEv
 
-	arm_func_start ov0_0215AF04
-ov0_0215AF04: ; 0x0215AF04
+	arm_func_start _ZN17CFieldEffectSteam12sub_02033028Ev
+_ZN17CFieldEffectSteam12sub_02033028Ev: ; 0x0215AF04
 	mov r0, #9
 	bx lr
-	arm_func_end ov0_0215AF04
+	arm_func_end _ZN17CFieldEffectSteam12sub_02033028Ev
 
-	arm_func_start ov0_0215AF0C
-ov0_0215AF0C: ; 0x0215AF0C
+	arm_func_start _ZN17CFieldEffectSteamD1Ev
+_ZN17CFieldEffectSteamD1Ev: ; 0x0215AF0C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl ov0_0215B338
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	arm_func_end ov0_0215AF0C
+	arm_func_end _ZN17CFieldEffectSteamD1Ev
 
 	arm_func_start ov0_0215AF20
 ov0_0215AF20: ; 0x0215AF20
@@ -28331,8 +28331,8 @@ _0215B014: .word PTR_LAB_overlay_0_0215bdb4_overlay_0_02178348
 _0215B018: .word PTR_LAB_overlay_0_0215b7fc_overlay_0_02178384
 	arm_func_end ov0_0215AF20
 
-	arm_func_start ov0_0215B01C
-ov0_0215B01C: ; 0x0215B01C
+	arm_func_start _ZN17TFieldEffectSmokeI15CSoftwareSpriteE12sub_0203312CEii
+_ZN17TFieldEffectSmokeI15CSoftwareSpriteE12sub_0203312CEii: ; 0x0215B01C
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #4
 	mov r6, r0
@@ -28351,7 +28351,7 @@ _0215B03C: ; jump table
 	b _0215B06C ; case 6
 	b _0215B0A8 ; case 7
 	b _0215B098 ; case 8
-	arm_func_end ov0_0215B01C
+	arm_func_end _ZN17TFieldEffectSmokeI15CSoftwareSpriteE12sub_0203312CEii
 _0215B060:
 	add sp, sp, #4
 	str r5, [r6, #0x5c]
@@ -28556,11 +28556,11 @@ _0215B310:
 _0215B328: .word ov0_021450CC
 _0215B32C: .word ov0_0214509C
 
-	arm_func_start ov0_0215B330
-ov0_0215B330: ; 0x0215B330
+	arm_func_start _ZN17TFieldEffectSmokeI15CSoftwareSpriteE10GetEmitterEv
+_ZN17TFieldEffectSmokeI15CSoftwareSpriteE10GetEmitterEv: ; 0x0215B330
 	add r0, r0, #0x28
 	bx lr
-	arm_func_end ov0_0215B330
+	arm_func_end _ZN17TFieldEffectSmokeI15CSoftwareSpriteE10GetEmitterEv
 
 	arm_func_start ov0_0215B338
 ov0_0215B338: ; 0x0215B338
@@ -28672,8 +28672,8 @@ _0215B494: .word ptr_FUN_overlay_0_0215bcf0_overlay_0_0217853c
 _0215B498: .word ov0_021450CC
 _0215B49C: .word _ZTV12CFieldEffect+8
 
-	arm_func_start ov0_0215B4A0
-ov0_0215B4A0: ; 0x0215B4A0
+	arm_func_start _ZN20TFieldEffectParticleI15CSoftwareSpriteE12ov0_021421F0Eiii
+_ZN20TFieldEffectParticleI15CSoftwareSpriteE12ov0_021421F0Eiii: ; 0x0215B4A0
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	ldr ip, [r0]
 	mov r7, r0
@@ -28687,7 +28687,7 @@ ov0_0215B4A0: ; 0x0215B4A0
 	ldr r1, [r0]
 	ldr r1, [r1, #8]
 	blx r1
-	arm_func_end ov0_0215B4A0
+	arm_func_end _ZN20TFieldEffectParticleI15CSoftwareSpriteE12ov0_021421F0Eiii
 _0215B4D4:
 	mov r0, r7
 	mov r1, r6
@@ -28696,8 +28696,8 @@ _0215B4D4:
 	bl _ZN12CFieldEffect12ov0_021421F0Eiii
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 
-	arm_func_start ov0_0215B4EC
-ov0_0215B4EC: ; 0x0215B4EC
+	arm_func_start _ZN20TFieldEffectParticleI15CSoftwareSpriteE12sub_0203312CEii
+_ZN20TFieldEffectParticleI15CSoftwareSpriteE12sub_0203312CEii: ; 0x0215B4EC
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #4
 	mov r6, r0
@@ -28711,7 +28711,7 @@ ov0_0215B4EC: ; 0x0215B4EC
 	beq _0215B764
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, r5, r6, pc}
-	arm_func_end ov0_0215B4EC
+	arm_func_end _ZN20TFieldEffectParticleI15CSoftwareSpriteE12sub_0203312CEii
 _0215B520:
 	cmp r5, #0
 	ble _0215B740
@@ -28883,8 +28883,8 @@ _0215B764:
 _0215B77C: .word ov0_021450CC
 _0215B780: .word ov0_0214509C
 
-	arm_func_start ov0_0215B784
-ov0_0215B784: ; 0x0215B784
+	arm_func_start _ZN20TFieldEffectParticleI15CSoftwareSpriteE12ov0_02142344EP8Camera2D
+_ZN20TFieldEffectParticleI15CSoftwareSpriteE12ov0_02142344EP8Camera2D: ; 0x0215B784
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r5, [r0, #0x18]
 	mov r6, r1
@@ -28892,7 +28892,7 @@ ov0_0215B784: ; 0x0215B784
 	ldrne r4, [r5, #0x30]
 	cmpne r4, #0
 	beq _0215B7F4
-	arm_func_end ov0_0215B784
+	arm_func_end _ZN20TFieldEffectParticleI15CSoftwareSpriteE12ov0_02142344EP8Camera2D
 _0215B7A0:
 	ldr r0, [r5, #0x38]
 	cmp r0, #0
@@ -28919,10 +28919,10 @@ _0215B7F4:
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
 
-	arm_func_start ov0_0215B7FC
-ov0_0215B7FC: ; 0x0215B7FC
+	arm_func_start _ZN30TFieldParticleSmokeRectEmitterI15CSoftwareSpriteED1Ev
+_ZN30TFieldParticleSmokeRectEmitterI15CSoftwareSpriteED1Ev: ; 0x0215B7FC
 	bx lr
-	arm_func_end ov0_0215B7FC
+	arm_func_end _ZN30TFieldParticleSmokeRectEmitterI15CSoftwareSpriteED1Ev
 
 	arm_func_start ov0_0215B800
 ov0_0215B800: ; 0x0215B800
@@ -28989,8 +28989,8 @@ _0215B8C0: .word ptr_FUN_overlay_0_0215bcf0_overlay_0_0217853c
 _0215B8C4: .word ov0_021450CC
 _0215B8C8: .word _ZTV12CFieldEffect+8
 
-	arm_func_start ov0_0215B8CC
-ov0_0215B8CC: ; 0x0215B8CC
+	arm_func_start _ZN17TFieldEffectSmokeI15CSoftwareSpriteED1Ev
+_ZN17TFieldEffectSmokeI15CSoftwareSpriteED1Ev: ; 0x0215B8CC
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _0215B970 ; =ptr_FUN_overlay_0_0215bcf0_overlay_0_0217853c
 	mov r4, r0
@@ -29005,7 +29005,7 @@ ov0_0215B8CC: ; 0x0215B8CC
 	bl _ZdaPv
 	mov r0, #0
 	str r0, [r5, #0x10]
-	arm_func_end ov0_0215B8CC
+	arm_func_end _ZN17TFieldEffectSmokeI15CSoftwareSpriteED1Ev
 _0215B904:
 	ldr r0, [r5, #0xc]
 	cmp r0, #0
@@ -29043,12 +29043,12 @@ _0215B970: .word ptr_FUN_overlay_0_0215bcf0_overlay_0_0217853c
 _0215B974: .word ov0_021450CC
 _0215B978: .word _ZTV12CFieldEffect+8
 
-	arm_func_start ov0_0215B97C
-ov0_0215B97C: ; 0x0215B97C
+	arm_func_start _ZN30TFieldParticleSmokeRectEmitterI15CSoftwareSpriteE5func2Ev
+_ZN30TFieldParticleSmokeRectEmitterI15CSoftwareSpriteE5func2Ev: ; 0x0215B97C
 	mov r1, #0x1000
 	str r1, [r0, #0x30]
 	bx lr
-	arm_func_end ov0_0215B97C
+	arm_func_end _ZN30TFieldParticleSmokeRectEmitterI15CSoftwareSpriteE5func2Ev
 
 	arm_func_start ov0_0215B988
 ov0_0215B988: ; 0x0215B988
@@ -29057,8 +29057,8 @@ ov0_0215B988: ; 0x0215B988
 	bx lr
 	arm_func_end ov0_0215B988
 
-	arm_func_start ov0_0215B994
-ov0_0215B994: ; 0x0215B994
+	arm_func_start _ZN30TFieldParticleSmokeRectEmitterI15CSoftwareSpriteE6UpdateEi
+_ZN30TFieldParticleSmokeRectEmitterI15CSoftwareSpriteE6UpdateEi: ; 0x0215B994
 	ldr r2, [r0, #0x30]
 	mov r3, #0
 	cmp r2, #0
@@ -29072,13 +29072,13 @@ ov0_0215B994: ; 0x0215B994
 	cmp r1, #0
 	movgt r1, r1, lsl #0xc
 	strgt r1, [r0, #0x30]
-	arm_func_end ov0_0215B994
+	arm_func_end _ZN30TFieldParticleSmokeRectEmitterI15CSoftwareSpriteE6UpdateEi
 _0215B9C8:
 	mov r0, r3
 	bx lr
 
-	arm_func_start ov0_0215B9D0
-ov0_0215B9D0: ; 0x0215B9D0
+	arm_func_start _ZN30TFieldParticleSmokeRectEmitterI15CSoftwareSpriteE4EmitEP14TFieldParticleIS0_E
+_ZN30TFieldParticleSmokeRectEmitterI15CSoftwareSpriteE4EmitEP14TFieldParticleIS0_E: ; 0x0215B9D0
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	mov r7, r0
 	mov r6, r1
@@ -29159,7 +29159,7 @@ ov0_0215B9D0: ; 0x0215B9D0
 	beq _0215BB10
 	cmp r1, #1
 	b _0215BB1C
-	arm_func_end ov0_0215B9D0
+	arm_func_end _ZN30TFieldParticleSmokeRectEmitterI15CSoftwareSpriteE4EmitEP14TFieldParticleIS0_E
 _0215BB10:
 	ldr r1, _0215BCE8 ; =0x0000439C
 	strh r1, [r6, #8]
@@ -29296,8 +29296,8 @@ _0215BCE4: .word 0x00007FFF
 _0215BCE8: .word 0x0000439C
 _0215BCEC: .word 0x00000333
 
-	arm_func_start ov0_0215BCF0
-ov0_0215BCF0: ; 0x0215BCF0
+	arm_func_start _ZN20TFieldEffectParticleI15CSoftwareSpriteED1Ev
+_ZN20TFieldEffectParticleI15CSoftwareSpriteED1Ev: ; 0x0215BCF0
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _0215BD94 ; =ptr_FUN_overlay_0_0215bcf0_overlay_0_0217853c
 	mov r4, r0
@@ -29312,7 +29312,7 @@ ov0_0215BCF0: ; 0x0215BCF0
 	bl _ZdaPv
 	mov r0, #0
 	str r0, [r5, #0x10]
-	arm_func_end ov0_0215BCF0
+	arm_func_end _ZN20TFieldEffectParticleI15CSoftwareSpriteED1Ev
 _0215BD28:
 	ldr r0, [r5, #0xc]
 	cmp r0, #0
@@ -29359,10 +29359,10 @@ ov0_0215BDA0: ; 0x0215BDA0
 	ldmia sp!, {r4, pc}
 	arm_func_end ov0_0215BDA0
 
-	arm_func_start ov0_0215BDB4
-ov0_0215BDB4: ; 0x0215BDB4
+	arm_func_start _ZN25TFieldParticleRectEmitterI15CSoftwareSpriteED1Ev
+_ZN25TFieldParticleRectEmitterI15CSoftwareSpriteED1Ev: ; 0x0215BDB4
 	bx lr
-	arm_func_end ov0_0215BDB4
+	arm_func_end _ZN25TFieldParticleRectEmitterI15CSoftwareSpriteED1Ev
 
 	arm_func_start ov0_0215BDB8
 ov0_0215BDB8: ; 0x0215BDB8
@@ -29425,18 +29425,18 @@ _0215BE80: .word PTR_LAB_overlay_0_0215bdb4_overlay_0_02178348
 _0215BE84: .word PTR_LAB_overlay_0_0215be8c_overlay_0_0217861c
 	arm_func_end ov0_0215BDCC
 
-	arm_func_start ov0_0215BE88
-ov0_0215BE88: ; 0x0215BE88
+	arm_func_start _ZN28CFieldParticleLeavesAnimatorD1Ev
+_ZN28CFieldParticleLeavesAnimatorD1Ev: ; 0x0215BE88
 	bx lr
-	arm_func_end ov0_0215BE88
+	arm_func_end _ZN28CFieldParticleLeavesAnimatorD1Ev
 
-	arm_func_start ov0_0215BE8C
-ov0_0215BE8C: ; 0x0215BE8C
+	arm_func_start _ZN27CFieldParticleLeavesEmitterD1Ev
+_ZN27CFieldParticleLeavesEmitterD1Ev: ; 0x0215BE8C
 	bx lr
-	arm_func_end ov0_0215BE8C
+	arm_func_end _ZN27CFieldParticleLeavesEmitterD1Ev
 
-	arm_func_start ov0_0215BE90
-ov0_0215BE90: ; 0x0215BE90
+	arm_func_start _ZN25CFieldEffectScatterLeaves12sub_0203312CEii
+_ZN25CFieldEffectScatterLeaves12sub_0203312CEii: ; 0x0215BE90
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #4
 	mov r6, r0
@@ -29455,7 +29455,7 @@ _0215BEB0: ; jump table
 	b _0215BED4 ; case 6
 	b _0215BF1C ; case 7
 	b _0215BF0C ; case 8
-	arm_func_end ov0_0215BE90
+	arm_func_end _ZN25CFieldEffectScatterLeaves12sub_0203312CEii
 _0215BED4:
 	add sp, sp, #4
 	str r5, [r6, #0x64]
@@ -29660,8 +29660,8 @@ _0215C184:
 _0215C19C: .word ov0_021450CC
 _0215C1A0: .word ov0_0214509C
 
-	arm_func_start ov0_0215C1A4
-ov0_0215C1A4: ; 0x0215C1A4
+	arm_func_start _ZN27CFieldParticleLeavesEmitter6UpdateEi
+_ZN27CFieldParticleLeavesEmitter6UpdateEi: ; 0x0215C1A4
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r4, r0
 	ldr r2, [r4, #0x34]
@@ -29696,10 +29696,10 @@ ov0_0215C1A4: ; 0x0215C1A4
 	movgt r1, r1, lsl #0xc
 	strgt r1, [r4, #0x34]
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end ov0_0215C1A4
+	arm_func_end _ZN27CFieldParticleLeavesEmitter6UpdateEi
 
-	arm_func_start ov0_0215C22C
-ov0_0215C22C: ; 0x0215C22C
+	arm_func_start _ZN27CFieldParticleLeavesEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE
+_ZN27CFieldParticleLeavesEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE: ; 0x0215C22C
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	mov r5, r0
 	mov r4, r1
@@ -29806,7 +29806,7 @@ ov0_0215C22C: ; 0x0215C22C
 	subeq r5, r5, #0x16c
 	rsbeq ip, ip, #0
 	b _0215C3DC
-	arm_func_end ov0_0215C22C
+	arm_func_end _ZN27CFieldParticleLeavesEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE
 _0215C3D4:
 	sublt r5, r5, #0x16c
 	rsblt ip, ip, #0
@@ -29867,8 +29867,8 @@ _0215C4A0: .word 0x00007FFF
 _0215C4A4: .word DAT_overlay_0_021785d4
 _0215C4A8: .word FX_SinCosTable_
 
-	arm_func_start ov0_0215C4AC
-ov0_0215C4AC: ; 0x0215C4AC
+	arm_func_start _ZN28CFieldParticleLeavesAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
+_ZN28CFieldParticleLeavesAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi: ; 0x0215C4AC
 	stmdb sp!, {r3, lr}
 	ldr r0, _0215C4D8 ; =0x00000199
 	mov r3, r2, asr #0x1f
@@ -29882,10 +29882,10 @@ ov0_0215C4AC: ; 0x0215C4AC
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0215C4D8: .word 0x00000199
-	arm_func_end ov0_0215C4AC
+	arm_func_end _ZN28CFieldParticleLeavesAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
 
-	arm_func_start ov0_0215C4DC
-ov0_0215C4DC: ; 0x0215C4DC
+	arm_func_start _ZN32CFieldEffectScatterLeavesFactory6CreateEi
+_ZN32CFieldEffectScatterLeavesFactory6CreateEi: ; 0x0215C4DC
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0xc
 	mov r0, #0x6c
@@ -29896,7 +29896,7 @@ ov0_0215C4DC: ; 0x0215C4DC
 	mov r1, r5
 	bl ov0_0215BDCC
 	mov r4, r0
-	arm_func_end ov0_0215C4DC
+	arm_func_end _ZN32CFieldEffectScatterLeavesFactory6CreateEi
 _0215C504:
 	cmp r4, #0
 	ldrne r0, _0215C590 ; =MAIN_BSS_0210CA60
@@ -29937,30 +29937,30 @@ _0215C584:
 	.align 2, 0
 _0215C590: .word MAIN_BSS_0210CA60
 
-	arm_func_start ov0_0215C594
-ov0_0215C594: ; 0x0215C594
+	arm_func_start _ZN25CFieldEffectScatterLeaves10GetEmitterEv
+_ZN25CFieldEffectScatterLeaves10GetEmitterEv: ; 0x0215C594
 	add r0, r0, #0x2c
 	bx lr
-	arm_func_end ov0_0215C594
+	arm_func_end _ZN25CFieldEffectScatterLeaves10GetEmitterEv
 
-	arm_func_start ov0_0215C59C
-ov0_0215C59C: ; 0x0215C59C
+	arm_func_start _ZN25CFieldEffectScatterLeaves13GetForceFieldEv
+_ZN25CFieldEffectScatterLeaves13GetForceFieldEv: ; 0x0215C59C
 	add r0, r0, #0x28
 	bx lr
-	arm_func_end ov0_0215C59C
+	arm_func_end _ZN25CFieldEffectScatterLeaves13GetForceFieldEv
 
-	arm_func_start ov0_0215C5A4
-ov0_0215C5A4: ; 0x0215C5A4
+	arm_func_start _ZN25CFieldEffectScatterLeaves12sub_02033028Ev
+_ZN25CFieldEffectScatterLeaves12sub_02033028Ev: ; 0x0215C5A4
 	mov r0, #0xb
 	bx lr
-	arm_func_end ov0_0215C5A4
+	arm_func_end _ZN25CFieldEffectScatterLeaves12sub_02033028Ev
 
-	arm_func_start ov0_0215C5AC
-ov0_0215C5AC: ; 0x0215C5AC
+	arm_func_start _ZN27CFieldParticleLeavesEmitter5func2Ev
+_ZN27CFieldParticleLeavesEmitter5func2Ev: ; 0x0215C5AC
 	mov r1, #0x1000
 	str r1, [r0, #0x34]
 	bx lr
-	arm_func_end ov0_0215C5AC
+	arm_func_end _ZN27CFieldParticleLeavesEmitter5func2Ev
 
 	arm_func_start ov0_0215C5B8
 ov0_0215C5B8: ; 0x0215C5B8
@@ -29980,8 +29980,8 @@ ov0_0215C5CC: ; 0x0215C5CC
 	ldmia sp!, {r4, pc}
 	arm_func_end ov0_0215C5CC
 
-	arm_func_start ov0_0215C5E0
-ov0_0215C5E0: ; 0x0215C5E0
+	arm_func_start _ZN25CFieldEffectScatterLeavesD1Ev
+_ZN25CFieldEffectScatterLeavesD1Ev: ; 0x0215C5E0
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _0215C684 ; =ptr_FUN_overlay_0_0215bcf0_overlay_0_0217853c
 	mov r4, r0
@@ -29996,7 +29996,7 @@ ov0_0215C5E0: ; 0x0215C5E0
 	bl _ZdaPv
 	mov r0, #0
 	str r0, [r5, #0x10]
-	arm_func_end ov0_0215C5E0
+	arm_func_end _ZN25CFieldEffectScatterLeavesD1Ev
 _0215C618:
 	ldr r0, [r5, #0xc]
 	cmp r0, #0
@@ -30167,8 +30167,8 @@ _0215C850: .word PTR_LAB_overlay_0_0215bdb4_overlay_0_02178348
 _0215C854: .word PTR_LAB_overlay_0_0215b7fc_overlay_0_02178384
 	arm_func_end ov0_0215C75C
 
-	arm_func_start ov0_0215C858
-ov0_0215C858: ; 0x0215C858
+	arm_func_start _ZN23CFieldEffectSpreadSmokeD1Ev
+_ZN23CFieldEffectSpreadSmokeD1Ev: ; 0x0215C858
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _0215C8FC ; =ptr_FUN_overlay_0_0215bcf0_overlay_0_0217853c
 	mov r4, r0
@@ -30183,7 +30183,7 @@ ov0_0215C858: ; 0x0215C858
 	bl _ZdaPv
 	mov r0, #0
 	str r0, [r5, #0x10]
-	arm_func_end ov0_0215C858
+	arm_func_end _ZN23CFieldEffectSpreadSmokeD1Ev
 _0215C890:
 	ldr r0, [r5, #0xc]
 	cmp r0, #0
@@ -30277,8 +30277,8 @@ _0215C9B4: .word ptr_FUN_overlay_0_0215bcf0_overlay_0_0217853c
 _0215C9B8: .word ov0_021450CC
 _0215C9BC: .word _ZTV12CFieldEffect+8
 
-	arm_func_start ov0_0215C9C0
-ov0_0215C9C0: ; 0x0215C9C0
+	arm_func_start _ZN23CFieldEffectSpreadSmoke12sub_0203312CEii
+_ZN23CFieldEffectSpreadSmoke12sub_0203312CEii: ; 0x0215C9C0
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #4
 	mov r6, r0
@@ -30298,7 +30298,7 @@ _0215C9E8: ; jump table
 	b _0215CA58 ; case 5
 	b _0215CA20 ; case 6
 	b _0215CA14 ; case 7
-	arm_func_end ov0_0215C9C0
+	arm_func_end _ZN23CFieldEffectSpreadSmoke12sub_0203312CEii
 _0215CA08:
 	cmp r1, #0x13
 	beq _0215CA4C
@@ -30506,8 +30506,8 @@ _0215CCC0:
 _0215CCD8: .word ov0_021450CC
 _0215CCDC: .word ov0_0214509C
 
-	arm_func_start ov0_0215CCE0
-ov0_0215CCE0: ; 0x0215CCE0
+	arm_func_start _ZN30CFieldEffectSpreadSmokeFactory6CreateEi
+_ZN30CFieldEffectSpreadSmokeFactory6CreateEi: ; 0x0215CCE0
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0xc
 	mov r0, #0x94
@@ -30518,7 +30518,7 @@ ov0_0215CCE0: ; 0x0215CCE0
 	mov r1, r5
 	bl ov0_0215C75C
 	mov r4, r0
-	arm_func_end ov0_0215CCE0
+	arm_func_end _ZN30CFieldEffectSpreadSmokeFactory6CreateEi
 _0215CD08:
 	cmp r4, #0
 	ldrne r0, _0215CD94 ; =MAIN_BSS_0210CA60
@@ -30559,23 +30559,23 @@ _0215CD88:
 	.align 2, 0
 _0215CD94: .word MAIN_BSS_0210CA60
 
-	arm_func_start ov0_0215CD98
-ov0_0215CD98: ; 0x0215CD98
+	arm_func_start _ZN23CFieldEffectSpreadSmoke10GetEmitterEv
+_ZN23CFieldEffectSpreadSmoke10GetEmitterEv: ; 0x0215CD98
 	add r0, r0, #0x28
 	bx lr
-	arm_func_end ov0_0215CD98
+	arm_func_end _ZN23CFieldEffectSpreadSmoke10GetEmitterEv
 
-	arm_func_start ov0_0215CDA0
-ov0_0215CDA0: ; 0x0215CDA0
+	arm_func_start _ZN23CFieldEffectSpreadSmoke13GetForceFieldEv
+_ZN23CFieldEffectSpreadSmoke13GetForceFieldEv: ; 0x0215CDA0
 	add r0, r0, #0x80
 	bx lr
-	arm_func_end ov0_0215CDA0
+	arm_func_end _ZN23CFieldEffectSpreadSmoke13GetForceFieldEv
 
-	arm_func_start ov0_0215CDA8
-ov0_0215CDA8: ; 0x0215CDA8
+	arm_func_start _ZN23CFieldEffectSpreadSmoke12sub_02033028Ev
+_ZN23CFieldEffectSpreadSmoke12sub_02033028Ev: ; 0x0215CDA8
 	mov r0, #0xa
 	bx lr
-	arm_func_end ov0_0215CDA8
+	arm_func_end _ZN23CFieldEffectSpreadSmoke12sub_02033028Ev
 
 	arm_func_start ov0_0215CDB0
 ov0_0215CDB0: ; 0x0215CDB0
@@ -30812,18 +30812,18 @@ _0215D0FC: .word _ZTV16CEffectActorData+8
 _0215D100: .word PTR_LAB_overlay_0_021426e4_overlay_0_02177b5c
 _0215D104: .word s_effect_anime_data_is_null_overlay_0_02178994
 
-	arm_func_start ov0_0215D108
-ov0_0215D108: ; 0x0215D108
+	arm_func_start _ZN22CFieldEffectWaveBullet20CWaveParticleEmitterD1Ev
+_ZN22CFieldEffectWaveBullet20CWaveParticleEmitterD1Ev: ; 0x0215D108
 	bx lr
-	arm_func_end ov0_0215D108
+	arm_func_end _ZN22CFieldEffectWaveBullet20CWaveParticleEmitterD1Ev
 
-	arm_func_start ov0_0215D10C
-ov0_0215D10C: ; 0x0215D10C
+	arm_func_start _ZN22CFieldEffectWaveBullet21CWaveParticleAnimatorD1Ev
+_ZN22CFieldEffectWaveBullet21CWaveParticleAnimatorD1Ev: ; 0x0215D10C
 	bx lr
-	arm_func_end ov0_0215D10C
+	arm_func_end _ZN22CFieldEffectWaveBullet21CWaveParticleAnimatorD1Ev
 
-	arm_func_start ov0_0215D110
-ov0_0215D110: ; 0x0215D110
+	arm_func_start _ZN22CFieldEffectWaveBulletD1Ev
+_ZN22CFieldEffectWaveBulletD1Ev: ; 0x0215D110
 	stmdb sp!, {r4, lr}
 	ldr r1, _0215D1E4 ; =ptr_FUN_overlay_0_0215d110_overlay_0_02178938
 	mov r4, r0
@@ -30839,7 +30839,7 @@ ov0_0215D110: ; 0x0215D110
 	beq _0215D14C
 	ldrh r1, [r4, #0x20]
 	bl _ZN17UnkClass_0200878812sub_02008B80Et
-	arm_func_end ov0_0215D110
+	arm_func_end _ZN22CFieldEffectWaveBulletD1Ev
 _0215D14C:
 	ldr r0, [r4, #0x18]
 	cmp r0, #0
@@ -30958,8 +30958,8 @@ _0215D2CC: .word ptr_FUN_overlay_0_0215d110_overlay_0_02178938
 _0215D2D0: .word ov0_021450CC
 _0215D2D4: .word _ZTV12CFieldEffect+8
 
-	arm_func_start ov0_0215D2D8
-ov0_0215D2D8: ; 0x0215D2D8
+	arm_func_start _ZN22CFieldEffectWaveBullet12ov0_02142264Ei
+_ZN22CFieldEffectWaveBullet12ov0_02142264Ei: ; 0x0215D2D8
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0x18
 	mov sl, r0
@@ -30974,7 +30974,7 @@ ov0_0215D2D8: ; 0x0215D2D8
 	ldr r1, [r0]
 	ldr r1, [r1, #0x18]
 	blx r1
-	arm_func_end ov0_0215D2D8
+	arm_func_end _ZN22CFieldEffectWaveBullet12ov0_02142264Ei
 _0215D310:
 	ldr r0, [sp, #4]
 	cmp r0, #4
@@ -31192,8 +31192,8 @@ _0215D620:
 	add sp, sp, #0x18
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
 
-	arm_func_start ov0_0215D62C
-ov0_0215D62C: ; 0x0215D62C
+	arm_func_start _ZN22CFieldEffectWaveBullet12ov0_02142344EP8Camera2D
+_ZN22CFieldEffectWaveBullet12ov0_02142344EP8Camera2D: ; 0x0215D62C
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r0, [r6, #0x14]
@@ -31207,7 +31207,7 @@ ov0_0215D62C: ; 0x0215D62C
 	ldr r4, [r6, #0x58]
 	cmp r4, #0
 	beq _0215D6B4
-	arm_func_end ov0_0215D62C
+	arm_func_end _ZN22CFieldEffectWaveBullet12ov0_02142344EP8Camera2D
 _0215D660:
 	ldr r0, [r6, #0x60]
 	cmp r0, #0
@@ -31234,8 +31234,8 @@ _0215D6B4:
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
 
-	arm_func_start ov0_0215D6BC
-ov0_0215D6BC: ; 0x0215D6BC
+	arm_func_start _ZN22CFieldEffectWaveBullet12sub_0203312CEii
+_ZN22CFieldEffectWaveBullet12sub_0203312CEii: ; 0x0215D6BC
 	stmdb sp!, {r4, lr}
 	cmp r1, #0xf
 	mov r3, #1
@@ -31258,7 +31258,7 @@ _0215D6D0: ; jump table
 	b _0215D78C ; case 13
 	b _0215D794 ; case 14
 	b _0215D7C0 ; case 15
-	arm_func_end ov0_0215D6BC
+	arm_func_end _ZN22CFieldEffectWaveBullet12sub_0203312CEii
 _0215D710:
 	mov r1, r2, lsl #0xc
 	str r1, [r0, #0x68]
@@ -31332,8 +31332,8 @@ _0215D7EC: .word 0xB60B60B7
 _0215D7F0: .word 0x88888889
 _0215D7F4: .word 0xC22E4507
 
-	arm_func_start ov0_0215D7F8
-ov0_0215D7F8: ; 0x0215D7F8
+	arm_func_start _ZN22CFieldEffectWaveBullet12ov0_021421F0Eiii
+_ZN22CFieldEffectWaveBullet12ov0_021421F0Eiii: ; 0x0215D7F8
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r7, r0
 	add r0, r7, #0x64
@@ -31349,16 +31349,16 @@ ov0_0215D7F8: ; 0x0215D7F8
 	mov r3, r4
 	bl _ZN12CFieldEffect12ov0_021421F0Eiii
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end ov0_0215D7F8
+	arm_func_end _ZN22CFieldEffectWaveBullet12ov0_021421F0Eiii
 
-	arm_func_start ov0_0215D834
-ov0_0215D834: ; 0x0215D834
+	arm_func_start _ZN22CFieldEffectWaveBullet12sub_0203365CEi
+_ZN22CFieldEffectWaveBullet12sub_0203365CEi: ; 0x0215D834
 	str r1, [r0, #0x24]
 	bx lr
-	arm_func_end ov0_0215D834
+	arm_func_end _ZN22CFieldEffectWaveBullet12sub_0203365CEi
 
-	arm_func_start ov0_0215D83C
-ov0_0215D83C: ; 0x0215D83C
+	arm_func_start _ZN22CFieldEffectWaveBullet20CWaveParticleEmitter6UpdateEi
+_ZN22CFieldEffectWaveBullet20CWaveParticleEmitter6UpdateEi: ; 0x0215D83C
 	ldr r3, [r0, #0x3c]
 	mov r2, #0
 	cmp r3, #0
@@ -31372,7 +31372,7 @@ ov0_0215D83C: ; 0x0215D83C
 	cmp r1, #0
 	movgt r1, r1, lsl #0xc
 	strgt r1, [r0, #0x3c]
-	arm_func_end ov0_0215D83C
+	arm_func_end _ZN22CFieldEffectWaveBullet20CWaveParticleEmitter6UpdateEi
 _0215D870:
 	ldr r3, [r0, #0x2c]
 	ldr r1, [r0, #0x30]
@@ -31395,8 +31395,8 @@ _0215D8B0:
 	mov r0, r2
 	bx lr
 
-	arm_func_start ov0_0215D8B8
-ov0_0215D8B8: ; 0x0215D8B8
+	arm_func_start _ZN22CFieldEffectWaveBullet20CWaveParticleEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE
+_ZN22CFieldEffectWaveBullet20CWaveParticleEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE: ; 0x0215D8B8
 	stmdb sp!, {r4, lr}
 	ldmib r0, {r3, r4}
 	str r3, [r1, #0x4c]
@@ -31433,10 +31433,10 @@ ov0_0215D8B8: ; 0x0215D8B8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215D940: .word FX_SinCosTable_
-	arm_func_end ov0_0215D8B8
+	arm_func_end _ZN22CFieldEffectWaveBullet20CWaveParticleEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE
 
-	arm_func_start ov0_0215D944
-ov0_0215D944: ; 0x0215D944
+	arm_func_start _ZN22CFieldEffectWaveBullet20CWaveParticleEmitter5func2Ev
+_ZN22CFieldEffectWaveBullet20CWaveParticleEmitter5func2Ev: ; 0x0215D944
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r3, [r4, #0x1c]
@@ -31460,10 +31460,10 @@ ov0_0215D944: ; 0x0215D944
 	bl _s32_div_f
 	str r0, [r4, #0x30]
 	ldmia sp!, {r4, pc}
-	arm_func_end ov0_0215D944
+	arm_func_end _ZN22CFieldEffectWaveBullet20CWaveParticleEmitter5func2Ev
 
-	arm_func_start ov0_0215D9A0
-ov0_0215D9A0: ; 0x0215D9A0
+	arm_func_start _ZN22CFieldEffectWaveBullet21CWaveParticleAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
+_ZN22CFieldEffectWaveBullet21CWaveParticleAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi: ; 0x0215D9A0
 	stmdb sp!, {r3, r4, r5, lr}
 	ldrh r2, [r0, #4]
 	mov r5, r1
@@ -31481,7 +31481,7 @@ ov0_0215D9A0: ; 0x0215D9A0
 	orr r1, r1, r0, lsl #20
 	mov r0, r1, asr #3
 	b _0215DA18
-	arm_func_end ov0_0215D9A0
+	arm_func_end _ZN22CFieldEffectWaveBullet21CWaveParticleAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
 _0215D9E4:
 	sub r1, ip, r0
 	sub r0, r2, r4
@@ -31501,8 +31501,8 @@ _0215DA18:
 	str r0, [r5, #0x24]
 	ldmia sp!, {r3, r4, r5, pc}
 
-	arm_func_start ov0_0215DA24
-ov0_0215DA24: ; 0x0215DA24
+	arm_func_start _ZN29CFieldEffectWaveBulletFactory6CreateEi
+_ZN29CFieldEffectWaveBulletFactory6CreateEi: ; 0x0215DA24
 	stmdb sp!, {r4, lr}
 	mov r0, #0xbc
 	mov r4, r1
@@ -31512,13 +31512,13 @@ ov0_0215DA24: ; 0x0215DA24
 	mov r1, r4
 	bl ov0_0215CDC4
 	ldmia sp!, {r4, pc}
-	arm_func_end ov0_0215DA24
+	arm_func_end _ZN29CFieldEffectWaveBulletFactory6CreateEi
 
-	arm_func_start ov0_0215DA48
-ov0_0215DA48: ; 0x0215DA48
+	arm_func_start _ZN22CFieldEffectWaveBullet12sub_02033028Ev
+_ZN22CFieldEffectWaveBullet12sub_02033028Ev: ; 0x0215DA48
 	mov r0, #5
 	bx lr
-	arm_func_end ov0_0215DA48
+	arm_func_end _ZN22CFieldEffectWaveBullet12sub_02033028Ev
 
 	arm_func_start ov0_0215DA50
 ov0_0215DA50: ; 0x0215DA50
@@ -31701,8 +31701,8 @@ _0215DCA8: .word PTR_LAB_overlay_0_021426e4_overlay_0_02177b5c
 _0215DCAC: .word MAIN_BSS_0210CA60
 _0215DCB0: .word ptr_FUN_overlay_0_021505c4_overlay_0_02177b88
 
-	arm_func_start ov0_0215DCB4
-ov0_0215DCB4: ; 0x0215DCB4
+	arm_func_start _ZN21CFieldEffectCellAnimeD1Ev
+_ZN21CFieldEffectCellAnimeD1Ev: ; 0x0215DCB4
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _0215DD9C ; =ptr_FUN_overlay_0_0215dcb4_overlay_0_02178a84
 	mov r4, r0
@@ -31724,7 +31724,7 @@ ov0_0215DCB4: ; 0x0215DCB4
 	beq _0215DD68
 	bl _ZN17UnkClass_0200878812sub_02008B80Et
 	b _0215DD68
-	arm_func_end ov0_0215DCB4
+	arm_func_end _ZN21CFieldEffectCellAnimeD1Ev
 _0215DD08:
 	mov r5, #0
 _0215DD0C:
@@ -31845,8 +31845,8 @@ _0215DE98: .word ptr_FUN_overlay_0_0215dcb4_overlay_0_02178a84
 _0215DE9C: .word _ZN15CSoftwareSpriteD1Ev
 _0215DEA0: .word _ZTV12CFieldEffect+8
 
-	arm_func_start ov0_0215DEA4
-ov0_0215DEA4: ; 0x0215DEA4
+	arm_func_start _ZN21CFieldEffectCellAnime12ov0_02142264Ei
+_ZN21CFieldEffectCellAnime12ov0_02142264Ei: ; 0x0215DEA4
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	bl _ZN17CFieldEffectActor12ov0_02142264Ei
@@ -31862,7 +31862,7 @@ ov0_0215DEA4: ; 0x0215DEA4
 	ldr r1, [r0]
 	ldr r1, [r1, #0x18]
 	blx r1
-	arm_func_end ov0_0215DEA4
+	arm_func_end _ZN21CFieldEffectCellAnime12ov0_02142264Ei
 _0215DEE0:
 	ldr r0, [r5, #0x2c]
 	cmp r4, r0
@@ -31965,8 +31965,8 @@ _0215E044:
 	mov r0, r4
 	ldmia sp!, {r3, r4, r5, pc}
 
-	arm_func_start ov0_0215E04C
-ov0_0215E04C: ; 0x0215E04C
+	arm_func_start _ZN21CFieldEffectCellAnime12ov0_02142344EP8Camera2D
+_ZN21CFieldEffectCellAnime12ov0_02142344EP8Camera2D: ; 0x0215E04C
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r5, r0
@@ -31986,7 +31986,7 @@ ov0_0215E04C: ; 0x0215E04C
 	ldr r2, [r2, #0x10]
 	blx r2
 	b _0215E0AC
-	arm_func_end ov0_0215E04C
+	arm_func_end _ZN21CFieldEffectCellAnime12ov0_02142344EP8Camera2D
 _0215E098:
 	ldr r2, [r0]
 	mvn r1, #0
@@ -32028,15 +32028,15 @@ _0215E11C:
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
 
-	arm_func_start ov0_0215E128
-ov0_0215E128: ; 0x0215E128
+	arm_func_start _ZN21CFieldEffectCellAnime12sub_0203312CEii
+_ZN21CFieldEffectCellAnime12sub_0203312CEii: ; 0x0215E128
 	cmp r1, #1
 	mov r3, #1
 	beq _0215E140
 	cmp r1, #2
 	beq _0215E14C
 	b _0215E158
-	arm_func_end ov0_0215E128
+	arm_func_end _ZN21CFieldEffectCellAnime12sub_0203312CEii
 _0215E140:
 	mov r1, r2, lsl #0xc
 	str r1, [r0, #0x20]
@@ -32051,14 +32051,14 @@ _0215E15C:
 	mov r0, r3
 	bx lr
 
-	arm_func_start ov0_0215E164
-ov0_0215E164: ; 0x0215E164
+	arm_func_start _ZN21CFieldEffectCellAnime12ov0_021421F0Eiii
+_ZN21CFieldEffectCellAnime12ov0_021421F0Eiii: ; 0x0215E164
 	stmdb sp!, {r3, lr}
 	mvn ip, #0
 	str ip, [r0, #0x28]
 	bl _ZN12CFieldEffect12ov0_021421F0Eiii
 	ldmia sp!, {r3, pc}
-	arm_func_end ov0_0215E164
+	arm_func_end _ZN21CFieldEffectCellAnime12ov0_021421F0Eiii
 
 	arm_func_start ov0_0215E178
 ov0_0215E178: ; 0x0215E178
@@ -32144,14 +32144,14 @@ _0215E230:
 	.align 2, 0
 _0215E2A8: .word 0x00000622
 
-	arm_func_start ov0_0215E2AC
-ov0_0215E2AC: ; 0x0215E2AC
+	arm_func_start _ZN21CFieldEffectCellAnime12sub_0203365CEi
+_ZN21CFieldEffectCellAnime12sub_0203365CEi: ; 0x0215E2AC
 	str r1, [r0, #0xcc]
 	bx lr
-	arm_func_end ov0_0215E2AC
+	arm_func_end _ZN21CFieldEffectCellAnime12sub_0203365CEi
 
-	arm_func_start ov0_0215E2B4
-ov0_0215E2B4: ; 0x0215E2B4
+	arm_func_start _ZN34CFieldEffectNormalCellAnimeFactory6CreateEi
+_ZN34CFieldEffectNormalCellAnimeFactory6CreateEi: ; 0x0215E2B4
 	stmdb sp!, {r4, lr}
 	mov r0, #0xd0
 	mov r4, r1
@@ -32162,10 +32162,10 @@ ov0_0215E2B4: ; 0x0215E2B4
 	mov r2, #0
 	bl ov0_0215DA8C
 	ldmia sp!, {r4, pc}
-	arm_func_end ov0_0215E2B4
+	arm_func_end _ZN34CFieldEffectNormalCellAnimeFactory6CreateEi
 
-	arm_func_start ov0_0215E2DC
-ov0_0215E2DC: ; 0x0215E2DC
+	arm_func_start _ZN34CFieldEffectAttackCellAnimeFactory6CreateEi
+_ZN34CFieldEffectAttackCellAnimeFactory6CreateEi: ; 0x0215E2DC
 	stmdb sp!, {r4, lr}
 	mov r0, #0xd0
 	mov r4, r1
@@ -32176,13 +32176,13 @@ ov0_0215E2DC: ; 0x0215E2DC
 	mov r2, #1
 	bl ov0_0215DA8C
 	ldmia sp!, {r4, pc}
-	arm_func_end ov0_0215E2DC
+	arm_func_end _ZN34CFieldEffectAttackCellAnimeFactory6CreateEi
 
-	arm_func_start ov0_0215E304
-ov0_0215E304: ; 0x0215E304
+	arm_func_start _ZN21CFieldEffectCellAnime12sub_02033028Ev
+_ZN21CFieldEffectCellAnime12sub_02033028Ev: ; 0x0215E304
 	mov r0, #6
 	bx lr
-	arm_func_end ov0_0215E304
+	arm_func_end _ZN21CFieldEffectCellAnime12sub_02033028Ev
 
 	arm_func_start ov0_0215E30C
 ov0_0215E30C: ; 0x0215E30C
@@ -32302,8 +32302,8 @@ _0215E494: .word _ZN15CSoftwareSpriteC1Ev
 _0215E498: .word _ZTV16CEffectActorData+8
 _0215E49C: .word PTR_LAB_overlay_0_021426e4_overlay_0_02177b5c
 
-	arm_func_start ov0_0215E4A0
-ov0_0215E4A0: ; 0x0215E4A0
+	arm_func_start _ZN26CFieldEffectParabolaBulletD1Ev
+_ZN26CFieldEffectParabolaBulletD1Ev: ; 0x0215E4A0
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _0215E54C ; =ptr_FUN_overlay_0_0215e4a0_overlay_0_02178b64
 	mov r4, r0
@@ -32312,7 +32312,7 @@ ov0_0215E4A0: ; 0x0215E4A0
 	cmp r0, #0
 	beq _0215E4F4
 	mov r5, #0
-	arm_func_end ov0_0215E4A0
+	arm_func_end _ZN26CFieldEffectParabolaBulletD1Ev
 _0215E4C0:
 	ldr r0, [r4, #0x18]
 	mov r1, r5
@@ -32416,8 +32416,8 @@ _0215E60C: .word ptr_FUN_overlay_0_0215e4a0_overlay_0_02178b64
 _0215E610: .word _ZN15CSoftwareSpriteD1Ev
 _0215E614: .word _ZTV12CFieldEffect+8
 
-	arm_func_start ov0_0215E618
-ov0_0215E618: ; 0x0215E618
+	arm_func_start _ZN26CFieldEffectParabolaBullet12ov0_02142264Ei
+_ZN26CFieldEffectParabolaBullet12ov0_02142264Ei: ; 0x0215E618
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r5, r0
@@ -32429,7 +32429,7 @@ ov0_0215E618: ; 0x0215E618
 	ldr r1, [r0]
 	ldr r1, [r1, #0x18]
 	blx r1
-	arm_func_end ov0_0215E618
+	arm_func_end _ZN26CFieldEffectParabolaBullet12ov0_02142264Ei
 _0215E644:
 	ldr r0, [r5, #0x40]
 	cmp r4, r0
@@ -32504,8 +32504,8 @@ _0215E744:
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
 
-	arm_func_start ov0_0215E750
-ov0_0215E750: ; 0x0215E750
+	arm_func_start _ZN26CFieldEffectParabolaBullet12ov0_02142344EP8Camera2D
+_ZN26CFieldEffectParabolaBullet12ov0_02142344EP8Camera2D: ; 0x0215E750
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r5, r0
@@ -32540,7 +32540,7 @@ ov0_0215E750: ; 0x0215E750
 	mov r1, #0x4c
 	mla r1, r2, r1, r5
 	strh r0, [r1, #0x6e]
-	arm_func_end ov0_0215E750
+	arm_func_end _ZN26CFieldEffectParabolaBullet12ov0_02142344EP8Camera2D
 _0215E7D8:
 	ldr r1, [r5, #0x3c]
 	add r2, r5, #0x44
@@ -32555,8 +32555,8 @@ _0215E7F8:
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
 
-	arm_func_start ov0_0215E804
-ov0_0215E804: ; 0x0215E804
+	arm_func_start _ZN26CFieldEffectParabolaBullet12sub_0203312CEii
+_ZN26CFieldEffectParabolaBullet12sub_0203312CEii: ; 0x0215E804
 	cmp r1, #9
 	mov r3, #1
 	bgt _0215E838
@@ -32570,7 +32570,7 @@ ov0_0215E804: ; 0x0215E804
 	cmp r1, #2
 	beq _0215E850
 	b _0215E874
-	arm_func_end ov0_0215E804
+	arm_func_end _ZN26CFieldEffectParabolaBullet12sub_0203312CEii
 _0215E838:
 	cmp r1, #0xa
 	beq _0215E868
@@ -32597,8 +32597,8 @@ _0215E878:
 	mov r0, r3
 	bx lr
 
-	arm_func_start ov0_0215E880
-ov0_0215E880: ; 0x0215E880
+	arm_func_start _ZN26CFieldEffectParabolaBullet12ov0_021421F0Eiii
+_ZN26CFieldEffectParabolaBullet12ov0_021421F0Eiii: ; 0x0215E880
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	sub sp, sp, #0x28
 	mov r7, r0
@@ -32650,7 +32650,7 @@ ov0_0215E880: ; 0x0215E880
 	str r0, [sp, #0x1c]
 	str r0, [r7, #0x34]
 	b _0215E968
-	arm_func_end ov0_0215E880
+	arm_func_end _ZN26CFieldEffectParabolaBullet12ov0_021421F0Eiii
 _0215E94C:
 	mov r0, #0
 	str r0, [r7, #0x30]
@@ -32730,8 +32730,8 @@ _0215E9E0:
 	.align 2, 0
 _0215EA58: .word 0x00000622
 
-	arm_func_start ov0_0215EA5C
-ov0_0215EA5C: ; 0x0215EA5C
+	arm_func_start _ZN33CFieldEffectParabolaBulletFactory6CreateEi
+_ZN33CFieldEffectParabolaBulletFactory6CreateEi: ; 0x0215EA5C
 	stmdb sp!, {r4, lr}
 	mov r0, #0xe0
 	mov r4, r1
@@ -32741,13 +32741,13 @@ ov0_0215EA5C: ; 0x0215EA5C
 	mov r1, r4
 	bl ov0_0215E334
 	ldmia sp!, {r4, pc}
-	arm_func_end ov0_0215EA5C
+	arm_func_end _ZN33CFieldEffectParabolaBulletFactory6CreateEi
 
-	arm_func_start ov0_0215EA80
-ov0_0215EA80: ; 0x0215EA80
+	arm_func_start _ZN26CFieldEffectParabolaBullet12sub_02033028Ev
+_ZN26CFieldEffectParabolaBullet12sub_02033028Ev: ; 0x0215EA80
 	mov r0, #4
 	bx lr
-	arm_func_end ov0_0215EA80
+	arm_func_end _ZN26CFieldEffectParabolaBullet12sub_02033028Ev
 
 	arm_func_start ov0_0215EA88
 ov0_0215EA88: ; 0x0215EA88
@@ -32798,8 +32798,8 @@ _0215EB20: .word _ZN15CSoftwareSpriteD1Ev
 _0215EB24: .word _ZN15CSoftwareSpriteC1Ev
 	arm_func_end ov0_0215EA9C
 
-	arm_func_start ov0_0215EB28
-ov0_0215EB28: ; 0x0215EB28
+	arm_func_start _ZN21CFieldEffectPoisonGasD1Ev
+_ZN21CFieldEffectPoisonGasD1Ev: ; 0x0215EB28
 	stmdb sp!, {r4, lr}
 	ldr r1, _0215EB9C ; =ptr_FUN_overlay_0_0215eb28_overlay_0_02178c38
 	mov r4, r0
@@ -32816,7 +32816,7 @@ ov0_0215EB28: ; 0x0215EB28
 	add r1, r4, #0x100
 	ldrh r1, [r1, #0xc8]
 	bl _ZN17UnkClass_0200878812sub_02008B80Et
-	arm_func_end ov0_0215EB28
+	arm_func_end _ZN21CFieldEffectPoisonGasD1Ev
 _0215EB68:
 	ldr r3, _0215EBA0 ; =_ZN15CSoftwareSpriteD1Ev
 	add r0, r4, #0x94
@@ -32906,8 +32906,8 @@ _0215EC78:
 	bl MI_CpuFill8
 	ldmia sp!, {r4, pc}
 
-	arm_func_start ov0_0215EC94
-ov0_0215EC94: ; 0x0215EC94
+	arm_func_start _ZN21CFieldEffectPoisonGas12ov0_02142264Ei
+_ZN21CFieldEffectPoisonGas12ov0_02142264Ei: ; 0x0215EC94
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0xc
 	mov sl, r0
@@ -32922,7 +32922,7 @@ ov0_0215EC94: ; 0x0215EC94
 	mov r6, sl
 	add r7, sl, #0x24
 	mov fp, r4
-	arm_func_end ov0_0215EC94
+	arm_func_end _ZN21CFieldEffectPoisonGas12ov0_02142264Ei
 _0215ECCC:
 	ldrsh r0, [r6, #0x3c]
 	cmp r0, #0
@@ -32994,8 +32994,8 @@ _0215EDC0:
 	.align 2, 0
 _0215EDCC: .word MAIN_BSS_0210CA60
 
-	arm_func_start ov0_0215EDD0
-ov0_0215EDD0: ; 0x0215EDD0
+	arm_func_start _ZN21CFieldEffectPoisonGas12ov0_02142344EP8Camera2D
+_ZN21CFieldEffectPoisonGas12ov0_02142344EP8Camera2D: ; 0x0215EDD0
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
 	sub sp, sp, #8
 	mov sb, r0
@@ -33016,7 +33016,7 @@ ov0_0215EDD0: ; 0x0215EDD0
 	ldrh r1, [r1, #0xc8]
 	bl _ZN17UnkClass_0200878812sub_02008828Et
 	mov r7, r0
-	arm_func_end ov0_0215EDD0
+	arm_func_end _ZN21CFieldEffectPoisonGas12ov0_02142344EP8Camera2D
 _0215EE20:
 	mov r5, sb
 	add r6, sb, #0x94
@@ -33051,8 +33051,8 @@ _0215EE88:
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
 
-	arm_func_start ov0_0215EE94
-ov0_0215EE94: ; 0x0215EE94
+	arm_func_start _ZN21CFieldEffectPoisonGas12sub_0203312CEii
+_ZN21CFieldEffectPoisonGas12sub_0203312CEii: ; 0x0215EE94
 	cmp r1, #1
 	mov r3, #1
 	beq _0215EEB4
@@ -33061,7 +33061,7 @@ ov0_0215EE94: ; 0x0215EE94
 	cmp r1, #0x12
 	beq _0215EF0C
 	b _0215EF14
-	arm_func_end ov0_0215EE94
+	arm_func_end _ZN21CFieldEffectPoisonGas12sub_0203312CEii
 _0215EEB4:
 	mov r1, r2, lsl #0xc
 	mov ip, r0
@@ -33097,14 +33097,14 @@ _0215EF18:
 	mov r0, r3
 	bx lr
 
-	arm_func_start ov0_0215EF20
-ov0_0215EF20: ; 0x0215EF20
+	arm_func_start _ZN21CFieldEffectPoisonGas12ov0_021421F0Eiii
+_ZN21CFieldEffectPoisonGas12ov0_021421F0Eiii: ; 0x0215EF20
 	stmdb sp!, {r3, lr}
 	mov ip, r0
 	mov r3, #0
 	mov r2, #0x5a
 	mov r1, #0x1f
-	arm_func_end ov0_0215EF20
+	arm_func_end _ZN21CFieldEffectPoisonGas12ov0_021421F0Eiii
 _0215EF34:
 	strh r2, [ip, #0x3c]
 	add r3, r3, #1
@@ -33243,8 +33243,8 @@ _0215F0D0:
 	.align 2, 0
 _0215F114: .word MAIN_BSS_0210CA40
 
-	arm_func_start ov0_0215F118
-ov0_0215F118: ; 0x0215F118
+	arm_func_start _ZN21CFieldEffectPoisonGas12ov0_02142390EPvS0_
+_ZN21CFieldEffectPoisonGas12ov0_02142390EPvS0_: ; 0x0215F118
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	sub sp, sp, #0x20
 	mov r4, #0
@@ -33265,7 +33265,7 @@ ov0_0215F118: ; 0x0215F118
 	mov r1, r4
 	mov lr, r2
 	mov r0, #1
-	arm_func_end ov0_0215F118
+	arm_func_end _ZN21CFieldEffectPoisonGas12ov0_02142390EPvS0_
 _0215F168:
 	ldrsh r3, [r7, #0x3c]
 	cmp r3, #0
@@ -33302,15 +33302,15 @@ _0215F1A4:
 	add sp, sp, #0x20
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 
-	arm_func_start ov0_0215F1EC
-ov0_0215F1EC: ; 0x0215F1EC
+	arm_func_start _ZN21CFieldEffectPoisonGas12ov0_02142388EPKv
+_ZN21CFieldEffectPoisonGas12ov0_02142388EPKv: ; 0x0215F1EC
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r3, #0
 	mov ip, r3
 	mov lr, r0
 	mov r4, #0x1f
 	mov r2, #1
-	arm_func_end ov0_0215F1EC
+	arm_func_end _ZN21CFieldEffectPoisonGas12ov0_02142388EPKv
 _0215F204:
 	ldrb r5, [r1, #2]
 	str r5, [r0, #0x1cc]
@@ -33403,8 +33403,8 @@ _0215F340: .word ptr_FUN_overlay_0_0215f34c_overlay_0_02178c18
 _0215F344: .word _ZTV16CEffectActorData+8
 _0215F348: .word PTR_LAB_overlay_0_021426e4_overlay_0_02177b5c
 
-	arm_func_start ov0_0215F34C
-ov0_0215F34C: ; 0x0215F34C
+	arm_func_start _ZN28CFieldEffectPoisonGasFactoryD1Ev
+_ZN28CFieldEffectPoisonGasFactoryD1Ev: ; 0x0215F34C
 	stmdb sp!, {r4, lr}
 	ldr r1, _0215F370 ; =ptr_FUN_overlay_0_0215f34c_overlay_0_02178c18
 	mov r4, r0
@@ -33416,7 +33416,7 @@ ov0_0215F34C: ; 0x0215F34C
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215F370: .word ptr_FUN_overlay_0_0215f34c_overlay_0_02178c18
-	arm_func_end ov0_0215F34C
+	arm_func_end _ZN28CFieldEffectPoisonGasFactoryD1Ev
 
 	arm_func_start ov0_0215F374
 ov0_0215F374: ; 0x0215F374
@@ -33435,8 +33435,8 @@ ov0_0215F374: ; 0x0215F374
 _0215F3A0: .word ptr_FUN_overlay_0_0215f34c_overlay_0_02178c18
 	arm_func_end ov0_0215F374
 
-	arm_func_start ov0_0215F3A4
-ov0_0215F3A4: ; 0x0215F3A4
+	arm_func_start _ZN28CFieldEffectPoisonGasFactory6CreateEi
+_ZN28CFieldEffectPoisonGasFactory6CreateEi: ; 0x0215F3A4
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	add r0, r5, #4
@@ -33450,7 +33450,7 @@ ov0_0215F3A4: ; 0x0215F3A4
 	beq _0215F408
 	mov r2, r3
 	mov r1, r4
-	arm_func_end ov0_0215F3A4
+	arm_func_end _ZN28CFieldEffectPoisonGasFactory6CreateEi
 _0215F3D8:
 	ldrb r0, [r2, #0x1d0]
 	cmp r0, #0
@@ -33484,7 +33484,7 @@ ov0_0215F410: ; 0x0215F410
 	ldr r0, [r6, #0x3c]
 	cmp r0, #0
 	beq _0215F45C
-	ldr r3, _0215F4C0 ; =ov0_0215EB28
+	ldr r3, _0215F4C0 ; =_ZN21CFieldEffectPoisonGasD1Ev
 	mov r1, #0x1d4
 	mov r2, #8
 	bl __cxa_vec_delete
@@ -33492,7 +33492,7 @@ ov0_0215F410: ; 0x0215F410
 	str r0, [r6, #0x3c]
 	arm_func_end ov0_0215F410
 _0215F45C:
-	ldr ip, _0215F4C0 ; =ov0_0215EB28
+	ldr ip, _0215F4C0 ; =_ZN21CFieldEffectPoisonGasD1Ev
 	ldr r3, _0215F4C4 ; =ov0_0215EA9C
 	mov r0, #3
 	mov r1, #0x1d4
@@ -33520,7 +33520,7 @@ _0215F4B4:
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, r5, r6, pc}
 	.align 2, 0
-_0215F4C0: .word ov0_0215EB28
+_0215F4C0: .word _ZN21CFieldEffectPoisonGasD1Ev
 _0215F4C4: .word ov0_0215EA9C
 
 	arm_func_start ov0_0215F4C8
@@ -33530,7 +33530,7 @@ ov0_0215F4C8: ; 0x0215F4C8
 	ldr r0, [r4, #0x3c]
 	cmp r0, #0
 	beq _0215F4F4
-	ldr r3, _0215F500 ; =ov0_0215EB28
+	ldr r3, _0215F500 ; =_ZN21CFieldEffectPoisonGasD1Ev
 	mov r1, #0x1d4
 	mov r2, #8
 	bl __cxa_vec_delete
@@ -33542,37 +33542,37 @@ _0215F4F4:
 	bl _ZN16CEffectActorData7ReleaseEv
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215F500: .word ov0_0215EB28
+_0215F500: .word _ZN21CFieldEffectPoisonGasD1Ev
 
-	arm_func_start ov0_0215F504
-ov0_0215F504: ; 0x0215F504
+	arm_func_start _ZN28CFieldEffectPoisonGasFactory6UpdateEi
+_ZN28CFieldEffectPoisonGasFactory6UpdateEi: ; 0x0215F504
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #4]!
 	ldr r1, [r1, #0x18]
 	blx r1
 	ldmia sp!, {r3, pc}
-	arm_func_end ov0_0215F504
+	arm_func_end _ZN28CFieldEffectPoisonGasFactory6UpdateEi
 
-	arm_func_start ov0_0215F518
-ov0_0215F518: ; 0x0215F518
+	arm_func_start _ZN28CFieldEffectPoisonGasFactory5ResetEv
+_ZN28CFieldEffectPoisonGasFactory5ResetEv: ; 0x0215F518
 	ldr ip, _0215F520 ; =ov0_0215F4C8
 	bx ip
 	.align 2, 0
 _0215F520: .word ov0_0215F4C8
-	arm_func_end ov0_0215F518
+	arm_func_end _ZN28CFieldEffectPoisonGasFactory5ResetEv
 
-	arm_func_start ov0_0215F524
-ov0_0215F524: ; 0x0215F524
+	arm_func_start _ZN21CFieldEffectPoisonGas12ov0_021423A4Ev
+_ZN21CFieldEffectPoisonGas12ov0_021423A4Ev: ; 0x0215F524
 	mov r1, #0
 	strb r1, [r0, #0x1d0]
 	bx lr
-	arm_func_end ov0_0215F524
+	arm_func_end _ZN21CFieldEffectPoisonGas12ov0_021423A4Ev
 
-	arm_func_start ov0_0215F530
-ov0_0215F530: ; 0x0215F530
+	arm_func_start _ZN21CFieldEffectPoisonGas12sub_02033028Ev
+_ZN21CFieldEffectPoisonGas12sub_02033028Ev: ; 0x0215F530
 	mov r0, #0xc
 	bx lr
-	arm_func_end ov0_0215F530
+	arm_func_end _ZN21CFieldEffectPoisonGas12sub_02033028Ev
 
 	arm_func_start ov0_0215F538
 ov0_0215F538: ; 0x0215F538
@@ -33790,18 +33790,18 @@ _0215F848: .word _ZTV16CEffectActorData+8
 _0215F84C: .word PTR_LAB_overlay_0_021426e4_overlay_0_02177b5c
 _0215F850: .word s_effect_anime_data_is_null_overlay_0_02178e04
 
-	arm_func_start ov0_0215F854
-ov0_0215F854: ; 0x0215F854
+	arm_func_start _ZN17CFieldEffectSpray20CWaveParticleEmitterD1Ev
+_ZN17CFieldEffectSpray20CWaveParticleEmitterD1Ev: ; 0x0215F854
 	bx lr
-	arm_func_end ov0_0215F854
+	arm_func_end _ZN17CFieldEffectSpray20CWaveParticleEmitterD1Ev
 
-	arm_func_start ov0_0215F858
-ov0_0215F858: ; 0x0215F858
+	arm_func_start _ZN17CFieldEffectSpray21CWaveParticleAnimatorD1Ev
+_ZN17CFieldEffectSpray21CWaveParticleAnimatorD1Ev: ; 0x0215F858
 	bx lr
-	arm_func_end ov0_0215F858
+	arm_func_end _ZN17CFieldEffectSpray21CWaveParticleAnimatorD1Ev
 
-	arm_func_start ov0_0215F85C
-ov0_0215F85C: ; 0x0215F85C
+	arm_func_start _ZN17CFieldEffectSprayD1Ev
+_ZN17CFieldEffectSprayD1Ev: ; 0x0215F85C
 	stmdb sp!, {r4, lr}
 	ldr r1, _0215F930 ; =ptr_FUN_overlay_0_0215f85c_overlay_0_02178da8
 	mov r4, r0
@@ -33817,7 +33817,7 @@ ov0_0215F85C: ; 0x0215F85C
 	beq _0215F898
 	ldrh r1, [r4, #0x20]
 	bl _ZN17UnkClass_0200878812sub_02008B80Et
-	arm_func_end ov0_0215F85C
+	arm_func_end _ZN17CFieldEffectSprayD1Ev
 _0215F898:
 	ldr r0, [r4, #0x18]
 	cmp r0, #0
@@ -33936,8 +33936,8 @@ _0215FA18: .word ptr_FUN_overlay_0_0215f85c_overlay_0_02178da8
 _0215FA1C: .word ov0_021450CC
 _0215FA20: .word _ZTV12CFieldEffect+8
 
-	arm_func_start ov0_0215FA24
-ov0_0215FA24: ; 0x0215FA24
+	arm_func_start _ZN17CFieldEffectSpray12ov0_02142264Ei
+_ZN17CFieldEffectSpray12ov0_02142264Ei: ; 0x0215FA24
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0x14
 	mov sl, r0
@@ -33953,7 +33953,7 @@ ov0_0215FA24: ; 0x0215FA24
 	ldr r1, [r0]
 	ldr r1, [r1, #0x18]
 	blx r1
-	arm_func_end ov0_0215FA24
+	arm_func_end _ZN17CFieldEffectSpray12ov0_02142264Ei
 _0215FA60:
 	ldr r0, [sl, #0x18]
 	mov r1, #0
@@ -34152,8 +34152,8 @@ _0215FD28:
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
 
-	arm_func_start ov0_0215FD34
-ov0_0215FD34: ; 0x0215FD34
+	arm_func_start _ZN17CFieldEffectSpray12ov0_02142344EP8Camera2D
+_ZN17CFieldEffectSpray12ov0_02142344EP8Camera2D: ; 0x0215FD34
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r0, [r6, #0x14]
@@ -34167,7 +34167,7 @@ ov0_0215FD34: ; 0x0215FD34
 	ldr r4, [r6, #0x54]
 	cmp r4, #0
 	beq _0215FDBC
-	arm_func_end ov0_0215FD34
+	arm_func_end _ZN17CFieldEffectSpray12ov0_02142344EP8Camera2D
 _0215FD68:
 	ldr r0, [r6, #0x5c]
 	cmp r0, #0
@@ -34194,8 +34194,8 @@ _0215FDBC:
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
 
-	arm_func_start ov0_0215FDC4
-ov0_0215FDC4: ; 0x0215FDC4
+	arm_func_start _ZN17CFieldEffectSpray12sub_0203312CEii
+_ZN17CFieldEffectSpray12sub_0203312CEii: ; 0x0215FDC4
 	stmdb sp!, {r4, lr}
 	cmp r1, #0xf
 	mov r3, #1
@@ -34218,7 +34218,7 @@ _0215FDD8: ; jump table
 	b _0215FE48 ; case 13
 	b _0215FE50 ; case 14
 	b _0215FE7C ; case 15
-	arm_func_end ov0_0215FDC4
+	arm_func_end _ZN17CFieldEffectSpray12sub_0203312CEii
 _0215FE18:
 	mov r1, r2, lsl #0xc
 	str r1, [r0, #0x64]
@@ -34269,8 +34269,8 @@ _0215FEA0:
 _0215FEA8: .word 0x88888889
 _0215FEAC: .word 0xC22E4507
 
-	arm_func_start ov0_0215FEB0
-ov0_0215FEB0: ; 0x0215FEB0
+	arm_func_start _ZN17CFieldEffectSpray12ov0_021421F0Eiii
+_ZN17CFieldEffectSpray12ov0_021421F0Eiii: ; 0x0215FEB0
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r7, r0
 	add r0, r7, #0x60
@@ -34286,10 +34286,10 @@ ov0_0215FEB0: ; 0x0215FEB0
 	mov r3, r4
 	bl _ZN12CFieldEffect12ov0_021421F0Eiii
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end ov0_0215FEB0
+	arm_func_end _ZN17CFieldEffectSpray12ov0_021421F0Eiii
 
-	arm_func_start ov0_0215FEEC
-ov0_0215FEEC: ; 0x0215FEEC
+	arm_func_start _ZN17CFieldEffectSpray20CWaveParticleEmitter6UpdateEi
+_ZN17CFieldEffectSpray20CWaveParticleEmitter6UpdateEi: ; 0x0215FEEC
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r3, [r0, #0x30]
 	mov r2, #0
@@ -34345,7 +34345,7 @@ ov0_0215FEEC: ; 0x0215FEEC
 	add r1, r5, r2
 	str r1, [r0, #0x40]
 	mov r2, #2
-	arm_func_end ov0_0215FEEC
+	arm_func_end _ZN17CFieldEffectSpray20CWaveParticleEmitter6UpdateEi
 _0215FFC8:
 	mov r1, #0
 	str r1, [r0, #0x48]
@@ -34365,8 +34365,8 @@ _0215FFF8: .word 0x00007FFF
 _0215FFFC: .word 0x00001388
 _02160000: .word 0xFFFFF63C
 
-	arm_func_start ov0_02160004
-ov0_02160004: ; 0x02160004
+	arm_func_start _ZN17CFieldEffectSpray20CWaveParticleEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE
+_ZN17CFieldEffectSpray20CWaveParticleEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE: ; 0x02160004
 	stmdb sp!, {r3, r4, r5, lr}
 	ldmib r0, {r3, r4}
 	str r3, [r1, #0x4c]
@@ -34414,10 +34414,10 @@ ov0_02160004: ; 0x02160004
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _021600B8: .word FX_SinCosTable_
-	arm_func_end ov0_02160004
+	arm_func_end _ZN17CFieldEffectSpray20CWaveParticleEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE
 
-	arm_func_start ov0_021600BC
-ov0_021600BC: ; 0x021600BC
+	arm_func_start _ZN17CFieldEffectSpray20CWaveParticleEmitter5func2Ev
+_ZN17CFieldEffectSpray20CWaveParticleEmitter5func2Ev: ; 0x021600BC
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r3, [r4, #0x1c]
@@ -34433,10 +34433,10 @@ ov0_021600BC: ; 0x021600BC
 	mov r0, #0
 	strh r0, [r4, #0x3a]
 	ldmia sp!, {r4, pc}
-	arm_func_end ov0_021600BC
+	arm_func_end _ZN17CFieldEffectSpray20CWaveParticleEmitter5func2Ev
 
-	arm_func_start ov0_021600F8
-ov0_021600F8: ; 0x021600F8
+	arm_func_start _ZN17CFieldEffectSpray21CWaveParticleAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
+_ZN17CFieldEffectSpray21CWaveParticleAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi: ; 0x021600F8
 	stmdb sp!, {r4, r5, r6, lr}
 	ldrh r2, [r0, #4]
 	mov r6, r1
@@ -34461,7 +34461,7 @@ ov0_021600F8: ; 0x021600F8
 	add r0, r5, r0
 	str r0, [r6, #0x20]
 	str r0, [r6, #0x24]
-	arm_func_end ov0_021600F8
+	arm_func_end _ZN17CFieldEffectSpray21CWaveParticleAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
 _02160158:
 	cmp r4, #0x10000
 	movlt r0, r4, asr #0xc
@@ -34469,8 +34469,8 @@ _02160158:
 	strlt r0, [r6, #0x14]
 	ldmia sp!, {r4, r5, r6, pc}
 
-	arm_func_start ov0_0216016C
-ov0_0216016C: ; 0x0216016C
+	arm_func_start _ZN24CFieldEffectSprayFactory6CreateEi
+_ZN24CFieldEffectSprayFactory6CreateEi: ; 0x0216016C
 	stmdb sp!, {r4, lr}
 	mov r0, #0xbc
 	mov r4, r1
@@ -34480,13 +34480,13 @@ ov0_0216016C: ; 0x0216016C
 	mov r1, r4
 	bl ov0_0215F538
 	ldmia sp!, {r4, pc}
-	arm_func_end ov0_0216016C
+	arm_func_end _ZN24CFieldEffectSprayFactory6CreateEi
 
-	arm_func_start ov0_02160190
-ov0_02160190: ; 0x02160190
+	arm_func_start _ZN17CFieldEffectSpray12sub_02033028Ev
+_ZN17CFieldEffectSpray12sub_02033028Ev: ; 0x02160190
 	mov r0, #7
 	bx lr
-	arm_func_end ov0_02160190
+	arm_func_end _ZN17CFieldEffectSpray12sub_02033028Ev
 
 	arm_func_start ov0_02160198
 ov0_02160198: ; 0x02160198
@@ -34640,18 +34640,18 @@ _0216039C: .word PTR_LAB_overlay_0_021603ac_overlay_0_02178e6c
 _021603A0: .word _ZTV16CEffectActorData+8
 _021603A4: .word ptr_FUN_overlay_0_021505c4_overlay_0_02177b88
 
-	arm_func_start ov0_021603A8
-ov0_021603A8: ; 0x021603A8
+	arm_func_start _ZN16CFieldEffectFire16CParticleEmitterD1Ev
+_ZN16CFieldEffectFire16CParticleEmitterD1Ev: ; 0x021603A8
 	bx lr
-	arm_func_end ov0_021603A8
+	arm_func_end _ZN16CFieldEffectFire16CParticleEmitterD1Ev
 
-	arm_func_start ov0_021603AC
-ov0_021603AC: ; 0x021603AC
+	arm_func_start _ZN16CFieldEffectFire17CParticleAnimatorD1Ev
+_ZN16CFieldEffectFire17CParticleAnimatorD1Ev: ; 0x021603AC
 	bx lr
-	arm_func_end ov0_021603AC
+	arm_func_end _ZN16CFieldEffectFire17CParticleAnimatorD1Ev
 
-	arm_func_start ov0_021603B0
-ov0_021603B0: ; 0x021603B0
+	arm_func_start _ZN16CFieldEffectFireD1Ev
+_ZN16CFieldEffectFireD1Ev: ; 0x021603B0
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _021604AC ; =ptr_FUN_overlay_0_021603b0_overlay_0_02178f28
 	mov r4, r0
@@ -34667,7 +34667,7 @@ ov0_021603B0: ; 0x021603B0
 	beq _021603EC
 	ldrh r1, [r4, #0x78]
 	bl _ZN17UnkClass_0200878812sub_02008B80Et
-	arm_func_end ov0_021603B0
+	arm_func_end _ZN16CFieldEffectFireD1Ev
 _021603EC:
 	ldr r0, [r4, #0x74]
 	cmp r0, #0
@@ -34812,8 +34812,8 @@ _021605C4: .word ptr_FUN_overlay_0_0215bcf0_overlay_0_0217853c
 _021605C8: .word ov0_021450CC
 _021605CC: .word _ZTV12CFieldEffect+8
 
-	arm_func_start ov0_021605D0
-ov0_021605D0: ; 0x021605D0
+	arm_func_start _ZN16CFieldEffectFire12sub_0203312CEii
+_ZN16CFieldEffectFire12sub_0203312CEii: ; 0x021605D0
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #4
 	mov r6, r0
@@ -34832,7 +34832,7 @@ _021605F0: ; jump table
 	b _02160620 ; case 6
 	b _021608D4 ; case 7
 	b _0216064C ; case 8
-	arm_func_end ov0_021605D0
+	arm_func_end _ZN16CFieldEffectFire12sub_0203312CEii
 _02160614:
 	add sp, sp, #4
 	str r5, [r6, #0x5c]
@@ -35038,8 +35038,8 @@ _021608D4:
 _021608DC: .word ov0_021450CC
 _021608E0: .word ov0_0214509C
 
-	arm_func_start ov0_021608E4
-ov0_021608E4: ; 0x021608E4
+	arm_func_start _ZN16CFieldEffectFire12ov0_02142264Ei
+_ZN16CFieldEffectFire12ov0_02142264Ei: ; 0x021608E4
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0x18
 	str r0, [sp]
@@ -35057,7 +35057,7 @@ ov0_021608E4: ; 0x021608E4
 	cmp r4, #0
 	beq _02160A44
 	mov r6, sb, asr #0x1f
-	arm_func_end ov0_021608E4
+	arm_func_end _ZN16CFieldEffectFire12ov0_02142264Ei
 _02160928:
 	ldr r0, [r4, #0x60]
 	ldr r5, [r4, #0x70]
@@ -35262,8 +35262,8 @@ _02160C0C:
 	add sp, sp, #0x18
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
 
-	arm_func_start ov0_02160C18
-ov0_02160C18: ; 0x02160C18
+	arm_func_start _ZN16CFieldEffectFire16CParticleEmitter6UpdateEi
+_ZN16CFieldEffectFire16CParticleEmitter6UpdateEi: ; 0x02160C18
 	ldr r2, [r0, #0x30]
 	mov r3, #0
 	cmp r2, #0
@@ -35277,13 +35277,13 @@ ov0_02160C18: ; 0x02160C18
 	cmp r1, #0
 	movgt r1, r1, lsl #0xc
 	strgt r1, [r0, #0x30]
-	arm_func_end ov0_02160C18
+	arm_func_end _ZN16CFieldEffectFire16CParticleEmitter6UpdateEi
 _02160C4C:
 	mov r0, r3
 	bx lr
 
-	arm_func_start ov0_02160C54
-ov0_02160C54: ; 0x02160C54
+	arm_func_start _ZN16CFieldEffectFire16CParticleEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE
+_ZN16CFieldEffectFire16CParticleEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE: ; 0x02160C54
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r5, r0
 	mov r4, r1
@@ -35364,17 +35364,17 @@ ov0_02160C54: ; 0x02160C54
 	.align 2, 0
 _02160D88: .word MAIN_BSS_0210CEC8
 _02160D8C: .word 0x00007FFF
-	arm_func_end ov0_02160C54
+	arm_func_end _ZN16CFieldEffectFire16CParticleEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE
 
-	arm_func_start ov0_02160D90
-ov0_02160D90: ; 0x02160D90
+	arm_func_start _ZN16CFieldEffectFire17CParticleAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
+_ZN16CFieldEffectFire17CParticleAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi: ; 0x02160D90
 	ldrh r0, [r0, #4]
 	strh r0, [r1, #0x2a]
 	bx lr
-	arm_func_end ov0_02160D90
+	arm_func_end _ZN16CFieldEffectFire17CParticleAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
 
-	arm_func_start ov0_02160D9C
-ov0_02160D9C: ; 0x02160D9C
+	arm_func_start _ZN23CFieldEffectFireFactory6CreateEi
+_ZN23CFieldEffectFireFactory6CreateEi: ; 0x02160D9C
 	stmdb sp!, {r4, lr}
 	mov r0, #0x7c
 	mov r4, r1
@@ -35384,22 +35384,22 @@ ov0_02160D9C: ; 0x02160D9C
 	mov r1, r4
 	bl ov0_021601D4
 	ldmia sp!, {r4, pc}
-	arm_func_end ov0_02160D9C
+	arm_func_end _ZN23CFieldEffectFireFactory6CreateEi
 
-	arm_func_start ov0_02160DC0
-ov0_02160DC0: ; 0x02160DC0
+	arm_func_start _ZN16CFieldEffectFire13GetForceFieldEv
+_ZN16CFieldEffectFire13GetForceFieldEv: ; 0x02160DC0
 	add r0, r0, #0x6c
 	bx lr
-	arm_func_end ov0_02160DC0
+	arm_func_end _ZN16CFieldEffectFire13GetForceFieldEv
 
-	arm_func_start ov0_02160DC8
-ov0_02160DC8: ; 0x02160DC8
+	arm_func_start _ZN16CFieldEffectFire10GetEmitterEv
+_ZN16CFieldEffectFire10GetEmitterEv: ; 0x02160DC8
 	add r0, r0, #0x28
 	bx lr
-	arm_func_end ov0_02160DC8
+	arm_func_end _ZN16CFieldEffectFire10GetEmitterEv
 
-	arm_func_start ov0_02160DD0
-ov0_02160DD0: ; 0x02160DD0
+	arm_func_start _ZN16CFieldEffectFire12sub_020332A4Ev
+_ZN16CFieldEffectFire12sub_020332A4Ev: ; 0x02160DD0
 	stmdb sp!, {r4, lr}
 	ldr r0, [r0, #0x74]
 	mov r4, #1
@@ -35410,23 +35410,23 @@ ov0_02160DD0: ; 0x02160DD0
 	blx r1
 	cmp r0, #0
 	moveq r4, #0
-	arm_func_end ov0_02160DD0
+	arm_func_end _ZN16CFieldEffectFire12sub_020332A4Ev
 _02160DF8:
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 
-	arm_func_start ov0_02160E00
-ov0_02160E00: ; 0x02160E00
+	arm_func_start _ZN16CFieldEffectFire12sub_02033028Ev
+_ZN16CFieldEffectFire12sub_02033028Ev: ; 0x02160E00
 	mov r0, #0x11
 	bx lr
-	arm_func_end ov0_02160E00
+	arm_func_end _ZN16CFieldEffectFire12sub_02033028Ev
 
-	arm_func_start ov0_02160E08
-ov0_02160E08: ; 0x02160E08
+	arm_func_start _ZN16CFieldEffectFire16CParticleEmitter5func2Ev
+_ZN16CFieldEffectFire16CParticleEmitter5func2Ev: ; 0x02160E08
 	mov r1, #0x1000
 	str r1, [r0, #0x30]
 	bx lr
-	arm_func_end ov0_02160E08
+	arm_func_end _ZN16CFieldEffectFire16CParticleEmitter5func2Ev
 
 	arm_func_start ov0_02160E14
 ov0_02160E14: ; 0x02160E14
@@ -35667,15 +35667,15 @@ _02161160: .word _ZTV16CEffectActorData+8
 _02161164: .word ptr_FUN_overlay_0_021505c4_overlay_0_02177b88
 _02161168: .word 0x0000FFFF
 
-	arm_func_start ov0_0216116C
-ov0_0216116C: ; 0x0216116C
+	arm_func_start _ZN17CFieldEffectSparkD1Ev
+_ZN17CFieldEffectSparkD1Ev: ; 0x0216116C
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	ldr r1, _02161268 ; =ptr_FUN_overlay_0_0216116c_overlay_0_02179000
 	mov r4, r0
 	mov r7, #0
 	str r1, [r4]
 	mov r6, r7
-	arm_func_end ov0_0216116C
+	arm_func_end _ZN17CFieldEffectSparkD1Ev
 _02161184:
 	mov r8, r6
 	add r5, r4, r7, lsl #3
@@ -35827,8 +35827,8 @@ _02161380: .word _ZN17UnkClass_02007AA4D1Ev
 _02161384: .word _ZN15CSoftwareSpriteD1Ev
 _02161388: .word _ZTV12CFieldEffect+8
 
-	arm_func_start ov0_0216138C
-ov0_0216138C: ; 0x0216138C
+	arm_func_start _ZN17CFieldEffectSpark12ov0_02142264Ei
+_ZN17CFieldEffectSpark12ov0_02142264Ei: ; 0x0216138C
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0x18
 	mov r7, r0
@@ -35842,7 +35842,7 @@ ov0_0216138C: ; 0x0216138C
 	ldr r1, [r0]
 	ldr r1, [r1, #0x18]
 	blx r1
-	arm_func_end ov0_0216138C
+	arm_func_end _ZN17CFieldEffectSpark12ov0_02142264Ei
 _021613C0:
 	ldr r0, [sp, #4]
 	cmp r0, #0
@@ -35958,8 +35958,8 @@ _0216155C:
 	add sp, sp, #0x18
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
 
-	arm_func_start ov0_02161568
-ov0_02161568: ; 0x02161568
+	arm_func_start _ZN17CFieldEffectSpark12ov0_02142344EP8Camera2D
+_ZN17CFieldEffectSpark12ov0_02142344EP8Camera2D: ; 0x02161568
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0x10
 	mov sl, r0
@@ -35974,7 +35974,7 @@ ov0_02161568: ; 0x02161568
 	add r7, sl, #0x2c
 	mov r8, #0
 	mov fp, #0x24
-	arm_func_end ov0_02161568
+	arm_func_end _ZN17CFieldEffectSpark12ov0_02142344EP8Camera2D
 _021615A0:
 	add r0, sl, r8, lsl #4
 	ldr r3, [r0, #0x298]
@@ -36051,8 +36051,8 @@ _021616A8:
 	add sp, sp, #0x10
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
 
-	arm_func_start ov0_021616B4
-ov0_021616B4: ; 0x021616B4
+	arm_func_start _ZN17CFieldEffectSpark12sub_0203312CEii
+_ZN17CFieldEffectSpark12sub_0203312CEii: ; 0x021616B4
 	cmp r1, #4
 	mov r3, #1
 	addls pc, pc, r1, lsl #2
@@ -36063,7 +36063,7 @@ _021616C4: ; jump table
 	b _021616E4 ; case 2
 	b _021616F0 ; case 3
 	b _021616FC ; case 4
-	arm_func_end ov0_021616B4
+	arm_func_end _ZN17CFieldEffectSpark12sub_0203312CEii
 _021616D8:
 	mov r1, r2, lsl #0xc
 	str r1, [r0, #0x1c]
@@ -36086,8 +36086,8 @@ _0216170C:
 	mov r0, r3
 	bx lr
 
-	arm_func_start ov0_02161714
-ov0_02161714: ; 0x02161714
+	arm_func_start _ZN17CFieldEffectSpark12ov0_021421F0Eiii
+_ZN17CFieldEffectSpark12ov0_021421F0Eiii: ; 0x02161714
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
 	mov r5, #0x1000
 	str r5, [r0, #0x29c]
@@ -36103,7 +36103,7 @@ ov0_02161714: ; 0x02161714
 	ldr r5, _021617A4 ; =MAIN_BSS_0210CEC8
 	add lr, r0, #0x298
 	mov r6, #0xcc
-	arm_func_end ov0_02161714
+	arm_func_end _ZN17CFieldEffectSpark12ov0_021421F0Eiii
 _02161750:
 	ldmia r5, {r4, r7, r8}
 	mla r8, r7, r4, r8
@@ -36169,15 +36169,15 @@ _021617C8:
 	blt _021617C8
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
 
-	arm_func_start ov0_02161834
-ov0_02161834: ; 0x02161834
+	arm_func_start _ZN17CFieldEffectSpark12sub_020332A4Ev
+_ZN17CFieldEffectSpark12sub_020332A4Ev: ; 0x02161834
 	stmdb sp!, {r3, lr}
 	ldr r3, [r0, #0x18]
 	cmp r3, #0
 	moveq r0, #1
 	ldmeqia sp!, {r3, pc}
 	mov r2, #0
-	arm_func_end ov0_02161834
+	arm_func_end _ZN17CFieldEffectSpark12sub_020332A4Ev
 _0216184C:
 	ldrb r1, [r0, #0x15c]
 	cmp r1, #0
@@ -36193,8 +36193,8 @@ _0216184C:
 	blx r1
 	ldmia sp!, {r3, pc}
 
-	arm_func_start ov0_02161880
-ov0_02161880: ; 0x02161880
+	arm_func_start _ZN24CFieldEffectSparkFactory6CreateEi
+_ZN24CFieldEffectSparkFactory6CreateEi: ; 0x02161880
 	stmdb sp!, {r4, lr}
 	mov r0, #0x2ec
 	mov r4, r1
@@ -36204,13 +36204,13 @@ ov0_02161880: ; 0x02161880
 	mov r1, r4
 	bl ov0_02160E50
 	ldmia sp!, {r4, pc}
-	arm_func_end ov0_02161880
+	arm_func_end _ZN24CFieldEffectSparkFactory6CreateEi
 
-	arm_func_start ov0_021618A4
-ov0_021618A4: ; 0x021618A4
+	arm_func_start _ZN17CFieldEffectSpark12sub_02033028Ev
+_ZN17CFieldEffectSpark12sub_02033028Ev: ; 0x021618A4
 	mov r0, #0xf
 	bx lr
-	arm_func_end ov0_021618A4
+	arm_func_end _ZN17CFieldEffectSpark12sub_02033028Ev
 
 	arm_func_start ov0_021618AC
 ov0_021618AC: ; 0x021618AC
@@ -36255,8 +36255,8 @@ _0216192C: .word _ZN15CSoftwareSpriteD1Ev
 _02161930: .word _ZN15CSoftwareSpriteC1Ev
 	arm_func_end ov0_021618C0
 
-	arm_func_start ov0_02161934
-ov0_02161934: ; 0x02161934
+	arm_func_start _ZN17CFieldEffectJumonD1Ev
+_ZN17CFieldEffectJumonD1Ev: ; 0x02161934
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r3, _02161970 ; =_ZN15CSoftwareSpriteD1Ev
@@ -36275,7 +36275,7 @@ ov0_02161934: ; 0x02161934
 	.align 2, 0
 _02161970: .word _ZN15CSoftwareSpriteD1Ev
 _02161974: .word _ZTV12CFieldEffect+8
-	arm_func_end ov0_02161934
+	arm_func_end _ZN17CFieldEffectJumonD1Ev
 
 	arm_func_start ov0_02161978
 ov0_02161978: ; 0x02161978
@@ -36301,8 +36301,8 @@ _021619BC: .word _ZN15CSoftwareSpriteD1Ev
 _021619C0: .word _ZTV12CFieldEffect+8
 	arm_func_end ov0_02161978
 
-	arm_func_start ov0_021619C4
-ov0_021619C4: ; 0x021619C4
+	arm_func_start _ZN17CFieldEffectJumon12ov0_02142264Ei
+_ZN17CFieldEffectJumon12ov0_02142264Ei: ; 0x021619C4
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r5, r0
 	mov r4, r1
@@ -36312,7 +36312,7 @@ ov0_021619C4: ; 0x021619C4
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
 	mov r2, r5
 	mov r1, #0
-	arm_func_end ov0_021619C4
+	arm_func_end _ZN17CFieldEffectJumon12ov0_02142264Ei
 _021619E8:
 	mov ip, #0
 _021619EC:
@@ -36399,8 +36399,8 @@ _02161AA0:
 _02161B20: .word MAIN_BSS_0210CEC8
 _02161B24: .word FX_SinCosTable_
 
-	arm_func_start ov0_02161B28
-ov0_02161B28: ; 0x02161B28
+	arm_func_start _ZN17CFieldEffectJumon12ov0_02142344EP8Camera2D
+_ZN17CFieldEffectJumon12ov0_02142344EP8Camera2D: ; 0x02161B28
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #8
 	mov sl, r0
@@ -36412,7 +36412,7 @@ ov0_02161B28: ; 0x02161B28
 	mov r5, sl
 	add r6, sl, #0x28
 	mov fp, #0
-	arm_func_end ov0_02161B28
+	arm_func_end _ZN17CFieldEffectJumon12ov0_02142344EP8Camera2D
 _02161B54:
 	mov r4, #0
 	mov r7, r5
@@ -36446,8 +36446,8 @@ _02161BBC:
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
 
-	arm_func_start ov0_02161BC8
-ov0_02161BC8: ; 0x02161BC8
+	arm_func_start _ZN17CFieldEffectJumon12sub_0203312CEii
+_ZN17CFieldEffectJumon12sub_0203312CEii: ; 0x02161BC8
 	cmp r1, #4
 	mov r3, #1
 	addls pc, pc, r1, lsl #2
@@ -36458,7 +36458,7 @@ _02161BD8: ; jump table
 	b _02161BF8 ; case 2
 	b _02161C04 ; case 3
 	b _02161C10 ; case 4
-	arm_func_end ov0_02161BC8
+	arm_func_end _ZN17CFieldEffectJumon12sub_0203312CEii
 _02161BEC:
 	mov r1, r2, lsl #0xc
 	str r1, [r0, #0x18]
@@ -36481,8 +36481,8 @@ _02161C20:
 	mov r0, r3
 	bx lr
 
-	arm_func_start ov0_02161C28
-ov0_02161C28: ; 0x02161C28
+	arm_func_start _ZN17CFieldEffectJumon12ov0_021421F0Eiii
+_ZN17CFieldEffectJumon12ov0_021421F0Eiii: ; 0x02161C28
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
 	add r8, r0, #0x200
 	mov ip, #0
@@ -36547,7 +36547,7 @@ ov0_02161C28: ; 0x02161C28
 	strh r8, [lr, #0x26]
 	ldr r4, _02161DA0 ; =FX_SinCosTable_
 	mov r8, ip
-	arm_func_end ov0_02161C28
+	arm_func_end _ZN17CFieldEffectJumon12ov0_021421F0Eiii
 _02161D28:
 	add r5, r7, #0x200
 	ldrh r6, [r5, #0xd4]
@@ -36672,8 +36672,8 @@ _02161E20:
 _02161EE4: .word DAT_overlay_0_02172ee8
 _02161EE8: .word MAIN_BSS_0210CA60
 
-	arm_func_start ov0_02161EEC
-ov0_02161EEC: ; 0x02161EEC
+	arm_func_start _ZN24CFieldEffectJumonFactory6CreateEi
+_ZN24CFieldEffectJumonFactory6CreateEi: ; 0x02161EEC
 	stmdb sp!, {r4, lr}
 	mov r0, #0x340
 	mov r4, r1
@@ -36683,13 +36683,13 @@ ov0_02161EEC: ; 0x02161EEC
 	mov r1, r4
 	bl ov0_021618C0
 	ldmia sp!, {r4, pc}
-	arm_func_end ov0_02161EEC
+	arm_func_end _ZN24CFieldEffectJumonFactory6CreateEi
 
-	arm_func_start ov0_02161F10
-ov0_02161F10: ; 0x02161F10
+	arm_func_start _ZN17CFieldEffectJumon12sub_02033028Ev
+_ZN17CFieldEffectJumon12sub_02033028Ev: ; 0x02161F10
 	mov r0, #0x10
 	bx lr
-	arm_func_end ov0_02161F10
+	arm_func_end _ZN17CFieldEffectJumon12sub_02033028Ev
 
 	arm_func_start ov0_02161F18
 ov0_02161F18: ; 0x02161F18
@@ -36761,15 +36761,15 @@ ov0_02161FD4: ; 0x02161FD4
     bx lr
     arm_func_end ov0_02161FD4
 
-	arm_func_start ov0_02161FDC
-ov0_02161FDC: ; 0x02161FDC
+	arm_func_start _ZN21CFieldEffectExplosionD1Ev
+_ZN21CFieldEffectExplosionD1Ev: ; 0x02161FDC
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r1, _02162068 ; =ptr_FUN_overlay_0_02161fdc_overlay_0_02179230
 	mov r4, r0
 	mov r6, #0
 	str r1, [r4]
 	mov r5, r6
-	arm_func_end ov0_02161FDC
+	arm_func_end _ZN21CFieldEffectExplosionD1Ev
 _02161FF4:
 	add r0, r4, r6, lsl #2
 	ldr r0, [r0, #0xc0]
@@ -36891,8 +36891,8 @@ _0216217C:
 	bl ov0_02162464
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
 
-	arm_func_start ov0_02162194
-ov0_02162194: ; 0x02162194
+	arm_func_start _ZN21CFieldEffectExplosion12ov0_02142264Ei
+_ZN21CFieldEffectExplosion12ov0_02142264Ei: ; 0x02162194
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	sub sp, sp, #8
 	mov r6, r0
@@ -36922,7 +36922,7 @@ ov0_02162194: ; 0x02162194
 	add r1, r6, r1, lsl #1
 	ldrh r1, [r1, #0xbc]
 	bl _ZN17UnkClass_0200878812sub_020089B8Et
-	arm_func_end ov0_02162194
+	arm_func_end _ZN21CFieldEffectExplosion12ov0_02142264Ei
 _02162208:
 	ldr r0, [r6, #0xc8]
 	mov r1, #0
@@ -36993,8 +36993,8 @@ _021622F4:
 	.align 2, 0
 _02162300: .word MAIN_BSS_0210CA60
 
-	arm_func_start ov0_02162304
-ov0_02162304: ; 0x02162304
+	arm_func_start _ZN21CFieldEffectExplosion12ov0_02142344EP8Camera2D
+_ZN21CFieldEffectExplosion12ov0_02142344EP8Camera2D: ; 0x02162304
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r5, r0
@@ -37018,7 +37018,7 @@ ov0_02162304: ; 0x02162304
 	ldrh r1, [r1, #0xbc]
 	bl _ZN17UnkClass_0200878812sub_02008828Et
 	mov r3, r0
-	arm_func_end ov0_02162304
+	arm_func_end _ZN21CFieldEffectExplosion12ov0_02142344EP8Camera2D
 _02162360:
 	ldr r2, [r5, #0xc8]
 	mov r0, #0x4c
@@ -37044,8 +37044,8 @@ _021623AC:
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
 
-	arm_func_start ov0_021623B8
-ov0_021623B8: ; 0x021623B8
+	arm_func_start _ZN21CFieldEffectExplosion12sub_0203312CEii
+_ZN21CFieldEffectExplosion12sub_0203312CEii: ; 0x021623B8
 	cmp r1, #1
 	mov r3, #1
 	beq _021623D8
@@ -37054,7 +37054,7 @@ ov0_021623B8: ; 0x021623B8
 	cmp r1, #0x12
 	beq _021623F0
 	b _021623F8
-	arm_func_end ov0_021623B8
+	arm_func_end _ZN21CFieldEffectExplosion12sub_0203312CEii
 _021623D8:
 	mov r1, r2, lsl #0xc
 	str r1, [r0, #0x1c]
@@ -37072,8 +37072,8 @@ _021623FC:
 	mov r0, r3
 	bx lr
 
-	arm_func_start ov0_02162404
-ov0_02162404: ; 0x02162404
+	arm_func_start _ZN21CFieldEffectExplosion12ov0_021421F0Eiii
+_ZN21CFieldEffectExplosion12ov0_021421F0Eiii: ; 0x02162404
 	stmdb sp!, {r4, lr}
 	mov r1, #0
 	mov r4, r0
@@ -37098,7 +37098,7 @@ ov0_02162404: ; 0x02162404
 	sub r2, r1, #1
 	bl _ZN12CFieldEffect12ov0_021421F0Eiii
 	ldmia sp!, {r4, pc}
-	arm_func_end ov0_02162404
+	arm_func_end _ZN21CFieldEffectExplosion12ov0_021421F0Eiii
 
 	arm_func_start ov0_02162464
 ov0_02162464: ; 0x02162464
@@ -37208,8 +37208,8 @@ _02162594:
 	.align 2, 0
 _021625D8: .word MAIN_BSS_0210CA40
 
-	arm_func_start ov0_021625DC
-ov0_021625DC: ; 0x021625DC
+	arm_func_start _ZN21CFieldEffectExplosion12ov0_02142390EPvS0_
+_ZN21CFieldEffectExplosion12ov0_02142390EPvS0_: ; 0x021625DC
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #0x20
 	mov r6, r0
@@ -37268,7 +37268,7 @@ ov0_021625DC: ; 0x021625DC
 	add sp, sp, #0x20
 	mov r0, #0x20
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end ov0_021625DC
+	arm_func_end _ZN21CFieldEffectExplosion12ov0_02142390EPvS0_
 _021626C4:
 	mov r0, #0
 	add sp, sp, #0x20
@@ -37276,8 +37276,8 @@ _021626C4:
 	.align 2, 0
 _021626D0: .word s_cell_d_overlay_0_0217928c
 
-	arm_func_start ov0_021626D4
-ov0_021626D4: ; 0x021626D4
+	arm_func_start _ZN21CFieldEffectExplosion12ov0_02142388EPKv
+_ZN21CFieldEffectExplosion12ov0_02142388EPKv: ; 0x021626D4
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r4, r1
 	ldrb r1, [r4, #1]
@@ -37324,7 +37324,7 @@ ov0_021626D4: ; 0x021626D4
 	ldr r6, [r5, #0xd4]
 	cmp r6, #0
 	blt _0216279C
-	arm_func_end ov0_021626D4
+	arm_func_end _ZN21CFieldEffectExplosion12ov0_02142388EPKv
 _0216278C:
 	mov r0, r4
 	bl _ZN17UnkClass_0200878812sub_020089ECEv
@@ -37405,8 +37405,8 @@ _02162884: .word _ZTV16CEffectActorData+8
 _02162888: .word PTR_LAB_overlay_0_021426e4_overlay_0_02177b5c
 	arm_func_end ov0_02162850
 
-	arm_func_start ov0_0216288C
-ov0_0216288C: ; 0x0216288C
+	arm_func_start _ZN28CFieldEffectExplosionFactoryD1Ev
+_ZN28CFieldEffectExplosionFactoryD1Ev: ; 0x0216288C
 	stmdb sp!, {r4, lr}
 	ldr r1, _021628BC ; =ptr_FUN_overlay_0_0216288c_overlay_0_02179210
 	mov r4, r0
@@ -37422,7 +37422,7 @@ ov0_0216288C: ; 0x0216288C
 	.align 2, 0
 _021628BC: .word ptr_FUN_overlay_0_0216288c_overlay_0_02179210
 _021628C0: .word _ZN27CFieldEffectAttackActorDataD1Ev
-	arm_func_end ov0_0216288C
+	arm_func_end _ZN28CFieldEffectExplosionFactoryD1Ev
 
 	arm_func_start ov0_021628C4
 ov0_021628C4: ; 0x021628C4
@@ -37445,8 +37445,8 @@ _021628FC: .word ptr_FUN_overlay_0_0216288c_overlay_0_02179210
 _02162900: .word _ZN27CFieldEffectAttackActorDataD1Ev
 	arm_func_end ov0_021628C4
 
-	arm_func_start ov0_02162904
-ov0_02162904: ; 0x02162904
+	arm_func_start _ZN28CFieldEffectExplosionFactory6CreateEi
+_ZN28CFieldEffectExplosionFactory6CreateEi: ; 0x02162904
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	add r0, r5, #4
@@ -37466,7 +37466,7 @@ ov0_02162904: ; 0x02162904
 	beq _02162980
 	mov r2, r3
 	mov r1, r4
-	arm_func_end ov0_02162904
+	arm_func_end _ZN28CFieldEffectExplosionFactory6CreateEi
 _02162950:
 	ldrb r0, [r2, #0xdc]
 	cmp r0, #0
@@ -37507,7 +37507,7 @@ ov0_02162988: ; 0x02162988
 	ldr r0, [r6, #0x70]
 	cmp r0, #0
 	beq _021629F0
-	ldr r3, _02162A60 ; =ov0_02161FDC
+	ldr r3, _02162A60 ; =_ZN21CFieldEffectExplosionD1Ev
 	mov r1, #0xe0
 	mov r2, #8
 	bl __cxa_vec_delete
@@ -37515,7 +37515,7 @@ ov0_02162988: ; 0x02162988
 	str r0, [r6, #0x70]
 	arm_func_end ov0_02162988
 _021629F0:
-	ldr ip, _02162A60 ; =ov0_02161FDC
+	ldr ip, _02162A60 ; =_ZN21CFieldEffectExplosionD1Ev
 	ldr r3, _02162A64 ; =ov0_02162A68
 	mov r0, #3
 	mov r1, #0xe0
@@ -37547,7 +37547,7 @@ _02162A54:
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, r5, r6, pc}
 	.align 2, 0
-_02162A60: .word ov0_02161FDC
+_02162A60: .word _ZN21CFieldEffectExplosionD1Ev
 _02162A64: .word ov0_02162A68
 
 	arm_func_start ov0_02162A68
@@ -37602,7 +37602,7 @@ ov0_02162B08: ; 0x02162B08
 	ldr r0, [r4, #0x70]
 	cmp r0, #0
 	beq _02162B34
-	ldr r3, _02162B48 ; =ov0_02161FDC
+	ldr r3, _02162B48 ; =_ZN21CFieldEffectExplosionD1Ev
 	mov r1, #0xe0
 	mov r2, #8
 	bl __cxa_vec_delete
@@ -37616,10 +37616,10 @@ _02162B34:
 	bl _ZN16CEffectActorData7ReleaseEv
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02162B48: .word ov0_02161FDC
+_02162B48: .word _ZN21CFieldEffectExplosionD1Ev
 
-	arm_func_start ov0_02162B4C
-ov0_02162B4C: ; 0x02162B4C
+	arm_func_start _ZN28CFieldEffectExplosionFactory6UpdateEi
+_ZN28CFieldEffectExplosionFactory6UpdateEi: ; 0x02162B4C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #4
@@ -37631,28 +37631,28 @@ ov0_02162B4C: ; 0x02162B4C
 	ldr r1, [r1, #0x18]
 	blx r1
 	ldmia sp!, {r4, pc}
-	arm_func_end ov0_02162B4C
+	arm_func_end _ZN28CFieldEffectExplosionFactory6UpdateEi
 
-	arm_func_start ov0_02162B78
-ov0_02162B78: ; 0x02162B78
+	arm_func_start _ZN28CFieldEffectExplosionFactory5ResetEv
+_ZN28CFieldEffectExplosionFactory5ResetEv: ; 0x02162B78
 	ldr ip, _02162B80 ; =ov0_02162B08
 	bx ip
 	.align 2, 0
 _02162B80: .word ov0_02162B08
-	arm_func_end ov0_02162B78
+	arm_func_end _ZN28CFieldEffectExplosionFactory5ResetEv
 
-	arm_func_start ov0_02162B84
-ov0_02162B84: ; 0x02162B84
+	arm_func_start _ZN21CFieldEffectExplosion12ov0_021423A4Ev
+_ZN21CFieldEffectExplosion12ov0_021423A4Ev: ; 0x02162B84
 	mov r1, #0
 	strb r1, [r0, #0xdc]
 	bx lr
-	arm_func_end ov0_02162B84
+	arm_func_end _ZN21CFieldEffectExplosion12ov0_021423A4Ev
 
-	arm_func_start ov0_02162B90
-ov0_02162B90: ; 0x02162B90
+	arm_func_start _ZN21CFieldEffectExplosion12sub_02033028Ev
+_ZN21CFieldEffectExplosion12sub_02033028Ev: ; 0x02162B90
 	mov r0, #0xd
 	bx lr
-	arm_func_end ov0_02162B90
+	arm_func_end _ZN21CFieldEffectExplosion12sub_02033028Ev
 
 	arm_func_start ov0_02162B98
 ov0_02162B98: ; 0x02162B98
@@ -37698,8 +37698,8 @@ _02162C2C: .word _ZN15CSoftwareSpriteD1Ev
 _02162C30: .word _ZN15CSoftwareSpriteC1Ev
 	arm_func_end ov0_02162B98
 
-	arm_func_start ov0_02162C34
-ov0_02162C34: ; 0x02162C34
+	arm_func_start _ZN17CFieldEffectSlimeD1Ev
+_ZN17CFieldEffectSlimeD1Ev: ; 0x02162C34
 	stmdb sp!, {r4, lr}
 	ldr r1, _02162CA8 ; =ptr_FUN_overlay_0_02162c34_overlay_0_02179304
 	mov r4, r0
@@ -37716,7 +37716,7 @@ ov0_02162C34: ; 0x02162C34
 	add r1, r4, #0x100
 	ldrh r1, [r1, #0xe8]
 	bl _ZN17UnkClass_0200878812sub_02008B80Et
-	arm_func_end ov0_02162C34
+	arm_func_end _ZN17CFieldEffectSlimeD1Ev
 _02162C74:
 	ldr r3, _02162CAC ; =_ZN15CSoftwareSpriteD1Ev
 	add r0, r4, #0x6c
@@ -37811,8 +37811,8 @@ _02162D98:
 	bl MI_CpuFill8
 	ldmia sp!, {r4, pc}
 
-	arm_func_start ov0_02162DB4
-ov0_02162DB4: ; 0x02162DB4
+	arm_func_start _ZN17CFieldEffectSlime12ov0_02142264Ei
+_ZN17CFieldEffectSlime12ov0_02142264Ei: ; 0x02162DB4
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #8
 	mov sl, r0
@@ -37833,7 +37833,7 @@ ov0_02162DB4: ; 0x02162DB4
 	beq _02162E04
 	mov r0, sl
 	bl ov0_02163124
-	arm_func_end ov0_02162DB4
+	arm_func_end _ZN17CFieldEffectSlime12ov0_02142264Ei
 _02162E04:
 	add r0, sl, #0x100
 	mov r1, #0x1e
@@ -37887,8 +37887,8 @@ _02162EAC:
 	.align 2, 0
 _02162EB8: .word MAIN_BSS_0210CA60
 
-	arm_func_start ov0_02162EBC
-ov0_02162EBC: ; 0x02162EBC
+	arm_func_start _ZN17CFieldEffectSlime12ov0_02142344EP8Camera2D
+_ZN17CFieldEffectSlime12ov0_02142344EP8Camera2D: ; 0x02162EBC
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
 	sub sp, sp, #8
 	mov sl, r0
@@ -37909,7 +37909,7 @@ ov0_02162EBC: ; 0x02162EBC
 	ldrh r1, [r1, #0xe8]
 	bl _ZN17UnkClass_0200878812sub_02008828Et
 	mov r7, r0
-	arm_func_end ov0_02162EBC
+	arm_func_end _ZN17CFieldEffectSlime12ov0_02142344EP8Camera2D
 _02162F0C:
 	ldr r1, [sl, #0x1ec]
 	ldr r0, _02162FB0 ; =MAIN_BSS_0210CA60
@@ -37958,8 +37958,8 @@ _02162FA4:
 	.align 2, 0
 _02162FB0: .word MAIN_BSS_0210CA60
 
-	arm_func_start ov0_02162FB4
-ov0_02162FB4: ; 0x02162FB4
+	arm_func_start _ZN17CFieldEffectSlime12sub_0203312CEii
+_ZN17CFieldEffectSlime12sub_0203312CEii: ; 0x02162FB4
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r0
 	mov r6, r2
@@ -37976,7 +37976,7 @@ ov0_02162FB4: ; 0x02162FB4
 	cmp r1, #2
 	beq _02163020
 	b _021630A8
-	arm_func_end ov0_02162FB4
+	arm_func_end _ZN17CFieldEffectSlime12sub_0203312CEii
 _02162FF4:
 	cmp r1, #0x12
 	beq _021630A0
@@ -38037,8 +38037,8 @@ _021630AC:
 	.align 2, 0
 _021630B4: .word MAIN_BSS_0210CA40
 
-	arm_func_start ov0_021630B8
-ov0_021630B8: ; 0x021630B8
+	arm_func_start _ZN17CFieldEffectSlime12ov0_021421F0Eiii
+_ZN17CFieldEffectSlime12ov0_021421F0Eiii: ; 0x021630B8
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x1ec]
@@ -38052,7 +38052,7 @@ ov0_021630B8: ; 0x021630B8
 	sub r2, r1, #1
 	bl _ZN12CFieldEffect12ov0_021421F0Eiii
 	ldmia sp!, {r4, pc}
-	arm_func_end ov0_021630B8
+	arm_func_end _ZN17CFieldEffectSlime12ov0_021421F0Eiii
 
 	arm_func_start ov0_021630EC
 ov0_021630EC: ; 0x021630EC
@@ -38202,11 +38202,11 @@ _0216326C:
 	blt _0216326C
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
 
-	arm_func_start ov0_021632DC
-ov0_021632DC: ; 0x021632DC
+	arm_func_start _ZN17CFieldEffectSlime12ov0_0214239CEi
+_ZN17CFieldEffectSlime12ov0_0214239CEi: ; 0x021632DC
 	mov r0, #0xa
 	bx lr
-	arm_func_end ov0_021632DC
+	arm_func_end _ZN17CFieldEffectSlime12ov0_0214239CEi
 
 	arm_func_start ov0_021632E4
 ov0_021632E4: ; 0x021632E4
@@ -38297,8 +38297,8 @@ ov0_021633CC: ; 0x021633CC
 	ldmia sp!, {r4, pc}
 	arm_func_end ov0_021633CC
 
-	arm_func_start ov0_02163404
-ov0_02163404: ; 0x02163404
+	arm_func_start _ZN17CFieldEffectSlime12ov0_02142390EPvS0_
+_ZN17CFieldEffectSlime12ov0_02142390EPvS0_: ; 0x02163404
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
 	sub sp, sp, #0x20
 	mov r7, #0
@@ -38318,7 +38318,7 @@ ov0_02163404: ; 0x02163404
 	cmp r0, #0x86
 	beq _02163460
 	b _02163474
-	arm_func_end ov0_02163404
+	arm_func_end _ZN17CFieldEffectSlime12ov0_02142390EPvS0_
 _02163450:
 	mov r1, r7
 	b _02163474
@@ -38388,14 +38388,14 @@ _02163538:
 	add sp, sp, #0x20
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
 
-	arm_func_start ov0_02163544
-ov0_02163544: ; 0x02163544
+	arm_func_start _ZN17CFieldEffectSlime12ov0_02142388EPKv
+_ZN17CFieldEffectSlime12ov0_02142388EPKv: ; 0x02163544
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r7, r0
 	mov r6, r1
 	mov r5, #0
 	mov r4, #1
-	arm_func_end ov0_02163544
+	arm_func_end _ZN17CFieldEffectSlime12ov0_02142388EPKv
 _02163558:
 	ldrb r0, [r6, #2]
 	str r0, [r7, #0x1f4]
@@ -38488,8 +38488,8 @@ _02163684: .word ptr_FUN_overlay_0_02163690_overlay_0_021792e4
 _02163688: .word _ZTV16CEffectActorData+8
 _0216368C: .word PTR_LAB_overlay_0_021426e4_overlay_0_02177b5c
 
-	arm_func_start ov0_02163690
-ov0_02163690: ; 0x02163690
+	arm_func_start _ZN24CFieldEffectSlimeFactoryD1Ev
+_ZN24CFieldEffectSlimeFactoryD1Ev: ; 0x02163690
 	stmdb sp!, {r4, lr}
 	ldr r1, _021636B4 ; =ptr_FUN_overlay_0_02163690_overlay_0_021792e4
 	mov r4, r0
@@ -38501,7 +38501,7 @@ ov0_02163690: ; 0x02163690
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021636B4: .word ptr_FUN_overlay_0_02163690_overlay_0_021792e4
-	arm_func_end ov0_02163690
+	arm_func_end _ZN24CFieldEffectSlimeFactoryD1Ev
 
 	arm_func_start ov0_021636B8
 ov0_021636B8: ; 0x021636B8
@@ -38520,8 +38520,8 @@ ov0_021636B8: ; 0x021636B8
 _021636E4: .word ptr_FUN_overlay_0_02163690_overlay_0_021792e4
 	arm_func_end ov0_021636B8
 
-	arm_func_start ov0_021636E8
-ov0_021636E8: ; 0x021636E8
+	arm_func_start _ZN24CFieldEffectSlimeFactory6CreateEi
+_ZN24CFieldEffectSlimeFactory6CreateEi: ; 0x021636E8
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r7, r0
 	mov r6, r1
@@ -38539,7 +38539,7 @@ ov0_021636E8: ; 0x021636E8
 	cmpne r2, #0
 	beq _02163780
 	mov r5, r4
-	arm_func_end ov0_021636E8
+	arm_func_end _ZN24CFieldEffectSlimeFactory6CreateEi
 _0216372C:
 	add r1, r2, r5, lsl #9
 	add r0, r1, #0x100
@@ -38581,7 +38581,7 @@ ov0_02163788: ; 0x02163788
 	ldr r0, [r7, #0x40]
 	cmp r0, #0
 	beq _021637D0
-	ldr r3, _02163834 ; =ov0_02162C34
+	ldr r3, _02163834 ; =_ZN17CFieldEffectSlimeD1Ev
 	mov r1, #0x200
 	mov r2, #8
 	bl __cxa_vec_delete
@@ -38589,7 +38589,7 @@ ov0_02163788: ; 0x02163788
 	str r0, [r7, #0x40]
 	arm_func_end ov0_02163788
 _021637D0:
-	ldr ip, _02163834 ; =ov0_02162C34
+	ldr ip, _02163834 ; =_ZN17CFieldEffectSlimeD1Ev
 	ldr r3, _02163838 ; =ov0_02162B98
 	mov r0, #4
 	mov r1, #0x200
@@ -38617,7 +38617,7 @@ _0216382C:
 	mov r0, #0
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
-_02163834: .word ov0_02162C34
+_02163834: .word _ZN17CFieldEffectSlimeD1Ev
 _02163838: .word ov0_02162B98
 
 	arm_func_start ov0_0216383C
@@ -38627,7 +38627,7 @@ ov0_0216383C: ; 0x0216383C
 	ldr r0, [r4, #0x40]
 	cmp r0, #0
 	beq _02163868
-	ldr r3, _0216387C ; =ov0_02162C34
+	ldr r3, _0216387C ; =_ZN17CFieldEffectSlimeD1Ev
 	mov r1, #0x200
 	mov r2, #8
 	bl __cxa_vec_delete
@@ -38641,38 +38641,38 @@ _02163868:
 	str r0, [r4, #0x38]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216387C: .word ov0_02162C34
+_0216387C: .word _ZN17CFieldEffectSlimeD1Ev
 
-	arm_func_start ov0_02163880
-ov0_02163880: ; 0x02163880
+	arm_func_start _ZN24CFieldEffectSlimeFactory6UpdateEi
+_ZN24CFieldEffectSlimeFactory6UpdateEi: ; 0x02163880
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #4]!
 	ldr r1, [r1, #0x18]
 	blx r1
 	ldmia sp!, {r3, pc}
-	arm_func_end ov0_02163880
+	arm_func_end _ZN24CFieldEffectSlimeFactory6UpdateEi
 
-	arm_func_start ov0_02163894
-ov0_02163894: ; 0x02163894
+	arm_func_start _ZN24CFieldEffectSlimeFactory5ResetEv
+_ZN24CFieldEffectSlimeFactory5ResetEv: ; 0x02163894
 	ldr ip, _0216389C ; =ov0_0216383C
 	bx ip
 	.align 2, 0
 _0216389C: .word ov0_0216383C
-	arm_func_end ov0_02163894
+	arm_func_end _ZN24CFieldEffectSlimeFactory5ResetEv
 
-	arm_func_start ov0_021638A0
-ov0_021638A0: ; 0x021638A0
+	arm_func_start _ZN17CFieldEffectSlime12ov0_021423A4Ev
+_ZN17CFieldEffectSlime12ov0_021423A4Ev: ; 0x021638A0
 	add r0, r0, #0x100
 	mov r1, #0
 	strh r1, [r0, #0xfc]
 	bx lr
-	arm_func_end ov0_021638A0
+	arm_func_end _ZN17CFieldEffectSlime12ov0_021423A4Ev
 
-	arm_func_start ov0_021638B0
-ov0_021638B0: ; 0x021638B0
+	arm_func_start _ZN17CFieldEffectSlime12sub_02033028Ev
+_ZN17CFieldEffectSlime12sub_02033028Ev: ; 0x021638B0
 	mov r0, #0x12
 	bx lr
-	arm_func_end ov0_021638B0
+	arm_func_end _ZN17CFieldEffectSlime12sub_02033028Ev
 
 	arm_func_start _ZN17UnkClass_021638B8C1Ev
 _ZN17UnkClass_021638B8C1Ev: ; 0x021638B8
@@ -38985,18 +38985,18 @@ _02163CE8: .word PTR_LAB_overlay_0_02145134_overlay_0_021747a0
 _02163CEC: .word PTR_LAB_overlay_0_02163cf4_overlay_0_021793ec
 _02163CF0: .word PTR_LAB_overlay_0_02163cf8_overlay_0_021793bc
 
-	arm_func_start ov0_02163CF4
-ov0_02163CF4: ; 0x02163CF4
+	arm_func_start _ZN22CFieldEffectManpuAnger8CEmitterD1Ev
+_ZN22CFieldEffectManpuAnger8CEmitterD1Ev: ; 0x02163CF4
 	bx lr
-	arm_func_end ov0_02163CF4
+	arm_func_end _ZN22CFieldEffectManpuAnger8CEmitterD1Ev
 
-	arm_func_start ov0_02163CF8
-ov0_02163CF8: ; 0x02163CF8
+	arm_func_start _ZN22CFieldEffectManpuAnger9CAnimatorD1Ev
+_ZN22CFieldEffectManpuAnger9CAnimatorD1Ev: ; 0x02163CF8
 	bx lr
-	arm_func_end ov0_02163CF8
+	arm_func_end _ZN22CFieldEffectManpuAnger9CAnimatorD1Ev
 
-	arm_func_start ov0_02163CFC
-ov0_02163CFC: ; 0x02163CFC
+	arm_func_start _ZN22CFieldEffectManpuAngerD1Ev
+_ZN22CFieldEffectManpuAngerD1Ev: ; 0x02163CFC
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x3c]
@@ -39005,7 +39005,7 @@ ov0_02163CFC: ; 0x02163CFC
 	bl _ZdaPv
 	mov r0, #0
 	str r0, [r4, #0x3c]
-	arm_func_end ov0_02163CFC
+	arm_func_end _ZN22CFieldEffectManpuAngerD1Ev
 _02163D1C:
 	ldr r0, [r4, #0x38]
 	cmp r0, #0
@@ -39069,8 +39069,8 @@ _02163DC8:
 	.align 2, 0
 _02163DE0: .word ov0_021450CC
 
-	arm_func_start ov0_02163DE4
-ov0_02163DE4: ; 0x02163DE4
+	arm_func_start _ZN22CFieldEffectManpuAnger12ov0_021421F0Eiii
+_ZN22CFieldEffectManpuAnger12ov0_021421F0Eiii: ; 0x02163DE4
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r7, r0
 	ldr ip, [r7, #0x1c]
@@ -39088,10 +39088,10 @@ ov0_02163DE4: ; 0x02163DE4
 	mov r3, r4
 	bl _ZN12CFieldEffect12ov0_021421F0Eiii
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end ov0_02163DE4
+	arm_func_end _ZN22CFieldEffectManpuAnger12ov0_021421F0Eiii
 
-	arm_func_start ov0_02163E28
-ov0_02163E28: ; 0x02163E28
+	arm_func_start _ZN22CFieldEffectManpuAnger12ov0_02142264Ei
+_ZN22CFieldEffectManpuAnger12ov0_02142264Ei: ; 0x02163E28
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0x14
 	mov sl, r0
@@ -39108,7 +39108,7 @@ ov0_02163E28: ; 0x02163E28
 	beq _02163F80
 	mov r6, sb, asr #0x1f
 	mov r7, #0
-	arm_func_end ov0_02163E28
+	arm_func_end _ZN22CFieldEffectManpuAnger12ov0_02142264Ei
 _02163E68:
 	ldr r0, [r4, #0x60]
 	ldr r5, [r4, #0x70]
@@ -39288,14 +39288,14 @@ _021640EC:
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
 
-	arm_func_start ov0_021640F8
-ov0_021640F8: ; 0x021640F8
+	arm_func_start _ZN22CFieldEffectManpuAnger8SetDepthEl
+_ZN22CFieldEffectManpuAnger8SetDepthEl: ; 0x021640F8
 	str r1, [r0, #0x64]
 	bx lr
-	arm_func_end ov0_021640F8
+	arm_func_end _ZN22CFieldEffectManpuAnger8SetDepthEl
 
-	arm_func_start ov0_02164100
-ov0_02164100: ; 0x02164100
+	arm_func_start _ZN22CFieldEffectManpuAnger4DrawEP8Camera2D
+_ZN22CFieldEffectManpuAnger4DrawEP8Camera2D: ; 0x02164100
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r0, [r6, #0x14]
@@ -39305,7 +39305,7 @@ ov0_02164100: ; 0x02164100
 	ldrne r4, [r6, #0x5c]
 	cmpne r4, #0
 	beq _02164178
-	arm_func_end ov0_02164100
+	arm_func_end _ZN22CFieldEffectManpuAnger4DrawEP8Camera2D
 _02164124:
 	ldr r0, [r6, #0x64]
 	cmp r0, #0
@@ -39332,15 +39332,15 @@ _02164178:
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
 
-	arm_func_start ov0_02164180
-ov0_02164180: ; 0x02164180
+	arm_func_start _ZN22CFieldEffectManpuAnger8CEmitter5func2Ev
+_ZN22CFieldEffectManpuAnger8CEmitter5func2Ev: ; 0x02164180
 	mov r1, #0x1000
 	str r1, [r0, #0x20]
 	bx lr
-	arm_func_end ov0_02164180
+	arm_func_end _ZN22CFieldEffectManpuAnger8CEmitter5func2Ev
 
-	arm_func_start ov0_0216418C
-ov0_0216418C: ; 0x0216418C
+	arm_func_start _ZN22CFieldEffectManpuAnger8CEmitter6UpdateEi
+_ZN22CFieldEffectManpuAnger8CEmitter6UpdateEi: ; 0x0216418C
 	ldr r2, [r0, #0x20]
 	mov r3, #0
 	cmp r2, #0
@@ -39354,13 +39354,13 @@ ov0_0216418C: ; 0x0216418C
 	cmp r1, #0
 	movgt r1, r1, lsl #0xc
 	strgt r1, [r0, #0x20]
-	arm_func_end ov0_0216418C
+	arm_func_end _ZN22CFieldEffectManpuAnger8CEmitter6UpdateEi
 _021641C0:
 	mov r0, r3
 	bx lr
 
-	arm_func_start ov0_021641C8
-ov0_021641C8: ; 0x021641C8
+	arm_func_start _ZN22CFieldEffectManpuAnger8CEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE
+_ZN22CFieldEffectManpuAnger8CEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE: ; 0x021641C8
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0x38
 	mov r5, r0
@@ -39380,7 +39380,7 @@ ov0_021641C8: ; 0x021641C8
 	str r2, [sp, #8]
 	str r1, [sp, #0xc]
 	b _0216422C
-	arm_func_end ov0_021641C8
+	arm_func_end _ZN22CFieldEffectManpuAnger8CEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE
 _02164214:
 	mov r1, #0
 	add r2, sp, #0x20
@@ -39515,8 +39515,8 @@ _021643D8:
 	add sp, sp, #0x38
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
 
-	arm_func_start ov0_02164404
-ov0_02164404: ; 0x02164404
+	arm_func_start _ZN22CFieldEffectManpuAnger9CAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
+_ZN22CFieldEffectManpuAnger9CAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi: ; 0x02164404
 	stmdb sp!, {r4, lr}
 	mov r4, r1
 	ldr r2, [r4, #0x64]
@@ -39543,7 +39543,7 @@ ov0_02164404: ; 0x02164404
 	mov r0, r2, lsr #0xc
 	orr r0, r0, r1, lsl #20
 	add r1, r0, #0x800
-	arm_func_end ov0_02164404
+	arm_func_end _ZN22CFieldEffectManpuAnger9CAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
 _0216446C:
 	ldr r0, [r4, #0x68]
 	tst r0, #1
@@ -39649,14 +39649,14 @@ _021645BC: .word ptr_FUN_overlay_0_021645c8_overlay_0_021794e8
 _021645C0: .word _ZN15CSoftwareSpriteD1Ev
 _021645C4: .word _ZN15CSoftwareSpriteC1Ev
 
-	arm_func_start ov0_021645C8
-ov0_021645C8: ; 0x021645C8
+	arm_func_start _ZN20CFieldEffectManpuAseD1Ev
+_ZN20CFieldEffectManpuAseD1Ev: ; 0x021645C8
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _02164624 ; =ptr_FUN_overlay_0_021645c8_overlay_0_021794e8
 	mov r5, r0
 	str r1, [r5]
 	mov r4, #0
-	arm_func_end ov0_021645C8
+	arm_func_end _ZN20CFieldEffectManpuAseD1Ev
 _021645DC:
 	add r0, r5, r4, lsl #1
 	ldrh r1, [r0, #0xc4]
@@ -39715,8 +39715,8 @@ _02164658:
 _02164690: .word ptr_FUN_overlay_0_021645c8_overlay_0_021794e8
 _02164694: .word _ZN15CSoftwareSpriteD1Ev
 
-	arm_func_start ov0_02164698
-ov0_02164698: ; 0x02164698
+	arm_func_start _ZN20CFieldEffectManpuAse12ov0_02142264Ei
+_ZN20CFieldEffectManpuAse12ov0_02142264Ei: ; 0x02164698
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r7, r0
 	bl _ZN17CFieldEffectActor12ov0_02142264Ei
@@ -39735,7 +39735,7 @@ ov0_02164698: ; 0x02164698
 	cmpne r5, #0
 	beq _02164704
 	mov r6, #0
-	arm_func_end ov0_02164698
+	arm_func_end _ZN20CFieldEffectManpuAse12ov0_02142264Ei
 _021646E0:
 	add r0, r7, r6, lsl #1
 	ldrh r1, [r0, #0xc4]
@@ -39751,10 +39751,10 @@ _02164704:
 	mov r0, r4
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 
-	arm_func_start ov0_0216470C
-ov0_0216470C: ; 0x0216470C
+	arm_func_start _ZN20CFieldEffectManpuAse8SetDepthEl
+_ZN20CFieldEffectManpuAse8SetDepthEl: ; 0x0216470C
 	mov r2, #0
-	arm_func_end ov0_0216470C
+	arm_func_end _ZN20CFieldEffectManpuAse8SetDepthEl
 _02164710:
 	add r2, r2, #1
 	str r1, [r0, #0x30]
@@ -39763,8 +39763,8 @@ _02164710:
 	blt _02164710
 	bx lr
 
-	arm_func_start ov0_02164728
-ov0_02164728: ; 0x02164728
+	arm_func_start _ZN20CFieldEffectManpuAse4DrawEP8Camera2D
+_ZN20CFieldEffectManpuAse4DrawEP8Camera2D: ; 0x02164728
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0x70
 	mov r5, r0
@@ -39785,7 +39785,7 @@ ov0_02164728: ; 0x02164728
 	beq _021647A4
 	mov r8, r5
 	mov r7, #0
-	arm_func_end ov0_02164728
+	arm_func_end _ZN20CFieldEffectManpuAse4DrawEP8Camera2D
 _02164778:
 	add r0, r5, r7, lsl #1
 	ldrh r1, [r0, #0xc4]
@@ -40176,14 +40176,14 @@ _02164C50:
 	.align 2, 0
 _02164CE0: .word DAT_overlay_0_02172f08
 
-	arm_func_start ov0_02164CE4
-ov0_02164CE4: ; 0x02164CE4
+	arm_func_start _ZN25CFieldEffectManpuDokarimoD1Ev
+_ZN25CFieldEffectManpuDokarimoD1Ev: ; 0x02164CE4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl ov0_0215281C
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	arm_func_end ov0_02164CE4
+	arm_func_end _ZN25CFieldEffectManpuDokarimoD1Ev
 
 	arm_func_start ov0_02164CF8
 ov0_02164CF8: ; 0x02164CF8
@@ -40570,8 +40570,8 @@ _02165214: .word _ZTV12CFieldEffect+8
 _02165218: .word ptr_FUN_overlay_0_0216521c_overlay_0_021796ec
 	arm_func_end ov0_021651C8
 
-	arm_func_start ov0_0216521C
-ov0_0216521C: ; 0x0216521C
+	arm_func_start _ZN16CFieldEffectBushD1Ev
+_ZN16CFieldEffectBushD1Ev: ; 0x0216521C
 	stmdb sp!, {r4, lr}
 	ldr r1, _02165260 ; =ptr_FUN_overlay_0_0216521c_overlay_0_021796ec
 	mov r4, r0
@@ -40592,7 +40592,7 @@ ov0_0216521C: ; 0x0216521C
 	.align 2, 0
 _02165260: .word ptr_FUN_overlay_0_0216521c_overlay_0_021796ec
 _02165264: .word _ZTV12CFieldEffect+8
-	arm_func_end ov0_0216521C
+	arm_func_end _ZN16CFieldEffectBushD1Ev
 
 	arm_func_start ov0_02165268
 ov0_02165268: ; 0x02165268
@@ -40770,8 +40770,8 @@ _02165488:
 	str r0, [r4, #0x1c]
 	ldmia sp!, {r4, pc}
 
-	arm_func_start ov0_02165494
-ov0_02165494: ; 0x02165494
+	arm_func_start _ZN16CFieldEffectBush12ov0_02142344EP8Camera2D
+_ZN16CFieldEffectBush12ov0_02142344EP8Camera2D: ; 0x02165494
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r4, r1
@@ -40785,7 +40785,7 @@ ov0_02165494: ; 0x02165494
 	bl _ZN11CFieldActor12sub_0203DA10Ev
 	mvn r0, #0
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ov0_02165494
+	arm_func_end _ZN16CFieldEffectBush12ov0_02142344EP8Camera2D
 _021654C8:
 	ldr r0, [r5, #0x20]
 	cmp r0, #0
@@ -40944,7 +40944,7 @@ ov0_021656BC: ; 0x021656BC
 	ldr r2, _02165760 ; =ptr_FUN_overlay_0_02151848_overlay_0_021796cc
 	mov r8, r0
 	mov r5, r1
-	ldr r4, _02165764 ; =ov0_0216521C
+	ldr r4, _02165764 ; =_ZN16CFieldEffectBushD1Ev
 	str r2, [r8]
 	ldr r3, _02165768 ; =ov0_021651C8
 	add r0, r8, #4
@@ -40985,16 +40985,16 @@ _02165754:
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
 	.align 2, 0
 _02165760: .word ptr_FUN_overlay_0_02151848_overlay_0_021796cc
-_02165764: .word ov0_0216521C
+_02165764: .word _ZN16CFieldEffectBushD1Ev
 _02165768: .word ov0_021651C8
 
-	arm_func_start ov0_0216576C
-ov0_0216576C: ; 0x0216576C
+	arm_func_start _ZN23CFieldEffectBushFactory6CreateEi
+_ZN23CFieldEffectBushFactory6CreateEi: ; 0x0216576C
 	stmdb sp!, {r4, lr}
 	mov r4, #0
 	mov r2, r4
 	mov r3, r0
-	arm_func_end ov0_0216576C
+	arm_func_end _ZN23CFieldEffectBushFactory6CreateEi
 _0216577C:
 	ldrb r1, [r3, #0x1c]
 	cmp r1, #0
@@ -41014,17 +41014,17 @@ _021657B0:
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 
-	arm_func_start ov0_021657B8
-ov0_021657B8: ; 0x021657B8
+	arm_func_start _ZN16CFieldEffectBush12sub_02033028Ev
+_ZN16CFieldEffectBush12sub_02033028Ev: ; 0x021657B8
 	mov r0, #0x25
 	bx lr
-	arm_func_end ov0_021657B8
+	arm_func_end _ZN16CFieldEffectBush12sub_02033028Ev
 
 	arm_func_start ov0_021657C0
 ov0_021657C0: ; 0x021657C0
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r3, _021657EC ; =ov0_0216521C
+	ldr r3, _021657EC ; =_ZN16CFieldEffectBushD1Ev
 	add r0, r4, #4
 	mov r1, #0x10
 	mov r2, #0x74
@@ -41034,7 +41034,7 @@ ov0_021657C0: ; 0x021657C0
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_021657EC: .word ov0_0216521C
+_021657EC: .word _ZN16CFieldEffectBushD1Ev
 	arm_func_end ov0_021657C0
 
 	arm_func_start ov0_021657F0
@@ -41072,13 +41072,13 @@ _02165860: .word _ZTV11CDrawObject+8
 _02165864: .word PTR_LAB_overlay_0_02165868_overlay_0_02179774
 	arm_func_end ov0_021657F0
 
-	arm_func_start ov0_02165868
-ov0_02165868: ; 0x02165868
+	arm_func_start _ZN23CFieldEffectWaterSplash17CEffectDrawObjectD1Ev
+_ZN23CFieldEffectWaterSplash17CEffectDrawObjectD1Ev: ; 0x02165868
 	bx lr
-	arm_func_end ov0_02165868
+	arm_func_end _ZN23CFieldEffectWaterSplash17CEffectDrawObjectD1Ev
 
-	arm_func_start ov0_0216586C
-ov0_0216586C: ; 0x0216586C
+	arm_func_start _ZN23CFieldEffectWaterSplashD1Ev
+_ZN23CFieldEffectWaterSplashD1Ev: ; 0x0216586C
 	stmdb sp!, {r4, lr}
 	ldr r1, _021658B0 ; =ptr_FUN_overlay_0_0216586c_overlay_0_02179818
 	mov r4, r0
@@ -41099,7 +41099,7 @@ ov0_0216586C: ; 0x0216586C
 	.align 2, 0
 _021658B0: .word ptr_FUN_overlay_0_0216586c_overlay_0_02179818
 _021658B4: .word _ZTV12CFieldEffect+8
-	arm_func_end ov0_0216586C
+	arm_func_end _ZN23CFieldEffectWaterSplashD1Ev
 
 	arm_func_start ov0_021658B8
 ov0_021658B8: ; 0x021658B8
@@ -41171,15 +41171,15 @@ ov0_0216596C: ; 0x0216596C
 	bx lr
 	arm_func_end ov0_0216596C
 
-	arm_func_start ov0_02165978
-ov0_02165978: ; 0x02165978
+	arm_func_start _ZN23CFieldEffectWaterSplash12sub_0203312CEii
+_ZN23CFieldEffectWaterSplash12sub_0203312CEii: ; 0x02165978
 	cmp r1, #1
 	mov r3, #1
 	beq _02165990
 	cmp r1, #2
 	beq _0216599C
 	b _021659AC
-	arm_func_end ov0_02165978
+	arm_func_end _ZN23CFieldEffectWaterSplash12sub_0203312CEii
 _02165990:
 	mov r1, r2, lsl #0xc
 	str r1, [r0, #0x38]
@@ -41195,8 +41195,8 @@ _021659B0:
 	mov r0, r3
 	bx lr
 
-	arm_func_start ov0_021659B8
-ov0_021659B8: ; 0x021659B8
+	arm_func_start _ZN23CFieldEffectWaterSplash12ov0_021421F0Eiii
+_ZN23CFieldEffectWaterSplash12ov0_021421F0Eiii: ; 0x021659B8
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r7, r0
 	ldr r0, [r7, #0x1c]
@@ -41208,7 +41208,7 @@ ov0_021659B8: ; 0x021659B8
 	cmpne r1, #0
 	beq _021659E4
 	bl _ZN17UnkClass_0200878812sub_020089B8Et
-	arm_func_end ov0_021659B8
+	arm_func_end _ZN23CFieldEffectWaterSplash12ov0_021421F0Eiii
 _021659E4:
 	mov r0, r7
 	mov r1, r6
@@ -41217,8 +41217,8 @@ _021659E4:
 	bl _ZN12CFieldEffect12ov0_021421F0Eiii
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 
-	arm_func_start ov0_021659FC
-ov0_021659FC: ; 0x021659FC
+	arm_func_start _ZN23CFieldEffectWaterSplash12ov0_02142264Ei
+_ZN23CFieldEffectWaterSplash12ov0_02142264Ei: ; 0x021659FC
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	bl _ZN12CFieldEffect12ov0_02142264Ei
@@ -41240,13 +41240,13 @@ ov0_021659FC: ; 0x021659FC
 	mov r1, #0
 	ldr r2, [r2, #0x20]
 	blx r2
-	arm_func_end ov0_021659FC
+	arm_func_end _ZN23CFieldEffectWaterSplash12ov0_02142264Ei
 _02165A50:
 	mov r0, r4
 	ldmia sp!, {r3, r4, r5, pc}
 
-	arm_func_start ov0_02165A58
-ov0_02165A58: ; 0x02165A58
+	arm_func_start _ZN23CFieldEffectWaterSplash12ov0_02142344EP8Camera2D
+_ZN23CFieldEffectWaterSplash12ov0_02142344EP8Camera2D: ; 0x02165A58
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r0, [r5, #0x1c]
@@ -41257,7 +41257,7 @@ ov0_02165A58: ; 0x02165A58
 	beq _02165A80
 	bl _ZN17UnkClass_0200878812sub_02008828Et
 	strh r0, [r5, #0x4a]
-	arm_func_end ov0_02165A58
+	arm_func_end _ZN23CFieldEffectWaterSplash12ov0_02142344EP8Camera2D
 _02165A80:
 	ldr r1, [r5, #0x7c]
 	add r0, r5, #0x20
@@ -41269,8 +41269,8 @@ _02165A80:
 	mov r0, #0
 	ldmia sp!, {r3, r4, r5, pc}
 
-	arm_func_start ov0_02165AA4
-ov0_02165AA4: ; 0x02165AA4
+	arm_func_start _ZN23CFieldEffectWaterSplash12ov0_02142398EP17UnkClass_0211E3FC
+_ZN23CFieldEffectWaterSplash12ov0_02142398EP17UnkClass_0211E3FC: ; 0x02165AA4
 	ldr ip, _02165AB8 ; =FUN_0200912C
 	mov r2, r0
 	mov r0, r1
@@ -41278,14 +41278,14 @@ ov0_02165AA4: ; 0x02165AA4
 	bx ip
 	.align 2, 0
 _02165AB8: .word _ZN17UnkClass_0211E3FC12sub_0200912CEP11CDrawObject
-	arm_func_end ov0_02165AA4
+	arm_func_end _ZN23CFieldEffectWaterSplash12ov0_02142398EP17UnkClass_0211E3FC
 
-	arm_func_start ov0_02165ABC
-ov0_02165ABC: ; 0x02165ABC
+	arm_func_start _ZN23CFieldEffectWaterSplash17CEffectDrawObject12sub_020091D4EP8Camera2Di
+_ZN23CFieldEffectWaterSplash17CEffectDrawObject12sub_020091D4EP8Camera2Di: ; 0x02165ABC
 	str r2, [r0, #0xc]
 	mov r0, #0xa
 	bx lr
-	arm_func_end ov0_02165ABC
+	arm_func_end _ZN23CFieldEffectWaterSplash17CEffectDrawObject12sub_020091D4EP8Camera2Di
 
 	arm_func_start ov0_02165AC8
 ov0_02165AC8: ; 0x02165AC8
@@ -41293,7 +41293,7 @@ ov0_02165AC8: ; 0x02165AC8
 	ldr r2, _02165B98 ; =PTR_LAB_overlay_0_02151870_overlay_0_021797a4
 	mov fp, r0
 	mov r5, r1
-	ldr r4, _02165B9C ; =ov0_0216586C
+	ldr r4, _02165B9C ; =_ZN23CFieldEffectWaterSplashD1Ev
 	str r2, [fp]
 	ldr r3, _02165BA0 ; =ov0_021657F0
 	add r0, fp, #4
@@ -41346,15 +41346,15 @@ _02165B90:
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
 	.align 2, 0
 _02165B98: .word PTR_LAB_overlay_0_02151870_overlay_0_021797a4
-_02165B9C: .word ov0_0216586C
+_02165B9C: .word _ZN23CFieldEffectWaterSplashD1Ev
 _02165BA0: .word ov0_021657F0
 
-	arm_func_start ov0_02165BA4
-ov0_02165BA4: ; 0x02165BA4
+	arm_func_start _ZN30CFieldEffectWaterSplashFactory6CreateEi
+_ZN30CFieldEffectWaterSplashFactory6CreateEi: ; 0x02165BA4
 	stmdb sp!, {r4, lr}
 	mov r4, #0
 	mov r2, r4
-	arm_func_end ov0_02165BA4
+	arm_func_end _ZN30CFieldEffectWaterSplashFactory6CreateEi
 _02165BB0:
 	add r1, r0, r2, lsl #7
 	ldrb r1, [r1, #0x1c]
@@ -41373,11 +41373,11 @@ _02165BE0:
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 
-	arm_func_start ov0_02165BE8
-ov0_02165BE8: ; 0x02165BE8
+	arm_func_start _ZN23CFieldEffectWaterSplash12sub_02033028Ev
+_ZN23CFieldEffectWaterSplash12sub_02033028Ev: ; 0x02165BE8
 	mov r0, #0x26
 	bx lr
-	arm_func_end ov0_02165BE8
+	arm_func_end _ZN23CFieldEffectWaterSplash12sub_02033028Ev
 
 	arm_func_start ov0_02165BF0
 ov0_02165BF0: ; 0x02165BF0
@@ -41392,7 +41392,7 @@ ov0_02165BF0: ; 0x02165BF0
 ov0_02165C04: ; 0x02165C04
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r3, _02165C30 ; =ov0_0216586C
+	ldr r3, _02165C30 ; =_ZN23CFieldEffectWaterSplashD1Ev
 	add r0, r4, #4
 	mov r1, #0x10
 	mov r2, #0x80
@@ -41402,7 +41402,7 @@ ov0_02165C04: ; 0x02165C04
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02165C30: .word ov0_0216586C
+_02165C30: .word _ZN23CFieldEffectWaterSplashD1Ev
 	arm_func_end ov0_02165C04
 
 	arm_func_start ov0_02165C34
@@ -41574,18 +41574,18 @@ _02165EA0: .word PTR_LAB_overlay_0_02145134_overlay_0_021747a0
 _02165EA4: .word PTR_LAB_overlay_0_02165eac_overlay_0_021798d0
 _02165EA8: .word PTR_LAB_overlay_0_02165eb0_overlay_0_021798a0
 
-	arm_func_start ov0_02165EAC
-ov0_02165EAC: ; 0x02165EAC
+	arm_func_start _ZN24CFieldEffectManpuGokigen8CEmitterD1Ev
+_ZN24CFieldEffectManpuGokigen8CEmitterD1Ev: ; 0x02165EAC
 	bx lr
-	arm_func_end ov0_02165EAC
+	arm_func_end _ZN24CFieldEffectManpuGokigen8CEmitterD1Ev
 
-	arm_func_start ov0_02165EB0
-ov0_02165EB0: ; 0x02165EB0
+	arm_func_start _ZN24CFieldEffectManpuGokigen9CAnimatorD1Ev
+_ZN24CFieldEffectManpuGokigen9CAnimatorD1Ev: ; 0x02165EB0
 	bx lr
-	arm_func_end ov0_02165EB0
+	arm_func_end _ZN24CFieldEffectManpuGokigen9CAnimatorD1Ev
 
-	arm_func_start ov0_02165EB4
-ov0_02165EB4: ; 0x02165EB4
+	arm_func_start _ZN24CFieldEffectManpuGokigenD1Ev
+_ZN24CFieldEffectManpuGokigenD1Ev: ; 0x02165EB4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x3c]
@@ -41594,7 +41594,7 @@ ov0_02165EB4: ; 0x02165EB4
 	bl _ZdaPv
 	mov r0, #0
 	str r0, [r4, #0x3c]
-	arm_func_end ov0_02165EB4
+	arm_func_end _ZN24CFieldEffectManpuGokigenD1Ev
 _02165ED4:
 	ldr r0, [r4, #0x38]
 	cmp r0, #0
@@ -41658,8 +41658,8 @@ _02165F80:
 	.align 2, 0
 _02165F98: .word ov0_021450CC
 
-	arm_func_start ov0_02165F9C
-ov0_02165F9C: ; 0x02165F9C
+	arm_func_start _ZN24CFieldEffectManpuGokigen7SetTypeEi
+_ZN24CFieldEffectManpuGokigen7SetTypeEi: ; 0x02165F9C
 	cmp r1, #0xb
 	moveq r2, #0x1e
 	str r1, [r0, #0x94]
@@ -41667,10 +41667,10 @@ ov0_02165F9C: ; 0x02165F9C
 	str r2, [r0, #0x84]
 	str r1, [r0, #0x24]
 	bx lr
-	arm_func_end ov0_02165F9C
+	arm_func_end _ZN24CFieldEffectManpuGokigen7SetTypeEi
 
-	arm_func_start ov0_02165FB8
-ov0_02165FB8: ; 0x02165FB8
+	arm_func_start _ZN24CFieldEffectManpuGokigen12ov0_021421F0Eiii
+_ZN24CFieldEffectManpuGokigen12ov0_021421F0Eiii: ; 0x02165FB8
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r7, r0
 	ldr ip, [r7, #0x1c]
@@ -41688,10 +41688,10 @@ ov0_02165FB8: ; 0x02165FB8
 	mov r3, r4
 	bl _ZN12CFieldEffect12ov0_021421F0Eiii
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end ov0_02165FB8
+	arm_func_end _ZN24CFieldEffectManpuGokigen12ov0_021421F0Eiii
 
-	arm_func_start ov0_02165FFC
-ov0_02165FFC: ; 0x02165FFC
+	arm_func_start _ZN24CFieldEffectManpuGokigen12ov0_02142264Ei
+_ZN24CFieldEffectManpuGokigen12ov0_02142264Ei: ; 0x02165FFC
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0x14
 	mov sl, r0
@@ -41711,7 +41711,7 @@ ov0_02165FFC: ; 0x02165FFC
 	beq _02166160
 	mov r6, sb, asr #0x1f
 	mov r7, #0
-	arm_func_end ov0_02165FFC
+	arm_func_end _ZN24CFieldEffectManpuGokigen12ov0_02142264Ei
 _02166048:
 	ldr r0, [r4, #0x60]
 	ldr r5, [r4, #0x70]
@@ -41891,14 +41891,14 @@ _021662CC:
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
 
-	arm_func_start ov0_021662D8
-ov0_021662D8: ; 0x021662D8
+	arm_func_start _ZN24CFieldEffectManpuGokigen8SetDepthEl
+_ZN24CFieldEffectManpuGokigen8SetDepthEl: ; 0x021662D8
 	str r1, [r0, #0x64]
 	bx lr
-	arm_func_end ov0_021662D8
+	arm_func_end _ZN24CFieldEffectManpuGokigen8SetDepthEl
 
-	arm_func_start ov0_021662E0
-ov0_021662E0: ; 0x021662E0
+	arm_func_start _ZN24CFieldEffectManpuGokigen4DrawEP8Camera2D
+_ZN24CFieldEffectManpuGokigen4DrawEP8Camera2D: ; 0x021662E0
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r0, [r6, #0x14]
@@ -41908,7 +41908,7 @@ ov0_021662E0: ; 0x021662E0
 	ldrne r4, [r6, #0x5c]
 	cmpne r4, #0
 	beq _02166358
-	arm_func_end ov0_021662E0
+	arm_func_end _ZN24CFieldEffectManpuGokigen4DrawEP8Camera2D
 _02166304:
 	ldr r0, [r6, #0x64]
 	cmp r0, #0
@@ -41935,15 +41935,15 @@ _02166358:
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
 
-	arm_func_start ov0_02166360
-ov0_02166360: ; 0x02166360
+	arm_func_start _ZN24CFieldEffectManpuGokigen8CEmitter5func2Ev
+_ZN24CFieldEffectManpuGokigen8CEmitter5func2Ev: ; 0x02166360
 	mov r1, #0x1000
 	str r1, [r0, #0x20]
 	bx lr
-	arm_func_end ov0_02166360
+	arm_func_end _ZN24CFieldEffectManpuGokigen8CEmitter5func2Ev
 
-	arm_func_start ov0_0216636C
-ov0_0216636C: ; 0x0216636C
+	arm_func_start _ZN24CFieldEffectManpuGokigen8CEmitter6UpdateEi
+_ZN24CFieldEffectManpuGokigen8CEmitter6UpdateEi: ; 0x0216636C
 	ldr r2, [r0, #0x20]
 	mov r3, #0
 	cmp r2, #0
@@ -41957,13 +41957,13 @@ ov0_0216636C: ; 0x0216636C
 	cmp r1, #0
 	movgt r1, r1, lsl #0xc
 	strgt r1, [r0, #0x20]
-	arm_func_end ov0_0216636C
+	arm_func_end _ZN24CFieldEffectManpuGokigen8CEmitter6UpdateEi
 _021663A0:
 	mov r0, r3
 	bx lr
 
-	arm_func_start ov0_021663A8
-ov0_021663A8: ; 0x021663A8
+	arm_func_start _ZN24CFieldEffectManpuGokigen8CEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE
+_ZN24CFieldEffectManpuGokigen8CEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE: ; 0x021663A8
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0x38
 	mov r5, r0
@@ -41983,7 +41983,7 @@ ov0_021663A8: ; 0x021663A8
 	str r2, [sp, #8]
 	str r1, [sp, #0xc]
 	b _0216640C
-	arm_func_end ov0_021663A8
+	arm_func_end _ZN24CFieldEffectManpuGokigen8CEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE
 _021663F4:
 	mov r1, #0
 	add r2, sp, #0x20
@@ -42146,8 +42146,8 @@ ov0_021665F4: ; 0x021665F4
 	bx lr
 	arm_func_end ov0_021665F4
 
-	arm_func_start ov0_0216663C
-ov0_0216663C: ; 0x0216663C
+	arm_func_start _ZN24CFieldEffectManpuGokigen9CAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
+_ZN24CFieldEffectManpuGokigen9CAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi: ; 0x0216663C
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #4
 	ldr r2, [r1, #0x60]
@@ -42178,7 +42178,7 @@ ov0_0216663C: ; 0x0216663C
 	addeq r3, r4, #0x33
 	addeq r4, r3, #0x300
 	b _021666B8
-	arm_func_end ov0_0216663C
+	arm_func_end _ZN24CFieldEffectManpuGokigen9CAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
 _021666B4:
 	sub r4, r4, ip, lsr #1
 _021666B8:
@@ -42359,8 +42359,8 @@ _02166910: .word ptr_FUN_overlay_0_0216691c_overlay_0_02179a14
 _02166914: .word _ZN16CSimpleSpriteNTFD1Ev
 _02166918: .word ov0_02166794
 
-	arm_func_start ov0_0216691C
-ov0_0216691C: ; 0x0216691C
+	arm_func_start _ZN17CFieldEffectBloomD1Ev
+_ZN17CFieldEffectBloomD1Ev: ; 0x0216691C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r3, _02166958 ; =_ZN16CSimpleSpriteNTFD1Ev
@@ -42379,7 +42379,7 @@ ov0_0216691C: ; 0x0216691C
 	.align 2, 0
 _02166958: .word _ZN16CSimpleSpriteNTFD1Ev
 _0216695C: .word _ZTV12CFieldEffect+8
-	arm_func_end ov0_0216691C
+	arm_func_end _ZN17CFieldEffectBloomD1Ev
 
 	arm_func_start ov0_02166960
 ov0_02166960: ; 0x02166960
@@ -42433,8 +42433,8 @@ _021669D8:
 	mov r0, #4
 	bx lr
 
-	arm_func_start ov0_021669F8
-ov0_021669F8: ; 0x021669F8
+	arm_func_start _ZN17CFieldEffectBloom12sub_020333D8Eii
+_ZN17CFieldEffectBloom12sub_020333D8Eii: ; 0x021669F8
 	ldrb ip, [r0, #0x1b5]
 	mov r3, r1, lsl #0xc
 	mov r1, #1
@@ -42448,10 +42448,10 @@ ov0_021669F8: ; 0x021669F8
 	str r2, [r0, #0x1c0]
 	str r1, [r0, #0x1c8]
 	bx lr
-	arm_func_end ov0_021669F8
+	arm_func_end _ZN17CFieldEffectBloom12sub_020333D8Eii
 
-	arm_func_start ov0_02166A2C
-ov0_02166A2C: ; 0x02166A2C
+	arm_func_start _ZN17CFieldEffectBloom12sub_0203312CEii
+_ZN17CFieldEffectBloom12sub_0203312CEii: ; 0x02166A2C
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	cmp r1, #0x11
@@ -42468,7 +42468,7 @@ _02166A54: ; jump table
 	b _02166AB0 ; case 2
 	b _02166ADC ; case 3
 	b _02166AFC ; case 4
-	arm_func_end ov0_02166A2C
+	arm_func_end _ZN17CFieldEffectBloom12sub_0203312CEii
 _02166A68:
 	cmp r1, #0x14
 	bgt _02166A78
@@ -42551,8 +42551,8 @@ _02166B60:
 	.align 2, 0
 _02166B68: .word MAIN_BSS_0210CA40
 
-	arm_func_start ov0_02166B6C
-ov0_02166B6C: ; 0x02166B6C
+	arm_func_start _ZN17CFieldEffectBloom12ov0_02142264Ei
+_ZN17CFieldEffectBloom12ov0_02142264Ei: ; 0x02166B6C
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
 	sub sp, sp, #0x30
 	mov r7, r0
@@ -42589,7 +42589,7 @@ ov0_02166B6C: ; 0x02166B6C
 	add r0, r2, #0xa
 	strb r0, [r7, #0x1a9]
 	b _02166C70
-	arm_func_end ov0_02166B6C
+	arm_func_end _ZN17CFieldEffectBloom12ov0_02142264Ei
 _02166BFC:
 	ldrsb r0, [r1, #0xa9]
 	sub r0, r0, r6
@@ -42836,8 +42836,8 @@ _02166F50:
 	.align 2, 0
 _02166F70: .word 0x84210843
 
-	arm_func_start ov0_02166F74
-ov0_02166F74: ; 0x02166F74
+	arm_func_start _ZN17CFieldEffectBloom12ov0_02142344EP8Camera2D
+_ZN17CFieldEffectBloom12ov0_02142344EP8Camera2D: ; 0x02166F74
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
 	mov r5, r0
 	ldrb r0, [r5, #0x1b4]
@@ -42849,7 +42849,7 @@ ov0_02166F74: ; 0x02166F74
 	cmp r0, #2
 	beq _021670C0
 	b _021671B4
-	arm_func_end ov0_02166F74
+	arm_func_end _ZN17CFieldEffectBloom12ov0_02142344EP8Camera2D
 _02166FA0:
 	bl _ZN5CGame11GetInstanceEv
 	add r1, r0, #0x48
@@ -43036,12 +43036,12 @@ _02167258: .word FX_SinCosTable_
 _0216725C: .word 0x000004CC
 _02167260: .word 0x00000199
 
-	arm_func_start ov0_02167264
-ov0_02167264: ; 0x02167264
+	arm_func_start _ZN17CFieldEffectBloom12sub_02033440Et
+_ZN17CFieldEffectBloom12sub_02033440Et: ; 0x02167264
 	add r0, r0, #0x100
 	strh r1, [r0, #0x44]
 	bx lr
-	arm_func_end ov0_02167264
+	arm_func_end _ZN17CFieldEffectBloom12sub_02033440Et
 
 	arm_func_start ov0_02167270
 ov0_02167270: ; 0x02167270
@@ -43060,8 +43060,8 @@ _02167274:
 	blt _02167274
 	bx lr
 
-	arm_func_start ov0_021672A0
-ov0_021672A0: ; 0x021672A0
+	arm_func_start _ZN24CFieldEffectBloomFactoryD1Ev
+_ZN24CFieldEffectBloomFactoryD1Ev: ; 0x021672A0
 	stmdb sp!, {r4, lr}
 	ldr r1, _021672D0 ; =ptr_FUN_overlay_0_021672a0_overlay_0_021799f4
 	mov r4, r0
@@ -43077,7 +43077,7 @@ ov0_021672A0: ; 0x021672A0
 	.align 2, 0
 _021672D0: .word ptr_FUN_overlay_0_021672a0_overlay_0_021799f4
 _021672D4: .word ov0_02151280
-	arm_func_end ov0_021672A0
+	arm_func_end _ZN24CFieldEffectBloomFactoryD1Ev
 
 	arm_func_start ov0_021672D8
 ov0_021672D8: ; 0x021672D8
@@ -43100,16 +43100,16 @@ _02167310: .word ptr_FUN_overlay_0_021672a0_overlay_0_021799f4
 _02167314: .word ov0_02151280
 	arm_func_end ov0_021672D8
 
-	arm_func_start ov0_02167318
-ov0_02167318: ; 0x02167318
+	arm_func_start _ZN24CFieldEffectBloomFactory5ResetEv
+_ZN24CFieldEffectBloomFactory5ResetEv: ; 0x02167318
 	ldr ip, _02167320 ; =ov0_0216753C
 	bx ip
 	.align 2, 0
 _02167320: .word ov0_0216753C
-	arm_func_end ov0_02167318
+	arm_func_end _ZN24CFieldEffectBloomFactory5ResetEv
 
-	arm_func_start ov0_02167324
-ov0_02167324: ; 0x02167324
+	arm_func_start _ZN24CFieldEffectBloomFactory6CreateEi
+_ZN24CFieldEffectBloomFactory6CreateEi: ; 0x02167324
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0x7c
 	mov r5, #1
@@ -43133,7 +43133,7 @@ ov0_02167324: ; 0x02167324
 	mov r2, r1
 	bl ov0_02167488
 	mov r5, r0
-	arm_func_end ov0_02167324
+	arm_func_end _ZN24CFieldEffectBloomFactory6CreateEi
 _02167380:
 	ldr r0, [r7, #0x38]
 	cmp r0, #0
@@ -43274,15 +43274,15 @@ _02167548:
 	blt _02167548
 	ldmia sp!, {r3, r4, r5, pc}
 
-	arm_func_start ov0_02167564
-ov0_02167564: ; 0x02167564
+	arm_func_start _ZN17CFieldEffectBloom12sub_020332A4Ev
+_ZN17CFieldEffectBloom12sub_020332A4Ev: ; 0x02167564
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, #1
 	mov r5, #0
 	ldr lr, _021675C0 ; =0x027FFC3C
 	mov r1, r5
 	mov r2, r4
-	arm_func_end ov0_02167564
+	arm_func_end _ZN17CFieldEffectBloom12sub_020332A4Ev
 _0216757C:
 	add r3, r0, r5, lsl #2
 	ldr r3, [r3, #0x198]
@@ -43306,11 +43306,11 @@ _021675B8:
 	.align 2, 0
 _021675C0: .word 0x027FFC3C
 
-	arm_func_start ov0_021675C4
-ov0_021675C4: ; 0x021675C4
+	arm_func_start _ZN17CFieldEffectBloom12sub_02033028Ev
+_ZN17CFieldEffectBloom12sub_02033028Ev: ; 0x021675C4
 	mov r0, #0x13
 	bx lr
-	arm_func_end ov0_021675C4
+	arm_func_end _ZN17CFieldEffectBloom12sub_02033028Ev
 
 	arm_func_start ov0_021675CC
 ov0_021675CC: ; 0x021675CC
@@ -43564,28 +43564,28 @@ _02167978: .word PTR_LAB_overlay_0_02167990_overlay_0_02179b20
 _0216797C: .word 0x00001333
 _02167980: .word 0x00001999
 
-	arm_func_start ov0_02167984
-ov0_02167984: ; 0x02167984
+	arm_func_start _ZN21CFieldEffectDarkCloud9CAnimatorD1Ev
+_ZN21CFieldEffectDarkCloud9CAnimatorD1Ev: ; 0x02167984
 	bx lr
-	arm_func_end ov0_02167984
+	arm_func_end _ZN21CFieldEffectDarkCloud9CAnimatorD1Ev
 
-	arm_func_start ov0_02167988
-ov0_02167988: ; 0x02167988
+	arm_func_start _ZN21CFieldEffectDarkCloud8CEmitterD1Ev
+_ZN21CFieldEffectDarkCloud8CEmitterD1Ev: ; 0x02167988
 	bx lr
-	arm_func_end ov0_02167988
+	arm_func_end _ZN21CFieldEffectDarkCloud8CEmitterD1Ev
 
-	arm_func_start ov0_0216798C
-ov0_0216798C: ; 0x0216798C
+	arm_func_start _ZN21CFieldEffectDarkCloud15CRemainsEmitterD1Ev
+_ZN21CFieldEffectDarkCloud15CRemainsEmitterD1Ev: ; 0x0216798C
 	bx lr
-	arm_func_end ov0_0216798C
+	arm_func_end _ZN21CFieldEffectDarkCloud15CRemainsEmitterD1Ev
 
-	arm_func_start ov0_02167990
-ov0_02167990: ; 0x02167990
+	arm_func_start _ZN21CFieldEffectDarkCloud16CRemainsAnimatorD1Ev
+_ZN21CFieldEffectDarkCloud16CRemainsAnimatorD1Ev: ; 0x02167990
 	bx lr
-	arm_func_end ov0_02167990
+	arm_func_end _ZN21CFieldEffectDarkCloud16CRemainsAnimatorD1Ev
 
-	arm_func_start ov0_02167994
-ov0_02167994: ; 0x02167994
+	arm_func_start _ZN21CFieldEffectDarkCloudD1Ev
+_ZN21CFieldEffectDarkCloudD1Ev: ; 0x02167994
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	ldr r0, [r4, #0xc8]
@@ -43594,7 +43594,7 @@ ov0_02167994: ; 0x02167994
 	bl _ZdaPv
 	mov r0, #0
 	str r0, [r4, #0xc8]
-	arm_func_end ov0_02167994
+	arm_func_end _ZN21CFieldEffectDarkCloudD1Ev
 _021679B4:
 	ldr r0, [r4, #0xc4]
 	cmp r0, #0
@@ -43760,8 +43760,8 @@ ov0_02167BA4: ; 0x02167BA4
 	ldmia sp!, {pc}
 	arm_func_end ov0_02167BA4
 
-	arm_func_start ov0_02167BDC
-ov0_02167BDC: ; 0x02167BDC
+	arm_func_start _ZN21CFieldEffectDarkCloud12sub_0203312CEii
+_ZN21CFieldEffectDarkCloud12sub_0203312CEii: ; 0x02167BDC
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #4
 	mov r6, r0
@@ -43774,7 +43774,7 @@ ov0_02167BDC: ; 0x02167BDC
 	cmp r1, #0x14
 	beq _02167C2C
 	b _02167C40
-	arm_func_end ov0_02167BDC
+	arm_func_end _ZN21CFieldEffectDarkCloud12sub_0203312CEii
 _02167C0C:
 	mov r1, r5, lsl #0xc
 	add sp, sp, #4
@@ -43972,8 +43972,8 @@ _02167EA8:
 _02167EC0: .word ov0_021450CC
 _02167EC4: .word ov0_0214509C
 
-	arm_func_start ov0_02167EC8
-ov0_02167EC8: ; 0x02167EC8
+	arm_func_start _ZN21CFieldEffectDarkCloud12ov0_021421F0Eiii
+_ZN21CFieldEffectDarkCloud12ov0_021421F0Eiii: ; 0x02167EC8
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0x1c
 	ldr r4, [r0]
@@ -43988,7 +43988,7 @@ ov0_02167EC8: ; 0x02167EC8
 	ldr r1, [r0]
 	ldr r1, [r1, #8]
 	blx r1
-	arm_func_end ov0_02167EC8
+	arm_func_end _ZN21CFieldEffectDarkCloud12ov0_021421F0Eiii
 _02167F00:
 	ldr r0, [sp]
 	mov r1, r7
@@ -44197,8 +44197,8 @@ _021681DC:
 	add sp, sp, #0x1c
 	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
 
-	arm_func_start ov0_021681FC
-ov0_021681FC: ; 0x021681FC
+	arm_func_start _ZN21CFieldEffectDarkCloud12ov0_02142264Ei
+_ZN21CFieldEffectDarkCloud12ov0_02142264Ei: ; 0x021681FC
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0x28
 	mov sl, r0
@@ -44221,7 +44221,7 @@ ov0_021681FC: ; 0x021681FC
 	bge _02168254
 	mov r0, r0, lsl #0xc
 	bl _s32_div_f
-	arm_func_end ov0_021681FC
+	arm_func_end _ZN21CFieldEffectDarkCloud12ov0_02142264Ei
 _02168254:
 	ldr r3, [sl, #0x94]
 	ldr r1, [sl, #0x9c]
@@ -44642,15 +44642,15 @@ _02168854:
 	add sp, sp, #0x28
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
 
-	arm_func_start ov0_02168860
-ov0_02168860: ; 0x02168860
+	arm_func_start _ZN21CFieldEffectDarkCloud12ov0_02142344EP8Camera2D
+_ZN21CFieldEffectDarkCloud12ov0_02142344EP8Camera2D: ; 0x02168860
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r0
 	ldr r4, [r5, #0xe8]
 	mov r6, r1
 	cmp r4, #0
 	beq _021688CC
-	arm_func_end ov0_02168860
+	arm_func_end _ZN21CFieldEffectDarkCloud12ov0_02142344EP8Camera2D
 _02168878:
 	ldr r0, [r5, #0xf0]
 	cmp r0, #0
@@ -44705,8 +44705,8 @@ _02168934:
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
 
-	arm_func_start ov0_0216893C
-ov0_0216893C: ; 0x0216893C
+	arm_func_start _ZN21CFieldEffectDarkCloud12sub_0203331CERK7Point2Di
+_ZN21CFieldEffectDarkCloud12sub_0203331CERK7Point2Di: ; 0x0216893C
 	stmdb sp!, {r4, lr}
 	ldr r4, [r0, #0x18]
 	mov ip, #1
@@ -44730,10 +44730,10 @@ ov0_0216893C: ; 0x0216893C
 	ldr r1, [r1, #8]
 	blx r1
 	ldmia sp!, {r4, pc}
-	arm_func_end ov0_0216893C
+	arm_func_end _ZN21CFieldEffectDarkCloud12sub_0203331CERK7Point2Di
 
-	arm_func_start ov0_02168998
-ov0_02168998: ; 0x02168998
+	arm_func_start _ZN21CFieldEffectDarkCloud9CAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
+_ZN21CFieldEffectDarkCloud9CAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi: ; 0x02168998
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r8, r1
 	mov r7, r2
@@ -44789,7 +44789,7 @@ ov0_02168998: ; 0x02168998
 	mov r0, r0, asr #0xc
 	str r0, [r8, #0x14]
 	b _02168AAC
-	arm_func_end ov0_02168998
+	arm_func_end _ZN21CFieldEffectDarkCloud9CAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
 _02168A74:
 	mov r0, #0x14000
 	umull r2, r1, r5, r0
@@ -44810,8 +44810,8 @@ _02168AAC:
 	str r6, [r8, #0x24]
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
 
-	arm_func_start ov0_02168AB8
-ov0_02168AB8: ; 0x02168AB8
+	arm_func_start _ZN21CFieldEffectDarkCloud8CEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE
+_ZN21CFieldEffectDarkCloud8CEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE: ; 0x02168AB8
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	ldr lr, _02168C20 ; =MAIN_BSS_0210CEC8
 	ldr r3, [r0, #0x28]
@@ -44906,10 +44906,10 @@ ov0_02168AB8: ; 0x02168AB8
 _02168C20: .word MAIN_BSS_0210CEC8
 _02168C24: .word 0x00007FFF
 _02168C28: .word 0xB60B60B7
-	arm_func_end ov0_02168AB8
+	arm_func_end _ZN21CFieldEffectDarkCloud8CEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE
 
-	arm_func_start ov0_02168C2C
-ov0_02168C2C: ; 0x02168C2C
+	arm_func_start _ZN21CFieldEffectDarkCloud15CRemainsEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE
+_ZN21CFieldEffectDarkCloud15CRemainsEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE: ; 0x02168C2C
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	ldr lr, _02168D84 ; =MAIN_BSS_0210CEC8
 	ldr r3, [r0, #0x28]
@@ -45001,10 +45001,10 @@ _02168D84: .word MAIN_BSS_0210CEC8
 _02168D88: .word 0x00007FFF
 _02168D8C: .word 0x00000333
 _02168D90: .word 0xB60B60B7
-	arm_func_end ov0_02168C2C
+	arm_func_end _ZN21CFieldEffectDarkCloud15CRemainsEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE
 
-	arm_func_start ov0_02168D94
-ov0_02168D94: ; 0x02168D94
+	arm_func_start _ZN21CFieldEffectDarkCloud16CRemainsAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
+_ZN21CFieldEffectDarkCloud16CRemainsAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi: ; 0x02168D94
 	stmdb sp!, {r4, lr}
 	mov r4, r1
 	ldr r2, [r4, #0x64]
@@ -45047,10 +45047,10 @@ ov0_02168D94: ; 0x02168D94
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02168E34: .word 0x00000667
-	arm_func_end ov0_02168D94
+	arm_func_end _ZN21CFieldEffectDarkCloud16CRemainsAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
 
-	arm_func_start ov0_02168E38
-ov0_02168E38: ; 0x02168E38
+	arm_func_start _ZN28CFieldEffectDarkCloudFactory6CreateEi
+_ZN28CFieldEffectDarkCloudFactory6CreateEi: ; 0x02168E38
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r0, #0x154
 	mov r5, r1
@@ -45060,7 +45060,7 @@ ov0_02168E38: ; 0x02168E38
 	mov r1, r5
 	bl ov0_021675CC
 	mov r4, r0
-	arm_func_end ov0_02168E38
+	arm_func_end _ZN28CFieldEffectDarkCloudFactory6CreateEi
 _02168E5C:
 	cmp r4, #0
 	ldrne r0, _02168EE0 ; =MAIN_BSS_0210CA60
@@ -45099,23 +45099,23 @@ _02168ED8:
 	.align 2, 0
 _02168EE0: .word MAIN_BSS_0210CA60
 
-	arm_func_start ov0_02168EE4
-ov0_02168EE4: ; 0x02168EE4
+	arm_func_start _ZN21CFieldEffectDarkCloud10GetEmitterEv
+_ZN21CFieldEffectDarkCloud10GetEmitterEv: ; 0x02168EE4
 	add r0, r0, #0x38
 	bx lr
-	arm_func_end ov0_02168EE4
+	arm_func_end _ZN21CFieldEffectDarkCloud10GetEmitterEv
 
-	arm_func_start ov0_02168EEC
-ov0_02168EEC: ; 0x02168EEC
+	arm_func_start _ZN21CFieldEffectDarkCloud13GetForceFieldEv
+_ZN21CFieldEffectDarkCloud13GetForceFieldEv: ; 0x02168EEC
 	add r0, r0, #0x2c
 	bx lr
-	arm_func_end ov0_02168EEC
+	arm_func_end _ZN21CFieldEffectDarkCloud13GetForceFieldEv
 
-	arm_func_start ov0_02168EF4
-ov0_02168EF4: ; 0x02168EF4
+	arm_func_start _ZN21CFieldEffectDarkCloud12sub_02033028Ev
+_ZN21CFieldEffectDarkCloud12sub_02033028Ev: ; 0x02168EF4
 	mov r0, #0x14
 	bx lr
-	arm_func_end ov0_02168EF4
+	arm_func_end _ZN21CFieldEffectDarkCloud12sub_02033028Ev
 
 	arm_func_start ov0_02168EFC
 ov0_02168EFC: ; 0x02168EFC
@@ -45326,8 +45326,8 @@ _0216919C: .word 0xC000C000
 _021691A0: .word NNSi_objSizeWTbl
 _021691A4: .word NNSi_objSizeHTbl
 
-	arm_func_start ov0_021691A8
-ov0_021691A8: ; 0x021691A8
+	arm_func_start _ZN11CMeshSprite6RenderEP8Camera2D
+_ZN11CMeshSprite6RenderEP8Camera2D: ; 0x021691A8
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0x48
 	mov sl, r0
@@ -45362,7 +45362,7 @@ ov0_021691A8: ; 0x021691A8
 	str r3, [r1]
 	str r2, [r1]
 	str r0, [r1]
-	arm_func_end ov0_021691A8
+	arm_func_end _ZN11CMeshSprite6RenderEP8Camera2D
 _02169230:
 	ldr r0, [sl, #0x28]
 	cmp r0, #0
@@ -45698,14 +45698,14 @@ _02169730: .word ptr_FUN_overlay_0_02169984_overlay_0_02179d80
 _02169734: .word 0x6C16C16D
 	arm_func_end ov0_02169670
 
-	arm_func_start ov0_02169738
-ov0_02169738: ; 0x02169738
+	arm_func_start _ZN11CMeshSpriteD1Ev
+_ZN11CMeshSpriteD1Ev: ; 0x02169738
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl _ZN10CPrimitiveD2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	arm_func_end ov0_02169738
+	arm_func_end _ZN11CMeshSpriteD1Ev
 
 	arm_func_start ov0_0216974C
 ov0_0216974C: ; 0x0216974C
@@ -45720,15 +45720,15 @@ ov0_0216974C: ; 0x0216974C
 	ldmia sp!, {r4, pc}
 	arm_func_end ov0_0216974C
 
-	arm_func_start ov0_02169770
-ov0_02169770: ; 0x02169770
+	arm_func_start _ZN21CFieldEffectFireworks12sub_0203312CEii
+_ZN21CFieldEffectFireworks12sub_0203312CEii: ; 0x02169770
 	cmp r1, #1
 	mov r3, #1
 	beq _02169788
 	cmp r1, #2
 	beq _02169794
 	b _021697A0
-	arm_func_end ov0_02169770
+	arm_func_end _ZN21CFieldEffectFireworks12sub_0203312CEii
 _02169788:
 	mov r1, r2, lsl #0xc
 	str r1, [r0, #0x38]
@@ -45743,8 +45743,8 @@ _021697A4:
 	mov r0, r3
 	bx lr
 
-	arm_func_start ov0_021697AC
-ov0_021697AC: ; 0x021697AC
+	arm_func_start _ZN21CFieldEffectFireworks12ov0_02142264Ei
+_ZN21CFieldEffectFireworks12ov0_02142264Ei: ; 0x021697AC
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r5, r1
@@ -45757,7 +45757,7 @@ ov0_021697AC: ; 0x021697AC
 	cmp r4, #3
 	beq _0216982C
 	b _02169868
-	arm_func_end ov0_021697AC
+	arm_func_end _ZN21CFieldEffectFireworks12ov0_02142264Ei
 _021697DC:
 	ldr r1, [r6, #4]
 	cmp r1, #0
@@ -45806,8 +45806,8 @@ _02169868:
 	mov r0, r4
 	ldmia sp!, {r4, r5, r6, pc}
 
-	arm_func_start ov0_02169884
-ov0_02169884: ; 0x02169884
+	arm_func_start _ZN21CFieldEffectFireworks12ov0_02142344EP8Camera2D
+_ZN21CFieldEffectFireworks12ov0_02142344EP8Camera2D: ; 0x02169884
 	stmdb sp!, {r3, lr}
 	ldr r2, [r0, #0x14]
 	cmp r2, #4
@@ -45819,19 +45819,19 @@ ov0_02169884: ; 0x02169884
 	ldr r2, [r0, #0x20]!
 	ldr r2, [r2, #8]
 	blx r2
-	arm_func_end ov0_02169884
+	arm_func_end _ZN21CFieldEffectFireworks12ov0_02142344EP8Camera2D
 _021698B0:
 	mov r0, #0
 	ldmia sp!, {r3, pc}
 
-	arm_func_start ov0_021698B8
-ov0_021698B8: ; 0x021698B8
+	arm_func_start _ZN21CFieldEffectFireworks12sub_02033440Et
+_ZN21CFieldEffectFireworks12sub_02033440Et: ; 0x021698B8
 	strh r1, [r0, #0x28]
 	bx lr
-	arm_func_end ov0_021698B8
+	arm_func_end _ZN21CFieldEffectFireworks12sub_02033440Et
 
-	arm_func_start ov0_021698C0
-ov0_021698C0: ; 0x021698C0
+	arm_func_start _ZN28CFieldEffectFireworksFactory6CreateEi
+_ZN28CFieldEffectFireworksFactory6CreateEi: ; 0x021698C0
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r0, #0x94
 	mov r5, r1
@@ -45841,7 +45841,7 @@ ov0_021698C0: ; 0x021698C0
 	mov r1, r5
 	bl ov0_02169670
 	mov r4, r0
-	arm_func_end ov0_021698C0
+	arm_func_end _ZN28CFieldEffectFireworksFactory6CreateEi
 _021698E4:
 	cmp r4, #0
 	beq _02169954
@@ -45877,11 +45877,11 @@ _02169954:
 	.align 2, 0
 _0216995C: .word MAIN_BSS_0210CA60
 
-	arm_func_start ov0_02169960
-ov0_02169960: ; 0x02169960
+	arm_func_start _ZN21CFieldEffectFireworks12sub_02033028Ev
+_ZN21CFieldEffectFireworks12sub_02033028Ev: ; 0x02169960
 	mov r0, #0x15
 	bx lr
-	arm_func_end ov0_02169960
+	arm_func_end _ZN21CFieldEffectFireworks12sub_02033028Ev
 
 	arm_func_start ov0_02169968
 ov0_02169968: ; 0x02169968
@@ -45894,8 +45894,8 @@ ov0_02169968: ; 0x02169968
 	ldmia sp!, {r4, pc}
 	arm_func_end ov0_02169968
 
-	arm_func_start ov0_02169984
-ov0_02169984: ; 0x02169984
+	arm_func_start _ZN21CFieldEffectFireworksD1Ev
+_ZN21CFieldEffectFireworksD1Ev: ; 0x02169984
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x20
@@ -45910,7 +45910,7 @@ ov0_02169984: ; 0x02169984
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021699B4: .word _ZTV12CFieldEffect+8
-	arm_func_end ov0_02169984
+	arm_func_end _ZN21CFieldEffectFireworksD1Ev
 
 	arm_func_start ov0_021699B8
 ov0_021699B8: ; 0x021699B8
@@ -46048,8 +46048,8 @@ _02169B84: .word _ZN15CSoftwareSpriteC1Ev
 _02169B88: .word 0x00000E38
 _02169B8C: .word 0xFFFFF8E4
 
-	arm_func_start ov0_02169B90
-ov0_02169B90: ; 0x02169B90
+	arm_func_start _ZN22CFieldEffectDarkShadowD1Ev
+_ZN22CFieldEffectDarkShadowD1Ev: ; 0x02169B90
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r3, _02169BD4 ; =_ZN15CSoftwareSpriteD1Ev
@@ -46070,7 +46070,7 @@ ov0_02169B90: ; 0x02169B90
 	.align 2, 0
 _02169BD4: .word _ZN15CSoftwareSpriteD1Ev
 _02169BD8: .word _ZTV12CFieldEffect+8
-	arm_func_end ov0_02169B90
+	arm_func_end _ZN22CFieldEffectDarkShadowD1Ev
 
 	arm_func_start ov0_02169BDC
 ov0_02169BDC: ; 0x02169BDC
@@ -46098,8 +46098,8 @@ _02169C28: .word _ZN15CSoftwareSpriteD1Ev
 _02169C2C: .word _ZTV12CFieldEffect+8
 	arm_func_end ov0_02169BDC
 
-	arm_func_start ov0_02169C30
-ov0_02169C30: ; 0x02169C30
+	arm_func_start _ZN22CFieldEffectDarkShadow12sub_0203312CEii
+_ZN22CFieldEffectDarkShadow12sub_0203312CEii: ; 0x02169C30
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	mov r4, r0
 	mov r0, #1
@@ -46117,7 +46117,7 @@ _02169C5C: ; jump table
 	b _02169CF0 ; case 2
 	b _02169D64 ; case 3
 	b _02169D70 ; case 4
-	arm_func_end ov0_02169C30
+	arm_func_end _ZN22CFieldEffectDarkShadow12sub_0203312CEii
 _02169C70:
 	cmp r1, #0x14
 	beq _02169DA4
@@ -46216,8 +46216,8 @@ _02169DB4:
 _02169DBC: .word FX_SinCosTable_
 _02169DC0: .word MAIN_BSS_0210CA40
 
-	arm_func_start ov0_02169DC4
-ov0_02169DC4: ; 0x02169DC4
+	arm_func_start _ZN22CFieldEffectDarkShadow12ov0_02142264Ei
+_ZN22CFieldEffectDarkShadow12ov0_02142264Ei: ; 0x02169DC4
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	mov r4, r0
 	ldr r0, [r4, #0xa4c]
@@ -46238,7 +46238,7 @@ ov0_02169DC4: ; 0x02169DC4
 	bge _02169E14
 	mov r0, r0, lsl #0xc
 	bl _s32_div_f
-	arm_func_end ov0_02169DC4
+	arm_func_end _ZN22CFieldEffectDarkShadow12ov0_02142264Ei
 _02169E14:
 	ldr r3, [r4, #0xa2c]
 	ldr r1, [r4, #0xa34]
@@ -46401,8 +46401,8 @@ _0216A034:
 	.align 2, 0
 _0216A068: .word FX_SinCosTable_
 
-	arm_func_start ov0_0216A06C
-ov0_0216A06C: ; 0x0216A06C
+	arm_func_start _ZN22CFieldEffectDarkShadow12ov0_02142344EP8Camera2D
+_ZN22CFieldEffectDarkShadow12ov0_02142344EP8Camera2D: ; 0x0216A06C
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	mov sl, r0
 	ldr r0, [sl, #0x14]
@@ -46443,7 +46443,7 @@ ov0_0216A06C: ; 0x0216A06C
 	bmi _0216A10C
 	cmp r3, #0x1000
 	movgt r3, #0x1000
-	arm_func_end ov0_0216A06C
+	arm_func_end _ZN22CFieldEffectDarkShadow12ov0_02142344EP8Camera2D
 _0216A10C:
 	mov r0, r3, lsl #4
 	mov r0, r0, asr #0xc
@@ -46538,14 +46538,14 @@ _0216A258:
 _0216A260: .word MAIN_BSS_0210CA60
 _0216A264: .word FX_SinCosTable_
 
-	arm_func_start ov0_0216A268
-ov0_0216A268: ; 0x0216A268
+	arm_func_start _ZN22CFieldEffectDarkShadow12ov0_0214239CEi
+_ZN22CFieldEffectDarkShadow12ov0_0214239CEi: ; 0x0216A268
 	mov r0, #1
 	bx lr
-	arm_func_end ov0_0216A268
+	arm_func_end _ZN22CFieldEffectDarkShadow12ov0_0214239CEi
 
-	arm_func_start ov0_0216A270
-ov0_0216A270: ; 0x0216A270
+	arm_func_start _ZN22CFieldEffectDarkShadow12sub_02033388ERK7Point2Di
+_ZN22CFieldEffectDarkShadow12sub_02033388ERK7Point2Di: ; 0x0216A270
 	stmdb sp!, {r3, lr}
 	ldr r3, [r0, #0xa20]
 	mov ip, #1
@@ -46571,10 +46571,10 @@ ov0_0216A270: ; 0x0216A270
 	ldr r1, [r1, #4]
 	str r1, [r0, #0xa24]
 	ldmia sp!, {r3, pc}
-	arm_func_end ov0_0216A270
+	arm_func_end _ZN22CFieldEffectDarkShadow12sub_02033388ERK7Point2Di
 
-	arm_func_start ov0_0216A2D4
-ov0_0216A2D4: ; 0x0216A2D4
+	arm_func_start _ZN22CFieldEffectDarkShadow12sub_0203331CERK7Point2Di
+_ZN22CFieldEffectDarkShadow12sub_0203331CERK7Point2Di: ; 0x0216A2D4
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #8
 	mov r6, r0
@@ -46602,10 +46602,10 @@ ov0_0216A2D4: ; 0x0216A2D4
 	str r0, [r6, #0xa6c]
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end ov0_0216A2D4
+	arm_func_end _ZN22CFieldEffectDarkShadow12sub_0203331CERK7Point2Di
 
-	arm_func_start ov0_0216A340
-ov0_0216A340: ; 0x0216A340
+	arm_func_start _ZN29CFieldEffectDarkShadowFactory6CreateEi
+_ZN29CFieldEffectDarkShadowFactory6CreateEi: ; 0x0216A340
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r0, _0216A420 ; =0x00000A74
 	mov r5, r1
@@ -46615,7 +46615,7 @@ ov0_0216A340: ; 0x0216A340
 	mov r1, r5
 	bl ov0_02169A08
 	mov r4, r0
-	arm_func_end ov0_0216A340
+	arm_func_end _ZN29CFieldEffectDarkShadowFactory6CreateEi
 _0216A364:
 	cmp r4, #0
 	beq _0216A418
@@ -46672,11 +46672,11 @@ _0216A420: .word 0x00000A74
 _0216A424: .word MAIN_BSS_0210CA40
 _0216A428: .word MAIN_BSS_0210CA60
 
-	arm_func_start ov0_0216A42C
-ov0_0216A42C: ; 0x0216A42C
+	arm_func_start _ZN22CFieldEffectDarkShadow12sub_02033028Ev
+_ZN22CFieldEffectDarkShadow12sub_02033028Ev: ; 0x0216A42C
 	mov r0, #0x16
 	bx lr
-	arm_func_end ov0_0216A42C
+	arm_func_end _ZN22CFieldEffectDarkShadow12sub_02033028Ev
 
 	arm_func_start ov0_0216A434
 ov0_0216A434: ; 0x0216A434
@@ -46790,18 +46790,18 @@ _0216A5C8: .word PTR_LAB_overlay_0_0216a5d4_overlay_0_02179fe0
 _0216A5CC: .word g_ntfTextureFormats
 	arm_func_end ov0_0216A448
 
-	arm_func_start ov0_0216A5D0
-ov0_0216A5D0: ; 0x0216A5D0
+	arm_func_start _ZN25CFieldEffectDarknessClear11CForceFieldD1Ev
+_ZN25CFieldEffectDarknessClear11CForceFieldD1Ev: ; 0x0216A5D0
 	bx lr
-	arm_func_end ov0_0216A5D0
+	arm_func_end _ZN25CFieldEffectDarknessClear11CForceFieldD1Ev
 
-	arm_func_start ov0_0216A5D4
-ov0_0216A5D4: ; 0x0216A5D4
+	arm_func_start _ZN25CFieldEffectDarknessClear8CEmitterD1Ev
+_ZN25CFieldEffectDarknessClear8CEmitterD1Ev: ; 0x0216A5D4
 	bx lr
-	arm_func_end ov0_0216A5D4
+	arm_func_end _ZN25CFieldEffectDarknessClear8CEmitterD1Ev
 
-	arm_func_start ov0_0216A5D8
-ov0_0216A5D8: ; 0x0216A5D8
+	arm_func_start _ZN25CFieldEffectDarknessClearD1Ev
+_ZN25CFieldEffectDarknessClearD1Ev: ; 0x0216A5D8
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	add r0, r4, #0x80
@@ -46818,7 +46818,7 @@ ov0_0216A5D8: ; 0x0216A5D8
 	bl _ZdaPv
 	mov r0, #0
 	str r0, [r5, #0x10]
-	arm_func_end ov0_0216A5D8
+	arm_func_end _ZN25CFieldEffectDarknessClearD1Ev
 _0216A618:
 	ldr r0, [r5, #0xc]
 	cmp r0, #0
@@ -46968,8 +46968,8 @@ ov0_0216A7E8: ; 0x0216A7E8
 	bx lr
 	arm_func_end ov0_0216A7E8
 
-	arm_func_start ov0_0216A804
-ov0_0216A804: ; 0x0216A804
+	arm_func_start _ZN25CFieldEffectDarknessClear12sub_0203312CEii
+_ZN25CFieldEffectDarknessClear12sub_0203312CEii: ; 0x0216A804
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #4
 	mov r6, r0
@@ -46984,7 +46984,7 @@ _0216A824: ; jump table
 	b _0216AAB8 ; case 2
 	b _0216A838 ; case 3
 	b _0216A848 ; case 4
-	arm_func_end ov0_0216A804
+	arm_func_end _ZN25CFieldEffectDarknessClear12sub_0203312CEii
 _0216A838:
 	mov r1, r5, lsl #0xc
 	add sp, sp, #4
@@ -47171,8 +47171,8 @@ _0216AAB8:
 _0216AAC0: .word ov0_0216AD48
 _0216AAC4: .word ov0_0216AD5C
 
-	arm_func_start ov0_0216AAC8
-ov0_0216AAC8: ; 0x0216AAC8
+	arm_func_start _ZN20TFieldEffectParticleI16CSimpleSpriteNTFE12sub_0203312CEii
+_ZN20TFieldEffectParticleI16CSimpleSpriteNTFE12sub_0203312CEii: ; 0x0216AAC8
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #4
 	mov r6, r0
@@ -47186,7 +47186,7 @@ ov0_0216AAC8: ; 0x0216AAC8
 	beq _0216AD28
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, r5, r6, pc}
-	arm_func_end ov0_0216AAC8
+	arm_func_end _ZN20TFieldEffectParticleI16CSimpleSpriteNTFE12sub_0203312CEii
 _0216AAFC:
 	cmp r5, #0
 	ble _0216AD04
@@ -47392,8 +47392,8 @@ _0216ADBC: .word _ZTV16CSimpleSpriteNTF+8
 _0216ADC0: .word 0x00000622
 	arm_func_end ov0_0216AD5C
 
-	arm_func_start ov0_0216ADC4
-ov0_0216ADC4: ; 0x0216ADC4
+	arm_func_start _ZN25CFieldEffectDarknessClear12ov0_021421F0Eiii
+_ZN25CFieldEffectDarknessClear12ov0_021421F0Eiii: ; 0x0216ADC4
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r4, r3
 	mov r6, r0
@@ -47413,7 +47413,7 @@ ov0_0216ADC4: ; 0x0216ADC4
 	ldr r1, [r0]
 	ldr r1, [r1, #8]
 	blx r1
-	arm_func_end ov0_0216ADC4
+	arm_func_end _ZN25CFieldEffectDarknessClear12ov0_021421F0Eiii
 _0216AE10:
 	mov r0, r6
 	mov r2, r5
@@ -47422,8 +47422,8 @@ _0216AE10:
 	bl _ZN12CFieldEffect12ov0_021421F0Eiii
 	ldmia sp!, {r4, r5, r6, pc}
 
-	arm_func_start ov0_0216AE28
-ov0_0216AE28: ; 0x0216AE28
+	arm_func_start _ZN20TFieldEffectParticleI16CSimpleSpriteNTFE12ov0_021421F0Eiii
+_ZN20TFieldEffectParticleI16CSimpleSpriteNTFE12ov0_021421F0Eiii: ; 0x0216AE28
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	ldr ip, [r0]
 	mov r7, r0
@@ -47437,7 +47437,7 @@ ov0_0216AE28: ; 0x0216AE28
 	ldr r1, [r0]
 	ldr r1, [r1, #8]
 	blx r1
-	arm_func_end ov0_0216AE28
+	arm_func_end _ZN20TFieldEffectParticleI16CSimpleSpriteNTFE12ov0_021421F0Eiii
 _0216AE5C:
 	mov r0, r7
 	mov r1, r6
@@ -47446,13 +47446,13 @@ _0216AE5C:
 	bl _ZN12CFieldEffect12ov0_021421F0Eiii
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 
-	arm_func_start ov0_0216AE74
-ov0_0216AE74: ; 0x0216AE74
+	arm_func_start _ZN21TFieldParticleEmitterI16CSimpleSpriteNTFE5func2Ev
+_ZN21TFieldParticleEmitterI16CSimpleSpriteNTFE5func2Ev: ; 0x0216AE74
 	bx lr
-	arm_func_end ov0_0216AE74
+	arm_func_end _ZN21TFieldParticleEmitterI16CSimpleSpriteNTFE5func2Ev
 
-	arm_func_start ov0_0216AE78
-ov0_0216AE78: ; 0x0216AE78
+	arm_func_start _ZN25CFieldEffectDarknessClear12ov0_02142344EP8Camera2D
+_ZN25CFieldEffectDarknessClear12ov0_02142344EP8Camera2D: ; 0x0216AE78
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r2, [r0, #0x18]
 	mov r6, r1
@@ -47464,7 +47464,7 @@ ov0_0216AE78: ; 0x0216AE78
 	ldr r1, [r6, #0x20]
 	rsb r1, r1, #0
 	str r1, [r2, #4]
-	arm_func_end ov0_0216AE78
+	arm_func_end _ZN25CFieldEffectDarknessClear12ov0_02142344EP8Camera2D
 _0216AEA4:
 	ldr r5, [r0, #0x18]
 	cmp r5, #0
@@ -47497,8 +47497,8 @@ _0216AF0C:
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
 
-	arm_func_start ov0_0216AF14
-ov0_0216AF14: ; 0x0216AF14
+	arm_func_start _ZN20TFieldEffectParticleI16CSimpleSpriteNTFE12ov0_02142344EP8Camera2D
+_ZN20TFieldEffectParticleI16CSimpleSpriteNTFE12ov0_02142344EP8Camera2D: ; 0x0216AF14
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r5, [r0, #0x18]
 	mov r6, r1
@@ -47506,7 +47506,7 @@ ov0_0216AF14: ; 0x0216AF14
 	ldrne r4, [r5, #0x28]
 	cmpne r4, #0
 	beq _0216AF84
-	arm_func_end ov0_0216AF14
+	arm_func_end _ZN20TFieldEffectParticleI16CSimpleSpriteNTFE12ov0_02142344EP8Camera2D
 _0216AF30:
 	ldr r0, [r5, #0x30]
 	cmp r0, #0
@@ -47533,8 +47533,8 @@ _0216AF84:
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
 
-	arm_func_start ov0_0216AF8C
-ov0_0216AF8C: ; 0x0216AF8C
+	arm_func_start _ZN25CFieldEffectDarknessClear11CForceField5ApplyEP14TFieldParticleI16CSimpleSpriteNTFEi
+_ZN25CFieldEffectDarknessClear11CForceField5ApplyEP14TFieldParticleI16CSimpleSpriteNTFEi: ; 0x0216AF8C
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r5, r1
 	ldr r2, [r5, #0x74]
@@ -47604,10 +47604,10 @@ ov0_0216AF8C: ; 0x0216AF8C
 	mov r0, #0
 	str r0, [r5, #0x68]
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end ov0_0216AF8C
+	arm_func_end _ZN25CFieldEffectDarknessClear11CForceField5ApplyEP14TFieldParticleI16CSimpleSpriteNTFEi
 
-	arm_func_start ov0_0216B0A0
-ov0_0216B0A0: ; 0x0216B0A0
+	arm_func_start _ZN25CFieldEffectDarknessClear8CEmitter4EmitEP14TFieldParticleI16CSimpleSpriteNTFE
+_ZN25CFieldEffectDarknessClear8CEmitter4EmitEP14TFieldParticleI16CSimpleSpriteNTFE: ; 0x0216B0A0
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
 	ldr r3, _0216B38C ; =MAIN_BSS_0210CEC8
 	mov r5, r0
@@ -47782,7 +47782,7 @@ ov0_0216B0A0: ; 0x0216B0A0
 	movne r0, r2
 	str r3, [r1, #4]
 	moveq r0, #1
-	arm_func_end ov0_0216B0A0
+	arm_func_end _ZN25CFieldEffectDarknessClear8CEmitter4EmitEP14TFieldParticleI16CSimpleSpriteNTFE
 _0216B358:
 	ldrb r2, [r5, #0x55]
 	mov r1, #0
@@ -47908,18 +47908,18 @@ _0216B524: .word PTR_LAB_overlay_0_0216b530_overlay_0_0217a040
 _0216B528: .word g_ntfTextureFormats
 	arm_func_end ov0_0216B39C
 
-	arm_func_start ov0_0216B52C
-ov0_0216B52C: ; 0x0216B52C
+	arm_func_start _ZN26CFieldEffectDarknessClear211CForceFieldD1Ev
+_ZN26CFieldEffectDarknessClear211CForceFieldD1Ev: ; 0x0216B52C
 	bx lr
-	arm_func_end ov0_0216B52C
+	arm_func_end _ZN26CFieldEffectDarknessClear211CForceFieldD1Ev
 
-	arm_func_start ov0_0216B530
-ov0_0216B530: ; 0x0216B530
+	arm_func_start _ZN26CFieldEffectDarknessClear28CEmitterD1Ev
+_ZN26CFieldEffectDarknessClear28CEmitterD1Ev: ; 0x0216B530
 	bx lr
-	arm_func_end ov0_0216B530
+	arm_func_end _ZN26CFieldEffectDarknessClear28CEmitterD1Ev
 
-	arm_func_start ov0_0216B534
-ov0_0216B534: ; 0x0216B534
+	arm_func_start _ZN26CFieldEffectDarknessClear2D1Ev
+_ZN26CFieldEffectDarknessClear2D1Ev: ; 0x0216B534
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	add r0, r4, #0x8c
@@ -47936,7 +47936,7 @@ ov0_0216B534: ; 0x0216B534
 	bl _ZdaPv
 	mov r0, #0
 	str r0, [r5, #0x10]
-	arm_func_end ov0_0216B534
+	arm_func_end _ZN26CFieldEffectDarknessClear2D1Ev
 _0216B574:
 	ldr r0, [r5, #0xc]
 	cmp r0, #0
@@ -48075,8 +48075,8 @@ _0216B73C: .word s_MEF_ef102_00_ntft_overlay_0_0217a488
 _0216B740: .word s_MEF_ef102_00_ntfp_overlay_0_0217a49c
 	arm_func_end ov0_0216B6AC
 
-	arm_func_start ov0_0216B744
-ov0_0216B744: ; 0x0216B744
+	arm_func_start _ZN26CFieldEffectDarknessClear212sub_0203312CEii
+_ZN26CFieldEffectDarknessClear212sub_0203312CEii: ; 0x0216B744
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #4
 	mov r6, r0
@@ -48091,7 +48091,7 @@ _0216B764: ; jump table
 	b _0216B9F8 ; case 2
 	b _0216B778 ; case 3
 	b _0216B788 ; case 4
-	arm_func_end ov0_0216B744
+	arm_func_end _ZN26CFieldEffectDarknessClear212sub_0203312CEii
 _0216B778:
 	mov r1, r5, lsl #0xc
 	add sp, sp, #4
@@ -48278,8 +48278,8 @@ _0216B9F8:
 _0216BA00: .word ov0_0216AD48
 _0216BA04: .word ov0_0216AD5C
 
-	arm_func_start ov0_0216BA08
-ov0_0216BA08: ; 0x0216BA08
+	arm_func_start _ZN26CFieldEffectDarknessClear212ov0_021421F0Eiii
+_ZN26CFieldEffectDarknessClear212ov0_021421F0Eiii: ; 0x0216BA08
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r4, r3
 	cmp r4, #0
@@ -48303,7 +48303,7 @@ ov0_0216BA08: ; 0x0216BA08
 	ldr r1, [r0]
 	ldr r1, [r1, #8]
 	blx r1
-	arm_func_end ov0_0216BA08
+	arm_func_end _ZN26CFieldEffectDarknessClear212ov0_021421F0Eiii
 _0216BA64:
 	mov r0, r6
 	mov r2, r5
@@ -48312,8 +48312,8 @@ _0216BA64:
 	bl _ZN12CFieldEffect12ov0_021421F0Eiii
 	ldmia sp!, {r4, r5, r6, pc}
 
-	arm_func_start ov0_0216BA7C
-ov0_0216BA7C: ; 0x0216BA7C
+	arm_func_start _ZN26CFieldEffectDarknessClear212ov0_02142264Ei
+_ZN26CFieldEffectDarknessClear212ov0_02142264Ei: ; 0x0216BA7C
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0x14
 	mov r4, r0
@@ -48334,7 +48334,7 @@ ov0_0216BA7C: ; 0x0216BA7C
 	mov fp, #0
 	mov r6, r7, asr #0x1f
 	mov sb, fp
-	arm_func_end ov0_0216BA7C
+	arm_func_end _ZN26CFieldEffectDarknessClear212ov0_02142264Ei
 _0216BACC:
 	ldr r0, [r4, #0x70]
 	ldr r5, [r4, #0x80]
@@ -48700,14 +48700,14 @@ _0216BFF0:
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
 
-	arm_func_start ov0_0216BFFC
-ov0_0216BFFC: ; 0x0216BFFC
+	arm_func_start _ZN21TFieldParticleEmitterI16CSimpleSpriteNTFE6UpdateEi
+_ZN21TFieldParticleEmitterI16CSimpleSpriteNTFE6UpdateEi: ; 0x0216BFFC
 	mov r0, #0
 	bx lr
-	arm_func_end ov0_0216BFFC
+	arm_func_end _ZN21TFieldParticleEmitterI16CSimpleSpriteNTFE6UpdateEi
 
-	arm_func_start ov0_0216C004
-ov0_0216C004: ; 0x0216C004
+	arm_func_start _ZN26CFieldEffectDarknessClear212ov0_02142344EP8Camera2D
+_ZN26CFieldEffectDarknessClear212ov0_02142344EP8Camera2D: ; 0x0216C004
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r2, [r0, #0x18]
 	mov r6, r1
@@ -48719,7 +48719,7 @@ ov0_0216C004: ; 0x0216C004
 	ldr r1, [r6, #0x20]
 	rsb r1, r1, #0
 	str r1, [r2, #4]
-	arm_func_end ov0_0216C004
+	arm_func_end _ZN26CFieldEffectDarknessClear212ov0_02142344EP8Camera2D
 _0216C030:
 	ldr r5, [r0, #0x18]
 	cmp r5, #0
@@ -48752,8 +48752,8 @@ _0216C098:
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
 
-	arm_func_start ov0_0216C0A0
-ov0_0216C0A0: ; 0x0216C0A0
+	arm_func_start _ZN26CFieldEffectDarknessClear211CForceField5ApplyEP14TFieldParticleI16CSimpleSpriteNTFEi
+_ZN26CFieldEffectDarknessClear211CForceField5ApplyEP14TFieldParticleI16CSimpleSpriteNTFEi: ; 0x0216C0A0
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
 	sub sp, sp, #0x30
 	mov r5, r1
@@ -48809,7 +48809,7 @@ ov0_0216C0A0: ; 0x0216C0A0
 	mov r0, #0x2000000
 	mov r1, #0
 	bl _ll_div
-	arm_func_end ov0_0216C0A0
+	arm_func_end _ZN26CFieldEffectDarknessClear211CForceField5ApplyEP14TFieldParticleI16CSimpleSpriteNTFEi
 _0216C17C:
 	ldr r1, [sp, #0x28]
 	smull r4, r3, r0, r4
@@ -48921,8 +48921,8 @@ _0216C2BC:
 	add sp, sp, #0x30
 	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
 
-	arm_func_start ov0_0216C320
-ov0_0216C320: ; 0x0216C320
+	arm_func_start _ZN26CFieldEffectDarknessClear28CEmitter4EmitEP14TFieldParticleI16CSimpleSpriteNTFE
+_ZN26CFieldEffectDarknessClear28CEmitter4EmitEP14TFieldParticleI16CSimpleSpriteNTFE: ; 0x0216C320
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r5, r0
 	ldrb r3, [r5, #0x57]
@@ -48966,7 +48966,7 @@ ov0_0216C320: ; 0x0216C320
 	orrs r0, r0, r3, lsr #31
 	movne r1, r2
 	moveq r1, #1
-	arm_func_end ov0_0216C320
+	arm_func_end _ZN26CFieldEffectDarknessClear28CEmitter4EmitEP14TFieldParticleI16CSimpleSpriteNTFE
 _0216C3CC:
 	ldrb r0, [r5, #0x58]
 	cmp r0, #0x10
@@ -49083,8 +49083,8 @@ _0216C584: .word DAT_overlay_0_0217a364
 _0216C588: .word 0x00000C01
 _0216C58C: .word 0x00000801
 
-	arm_func_start ov0_0216C590
-ov0_0216C590: ; 0x0216C590
+	arm_func_start _ZN32CFieldEffectDarknessClearFactory6CreateEi
+_ZN32CFieldEffectDarknessClearFactory6CreateEi: ; 0x0216C590
 	stmdb sp!, {r4, lr}
 	movs r4, r1
 	bne _0216C5B8
@@ -49095,7 +49095,7 @@ ov0_0216C590: ; 0x0216C590
 	mov r1, r4
 	bl ov0_0216A448
 	ldmia sp!, {r4, pc}
-	arm_func_end ov0_0216C590
+	arm_func_end _ZN32CFieldEffectDarknessClearFactory6CreateEi
 _0216C5B8:
 	mov r0, #0xb8
 	bl _Znwm
@@ -49105,48 +49105,48 @@ _0216C5B8:
 	bl ov0_0216B39C
 	ldmia sp!, {r4, pc}
 
-	arm_func_start ov0_0216C5D4
-ov0_0216C5D4: ; 0x0216C5D4
+	arm_func_start _ZN26CFieldEffectDarknessClear210GetEmitterEv
+_ZN26CFieldEffectDarknessClear210GetEmitterEv: ; 0x0216C5D4
 	add r0, r0, #0x30
 	bx lr
-	arm_func_end ov0_0216C5D4
+	arm_func_end _ZN26CFieldEffectDarknessClear210GetEmitterEv
 
-	arm_func_start ov0_0216C5DC
-ov0_0216C5DC: ; 0x0216C5DC
+	arm_func_start _ZN26CFieldEffectDarknessClear213GetForceFieldEv
+_ZN26CFieldEffectDarknessClear213GetForceFieldEv: ; 0x0216C5DC
 	add r0, r0, #0x20
 	bx lr
-	arm_func_end ov0_0216C5DC
+	arm_func_end _ZN26CFieldEffectDarknessClear213GetForceFieldEv
 
-	arm_func_start ov0_0216C5E4
-ov0_0216C5E4: ; 0x0216C5E4
+	arm_func_start _ZN26CFieldEffectDarknessClear212sub_02033028Ev
+_ZN26CFieldEffectDarknessClear212sub_02033028Ev: ; 0x0216C5E4
 	mov r0, #0x17
 	bx lr
-	arm_func_end ov0_0216C5E4
+	arm_func_end _ZN26CFieldEffectDarknessClear212sub_02033028Ev
 
-	arm_func_start ov0_0216C5EC
-ov0_0216C5EC: ; 0x0216C5EC
+	arm_func_start _ZN25CFieldEffectDarknessClear10GetEmitterEv
+_ZN25CFieldEffectDarknessClear10GetEmitterEv: ; 0x0216C5EC
 	add r0, r0, #0x28
 	bx lr
-	arm_func_end ov0_0216C5EC
+	arm_func_end _ZN25CFieldEffectDarknessClear10GetEmitterEv
 
-	arm_func_start ov0_0216C5F4
-ov0_0216C5F4: ; 0x0216C5F4
+	arm_func_start _ZN25CFieldEffectDarknessClear13GetForceFieldEv
+_ZN25CFieldEffectDarknessClear13GetForceFieldEv: ; 0x0216C5F4
 	add r0, r0, #0x20
 	bx lr
-	arm_func_end ov0_0216C5F4
+	arm_func_end _ZN25CFieldEffectDarknessClear13GetForceFieldEv
 
-	arm_func_start ov0_0216C5FC
-ov0_0216C5FC: ; 0x0216C5FC
+	arm_func_start _ZN25CFieldEffectDarknessClear12sub_02033028Ev
+_ZN25CFieldEffectDarknessClear12sub_02033028Ev: ; 0x0216C5FC
 	mov r0, #0x17
 	bx lr
-	arm_func_end ov0_0216C5FC
+	arm_func_end _ZN25CFieldEffectDarknessClear12sub_02033028Ev
 
-	arm_func_start ov0_0216C604
-ov0_0216C604: ; 0x0216C604
+	arm_func_start _ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFE5func2Ev
+_ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFE5func2Ev: ; 0x0216C604
 	mov r1, #0x1000
 	str r1, [r0, #0x30]
 	bx lr
-	arm_func_end ov0_0216C604
+	arm_func_end _ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFE5func2Ev
 
 	arm_func_start ov0_0216C610
 ov0_0216C610: ; 0x0216C610
@@ -49155,8 +49155,8 @@ ov0_0216C610: ; 0x0216C610
 	bx lr
 	arm_func_end ov0_0216C610
 
-	arm_func_start ov0_0216C61C
-ov0_0216C61C: ; 0x0216C61C
+	arm_func_start _ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFE6UpdateEi
+_ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFE6UpdateEi: ; 0x0216C61C
 	ldr r2, [r0, #0x30]
 	mov r3, #0
 	cmp r2, #0
@@ -49170,7 +49170,7 @@ ov0_0216C61C: ; 0x0216C61C
 	cmp r1, #0
 	movgt r1, r1, lsl #0xc
 	strgt r1, [r0, #0x30]
-	arm_func_end ov0_0216C61C
+	arm_func_end _ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFE6UpdateEi
 _0216C650:
 	mov r0, r3
 	bx lr
@@ -49285,8 +49285,8 @@ _0216C77C: .word ptr_FUN_overlay_0_0216caa0_overlay_0_0217a28c
 _0216C780: .word ov0_0216AD48
 _0216C784: .word _ZTV12CFieldEffect+8
 
-	arm_func_start ov0_0216C788
-ov0_0216C788: ; 0x0216C788
+	arm_func_start _ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFE4EmitEP14TFieldParticleIS0_E
+_ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFE4EmitEP14TFieldParticleIS0_E: ; 0x0216C788
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	mov r7, r0
 	mov r6, r1
@@ -49365,7 +49365,7 @@ ov0_0216C788: ; 0x0216C788
 	beq _0216C8C0
 	cmp r1, #1
 	b _0216C8CC
-	arm_func_end ov0_0216C788
+	arm_func_end _ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFE4EmitEP14TFieldParticleIS0_E
 _0216C8C0:
 	ldr r1, _0216CA98 ; =0x0000439C
 	strh r1, [r6, #8]
@@ -49502,8 +49502,8 @@ _0216CA94: .word 0x00007FFF
 _0216CA98: .word 0x0000439C
 _0216CA9C: .word 0x00000333
 
-	arm_func_start ov0_0216CAA0
-ov0_0216CAA0: ; 0x0216CAA0
+	arm_func_start _ZN20TFieldEffectParticleI16CSimpleSpriteNTFED1Ev
+_ZN20TFieldEffectParticleI16CSimpleSpriteNTFED1Ev: ; 0x0216CAA0
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _0216CB44 ; =ptr_FUN_overlay_0_0216caa0_overlay_0_0217a28c
 	mov r4, r0
@@ -49518,7 +49518,7 @@ ov0_0216CAA0: ; 0x0216CAA0
 	bl _ZdaPv
 	mov r0, #0
 	str r0, [r5, #0x10]
-	arm_func_end ov0_0216CAA0
+	arm_func_end _ZN20TFieldEffectParticleI16CSimpleSpriteNTFED1Ev
 _0216CAD8:
 	ldr r0, [r5, #0xc]
 	cmp r0, #0
@@ -49570,10 +49570,10 @@ ov0_0216CB54: ; 0x0216CB54
 	ldmia sp!, {r4, pc}
 	arm_func_end ov0_0216CB54
 
-	arm_func_start ov0_0216CB68
-ov0_0216CB68: ; 0x0216CB68
+	arm_func_start _ZN25TFieldParticleRectEmitterI16CSimpleSpriteNTFED1Ev
+_ZN25TFieldParticleRectEmitterI16CSimpleSpriteNTFED1Ev: ; 0x0216CB68
 	bx lr
-	arm_func_end ov0_0216CB68
+	arm_func_end _ZN25TFieldParticleRectEmitterI16CSimpleSpriteNTFED1Ev
 
 	arm_func_start ov0_0216CB6C
 ov0_0216CB6C: ; 0x0216CB6C
@@ -49584,10 +49584,10 @@ ov0_0216CB6C: ; 0x0216CB6C
 	ldmia sp!, {r4, pc}
 	arm_func_end ov0_0216CB6C
 
-	arm_func_start ov0_0216CB80
-ov0_0216CB80: ; 0x0216CB80
+	arm_func_start _ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFED1Ev
+_ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFED1Ev: ; 0x0216CB80
 	bx lr
-	arm_func_end ov0_0216CB80
+	arm_func_end _ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFED1Ev
 
 	arm_func_start _ZN22CFieldEffectAirBubblesC1Ev
 _ZN22CFieldEffectAirBubblesC1Ev: ; 0x0216CB84
@@ -49643,15 +49643,15 @@ _0216CC40: .word PTR_LAB_overlay_0_0215bdb4_overlay_0_02178348
 _0216CC44: .word PTR_LAB_overlay_0_0216cc4c_overlay_0_0217a50c
 	arm_func_end _ZN22CFieldEffectAirBubblesC1Ev
 
-	arm_func_start ov0_0216CC48
-ov0_0216CC48: ; 0x0216CC48
+	arm_func_start _ZN22CFieldEffectAirBubbles17CBubbleForceFieldD1Ev
+_ZN22CFieldEffectAirBubbles17CBubbleForceFieldD1Ev: ; 0x0216CC48
 	bx lr
-	arm_func_end ov0_0216CC48
+	arm_func_end _ZN22CFieldEffectAirBubbles17CBubbleForceFieldD1Ev
 
-	arm_func_start ov0_0216CC4C
-ov0_0216CC4C: ; 0x0216CC4C
+	arm_func_start _ZN22CFieldEffectAirBubbles14CBubbleEmitterD1Ev
+_ZN22CFieldEffectAirBubbles14CBubbleEmitterD1Ev: ; 0x0216CC4C
 	bx lr
-	arm_func_end ov0_0216CC4C
+	arm_func_end _ZN22CFieldEffectAirBubbles14CBubbleEmitterD1Ev
 
 	arm_func_start _ZN22CFieldEffectAirBubblesD1Ev
 _ZN22CFieldEffectAirBubblesD1Ev: ; 0x0216CC50
@@ -49763,8 +49763,8 @@ _0216CDAC: .word ptr_FUN_overlay_0_0215bcf0_overlay_0_0217853c
 _0216CDB0: .word ov0_021450CC
 _0216CDB4: .word _ZTV12CFieldEffect+8
 
-	arm_func_start ov0_0216CDB8
-ov0_0216CDB8: ; 0x0216CDB8
+	arm_func_start _ZN22CFieldEffectAirBubbles12sub_0203312CEii
+_ZN22CFieldEffectAirBubbles12sub_0203312CEii: ; 0x0216CDB8
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #4
 	mov r6, r0
@@ -49778,7 +49778,7 @@ ov0_0216CDB8: ; 0x0216CDB8
 	beq _0216D030
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, r5, r6, pc}
-	arm_func_end ov0_0216CDB8
+	arm_func_end _ZN22CFieldEffectAirBubbles12sub_0203312CEii
 _0216CDEC:
 	cmp r5, #0
 	ble _0216D00C
@@ -49985,8 +49985,8 @@ _ZN22CFieldEffectAirBubbles12ov0_0216D050Ell: ; 0x0216D050
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
 	arm_func_end _ZN22CFieldEffectAirBubbles12ov0_0216D050Ell
 
-	arm_func_start ov0_0216D0CC
-ov0_0216D0CC: ; 0x0216D0CC
+	arm_func_start _ZN22CFieldEffectAirBubbles17CBubbleForceField5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
+_ZN22CFieldEffectAirBubbles17CBubbleForceField5ApplyEP14TFieldParticleI15CSoftwareSpriteEi: ; 0x0216D0CC
 	ldr r3, [r1, #0x64]
 	ldr r2, [r1, #0x60]
 	ldr r0, _0216D124 ; =0x00000CCC
@@ -50012,7 +50012,7 @@ ov0_0216D0CC: ; 0x0216D0CC
 	.align 2, 0
 _0216D124: .word 0x00000CCC
 _0216D128: .word FX_SinCosTable_
-	arm_func_end ov0_0216D0CC
+	arm_func_end _ZN22CFieldEffectAirBubbles17CBubbleForceField5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
 
 	arm_func_start ov0_0216D12C
 ov0_0216D12C: ; 0x0216D12C
@@ -50028,8 +50028,8 @@ ov0_0216D12C: ; 0x0216D12C
 	bx lr
 	arm_func_end ov0_0216D12C
 
-	arm_func_start ov0_0216D154
-ov0_0216D154: ; 0x0216D154
+	arm_func_start _ZN22CFieldEffectAirBubbles14CBubbleEmitter6UpdateEi
+_ZN22CFieldEffectAirBubbles14CBubbleEmitter6UpdateEi: ; 0x0216D154
 	ldr r1, [r0, #0x38]
 	cmp r1, #0
 	ble _0216D190
@@ -50045,13 +50045,13 @@ ov0_0216D154: ; 0x0216D154
 	str r1, [r0, #0x3c]
 	mov r0, #1
 	bx lr
-	arm_func_end ov0_0216D154
+	arm_func_end _ZN22CFieldEffectAirBubbles14CBubbleEmitter6UpdateEi
 _0216D190:
 	mov r0, #0
 	bx lr
 
-	arm_func_start ov0_0216D198
-ov0_0216D198: ; 0x0216D198
+	arm_func_start _ZN22CFieldEffectAirBubbles14CBubbleEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE
+_ZN22CFieldEffectAirBubbles14CBubbleEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE: ; 0x0216D198
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	ldr r4, _0216D28C ; =MAIN_BSS_0210CEC8
 	ldr ip, [r0, #0x28]
@@ -50116,25 +50116,25 @@ ov0_0216D198: ; 0x0216D198
 	.align 2, 0
 _0216D28C: .word MAIN_BSS_0210CEC8
 _0216D290: .word 0x00007FFF
-	arm_func_end ov0_0216D198
+	arm_func_end _ZN22CFieldEffectAirBubbles14CBubbleEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE
 
-	arm_func_start ov0_0216D294
-ov0_0216D294: ; 0x0216D294
+	arm_func_start _ZN22CFieldEffectAirBubbles10GetEmitterEv
+_ZN22CFieldEffectAirBubbles10GetEmitterEv: ; 0x0216D294
 	add r0, r0, #0x2c
 	bx lr
-	arm_func_end ov0_0216D294
+	arm_func_end _ZN22CFieldEffectAirBubbles10GetEmitterEv
 
-	arm_func_start ov0_0216D29C
-ov0_0216D29C: ; 0x0216D29C
+	arm_func_start _ZN22CFieldEffectAirBubbles13GetForceFieldEv
+_ZN22CFieldEffectAirBubbles13GetForceFieldEv: ; 0x0216D29C
 	add r0, r0, #0x28
 	bx lr
-	arm_func_end ov0_0216D29C
+	arm_func_end _ZN22CFieldEffectAirBubbles13GetForceFieldEv
 
-	arm_func_start ov0_0216D2A4
-ov0_0216D2A4: ; 0x0216D2A4
+	arm_func_start _ZN22CFieldEffectAirBubbles12sub_02033028Ev
+_ZN22CFieldEffectAirBubbles12sub_02033028Ev: ; 0x0216D2A4
 	mov r0, #0x28
 	bx lr
-	arm_func_end ov0_0216D2A4
+	arm_func_end _ZN22CFieldEffectAirBubbles12sub_02033028Ev
 
 	arm_func_start ov0_0216D2AC
 ov0_0216D2AC: ; 0x0216D2AC
@@ -50702,14 +50702,14 @@ _0216DA2C: .word 0x0000FFFF
 _0216DA30: .word s_childid_d_overlay_0_0217a6b8
 _0216DA34: .word 0x00001333
 
-	arm_func_start ov0_0216DA38
-ov0_0216DA38: ; 0x0216DA38
+	arm_func_start _ZN17CFieldEffectLaserD1Ev
+_ZN17CFieldEffectLaserD1Ev: ; 0x0216DA38
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _0216DAD4 ; =ptr_FUN_overlay_0_0216da38_overlay_0_0217a65c
 	mov r4, r0
 	str r1, [r4]
 	mov r5, #0
-	arm_func_end ov0_0216DA38
+	arm_func_end _ZN17CFieldEffectLaserD1Ev
 _0216DA4C:
 	ldr r0, [r4, #0x18]
 	mov r1, r5
@@ -50804,8 +50804,8 @@ _0216DB84: .word ptr_FUN_overlay_0_0216da38_overlay_0_0217a65c
 _0216DB88: .word _ZN15CSoftwareSpriteD1Ev
 _0216DB8C: .word _ZTV12CFieldEffect+8
 
-	arm_func_start ov0_0216DB90
-ov0_0216DB90: ; 0x0216DB90
+	arm_func_start _ZN17CFieldEffectLaser12ov0_02142264Ei
+_ZN17CFieldEffectLaser12ov0_02142264Ei: ; 0x0216DB90
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	sub sp, sp, #0x20
 	mov r5, r0
@@ -50818,7 +50818,7 @@ ov0_0216DB90: ; 0x0216DB90
 	ldr r1, [r0]
 	ldr r1, [r1, #0x18]
 	blx r1
-	arm_func_end ov0_0216DB90
+	arm_func_end _ZN17CFieldEffectLaser12ov0_02142264Ei
 _0216DBC0:
 	cmp r4, #1
 	beq _0216DBDC
@@ -50887,8 +50887,8 @@ _0216DCA4:
 	add sp, sp, #0x20
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 
-	arm_func_start ov0_0216DCB4
-ov0_0216DCB4: ; 0x0216DCB4
+	arm_func_start _ZN17CFieldEffectLaser12ov0_02142344EP8Camera2D
+_ZN17CFieldEffectLaser12ov0_02142344EP8Camera2D: ; 0x0216DCB4
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
 	sub sp, sp, #0x38
 	mov r6, r0
@@ -50944,7 +50944,7 @@ ov0_0216DCB4: ; 0x0216DCB4
 	str r0, [r6, #0x104]
 	add r8, r6, #0x50
 	mov r7, #0
-	arm_func_end ov0_0216DCB4
+	arm_func_end _ZN17CFieldEffectLaser12ov0_02142344EP8Camera2D
 _0216DD90:
 	cmp r7, #2
 	bne _0216DDA4
@@ -50992,8 +50992,8 @@ _0216DE24:
 	add sp, sp, #0x38
 	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
 
-	arm_func_start ov0_0216DE30
-ov0_0216DE30: ; 0x0216DE30
+	arm_func_start _ZN17CFieldEffectLaser12sub_0203312CEii
+_ZN17CFieldEffectLaser12sub_0203312CEii: ; 0x0216DE30
 	cmp r1, #9
 	mov r3, #1
 	bgt _0216DE64
@@ -51007,7 +51007,7 @@ ov0_0216DE30: ; 0x0216DE30
 	cmp r1, #2
 	beq _0216DE7C
 	b _0216DEA0
-	arm_func_end ov0_0216DE30
+	arm_func_end _ZN17CFieldEffectLaser12sub_0203312CEii
 _0216DE64:
 	cmp r1, #0xa
 	beq _0216DE94
@@ -51034,8 +51034,8 @@ _0216DEA4:
 	mov r0, r3
 	bx lr
 
-	arm_func_start ov0_0216DEAC
-ov0_0216DEAC: ; 0x0216DEAC
+	arm_func_start _ZN17CFieldEffectLaser12ov0_021421F0Eiii
+_ZN17CFieldEffectLaser12ov0_021421F0Eiii: ; 0x0216DEAC
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
 	sub sp, sp, #0x28
 	mov r8, r0
@@ -51056,7 +51056,7 @@ ov0_0216DEAC: ; 0x0216DEAC
 	mov r3, r2, asr #0x1f
 	mov r0, #0x1000000
 	bl _ll_div
-	arm_func_end ov0_0216DEAC
+	arm_func_end _ZN17CFieldEffectLaser12ov0_021421F0Eiii
 _0216DEFC:
 	str r0, [r8, #0x44]
 	cmp r5, #0
@@ -51193,8 +51193,8 @@ _0216E060:
 	.align 2, 0
 _0216E0E4: .word 0x00000622
 
-	arm_func_start ov0_0216E0E8
-ov0_0216E0E8: ; 0x0216E0E8
+	arm_func_start _ZN24CFieldEffectLaserFactory6CreateEi
+_ZN24CFieldEffectLaserFactory6CreateEi: ; 0x0216E0E8
 	stmdb sp!, {r4, lr}
 	mov r0, #0x13c
 	mov r4, r1
@@ -51204,13 +51204,13 @@ ov0_0216E0E8: ; 0x0216E0E8
 	mov r1, r4
 	bl ov0_0216D898
 	ldmia sp!, {r4, pc}
-	arm_func_end ov0_0216E0E8
+	arm_func_end _ZN24CFieldEffectLaserFactory6CreateEi
 
-	arm_func_start ov0_0216E10C
-ov0_0216E10C: ; 0x0216E10C
+	arm_func_start _ZN17CFieldEffectLaser12sub_02033028Ev
+_ZN17CFieldEffectLaser12sub_02033028Ev: ; 0x0216E10C
 	mov r0, #3
 	bx lr
-	arm_func_end ov0_0216E10C
+	arm_func_end _ZN17CFieldEffectLaser12sub_02033028Ev
 
 	arm_func_start ov0_0216E114
 ov0_0216E114: ; 0x0216E114
@@ -51263,15 +51263,15 @@ _0216E1B4: .word ov0_02151244
 _0216E1B8: .word 0x00007FFF
 	arm_func_end ov0_0216E128
 
-	arm_func_start ov0_0216E1BC
-ov0_0216E1BC: ; 0x0216E1BC
+	arm_func_start _ZN24CFieldEffectRisingPhotonD1Ev
+_ZN24CFieldEffectRisingPhotonD1Ev: ; 0x0216E1BC
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r1, _0216E25C ; =ptr_FUN_overlay_0_0216e1bc_overlay_0_0217a744
 	mov r4, r0
 	str r1, [r4]
 	add r6, r4, #0x2c
 	mov r5, #0
-	arm_func_end ov0_0216E1BC
+	arm_func_end _ZN24CFieldEffectRisingPhotonD1Ev
 _0216E1D4:
 	mov r0, r6
 	bl _ZN10NtfTexture12ReleaseFilesEv
@@ -51369,8 +51369,8 @@ _0216E318: .word _ZN16CSimpleSpriteNTFD1Ev
 _0216E31C: .word ov0_02151280
 _0216E320: .word _ZTV12CFieldEffect+8
 
-	arm_func_start ov0_0216E324
-ov0_0216E324: ; 0x0216E324
+	arm_func_start _ZN24CFieldEffectRisingPhoton12sub_0203312CEii
+_ZN24CFieldEffectRisingPhoton12sub_0203312CEii: ; 0x0216E324
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
 	mov r4, r0
 	cmp r1, #0x15
@@ -51381,7 +51381,7 @@ ov0_0216E324: ; 0x0216E324
 	cmp r1, #0x19
 	beq _0216E490
 	b _0216E4B0
-	arm_func_end ov0_0216E324
+	arm_func_end _ZN24CFieldEffectRisingPhoton12sub_0203312CEii
 _0216E34C:
 	cmp r2, #0
 	ble _0216E440
@@ -51497,8 +51497,8 @@ ov0_0216E4CC: ; 0x0216E4CC
 	bx lr
 	arm_func_end ov0_0216E4CC
 
-	arm_func_start ov0_0216E4E0
-ov0_0216E4E0: ; 0x0216E4E0
+	arm_func_start _ZN24CFieldEffectRisingPhoton12sub_02033244Eiii
+_ZN24CFieldEffectRisingPhoton12sub_02033244Eiii: ; 0x0216E4E0
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
 	cmp r1, #0x16
 	mov ip, #1
@@ -51522,7 +51522,7 @@ ov0_0216E4E0: ; 0x0216E4E0
 	mov r5, lr
 	mov r6, ip
 	mov r8, r7
-	arm_func_end ov0_0216E4E0
+	arm_func_end _ZN24CFieldEffectRisingPhoton12sub_02033244Eiii
 _0216E53C:
 	ldr r3, [r2]
 	ldr r1, [r0, #0x1c]
@@ -51564,17 +51564,17 @@ _0216E5C4:
 	mov r0, ip
 	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
 
-	arm_func_start ov0_0216E5CC
-ov0_0216E5CC: ; 0x0216E5CC
+	arm_func_start _ZN24CFieldEffectRisingPhoton12sub_020332A4Ev
+_ZN24CFieldEffectRisingPhoton12sub_020332A4Ev: ; 0x0216E5CC
 	ldrb r0, [r0, #0x86]
 	cmp r0, #2
 	movhs r0, #1
 	movlo r0, #0
 	bx lr
-	arm_func_end ov0_0216E5CC
+	arm_func_end _ZN24CFieldEffectRisingPhoton12sub_020332A4Ev
 
-	arm_func_start ov0_0216E5E0
-ov0_0216E5E0: ; 0x0216E5E0
+	arm_func_start _ZN24CFieldEffectRisingPhoton12ov0_021421F0Eiii
+_ZN24CFieldEffectRisingPhoton12ov0_021421F0Eiii: ; 0x0216E5E0
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
 	ldr r4, [r0, #0x18]
 	mov ip, #0
@@ -51585,7 +51585,7 @@ ov0_0216E5E0: ; 0x0216E5E0
 	mov r7, #1
 	mov r8, ip
 	mov r5, ip
-	arm_func_end ov0_0216E5E0
+	arm_func_end _ZN24CFieldEffectRisingPhoton12ov0_021421F0Eiii
 _0216E608:
 	ldr r4, [r0, #0x1c]
 	add sb, r4, lr
@@ -51608,8 +51608,8 @@ _0216E648:
 	bl _ZN12CFieldEffect12ov0_021421F0Eiii
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
 
-	arm_func_start ov0_0216E650
-ov0_0216E650: ; 0x0216E650
+	arm_func_start _ZN24CFieldEffectRisingPhoton12ov0_02142264Ei
+_ZN24CFieldEffectRisingPhoton12ov0_02142264Ei: ; 0x0216E650
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0x1c
 	mov sl, r0
@@ -51637,7 +51637,7 @@ ov0_0216E650: ; 0x0216E650
 	mov r6, r4
 	mov r7, r4
 	mov r8, #1
-	arm_func_end ov0_0216E650
+	arm_func_end _ZN24CFieldEffectRisingPhoton12ov0_02142264Ei
 _0216E6BC:
 	ldr r0, [sl, #0x1c]
 	add r5, r0, r6
@@ -51795,8 +51795,8 @@ _0216E8F4:
 _0216E900: .word MAIN_BSS_0210CA40
 _0216E904: .word 0x00001199
 
-	arm_func_start ov0_0216E908
-ov0_0216E908: ; 0x0216E908
+	arm_func_start _ZN24CFieldEffectRisingPhoton12ov0_02142344EP8Camera2D
+_ZN24CFieldEffectRisingPhoton12ov0_02142344EP8Camera2D: ; 0x0216E908
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0xc
 	mov r7, r0
@@ -51813,7 +51813,7 @@ ov0_0216E908: ; 0x0216E908
 	mov r4, r0
 	mov r5, r0
 	mov r6, #1
-	arm_func_end ov0_0216E908
+	arm_func_end _ZN24CFieldEffectRisingPhoton12ov0_02142344EP8Camera2D
 _0216E948:
 	ldr r0, [r7, #0x1c]
 	add r0, r0, r4
@@ -51937,8 +51937,8 @@ _0216EB04: .word s_MEF_ef100_02_ntft_overlay_0_0217a7ec
 _0216EB08: .word s_MEF_ef100_02_ntfp_overlay_0_0217a800
 	arm_func_end ov0_0216EA58
 
-	arm_func_start ov0_0216EB0C
-ov0_0216EB0C: ; 0x0216EB0C
+	arm_func_start _ZN31CFieldEffectRisingPhotonFactory6CreateEi
+_ZN31CFieldEffectRisingPhotonFactory6CreateEi: ; 0x0216EB0C
 	stmdb sp!, {r3, lr}
 	mov r0, #0x88
 	bl _Znwm
@@ -51946,19 +51946,19 @@ ov0_0216EB0C: ; 0x0216EB0C
 	ldmeqia sp!, {r3, pc}
 	bl ov0_0216E128
 	ldmia sp!, {r3, pc}
-	arm_func_end ov0_0216EB0C
+	arm_func_end _ZN31CFieldEffectRisingPhotonFactory6CreateEi
 
-	arm_func_start ov0_0216EB28
-ov0_0216EB28: ; 0x0216EB28
+	arm_func_start _ZN24CFieldEffectRisingPhoton12sub_02033440Et
+_ZN24CFieldEffectRisingPhoton12sub_02033440Et: ; 0x0216EB28
 	strh r1, [r0, #0x84]
 	bx lr
-	arm_func_end ov0_0216EB28
+	arm_func_end _ZN24CFieldEffectRisingPhoton12sub_02033440Et
 
-	arm_func_start ov0_0216EB30
-ov0_0216EB30: ; 0x0216EB30
+	arm_func_start _ZN24CFieldEffectRisingPhoton12sub_02033028Ev
+_ZN24CFieldEffectRisingPhoton12sub_02033028Ev: ; 0x0216EB30
 	mov r0, #0x18
 	bx lr
-	arm_func_end ov0_0216EB30
+	arm_func_end _ZN24CFieldEffectRisingPhoton12sub_02033028Ev
 
 	arm_func_start ov0_0216EB38
 ov0_0216EB38: ; 0x0216EB38
@@ -52000,24 +52000,24 @@ _0216EBAC: .word PTR_LAB_overlay_0_0216ebb4_overlay_0_0217a86c
 _0216EBB0: .word 0xFFFFF556
 	arm_func_end ov0_0216EB4C
 
-	arm_func_start ov0_0216EBB4
-ov0_0216EBB4: ; 0x0216EBB4
+	arm_func_start _ZN25CFieldEffectVolcanicSteam9CAnimator17CEffectDrawObjectD1Ev
+_ZN25CFieldEffectVolcanicSteam9CAnimator17CEffectDrawObjectD1Ev: ; 0x0216EBB4
 	bx lr
-	arm_func_end ov0_0216EBB4
+	arm_func_end _ZN25CFieldEffectVolcanicSteam9CAnimator17CEffectDrawObjectD1Ev
 
-	arm_func_start ov0_0216EBB8
-ov0_0216EBB8: ; 0x0216EBB8
+	arm_func_start _ZN25CFieldEffectVolcanicSteam9CAnimatorD1Ev
+_ZN25CFieldEffectVolcanicSteam9CAnimatorD1Ev: ; 0x0216EBB8
 	bx lr
-	arm_func_end ov0_0216EBB8
+	arm_func_end _ZN25CFieldEffectVolcanicSteam9CAnimatorD1Ev
 
-	arm_func_start ov0_0216EBBC
-ov0_0216EBBC: ; 0x0216EBBC
+	arm_func_start _ZN25CFieldEffectVolcanicSteamD1Ev
+_ZN25CFieldEffectVolcanicSteamD1Ev: ; 0x0216EBBC
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl ov0_0216F300
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	arm_func_end ov0_0216EBBC
+	arm_func_end _ZN25CFieldEffectVolcanicSteamD1Ev
 
 	arm_func_start ov0_0216EBD0
 ov0_0216EBD0: ; 0x0216EBD0
@@ -52030,28 +52030,28 @@ ov0_0216EBD0: ; 0x0216EBD0
 	ldmia sp!, {r4, pc}
 	arm_func_end ov0_0216EBD0
 
-	arm_func_start ov0_0216EBEC
-ov0_0216EBEC: ; 0x0216EBEC
+	arm_func_start _ZN25CFieldEffectVolcanicSteam12ov0_02142398EP17UnkClass_0211E3FC
+_ZN25CFieldEffectVolcanicSteam12ov0_02142398EP17UnkClass_0211E3FC: ; 0x0216EBEC
 	ldr ip, _0216EBF8 ; =ov0_0216EC94
 	add r0, r0, #0x78
 	bx ip
 	.align 2, 0
 _0216EBF8: .word ov0_0216EC94
-	arm_func_end ov0_0216EBEC
+	arm_func_end _ZN25CFieldEffectVolcanicSteam12ov0_02142398EP17UnkClass_0211E3FC
 
-	arm_func_start ov0_0216EBFC
-ov0_0216EBFC: ; 0x0216EBFC
-	ldr ip, _0216EC10 ; =ov0_0216EFFC
+	arm_func_start _ZN25CFieldEffectVolcanicSteam12sub_0203312CEii
+_ZN25CFieldEffectVolcanicSteam12sub_0203312CEii: ; 0x0216EBFC
+	ldr ip, _0216EC10 ; =_ZN17TFieldEffectSmokeI16CSimpleSpriteNTFE12sub_0203312CEii
 	cmp r1, #2
 	moveq r3, r2, lsl #0xc
 	streq r3, [r0, #0x80]
 	bx ip
 	.align 2, 0
-_0216EC10: .word ov0_0216EFFC
-	arm_func_end ov0_0216EBFC
+_0216EC10: .word _ZN17TFieldEffectSmokeI16CSimpleSpriteNTFE12sub_0203312CEii
+	arm_func_end _ZN25CFieldEffectVolcanicSteam12sub_0203312CEii
 
-	arm_func_start ov0_0216EC14
-ov0_0216EC14: ; 0x0216EC14
+	arm_func_start _ZN25CFieldEffectVolcanicSteam12ov0_02142344EP8Camera2D
+_ZN25CFieldEffectVolcanicSteam12ov0_02142344EP8Camera2D: ; 0x0216EC14
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r2, [r0, #0x18]
 	mov r6, r1
@@ -52061,7 +52061,7 @@ ov0_0216EC14: ; 0x0216EC14
 	ldrne r4, [r5, #0x28]
 	cmpne r4, #0
 	beq _0216EC8C
-	arm_func_end ov0_0216EC14
+	arm_func_end _ZN25CFieldEffectVolcanicSteam12ov0_02142344EP8Camera2D
 _0216EC38:
 	ldr r0, [r5, #0x30]
 	cmp r0, #0
@@ -52099,8 +52099,8 @@ ov0_0216EC94: ; 0x0216EC94
 _0216ECA8: .word _ZN17UnkClass_0211E3FC12sub_0200912CEP11CDrawObject
 	arm_func_end ov0_0216EC94
 
-	arm_func_start ov0_0216ECAC
-ov0_0216ECAC: ; 0x0216ECAC
+	arm_func_start _ZN25CFieldEffectVolcanicSteam9CAnimator17CEffectDrawObject12sub_020091D4EP8Camera2Di
+_ZN25CFieldEffectVolcanicSteam9CAnimator17CEffectDrawObject12sub_020091D4EP8Camera2Di: ; 0x0216ECAC
 	str r2, [r0, #0xc]
 	ldr r1, [r0, #0x10]
 	cmp r1, #0
@@ -52108,10 +52108,10 @@ ov0_0216ECAC: ; 0x0216ECAC
 	strne r0, [r1, #0x30]
 	mov r0, #1
 	bx lr
-	arm_func_end ov0_0216ECAC
+	arm_func_end _ZN25CFieldEffectVolcanicSteam9CAnimator17CEffectDrawObject12sub_020091D4EP8Camera2Di
 
-	arm_func_start ov0_0216ECC8
-ov0_0216ECC8: ; 0x0216ECC8
+	arm_func_start _ZN25CFieldEffectVolcanicSteam9CAnimator5ApplyEP14TFieldParticleI16CSimpleSpriteNTFEi
+_ZN25CFieldEffectVolcanicSteam9CAnimator5ApplyEP14TFieldParticleI16CSimpleSpriteNTFEi: ; 0x0216ECC8
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r1
 	mov r0, #0
@@ -52159,7 +52159,7 @@ ov0_0216ECC8: ; 0x0216ECC8
 	mov r3, #0
 	bl _ll_div
 	b _0216EDA8
-	arm_func_end ov0_0216ECC8
+	arm_func_end _ZN25CFieldEffectVolcanicSteam9CAnimator5ApplyEP14TFieldParticleI16CSimpleSpriteNTFEi
 _0216ED84:
 	ldr r0, [r6, #0x70]
 	sub r2, r5, #0x1e000
@@ -52177,8 +52177,8 @@ _0216EDA8:
 	.align 2, 0
 _0216EDB4: .word 0x000014CD
 
-	arm_func_start ov0_0216EDB8
-ov0_0216EDB8: ; 0x0216EDB8
+	arm_func_start _ZN32CFieldEffectVolcanicSteamFactoryD1Ev
+_ZN32CFieldEffectVolcanicSteamFactoryD1Ev: ; 0x0216EDB8
 	stmdb sp!, {r4, lr}
 	ldr r1, _0216EDDC ; =ptr_FUN_overlay_0_0216edb8_overlay_0_0217a89c
 	mov r4, r0
@@ -52190,7 +52190,7 @@ ov0_0216EDB8: ; 0x0216EDB8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0216EDDC: .word ptr_FUN_overlay_0_0216edb8_overlay_0_0217a89c
-	arm_func_end ov0_0216EDB8
+	arm_func_end _ZN32CFieldEffectVolcanicSteamFactoryD1Ev
 
 	arm_func_start ov0_0216EDE0
 ov0_0216EDE0: ; 0x0216EDE0
@@ -52209,13 +52209,13 @@ ov0_0216EDE0: ; 0x0216EDE0
 _0216EE0C: .word ptr_FUN_overlay_0_0216edb8_overlay_0_0217a89c
 	arm_func_end ov0_0216EDE0
 
-	arm_func_start ov0_0216EE10
-ov0_0216EE10: ; 0x0216EE10
+	arm_func_start _ZN32CFieldEffectVolcanicSteamFactory5ResetEv
+_ZN32CFieldEffectVolcanicSteamFactory5ResetEv: ; 0x0216EE10
 	ldr ip, _0216EE18 ; =ov0_0216EE9C
 	bx ip
 	.align 2, 0
 _0216EE18: .word ov0_0216EE9C
-	arm_func_end ov0_0216EE10
+	arm_func_end _ZN32CFieldEffectVolcanicSteamFactory5ResetEv
 
 	arm_func_start ov0_0216EE1C
 ov0_0216EE1C: ; 0x0216EE1C
@@ -52263,8 +52263,8 @@ ov0_0216EE9C: ; 0x0216EE9C
 _0216EEA8: .word _ZN10NtfTexture7ReleaseEv
 	arm_func_end ov0_0216EE9C
 
-	arm_func_start ov0_0216EEAC
-ov0_0216EEAC: ; 0x0216EEAC
+	arm_func_start _ZN32CFieldEffectVolcanicSteamFactory6CreateEi
+_ZN32CFieldEffectVolcanicSteamFactory6CreateEi: ; 0x0216EEAC
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r0, #0x90
@@ -52273,7 +52273,7 @@ ov0_0216EEAC: ; 0x0216EEAC
 	beq _0216EECC
 	bl ov0_0216EB4C
 	mov r4, r0
-	arm_func_end ov0_0216EEAC
+	arm_func_end _ZN32CFieldEffectVolcanicSteamFactory6CreateEi
 _0216EECC:
 	cmp r4, #0
 	beq _0216EEF0
@@ -52288,17 +52288,17 @@ _0216EEF0:
 	mov r0, r4
 	ldmia sp!, {r3, r4, r5, pc}
 
-	arm_func_start ov0_0216EEF8
-ov0_0216EEF8: ; 0x0216EEF8
+	arm_func_start _ZN25CFieldEffectVolcanicSteam13GetForceFieldEv
+_ZN25CFieldEffectVolcanicSteam13GetForceFieldEv: ; 0x0216EEF8
 	add r0, r0, #0x78
 	bx lr
-	arm_func_end ov0_0216EEF8
+	arm_func_end _ZN25CFieldEffectVolcanicSteam13GetForceFieldEv
 
-	arm_func_start ov0_0216EF00
-ov0_0216EF00: ; 0x0216EF00
+	arm_func_start _ZN25CFieldEffectVolcanicSteam12sub_02033028Ev
+_ZN25CFieldEffectVolcanicSteam12sub_02033028Ev: ; 0x0216EF00
 	mov r0, #0x19
 	bx lr
-	arm_func_end ov0_0216EF00
+	arm_func_end _ZN25CFieldEffectVolcanicSteam12sub_02033028Ev
 
 	arm_func_start ov0_0216EF08
 ov0_0216EF08: ; 0x0216EF08
@@ -52366,8 +52366,8 @@ _0216EFF4: .word PTR_LAB_overlay_0_0216cb68_overlay_0_02179fa4
 _0216EFF8: .word PTR_LAB_overlay_0_0216cb80_overlay_0_0217a000
 	arm_func_end ov0_0216EF08
 
-	arm_func_start ov0_0216EFFC
-ov0_0216EFFC: ; 0x0216EFFC
+	arm_func_start _ZN17TFieldEffectSmokeI16CSimpleSpriteNTFE12sub_0203312CEii
+_ZN17TFieldEffectSmokeI16CSimpleSpriteNTFE12sub_0203312CEii: ; 0x0216EFFC
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #4
 	mov r6, r0
@@ -52386,7 +52386,7 @@ _0216F01C: ; jump table
 	b _0216F04C ; case 6
 	b _0216F088 ; case 7
 	b _0216F078 ; case 8
-	arm_func_end ov0_0216EFFC
+	arm_func_end _ZN17TFieldEffectSmokeI16CSimpleSpriteNTFE12sub_0203312CEii
 _0216F040:
 	add sp, sp, #4
 	str r5, [r6, #0x54]
@@ -52585,11 +52585,11 @@ _0216F2D8:
 _0216F2F0: .word ov0_0216AD48
 _0216F2F4: .word ov0_0216AD5C
 
-	arm_func_start ov0_0216F2F8
-ov0_0216F2F8: ; 0x0216F2F8
+	arm_func_start _ZN17TFieldEffectSmokeI16CSimpleSpriteNTFE10GetEmitterEv
+_ZN17TFieldEffectSmokeI16CSimpleSpriteNTFE10GetEmitterEv: ; 0x0216F2F8
 	add r0, r0, #0x20
 	bx lr
-	arm_func_end ov0_0216F2F8
+	arm_func_end _ZN17TFieldEffectSmokeI16CSimpleSpriteNTFE10GetEmitterEv
 
 	arm_func_start ov0_0216F300
 ov0_0216F300: ; 0x0216F300
@@ -52719,8 +52719,8 @@ ov0_0216F47C: ; 0x0216F47C
 	ldmia sp!, {r4, pc}
 	arm_func_end ov0_0216F47C
 
-	arm_func_start ov0_0216F490
-ov0_0216F490: ; 0x0216F490
+	arm_func_start _ZN17TFieldEffectSmokeI16CSimpleSpriteNTFED1Ev
+_ZN17TFieldEffectSmokeI16CSimpleSpriteNTFED1Ev: ; 0x0216F490
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _0216F534 ; =ptr_FUN_overlay_0_0216caa0_overlay_0_0217a28c
 	mov r4, r0
@@ -52735,7 +52735,7 @@ ov0_0216F490: ; 0x0216F490
 	bl _ZdaPv
 	mov r0, #0
 	str r0, [r5, #0x10]
-	arm_func_end ov0_0216F490
+	arm_func_end _ZN17TFieldEffectSmokeI16CSimpleSpriteNTFED1Ev
 _0216F4C8:
 	ldr r0, [r5, #0xc]
 	cmp r0, #0
@@ -52842,18 +52842,18 @@ _0216F638: .word PTR_LAB_overlay_0_0216f640_overlay_0_0217ab18
 _0216F63C: .word PTR_LAB_overlay_0_0216f644_overlay_0_0217aac8
 	arm_func_end ov0_0216F540
 
-	arm_func_start ov0_0216F640
-ov0_0216F640: ; 0x0216F640
+	arm_func_start _ZN23CFieldEffectFuwanteWind8CEmitterD1Ev
+_ZN23CFieldEffectFuwanteWind8CEmitterD1Ev: ; 0x0216F640
 	bx lr
-	arm_func_end ov0_0216F640
+	arm_func_end _ZN23CFieldEffectFuwanteWind8CEmitterD1Ev
 
-	arm_func_start ov0_0216F644
-ov0_0216F644: ; 0x0216F644
+	arm_func_start _ZN23CFieldEffectFuwanteWind9CAnimatorD1Ev
+_ZN23CFieldEffectFuwanteWind9CAnimatorD1Ev: ; 0x0216F644
 	bx lr
-	arm_func_end ov0_0216F644
+	arm_func_end _ZN23CFieldEffectFuwanteWind9CAnimatorD1Ev
 
-	arm_func_start ov0_0216F648
-ov0_0216F648: ; 0x0216F648
+	arm_func_start _ZN23CFieldEffectFuwanteWindD1Ev
+_ZN23CFieldEffectFuwanteWindD1Ev: ; 0x0216F648
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _0216F6EC ; =ptr_FUN_overlay_0_0215bcf0_overlay_0_0217853c
 	mov r4, r0
@@ -52868,7 +52868,7 @@ ov0_0216F648: ; 0x0216F648
 	bl _ZdaPv
 	mov r0, #0
 	str r0, [r5, #0x10]
-	arm_func_end ov0_0216F648
+	arm_func_end _ZN23CFieldEffectFuwanteWindD1Ev
 _0216F680:
 	ldr r0, [r5, #0xc]
 	cmp r0, #0
@@ -52962,8 +52962,8 @@ _0216F7A4: .word ptr_FUN_overlay_0_0215bcf0_overlay_0_0217853c
 _0216F7A8: .word ov0_021450CC
 _0216F7AC: .word _ZTV12CFieldEffect+8
 
-	arm_func_start ov0_0216F7B0
-ov0_0216F7B0: ; 0x0216F7B0
+	arm_func_start _ZN23CFieldEffectFuwanteWind12sub_0203312CEii
+_ZN23CFieldEffectFuwanteWind12sub_0203312CEii: ; 0x0216F7B0
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #4
 	mov r6, r0
@@ -52984,7 +52984,7 @@ _0216F7D8: ; jump table
 	b _0216F81C ; case 6
 	b _0216F858 ; case 7
 	b _0216F848 ; case 8
-	arm_func_end ov0_0216F7B0
+	arm_func_end _ZN23CFieldEffectFuwanteWind12sub_0203312CEii
 _0216F7FC:
 	cmp r1, #0x17
 	bne _0216F858
@@ -53195,8 +53195,8 @@ _0216FAC0:
 _0216FAD8: .word ov0_021450CC
 _0216FADC: .word ov0_0214509C
 
-	arm_func_start ov0_0216FAE0
-ov0_0216FAE0: ; 0x0216FAE0
+	arm_func_start _ZN23CFieldEffectFuwanteWind12ov0_02142344EP8Camera2D
+_ZN23CFieldEffectFuwanteWind12ov0_02142344EP8Camera2D: ; 0x0216FAE0
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r5, [r0, #0x18]
 	mov r6, r1
@@ -53204,7 +53204,7 @@ ov0_0216FAE0: ; 0x0216FAE0
 	ldrne r4, [r5, #0x30]
 	cmpne r4, #0
 	beq _0216FB50
-	arm_func_end ov0_0216FAE0
+	arm_func_end _ZN23CFieldEffectFuwanteWind12ov0_02142344EP8Camera2D
 _0216FAFC:
 	ldr r0, [r5, #0x38]
 	cmp r0, #0
@@ -53231,8 +53231,8 @@ _0216FB50:
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
 
-	arm_func_start ov0_0216FB58
-ov0_0216FB58: ; 0x0216FB58
+	arm_func_start _ZN23CFieldEffectFuwanteWind8CEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE
+_ZN23CFieldEffectFuwanteWind8CEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE: ; 0x0216FB58
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	ldr lr, _0216FC6C ; =MAIN_BSS_0210CEC8
 	ldr r3, [r0, #0x28]
@@ -53307,10 +53307,10 @@ _0216FC6C: .word MAIN_BSS_0210CEC8
 _0216FC70: .word 0x00007FFF
 _0216FC74: .word 0x00000355
 _0216FC78: .word 0xFFFFF889
-	arm_func_end ov0_0216FB58
+	arm_func_end _ZN23CFieldEffectFuwanteWind8CEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE
 
-	arm_func_start ov0_0216FC7C
-ov0_0216FC7C: ; 0x0216FC7C
+	arm_func_start _ZN23CFieldEffectFuwanteWind9CAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
+_ZN23CFieldEffectFuwanteWind9CAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi: ; 0x0216FC7C
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
 	mov r4, r1
 	ldr r2, [r4, #0x64]
@@ -53360,7 +53360,7 @@ ov0_0216FC7C: ; 0x0216FC7C
 	add r0, r0, #0x18000
 	mov r0, r0, asr #0xc
 	str r0, [r4, #0x14]
-	arm_func_end ov0_0216FC7C
+	arm_func_end _ZN23CFieldEffectFuwanteWind9CAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
 _0216FD40:
 	bl _ZN5CGame11GetInstanceEv
 	ldr lr, [r4, #0x68]
@@ -53429,8 +53429,8 @@ _0216FE10:
 	.align 2, 0
 _0216FE3C: .word 0x00000333
 
-	arm_func_start ov0_0216FE40
-ov0_0216FE40: ; 0x0216FE40
+	arm_func_start _ZN30CFieldEffectFuwanteWindFactoryD1Ev
+_ZN30CFieldEffectFuwanteWindFactoryD1Ev: ; 0x0216FE40
 	stmdb sp!, {r4, lr}
 	ldr r1, _0216FE64 ; =ptr_FUN_overlay_0_0216fe40_overlay_0_0217aaf8
 	mov r4, r0
@@ -53442,7 +53442,7 @@ ov0_0216FE40: ; 0x0216FE40
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0216FE64: .word ptr_FUN_overlay_0_0216fe40_overlay_0_0217aaf8
-	arm_func_end ov0_0216FE40
+	arm_func_end _ZN30CFieldEffectFuwanteWindFactoryD1Ev
 
 	arm_func_start ov0_0216FE68
 ov0_0216FE68: ; 0x0216FE68
@@ -53461,13 +53461,13 @@ ov0_0216FE68: ; 0x0216FE68
 _0216FE94: .word ptr_FUN_overlay_0_0216fe40_overlay_0_0217aaf8
 	arm_func_end ov0_0216FE68
 
-	arm_func_start ov0_0216FE98
-ov0_0216FE98: ; 0x0216FE98
+	arm_func_start _ZN30CFieldEffectFuwanteWindFactory5ResetEv
+_ZN30CFieldEffectFuwanteWindFactory5ResetEv: ; 0x0216FE98
 	ldr ip, _0216FEA0 ; =ov0_0216FF58
 	bx ip
 	.align 2, 0
 _0216FEA0: .word ov0_0216FF58
-	arm_func_end ov0_0216FE98
+	arm_func_end _ZN30CFieldEffectFuwanteWindFactory5ResetEv
 
 	arm_func_start ov0_0216FEA4
 ov0_0216FEA4: ; 0x0216FEA4
@@ -53562,8 +53562,8 @@ _0216FFCC:
 	bl _ZN16CEffectActorData7ReleaseEv
 	ldmia sp!, {r4, r5, r6, pc}
 
-	arm_func_start ov0_0216FFD8
-ov0_0216FFD8: ; 0x0216FFD8
+	arm_func_start _ZN30CFieldEffectFuwanteWindFactory6CreateEi
+_ZN30CFieldEffectFuwanteWindFactory6CreateEi: ; 0x0216FFD8
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	mov r5, r0
@@ -53573,7 +53573,7 @@ ov0_0216FFD8: ; 0x0216FFD8
 	beq _0216FFFC
 	bl ov0_0216F540
 	mov r4, r0
-	arm_func_end ov0_0216FFD8
+	arm_func_end _ZN30CFieldEffectFuwanteWindFactory6CreateEi
 _0216FFFC:
 	cmp r4, #0
 	beq _02170084
@@ -53614,32 +53614,32 @@ _02170084:
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
 
-	arm_func_start ov0_02170090
-ov0_02170090: ; 0x02170090
+	arm_func_start _ZN30CFieldEffectFuwanteWindFactory6UpdateEi
+_ZN30CFieldEffectFuwanteWindFactory6UpdateEi: ; 0x02170090
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #4]!
 	ldr r1, [r1, #0x18]
 	blx r1
 	ldmia sp!, {r3, pc}
-	arm_func_end ov0_02170090
+	arm_func_end _ZN30CFieldEffectFuwanteWindFactory6UpdateEi
 
-	arm_func_start ov0_021700A4
-ov0_021700A4: ; 0x021700A4
+	arm_func_start _ZN23CFieldEffectFuwanteWind13GetForceFieldEv
+_ZN23CFieldEffectFuwanteWind13GetForceFieldEv: ; 0x021700A4
 	add r0, r0, #0x84
 	bx lr
-	arm_func_end ov0_021700A4
+	arm_func_end _ZN23CFieldEffectFuwanteWind13GetForceFieldEv
 
-	arm_func_start ov0_021700AC
-ov0_021700AC: ; 0x021700AC
+	arm_func_start _ZN23CFieldEffectFuwanteWind10GetEmitterEv
+_ZN23CFieldEffectFuwanteWind10GetEmitterEv: ; 0x021700AC
 	add r0, r0, #0x28
 	bx lr
-	arm_func_end ov0_021700AC
+	arm_func_end _ZN23CFieldEffectFuwanteWind10GetEmitterEv
 
-	arm_func_start ov0_021700B4
-ov0_021700B4: ; 0x021700B4
+	arm_func_start _ZN23CFieldEffectFuwanteWind12sub_02033028Ev
+_ZN23CFieldEffectFuwanteWind12sub_02033028Ev: ; 0x021700B4
 	mov r0, #0x1a
 	bx lr
-	arm_func_end ov0_021700B4
+	arm_func_end _ZN23CFieldEffectFuwanteWind12sub_02033028Ev
 
 	arm_func_start ov0_021700BC
 ov0_021700BC: ; 0x021700BC
@@ -53794,14 +53794,14 @@ _021702CC: .word _ZN15CSoftwareSpriteD1Ev
 _021702D0: .word _ZN15CSoftwareSpriteC1Ev
 _021702D4: .word 0x000002AA
 
-	arm_func_start ov0_021702D8
-ov0_021702D8: ; 0x021702D8
+	arm_func_start _ZN24CFieldEffectManpuDarkrieD1Ev
+_ZN24CFieldEffectManpuDarkrieD1Ev: ; 0x021702D8
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _02170330 ; =ptr_FUN_overlay_0_021702d8_overlay_0_0217ac44
 	mov r5, r0
 	str r1, [r5]
 	mov r4, #0
-	arm_func_end ov0_021702D8
+	arm_func_end _ZN24CFieldEffectManpuDarkrieD1Ev
 _021702EC:
 	add r0, r5, r4, lsl #1
 	add r0, r0, #0x100
@@ -53856,8 +53856,8 @@ _0217034C:
 _02170398: .word ptr_FUN_overlay_0_021702d8_overlay_0_0217ac44
 _0217039C: .word _ZN15CSoftwareSpriteD1Ev
 
-	arm_func_start ov0_021703A0
-ov0_021703A0: ; 0x021703A0
+	arm_func_start _ZN24CFieldEffectManpuDarkrie12ov0_02142264Ei
+_ZN24CFieldEffectManpuDarkrie12ov0_02142264Ei: ; 0x021703A0
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r8, r0
 	mov r7, r1
@@ -53873,7 +53873,7 @@ ov0_021703A0: ; 0x021703A0
 	mov r4, r0
 	mov r6, r8
 	mov r5, #0
-	arm_func_end ov0_021703A0
+	arm_func_end _ZN24CFieldEffectManpuDarkrie12ov0_02142264Ei
 _021703DC:
 	cmp r4, #0
 	beq _02170418
@@ -54162,8 +54162,8 @@ _021707DC:
 	str sb, [sl, #0x1b8]
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
 
-	arm_func_start ov0_021707E4
-ov0_021707E4: ; 0x021707E4
+	arm_func_start _ZN24CFieldEffectManpuDarkrie4DrawEP8Camera2D
+_ZN24CFieldEffectManpuDarkrie4DrawEP8Camera2D: ; 0x021707E4
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r4, r0
 	ldr r2, [r4, #0x1c]
@@ -54175,7 +54175,7 @@ ov0_021707E4: ; 0x021707E4
 	bl _ZN17CFieldEffectManpu9IsVisibleEv
 	cmp r0, #0
 	bne _02170818
-	arm_func_end ov0_021707E4
+	arm_func_end _ZN24CFieldEffectManpuDarkrie4DrawEP8Camera2D
 _02170810:
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
@@ -54200,10 +54200,10 @@ _02170834:
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
 
-	arm_func_start ov0_02170860
-ov0_02170860: ; 0x02170860
+	arm_func_start _ZN24CFieldEffectManpuDarkrie8SetDepthEl
+_ZN24CFieldEffectManpuDarkrie8SetDepthEl: ; 0x02170860
 	mov r2, #0
-	arm_func_end ov0_02170860
+	arm_func_end _ZN24CFieldEffectManpuDarkrie8SetDepthEl
 _02170864:
 	add r2, r2, #1
 	str r1, [r0, #0x30]
@@ -54271,8 +54271,8 @@ _0217094C: .word _ZTV17CPrimitiveRectNTF+8
 _02170950: .word _ZTV16CSimpleSpriteNTF+8
 	arm_func_end ov0_0217087C
 
-	arm_func_start ov0_02170954
-ov0_02170954: ; 0x02170954
+	arm_func_start _ZN19CFieldEffectGlitterD1Ev
+_ZN19CFieldEffectGlitterD1Ev: ; 0x02170954
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x28
@@ -54287,7 +54287,7 @@ ov0_02170954: ; 0x02170954
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02170984: .word _ZTV12CFieldEffect+8
-	arm_func_end ov0_02170954
+	arm_func_end _ZN19CFieldEffectGlitterD1Ev
 
 	arm_func_start ov0_02170988
 ov0_02170988: ; 0x02170988
@@ -54316,8 +54316,8 @@ ov0_021709C4: ; 0x021709C4
 	bx lr
 	arm_func_end ov0_021709C4
 
-	arm_func_start ov0_021709D0
-ov0_021709D0: ; 0x021709D0
+	arm_func_start _ZN19CFieldEffectGlitter12sub_0203312CEii
+_ZN19CFieldEffectGlitter12sub_0203312CEii: ; 0x021709D0
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	cmp r1, #0x11
@@ -54334,7 +54334,7 @@ _021709F8: ; jump table
 	b _02170A38 ; case 2
 	b _02170A48 ; case 3
 	b _02170A54 ; case 4
-	arm_func_end ov0_021709D0
+	arm_func_end _ZN19CFieldEffectGlitter12sub_0203312CEii
 _02170A0C:
 	cmp r1, #0x14
 	bgt _02170A1C
@@ -54389,8 +54389,8 @@ _02170AA4:
 	.align 2, 0
 _02170AAC: .word MAIN_BSS_0210CA40
 
-	arm_func_start ov0_02170AB0
-ov0_02170AB0: ; 0x02170AB0
+	arm_func_start _ZN19CFieldEffectGlitter12ov0_021421F0Eiii
+_ZN19CFieldEffectGlitter12ov0_021421F0Eiii: ; 0x02170AB0
 	stmdb sp!, {r3, lr}
 	cmp r1, #0
 	strgtb r1, [r0, #0x88]
@@ -54398,10 +54398,10 @@ ov0_02170AB0: ; 0x02170AB0
 	strgt ip, [r0, #0x3c]
 	bl _ZN12CFieldEffect12ov0_021421F0Eiii
 	ldmia sp!, {r3, pc}
-	arm_func_end ov0_02170AB0
+	arm_func_end _ZN19CFieldEffectGlitter12ov0_021421F0Eiii
 
-	arm_func_start ov0_02170ACC
-ov0_02170ACC: ; 0x02170ACC
+	arm_func_start _ZN19CFieldEffectGlitter12ov0_02142264Ei
+_ZN19CFieldEffectGlitter12ov0_02142264Ei: ; 0x02170ACC
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
 	sub sp, sp, #0x30
 	mov r8, r0
@@ -54439,7 +54439,7 @@ ov0_02170ACC: ; 0x02170ACC
 	add r0, r1, #0xa
 	strb r0, [r8, #0x89]
 	b _02170BD4
-	arm_func_end ov0_02170ACC
+	arm_func_end _ZN19CFieldEffectGlitter12ov0_02142264Ei
 _02170B60:
 	ldrsb r0, [r8, #0x89]
 	sub r0, r0, r7
@@ -54629,8 +54629,8 @@ _02170DCC:
 _02170DFC: .word 0x00000199
 _02170E00: .word 0x84210843
 
-	arm_func_start ov0_02170E04
-ov0_02170E04: ; 0x02170E04
+	arm_func_start _ZN19CFieldEffectGlitter12ov0_02142344EP8Camera2D
+_ZN19CFieldEffectGlitter12ov0_02142344EP8Camera2D: ; 0x02170E04
 	stmdb sp!, {r3, lr}
 	ldrsb r2, [r0, #0x88]
 	cmp r2, #0
@@ -54640,16 +54640,16 @@ ov0_02170E04: ; 0x02170E04
 	ldr r2, [r0, #0x28]!
 	ldr r2, [r2, #8]
 	blx r2
-	arm_func_end ov0_02170E04
+	arm_func_end _ZN19CFieldEffectGlitter12ov0_02142344EP8Camera2D
 _02170E28:
 	mov r0, #0
 	ldmia sp!, {r3, pc}
 
-	arm_func_start ov0_02170E30
-ov0_02170E30: ; 0x02170E30
+	arm_func_start _ZN19CFieldEffectGlitter12sub_02033440Et
+_ZN19CFieldEffectGlitter12sub_02033440Et: ; 0x02170E30
 	strh r1, [r0, #0x30]
 	bx lr
-	arm_func_end ov0_02170E30
+	arm_func_end _ZN19CFieldEffectGlitter12sub_02033440Et
 
 	arm_func_start ov0_02170E38
 ov0_02170E38: ; 0x02170E38
@@ -54658,8 +54658,8 @@ ov0_02170E38: ; 0x02170E38
 	bx lr
 	arm_func_end ov0_02170E38
 
-	arm_func_start ov0_02170E44
-ov0_02170E44: ; 0x02170E44
+	arm_func_start _ZN26CFieldEffectGlitterFactoryD1Ev
+_ZN26CFieldEffectGlitterFactoryD1Ev: ; 0x02170E44
 	stmdb sp!, {r4, lr}
 	ldr r1, _02170E68 ; =ptr_FUN_overlay_0_02170e44_overlay_0_0217ad04
 	mov r4, r0
@@ -54671,7 +54671,7 @@ ov0_02170E44: ; 0x02170E44
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02170E68: .word ptr_FUN_overlay_0_02170e44_overlay_0_0217ad04
-	arm_func_end ov0_02170E44
+	arm_func_end _ZN26CFieldEffectGlitterFactoryD1Ev
 
 	arm_func_start ov0_02170E6C
 ov0_02170E6C: ; 0x02170E6C
@@ -54690,16 +54690,16 @@ ov0_02170E6C: ; 0x02170E6C
 _02170E98: .word ptr_FUN_overlay_0_02170e44_overlay_0_0217ad04
 	arm_func_end ov0_02170E6C
 
-	arm_func_start ov0_02170E9C
-ov0_02170E9C: ; 0x02170E9C
+	arm_func_start _ZN26CFieldEffectGlitterFactory5ResetEv
+_ZN26CFieldEffectGlitterFactory5ResetEv: ; 0x02170E9C
 	ldr ip, _02170EA4 ; =ov0_02171010
 	bx ip
 	.align 2, 0
 _02170EA4: .word ov0_02171010
-	arm_func_end ov0_02170E9C
+	arm_func_end _ZN26CFieldEffectGlitterFactory5ResetEv
 
-	arm_func_start ov0_02170EA8
-ov0_02170EA8: ; 0x02170EA8
+	arm_func_start _ZN26CFieldEffectGlitterFactory6CreateEi
+_ZN26CFieldEffectGlitterFactory6CreateEi: ; 0x02170EA8
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0x7c
 	mov r6, r0
@@ -54723,7 +54723,7 @@ ov0_02170EA8: ; 0x02170EA8
 	mov r5, r0
 	add r0, sp, #0x10
 	bl _ZN13CArchiveGuardD1Ev
-	arm_func_end ov0_02170EA8
+	arm_func_end _ZN26CFieldEffectGlitterFactory6CreateEi
 _02170F04:
 	cmp r5, #0
 	beq _02170F70
@@ -54811,8 +54811,8 @@ ov0_02171010: ; 0x02171010
 _0217101C: .word _ZN10NtfTexture7ReleaseEv
 	arm_func_end ov0_02171010
 
-	arm_func_start ov0_02171020
-ov0_02171020: ; 0x02171020
+	arm_func_start _ZN19CFieldEffectGlitter12sub_020332A4Ev
+_ZN19CFieldEffectGlitter12sub_020332A4Ev: ; 0x02171020
 	ldr r1, [r0, #0x84]
 	mov r0, #1
 	cmp r1, #0
@@ -54828,13 +54828,13 @@ ov0_02171020: ; 0x02171020
 	bx lr
 	.align 2, 0
 _02171054: .word 0x027FFC3C
-	arm_func_end ov0_02171020
+	arm_func_end _ZN19CFieldEffectGlitter12sub_020332A4Ev
 
-	arm_func_start ov0_02171058
-ov0_02171058: ; 0x02171058
+	arm_func_start _ZN19CFieldEffectGlitter12sub_02033028Ev
+_ZN19CFieldEffectGlitter12sub_02033028Ev: ; 0x02171058
 	mov r0, #0x1b
 	bx lr
-	arm_func_end ov0_02171058
+	arm_func_end _ZN19CFieldEffectGlitter12sub_02033028Ev
 
 	arm_func_start ov0_02171060
 ov0_02171060: ; 0x02171060
@@ -54920,8 +54920,8 @@ _0217118C: .word ptr_FUN_overlay_0_02171198_overlay_0_0217ae5c
 _02171190: .word _ZN16CSimpleSpriteNTFD1Ev
 _02171194: .word ov0_02166794
 
-	arm_func_start ov0_02171198
-ov0_02171198: ; 0x02171198
+	arm_func_start _ZN26CFieldEffectBlackStoneAuraD1Ev
+_ZN26CFieldEffectBlackStoneAuraD1Ev: ; 0x02171198
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r3, _021711D4 ; =_ZN16CSimpleSpriteNTFD1Ev
@@ -54940,7 +54940,7 @@ ov0_02171198: ; 0x02171198
 	.align 2, 0
 _021711D4: .word _ZN16CSimpleSpriteNTFD1Ev
 _021711D8: .word _ZTV12CFieldEffect+8
-	arm_func_end ov0_02171198
+	arm_func_end _ZN26CFieldEffectBlackStoneAuraD1Ev
 
 	arm_func_start ov0_021711DC
 ov0_021711DC: ; 0x021711DC
@@ -54966,8 +54966,8 @@ _02171220: .word _ZN16CSimpleSpriteNTFD1Ev
 _02171224: .word _ZTV12CFieldEffect+8
 	arm_func_end ov0_021711DC
 
-	arm_func_start ov0_02171228
-ov0_02171228: ; 0x02171228
+	arm_func_start _ZN26CFieldEffectBlackStoneAura12sub_0203312CEii
+_ZN26CFieldEffectBlackStoneAura12sub_0203312CEii: ; 0x02171228
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	cmp r1, #4
@@ -54982,7 +54982,7 @@ _02171248: ; jump table
 	b _02171294 ; case 2
 	b _021712C0 ; case 3
 	b _021712E0 ; case 4
-	arm_func_end ov0_02171228
+	arm_func_end _ZN26CFieldEffectBlackStoneAura12sub_0203312CEii
 _0217125C:
 	cmp r1, #0x11
 	beq _02171300
@@ -55065,8 +55065,8 @@ _0217133C:
 	blt _0217133C
 	bx lr
 
-	arm_func_start ov0_02171358
-ov0_02171358: ; 0x02171358
+	arm_func_start _ZN26CFieldEffectBlackStoneAura12ov0_021421F0Eiii
+_ZN26CFieldEffectBlackStoneAura12ov0_021421F0Eiii: ; 0x02171358
 	stmdb sp!, {r3, lr}
 	add ip, r0, #0x100
 	mov lr, #1
@@ -55075,10 +55075,10 @@ ov0_02171358: ; 0x02171358
 	strb ip, [r0, #0x1cc]
 	bl _ZN12CFieldEffect12ov0_021421F0Eiii
 	ldmia sp!, {r3, pc}
-	arm_func_end ov0_02171358
+	arm_func_end _ZN26CFieldEffectBlackStoneAura12ov0_021421F0Eiii
 
-	arm_func_start ov0_02171378
-ov0_02171378: ; 0x02171378
+	arm_func_start _ZN26CFieldEffectBlackStoneAura12ov0_02142264Ei
+_ZN26CFieldEffectBlackStoneAura12ov0_02142264Ei: ; 0x02171378
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
 	sub sp, sp, #0x10
 	mov r8, r0
@@ -55090,7 +55090,7 @@ ov0_02171378: ; 0x02171378
 	cmp r0, #3
 	beq _021713B8
 	b _021713D0
-	arm_func_end ov0_02171378
+	arm_func_end _ZN26CFieldEffectBlackStoneAura12ov0_02142264Ei
 _021713A4:
 	ldr r0, [r8, #0x10]
 	ldr r1, [r8, #4]
@@ -55226,8 +55226,8 @@ _02171588:
 	.align 2, 0
 _02171594: .word 0x55555556
 
-	arm_func_start ov0_02171598
-ov0_02171598: ; 0x02171598
+	arm_func_start _ZN26CFieldEffectBlackStoneAura12ov0_02142344EP8Camera2D
+_ZN26CFieldEffectBlackStoneAura12ov0_02142344EP8Camera2D: ; 0x02171598
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	mov sl, r0
 	ldrb r6, [sl, #0x19c]
@@ -55237,7 +55237,7 @@ ov0_02171598: ; 0x02171598
 	add r5, sl, #0x28
 	mov fp, #0x5c
 	mov r4, #6
-	arm_func_end ov0_02171598
+	arm_func_end _ZN26CFieldEffectBlackStoneAura12ov0_02142344EP8Camera2D
 _021715BC:
 	add r0, sl, r6
 	add r0, r0, #0x100
@@ -55344,8 +55344,8 @@ _02171714:
 _02171728: .word DAT_overlay_0_0217adcc
 _0217172C: .word DAT_overlay_0_0217add0
 
-	arm_func_start ov0_02171730
-ov0_02171730: ; 0x02171730
+	arm_func_start _ZN33CFieldEffectBlackStoneAuraFactoryD1Ev
+_ZN33CFieldEffectBlackStoneAuraFactoryD1Ev: ; 0x02171730
 	stmdb sp!, {r4, lr}
 	ldr r1, _02171754 ; =ptr_FUN_overlay_0_02171730_overlay_0_0217ae18
 	mov r4, r0
@@ -55357,7 +55357,7 @@ ov0_02171730: ; 0x02171730
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02171754: .word ptr_FUN_overlay_0_02171730_overlay_0_0217ae18
-	arm_func_end ov0_02171730
+	arm_func_end _ZN33CFieldEffectBlackStoneAuraFactoryD1Ev
 
 	arm_func_start ov0_02171758
 ov0_02171758: ; 0x02171758
@@ -55376,8 +55376,8 @@ ov0_02171758: ; 0x02171758
 _02171784: .word ptr_FUN_overlay_0_02171730_overlay_0_0217ae18
 	arm_func_end ov0_02171758
 
-	arm_func_start ov0_02171788
-ov0_02171788: ; 0x02171788
+	arm_func_start _ZN33CFieldEffectBlackStoneAuraFactory6CreateEi
+_ZN33CFieldEffectBlackStoneAuraFactory6CreateEi: ; 0x02171788
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r2, [r6, #0xc]
@@ -55388,7 +55388,7 @@ ov0_02171788: ; 0x02171788
 	bne _021717B0
 	bl ov0_021717FC
 	mov r1, r0
-	arm_func_end ov0_02171788
+	arm_func_end _ZN33CFieldEffectBlackStoneAuraFactory6CreateEi
 _021717B0:
 	cmp r1, #0
 	beq _021717E8
@@ -55409,13 +55409,13 @@ _021717E8:
 	mov r0, r4
 	ldmia sp!, {r4, r5, r6, pc}
 
-	arm_func_start ov0_021717F0
-ov0_021717F0: ; 0x021717F0
+	arm_func_start _ZN33CFieldEffectBlackStoneAuraFactory5ResetEv
+_ZN33CFieldEffectBlackStoneAuraFactory5ResetEv: ; 0x021717F0
 	ldr ip, _021717F8 ; =ov0_02171890
 	bx ip
 	.align 2, 0
 _021717F8: .word ov0_02171890
-	arm_func_end ov0_021717F0
+	arm_func_end _ZN33CFieldEffectBlackStoneAuraFactory5ResetEv
 
 	arm_func_start ov0_021717FC
 ov0_021717FC: ; 0x021717FC
@@ -55468,8 +55468,8 @@ ov0_02171890: ; 0x02171890
 _0217189C: .word _ZN10NtfTexture7ReleaseEv
 	arm_func_end ov0_02171890
 
-	arm_func_start ov0_021718A0
-ov0_021718A0: ; 0x021718A0
+	arm_func_start _ZN26CFieldEffectBlackStoneAura12sub_020332A4Ev
+_ZN26CFieldEffectBlackStoneAura12sub_020332A4Ev: ; 0x021718A0
 	ldr r1, [r0, #0x1a0]
 	mov r0, #1
 	cmp r1, #0
@@ -55485,13 +55485,13 @@ ov0_021718A0: ; 0x021718A0
 	bx lr
 	.align 2, 0
 _021718D4: .word 0x027FFC3C
-	arm_func_end ov0_021718A0
+	arm_func_end _ZN26CFieldEffectBlackStoneAura12sub_020332A4Ev
 
-	arm_func_start ov0_021718D8
-ov0_021718D8: ; 0x021718D8
+	arm_func_start _ZN26CFieldEffectBlackStoneAura12sub_02033028Ev
+_ZN26CFieldEffectBlackStoneAura12sub_02033028Ev: ; 0x021718D8
 	mov r0, #0x1c
 	bx lr
-	arm_func_end ov0_021718D8
+	arm_func_end _ZN26CFieldEffectBlackStoneAura12sub_02033028Ev
 
 	arm_func_start ov0_021718E0
 ov0_021718E0: ; 0x021718E0
@@ -55531,7 +55531,7 @@ ov0_02171938: ; 0x02171938
 	ldr r1, [r1, #0x14]
 	blx r1
 	ldr r0, _02171B00 ; =ptr_FUN_overlay_0_02171b1c_overlay_0_0217b00c
-	ldr r4, _02171B04 ; =ov0_02172638
+	ldr r4, _02171B04 ; =_ZN19CFEFRasterTransformD1Ev
 	str r0, [sl]
 	ldr r3, _02171B08 ; =ov0_021718E0
 	add r0, sl, #0x20
@@ -55643,22 +55643,22 @@ _02171AA0:
 	.align 2, 0
 _02171AFC: .word _ZTV12CFieldEffect+8
 _02171B00: .word ptr_FUN_overlay_0_02171b1c_overlay_0_0217b00c
-_02171B04: .word ov0_02172638
+_02171B04: .word _ZN19CFEFRasterTransformD1Ev
 _02171B08: .word ov0_021718E0
 _02171B0C: .word _ZTV11CDrawObject+8
 _02171B10: .word PTR_LAB_overlay_0_02171b18_overlay_0_0217af3c
 _02171B14: .word 0x0000211F
 
-	arm_func_start ov0_02171B18
-ov0_02171B18: ; 0x02171B18
+	arm_func_start _ZN24CFieldEffectSpaceCrevice17CEffectDrawObjectD1Ev
+_ZN24CFieldEffectSpaceCrevice17CEffectDrawObjectD1Ev: ; 0x02171B18
 	bx lr
-	arm_func_end ov0_02171B18
+	arm_func_end _ZN24CFieldEffectSpaceCrevice17CEffectDrawObjectD1Ev
 
-	arm_func_start ov0_02171B1C
-ov0_02171B1C: ; 0x02171B1C
+	arm_func_start _ZN24CFieldEffectSpaceCreviceD1Ev
+_ZN24CFieldEffectSpaceCreviceD1Ev: ; 0x02171B1C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r3, _02171B58 ; =ov0_02172638
+	ldr r3, _02171B58 ; =_ZN19CFEFRasterTransformD1Ev
 	add r0, r4, #0x20
 	mov r1, #3
 	mov r2, #0x64
@@ -55672,15 +55672,15 @@ ov0_02171B1C: ; 0x02171B1C
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02171B58: .word ov0_02172638
+_02171B58: .word _ZN19CFEFRasterTransformD1Ev
 _02171B5C: .word _ZTV12CFieldEffect+8
-	arm_func_end ov0_02171B1C
+	arm_func_end _ZN24CFieldEffectSpaceCreviceD1Ev
 
 	arm_func_start ov0_02171B60
 ov0_02171B60: ; 0x02171B60
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r3, _02171BA4 ; =ov0_02172638
+	ldr r3, _02171BA4 ; =_ZN19CFEFRasterTransformD1Ev
 	add r0, r4, #0x20
 	mov r1, #3
 	mov r2, #0x64
@@ -55696,7 +55696,7 @@ ov0_02171B60: ; 0x02171B60
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02171BA4: .word ov0_02172638
+_02171BA4: .word _ZN19CFEFRasterTransformD1Ev
 _02171BA8: .word _ZTV12CFieldEffect+8
 	arm_func_end ov0_02171B60
 
@@ -55714,8 +55714,8 @@ ov0_02171BAC: ; 0x02171BAC
 	bx lr
 	arm_func_end ov0_02171BAC
 
-	arm_func_start ov0_02171BD4
-ov0_02171BD4: ; 0x02171BD4
+	arm_func_start _ZN24CFieldEffectSpaceCrevice12sub_020333D8Eii
+_ZN24CFieldEffectSpaceCrevice12sub_020333D8Eii: ; 0x02171BD4
 	ldrb ip, [r0, #0x166]
 	mov r3, r1, lsl #0xc
 	mov r1, #1
@@ -55729,10 +55729,10 @@ ov0_02171BD4: ; 0x02171BD4
 	str r2, [r0, #0x170]
 	str r1, [r0, #0x178]
 	bx lr
-	arm_func_end ov0_02171BD4
+	arm_func_end _ZN24CFieldEffectSpaceCrevice12sub_020333D8Eii
 
-	arm_func_start ov0_02171C08
-ov0_02171C08: ; 0x02171C08
+	arm_func_start _ZN24CFieldEffectSpaceCrevice12sub_0203312CEii
+_ZN24CFieldEffectSpaceCrevice12sub_0203312CEii: ; 0x02171C08
 	cmp r1, #4
 	mov r3, #1
 	bgt _02171C34
@@ -55745,7 +55745,7 @@ _02171C20: ; jump table
 	b ov0_02171C6C ; case 2
 	b ov0_02171C98 ; case 3
 	b ov0_02171CB8 ; case 4
-	arm_func_end ov0_02171C08
+	arm_func_end _ZN24CFieldEffectSpaceCrevice12sub_0203312CEii
 _02171C34:
 	cmp r1, #0x1a
 	beq _02171CD8
@@ -55821,8 +55821,8 @@ _02171CF4:
 	mov r0, r3
 	bx lr
 
-	arm_func_start ov0_02171CFC
-ov0_02171CFC: ; 0x02171CFC
+	arm_func_start _ZN24CFieldEffectSpaceCrevice12ov0_02142264Ei
+_ZN24CFieldEffectSpaceCrevice12ov0_02142264Ei: ; 0x02171CFC
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r7, r0
 	mov r6, r1
@@ -55845,7 +55845,7 @@ ov0_02171CFC: ; 0x02171CFC
 	add r0, r7, #0x100
 	mov r1, #0x1e
 	strh r1, [r0, #0x64]
-	arm_func_end ov0_02171CFC
+	arm_func_end _ZN24CFieldEffectSpaceCrevice12ov0_02142264Ei
 _02171D54:
 	ldr r0, [r7, #0x17c]
 	cmp r0, #0
@@ -55980,11 +55980,11 @@ _02171F04:
 	.align 2, 0
 _02171F24: .word 0x88888889
 
-	arm_func_start ov0_02171F28
-ov0_02171F28: ; 0x02171F28
+	arm_func_start _ZN24CFieldEffectSpaceCrevice12ov0_02142344EP8Camera2D
+_ZN24CFieldEffectSpaceCrevice12ov0_02142344EP8Camera2D: ; 0x02171F28
 	mov r0, #0
 	bx lr
-	arm_func_end ov0_02171F28
+	arm_func_end _ZN24CFieldEffectSpaceCrevice12ov0_02142344EP8Camera2D
 
 	arm_func_start ov0_02171F30
 ov0_02171F30: ; 0x02171F30
@@ -56150,12 +56150,12 @@ _02172194: .word 0x84210843
 _02172198: .word FX_SinCosTable_
 _0217219C: .word 0x04000440
 
-	arm_func_start ov0_021721A0
-ov0_021721A0: ; 0x021721A0
+	arm_func_start _ZN24CFieldEffectSpaceCrevice12sub_02033440Et
+_ZN24CFieldEffectSpaceCrevice12sub_02033440Et: ; 0x021721A0
 	strh r1, [r0, #0x28]
 	strh r1, [r0, #0x8c]
 	bx lr
-	arm_func_end ov0_021721A0
+	arm_func_end _ZN24CFieldEffectSpaceCrevice12sub_02033440Et
 
 	arm_func_start ov0_021721AC
 ov0_021721AC: ; 0x021721AC
@@ -56237,8 +56237,8 @@ _021722C0:
 	blt _021721BC
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
 
-	arm_func_start ov0_021722D4
-ov0_021722D4: ; 0x021722D4
+	arm_func_start _ZN24CFieldEffectSpaceCrevice12ov0_02142398EP17UnkClass_0211E3FC
+_ZN24CFieldEffectSpaceCrevice12ov0_02142398EP17UnkClass_0211E3FC: ; 0x021722D4
 	ldr ip, _021722E8 ; =FUN_0200912C
 	mov r2, r0
 	mov r0, r1
@@ -56246,23 +56246,23 @@ ov0_021722D4: ; 0x021722D4
 	bx ip
 	.align 2, 0
 _021722E8: .word _ZN17UnkClass_0211E3FC12sub_0200912CEP11CDrawObject
-	arm_func_end ov0_021722D4
+	arm_func_end _ZN24CFieldEffectSpaceCrevice12ov0_02142398EP17UnkClass_0211E3FC
 
-	arm_func_start ov0_021722EC
-ov0_021722EC: ; 0x021722EC
+	arm_func_start _ZN24CFieldEffectSpaceCrevice17CEffectDrawObject12sub_020091D4EP8Camera2Di
+_ZN24CFieldEffectSpaceCrevice17CEffectDrawObject12sub_020091D4EP8Camera2Di: ; 0x021722EC
 	stmdb sp!, {r3, lr}
 	str r2, [r0, #0xc]
 	ldr r0, [r0, #0x10]
 	cmp r0, #0
 	beq _02172304
 	bl ov0_02171F30
-	arm_func_end ov0_021722EC
+	arm_func_end _ZN24CFieldEffectSpaceCrevice17CEffectDrawObject12sub_020091D4EP8Camera2Di
 _02172304:
 	mov r0, #3
 	ldmia sp!, {r3, pc}
 
-	arm_func_start ov0_0217230C
-ov0_0217230C: ; 0x0217230C
+	arm_func_start _ZN31CFieldEffectSpaceCreviceFactoryD1Ev
+_ZN31CFieldEffectSpaceCreviceFactoryD1Ev: ; 0x0217230C
 	stmdb sp!, {r4, lr}
 	ldr r1, _0217233C ; =ptr_FUN_overlay_0_0217230c_overlay_0_0217af98
 	mov r4, r0
@@ -56278,7 +56278,7 @@ ov0_0217230C: ; 0x0217230C
 	.align 2, 0
 _0217233C: .word ptr_FUN_overlay_0_0217230c_overlay_0_0217af98
 _02172340: .word ov0_02151280
-	arm_func_end ov0_0217230C
+	arm_func_end _ZN31CFieldEffectSpaceCreviceFactoryD1Ev
 
 	arm_func_start ov0_02172344
 ov0_02172344: ; 0x02172344
@@ -56301,8 +56301,8 @@ _0217237C: .word ptr_FUN_overlay_0_0217230c_overlay_0_0217af98
 _02172380: .word ov0_02151280
 	arm_func_end ov0_02172344
 
-	arm_func_start ov0_02172384
-ov0_02172384: ; 0x02172384
+	arm_func_start _ZN31CFieldEffectSpaceCreviceFactory6CreateEi
+_ZN31CFieldEffectSpaceCreviceFactory6CreateEi: ; 0x02172384
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0x7c
 	mov r4, #1
@@ -56327,7 +56327,7 @@ ov0_02172384: ; 0x02172384
 	mov r3, r4
 	bl ov0_02172518
 	mov r4, r0
-	arm_func_end ov0_02172384
+	arm_func_end _ZN31CFieldEffectSpaceCreviceFactory6CreateEi
 _021723E4:
 	ldr r0, [r7, #0x38]
 	cmp r0, #0
@@ -56373,13 +56373,13 @@ _0217246C:
 _02172478: .word s_MEF_overlay_0_0217b068
 _0217247C: .word s_data_Field_Effect_ef104_LZ_bin_overlay_0_0217b06c
 
-	arm_func_start ov0_02172480
-ov0_02172480: ; 0x02172480
+	arm_func_start _ZN31CFieldEffectSpaceCreviceFactory5ResetEv
+_ZN31CFieldEffectSpaceCreviceFactory5ResetEv: ; 0x02172480
 	ldr ip, _02172488 ; =ov0_02172610
 	bx ip
 	.align 2, 0
 _02172488: .word ov0_02172610
-	arm_func_end ov0_02172480
+	arm_func_end _ZN31CFieldEffectSpaceCreviceFactory5ResetEv
 
 	arm_func_start ov0_0217248C
 ov0_0217248C: ; 0x0217248C
@@ -56508,8 +56508,8 @@ _0217261C:
 	blt _0217261C
 	ldmia sp!, {r3, r4, r5, pc}
 
-	arm_func_start ov0_02172638
-ov0_02172638: ; 0x02172638
+	arm_func_start _ZN19CFEFRasterTransformD1Ev
+_ZN19CFEFRasterTransformD1Ev: ; 0x02172638
 	stmdb sp!, {r4, lr}
 	ldr r1, _0217265C ; =ptr_FUN_overlay_0_02172638_overlay_0_0217af50
 	mov r4, r0
@@ -56521,7 +56521,7 @@ ov0_02172638: ; 0x02172638
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0217265C: .word ptr_FUN_overlay_0_02172638_overlay_0_0217af50
-	arm_func_end ov0_02172638
+	arm_func_end _ZN19CFEFRasterTransformD1Ev
 
 	arm_func_start ov0_02172660
 ov0_02172660: ; 0x02172660
@@ -56738,8 +56738,8 @@ _021728DC:
 	.align 2, 0
 _02172948: .word FX_SinCosTable_
 
-	arm_func_start ov0_0217294C
-ov0_0217294C: ; 0x0217294C
+	arm_func_start _ZN19CFEFRasterTransform6RenderEP8Camera2D
+_ZN19CFEFRasterTransform6RenderEP8Camera2D: ; 0x0217294C
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	mov sl, r0
 	ldr r0, [sl, #0x14]
@@ -56756,7 +56756,7 @@ ov0_0217294C: ; 0x0217294C
 	mov r2, #1
 	bl _ZN17UnkClass_02041D984BindE15GXTexPlttColor08GXTexGen
 	b _02172994
-	arm_func_end ov0_0217294C
+	arm_func_end _ZN19CFEFRasterTransform6RenderEP8Camera2D
 _0217298C:
 	mov r2, r1
 	bl _ZN17UnkClass_02041D984BindE15GXTexPlttColor08GXTexGen
@@ -56896,15 +56896,15 @@ _02172B88: .word 0x04000500
 _02172B8C: .word 0x04000488
 _02172B90: .word 0x04000504
 
-	arm_func_start ov0_02172B94
-ov0_02172B94: ; 0x02172B94
+	arm_func_start _ZN24CFieldEffectSpaceCrevice12sub_020332A4Ev
+_ZN24CFieldEffectSpaceCrevice12sub_020332A4Ev: ; 0x02172B94
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, #1
 	mov r5, #0
 	ldr lr, _02172BF0 ; =0x027FFC3C
 	mov r1, r5
 	mov r2, r4
-	arm_func_end ov0_02172B94
+	arm_func_end _ZN24CFieldEffectSpaceCrevice12sub_020332A4Ev
 _02172BAC:
 	add r3, r0, r5, lsl #2
 	ldr r3, [r3, #0x14c]
@@ -56928,11 +56928,11 @@ _02172BE8:
 	.align 2, 0
 _02172BF0: .word 0x027FFC3C
 
-	arm_func_start ov0_02172BF4
-ov0_02172BF4: ; 0x02172BF4
+	arm_func_start _ZN24CFieldEffectSpaceCrevice12sub_02033028Ev
+_ZN24CFieldEffectSpaceCrevice12sub_02033028Ev: ; 0x02172BF4
 	mov r0, #0x1e
 	bx lr
-	arm_func_end ov0_02172BF4
+	arm_func_end _ZN24CFieldEffectSpaceCrevice12sub_02033028Ev
 
 	arm_func_start ov0_02172BFC
 ov0_02172BFC: ; 0x02172BFC
@@ -57153,7 +57153,7 @@ PTR_LAB_overlay_0_02145134_overlay_0_021747a0: ; 0x021747A0
     .global ptr_FUN_overlay_0_02145120_overlay_0_021747a4
 ptr_FUN_overlay_0_02145120_overlay_0_021747a4: ; 0x021747A4
 	.word ov0_02145120
-	.word ov0_02145138
+	.word _ZN21TFieldParticleEmitterI15CSoftwareSpriteE5func2Ev
 	.word _ZN21TFieldParticleEmitterI15CSoftwareSpriteE6UpdateEi
 	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_020835bc_overlay_0_02174724
@@ -57437,7 +57437,7 @@ PTR_LAB_overlay_0_02145b4c_overlay_0_02174a9c: ; 0x02174A9C
     .global ptr_FUN_overlay_0_02146140_overlay_0_02174aa0
 ptr_FUN_overlay_0_02146140_overlay_0_02174aa0: ; 0x02174AA0
 	.word ov0_02146140
-	.word ov0_02145138
+	.word _ZN21TFieldParticleEmitterI15CSoftwareSpriteE5func2Ev
 	.word ov0_02146128
 
     .global ptr_FUN_overlay_0_0214581c_overlay_0_02174aac
@@ -57560,7 +57560,7 @@ DAT_overlay_0_02174C08:
 
     .global PTR_LAB_overlay_0_02146698_overlay_0_02174c10
 PTR_LAB_overlay_0_02146698_overlay_0_02174c10: ; 0x02174C10
-	.word ov0_02146698
+	.word _ZN25CFieldEffectChargeFactoryD1Ev
 
     .global ptr_FUN_overlay_0_0214669c_overlay_0_02174c14
 ptr_FUN_overlay_0_0214669c_overlay_0_02174c14: ; 0x02174C14
@@ -57568,7 +57568,7 @@ ptr_FUN_overlay_0_0214669c_overlay_0_02174c14: ; 0x02174C14
 
     .global ptr_FUN_overlay_0_02146674_overlay_0_02174c18
 ptr_FUN_overlay_0_02146674_overlay_0_02174c18: ; 0x02174C18
-	.word ov0_02146674
+	.word _ZN25CFieldEffectChargeFactory6CreateEi
 	.word _ZN19CFieldEffectFactory6UpdateEi
 	.word _ZN19CFieldEffectFactory5ResetEv
 	.word _ZN19CFieldEffectFactory7ReleaseEP18CFieldEffectManage
@@ -57577,7 +57577,7 @@ ptr_FUN_overlay_0_02146674_overlay_0_02174c18: ; 0x02174C18
 
     .global ptr_FUN_overlay_0_021462bc_overlay_0_02174c30
 ptr_FUN_overlay_0_021462bc_overlay_0_02174c30: ; 0x02174C30
-	.word ov0_021462BC
+	.word _ZN18CFieldEffectChargeD1Ev
 
     .global ptr_FUN_overlay_0_02146364_overlay_0_02174c34
 ptr_FUN_overlay_0_02146364_overlay_0_02174c34: ; 0x02174C34
@@ -57586,7 +57586,7 @@ ptr_FUN_overlay_0_02146364_overlay_0_02174c34: ; 0x02174C34
     .global ptr_FUN_overlay_0_021423a4_overlay_0_02174c38
 ptr_FUN_overlay_0_021423a4_overlay_0_02174c38: ; 0x02174C38
 	.word _ZN12CFieldEffect12ov0_021423A4Ev
-	.word ov0_02146690
+	.word _ZN18CFieldEffectCharge12sub_02033028Ev
 	.word _ZN17CFieldEffectActor12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_02174c44
@@ -57599,20 +57599,20 @@ ptr_FUN_overlay_0_02142380_overlay_0_02174c48: ; 0x02174C48
 
     .global ptr_FUN_overlay_0_021464c0_overlay_0_02174c4c
 ptr_FUN_overlay_0_021464c0_overlay_0_02174c4c: ; 0x02174C4C
-	.word ov0_021464C0
-	.word ov0_02146568
+	.word _ZN18CFieldEffectCharge12ov0_021421F0Eiii
+	.word _ZN18CFieldEffectCharge12ov0_02142240Ei
 
     .global ptr_FUN_overlay_0_02146414_overlay_0_02174c54
 ptr_FUN_overlay_0_02146414_overlay_0_02174c54: ; 0x02174C54
-	.word ov0_02146414
+	.word _ZN18CFieldEffectCharge12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_02146444_overlay_0_02174c58
 ptr_FUN_overlay_0_02146444_overlay_0_02174c58: ; 0x02174C58
-	.word ov0_02146444
+	.word _ZN18CFieldEffectCharge12ov0_02142344EP8Camera2D
 	.word _ZN12CFieldEffect12ov0_0214239CEi
 	.word _ZN12CFieldEffect12ov0_02142398EP17UnkClass_0211E3FC
-	.word ov0_021464BC
-	.word ov0_02146574
+	.word _ZN18CFieldEffectCharge12ov0_0214234CE7Point2Diiii
+	.word _ZN18CFieldEffectCharge12sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
 	.word _ZN12CFieldEffect12sub_02033440Et
 	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
@@ -57649,12 +57649,12 @@ DAT_overlay_0_02174CD3:
 
     .global PTR_LAB_overlay_0_02146b20_overlay_0_02174cdc
 PTR_LAB_overlay_0_02146b20_overlay_0_02174cdc: ; 0x02174CDC
-	.word ov0_02146B20
+	.word _ZN24CFieldEffectFlashFactoryD1Ev
 
     .global ptr_FUN_overlay_0_02146b24_overlay_0_02174ce0
 ptr_FUN_overlay_0_02146b24_overlay_0_02174ce0: ; 0x02174CE0
 	.word ov0_02146B24
-	.word ov0_02146AF4
+	.word _ZN24CFieldEffectFlashFactory6CreateEi
 	.word _ZN19CFieldEffectFactory6UpdateEi
 	.word _ZN19CFieldEffectFactory5ResetEv
 	.word _ZN19CFieldEffectFactory7ReleaseEP18CFieldEffectManage
@@ -57663,7 +57663,7 @@ ptr_FUN_overlay_0_02146b24_overlay_0_02174ce0: ; 0x02174CE0
 
     .global ptr_FUN_overlay_0_021467e0_overlay_0_02174cfc
 ptr_FUN_overlay_0_021467e0_overlay_0_02174cfc: ; 0x02174CFC
-	.word ov0_021467E0
+	.word _ZN17CFieldEffectFlashD1Ev
 
     .global ptr_FUN_overlay_0_02146870_overlay_0_02174d00
 ptr_FUN_overlay_0_02146870_overlay_0_02174d00: ; 0x02174D00
@@ -57672,7 +57672,7 @@ ptr_FUN_overlay_0_02146870_overlay_0_02174d00: ; 0x02174D00
     .global ptr_FUN_overlay_0_021423a4_overlay_0_02174d04
 ptr_FUN_overlay_0_021423a4_overlay_0_02174d04: ; 0x02174D04
 	.word _ZN12CFieldEffect12ov0_021423A4Ev
-	.word ov0_02146B18
+	.word _ZN17CFieldEffectFlash12sub_02033028Ev
 	.word _ZN17CFieldEffectActor12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_02174d10
@@ -57685,20 +57685,20 @@ ptr_FUN_overlay_0_02142380_overlay_0_02174d14: ; 0x02174D14
 
     .global ptr_FUN_overlay_0_02146a1c_overlay_0_02174d18
 ptr_FUN_overlay_0_02146a1c_overlay_0_02174d18: ; 0x02174D18
-	.word ov0_02146A1C
-	.word ov0_02146A48
+	.word _ZN17CFieldEffectFlash12ov0_021421F0Eiii
+	.word _ZN17CFieldEffectFlash12ov0_02142240Ei
 
     .global ptr_FUN_overlay_0_02146908_overlay_0_02174d20
 ptr_FUN_overlay_0_02146908_overlay_0_02174d20: ; 0x02174D20
-	.word ov0_02146908
+	.word _ZN17CFieldEffectFlash12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_021469c8_overlay_0_02174d24
 ptr_FUN_overlay_0_021469c8_overlay_0_02174d24: ; 0x02174D24
-	.word ov0_021469C8
+	.word _ZN17CFieldEffectFlash12ov0_02142344EP8Camera2D
 	.word _ZN12CFieldEffect12ov0_0214239CEi
 	.word _ZN12CFieldEffect12ov0_02142398EP17UnkClass_0211E3FC
-	.word ov0_02146A18
-	.word ov0_02146A54
+	.word _ZN17CFieldEffectFlash12ov0_0214234CE7Point2Diiii
+	.word _ZN17CFieldEffectFlash12sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
 	.word _ZN12CFieldEffect12sub_02033440Et
 	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
@@ -57762,7 +57762,7 @@ PTR_LAB_overlay_0_02146f60_overlay_0_02174dbc: ; 0x02174DBC
     .global ptr_FUN_overlay_0_0214760c_overlay_0_02174dc0
 ptr_FUN_overlay_0_0214760c_overlay_0_02174dc0: ; 0x02174DC0
 	.word ov0_0214760C
-	.word ov0_02145138
+	.word _ZN21TFieldParticleEmitterI15CSoftwareSpriteE5func2Ev
 	.word ov0_021475F4
 
     .global ptr_FUN_overlay_0_02146b38_overlay_0_02174dcc
@@ -57911,7 +57911,7 @@ PTR_LAB_overlay_0_02147a74_overlay_0_02174f30: ; 0x02174F30
     .global ptr_FUN_overlay_0_021480a4_overlay_0_02174f34
 ptr_FUN_overlay_0_021480a4_overlay_0_02174f34: ; 0x02174F34
 	.word ov0_021480A4
-	.word ov0_02145138
+	.word _ZN21TFieldParticleEmitterI15CSoftwareSpriteE5func2Ev
 	.word ov0_0214808C
 
     .global ptr_FUN_overlay_0_0214764c_overlay_0_02174f40
@@ -61745,7 +61745,7 @@ ptr_FUN_overlay_0_0215053c_overlay_0_02177ba0: ; 0x02177BA0
 
     .global ptr_FUN_overlay_0_02150594_overlay_0_02177bb4
 ptr_FUN_overlay_0_02150594_overlay_0_02177bb4: ; 0x02177BB4
-	.word ov0_02150594
+	.word _ZN26CFieldManpuEffectActorDataD1Ev
 
     .global ptr_FUN_overlay_0_021505a8_overlay_0_02177bb8
 ptr_FUN_overlay_0_021505a8_overlay_0_02177bb8: ; 0x02177BB8
@@ -61769,7 +61769,7 @@ ptr_FUN_0202977c_overlay_0_02177bc8: ; 0x02177BC8
 
     .global ptr_FUN_overlay_0_0215037c_overlay_0_02177bcc
 ptr_FUN_overlay_0_0215037c_overlay_0_02177bcc: ; 0x02177BCC
-	.word ov0_0215037C
+	.word _ZN26CFieldManpuEffectActorData6UpdateEv
 	.word _ZN16CEffectActorData8GetCountEv
 	.word _ZN16CEffectActorData8IsLoadedEv
 
@@ -61905,18 +61905,18 @@ PTR_ptr_FUN_020835bc_overlay_0_02177d3c: ; 0x02177D3C
 
     .global PTR_LAB_overlay_0_02150880_overlay_0_02177d50
 PTR_LAB_overlay_0_02150880_overlay_0_02177d50: ; 0x02177D50
-	.word ov0_02150880
+	.word _ZN25CFieldEffectFootStepSmoke27CFieldParticleAlphaAnimatorD1Ev
 	.word ov0_02151230
 
     .global ptr_FUN_overlay_0_02151138_overlay_0_02177d58
 ptr_FUN_overlay_0_02151138_overlay_0_02177d58: ; 0x02177D58
-	.word ov0_02151138
+	.word _ZN25CFieldEffectFootStepSmoke27CFieldParticleAlphaAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
 	.byte 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_020835bc_overlay_0_02177d30
 
     .global PTR_LAB_overlay_0_0215061c_overlay_0_02177d64
 PTR_LAB_overlay_0_0215061c_overlay_0_02177d64: ; 0x02177D64
-	.word ov0_0215061C
+	.word _ZN25CFieldEffectFootStepSmoke19CDrawObjectParticleD1Ev
 
     .global ptr_FUN_overlay_0_021511ec_overlay_0_02177d68
 ptr_FUN_overlay_0_021511ec_overlay_0_02177d68: ; 0x02177D68
@@ -61924,23 +61924,23 @@ ptr_FUN_overlay_0_021511ec_overlay_0_02177d68: ; 0x02177D68
 
     .global ptr_FUN_overlay_11_02151124_overlay_0_02177d6c
 ptr_FUN_overlay_11_02151124_overlay_0_02177d6c: ; 0x02177D6C
-	.word ov0_02151124
+	.word _ZN25CFieldEffectFootStepSmoke19CDrawObjectParticle12sub_020091D4EP8Camera2Di
 	.byte 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_020835bc_overlay_0_02177d18
 
     .global PTR_LAB_overlay_0_02150858_overlay_0_02177d78
 PTR_LAB_overlay_0_02150858_overlay_0_02177d78: ; 0x02177D78
-	.word ov0_02150858
+	.word _ZN25CFieldEffectFootStepSmoke28CFieldParticleOneShotEmitterD1Ev
 
     .global ptr_FUN_overlay_0_02151200_overlay_0_02177d7c
 ptr_FUN_overlay_0_02151200_overlay_0_02177d7c: ; 0x02177D7C
 	.word ov0_02151200
-	.word ov0_02145138
-	.word ov0_021511D4
+	.word _ZN21TFieldParticleEmitterI15CSoftwareSpriteE5func2Ev
+	.word _ZN25CFieldEffectFootStepSmoke28CFieldParticleOneShotEmitter6UpdateEi
 
     .global ptr_FUN_overlay_0_02151008_overlay_0_02177d88
 ptr_FUN_overlay_0_02151008_overlay_0_02177d88: ; 0x02177D88
-	.word ov0_02151008
+	.word _ZN25CFieldEffectFootStepSmoke28CFieldParticleOneShotEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE
 
     .global s_25CFieldEffectFootStepSmoke_overlay_0_02177d8c
 s_25CFieldEffectFootStepSmoke_overlay_0_02177d8c: ; 0x02177D8C
@@ -61982,7 +61982,7 @@ ptr_FUN_overlay_0_02150938_overlay_0_02177e60: ; 0x02177E60
     .global ptr_FUN_overlay_0_021423a4_overlay_0_02177e64
 ptr_FUN_overlay_0_021423a4_overlay_0_02177e64: ; 0x02177E64
 	.word _ZN12CFieldEffect12ov0_021423A4Ev
-	.word ov0_021511CC
+	.word _ZN25CFieldEffectFootStepSmoke12sub_02033028Ev
 	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_02177e70
@@ -62000,13 +62000,13 @@ ptr_FUN_overlay_0_021421f0_overlay_0_02177e78: ; 0x02177E78
 
     .global ptr_FUN_overlay_0_02150c04_overlay_0_02177e80
 ptr_FUN_overlay_0_02150c04_overlay_0_02177e80: ; 0x02177E80
-	.word ov0_02150C04
+	.word _ZN25CFieldEffectFootStepSmoke12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_02150f10_overlay_0_02177e84
 ptr_FUN_overlay_0_02150f10_overlay_0_02177e84: ; 0x02177E84
-	.word ov0_02150F10
-	.word ov0_021511C4
-	.word ov0_02150F00
+	.word _ZN25CFieldEffectFootStepSmoke12ov0_02142344EP8Camera2D
+	.word _ZN25CFieldEffectFootStepSmoke12ov0_0214239CEi
+	.word _ZN25CFieldEffectFootStepSmoke12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
 	.word _ZN12CFieldEffect12sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
@@ -62036,7 +62036,7 @@ DAT_overlay_0_02177EDF:
 
     .global ptr_FUN_overlay_0_02151b64_overlay_0_02177ee8
 ptr_FUN_overlay_0_02151b64_overlay_0_02177ee8: ; 0x02177EE8
-	.word ov0_02151B64
+	.word _ZN24CFieldEffectManpuFactoryD1Ev
 
     .global ptr_FUN_overlay_0_02151c48_overlay_0_02177eec
 ptr_FUN_overlay_0_02151c48_overlay_0_02177eec: ; 0x02177EEC
@@ -62044,16 +62044,16 @@ ptr_FUN_overlay_0_02151c48_overlay_0_02177eec: ; 0x02177EEC
 
     .global ptr_FUN_overlay_0_02151d34_overlay_0_02177ef0
 ptr_FUN_overlay_0_02151d34_overlay_0_02177ef0: ; 0x02177EF0
-	.word ov0_02151D34
+	.word _ZN24CFieldEffectManpuFactory6CreateEi
 
     .global ptr_FUN_overlay_0_02152160_overlay_0_02177ef4
 ptr_FUN_overlay_0_02152160_overlay_0_02177ef4: ; 0x02177EF4
-	.word ov0_02152160
-	.word ov0_02152198
+	.word _ZN24CFieldEffectManpuFactory6UpdateEi
+	.word _ZN24CFieldEffectManpuFactory5ResetEv
 
     .global ptr_FUN_overlay_0_021521a8_overlay_0_02177efc
 ptr_FUN_overlay_0_021521a8_overlay_0_02177efc: ; 0x02177EFC
-	.word ov0_021521A8
+	.word _ZN24CFieldEffectManpuFactory7ReleaseEP18CFieldEffectManage
 
     .global PTR_ptr_FUN_020835bc_overlay_0_02177f00
 PTR_ptr_FUN_020835bc_overlay_0_02177f00: ; 0x02177F00
@@ -62072,7 +62072,7 @@ DAT_overlay_0_02177F27:
 
     .global PTR_LAB_overlay_0_02152444_overlay_0_02177f30
 PTR_LAB_overlay_0_02152444_overlay_0_02177f30: ; 0x02177F30
-	.word ov0_02152444
+	.word _ZN24CFieldEffectManpuBalloonD1Ev
 
     .global ptr_FUN_overlay_0_02152464_overlay_0_02177f34
 ptr_FUN_overlay_0_02152464_overlay_0_02177f34: ; 0x02177F34
@@ -62099,7 +62099,7 @@ ptr_FUN_overlay_0_021421f0_overlay_0_02177f4c: ; 0x02177F4C
 
     .global ptr_FUN_overlay_0_0215223c_overlay_0_02177f54
 ptr_FUN_overlay_0_0215223c_overlay_0_02177f54: ; 0x02177F54
-	.word ov0_0215223C
+	.word _ZN24CFieldEffectManpuBalloon12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_02143bf0_overlay_0_02177f58
 ptr_FUN_overlay_0_02143bf0_overlay_0_02177f58: ; 0x02177F58
@@ -62116,11 +62116,11 @@ ptr_FUN_overlay_0_02143bf0_overlay_0_02177f58: ; 0x02177F58
 	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word _ZN12CFieldEffect12ov0_02142390EPvS0_
 	.word _ZN12CFieldEffect12ov0_02142388EPKv
-	.word ov0_02152224
+	.word _ZN24CFieldEffectManpuBalloon7SetTypeEi
 
     .global ptr_FUN_overlay_0_02152400_overlay_0_02177f90
 ptr_FUN_overlay_0_02152400_overlay_0_02177f90: ; 0x02177F90
-	.word ov0_02152400
+	.word _ZN24CFieldEffectManpuBalloon4DrawEP8Camera2D
 	.word _ZN23CFieldEffectManpuSimple8SetDepthEl
 
     .global PTR_ptr_FUN_020835bc_overlay_0_02177f98
@@ -62141,7 +62141,7 @@ DAT_overlay_0_02177FBF:
 
     .global PTR_LAB_overlay_0_021526b0_overlay_0_02177fc8
 PTR_LAB_overlay_0_021526b0_overlay_0_02177fc8: ; 0x02177FC8
-	.word ov0_021526B0
+	.word _ZN24CFieldEffectManpuJumpingD1Ev
 
     .global ptr_FUN_overlay_0_021526d0_overlay_0_02177fcc
 ptr_FUN_overlay_0_021526d0_overlay_0_02177fcc: ; 0x02177FCC
@@ -62160,12 +62160,12 @@ ptr_FUN_overlay_0_021421d0_overlay_0_02177fdc: ; 0x02177FDC
     .global ptr_FUN_overlay_0_02142380_overlay_0_02177fe0
 ptr_FUN_overlay_0_02142380_overlay_0_02177fe0: ; 0x02177FE0
 	.word _ZN12CFieldEffect12ov0_02142380Ev
-	.word ov0_0215269C
+	.word _ZN24CFieldEffectManpuJumping12ov0_021421F0Eiii
 	.word _ZN12CFieldEffect12ov0_02142240Ei
 
     .global ptr_FUN_overlay_0_0215248c_overlay_0_02177fec
 ptr_FUN_overlay_0_0215248c_overlay_0_02177fec: ; 0x02177FEC
-	.word ov0_0215248C
+	.word _ZN24CFieldEffectManpuJumping12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_02143bf0_overlay_0_02177ff0
 ptr_FUN_overlay_0_02143bf0_overlay_0_02177ff0: ; 0x02177FF0
@@ -62186,7 +62186,7 @@ ptr_FUN_overlay_0_02143bf0_overlay_0_02177ff0: ; 0x02177FF0
 
     .global ptr_FUN_overlay_0_02152674_overlay_0_02178028
 ptr_FUN_overlay_0_02152674_overlay_0_02178028: ; 0x02178028
-	.word ov0_02152674
+	.word _ZN24CFieldEffectManpuJumping4DrawEP8Camera2D
 	.word _ZN23CFieldEffectManpuSimple8SetDepthEl
 
     .global PTR_ptr_FUN_020835bc_overlay_0_02178030
@@ -62206,7 +62206,7 @@ DAT_overlay_0_02178055:
 
     .global ptr_FUN_overlay_0_021527a4_overlay_0_02178060
 ptr_FUN_overlay_0_021527a4_overlay_0_02178060: ; 0x02178060
-	.word ov0_021527A4
+	.word _ZN22CFieldEffectManpuAnimeD1Ev
 
     .global ptr_FUN_overlay_0_021527dc_overlay_0_02178064
 ptr_FUN_overlay_0_021527dc_overlay_0_02178064: ; 0x02178064
@@ -62233,7 +62233,7 @@ ptr_FUN_overlay_0_021421f0_overlay_0_0217807c: ; 0x0217807C
 
     .global ptr_FUN_overlay_0_02152854_overlay_0_02178084
 ptr_FUN_overlay_0_02152854_overlay_0_02178084: ; 0x02178084
-	.word ov0_02152854
+	.word _ZN22CFieldEffectManpuAnime12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_02143bf0_overlay_0_02178088
 ptr_FUN_overlay_0_02143bf0_overlay_0_02178088: ; 0x02178088
@@ -62254,7 +62254,7 @@ ptr_FUN_overlay_0_02143bf0_overlay_0_02178088: ; 0x02178088
 
     .global ptr_FUN_overlay_0_021529c4_overlay_0_021780c0
 ptr_FUN_overlay_0_021529c4_overlay_0_021780c0: ; 0x021780C0
-	.word ov0_021529C4
+	.word _ZN22CFieldEffectManpuAnime4DrawEP8Camera2D
 	.word _ZN23CFieldEffectManpuSimple8SetDepthEl
 
     .global ptr_FUN_overlay_0_021528b4_overlay_0_021780c8
@@ -62351,7 +62351,7 @@ DAT_overlay_0_021781F7:
 
     .global PTR_LAB_overlay_0_02159e78_overlay_0_02178200
 PTR_LAB_overlay_0_02159e78_overlay_0_02178200: ; 0x02178200
-	.word ov0_02159E78
+	.word _ZN12CFieldCannonD1Ev
 
     .global ptr_FUN_overlay_0_02159ea0_overlay_0_02178204
 ptr_FUN_overlay_0_02159ea0_overlay_0_02178204: ; 0x02178204
@@ -62399,7 +62399,7 @@ ptr_FUN_0202dc54_overlay_0_02178238: ; 0x02178238
 
     .global PTR_LAB_overlay_0_0215a54c_overlay_0_02178248
 PTR_LAB_overlay_0_0215a54c_overlay_0_02178248: ; 0x02178248
-	.word ov0_0215A54C
+	.word _ZN16CFieldCannonUnitD1Ev
 
     .global ptr_FUN_overlay_0_0215a574_overlay_0_0217824c
 ptr_FUN_overlay_0_0215a574_overlay_0_0217824c: ; 0x0217824C
@@ -62453,7 +62453,7 @@ PTR_ptr_FUN_020835bc_overlay_0_02178288: ; 0x02178288
 
     .global PTR_LAB_overlay_0_0215ad00_overlay_0_0217829c
 PTR_LAB_overlay_0_0215ad00_overlay_0_0217829c: ; 0x0217829C
-	.word ov0_0215AD00
+	.word _ZN27CFieldParticleSmokeAnimatorD1Ev
 
     .global ptr_FUN_overlay_0_0215ad04_overlay_0_021782a0
 ptr_FUN_overlay_0_0215ad04_overlay_0_021782a0: ; 0x021782A0
@@ -62461,7 +62461,7 @@ ptr_FUN_overlay_0_0215ad04_overlay_0_021782a0: ; 0x021782A0
 
     .global ptr_FUN_overlay_0_0215ac24_overlay_0_021782a4
 ptr_FUN_overlay_0_0215ac24_overlay_0_021782a4: ; 0x021782A4
-	.word ov0_0215AC24
+	.word _ZN27CFieldParticleSmokeAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
 
     .global s_27CFieldParticleSmokeAnimator_overlay_0_021782a8
 s_27CFieldParticleSmokeAnimator_overlay_0_021782a8: ; 0x021782A8
@@ -62523,16 +62523,16 @@ DAT_overlay_0_0217833F:
 
     .global PTR_LAB_overlay_0_0215bdb4_overlay_0_02178348
 PTR_LAB_overlay_0_0215bdb4_overlay_0_02178348: ; 0x02178348
-	.word ov0_0215BDB4
+	.word _ZN25TFieldParticleRectEmitterI15CSoftwareSpriteED1Ev
 	.word ov0_0215BDA0
-	.word ov0_02145138
+	.word _ZN21TFieldParticleEmitterI15CSoftwareSpriteE5func2Ev
 	.word _ZN21TFieldParticleEmitterI15CSoftwareSpriteE6UpdateEi
 	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_020835bc_overlay_0_021782e0
 
     .global PTR_LAB_overlay_0_02151820_overlay_0_02178364
 PTR_LAB_overlay_0_02151820_overlay_0_02178364: ; 0x02178364
-	.word ov0_02151820
+	.word _ZN24CFieldEffectSteamFactoryD1Ev
 
     .global ptr_FUN_overlay_0_0215b800_overlay_0_02178368
 ptr_FUN_overlay_0_0215b800_overlay_0_02178368: ; 0x02178368
@@ -62540,7 +62540,7 @@ ptr_FUN_overlay_0_0215b800_overlay_0_02178368: ; 0x02178368
 
     .global ptr_FUN_overlay_0_0215ae28_overlay_0_0217836c
 ptr_FUN_overlay_0_0215ae28_overlay_0_0217836c: ; 0x0217836C
-	.word ov0_0215AE28
+	.word _ZN24CFieldEffectSteamFactory6CreateEi
 	.word _ZN19CFieldEffectFactory6UpdateEi
 	.word _ZN19CFieldEffectFactory5ResetEv
 	.word _ZN19CFieldEffectFactory7ReleaseEP18CFieldEffectManage
@@ -62549,17 +62549,17 @@ ptr_FUN_overlay_0_0215ae28_overlay_0_0217836c: ; 0x0217836C
 
     .global PTR_LAB_overlay_0_0215b7fc_overlay_0_02178384
 PTR_LAB_overlay_0_0215b7fc_overlay_0_02178384: ; 0x02178384
-	.word ov0_0215B7FC
+	.word _ZN30TFieldParticleSmokeRectEmitterI15CSoftwareSpriteED1Ev
 
     .global ptr_FUN_overlay_0_0215bdb8_overlay_0_02178388
 ptr_FUN_overlay_0_0215bdb8_overlay_0_02178388: ; 0x02178388
 	.word ov0_0215BDB8
-	.word ov0_0215B97C
-	.word ov0_0215B994
+	.word _ZN30TFieldParticleSmokeRectEmitterI15CSoftwareSpriteE5func2Ev
+	.word _ZN30TFieldParticleSmokeRectEmitterI15CSoftwareSpriteE6UpdateEi
 
     .global ptr_FUN_overlay_0_0215b9d0_overlay_0_02178394
 ptr_FUN_overlay_0_0215b9d0_overlay_0_02178394: ; 0x02178394
-	.word ov0_0215B9D0
+	.word _ZN30TFieldParticleSmokeRectEmitterI15CSoftwareSpriteE4EmitEP14TFieldParticleIS0_E
 	.word ov0_0215B988
 
     .global s_17TFieldEffectSmokeI15CSoftwareS_overlay_0_0217839c
@@ -62597,13 +62597,13 @@ DAT_overlay_0_02178454:
 
     .global ptr_FUN_overlay_0_0215af0c_overlay_0_0217845c
 ptr_FUN_overlay_0_0215af0c_overlay_0_0217845c: ; 0x0217845C
-	.word ov0_0215AF0C
+	.word _ZN17CFieldEffectSteamD1Ev
 	.word ov0_0215AEE0
 
     .global ptr_FUN_overlay_0_021423a4_overlay_0_02178464
 ptr_FUN_overlay_0_021423a4_overlay_0_02178464: ; 0x02178464
 	.word _ZN12CFieldEffect12ov0_021423A4Ev
-	.word ov0_0215AF04
+	.word _ZN17CFieldEffectSteam12sub_02033028Ev
 	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_02178470
@@ -62616,7 +62616,7 @@ ptr_FUN_overlay_0_02142380_overlay_0_02178474: ; 0x02178474
 
     .global ptr_FUN_overlay_0_0215b4a0_overlay_0_02178478
 ptr_FUN_overlay_0_0215b4a0_overlay_0_02178478: ; 0x02178478
-	.word ov0_0215B4A0
+	.word _ZN20TFieldEffectParticleI15CSoftwareSpriteE12ov0_021421F0Eiii
 	.word _ZN12CFieldEffect12ov0_02142240Ei
 
     .global ptr_FUN_overlay_0_02142ab4_overlay_0_02178480
@@ -62625,14 +62625,14 @@ ptr_FUN_overlay_0_02142ab4_overlay_0_02178480: ; 0x02178480
 
     .global ptr_FUN_overlay_0_0215b784_overlay_0_02178484
 ptr_FUN_overlay_0_0215b784_overlay_0_02178484: ; 0x02178484
-	.word ov0_0215B784
+	.word _ZN20TFieldEffectParticleI15CSoftwareSpriteE12ov0_02142344EP8Camera2D
 	.word _ZN12CFieldEffect12ov0_0214239CEi
 	.word _ZN12CFieldEffect12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
 
     .global ptr_FUN_overlay_0_0215ae08_overlay_0_02178494
 ptr_FUN_overlay_0_0215ae08_overlay_0_02178494: ; 0x02178494
-	.word ov0_0215AE08
+	.word _ZN17CFieldEffectSteam12sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
 	.word _ZN12CFieldEffect12sub_02033440Et
 	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
@@ -62645,14 +62645,14 @@ ptr_FUN_overlay_0_0215ae08_overlay_0_02178494: ; 0x02178494
     .global ptr_FUN_overlay_0_021423e8_overlay_0_021784b8
 ptr_FUN_overlay_0_021423e8_overlay_0_021784b8: ; 0x021784B8
 	.word _ZN20TFieldEffectParticleI15CSoftwareSpriteE12ov0_021423E8ERK20FieldEffectSpriteRes
-	.word ov0_0215AEFC
-	.word ov0_0215B330
+	.word _ZN17CFieldEffectSteam13GetForceFieldEv
+	.word _ZN17TFieldEffectSmokeI15CSoftwareSpriteE10GetEmitterEv
 	.byte 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_020835bc_overlay_0_021782f8
 
     .global ptr_FUN_overlay_0_0215b8cc_overlay_0_021784cc
 ptr_FUN_overlay_0_0215b8cc_overlay_0_021784cc: ; 0x021784CC
-	.word ov0_0215B8CC
+	.word _ZN17TFieldEffectSmokeI15CSoftwareSpriteED1Ev
 
     .global ptr_FUN_overlay_0_0215b3e8_overlay_0_021784d0
 ptr_FUN_overlay_0_0215b3e8_overlay_0_021784d0: ; 0x021784D0
@@ -62674,7 +62674,7 @@ ptr_FUN_overlay_0_02142380_overlay_0_021784e4: ; 0x021784E4
 
     .global ptr_FUN_overlay_0_0215b4a0_overlay_0_021784e8
 ptr_FUN_overlay_0_0215b4a0_overlay_0_021784e8: ; 0x021784E8
-	.word ov0_0215B4A0
+	.word _ZN20TFieldEffectParticleI15CSoftwareSpriteE12ov0_021421F0Eiii
 	.word _ZN12CFieldEffect12ov0_02142240Ei
 
     .global ptr_FUN_overlay_0_02142ab4_overlay_0_021784f0
@@ -62683,14 +62683,14 @@ ptr_FUN_overlay_0_02142ab4_overlay_0_021784f0: ; 0x021784F0
 
     .global ptr_FUN_overlay_0_0215b784_overlay_0_021784f4
 ptr_FUN_overlay_0_0215b784_overlay_0_021784f4: ; 0x021784F4
-	.word ov0_0215B784
+	.word _ZN20TFieldEffectParticleI15CSoftwareSpriteE12ov0_02142344EP8Camera2D
 	.word _ZN12CFieldEffect12ov0_0214239CEi
 	.word _ZN12CFieldEffect12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
 
     .global ptr_FUN_overlay_0_0215b01c_overlay_0_02178504
 ptr_FUN_overlay_0_0215b01c_overlay_0_02178504: ; 0x02178504
-	.word ov0_0215B01C
+	.word _ZN17TFieldEffectSmokeI15CSoftwareSpriteE12sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
 	.word _ZN12CFieldEffect12sub_02033440Et
 	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
@@ -62704,13 +62704,13 @@ ptr_FUN_overlay_0_0215b01c_overlay_0_02178504: ; 0x02178504
 ptr_FUN_overlay_0_021423e8_overlay_0_02178528: ; 0x02178528
 	.word _ZN20TFieldEffectParticleI15CSoftwareSpriteE12ov0_021423E8ERK20FieldEffectSpriteRes
 	.byte 0x00, 0x00, 0x00, 0x00
-	.word ov0_0215B330
+	.word _ZN17TFieldEffectSmokeI15CSoftwareSpriteE10GetEmitterEv
 	.byte 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_020835bc_overlay_0_02178304
 
     .global ptr_FUN_overlay_0_0215bcf0_overlay_0_0217853c
 ptr_FUN_overlay_0_0215bcf0_overlay_0_0217853c: ; 0x0217853C
-	.word ov0_0215BCF0
+	.word _ZN20TFieldEffectParticleI15CSoftwareSpriteED1Ev
 
     .global ptr_FUN_overlay_0_0215b814_overlay_0_02178540
 ptr_FUN_overlay_0_0215b814_overlay_0_02178540: ; 0x02178540
@@ -62732,7 +62732,7 @@ ptr_FUN_overlay_0_02142380_overlay_0_02178554: ; 0x02178554
 
     .global ptr_FUN_overlay_0_0215b4a0_overlay_0_02178558
 ptr_FUN_overlay_0_0215b4a0_overlay_0_02178558: ; 0x02178558
-	.word ov0_0215B4A0
+	.word _ZN20TFieldEffectParticleI15CSoftwareSpriteE12ov0_021421F0Eiii
 	.word _ZN12CFieldEffect12ov0_02142240Ei
 
     .global ptr_FUN_overlay_0_02142ab4_overlay_0_02178560
@@ -62741,14 +62741,14 @@ ptr_FUN_overlay_0_02142ab4_overlay_0_02178560: ; 0x02178560
 
     .global ptr_FUN_overlay_0_0215b784_overlay_0_02178564
 ptr_FUN_overlay_0_0215b784_overlay_0_02178564: ; 0x02178564
-	.word ov0_0215B784
+	.word _ZN20TFieldEffectParticleI15CSoftwareSpriteE12ov0_02142344EP8Camera2D
 	.word _ZN12CFieldEffect12ov0_0214239CEi
 	.word _ZN12CFieldEffect12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
 
     .global ptr_FUN_overlay_0_0215b4ec_overlay_0_02178574
 ptr_FUN_overlay_0_0215b4ec_overlay_0_02178574: ; 0x02178574
-	.word ov0_0215B4EC
+	.word _ZN20TFieldEffectParticleI15CSoftwareSpriteE12sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
 	.word _ZN12CFieldEffect12sub_02033440Et
 	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
@@ -62796,7 +62796,7 @@ DAT_overlay_0_021785d4: ; 0x021785D4
 
     .global PTR_LAB_overlay_0_0215be88_overlay_0_021785ec
 PTR_LAB_overlay_0_0215be88_overlay_0_021785ec: ; 0x021785EC
-	.word ov0_0215BE88
+	.word _ZN28CFieldParticleLeavesAnimatorD1Ev
 
     .global ptr_FUN_overlay_0_0215c5cc_overlay_0_021785f0
 ptr_FUN_overlay_0_0215c5cc_overlay_0_021785f0: ; 0x021785F0
@@ -62804,7 +62804,7 @@ ptr_FUN_overlay_0_0215c5cc_overlay_0_021785f0: ; 0x021785F0
 
     .global ptr_FUN_overlay_0_0215c4ac_overlay_0_021785f4
 ptr_FUN_overlay_0_0215c4ac_overlay_0_021785f4: ; 0x021785F4
-	.word ov0_0215C4AC
+	.word _ZN28CFieldParticleLeavesAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
 
     .global s_25CFieldEffectScatterLeaves_overlay_0_021785f8
 s_25CFieldEffectScatterLeaves_overlay_0_021785f8: ; 0x021785F8
@@ -62817,20 +62817,20 @@ DAT_overlay_0_02178614:
 
     .global PTR_LAB_overlay_0_0215be8c_overlay_0_0217861c
 PTR_LAB_overlay_0_0215be8c_overlay_0_0217861c: ; 0x0217861C
-	.word ov0_0215BE8C
+	.word _ZN27CFieldParticleLeavesEmitterD1Ev
 
     .global ptr_FUN_overlay_0_0215c5b8_overlay_0_02178620
 ptr_FUN_overlay_0_0215c5b8_overlay_0_02178620: ; 0x02178620
 	.word ov0_0215C5B8
-	.word ov0_0215C5AC
+	.word _ZN27CFieldParticleLeavesEmitter5func2Ev
 
     .global ptr_FUN_overlay_0_0215c1a4_overlay_0_02178628
 ptr_FUN_overlay_0_0215c1a4_overlay_0_02178628: ; 0x02178628
-	.word ov0_0215C1A4
+	.word _ZN27CFieldParticleLeavesEmitter6UpdateEi
 
     .global ptr_FUN_overlay_0_0215c22c_overlay_0_0217862c
 ptr_FUN_overlay_0_0215c22c_overlay_0_0217862c: ; 0x0217862C
-	.word ov0_0215C22C
+	.word _ZN27CFieldParticleLeavesEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE
 
     .global s_27CFieldParticleLeavesEmitter_overlay_0_02178630
 s_27CFieldParticleLeavesEmitter_overlay_0_02178630: ; 0x02178630
@@ -62852,12 +62852,12 @@ DAT_overlay_0_0217866F:
 
     .global PTR_LAB_overlay_0_02151824_overlay_0_02178678
 PTR_LAB_overlay_0_02151824_overlay_0_02178678: ; 0x02178678
-	.word ov0_02151824
+	.word _ZN32CFieldEffectScatterLeavesFactoryD1Ev
 	.word ov0_0215C748
 
     .global ptr_FUN_overlay_0_0215c4dc_overlay_0_02178680
 ptr_FUN_overlay_0_0215c4dc_overlay_0_02178680: ; 0x02178680
-	.word ov0_0215C4DC
+	.word _ZN32CFieldEffectScatterLeavesFactory6CreateEi
 	.word _ZN19CFieldEffectFactory6UpdateEi
 	.word _ZN19CFieldEffectFactory5ResetEv
 	.word _ZN19CFieldEffectFactory7ReleaseEP18CFieldEffectManage
@@ -62873,7 +62873,7 @@ DAT_overlay_0_021786B3:
 
     .global ptr_FUN_overlay_0_0215c5e0_overlay_0_021786bc
 ptr_FUN_overlay_0_0215c5e0_overlay_0_021786bc: ; 0x021786BC
-	.word ov0_0215C5E0
+	.word _ZN25CFieldEffectScatterLeavesD1Ev
 
     .global ptr_FUN_overlay_0_0215c690_overlay_0_021786c0
 ptr_FUN_overlay_0_0215c690_overlay_0_021786c0: ; 0x021786C0
@@ -62882,7 +62882,7 @@ ptr_FUN_overlay_0_0215c690_overlay_0_021786c0: ; 0x021786C0
     .global ptr_FUN_overlay_0_021423a4_overlay_0_021786c4
 ptr_FUN_overlay_0_021423a4_overlay_0_021786c4: ; 0x021786C4
 	.word _ZN12CFieldEffect12ov0_021423A4Ev
-	.word ov0_0215C5A4
+	.word _ZN25CFieldEffectScatterLeaves12sub_02033028Ev
 	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_021786d0
@@ -62895,7 +62895,7 @@ ptr_FUN_overlay_0_02142380_overlay_0_021786d4: ; 0x021786D4
 
     .global ptr_FUN_overlay_0_0215b4a0_overlay_0_021786d8
 ptr_FUN_overlay_0_0215b4a0_overlay_0_021786d8: ; 0x021786D8
-	.word ov0_0215B4A0
+	.word _ZN20TFieldEffectParticleI15CSoftwareSpriteE12ov0_021421F0Eiii
 	.word _ZN12CFieldEffect12ov0_02142240Ei
 
     .global ptr_FUN_overlay_0_02142ab4_overlay_0_021786e0
@@ -62904,14 +62904,14 @@ ptr_FUN_overlay_0_02142ab4_overlay_0_021786e0: ; 0x021786E0
 
     .global ptr_FUN_overlay_0_0215b784_overlay_0_021786e4
 ptr_FUN_overlay_0_0215b784_overlay_0_021786e4: ; 0x021786E4
-	.word ov0_0215B784
+	.word _ZN20TFieldEffectParticleI15CSoftwareSpriteE12ov0_02142344EP8Camera2D
 	.word _ZN12CFieldEffect12ov0_0214239CEi
 	.word _ZN12CFieldEffect12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
 
     .global ptr_FUN_overlay_0_0215be90_overlay_0_021786f4
 ptr_FUN_overlay_0_0215be90_overlay_0_021786f4: ; 0x021786F4
-	.word ov0_0215BE90
+	.word _ZN25CFieldEffectScatterLeaves12sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
 	.word _ZN12CFieldEffect12sub_02033440Et
 	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
@@ -62924,8 +62924,8 @@ ptr_FUN_overlay_0_0215be90_overlay_0_021786f4: ; 0x021786F4
     .global ptr_FUN_overlay_0_021423e8_overlay_0_02178718
 ptr_FUN_overlay_0_021423e8_overlay_0_02178718: ; 0x02178718
 	.word _ZN20TFieldEffectParticleI15CSoftwareSpriteE12ov0_021423E8ERK20FieldEffectSpriteRes
-	.word ov0_0215C59C
-	.word ov0_0215C594
+	.word _ZN25CFieldEffectScatterLeaves13GetForceFieldEv
+	.word _ZN25CFieldEffectScatterLeaves10GetEmitterEv
 
     .global PTR_ptr_FUN_020835bc_overlay_0_02178724
 PTR_ptr_FUN_020835bc_overlay_0_02178724: ; 0x02178724
@@ -62950,7 +62950,7 @@ DAT_overlay_0_02178756:
 
     .global PTR_LAB_overlay_0_0215181c_overlay_0_02178760
 PTR_LAB_overlay_0_0215181c_overlay_0_02178760: ; 0x02178760
-	.word ov0_0215181C
+	.word _ZN30CFieldEffectSpreadSmokeFactoryD1Ev
 
     .global ptr_FUN_overlay_0_0215cdb0_overlay_0_02178764
 ptr_FUN_overlay_0_0215cdb0_overlay_0_02178764: ; 0x02178764
@@ -62958,7 +62958,7 @@ ptr_FUN_overlay_0_0215cdb0_overlay_0_02178764: ; 0x02178764
 
     .global ptr_FUN_overlay_0_0215cce0_overlay_0_02178768
 ptr_FUN_overlay_0_0215cce0_overlay_0_02178768: ; 0x02178768
-	.word ov0_0215CCE0
+	.word _ZN30CFieldEffectSpreadSmokeFactory6CreateEi
 	.word _ZN19CFieldEffectFactory6UpdateEi
 	.word _ZN19CFieldEffectFactory5ResetEv
 	.word _ZN19CFieldEffectFactory7ReleaseEP18CFieldEffectManage
@@ -62974,7 +62974,7 @@ DAT_overlay_0_02178799:
 
     .global ptr_FUN_overlay_0_0215c858_overlay_0_021787a4
 ptr_FUN_overlay_0_0215c858_overlay_0_021787a4: ; 0x021787A4
-	.word ov0_0215C858
+	.word _ZN23CFieldEffectSpreadSmokeD1Ev
 
     .global ptr_FUN_overlay_0_0215c908_overlay_0_021787a8
 ptr_FUN_overlay_0_0215c908_overlay_0_021787a8: ; 0x021787A8
@@ -62983,7 +62983,7 @@ ptr_FUN_overlay_0_0215c908_overlay_0_021787a8: ; 0x021787A8
     .global ptr_FUN_overlay_0_021423a4_overlay_0_021787ac
 ptr_FUN_overlay_0_021423a4_overlay_0_021787ac: ; 0x021787AC
 	.word _ZN12CFieldEffect12ov0_021423A4Ev
-	.word ov0_0215CDA8
+	.word _ZN23CFieldEffectSpreadSmoke12sub_02033028Ev
 	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_021787b8
@@ -62996,7 +62996,7 @@ ptr_FUN_overlay_0_02142380_overlay_0_021787bc: ; 0x021787BC
 
     .global ptr_FUN_overlay_0_0215b4a0_overlay_0_021787c0
 ptr_FUN_overlay_0_0215b4a0_overlay_0_021787c0: ; 0x021787C0
-	.word ov0_0215B4A0
+	.word _ZN20TFieldEffectParticleI15CSoftwareSpriteE12ov0_021421F0Eiii
 	.word _ZN12CFieldEffect12ov0_02142240Ei
 
     .global ptr_FUN_overlay_0_02142ab4_overlay_0_021787c8
@@ -63005,14 +63005,14 @@ ptr_FUN_overlay_0_02142ab4_overlay_0_021787c8: ; 0x021787C8
 
     .global ptr_FUN_overlay_0_0215b784_overlay_0_021787cc
 ptr_FUN_overlay_0_0215b784_overlay_0_021787cc: ; 0x021787CC
-	.word ov0_0215B784
+	.word _ZN20TFieldEffectParticleI15CSoftwareSpriteE12ov0_02142344EP8Camera2D
 	.word _ZN12CFieldEffect12ov0_0214239CEi
 	.word _ZN12CFieldEffect12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
 
     .global ptr_FUN_overlay_0_0215c9c0_overlay_0_021787dc
 ptr_FUN_overlay_0_0215c9c0_overlay_0_021787dc: ; 0x021787DC
-	.word ov0_0215C9C0
+	.word _ZN23CFieldEffectSpreadSmoke12sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
 	.word _ZN12CFieldEffect12sub_02033440Et
 	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
@@ -63025,8 +63025,8 @@ ptr_FUN_overlay_0_0215c9c0_overlay_0_021787dc: ; 0x021787DC
     .global ptr_FUN_overlay_0_021423e8_overlay_0_02178800
 ptr_FUN_overlay_0_021423e8_overlay_0_02178800: ; 0x02178800
 	.word _ZN20TFieldEffectParticleI15CSoftwareSpriteE12ov0_021423E8ERK20FieldEffectSpriteRes
-	.word ov0_0215CDA0
-	.word ov0_0215CD98
+	.word _ZN23CFieldEffectSpreadSmoke13GetForceFieldEv
+	.word _ZN23CFieldEffectSpreadSmoke10GetEmitterEv
 
     .global PTR_ptr_FUN_020835bc_overlay_0_0217880c
 PTR_ptr_FUN_020835bc_overlay_0_0217880c: ; 0x0217880C
@@ -63056,7 +63056,7 @@ PTR_ptr_FUN_020835bc_overlay_0_02178830: ; 0x02178830
 
     .global PTR_LAB_overlay_0_0215d10c_overlay_0_02178844
 PTR_LAB_overlay_0_0215d10c_overlay_0_02178844: ; 0x02178844
-	.word ov0_0215D10C
+	.word _ZN22CFieldEffectWaveBullet21CWaveParticleAnimatorD1Ev
 
     .global ptr_FUN_overlay_0_0215da64_overlay_0_02178848
 ptr_FUN_overlay_0_0215da64_overlay_0_02178848: ; 0x02178848
@@ -63064,7 +63064,7 @@ ptr_FUN_overlay_0_0215da64_overlay_0_02178848: ; 0x02178848
 
     .global ptr_FUN_overlay_0_0215d9a0_overlay_0_0217884c
 ptr_FUN_overlay_0_0215d9a0_overlay_0_0217884c: ; 0x0217884C
-	.word ov0_0215D9A0
+	.word _ZN22CFieldEffectWaveBullet21CWaveParticleAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
 
     .global s_22CFieldEffectWaveBullet_overlay_0_02178850
 s_22CFieldEffectWaveBullet_overlay_0_02178850: ; 0x02178850
@@ -63077,7 +63077,7 @@ DAT_overlay_0_02178869:
 
     .global PTR_LAB_overlay_0_0215d108_overlay_0_02178874
 PTR_LAB_overlay_0_0215d108_overlay_0_02178874: ; 0x02178874
-	.word ov0_0215D108
+	.word _ZN22CFieldEffectWaveBullet20CWaveParticleEmitterD1Ev
 
     .global ptr_FUN_overlay_0_0215da50_overlay_0_02178878
 ptr_FUN_overlay_0_0215da50_overlay_0_02178878: ; 0x02178878
@@ -63085,12 +63085,12 @@ ptr_FUN_overlay_0_0215da50_overlay_0_02178878: ; 0x02178878
 
     .global ptr_FUN_overlay_0_0215d944_overlay_0_0217887c
 ptr_FUN_overlay_0_0215d944_overlay_0_0217887c: ; 0x0217887C
-	.word ov0_0215D944
-	.word ov0_0215D83C
+	.word _ZN22CFieldEffectWaveBullet20CWaveParticleEmitter5func2Ev
+	.word _ZN22CFieldEffectWaveBullet20CWaveParticleEmitter6UpdateEi
 
     .global ptr_FUN_overlay_0_0215d8b8_overlay_0_02178884
 ptr_FUN_overlay_0_0215d8b8_overlay_0_02178884: ; 0x02178884
-	.word ov0_0215D8B8
+	.word _ZN22CFieldEffectWaveBullet20CWaveParticleEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE
 
     .global s_29CFieldEffectWaveBulletFactory_overlay_0_02178888
 s_29CFieldEffectWaveBulletFactory_overlay_0_02178888: ; 0x02178888
@@ -63103,7 +63103,7 @@ DAT_overlay_0_021788A8:
 
     .global PTR_LAB_overlay_0_02151828_overlay_0_021788b0
 PTR_LAB_overlay_0_02151828_overlay_0_021788b0: ; 0x021788B0
-	.word ov0_02151828
+	.word _ZN29CFieldEffectWaveBulletFactoryD1Ev
 
     .global ptr_FUN_overlay_0_0215da78_overlay_0_021788b4
 ptr_FUN_overlay_0_0215da78_overlay_0_021788b4: ; 0x021788B4
@@ -63111,7 +63111,7 @@ ptr_FUN_overlay_0_0215da78_overlay_0_021788b4: ; 0x021788B4
 
     .global ptr_FUN_overlay_0_0215da24_overlay_0_021788b8
 ptr_FUN_overlay_0_0215da24_overlay_0_021788b8: ; 0x021788B8
-	.word ov0_0215DA24
+	.word _ZN29CFieldEffectWaveBulletFactory6CreateEi
 	.word _ZN19CFieldEffectFactory6UpdateEi
 	.word _ZN19CFieldEffectFactory5ResetEv
 	.word _ZN19CFieldEffectFactory7ReleaseEP18CFieldEffectManage
@@ -63136,7 +63136,7 @@ DAT_overlay_0_0217892E:
 
     .global ptr_FUN_overlay_0_0215d110_overlay_0_02178938
 ptr_FUN_overlay_0_0215d110_overlay_0_02178938: ; 0x02178938
-	.word ov0_0215D110
+	.word _ZN22CFieldEffectWaveBulletD1Ev
 
     .global ptr_FUN_overlay_0_0215d1f0_overlay_0_0217893c
 ptr_FUN_overlay_0_0215d1f0_overlay_0_0217893c: ; 0x0217893C
@@ -63145,7 +63145,7 @@ ptr_FUN_overlay_0_0215d1f0_overlay_0_0217893c: ; 0x0217893C
     .global ptr_FUN_overlay_0_021423a4_overlay_0_02178940
 ptr_FUN_overlay_0_021423a4_overlay_0_02178940: ; 0x02178940
 	.word _ZN12CFieldEffect12ov0_021423A4Ev
-	.word ov0_0215DA48
+	.word _ZN22CFieldEffectWaveBullet12sub_02033028Ev
 	.word _ZN17CFieldEffectActor12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_0217894c
@@ -63158,29 +63158,29 @@ ptr_FUN_overlay_0_02142380_overlay_0_02178950: ; 0x02178950
 
     .global ptr_FUN_overlay_0_0215d7f8_overlay_0_02178954
 ptr_FUN_overlay_0_0215d7f8_overlay_0_02178954: ; 0x02178954
-	.word ov0_0215D7F8
+	.word _ZN22CFieldEffectWaveBullet12ov0_021421F0Eiii
 	.word _ZN12CFieldEffect12ov0_02142240Ei
 
     .global ptr_FUN_overlay_0_0215d2d8_overlay_0_0217895c
 ptr_FUN_overlay_0_0215d2d8_overlay_0_0217895c: ; 0x0217895C
-	.word ov0_0215D2D8
+	.word _ZN22CFieldEffectWaveBullet12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_0215d62c_overlay_0_02178960
 ptr_FUN_overlay_0_0215d62c_overlay_0_02178960: ; 0x02178960
-	.word ov0_0215D62C
+	.word _ZN22CFieldEffectWaveBullet12ov0_02142344EP8Camera2D
 	.word _ZN12CFieldEffect12ov0_0214239CEi
 	.word _ZN12CFieldEffect12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
 
     .global ptr_FUN_overlay_0_0215d6bc_overlay_0_02178970
 ptr_FUN_overlay_0_0215d6bc_overlay_0_02178970: ; 0x02178970
-	.word ov0_0215D6BC
+	.word _ZN22CFieldEffectWaveBullet12sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
 	.word _ZN12CFieldEffect12sub_02033440Et
 	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
 	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
 	.word _ZN12CFieldEffect12sub_020333D8Eii
-	.word ov0_0215D834
+	.word _ZN22CFieldEffectWaveBullet12sub_0203365CEi
 	.word _ZN12CFieldEffect12ov0_02142390EPvS0_
 	.word _ZN12CFieldEffect12ov0_02142388EPKv
 
@@ -63221,7 +63221,7 @@ DAT_overlay_0_021789EC:
 
     .global PTR_LAB_overlay_0_0215182c_overlay_0_021789f4
 PTR_LAB_overlay_0_0215182c_overlay_0_021789f4: ; 0x021789F4
-	.word ov0_0215182C
+	.word _ZN34CFieldEffectAttackCellAnimeFactoryD1Ev
 
     .global ptr_FUN_overlay_0_0215e320_overlay_0_021789f8
 ptr_FUN_overlay_0_0215e320_overlay_0_021789f8: ; 0x021789F8
@@ -63229,7 +63229,7 @@ ptr_FUN_overlay_0_0215e320_overlay_0_021789f8: ; 0x021789F8
 
     .global ptr_FUN_overlay_0_0215e2dc_overlay_0_021789fc
 ptr_FUN_overlay_0_0215e2dc_overlay_0_021789fc: ; 0x021789FC
-	.word ov0_0215E2DC
+	.word _ZN34CFieldEffectAttackCellAnimeFactory6CreateEi
 	.word _ZN19CFieldEffectFactory6UpdateEi
 	.word _ZN19CFieldEffectFactory5ResetEv
 	.word _ZN19CFieldEffectFactory7ReleaseEP18CFieldEffectManage
@@ -63238,7 +63238,7 @@ ptr_FUN_overlay_0_0215e2dc_overlay_0_021789fc: ; 0x021789FC
 
     .global PTR_LAB_overlay_0_02151838_overlay_0_02178a14
 PTR_LAB_overlay_0_02151838_overlay_0_02178a14: ; 0x02178A14
-	.word ov0_02151838
+	.word _ZN34CFieldEffectNormalCellAnimeFactoryD1Ev
 
     .global ptr_FUN_overlay_0_0215e30c_overlay_0_02178a18
 ptr_FUN_overlay_0_0215e30c_overlay_0_02178a18: ; 0x02178A18
@@ -63246,7 +63246,7 @@ ptr_FUN_overlay_0_0215e30c_overlay_0_02178a18: ; 0x02178A18
 
     .global ptr_FUN_overlay_0_0215e2b4_overlay_0_02178a1c
 ptr_FUN_overlay_0_0215e2b4_overlay_0_02178a1c: ; 0x02178A1C
-	.word ov0_0215E2B4
+	.word _ZN34CFieldEffectNormalCellAnimeFactory6CreateEi
 	.word _ZN19CFieldEffectFactory6UpdateEi
 	.word _ZN19CFieldEffectFactory5ResetEv
 	.word _ZN19CFieldEffectFactory7ReleaseEP18CFieldEffectManage
@@ -63270,7 +63270,7 @@ DAT_overlay_0_02178A79:
 
     .global ptr_FUN_overlay_0_0215dcb4_overlay_0_02178a84
 ptr_FUN_overlay_0_0215dcb4_overlay_0_02178a84: ; 0x02178A84
-	.word ov0_0215DCB4
+	.word _ZN21CFieldEffectCellAnimeD1Ev
 
     .global ptr_FUN_overlay_0_0215dda8_overlay_0_02178a88
 ptr_FUN_overlay_0_0215dda8_overlay_0_02178a88: ; 0x02178A88
@@ -63279,7 +63279,7 @@ ptr_FUN_overlay_0_0215dda8_overlay_0_02178a88: ; 0x02178A88
     .global ptr_FUN_overlay_0_021423a4_overlay_0_02178a8c
 ptr_FUN_overlay_0_021423a4_overlay_0_02178a8c: ; 0x02178A8C
 	.word _ZN12CFieldEffect12ov0_021423A4Ev
-	.word ov0_0215E304
+	.word _ZN21CFieldEffectCellAnime12sub_02033028Ev
 	.word _ZN17CFieldEffectActor12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_02178a98
@@ -63292,26 +63292,26 @@ ptr_FUN_overlay_0_02142380_overlay_0_02178a9c: ; 0x02178A9C
 
     .global ptr_FUN_overlay_0_0215e164_overlay_0_02178aa0
 ptr_FUN_overlay_0_0215e164_overlay_0_02178aa0: ; 0x02178AA0
-	.word ov0_0215E164
+	.word _ZN21CFieldEffectCellAnime12ov0_021421F0Eiii
 	.word _ZN12CFieldEffect12ov0_02142240Ei
 
     .global ptr_FUN_overlay_0_0215dea4_overlay_0_02178aa8
 ptr_FUN_overlay_0_0215dea4_overlay_0_02178aa8: ; 0x02178AA8
-	.word ov0_0215DEA4
+	.word _ZN21CFieldEffectCellAnime12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_0215e04c_overlay_0_02178aac
 ptr_FUN_overlay_0_0215e04c_overlay_0_02178aac: ; 0x02178AAC
-	.word ov0_0215E04C
+	.word _ZN21CFieldEffectCellAnime12ov0_02142344EP8Camera2D
 	.word _ZN12CFieldEffect12ov0_0214239CEi
 	.word _ZN12CFieldEffect12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
-	.word ov0_0215E128
+	.word _ZN21CFieldEffectCellAnime12sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
 	.word _ZN12CFieldEffect12sub_02033440Et
 	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
 	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
 	.word _ZN12CFieldEffect12sub_020333D8Eii
-	.word ov0_0215E2AC
+	.word _ZN21CFieldEffectCellAnime12sub_0203365CEi
 	.word _ZN12CFieldEffect12ov0_02142390EPvS0_
 	.word _ZN12CFieldEffect12ov0_02142388EPKv
 
@@ -63338,12 +63338,12 @@ DAT_overlay_0_02178B15:
 
     .global PTR_LAB_overlay_0_02151830_overlay_0_02178b20
 PTR_LAB_overlay_0_02151830_overlay_0_02178b20: ; 0x02178B20
-	.word ov0_02151830
+	.word _ZN33CFieldEffectParabolaBulletFactoryD1Ev
 
     .global ptr_FUN_overlay_0_0215ea88_overlay_0_02178b24
 ptr_FUN_overlay_0_0215ea88_overlay_0_02178b24: ; 0x02178B24
 	.word ov0_0215EA88
-	.word ov0_0215EA5C
+	.word _ZN33CFieldEffectParabolaBulletFactory6CreateEi
 	.word _ZN19CFieldEffectFactory6UpdateEi
 	.word _ZN19CFieldEffectFactory5ResetEv
 	.word _ZN19CFieldEffectFactory7ReleaseEP18CFieldEffectManage
@@ -63359,7 +63359,7 @@ DAT_overlay_0_02178B5C:
 
     .global ptr_FUN_overlay_0_0215e4a0_overlay_0_02178b64
 ptr_FUN_overlay_0_0215e4a0_overlay_0_02178b64: ; 0x02178B64
-	.word ov0_0215E4A0
+	.word _ZN26CFieldEffectParabolaBulletD1Ev
 
     .global ptr_FUN_overlay_0_0215e558_overlay_0_02178b68
 ptr_FUN_overlay_0_0215e558_overlay_0_02178b68: ; 0x02178B68
@@ -63368,7 +63368,7 @@ ptr_FUN_overlay_0_0215e558_overlay_0_02178b68: ; 0x02178B68
     .global ptr_FUN_overlay_0_021423a4_overlay_0_02178b6c
 ptr_FUN_overlay_0_021423a4_overlay_0_02178b6c: ; 0x02178B6C
 	.word _ZN12CFieldEffect12ov0_021423A4Ev
-	.word ov0_0215EA80
+	.word _ZN26CFieldEffectParabolaBullet12sub_02033028Ev
 	.word _ZN17CFieldEffectActor12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_02178b78
@@ -63381,20 +63381,20 @@ ptr_FUN_overlay_0_02142380_overlay_0_02178b7c: ; 0x02178B7C
 
     .global ptr_FUN_overlay_0_0215e880_overlay_0_02178b80
 ptr_FUN_overlay_0_0215e880_overlay_0_02178b80: ; 0x02178B80
-	.word ov0_0215E880
+	.word _ZN26CFieldEffectParabolaBullet12ov0_021421F0Eiii
 	.word _ZN12CFieldEffect12ov0_02142240Ei
 
     .global ptr_FUN_overlay_0_0215e618_overlay_0_02178b88
 ptr_FUN_overlay_0_0215e618_overlay_0_02178b88: ; 0x02178B88
-	.word ov0_0215E618
+	.word _ZN26CFieldEffectParabolaBullet12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_0215e750_overlay_0_02178b8c
 ptr_FUN_overlay_0_0215e750_overlay_0_02178b8c: ; 0x02178B8C
-	.word ov0_0215E750
+	.word _ZN26CFieldEffectParabolaBullet12ov0_02142344EP8Camera2D
 	.word _ZN12CFieldEffect12ov0_0214239CEi
 	.word _ZN12CFieldEffect12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
-	.word ov0_0215E804
+	.word _ZN26CFieldEffectParabolaBullet12sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
 	.word _ZN12CFieldEffect12sub_02033440Et
 	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
@@ -63432,7 +63432,7 @@ DAT_overlay_0_02178C0F:
 
     .global ptr_FUN_overlay_0_0215f34c_overlay_0_02178c18
 ptr_FUN_overlay_0_0215f34c_overlay_0_02178c18: ; 0x02178C18
-	.word ov0_0215F34C
+	.word _ZN28CFieldEffectPoisonGasFactoryD1Ev
 
     .global ptr_FUN_overlay_0_0215f374_overlay_0_02178c1c
 ptr_FUN_overlay_0_0215f374_overlay_0_02178c1c: ; 0x02178C1C
@@ -63440,22 +63440,22 @@ ptr_FUN_overlay_0_0215f374_overlay_0_02178c1c: ; 0x02178C1C
 
     .global ptr_FUN_overlay_0_0215f3a4_overlay_0_02178c20
 ptr_FUN_overlay_0_0215f3a4_overlay_0_02178c20: ; 0x02178C20
-	.word ov0_0215F3A4
-	.word ov0_0215F504
-	.word ov0_0215F518
+	.word _ZN28CFieldEffectPoisonGasFactory6CreateEi
+	.word _ZN28CFieldEffectPoisonGasFactory6UpdateEi
+	.word _ZN28CFieldEffectPoisonGasFactory5ResetEv
 	.word _ZN19CFieldEffectFactory7ReleaseEP18CFieldEffectManage
 	.byte 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_020835bc_overlay_0_02178bc0
 
     .global ptr_FUN_overlay_0_0215eb28_overlay_0_02178c38
 ptr_FUN_overlay_0_0215eb28_overlay_0_02178c38: ; 0x02178C38
-	.word ov0_0215EB28
+	.word _ZN21CFieldEffectPoisonGasD1Ev
 
     .global ptr_FUN_overlay_0_0215eba8_overlay_0_02178c3c
 ptr_FUN_overlay_0_0215eba8_overlay_0_02178c3c: ; 0x02178C3C
 	.word ov0_0215EBA8
-	.word ov0_0215F524
-	.word ov0_0215F530
+	.word _ZN21CFieldEffectPoisonGas12ov0_021423A4Ev
+	.word _ZN21CFieldEffectPoisonGas12sub_02033028Ev
 	.word _ZN17CFieldEffectActor12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_02178c4c
@@ -63468,20 +63468,20 @@ ptr_FUN_overlay_0_02142380_overlay_0_02178c50: ; 0x02178C50
 
     .global ptr_FUN_overlay_0_0215ef20_overlay_0_02178c54
 ptr_FUN_overlay_0_0215ef20_overlay_0_02178c54: ; 0x02178C54
-	.word ov0_0215EF20
+	.word _ZN21CFieldEffectPoisonGas12ov0_021421F0Eiii
 	.word _ZN12CFieldEffect12ov0_02142240Ei
 
     .global ptr_FUN_overlay_0_0215ec94_overlay_0_02178c5c
 ptr_FUN_overlay_0_0215ec94_overlay_0_02178c5c: ; 0x02178C5C
-	.word ov0_0215EC94
+	.word _ZN21CFieldEffectPoisonGas12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_0215edd0_overlay_0_02178c60
 ptr_FUN_overlay_0_0215edd0_overlay_0_02178c60: ; 0x02178C60
-	.word ov0_0215EDD0
+	.word _ZN21CFieldEffectPoisonGas12ov0_02142344EP8Camera2D
 	.word _ZN12CFieldEffect12ov0_0214239CEi
 	.word _ZN12CFieldEffect12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
-	.word ov0_0215EE94
+	.word _ZN21CFieldEffectPoisonGas12sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
 	.word _ZN12CFieldEffect12sub_02033440Et
 	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
@@ -63491,11 +63491,11 @@ ptr_FUN_overlay_0_0215edd0_overlay_0_02178c60: ; 0x02178C60
 
     .global ptr_FUN_overlay_0_0215f118_overlay_0_02178c8c
 ptr_FUN_overlay_0_0215f118_overlay_0_02178c8c: ; 0x02178C8C
-	.word ov0_0215F118
+	.word _ZN21CFieldEffectPoisonGas12ov0_02142390EPvS0_
 
     .global ptr_FUN_overlay_0_0215f1ec_overlay_0_02178c90
 ptr_FUN_overlay_0_0215f1ec_overlay_0_02178c90: ; 0x02178C90
-	.word ov0_0215F1EC
+	.word _ZN21CFieldEffectPoisonGas12ov0_02142388EPKv
 
     .global PTR_ptr_FUN_020835bc_overlay_0_02178c94
 PTR_ptr_FUN_020835bc_overlay_0_02178c94: ; 0x02178C94
@@ -63532,7 +63532,7 @@ DAT_overlay_0_02178CD8:
 
     .global PTR_LAB_overlay_0_0215f858_overlay_0_02178ce0
 PTR_LAB_overlay_0_0215f858_overlay_0_02178ce0: ; 0x02178CE0
-	.word ov0_0215F858
+	.word _ZN17CFieldEffectSpray21CWaveParticleAnimatorD1Ev
 
     .global ptr_FUN_overlay_0_021601ac_overlay_0_02178ce4
 ptr_FUN_overlay_0_021601ac_overlay_0_02178ce4: ; 0x02178CE4
@@ -63540,7 +63540,7 @@ ptr_FUN_overlay_0_021601ac_overlay_0_02178ce4: ; 0x02178CE4
 
     .global ptr_FUN_overlay_0_021600f8_overlay_0_02178ce8
 ptr_FUN_overlay_0_021600f8_overlay_0_02178ce8: ; 0x02178CE8
-	.word ov0_021600F8
+	.word _ZN17CFieldEffectSpray21CWaveParticleAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
 
     .global s_24CFieldEffectSprayFactory_overlay_0_02178cec
 s_24CFieldEffectSprayFactory_overlay_0_02178cec: ; 0x02178CEC
@@ -63553,7 +63553,7 @@ DAT_overlay_0_02178D07:
 
     .global PTR_LAB_overlay_0_0215f854_overlay_0_02178d10
 PTR_LAB_overlay_0_0215f854_overlay_0_02178d10: ; 0x02178D10
-	.word ov0_0215F854
+	.word _ZN17CFieldEffectSpray20CWaveParticleEmitterD1Ev
 
     .global ptr_FUN_overlay_0_02160198_overlay_0_02178d14
 ptr_FUN_overlay_0_02160198_overlay_0_02178d14: ; 0x02178D14
@@ -63561,21 +63561,21 @@ ptr_FUN_overlay_0_02160198_overlay_0_02178d14: ; 0x02178D14
 
     .global ptr_FUN_overlay_0_021600bc_overlay_0_02178d18
 ptr_FUN_overlay_0_021600bc_overlay_0_02178d18: ; 0x02178D18
-	.word ov0_021600BC
+	.word _ZN17CFieldEffectSpray20CWaveParticleEmitter5func2Ev
 
     .global ptr_FUN_overlay_0_0215feec_overlay_0_02178d1c
 ptr_FUN_overlay_0_0215feec_overlay_0_02178d1c: ; 0x02178D1C
-	.word ov0_0215FEEC
+	.word _ZN17CFieldEffectSpray20CWaveParticleEmitter6UpdateEi
 
     .global ptr_FUN_overlay_0_02160004_overlay_0_02178d20
 ptr_FUN_overlay_0_02160004_overlay_0_02178d20: ; 0x02178D20
-	.word ov0_02160004
+	.word _ZN17CFieldEffectSpray20CWaveParticleEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE
 	.byte 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_020835bc_overlay_0_02178cb8
 
     .global PTR_LAB_overlay_0_02151834_overlay_0_02178d2c
 PTR_LAB_overlay_0_02151834_overlay_0_02178d2c: ; 0x02178D2C
-	.word ov0_02151834
+	.word _ZN24CFieldEffectSprayFactoryD1Ev
 
     .global ptr_FUN_overlay_0_021601c0_overlay_0_02178d30
 ptr_FUN_overlay_0_021601c0_overlay_0_02178d30: ; 0x02178D30
@@ -63583,7 +63583,7 @@ ptr_FUN_overlay_0_021601c0_overlay_0_02178d30: ; 0x02178D30
 
     .global ptr_FUN_overlay_0_0216016c_overlay_0_02178d34
 ptr_FUN_overlay_0_0216016c_overlay_0_02178d34: ; 0x02178D34
-	.word ov0_0216016C
+	.word _ZN24CFieldEffectSprayFactory6CreateEi
 	.word _ZN19CFieldEffectFactory6UpdateEi
 	.word _ZN19CFieldEffectFactory5ResetEv
 	.word _ZN19CFieldEffectFactory7ReleaseEP18CFieldEffectManage
@@ -63604,7 +63604,7 @@ DAT_overlay_0_02178D9D:
 
     .global ptr_FUN_overlay_0_0215f85c_overlay_0_02178da8
 ptr_FUN_overlay_0_0215f85c_overlay_0_02178da8: ; 0x02178DA8
-	.word ov0_0215F85C
+	.word _ZN17CFieldEffectSprayD1Ev
 
     .global ptr_FUN_overlay_0_0215f93c_overlay_0_02178dac
 ptr_FUN_overlay_0_0215f93c_overlay_0_02178dac: ; 0x02178DAC
@@ -63613,7 +63613,7 @@ ptr_FUN_overlay_0_0215f93c_overlay_0_02178dac: ; 0x02178DAC
     .global ptr_FUN_overlay_0_021423a4_overlay_0_02178db0
 ptr_FUN_overlay_0_021423a4_overlay_0_02178db0: ; 0x02178DB0
 	.word _ZN12CFieldEffect12ov0_021423A4Ev
-	.word ov0_02160190
+	.word _ZN17CFieldEffectSpray12sub_02033028Ev
 	.word _ZN17CFieldEffectActor12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_02178dbc
@@ -63626,23 +63626,23 @@ ptr_FUN_overlay_0_02142380_overlay_0_02178dc0: ; 0x02178DC0
 
     .global ptr_FUN_overlay_0_0215feb0_overlay_0_02178dc4
 ptr_FUN_overlay_0_0215feb0_overlay_0_02178dc4: ; 0x02178DC4
-	.word ov0_0215FEB0
+	.word _ZN17CFieldEffectSpray12ov0_021421F0Eiii
 	.word _ZN12CFieldEffect12ov0_02142240Ei
 
     .global ptr_FUN_overlay_0_0215fa24_overlay_0_02178dcc
 ptr_FUN_overlay_0_0215fa24_overlay_0_02178dcc: ; 0x02178DCC
-	.word ov0_0215FA24
+	.word _ZN17CFieldEffectSpray12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_0215fd34_overlay_0_02178dd0
 ptr_FUN_overlay_0_0215fd34_overlay_0_02178dd0: ; 0x02178DD0
-	.word ov0_0215FD34
+	.word _ZN17CFieldEffectSpray12ov0_02142344EP8Camera2D
 	.word _ZN12CFieldEffect12ov0_0214239CEi
 	.word _ZN12CFieldEffect12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
 
     .global ptr_FUN_overlay_0_0215fdc4_overlay_0_02178de0
 ptr_FUN_overlay_0_0215fdc4_overlay_0_02178de0: ; 0x02178DE0
-	.word ov0_0215FDC4
+	.word _ZN17CFieldEffectSpray12sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
 	.word _ZN12CFieldEffect12sub_02033440Et
 	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
@@ -63695,12 +63695,12 @@ DAT_overlay_0_02178E63:
 
     .global PTR_LAB_overlay_0_021603ac_overlay_0_02178e6c
 PTR_LAB_overlay_0_021603ac_overlay_0_02178e6c: ; 0x02178E6C
-	.word ov0_021603AC
+	.word _ZN16CFieldEffectFire17CParticleAnimatorD1Ev
 
     .global ptr_FUN_overlay_0_02160e28_overlay_0_02178e70
 ptr_FUN_overlay_0_02160e28_overlay_0_02178e70: ; 0x02178E70
 	.word ov0_02160E28
-	.word ov0_02160D90
+	.word _ZN16CFieldEffectFire17CParticleAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
 
     .global s_23CFieldEffectFireFactory_overlay_0_02178e78
 s_23CFieldEffectFireFactory_overlay_0_02178e78: ; 0x02178E78
@@ -63713,23 +63713,23 @@ DAT_overlay_0_02178E92:
 
     .global PTR_LAB_overlay_0_021603a8_overlay_0_02178e9c
 PTR_LAB_overlay_0_021603a8_overlay_0_02178e9c: ; 0x02178E9C
-	.word ov0_021603A8
+	.word _ZN16CFieldEffectFire16CParticleEmitterD1Ev
 
     .global ptr_FUN_overlay_0_02160e14_overlay_0_02178ea0
 ptr_FUN_overlay_0_02160e14_overlay_0_02178ea0: ; 0x02178EA0
 	.word ov0_02160E14
-	.word ov0_02160E08
-	.word ov0_02160C18
+	.word _ZN16CFieldEffectFire16CParticleEmitter5func2Ev
+	.word _ZN16CFieldEffectFire16CParticleEmitter6UpdateEi
 
     .global ptr_FUN_overlay_0_02160c54_overlay_0_02178eac
 ptr_FUN_overlay_0_02160c54_overlay_0_02178eac: ; 0x02178EAC
-	.word ov0_02160C54
+	.word _ZN16CFieldEffectFire16CParticleEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE
 	.byte 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_020835bc_overlay_0_02178e20
 
     .global PTR_LAB_overlay_0_0215183c_overlay_0_02178eb8
 PTR_LAB_overlay_0_0215183c_overlay_0_02178eb8: ; 0x02178EB8
-	.word ov0_0215183C
+	.word _ZN23CFieldEffectFireFactoryD1Ev
 
     .global ptr_FUN_overlay_0_02160e3c_overlay_0_02178ebc
 ptr_FUN_overlay_0_02160e3c_overlay_0_02178ebc: ; 0x02178EBC
@@ -63737,7 +63737,7 @@ ptr_FUN_overlay_0_02160e3c_overlay_0_02178ebc: ; 0x02178EBC
 
     .global ptr_FUN_overlay_0_02160d9c_overlay_0_02178ec0
 ptr_FUN_overlay_0_02160d9c_overlay_0_02178ec0: ; 0x02178EC0
-	.word ov0_02160D9C
+	.word _ZN23CFieldEffectFireFactory6CreateEi
 	.word _ZN19CFieldEffectFactory6UpdateEi
 	.word _ZN19CFieldEffectFactory5ResetEv
 	.word _ZN19CFieldEffectFactory7ReleaseEP18CFieldEffectManage
@@ -63761,7 +63761,7 @@ DAT_overlay_0_02178F20:
 
     .global ptr_FUN_overlay_0_021603b0_overlay_0_02178f28
 ptr_FUN_overlay_0_021603b0_overlay_0_02178f28: ; 0x02178F28
-	.word ov0_021603B0
+	.word _ZN16CFieldEffectFireD1Ev
 
     .global ptr_FUN_overlay_0_021604bc_overlay_0_02178f2c
 ptr_FUN_overlay_0_021604bc_overlay_0_02178f2c: ; 0x02178F2C
@@ -63770,11 +63770,11 @@ ptr_FUN_overlay_0_021604bc_overlay_0_02178f2c: ; 0x02178F2C
     .global ptr_FUN_overlay_0_021423a4_overlay_0_02178f30
 ptr_FUN_overlay_0_021423a4_overlay_0_02178f30: ; 0x02178F30
 	.word _ZN12CFieldEffect12ov0_021423A4Ev
-	.word ov0_02160E00
+	.word _ZN16CFieldEffectFire12sub_02033028Ev
 
     .global ptr_FUN_overlay_0_02160dd0_overlay_0_02178f38
 ptr_FUN_overlay_0_02160dd0_overlay_0_02178f38: ; 0x02178F38
-	.word ov0_02160DD0
+	.word _ZN16CFieldEffectFire12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_02178f3c
 ptr_FUN_overlay_0_021421d0_overlay_0_02178f3c: ; 0x02178F3C
@@ -63786,20 +63786,20 @@ ptr_FUN_overlay_0_02142380_overlay_0_02178f40: ; 0x02178F40
 
     .global ptr_FUN_overlay_0_0215b4a0_overlay_0_02178f44
 ptr_FUN_overlay_0_0215b4a0_overlay_0_02178f44: ; 0x02178F44
-	.word ov0_0215B4A0
+	.word _ZN20TFieldEffectParticleI15CSoftwareSpriteE12ov0_021421F0Eiii
 	.word _ZN12CFieldEffect12ov0_02142240Ei
 
     .global ptr_FUN_overlay_0_021608e4_overlay_0_02178f4c
 ptr_FUN_overlay_0_021608e4_overlay_0_02178f4c: ; 0x02178F4C
-	.word ov0_021608E4
+	.word _ZN16CFieldEffectFire12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_0215b784_overlay_0_02178f50
 ptr_FUN_overlay_0_0215b784_overlay_0_02178f50: ; 0x02178F50
-	.word ov0_0215B784
+	.word _ZN20TFieldEffectParticleI15CSoftwareSpriteE12ov0_02142344EP8Camera2D
 	.word _ZN12CFieldEffect12ov0_0214239CEi
 	.word _ZN12CFieldEffect12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
-	.word ov0_021605D0
+	.word _ZN16CFieldEffectFire12sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
 	.word _ZN12CFieldEffect12sub_02033440Et
 	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
@@ -63812,8 +63812,8 @@ ptr_FUN_overlay_0_0215b784_overlay_0_02178f50: ; 0x02178F50
     .global ptr_FUN_overlay_0_021423e8_overlay_0_02178f84
 ptr_FUN_overlay_0_021423e8_overlay_0_02178f84: ; 0x02178F84
 	.word _ZN20TFieldEffectParticleI15CSoftwareSpriteE12ov0_021423E8ERK20FieldEffectSpriteRes
-	.word ov0_02160DC0
-	.word ov0_02160DC8
+	.word _ZN16CFieldEffectFire13GetForceFieldEv
+	.word _ZN16CFieldEffectFire10GetEmitterEv
 
     .global PTR_ptr_FUN_020835bc_overlay_0_02178f90
 PTR_ptr_FUN_020835bc_overlay_0_02178f90: ; 0x02178F90
@@ -63842,7 +63842,7 @@ DAT_overlay_0_02178FD7:
 
     .global PTR_LAB_overlay_0_02151840_overlay_0_02178fe0
 PTR_LAB_overlay_0_02151840_overlay_0_02178fe0: ; 0x02178FE0
-	.word ov0_02151840
+	.word _ZN24CFieldEffectSparkFactoryD1Ev
 
     .global ptr_FUN_overlay_0_021618ac_overlay_0_02178fe4
 ptr_FUN_overlay_0_021618ac_overlay_0_02178fe4: ; 0x02178FE4
@@ -63850,7 +63850,7 @@ ptr_FUN_overlay_0_021618ac_overlay_0_02178fe4: ; 0x02178FE4
 
     .global ptr_FUN_overlay_0_02161880_overlay_0_02178fe8
 ptr_FUN_overlay_0_02161880_overlay_0_02178fe8: ; 0x02178FE8
-	.word ov0_02161880
+	.word _ZN24CFieldEffectSparkFactory6CreateEi
 	.word _ZN19CFieldEffectFactory6UpdateEi
 	.word _ZN19CFieldEffectFactory5ResetEv
 	.word _ZN19CFieldEffectFactory7ReleaseEP18CFieldEffectManage
@@ -63859,7 +63859,7 @@ ptr_FUN_overlay_0_02161880_overlay_0_02178fe8: ; 0x02178FE8
 
     .global ptr_FUN_overlay_0_0216116c_overlay_0_02179000
 ptr_FUN_overlay_0_0216116c_overlay_0_02179000: ; 0x02179000
-	.word ov0_0216116C
+	.word _ZN17CFieldEffectSparkD1Ev
 
     .global ptr_FUN_overlay_0_02161278_overlay_0_02179004
 ptr_FUN_overlay_0_02161278_overlay_0_02179004: ; 0x02179004
@@ -63868,11 +63868,11 @@ ptr_FUN_overlay_0_02161278_overlay_0_02179004: ; 0x02179004
     .global ptr_FUN_overlay_0_021423a4_overlay_0_02179008
 ptr_FUN_overlay_0_021423a4_overlay_0_02179008: ; 0x02179008
 	.word _ZN12CFieldEffect12ov0_021423A4Ev
-	.word ov0_021618A4
+	.word _ZN17CFieldEffectSpark12sub_02033028Ev
 
     .global ptr_FUN_overlay_0_02161834_overlay_0_02179010
 ptr_FUN_overlay_0_02161834_overlay_0_02179010: ; 0x02179010
-	.word ov0_02161834
+	.word _ZN17CFieldEffectSpark12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_02179014
 ptr_FUN_overlay_0_021421d0_overlay_0_02179014: ; 0x02179014
@@ -63884,20 +63884,20 @@ ptr_FUN_overlay_0_02142380_overlay_0_02179018: ; 0x02179018
 
     .global ptr_FUN_overlay_0_02161714_overlay_0_0217901c
 ptr_FUN_overlay_0_02161714_overlay_0_0217901c: ; 0x0217901C
-	.word ov0_02161714
+	.word _ZN17CFieldEffectSpark12ov0_021421F0Eiii
 	.word _ZN12CFieldEffect12ov0_02142240Ei
 
     .global ptr_FUN_overlay_0_0216138c_overlay_0_02179024
 ptr_FUN_overlay_0_0216138c_overlay_0_02179024: ; 0x02179024
-	.word ov0_0216138C
+	.word _ZN17CFieldEffectSpark12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_02161568_overlay_0_02179028
 ptr_FUN_overlay_0_02161568_overlay_0_02179028: ; 0x02179028
-	.word ov0_02161568
+	.word _ZN17CFieldEffectSpark12ov0_02142344EP8Camera2D
 	.word _ZN12CFieldEffect12ov0_0214239CEi
 	.word _ZN12CFieldEffect12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
-	.word ov0_021616B4
+	.word _ZN17CFieldEffectSpark12sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
 	.word _ZN12CFieldEffect12sub_02033440Et
 	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
@@ -63934,12 +63934,12 @@ DAT_overlay_0_021790A3:
 
     .global PTR_LAB_overlay_0_02151844_overlay_0_021790ac
 PTR_LAB_overlay_0_02151844_overlay_0_021790ac: ; 0x021790AC
-	.word ov0_02151844
+	.word _ZN24CFieldEffectJumonFactoryD1Ev
 
     .global ptr_FUN_overlay_0_02161f18_overlay_0_021790b0
 ptr_FUN_overlay_0_02161f18_overlay_0_021790b0: ; 0x021790B0
 	.word ov0_02161F18
-	.word ov0_02161EEC
+	.word _ZN24CFieldEffectJumonFactory6CreateEi
 	.word _ZN19CFieldEffectFactory6UpdateEi
 	.word _ZN19CFieldEffectFactory5ResetEv
 	.word _ZN19CFieldEffectFactory7ReleaseEP18CFieldEffectManage
@@ -63948,7 +63948,7 @@ ptr_FUN_overlay_0_02161f18_overlay_0_021790b0: ; 0x021790B0
 
     .global ptr_FUN_overlay_0_02161934_overlay_0_021790cc
 ptr_FUN_overlay_0_02161934_overlay_0_021790cc: ; 0x021790CC
-	.word ov0_02161934
+	.word _ZN17CFieldEffectJumonD1Ev
 
     .global ptr_FUN_overlay_0_02161978_overlay_0_021790d0
 ptr_FUN_overlay_0_02161978_overlay_0_021790d0: ; 0x021790D0
@@ -63957,7 +63957,7 @@ ptr_FUN_overlay_0_02161978_overlay_0_021790d0: ; 0x021790D0
     .global ptr_FUN_overlay_0_021423a4_overlay_0_021790d4
 ptr_FUN_overlay_0_021423a4_overlay_0_021790d4: ; 0x021790D4
 	.word _ZN12CFieldEffect12ov0_021423A4Ev
-	.word ov0_02161F10
+	.word _ZN17CFieldEffectJumon12sub_02033028Ev
 	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_021790e0
@@ -63970,20 +63970,20 @@ ptr_FUN_overlay_0_02142380_overlay_0_021790e4: ; 0x021790E4
 
     .global ptr_FUN_overlay_0_02161c28_overlay_0_021790e8
 ptr_FUN_overlay_0_02161c28_overlay_0_021790e8: ; 0x021790E8
-	.word ov0_02161C28
+	.word _ZN17CFieldEffectJumon12ov0_021421F0Eiii
 	.word _ZN12CFieldEffect12ov0_02142240Ei
 
     .global ptr_FUN_overlay_0_021619c4_overlay_0_021790f0
 ptr_FUN_overlay_0_021619c4_overlay_0_021790f0: ; 0x021790F0
-	.word ov0_021619C4
+	.word _ZN17CFieldEffectJumon12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_02161b28_overlay_0_021790f4
 ptr_FUN_overlay_0_02161b28_overlay_0_021790f4: ; 0x021790F4
-	.word ov0_02161B28
+	.word _ZN17CFieldEffectJumon12ov0_02142344EP8Camera2D
 	.word _ZN12CFieldEffect12ov0_0214239CEi
 	.word _ZN12CFieldEffect12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
-	.word ov0_02161BC8
+	.word _ZN17CFieldEffectJumon12sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
 	.word _ZN12CFieldEffect12sub_02033440Et
 	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
@@ -64037,7 +64037,7 @@ DAT_overlay_0_02179207:
 
     .global ptr_FUN_overlay_0_0216288c_overlay_0_02179210
 ptr_FUN_overlay_0_0216288c_overlay_0_02179210: ; 0x02179210
-	.word ov0_0216288C
+	.word _ZN28CFieldEffectExplosionFactoryD1Ev
 
     .global ptr_FUN_overlay_0_021628c4_overlay_0_02179214
 ptr_FUN_overlay_0_021628c4_overlay_0_02179214: ; 0x02179214
@@ -64045,25 +64045,25 @@ ptr_FUN_overlay_0_021628c4_overlay_0_02179214: ; 0x02179214
 
     .global ptr_FUN_overlay_0_02162904_overlay_0_02179218
 ptr_FUN_overlay_0_02162904_overlay_0_02179218: ; 0x02179218
-	.word ov0_02162904
+	.word _ZN28CFieldEffectExplosionFactory6CreateEi
 
     .global ptr_FUN_overlay_0_02162b4c_overlay_0_0217921c
 ptr_FUN_overlay_0_02162b4c_overlay_0_0217921c: ; 0x0217921C
-	.word ov0_02162B4C
-	.word ov0_02162B78
+	.word _ZN28CFieldEffectExplosionFactory6UpdateEi
+	.word _ZN28CFieldEffectExplosionFactory5ResetEv
 	.word _ZN19CFieldEffectFactory7ReleaseEP18CFieldEffectManage
 	.byte 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_020835bc_overlay_0_021791b8
 
     .global ptr_FUN_overlay_0_02161fdc_overlay_0_02179230
 ptr_FUN_overlay_0_02161fdc_overlay_0_02179230: ; 0x02179230
-	.word ov0_02161FDC
+	.word _ZN21CFieldEffectExplosionD1Ev
 
     .global ptr_FUN_overlay_0_02162074_overlay_0_02179234
 ptr_FUN_overlay_0_02162074_overlay_0_02179234: ; 0x02179234
 	.word ov0_02162074
-	.word ov0_02162B84
-	.word ov0_02162B90
+	.word _ZN21CFieldEffectExplosion12ov0_021423A4Ev
+	.word _ZN21CFieldEffectExplosion12sub_02033028Ev
 	.word _ZN17CFieldEffectActor12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_02179244
@@ -64076,20 +64076,20 @@ ptr_FUN_overlay_0_02142380_overlay_0_02179248: ; 0x02179248
 
     .global ptr_FUN_overlay_0_02162404_overlay_0_0217924c
 ptr_FUN_overlay_0_02162404_overlay_0_0217924c: ; 0x0217924C
-	.word ov0_02162404
+	.word _ZN21CFieldEffectExplosion12ov0_021421F0Eiii
 	.word _ZN12CFieldEffect12ov0_02142240Ei
 
     .global ptr_FUN_overlay_0_02162194_overlay_0_02179254
 ptr_FUN_overlay_0_02162194_overlay_0_02179254: ; 0x02179254
-	.word ov0_02162194
+	.word _ZN21CFieldEffectExplosion12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_02162304_overlay_0_02179258
 ptr_FUN_overlay_0_02162304_overlay_0_02179258: ; 0x02179258
-	.word ov0_02162304
+	.word _ZN21CFieldEffectExplosion12ov0_02142344EP8Camera2D
 	.word _ZN12CFieldEffect12ov0_0214239CEi
 	.word _ZN12CFieldEffect12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
-	.word ov0_021623B8
+	.word _ZN21CFieldEffectExplosion12sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
 	.word _ZN12CFieldEffect12sub_02033440Et
 	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
@@ -64099,11 +64099,11 @@ ptr_FUN_overlay_0_02162304_overlay_0_02179258: ; 0x02179258
 
     .global ptr_FUN_overlay_0_021625dc_overlay_0_02179284
 ptr_FUN_overlay_0_021625dc_overlay_0_02179284: ; 0x02179284
-	.word ov0_021625DC
+	.word _ZN21CFieldEffectExplosion12ov0_02142390EPvS0_
 
     .global ptr_FUN_overlay_0_021626d4_overlay_0_02179288
 ptr_FUN_overlay_0_021626d4_overlay_0_02179288: ; 0x02179288
-	.word ov0_021626D4
+	.word _ZN21CFieldEffectExplosion12ov0_02142388EPKv
 
     .global s_cell_d_overlay_0_0217928c
 s_cell_d_overlay_0_0217928c: ; 0x0217928C
@@ -64136,7 +64136,7 @@ DAT_overlay_0_021792DB:
 
     .global ptr_FUN_overlay_0_02163690_overlay_0_021792e4
 ptr_FUN_overlay_0_02163690_overlay_0_021792e4: ; 0x021792E4
-	.word ov0_02163690
+	.word _ZN24CFieldEffectSlimeFactoryD1Ev
 
     .global ptr_FUN_overlay_0_021636b8_overlay_0_021792e8
 ptr_FUN_overlay_0_021636b8_overlay_0_021792e8: ; 0x021792E8
@@ -64144,22 +64144,22 @@ ptr_FUN_overlay_0_021636b8_overlay_0_021792e8: ; 0x021792E8
 
     .global ptr_FUN_overlay_0_021636e8_overlay_0_021792ec
 ptr_FUN_overlay_0_021636e8_overlay_0_021792ec: ; 0x021792EC
-	.word ov0_021636E8
-	.word ov0_02163880
-	.word ov0_02163894
+	.word _ZN24CFieldEffectSlimeFactory6CreateEi
+	.word _ZN24CFieldEffectSlimeFactory6UpdateEi
+	.word _ZN24CFieldEffectSlimeFactory5ResetEv
 	.word _ZN19CFieldEffectFactory7ReleaseEP18CFieldEffectManage
 	.byte 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_020835bc_overlay_0_02179294
 
     .global ptr_FUN_overlay_0_02162c34_overlay_0_02179304
 ptr_FUN_overlay_0_02162c34_overlay_0_02179304: ; 0x02179304
-	.word ov0_02162C34
+	.word _ZN17CFieldEffectSlimeD1Ev
 
     .global ptr_FUN_overlay_0_02162cb4_overlay_0_02179308
 ptr_FUN_overlay_0_02162cb4_overlay_0_02179308: ; 0x02179308
 	.word ov0_02162CB4
-	.word ov0_021638A0
-	.word ov0_021638B0
+	.word _ZN17CFieldEffectSlime12ov0_021423A4Ev
+	.word _ZN17CFieldEffectSlime12sub_02033028Ev
 	.word _ZN17CFieldEffectActor12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_02179318
@@ -64172,23 +64172,23 @@ ptr_FUN_overlay_0_02142380_overlay_0_0217931c: ; 0x0217931C
 
     .global ptr_FUN_overlay_0_021630b8_overlay_0_02179320
 ptr_FUN_overlay_0_021630b8_overlay_0_02179320: ; 0x02179320
-	.word ov0_021630B8
+	.word _ZN17CFieldEffectSlime12ov0_021421F0Eiii
 	.word _ZN12CFieldEffect12ov0_02142240Ei
 
     .global ptr_FUN_overlay_0_02162db4_overlay_0_02179328
 ptr_FUN_overlay_0_02162db4_overlay_0_02179328: ; 0x02179328
-	.word ov0_02162DB4
+	.word _ZN17CFieldEffectSlime12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_02162ebc_overlay_0_0217932c
 ptr_FUN_overlay_0_02162ebc_overlay_0_0217932c: ; 0x0217932C
-	.word ov0_02162EBC
-	.word ov0_021632DC
+	.word _ZN17CFieldEffectSlime12ov0_02142344EP8Camera2D
+	.word _ZN17CFieldEffectSlime12ov0_0214239CEi
 	.word _ZN12CFieldEffect12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
 
     .global ptr_FUN_overlay_0_02162fb4_overlay_0_0217933c
 ptr_FUN_overlay_0_02162fb4_overlay_0_0217933c: ; 0x0217933C
-	.word ov0_02162FB4
+	.word _ZN17CFieldEffectSlime12sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
 	.word _ZN12CFieldEffect12sub_02033440Et
 	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
@@ -64198,11 +64198,11 @@ ptr_FUN_overlay_0_02162fb4_overlay_0_0217933c: ; 0x0217933C
 
     .global ptr_FUN_overlay_0_02163404_overlay_0_02179358
 ptr_FUN_overlay_0_02163404_overlay_0_02179358: ; 0x02179358
-	.word ov0_02163404
+	.word _ZN17CFieldEffectSlime12ov0_02142390EPvS0_
 
     .global ptr_FUN_overlay_0_02163544_overlay_0_0217935c
 ptr_FUN_overlay_0_02163544_overlay_0_0217935c: ; 0x0217935C
-	.word ov0_02163544
+	.word _ZN17CFieldEffectSlime12ov0_02142388EPKv
 
     .global s_data_Script_field_effect_ef_03d_overlay_0_02179360
 s_data_Script_field_effect_ef_03d_overlay_0_02179360: ; 0x02179360
@@ -64234,7 +64234,7 @@ PTR_ptr_FUN_020835bc_overlay_0_021793a8: ; 0x021793A8
 
     .global PTR_LAB_overlay_0_02163cf8_overlay_0_021793bc
 PTR_LAB_overlay_0_02163cf8_overlay_0_021793bc: ; 0x021793BC
-	.word ov0_02163CF8
+	.word _ZN22CFieldEffectManpuAnger9CAnimatorD1Ev
 
     .global ptr_FUN_overlay_0_0216449c_overlay_0_021793c0
 ptr_FUN_overlay_0_0216449c_overlay_0_021793c0: ; 0x021793C0
@@ -64242,7 +64242,7 @@ ptr_FUN_overlay_0_0216449c_overlay_0_021793c0: ; 0x021793C0
 
     .global ptr_FUN_overlay_0_02164404_overlay_0_021793c4
 ptr_FUN_overlay_0_02164404_overlay_0_021793c4: ; 0x021793C4
-	.word ov0_02164404
+	.word _ZN22CFieldEffectManpuAnger9CAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
 
     .global s_22CFieldEffectManpuAnger_overlay_0_021793c8
 s_22CFieldEffectManpuAnger_overlay_0_021793c8: ; 0x021793C8
@@ -64255,17 +64255,17 @@ DAT_overlay_0_021793E1:
 
     .global PTR_LAB_overlay_0_02163cf4_overlay_0_021793ec
 PTR_LAB_overlay_0_02163cf4_overlay_0_021793ec: ; 0x021793EC
-	.word ov0_02163CF4
+	.word _ZN22CFieldEffectManpuAnger8CEmitterD1Ev
 
     .global ptr_FUN_overlay_0_02164488_overlay_0_021793f0
 ptr_FUN_overlay_0_02164488_overlay_0_021793f0: ; 0x021793F0
 	.word ov0_02164488
-	.word ov0_02164180
-	.word ov0_0216418C
+	.word _ZN22CFieldEffectManpuAnger8CEmitter5func2Ev
+	.word _ZN22CFieldEffectManpuAnger8CEmitter6UpdateEi
 
     .global ptr_FUN_overlay_0_021641c8_overlay_0_021793fc
 ptr_FUN_overlay_0_021641c8_overlay_0_021793fc: ; 0x021793FC
-	.word ov0_021641C8
+	.word _ZN22CFieldEffectManpuAnger8CEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE
 
     .global s_N22CFieldEffectManpuAnger8CEmitt_overlay_0_02179400
 s_N22CFieldEffectManpuAnger8CEmitt_overlay_0_02179400: ; 0x02179400
@@ -64282,7 +64282,7 @@ DAT_overlay_0_02179449:
 
     .global ptr_FUN_overlay_0_02163cfc_overlay_0_02179454
 ptr_FUN_overlay_0_02163cfc_overlay_0_02179454: ; 0x02179454
-	.word ov0_02163CFC
+	.word _ZN22CFieldEffectManpuAngerD1Ev
 
     .global ptr_FUN_overlay_0_02163d6c_overlay_0_02179458
 ptr_FUN_overlay_0_02163d6c_overlay_0_02179458: ; 0x02179458
@@ -64304,12 +64304,12 @@ ptr_FUN_overlay_0_02142380_overlay_0_0217946c: ; 0x0217946C
 
     .global ptr_FUN_overlay_0_02163de4_overlay_0_02179470
 ptr_FUN_overlay_0_02163de4_overlay_0_02179470: ; 0x02179470
-	.word ov0_02163DE4
+	.word _ZN22CFieldEffectManpuAnger12ov0_021421F0Eiii
 	.word _ZN12CFieldEffect12ov0_02142240Ei
 
     .global ptr_FUN_overlay_0_02163e28_overlay_0_02179478
 ptr_FUN_overlay_0_02163e28_overlay_0_02179478: ; 0x02179478
-	.word ov0_02163E28
+	.word _ZN22CFieldEffectManpuAnger12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_02143bf0_overlay_0_0217947c
 ptr_FUN_overlay_0_02143bf0_overlay_0_0217947c: ; 0x0217947C
@@ -64330,8 +64330,8 @@ ptr_FUN_overlay_0_02143bf0_overlay_0_0217947c: ; 0x0217947C
 
     .global ptr_FUN_overlay_0_02164100_overlay_0_021794b4
 ptr_FUN_overlay_0_02164100_overlay_0_021794b4: ; 0x021794B4
-	.word ov0_02164100
-	.word ov0_021640F8
+	.word _ZN22CFieldEffectManpuAnger4DrawEP8Camera2D
+	.word _ZN22CFieldEffectManpuAnger8SetDepthEl
 
     .global PTR_ptr_FUN_020835bc_overlay_0_021794bc
 PTR_ptr_FUN_020835bc_overlay_0_021794bc: ; 0x021794BC
@@ -64351,7 +64351,7 @@ DAT_overlay_0_021794DF:
 
     .global ptr_FUN_overlay_0_021645c8_overlay_0_021794e8
 ptr_FUN_overlay_0_021645c8_overlay_0_021794e8: ; 0x021794E8
-	.word ov0_021645C8
+	.word _ZN20CFieldEffectManpuAseD1Ev
 
     .global ptr_FUN_overlay_0_0216462c_overlay_0_021794ec
 ptr_FUN_overlay_0_0216462c_overlay_0_021794ec: ; 0x021794EC
@@ -64378,7 +64378,7 @@ ptr_FUN_overlay_0_021421f0_overlay_0_02179504: ; 0x02179504
 
     .global ptr_FUN_overlay_0_02164698_overlay_0_0217950c
 ptr_FUN_overlay_0_02164698_overlay_0_0217950c: ; 0x0217950C
-	.word ov0_02164698
+	.word _ZN20CFieldEffectManpuAse12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_02143bf0_overlay_0_02179510
 ptr_FUN_overlay_0_02143bf0_overlay_0_02179510: ; 0x02179510
@@ -64399,8 +64399,8 @@ ptr_FUN_overlay_0_02143bf0_overlay_0_02179510: ; 0x02179510
 
     .global ptr_FUN_overlay_0_02164728_overlay_0_02179548
 ptr_FUN_overlay_0_02164728_overlay_0_02179548: ; 0x02179548
-	.word ov0_02164728
-	.word ov0_0216470C
+	.word _ZN20CFieldEffectManpuAse4DrawEP8Camera2D
+	.word _ZN20CFieldEffectManpuAse8SetDepthEl
 
     .global PTR_ptr_FUN_020835bc_overlay_0_02179550
 PTR_ptr_FUN_020835bc_overlay_0_02179550: ; 0x02179550
@@ -64419,7 +64419,7 @@ DAT_overlay_0_02179578:
 
     .global PTR_LAB_overlay_0_02164ce4_overlay_0_02179580
 PTR_LAB_overlay_0_02164ce4_overlay_0_02179580: ; 0x02179580
-	.word ov0_02164CE4
+	.word _ZN25CFieldEffectManpuDokarimoD1Ev
 
     .global ptr_FUN_overlay_0_02164cf8_overlay_0_02179584
 ptr_FUN_overlay_0_02164cf8_overlay_0_02179584: ; 0x02179584
@@ -64446,7 +64446,7 @@ ptr_FUN_overlay_0_021421f0_overlay_0_0217959c: ; 0x0217959C
 
     .global ptr_FUN_overlay_0_02152854_overlay_0_021795a4
 ptr_FUN_overlay_0_02152854_overlay_0_021795a4: ; 0x021795A4
-	.word ov0_02152854
+	.word _ZN22CFieldEffectManpuAnime12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_02143bf0_overlay_0_021795a8
 ptr_FUN_overlay_0_02143bf0_overlay_0_021795a8: ; 0x021795A8
@@ -64467,7 +64467,7 @@ ptr_FUN_overlay_0_02143bf0_overlay_0_021795a8: ; 0x021795A8
 
     .global ptr_FUN_overlay_0_021529c4_overlay_0_021795e0
 ptr_FUN_overlay_0_021529c4_overlay_0_021795e0: ; 0x021795E0
-	.word ov0_021529C4
+	.word _ZN22CFieldEffectManpuAnime4DrawEP8Camera2D
 	.word _ZN23CFieldEffectManpuSimple8SetDepthEl
 
     .global ptr_FUN_overlay_0_02164a8c_overlay_0_021795e8
@@ -64567,7 +64567,7 @@ DAT_overlay_0_021796C2:
 
     .global ptr_FUN_overlay_0_02151848_overlay_0_021796cc
 ptr_FUN_overlay_0_02151848_overlay_0_021796cc: ; 0x021796CC
-	.word ov0_02151848
+	.word _ZN23CFieldEffectBushFactoryD1Ev
 
     .global ptr_FUN_overlay_0_021657c0_overlay_0_021796d0
 ptr_FUN_overlay_0_021657c0_overlay_0_021796d0: ; 0x021796D0
@@ -64575,7 +64575,7 @@ ptr_FUN_overlay_0_021657c0_overlay_0_021796d0: ; 0x021796D0
 
     .global ptr_FUN_overlay_0_0216576c_overlay_0_021796d4
 ptr_FUN_overlay_0_0216576c_overlay_0_021796d4: ; 0x021796D4
-	.word ov0_0216576C
+	.word _ZN23CFieldEffectBushFactory6CreateEi
 	.word _ZN19CFieldEffectFactory6UpdateEi
 	.word _ZN19CFieldEffectFactory5ResetEv
 	.word _ZN19CFieldEffectFactory7ReleaseEP18CFieldEffectManage
@@ -64584,7 +64584,7 @@ ptr_FUN_overlay_0_0216576c_overlay_0_021796d4: ; 0x021796D4
 
     .global ptr_FUN_overlay_0_0216521c_overlay_0_021796ec
 ptr_FUN_overlay_0_0216521c_overlay_0_021796ec: ; 0x021796EC
-	.word ov0_0216521C
+	.word _ZN16CFieldEffectBushD1Ev
 
     .global ptr_FUN_overlay_0_02165268_overlay_0_021796f0
 ptr_FUN_overlay_0_02165268_overlay_0_021796f0: ; 0x021796F0
@@ -64593,7 +64593,7 @@ ptr_FUN_overlay_0_02165268_overlay_0_021796f0: ; 0x021796F0
     .global ptr_thunk_FUN_overlay_0_02165410_overlay_0_021796f4
 ptr_thunk_FUN_overlay_0_02165410_overlay_0_021796f4: ; 0x021796F4
 	.word thunk_FUN_overlay_0__02165410
-	.word ov0_021657B8
+	.word _ZN16CFieldEffectBush12sub_02033028Ev
 	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_02179700
@@ -64615,7 +64615,7 @@ ptr_FUN_overlay_0_02142264_overlay_0_02179710: ; 0x02179710
 
     .global ptr_FUN_overlay_0_02165494_overlay_0_02179714
 ptr_FUN_overlay_0_02165494_overlay_0_02179714: ; 0x02179714
-	.word ov0_02165494
+	.word _ZN16CFieldEffectBush12ov0_02142344EP8Camera2D
 	.word _ZN12CFieldEffect12ov0_0214239CEi
 	.word _ZN12CFieldEffect12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
@@ -64651,12 +64651,12 @@ PTR_ptr_FUN_020835bc_overlay_0_02179760: ; 0x02179760
 
     .global PTR_LAB_overlay_0_02165868_overlay_0_02179774
 PTR_LAB_overlay_0_02165868_overlay_0_02179774: ; 0x02179774
-	.word ov0_02165868
+	.word _ZN23CFieldEffectWaterSplash17CEffectDrawObjectD1Ev
 
     .global ptr_FUN_overlay_0_02165bf0_overlay_0_02179778
 ptr_FUN_overlay_0_02165bf0_overlay_0_02179778: ; 0x02179778
 	.word ov0_02165BF0
-	.word ov0_02165ABC
+	.word _ZN23CFieldEffectWaterSplash17CEffectDrawObject12sub_020091D4EP8Camera2Di
 
     .global s_23CFieldEffectWaterSplash_overlay_0_02179780
 s_23CFieldEffectWaterSplash_overlay_0_02179780: ; 0x02179780
@@ -64669,7 +64669,7 @@ DAT_overlay_0_0217979A:
 
     .global PTR_LAB_overlay_0_02151870_overlay_0_021797a4
 PTR_LAB_overlay_0_02151870_overlay_0_021797a4: ; 0x021797A4
-	.word ov0_02151870
+	.word _ZN30CFieldEffectWaterSplashFactoryD1Ev
 
     .global ptr_FUN_overlay_0_02165c04_overlay_0_021797a8
 ptr_FUN_overlay_0_02165c04_overlay_0_021797a8: ; 0x021797A8
@@ -64677,7 +64677,7 @@ ptr_FUN_overlay_0_02165c04_overlay_0_021797a8: ; 0x021797A8
 
     .global ptr_FUN_overlay_0_02165ba4_overlay_0_021797ac
 ptr_FUN_overlay_0_02165ba4_overlay_0_021797ac: ; 0x021797AC
-	.word ov0_02165BA4
+	.word _ZN30CFieldEffectWaterSplashFactory6CreateEi
 	.word _ZN19CFieldEffectFactory6UpdateEi
 	.word _ZN19CFieldEffectFactory5ResetEv
 	.word _ZN19CFieldEffectFactory7ReleaseEP18CFieldEffectManage
@@ -64702,7 +64702,7 @@ DAT_overlay_0_0217980F:
 
     .global ptr_FUN_overlay_0_0216586c_overlay_0_02179818
 ptr_FUN_overlay_0_0216586c_overlay_0_02179818: ; 0x02179818
-	.word ov0_0216586C
+	.word _ZN23CFieldEffectWaterSplashD1Ev
 
     .global ptr_FUN_overlay_0_021658b8_overlay_0_0217981c
 ptr_FUN_overlay_0_021658b8_overlay_0_0217981c: ; 0x0217981C
@@ -64711,7 +64711,7 @@ ptr_FUN_overlay_0_021658b8_overlay_0_0217981c: ; 0x0217981C
     .global ptr_thunk_FUN_overlay_0_0216596c_overlay_0_02179820
 ptr_thunk_FUN_overlay_0_0216596c_overlay_0_02179820: ; 0x02179820
 	.word thunk_FUN_overlay_0__0216596c
-	.word ov0_02165BE8
+	.word _ZN23CFieldEffectWaterSplash12sub_02033028Ev
 	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_0217982c
@@ -64724,20 +64724,20 @@ ptr_FUN_overlay_0_02142380_overlay_0_02179830: ; 0x02179830
 
     .global ptr_FUN_overlay_0_021659b8_overlay_0_02179834
 ptr_FUN_overlay_0_021659b8_overlay_0_02179834: ; 0x02179834
-	.word ov0_021659B8
+	.word _ZN23CFieldEffectWaterSplash12ov0_021421F0Eiii
 	.word _ZN12CFieldEffect12ov0_02142240Ei
 
     .global ptr_FUN_overlay_0_021659fc_overlay_0_0217983c
 ptr_FUN_overlay_0_021659fc_overlay_0_0217983c: ; 0x0217983C
-	.word ov0_021659FC
+	.word _ZN23CFieldEffectWaterSplash12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_02165a58_overlay_0_02179840
 ptr_FUN_overlay_0_02165a58_overlay_0_02179840: ; 0x02179840
-	.word ov0_02165A58
+	.word _ZN23CFieldEffectWaterSplash12ov0_02142344EP8Camera2D
 	.word _ZN12CFieldEffect12ov0_0214239CEi
-	.word ov0_02165AA4
+	.word _ZN23CFieldEffectWaterSplash12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
-	.word ov0_02165978
+	.word _ZN23CFieldEffectWaterSplash12sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
 	.word _ZN12CFieldEffect12sub_02033440Et
 	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
@@ -64769,7 +64769,7 @@ PTR_ptr_FUN_020835bc_overlay_0_0217988c: ; 0x0217988C
 
     .global PTR_LAB_overlay_0_02165eb0_overlay_0_021798a0
 PTR_LAB_overlay_0_02165eb0_overlay_0_021798a0: ; 0x021798A0
-	.word ov0_02165EB0
+	.word _ZN24CFieldEffectManpuGokigen9CAnimatorD1Ev
 
     .global ptr_FUN_overlay_0_02166780_overlay_0_021798a4
 ptr_FUN_overlay_0_02166780_overlay_0_021798a4: ; 0x021798A4
@@ -64777,7 +64777,7 @@ ptr_FUN_overlay_0_02166780_overlay_0_021798a4: ; 0x021798A4
 
     .global ptr_FUN_overlay_0_0216663c_overlay_0_021798a8
 ptr_FUN_overlay_0_0216663c_overlay_0_021798a8: ; 0x021798A8
-	.word ov0_0216663C
+	.word _ZN24CFieldEffectManpuGokigen9CAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
 
     .global s_24CFieldEffectManpuGokigen_overlay_0_021798ac
 s_24CFieldEffectManpuGokigen_overlay_0_021798ac: ; 0x021798AC
@@ -64790,14 +64790,14 @@ DAT_overlay_0_021798C7:
 
     .global PTR_LAB_overlay_0_02165eac_overlay_0_021798d0
 PTR_LAB_overlay_0_02165eac_overlay_0_021798d0: ; 0x021798D0
-	.word ov0_02165EAC
+	.word _ZN24CFieldEffectManpuGokigen8CEmitterD1Ev
 	.word ov0_0216676C
-	.word ov0_02166360
-	.word ov0_0216636C
+	.word _ZN24CFieldEffectManpuGokigen8CEmitter5func2Ev
+	.word _ZN24CFieldEffectManpuGokigen8CEmitter6UpdateEi
 
     .global ptr_FUN_overlay_0_021663a8_overlay_0_021798e0
 ptr_FUN_overlay_0_021663a8_overlay_0_021798e0: ; 0x021798E0
-	.word ov0_021663A8
+	.word _ZN24CFieldEffectManpuGokigen8CEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE
 
     .global s_N24CFieldEffectManpuGokigen8CEmi_overlay_0_021798e4
 s_N24CFieldEffectManpuGokigen8CEmi_overlay_0_021798e4: ; 0x021798E4
@@ -64818,7 +64818,7 @@ DAT_overlay_0_02179933:
 
     .global ptr_FUN_overlay_0_02165eb4_overlay_0_0217993c
 ptr_FUN_overlay_0_02165eb4_overlay_0_0217993c: ; 0x0217993C
-	.word ov0_02165EB4
+	.word _ZN24CFieldEffectManpuGokigenD1Ev
 
     .global ptr_FUN_overlay_0_02165f24_overlay_0_02179940
 ptr_FUN_overlay_0_02165f24_overlay_0_02179940: ; 0x02179940
@@ -64840,12 +64840,12 @@ ptr_FUN_overlay_0_02142380_overlay_0_02179954: ; 0x02179954
 
     .global ptr_FUN_overlay_0_02165fb8_overlay_0_02179958
 ptr_FUN_overlay_0_02165fb8_overlay_0_02179958: ; 0x02179958
-	.word ov0_02165FB8
+	.word _ZN24CFieldEffectManpuGokigen12ov0_021421F0Eiii
 	.word _ZN12CFieldEffect12ov0_02142240Ei
 
     .global ptr_FUN_overlay_0_02165ffc_overlay_0_02179960
 ptr_FUN_overlay_0_02165ffc_overlay_0_02179960: ; 0x02179960
-	.word ov0_02165FFC
+	.word _ZN24CFieldEffectManpuGokigen12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_02143bf0_overlay_0_02179964
 ptr_FUN_overlay_0_02143bf0_overlay_0_02179964: ; 0x02179964
@@ -64862,12 +64862,12 @@ ptr_FUN_overlay_0_02143bf0_overlay_0_02179964: ; 0x02179964
 	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word _ZN12CFieldEffect12ov0_02142390EPvS0_
 	.word _ZN12CFieldEffect12ov0_02142388EPKv
-	.word ov0_02165F9C
+	.word _ZN24CFieldEffectManpuGokigen7SetTypeEi
 
     .global ptr_FUN_overlay_0_021662e0_overlay_0_0217999c
 ptr_FUN_overlay_0_021662e0_overlay_0_0217999c: ; 0x0217999C
-	.word ov0_021662E0
-	.word ov0_021662D8
+	.word _ZN24CFieldEffectManpuGokigen4DrawEP8Camera2D
+	.word _ZN24CFieldEffectManpuGokigen8SetDepthEl
 
     .global PTR_ptr_FUN_020835bc_overlay_0_021799a4
 PTR_ptr_FUN_020835bc_overlay_0_021799a4: ; 0x021799A4
@@ -64896,7 +64896,7 @@ DAT_overlay_0_021799EB:
 
     .global ptr_FUN_overlay_0_021672a0_overlay_0_021799f4
 ptr_FUN_overlay_0_021672a0_overlay_0_021799f4: ; 0x021799F4
-	.word ov0_021672A0
+	.word _ZN24CFieldEffectBloomFactoryD1Ev
 
     .global ptr_FUN_overlay_0_021672d8_overlay_0_021799f8
 ptr_FUN_overlay_0_021672d8_overlay_0_021799f8: ; 0x021799F8
@@ -64904,16 +64904,16 @@ ptr_FUN_overlay_0_021672d8_overlay_0_021799f8: ; 0x021799F8
 
     .global ptr_FUN_overlay_0_02167324_overlay_0_021799fc
 ptr_FUN_overlay_0_02167324_overlay_0_021799fc: ; 0x021799FC
-	.word ov0_02167324
+	.word _ZN24CFieldEffectBloomFactory6CreateEi
 	.word _ZN19CFieldEffectFactory6UpdateEi
-	.word ov0_02167318
+	.word _ZN24CFieldEffectBloomFactory5ResetEv
 	.word _ZN19CFieldEffectFactory7ReleaseEP18CFieldEffectManage
 	.byte 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_020835bc_overlay_0_021799a4
 
     .global ptr_FUN_overlay_0_0216691c_overlay_0_02179a14
 ptr_FUN_overlay_0_0216691c_overlay_0_02179a14: ; 0x02179A14
-	.word ov0_0216691C
+	.word _ZN17CFieldEffectBloomD1Ev
 
     .global ptr_FUN_overlay_0_02166960_overlay_0_02179a18
 ptr_FUN_overlay_0_02166960_overlay_0_02179a18: ; 0x02179A18
@@ -64922,11 +64922,11 @@ ptr_FUN_overlay_0_02166960_overlay_0_02179a18: ; 0x02179A18
     .global ptr_FUN_overlay_0_021423a4_overlay_0_02179a1c
 ptr_FUN_overlay_0_021423a4_overlay_0_02179a1c: ; 0x02179A1C
 	.word _ZN12CFieldEffect12ov0_021423A4Ev
-	.word ov0_021675C4
+	.word _ZN17CFieldEffectBloom12sub_02033028Ev
 
     .global ptr_FUN_overlay_0_02167564_overlay_0_02179a24
 ptr_FUN_overlay_0_02167564_overlay_0_02179a24: ; 0x02179A24
-	.word ov0_02167564
+	.word _ZN17CFieldEffectBloom12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_02179a28
 ptr_FUN_overlay_0_021421d0_overlay_0_02179a28: ; 0x02179A28
@@ -64943,23 +64943,23 @@ ptr_FUN_overlay_0_021421f0_overlay_0_02179a30: ; 0x02179A30
 
     .global ptr_FUN_overlay_0_02166b6c_overlay_0_02179a38
 ptr_FUN_overlay_0_02166b6c_overlay_0_02179a38: ; 0x02179A38
-	.word ov0_02166B6C
+	.word _ZN17CFieldEffectBloom12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_02166f74_overlay_0_02179a3c
 ptr_FUN_overlay_0_02166f74_overlay_0_02179a3c: ; 0x02179A3C
-	.word ov0_02166F74
+	.word _ZN17CFieldEffectBloom12ov0_02142344EP8Camera2D
 	.word _ZN12CFieldEffect12ov0_0214239CEi
 	.word _ZN12CFieldEffect12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
 
     .global ptr_FUN_overlay_0_02166a2c_overlay_0_02179a4c
 ptr_FUN_overlay_0_02166a2c_overlay_0_02179a4c: ; 0x02179A4C
-	.word ov0_02166A2C
+	.word _ZN17CFieldEffectBloom12sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
-	.word ov0_02167264
+	.word _ZN17CFieldEffectBloom12sub_02033440Et
 	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
 	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
-	.word ov0_021669F8
+	.word _ZN17CFieldEffectBloom12sub_020333D8Eii
 	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word _ZN12CFieldEffect12ov0_02142390EPvS0_
 	.word _ZN12CFieldEffect12ov0_02142388EPKv
@@ -65024,7 +65024,7 @@ PTR_ptr_FUN_020835bc_overlay_0_02179af8: ; 0x02179AF8
 
     .global PTR_LAB_overlay_0_02167984_overlay_0_02179b0c
 PTR_LAB_overlay_0_02167984_overlay_0_02179b0c: ; 0x02179B0C
-	.word ov0_02167984
+	.word _ZN21CFieldEffectDarkCloud9CAnimatorD1Ev
 
     .global ptr_FUN_overlay_0_02168efc_overlay_0_02179b10
 ptr_FUN_overlay_0_02168efc_overlay_0_02179b10: ; 0x02179B10
@@ -65032,13 +65032,13 @@ ptr_FUN_overlay_0_02168efc_overlay_0_02179b10: ; 0x02179B10
 
     .global ptr_FUN_overlay_0_02168998_overlay_0_02179b14
 ptr_FUN_overlay_0_02168998_overlay_0_02179b14: ; 0x02179B14
-	.word ov0_02168998
+	.word _ZN21CFieldEffectDarkCloud9CAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
 	.byte 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_020835bc_overlay_0_02179ad4
 
     .global PTR_LAB_overlay_0_02167990_overlay_0_02179b20
 PTR_LAB_overlay_0_02167990_overlay_0_02179b20: ; 0x02179B20
-	.word ov0_02167990
+	.word _ZN21CFieldEffectDarkCloud16CRemainsAnimatorD1Ev
 
     .global ptr_FUN_overlay_0_02168f38_overlay_0_02179b24
 ptr_FUN_overlay_0_02168f38_overlay_0_02179b24: ; 0x02179B24
@@ -65046,7 +65046,7 @@ ptr_FUN_overlay_0_02168f38_overlay_0_02179b24: ; 0x02179B24
 
     .global ptr_FUN_overlay_0_02168d94_overlay_0_02179b28
 ptr_FUN_overlay_0_02168d94_overlay_0_02179b28: ; 0x02179B28
-	.word ov0_02168D94
+	.word _ZN21CFieldEffectDarkCloud16CRemainsAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
 
     .global s_21CFieldEffectDarkCloud_overlay_0_02179b2c
 s_21CFieldEffectDarkCloud_overlay_0_02179b2c: ; 0x02179B2C
@@ -65063,41 +65063,41 @@ DAT_overlay_0_02179B63:
 
     .global PTR_LAB_overlay_0_0216798c_overlay_0_02179b6c
 PTR_LAB_overlay_0_0216798c_overlay_0_02179b6c: ; 0x02179B6C
-	.word ov0_0216798C
+	.word _ZN21CFieldEffectDarkCloud15CRemainsEmitterD1Ev
 
     .global ptr_FUN_overlay_0_02168f24_overlay_0_02179b70
 ptr_FUN_overlay_0_02168f24_overlay_0_02179b70: ; 0x02179B70
 	.word ov0_02168F24
-	.word ov0_0215B97C
-	.word ov0_0215B994
+	.word _ZN30TFieldParticleSmokeRectEmitterI15CSoftwareSpriteE5func2Ev
+	.word _ZN30TFieldParticleSmokeRectEmitterI15CSoftwareSpriteE6UpdateEi
 
     .global ptr_FUN_overlay_0_02168c2c_overlay_0_02179b7c
 ptr_FUN_overlay_0_02168c2c_overlay_0_02179b7c: ; 0x02179B7C
-	.word ov0_02168C2C
+	.word _ZN21CFieldEffectDarkCloud15CRemainsEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE
 	.word ov0_0215B988
 	.byte 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_020835bc_overlay_0_02179ac8
 
     .global PTR_LAB_overlay_0_02167988_overlay_0_02179b8c
 PTR_LAB_overlay_0_02167988_overlay_0_02179b8c: ; 0x02179B8C
-	.word ov0_02167988
+	.word _ZN21CFieldEffectDarkCloud8CEmitterD1Ev
 
     .global ptr_FUN_overlay_0_02168f10_overlay_0_02179b90
 ptr_FUN_overlay_0_02168f10_overlay_0_02179b90: ; 0x02179B90
 	.word ov0_02168F10
-	.word ov0_0215B97C
-	.word ov0_0215B994
+	.word _ZN30TFieldParticleSmokeRectEmitterI15CSoftwareSpriteE5func2Ev
+	.word _ZN30TFieldParticleSmokeRectEmitterI15CSoftwareSpriteE6UpdateEi
 
     .global ptr_FUN_overlay_0_02168ab8_overlay_0_02179b9c
 ptr_FUN_overlay_0_02168ab8_overlay_0_02179b9c: ; 0x02179B9C
-	.word ov0_02168AB8
+	.word _ZN21CFieldEffectDarkCloud8CEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE
 	.word ov0_0215B988
 	.byte 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_020835bc_overlay_0_02179af8
 
     .global PTR_LAB_overlay_0_02151898_overlay_0_02179bac
 PTR_LAB_overlay_0_02151898_overlay_0_02179bac: ; 0x02179BAC
-	.word ov0_02151898
+	.word _ZN28CFieldEffectDarkCloudFactoryD1Ev
 
     .global ptr_FUN_overlay_0_02168f4c_overlay_0_02179bb0
 ptr_FUN_overlay_0_02168f4c_overlay_0_02179bb0: ; 0x02179BB0
@@ -65105,7 +65105,7 @@ ptr_FUN_overlay_0_02168f4c_overlay_0_02179bb0: ; 0x02179BB0
 
     .global ptr_FUN_overlay_0_02168e38_overlay_0_02179bb4
 ptr_FUN_overlay_0_02168e38_overlay_0_02179bb4: ; 0x02179BB4
-	.word ov0_02168E38
+	.word _ZN28CFieldEffectDarkCloudFactory6CreateEi
 	.word _ZN19CFieldEffectFactory6UpdateEi
 	.word _ZN19CFieldEffectFactory5ResetEv
 	.word _ZN19CFieldEffectFactory7ReleaseEP18CFieldEffectManage
@@ -65141,7 +65141,7 @@ DAT_overlay_0_02179C64:
 
     .global ptr_FUN_overlay_0_02167994_overlay_0_02179c6c
 ptr_FUN_overlay_0_02167994_overlay_0_02179c6c: ; 0x02179C6C
-	.word ov0_02167994
+	.word _ZN21CFieldEffectDarkCloudD1Ev
 
     .global ptr_FUN_overlay_0_02167a98_overlay_0_02179c70
 ptr_FUN_overlay_0_02167a98_overlay_0_02179c70: ; 0x02179C70
@@ -65150,7 +65150,7 @@ ptr_FUN_overlay_0_02167a98_overlay_0_02179c70: ; 0x02179C70
     .global ptr_FUN_overlay_0_021423a4_overlay_0_02179c74
 ptr_FUN_overlay_0_021423a4_overlay_0_02179c74: ; 0x02179C74
 	.word _ZN12CFieldEffect12ov0_021423A4Ev
-	.word ov0_02168EF4
+	.word _ZN21CFieldEffectDarkCloud12sub_02033028Ev
 	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_02179c80
@@ -65163,29 +65163,29 @@ ptr_FUN_overlay_0_02142380_overlay_0_02179c84: ; 0x02179C84
 
     .global ptr_FUN_overlay_0_02167ec8_overlay_0_02179c88
 ptr_FUN_overlay_0_02167ec8_overlay_0_02179c88: ; 0x02179C88
-	.word ov0_02167EC8
+	.word _ZN21CFieldEffectDarkCloud12ov0_021421F0Eiii
 	.word _ZN12CFieldEffect12ov0_02142240Ei
 
     .global ptr_FUN_overlay_0_021681fc_overlay_0_02179c90
 ptr_FUN_overlay_0_021681fc_overlay_0_02179c90: ; 0x02179C90
-	.word ov0_021681FC
+	.word _ZN21CFieldEffectDarkCloud12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_02168860_overlay_0_02179c94
 ptr_FUN_overlay_0_02168860_overlay_0_02179c94: ; 0x02179C94
-	.word ov0_02168860
+	.word _ZN21CFieldEffectDarkCloud12ov0_02142344EP8Camera2D
 	.word _ZN12CFieldEffect12ov0_0214239CEi
 	.word _ZN12CFieldEffect12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
 
     .global ptr_FUN_overlay_0_02167bdc_overlay_0_02179ca4
 ptr_FUN_overlay_0_02167bdc_overlay_0_02179ca4: ; 0x02179CA4
-	.word ov0_02167BDC
+	.word _ZN21CFieldEffectDarkCloud12sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
 	.word _ZN12CFieldEffect12sub_02033440Et
 
     .global ptr_FUN_overlay_0_0216893c_overlay_0_02179cb0
 ptr_FUN_overlay_0_0216893c_overlay_0_02179cb0: ; 0x02179CB0
-	.word ov0_0216893C
+	.word _ZN21CFieldEffectDarkCloud12sub_0203331CERK7Point2Di
 	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
 	.word _ZN12CFieldEffect12sub_020333D8Eii
 	.word _ZN12CFieldEffect12sub_0203365CEi
@@ -65195,8 +65195,8 @@ ptr_FUN_overlay_0_0216893c_overlay_0_02179cb0: ; 0x02179CB0
     .global ptr_FUN_overlay_0_021423e8_overlay_0_02179cc8
 ptr_FUN_overlay_0_021423e8_overlay_0_02179cc8: ; 0x02179CC8
 	.word _ZN20TFieldEffectParticleI15CSoftwareSpriteE12ov0_021423E8ERK20FieldEffectSpriteRes
-	.word ov0_02168EEC
-	.word ov0_02168EE4
+	.word _ZN21CFieldEffectDarkCloud13GetForceFieldEv
+	.word _ZN21CFieldEffectDarkCloud10GetEmitterEv
 
     .global ptr_FUN_overlay_0_02167ba4_overlay_0_02179cd4
 ptr_FUN_overlay_0_02167ba4_overlay_0_02179cd4: ; 0x02179CD4
@@ -65231,7 +65231,7 @@ DAT_overlay_0_02179D0A:
 
     .global ptr_s_DWCi_MOV_WH_StepDataSharing_Wa_overlay_11_02169738_overlay_0_02179d14
 ptr_s_DWCi_MOV_WH_StepDataSharing_Wa_overlay_11_02169738_overlay_0_02179d14: ; 0x02179D14
-	.word ov0_02169738
+	.word _ZN11CMeshSpriteD1Ev
 
     .global ptr_FUN_overlay_0_02169968_overlay_0_02179d18
 ptr_FUN_overlay_0_02169968_overlay_0_02179d18: ; 0x02179D18
@@ -65239,7 +65239,7 @@ ptr_FUN_overlay_0_02169968_overlay_0_02179d18: ; 0x02179D18
 
     .global ptr_FUN_overlay_0_021691a8_overlay_0_02179d1c
 ptr_FUN_overlay_0_021691a8_overlay_0_02179d1c: ; 0x02179D1C
-	.word ov0_021691A8
+	.word _ZN11CMeshSprite6RenderEP8Camera2D
 
     .global s_21CFieldEffectFireworks_overlay_0_02179d20
 s_21CFieldEffectFireworks_overlay_0_02179d20: ; 0x02179D20
@@ -65256,12 +65256,12 @@ DAT_overlay_0_02179D57:
 
     .global PTR_LAB_overlay_0_0215189c_overlay_0_02179d60
 PTR_LAB_overlay_0_0215189c_overlay_0_02179d60: ; 0x02179D60
-	.word ov0_0215189C
+	.word _ZN28CFieldEffectFireworksFactoryD1Ev
 	.word ov0_021699F4
 
     .global ptr_FUN_overlay_0_021698c0_overlay_0_02179d68
 ptr_FUN_overlay_0_021698c0_overlay_0_02179d68: ; 0x02179D68
-	.word ov0_021698C0
+	.word _ZN28CFieldEffectFireworksFactory6CreateEi
 	.word _ZN19CFieldEffectFactory6UpdateEi
 	.word _ZN19CFieldEffectFactory5ResetEv
 	.word _ZN19CFieldEffectFactory7ReleaseEP18CFieldEffectManage
@@ -65270,7 +65270,7 @@ ptr_FUN_overlay_0_021698c0_overlay_0_02179d68: ; 0x02179D68
 
     .global ptr_FUN_overlay_0_02169984_overlay_0_02179d80
 ptr_FUN_overlay_0_02169984_overlay_0_02179d80: ; 0x02179D80
-	.word ov0_02169984
+	.word _ZN21CFieldEffectFireworksD1Ev
 
     .global ptr_FUN_overlay_0_021699b8_overlay_0_02179d84
 ptr_FUN_overlay_0_021699b8_overlay_0_02179d84: ; 0x02179D84
@@ -65279,7 +65279,7 @@ ptr_FUN_overlay_0_021699b8_overlay_0_02179d84: ; 0x02179D84
     .global ptr_FUN_overlay_0_021423a4_overlay_0_02179d88
 ptr_FUN_overlay_0_021423a4_overlay_0_02179d88: ; 0x02179D88
 	.word _ZN12CFieldEffect12ov0_021423A4Ev
-	.word ov0_02169960
+	.word _ZN21CFieldEffectFireworks12sub_02033028Ev
 	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_02179d94
@@ -65297,17 +65297,17 @@ ptr_FUN_overlay_0_021421f0_overlay_0_02179d9c: ; 0x02179D9C
 
     .global ptr_FUN_overlay_0_021697ac_overlay_0_02179da4
 ptr_FUN_overlay_0_021697ac_overlay_0_02179da4: ; 0x02179DA4
-	.word ov0_021697AC
+	.word _ZN21CFieldEffectFireworks12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_02169884_overlay_0_02179da8
 ptr_FUN_overlay_0_02169884_overlay_0_02179da8: ; 0x02179DA8
-	.word ov0_02169884
+	.word _ZN21CFieldEffectFireworks12ov0_02142344EP8Camera2D
 	.word _ZN12CFieldEffect12ov0_0214239CEi
 	.word _ZN12CFieldEffect12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
-	.word ov0_02169770
+	.word _ZN21CFieldEffectFireworks12sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
-	.word ov0_021698B8
+	.word _ZN21CFieldEffectFireworks12sub_02033440Et
 	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
 	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
 	.word _ZN12CFieldEffect12sub_020333D8Eii
@@ -65339,7 +65339,7 @@ DAT_overlay_0_02179E0D:
 
     .global PTR_LAB_overlay_0_021518a0_overlay_0_02179e18
 PTR_LAB_overlay_0_021518a0_overlay_0_02179e18: ; 0x02179E18
-	.word ov0_021518A0
+	.word _ZN29CFieldEffectDarkShadowFactoryD1Ev
 
     .global ptr_FUN_overlay_0_0216a434_overlay_0_02179e1c
 ptr_FUN_overlay_0_0216a434_overlay_0_02179e1c: ; 0x02179E1C
@@ -65347,7 +65347,7 @@ ptr_FUN_overlay_0_0216a434_overlay_0_02179e1c: ; 0x02179E1C
 
     .global ptr_FUN_overlay_0_0216a340_overlay_0_02179e20
 ptr_FUN_overlay_0_0216a340_overlay_0_02179e20: ; 0x02179E20
-	.word ov0_0216A340
+	.word _ZN29CFieldEffectDarkShadowFactory6CreateEi
 	.word _ZN19CFieldEffectFactory6UpdateEi
 	.word _ZN19CFieldEffectFactory5ResetEv
 	.word _ZN19CFieldEffectFactory7ReleaseEP18CFieldEffectManage
@@ -65363,7 +65363,7 @@ DAT_overlay_0_02179E50:
 
     .global ptr_FUN_overlay_0_02169b90_overlay_0_02179e58
 ptr_FUN_overlay_0_02169b90_overlay_0_02179e58: ; 0x02179E58
-	.word ov0_02169B90
+	.word _ZN22CFieldEffectDarkShadowD1Ev
 
     .global ptr_FUN_overlay_0_02169bdc_overlay_0_02179e5c
 ptr_FUN_overlay_0_02169bdc_overlay_0_02179e5c: ; 0x02179E5C
@@ -65372,7 +65372,7 @@ ptr_FUN_overlay_0_02169bdc_overlay_0_02179e5c: ; 0x02179E5C
     .global ptr_FUN_overlay_0_021423a4_overlay_0_02179e60
 ptr_FUN_overlay_0_021423a4_overlay_0_02179e60: ; 0x02179E60
 	.word _ZN12CFieldEffect12ov0_021423A4Ev
-	.word ov0_0216A42C
+	.word _ZN22CFieldEffectDarkShadow12sub_02033028Ev
 	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_02179e6c
@@ -65390,28 +65390,28 @@ ptr_FUN_overlay_0_021421f0_overlay_0_02179e74: ; 0x02179E74
 
     .global ptr_FUN_overlay_0_02169dc4_overlay_0_02179e7c
 ptr_FUN_overlay_0_02169dc4_overlay_0_02179e7c: ; 0x02179E7C
-	.word ov0_02169DC4
+	.word _ZN22CFieldEffectDarkShadow12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_0216a06c_overlay_0_02179e80
 ptr_FUN_overlay_0_0216a06c_overlay_0_02179e80: ; 0x02179E80
-	.word ov0_0216A06C
-	.word ov0_0216A268
+	.word _ZN22CFieldEffectDarkShadow12ov0_02142344EP8Camera2D
+	.word _ZN22CFieldEffectDarkShadow12ov0_0214239CEi
 	.word _ZN12CFieldEffect12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
 
     .global ptr_FUN_overlay_0_02169c30_overlay_0_02179e90
 ptr_FUN_overlay_0_02169c30_overlay_0_02179e90: ; 0x02179E90
-	.word ov0_02169C30
+	.word _ZN22CFieldEffectDarkShadow12sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
 	.word _ZN12CFieldEffect12sub_02033440Et
 
     .global ptr_FUN_overlay_0_0216a2d4_overlay_0_02179e9c
 ptr_FUN_overlay_0_0216a2d4_overlay_0_02179e9c: ; 0x02179E9C
-	.word ov0_0216A2D4
+	.word _ZN22CFieldEffectDarkShadow12sub_0203331CERK7Point2Di
 
     .global ptr_FUN_overlay_0_0216a270_overlay_0_02179ea0
 ptr_FUN_overlay_0_0216a270_overlay_0_02179ea0: ; 0x02179EA0
-	.word ov0_0216A270
+	.word _ZN22CFieldEffectDarkShadow12sub_02033388ERK7Point2Di
 	.word _ZN12CFieldEffect12sub_020333D8Eii
 	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word _ZN12CFieldEffect12ov0_02142390EPvS0_
@@ -65491,7 +65491,7 @@ PTR_ptr_FUN_020835bc_overlay_0_02179f30: ; 0x02179F30
 
     .global PTR_LAB_overlay_0_0216a5d0_overlay_0_02179f44
 PTR_LAB_overlay_0_0216a5d0_overlay_0_02179f44: ; 0x02179F44
-	.word ov0_0216A5D0
+	.word _ZN25CFieldEffectDarknessClear11CForceFieldD1Ev
 
     .global ptr_FUN_overlay_0_0216c658_overlay_0_02179f48
 ptr_FUN_overlay_0_0216c658_overlay_0_02179f48: ; 0x02179F48
@@ -65499,13 +65499,13 @@ ptr_FUN_overlay_0_0216c658_overlay_0_02179f48: ; 0x02179F48
 
     .global ptr_FUN_overlay_0_0216af8c_overlay_0_02179f4c
 ptr_FUN_overlay_0_0216af8c_overlay_0_02179f4c: ; 0x02179F4C
-	.word ov0_0216AF8C
+	.word _ZN25CFieldEffectDarknessClear11CForceField5ApplyEP14TFieldParticleI16CSimpleSpriteNTFEi
 	.byte 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_020835bc_overlay_0_02179ef4
 
     .global PTR_LAB_overlay_0_0216b52c_overlay_0_02179f58
 PTR_LAB_overlay_0_0216b52c_overlay_0_02179f58: ; 0x02179F58
-	.word ov0_0216B52C
+	.word _ZN26CFieldEffectDarknessClear211CForceFieldD1Ev
 
     .global ptr_FUN_overlay_0_0216c680_overlay_0_02179f5c
 ptr_FUN_overlay_0_0216c680_overlay_0_02179f5c: ; 0x02179F5C
@@ -65513,7 +65513,7 @@ ptr_FUN_overlay_0_0216c680_overlay_0_02179f5c: ; 0x02179F5C
 
     .global ptr_FUN_overlay_0_0216c0a0_overlay_0_02179f60
 ptr_FUN_overlay_0_0216c0a0_overlay_0_02179f60: ; 0x02179F60
-	.word ov0_0216C0A0
+	.word _ZN26CFieldEffectDarknessClear211CForceField5ApplyEP14TFieldParticleI16CSimpleSpriteNTFEi
 	.byte 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_02083578_overlay_0_02179ebc
 
@@ -65524,8 +65524,8 @@ PTR_LAB_overlay_0_0216cb50_overlay_0_02179f6c: ; 0x02179F6C
     .global ptr_FUN_overlay_0_0216c6bc_overlay_0_02179f70
 ptr_FUN_overlay_0_0216c6bc_overlay_0_02179f70: ; 0x02179F70
 	.word ov0_0216C6BC
-	.word ov0_0216AE74
-	.word ov0_0216BFFC
+	.word _ZN21TFieldParticleEmitterI16CSimpleSpriteNTFE5func2Ev
+	.word _ZN21TFieldParticleEmitterI16CSimpleSpriteNTFE6UpdateEi
 	.byte 0x00, 0x00, 0x00, 0x00
 
     .global s_25CFieldEffectDarknessClear_overlay_0_02179f80
@@ -65539,13 +65539,13 @@ DAT_overlay_0_02179F9C:
 
     .global PTR_LAB_overlay_0_0216cb68_overlay_0_02179fa4
 PTR_LAB_overlay_0_0216cb68_overlay_0_02179fa4: ; 0x02179FA4
-	.word ov0_0216CB68
+	.word _ZN25TFieldParticleRectEmitterI16CSimpleSpriteNTFED1Ev
 
     .global ptr_FUN_overlay_0_0216cb54_overlay_0_02179fa8
 ptr_FUN_overlay_0_0216cb54_overlay_0_02179fa8: ; 0x02179FA8
 	.word ov0_0216CB54
-	.word ov0_0216AE74
-	.word ov0_0216BFFC
+	.word _ZN21TFieldParticleEmitterI16CSimpleSpriteNTFE5func2Ev
+	.word _ZN21TFieldParticleEmitterI16CSimpleSpriteNTFE6UpdateEi
 	.byte 0x00, 0x00, 0x00, 0x00
 
     .global s_26CFieldEffectDarknessClear2_overlay_0_02179fb8
@@ -65559,41 +65559,41 @@ DAT_overlay_0_02179FD5:
 
     .global PTR_LAB_overlay_0_0216a5d4_overlay_0_02179fe0
 PTR_LAB_overlay_0_0216a5d4_overlay_0_02179fe0: ; 0x02179FE0
-	.word ov0_0216A5D4
+	.word _ZN25CFieldEffectDarknessClear8CEmitterD1Ev
 
     .global ptr_FUN_overlay_0_0216c66c_overlay_0_02179fe4
 ptr_FUN_overlay_0_0216c66c_overlay_0_02179fe4: ; 0x02179FE4
 	.word ov0_0216C66C
-	.word ov0_0216C604
-	.word ov0_0216C61C
+	.word _ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFE5func2Ev
+	.word _ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFE6UpdateEi
 
     .global ptr_FUN_overlay_0_0216b0a0_overlay_0_02179ff0
 ptr_FUN_overlay_0_0216b0a0_overlay_0_02179ff0: ; 0x02179FF0
-	.word ov0_0216B0A0
+	.word _ZN25CFieldEffectDarknessClear8CEmitter4EmitEP14TFieldParticleI16CSimpleSpriteNTFE
 	.word ov0_0216C610
 	.byte 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_020835bc_overlay_0_02179ec4
 
     .global PTR_LAB_overlay_0_0216cb80_overlay_0_0217a000
 PTR_LAB_overlay_0_0216cb80_overlay_0_0217a000: ; 0x0217A000
-	.word ov0_0216CB80
+	.word _ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFED1Ev
 
     .global ptr_FUN_overlay_0_0216cb6c_overlay_0_0217a004
 ptr_FUN_overlay_0_0216cb6c_overlay_0_0217a004: ; 0x0217A004
 	.word ov0_0216CB6C
-	.word ov0_0216C604
-	.word ov0_0216C61C
+	.word _ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFE5func2Ev
+	.word _ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFE6UpdateEi
 
     .global ptr_FUN_overlay_0_0216c788_overlay_0_0217a010
 ptr_FUN_overlay_0_0216c788_overlay_0_0217a010: ; 0x0217A010
-	.word ov0_0216C788
+	.word _ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFE4EmitEP14TFieldParticleIS0_E
 	.word ov0_0216C610
 	.byte 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_020835bc_overlay_0_02179ee8
 
     .global PTR_LAB_overlay_0_021518a4_overlay_0_0217a020
 PTR_LAB_overlay_0_021518a4_overlay_0_0217a020: ; 0x0217A020
-	.word ov0_021518A4
+	.word _ZN32CFieldEffectDarknessClearFactoryD1Ev
 
     .global ptr_FUN_overlay_0_0216c6a8_overlay_0_0217a024
 ptr_FUN_overlay_0_0216c6a8_overlay_0_0217a024: ; 0x0217A024
@@ -65601,7 +65601,7 @@ ptr_FUN_overlay_0_0216c6a8_overlay_0_0217a024: ; 0x0217A024
 
     .global ptr_FUN_overlay_0_0216c590_overlay_0_0217a028
 ptr_FUN_overlay_0_0216c590_overlay_0_0217a028: ; 0x0217A028
-	.word ov0_0216C590
+	.word _ZN32CFieldEffectDarknessClearFactory6CreateEi
 	.word _ZN19CFieldEffectFactory6UpdateEi
 	.word _ZN19CFieldEffectFactory5ResetEv
 	.word _ZN19CFieldEffectFactory7ReleaseEP18CFieldEffectManage
@@ -65610,17 +65610,17 @@ ptr_FUN_overlay_0_0216c590_overlay_0_0217a028: ; 0x0217A028
 
     .global PTR_LAB_overlay_0_0216b530_overlay_0_0217a040
 PTR_LAB_overlay_0_0216b530_overlay_0_0217a040: ; 0x0217A040
-	.word ov0_0216B530
+	.word _ZN26CFieldEffectDarknessClear28CEmitterD1Ev
 
     .global ptr_FUN_overlay_0_0216c694_overlay_0_0217a044
 ptr_FUN_overlay_0_0216c694_overlay_0_0217a044: ; 0x0217A044
 	.word ov0_0216C694
-	.word ov0_0216C604
-	.word ov0_0216C61C
+	.word _ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFE5func2Ev
+	.word _ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFE6UpdateEi
 
     .global ptr_FUN_overlay_0_0216c320_overlay_0_0217a050
 ptr_FUN_overlay_0_0216c320_overlay_0_0217a050: ; 0x0217A050
-	.word ov0_0216C320
+	.word _ZN26CFieldEffectDarknessClear28CEmitter4EmitEP14TFieldParticleI16CSimpleSpriteNTFE
 	.word ov0_0216C610
 
     .global s_32CFieldEffectDarknessClearFacto_overlay_0_0217a058
@@ -65690,7 +65690,7 @@ DAT_overlay_0_0217A211:
 
     .global ptr_FUN_overlay_0_0216a5d8_overlay_0_0217a21c
 ptr_FUN_overlay_0_0216a5d8_overlay_0_0217a21c: ; 0x0217A21C
-	.word ov0_0216A5D8
+	.word _ZN25CFieldEffectDarknessClearD1Ev
 
     .global ptr_FUN_overlay_0_0216a690_overlay_0_0217a220
 ptr_FUN_overlay_0_0216a690_overlay_0_0217a220: ; 0x0217A220
@@ -65699,7 +65699,7 @@ ptr_FUN_overlay_0_0216a690_overlay_0_0217a220: ; 0x0217A220
     .global ptr_FUN_overlay_0_021423a4_overlay_0_0217a224
 ptr_FUN_overlay_0_021423a4_overlay_0_0217a224: ; 0x0217A224
 	.word _ZN12CFieldEffect12ov0_021423A4Ev
-	.word ov0_0216C5FC
+	.word _ZN25CFieldEffectDarknessClear12sub_02033028Ev
 	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_0217a230
@@ -65712,7 +65712,7 @@ ptr_FUN_overlay_0_02142380_overlay_0_0217a234: ; 0x0217A234
 
     .global ptr_FUN_overlay_0_0216adc4_overlay_0_0217a238
 ptr_FUN_overlay_0_0216adc4_overlay_0_0217a238: ; 0x0217A238
-	.word ov0_0216ADC4
+	.word _ZN25CFieldEffectDarknessClear12ov0_021421F0Eiii
 	.word _ZN12CFieldEffect12ov0_02142240Ei
 
     .global ptr_FUN_overlay_0_0216bd40_overlay_0_0217a240
@@ -65721,14 +65721,14 @@ ptr_FUN_overlay_0_0216bd40_overlay_0_0217a240: ; 0x0217A240
 
     .global ptr_FUN_overlay_0_0216ae78_overlay_0_0217a244
 ptr_FUN_overlay_0_0216ae78_overlay_0_0217a244: ; 0x0217A244
-	.word ov0_0216AE78
+	.word _ZN25CFieldEffectDarknessClear12ov0_02142344EP8Camera2D
 	.word _ZN12CFieldEffect12ov0_0214239CEi
 	.word _ZN12CFieldEffect12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
 
     .global ptr_FUN_overlay_0_0216a804_overlay_0_0217a254
 ptr_FUN_overlay_0_0216a804_overlay_0_0217a254: ; 0x0217A254
-	.word ov0_0216A804
+	.word _ZN25CFieldEffectDarknessClear12sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
 	.word _ZN12CFieldEffect12sub_02033440Et
 	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
@@ -65738,14 +65738,14 @@ ptr_FUN_overlay_0_0216a804_overlay_0_0217a254: ; 0x0217A254
 	.word _ZN12CFieldEffect12ov0_02142390EPvS0_
 	.word _ZN12CFieldEffect12ov0_02142388EPKv
 	.word ov0_0216A7E8
-	.word ov0_0216C5F4
-	.word ov0_0216C5EC
+	.word _ZN25CFieldEffectDarknessClear13GetForceFieldEv
+	.word _ZN25CFieldEffectDarknessClear10GetEmitterEv
 	.byte 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_020835bc_overlay_0_02179f18
 
     .global ptr_FUN_overlay_0_0216caa0_overlay_0_0217a28c
 ptr_FUN_overlay_0_0216caa0_overlay_0_0217a28c: ; 0x0217A28C
-	.word ov0_0216CAA0
+	.word _ZN20TFieldEffectParticleI16CSimpleSpriteNTFED1Ev
 
     .global ptr_FUN_overlay_0_0216c6d0_overlay_0_0217a290
 ptr_FUN_overlay_0_0216c6d0_overlay_0_0217a290: ; 0x0217A290
@@ -65767,7 +65767,7 @@ ptr_FUN_overlay_0_02142380_overlay_0_0217a2a4: ; 0x0217A2A4
 
     .global ptr_FUN_overlay_0_0216ae28_overlay_0_0217a2a8
 ptr_FUN_overlay_0_0216ae28_overlay_0_0217a2a8: ; 0x0217A2A8
-	.word ov0_0216AE28
+	.word _ZN20TFieldEffectParticleI16CSimpleSpriteNTFE12ov0_021421F0Eiii
 	.word _ZN12CFieldEffect12ov0_02142240Ei
 
     .global ptr_FUN_overlay_0_0216bd40_overlay_0_0217a2b0
@@ -65776,14 +65776,14 @@ ptr_FUN_overlay_0_0216bd40_overlay_0_0217a2b0: ; 0x0217A2B0
 
     .global ptr_FUN_overlay_0_0216af14_overlay_0_0217a2b4
 ptr_FUN_overlay_0_0216af14_overlay_0_0217a2b4: ; 0x0217A2B4
-	.word ov0_0216AF14
+	.word _ZN20TFieldEffectParticleI16CSimpleSpriteNTFE12ov0_02142344EP8Camera2D
 	.word _ZN12CFieldEffect12ov0_0214239CEi
 	.word _ZN12CFieldEffect12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
 
     .global ptr_FUN_overlay_0_0216aac8_overlay_0_0217a2c4
 ptr_FUN_overlay_0_0216aac8_overlay_0_0217a2c4: ; 0x0217A2C4
-	.word ov0_0216AAC8
+	.word _ZN20TFieldEffectParticleI16CSimpleSpriteNTFE12sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
 	.word _ZN12CFieldEffect12sub_02033440Et
 	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
@@ -65799,7 +65799,7 @@ ptr_FUN_overlay_0_0216aac8_overlay_0_0217a2c4: ; 0x0217A2C4
 
     .global ptr_FUN_overlay_0_0216b534_overlay_0_0217a2fc
 ptr_FUN_overlay_0_0216b534_overlay_0_0217a2fc: ; 0x0217A2FC
-	.word ov0_0216B534
+	.word _ZN26CFieldEffectDarknessClear2D1Ev
 
     .global ptr_FUN_overlay_0_0216b5ec_overlay_0_0217a300
 ptr_FUN_overlay_0_0216b5ec_overlay_0_0217a300: ; 0x0217A300
@@ -65808,7 +65808,7 @@ ptr_FUN_overlay_0_0216b5ec_overlay_0_0217a300: ; 0x0217A300
     .global ptr_FUN_overlay_0_021423a4_overlay_0_0217a304
 ptr_FUN_overlay_0_021423a4_overlay_0_0217a304: ; 0x0217A304
 	.word _ZN12CFieldEffect12ov0_021423A4Ev
-	.word ov0_0216C5E4
+	.word _ZN26CFieldEffectDarknessClear212sub_02033028Ev
 	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_0217a310
@@ -65821,23 +65821,23 @@ ptr_FUN_overlay_0_02142380_overlay_0_0217a314: ; 0x0217A314
 
     .global ptr_FUN_overlay_0_0216ba08_overlay_0_0217a318
 ptr_FUN_overlay_0_0216ba08_overlay_0_0217a318: ; 0x0217A318
-	.word ov0_0216BA08
+	.word _ZN26CFieldEffectDarknessClear212ov0_021421F0Eiii
 	.word _ZN12CFieldEffect12ov0_02142240Ei
 
     .global ptr_FUN_overlay_0_0216ba7c_overlay_0_0217a320
 ptr_FUN_overlay_0_0216ba7c_overlay_0_0217a320: ; 0x0217A320
-	.word ov0_0216BA7C
+	.word _ZN26CFieldEffectDarknessClear212ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_0216c004_overlay_0_0217a324
 ptr_FUN_overlay_0_0216c004_overlay_0_0217a324: ; 0x0217A324
-	.word ov0_0216C004
+	.word _ZN26CFieldEffectDarknessClear212ov0_02142344EP8Camera2D
 	.word _ZN12CFieldEffect12ov0_0214239CEi
 	.word _ZN12CFieldEffect12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
 
     .global ptr_FUN_overlay_0_0216b744_overlay_0_0217a334
 ptr_FUN_overlay_0_0216b744_overlay_0_0217a334: ; 0x0217A334
-	.word ov0_0216B744
+	.word _ZN26CFieldEffectDarknessClear212sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
 	.word _ZN12CFieldEffect12sub_02033440Et
 	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
@@ -65847,8 +65847,8 @@ ptr_FUN_overlay_0_0216b744_overlay_0_0217a334: ; 0x0217A334
 	.word _ZN12CFieldEffect12ov0_02142390EPvS0_
 	.word _ZN12CFieldEffect12ov0_02142388EPKv
 	.word ov0_0216A7E8
-	.word ov0_0216C5DC
-	.word ov0_0216C5D4
+	.word _ZN26CFieldEffectDarknessClear213GetForceFieldEv
+	.word _ZN26CFieldEffectDarknessClear210GetEmitterEv
 
     .global DAT_overlay_0_0217a364
 DAT_overlay_0_0217a364: ; 0x0217A364
@@ -65924,12 +65924,12 @@ PTR_ptr_FUN_020835bc_overlay_0_0217a4c8: ; 0x0217A4C8
 
     .global PTR_LAB_overlay_0_0216cc48_overlay_0_0217a4dc
 PTR_LAB_overlay_0_0216cc48_overlay_0_0217a4dc: ; 0x0217A4DC
-	.word ov0_0216CC48
+	.word _ZN22CFieldEffectAirBubbles17CBubbleForceFieldD1Ev
 
     .global ptr_FUN_overlay_0_0216d2ac_overlay_0_0217a4e0
 ptr_FUN_overlay_0_0216d2ac_overlay_0_0217a4e0: ; 0x0217A4E0
 	.word ov0_0216D2AC
-	.word ov0_0216D0CC
+	.word _ZN22CFieldEffectAirBubbles17CBubbleForceField5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
 
     .global s_22CFieldEffectAirBubbles_overlay_0_0217a4e8
 s_22CFieldEffectAirBubbles_overlay_0_0217a4e8: ; 0x0217A4E8
@@ -65942,17 +65942,17 @@ DAT_overlay_0_0217A501:
 
     .global PTR_LAB_overlay_0_0216cc4c_overlay_0_0217a50c
 PTR_LAB_overlay_0_0216cc4c_overlay_0_0217a50c: ; 0x0217A50C
-	.word ov0_0216CC4C
+	.word _ZN22CFieldEffectAirBubbles14CBubbleEmitterD1Ev
 
     .global ptr_FUN_overlay_0_0216d2c0_overlay_0_0217a510
 ptr_FUN_overlay_0_0216d2c0_overlay_0_0217a510: ; 0x0217A510
 	.word ov0_0216D2C0
-	.word ov0_02145138
-	.word ov0_0216D154
+	.word _ZN21TFieldParticleEmitterI15CSoftwareSpriteE5func2Ev
+	.word _ZN22CFieldEffectAirBubbles14CBubbleEmitter6UpdateEi
 
     .global ptr_FUN_overlay_0_0216d198_overlay_0_0217a51c
 ptr_FUN_overlay_0_0216d198_overlay_0_0217a51c: ; 0x0217A51C
-	.word ov0_0216D198
+	.word _ZN22CFieldEffectAirBubbles14CBubbleEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE
 
     .global s_N22CFieldEffectAirBubbles14CBubb_overlay_0_0217a520
 s_N22CFieldEffectAirBubbles14CBubb_overlay_0_0217a520: ; 0x0217A520
@@ -65982,7 +65982,7 @@ ptr_FUN_overlay_0_0216cd00_overlay_0_0217a588: ; 0x0217A588
     .global ptr_FUN_overlay_0_021423a4_overlay_0_0217a58c
 ptr_FUN_overlay_0_021423a4_overlay_0_0217a58c: ; 0x0217A58C
 	.word _ZN12CFieldEffect12ov0_021423A4Ev
-	.word ov0_0216D2A4
+	.word _ZN22CFieldEffectAirBubbles12sub_02033028Ev
 	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_0217a598
@@ -65995,7 +65995,7 @@ ptr_FUN_overlay_0_02142380_overlay_0_0217a59c: ; 0x0217A59C
 
     .global ptr_FUN_overlay_0_0215b4a0_overlay_0_0217a5a0
 ptr_FUN_overlay_0_0215b4a0_overlay_0_0217a5a0: ; 0x0217A5A0
-	.word ov0_0215B4A0
+	.word _ZN20TFieldEffectParticleI15CSoftwareSpriteE12ov0_021421F0Eiii
 	.word _ZN12CFieldEffect12ov0_02142240Ei
 
     .global ptr_FUN_overlay_0_02142ab4_overlay_0_0217a5a8
@@ -66004,14 +66004,14 @@ ptr_FUN_overlay_0_02142ab4_overlay_0_0217a5a8: ; 0x0217A5A8
 
     .global ptr_FUN_overlay_0_0215b784_overlay_0_0217a5ac
 ptr_FUN_overlay_0_0215b784_overlay_0_0217a5ac: ; 0x0217A5AC
-	.word ov0_0215B784
+	.word _ZN20TFieldEffectParticleI15CSoftwareSpriteE12ov0_02142344EP8Camera2D
 	.word _ZN12CFieldEffect12ov0_0214239CEi
 	.word _ZN12CFieldEffect12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
 
     .global ptr_FUN_overlay_0_0216cdb8_overlay_0_0217a5bc
 ptr_FUN_overlay_0_0216cdb8_overlay_0_0217a5bc: ; 0x0217A5BC
-	.word ov0_0216CDB8
+	.word _ZN22CFieldEffectAirBubbles12sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
 	.word _ZN12CFieldEffect12sub_02033440Et
 	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
@@ -66024,8 +66024,8 @@ ptr_FUN_overlay_0_0216cdb8_overlay_0_0217a5bc: ; 0x0217A5BC
     .global ptr_FUN_overlay_0_021423e8_overlay_0_0217a5e0
 ptr_FUN_overlay_0_021423e8_overlay_0_0217a5e0: ; 0x0217A5E0
 	.word _ZN20TFieldEffectParticleI15CSoftwareSpriteE12ov0_021423E8ERK20FieldEffectSpriteRes
-	.word ov0_0216D29C
-	.word ov0_0216D294
+	.word _ZN22CFieldEffectAirBubbles13GetForceFieldEv
+	.word _ZN22CFieldEffectAirBubbles10GetEmitterEv
 
     .global PTR_ptr_FUN_020835bc_overlay_0_0217a5ec
 PTR_ptr_FUN_020835bc_overlay_0_0217a5ec: ; 0x0217A5EC
@@ -66054,12 +66054,12 @@ DAT_overlay_0_0217A633:
 
     .global PTR_LAB_overlay_0_02151818_overlay_0_0217a63c
 PTR_LAB_overlay_0_02151818_overlay_0_0217a63c: ; 0x0217A63C
-	.word ov0_02151818
+	.word _ZN24CFieldEffectLaserFactoryD1Ev
 
     .global ptr_FUN_overlay_0_0216e114_overlay_0_0217a640
 ptr_FUN_overlay_0_0216e114_overlay_0_0217a640: ; 0x0217A640
 	.word ov0_0216E114
-	.word ov0_0216E0E8
+	.word _ZN24CFieldEffectLaserFactory6CreateEi
 	.word _ZN19CFieldEffectFactory6UpdateEi
 	.word _ZN19CFieldEffectFactory5ResetEv
 	.word _ZN19CFieldEffectFactory7ReleaseEP18CFieldEffectManage
@@ -66068,7 +66068,7 @@ ptr_FUN_overlay_0_0216e114_overlay_0_0217a640: ; 0x0217A640
 
     .global ptr_FUN_overlay_0_0216da38_overlay_0_0217a65c
 ptr_FUN_overlay_0_0216da38_overlay_0_0217a65c: ; 0x0217A65C
-	.word ov0_0216DA38
+	.word _ZN17CFieldEffectLaserD1Ev
 
     .global ptr_FUN_overlay_0_0216dae0_overlay_0_0217a660
 ptr_FUN_overlay_0_0216dae0_overlay_0_0217a660: ; 0x0217A660
@@ -66077,7 +66077,7 @@ ptr_FUN_overlay_0_0216dae0_overlay_0_0217a660: ; 0x0217A660
     .global ptr_FUN_overlay_0_021423a4_overlay_0_0217a664
 ptr_FUN_overlay_0_021423a4_overlay_0_0217a664: ; 0x0217A664
 	.word _ZN12CFieldEffect12ov0_021423A4Ev
-	.word ov0_0216E10C
+	.word _ZN17CFieldEffectLaser12sub_02033028Ev
 	.word _ZN17CFieldEffectActor12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_0217a670
@@ -66090,20 +66090,20 @@ ptr_FUN_overlay_0_02142380_overlay_0_0217a674: ; 0x0217A674
 
     .global ptr_FUN_overlay_0_0216deac_overlay_0_0217a678
 ptr_FUN_overlay_0_0216deac_overlay_0_0217a678: ; 0x0217A678
-	.word ov0_0216DEAC
+	.word _ZN17CFieldEffectLaser12ov0_021421F0Eiii
 	.word _ZN12CFieldEffect12ov0_02142240Ei
 
     .global ptr_FUN_overlay_0_0216db90_overlay_0_0217a680
 ptr_FUN_overlay_0_0216db90_overlay_0_0217a680: ; 0x0217A680
-	.word ov0_0216DB90
+	.word _ZN17CFieldEffectLaser12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_0216dcb4_overlay_0_0217a684
 ptr_FUN_overlay_0_0216dcb4_overlay_0_0217a684: ; 0x0217A684
-	.word ov0_0216DCB4
+	.word _ZN17CFieldEffectLaser12ov0_02142344EP8Camera2D
 	.word _ZN12CFieldEffect12ov0_0214239CEi
 	.word _ZN12CFieldEffect12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
-	.word ov0_0216DE30
+	.word _ZN17CFieldEffectLaser12sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
 	.word _ZN12CFieldEffect12sub_02033440Et
 	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
@@ -66140,12 +66140,12 @@ DAT_overlay_0_0217A6F7:
 
     .global PTR_LAB_overlay_0_021518a8_overlay_0_0217a700
 PTR_LAB_overlay_0_021518a8_overlay_0_0217a700: ; 0x0217A700
-	.word ov0_021518A8
+	.word _ZN31CFieldEffectRisingPhotonFactoryD1Ev
 
     .global ptr_FUN_overlay_0_0216eb38_overlay_0_0217a704
 ptr_FUN_overlay_0_0216eb38_overlay_0_0217a704: ; 0x0217A704
 	.word ov0_0216EB38
-	.word ov0_0216EB0C
+	.word _ZN31CFieldEffectRisingPhotonFactory6CreateEi
 	.word _ZN19CFieldEffectFactory6UpdateEi
 	.word _ZN19CFieldEffectFactory5ResetEv
 	.word _ZN19CFieldEffectFactory7ReleaseEP18CFieldEffectManage
@@ -66161,7 +66161,7 @@ DAT_overlay_0_0217A73A:
 
     .global ptr_FUN_overlay_0_0216e1bc_overlay_0_0217a744
 ptr_FUN_overlay_0_0216e1bc_overlay_0_0217a744: ; 0x0217A744
-	.word ov0_0216E1BC
+	.word _ZN24CFieldEffectRisingPhotonD1Ev
 
     .global ptr_FUN_overlay_0_0216e26c_overlay_0_0217a748
 ptr_FUN_overlay_0_0216e26c_overlay_0_0217a748: ; 0x0217A748
@@ -66170,8 +66170,8 @@ ptr_FUN_overlay_0_0216e26c_overlay_0_0217a748: ; 0x0217A748
     .global ptr_FUN_overlay_0_021423a4_overlay_0_0217a74c
 ptr_FUN_overlay_0_021423a4_overlay_0_0217a74c: ; 0x0217A74C
 	.word _ZN12CFieldEffect12ov0_021423A4Ev
-	.word ov0_0216EB30
-	.word ov0_0216E5CC
+	.word _ZN24CFieldEffectRisingPhoton12sub_02033028Ev
+	.word _ZN24CFieldEffectRisingPhoton12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_0217a758
 ptr_FUN_overlay_0_021421d0_overlay_0_0217a758: ; 0x0217A758
@@ -66183,28 +66183,28 @@ ptr_FUN_overlay_0_02142380_overlay_0_0217a75c: ; 0x0217A75C
 
     .global ptr_FUN_overlay_0_0216e5e0_overlay_0_0217a760
 ptr_FUN_overlay_0_0216e5e0_overlay_0_0217a760: ; 0x0217A760
-	.word ov0_0216E5E0
+	.word _ZN24CFieldEffectRisingPhoton12ov0_021421F0Eiii
 	.word _ZN12CFieldEffect12ov0_02142240Ei
 
     .global ptr_FUN_overlay_0_0216e650_overlay_0_0217a768
 ptr_FUN_overlay_0_0216e650_overlay_0_0217a768: ; 0x0217A768
-	.word ov0_0216E650
+	.word _ZN24CFieldEffectRisingPhoton12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_0216e908_overlay_0_0217a76c
 ptr_FUN_overlay_0_0216e908_overlay_0_0217a76c: ; 0x0217A76C
-	.word ov0_0216E908
+	.word _ZN24CFieldEffectRisingPhoton12ov0_02142344EP8Camera2D
 	.word _ZN12CFieldEffect12ov0_0214239CEi
 	.word _ZN12CFieldEffect12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
 
     .global ptr_FUN_overlay_0_0216e324_overlay_0_0217a77c
 ptr_FUN_overlay_0_0216e324_overlay_0_0217a77c: ; 0x0217A77C
-	.word ov0_0216E324
+	.word _ZN24CFieldEffectRisingPhoton12sub_0203312CEii
 
     .global ptr_FUN_overlay_0_0216e4e0_overlay_0_0217a780
 ptr_FUN_overlay_0_0216e4e0_overlay_0_0217a780: ; 0x0217A780
-	.word ov0_0216E4E0
-	.word ov0_0216EB28
+	.word _ZN24CFieldEffectRisingPhoton12sub_02033244Eiii
+	.word _ZN24CFieldEffectRisingPhoton12sub_02033440Et
 	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
 	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
 	.word _ZN12CFieldEffect12sub_020333D8Eii
@@ -66290,7 +66290,7 @@ PTR_ptr_FUN_020835bc_overlay_0_0217a844: ; 0x0217A844
 
     .global PTR_LAB_overlay_0_0216ebb8_overlay_0_0217a858
 PTR_LAB_overlay_0_0216ebb8_overlay_0_0217a858: ; 0x0217A858
-	.word ov0_0216EBB8
+	.word _ZN25CFieldEffectVolcanicSteam9CAnimatorD1Ev
 
     .global ptr_FUN_overlay_0_0216f47c_overlay_0_0217a85c
 ptr_FUN_overlay_0_0216f47c_overlay_0_0217a85c: ; 0x0217A85C
@@ -66298,15 +66298,15 @@ ptr_FUN_overlay_0_0216f47c_overlay_0_0217a85c: ; 0x0217A85C
 
     .global ptr_FUN_overlay_0_0216ecc8_overlay_0_0217a860
 ptr_FUN_overlay_0_0216ecc8_overlay_0_0217a860: ; 0x0217A860
-	.word ov0_0216ECC8
+	.word _ZN25CFieldEffectVolcanicSteam9CAnimator5ApplyEP14TFieldParticleI16CSimpleSpriteNTFEi
 	.byte 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_020835bc_overlay_0_0217a820
 
     .global PTR_LAB_overlay_0_0216ebb4_overlay_0_0217a86c
 PTR_LAB_overlay_0_0216ebb4_overlay_0_0217a86c: ; 0x0217A86C
-	.word ov0_0216EBB4
+	.word _ZN25CFieldEffectVolcanicSteam9CAnimator17CEffectDrawObjectD1Ev
 	.word ov0_0216F468
-	.word ov0_0216ECAC
+	.word _ZN25CFieldEffectVolcanicSteam9CAnimator17CEffectDrawObject12sub_020091D4EP8Camera2Di
 
     .global s_25CFieldEffectVolcanicSteam_overlay_0_0217a878
 s_25CFieldEffectVolcanicSteam_overlay_0_0217a878: ; 0x0217A878
@@ -66319,7 +66319,7 @@ DAT_overlay_0_0217A894:
 
     .global ptr_FUN_overlay_0_0216edb8_overlay_0_0217a89c
 ptr_FUN_overlay_0_0216edb8_overlay_0_0217a89c: ; 0x0217A89C
-	.word ov0_0216EDB8
+	.word _ZN32CFieldEffectVolcanicSteamFactoryD1Ev
 
     .global ptr_FUN_overlay_0_0216ede0_overlay_0_0217a8a0
 ptr_FUN_overlay_0_0216ede0_overlay_0_0217a8a0: ; 0x0217A8A0
@@ -66327,9 +66327,9 @@ ptr_FUN_overlay_0_0216ede0_overlay_0_0217a8a0: ; 0x0217A8A0
 
     .global ptr_FUN_overlay_0_0216eeac_overlay_0_0217a8a4
 ptr_FUN_overlay_0_0216eeac_overlay_0_0217a8a4: ; 0x0217A8A4
-	.word ov0_0216EEAC
+	.word _ZN32CFieldEffectVolcanicSteamFactory6CreateEi
 	.word _ZN19CFieldEffectFactory6UpdateEi
-	.word ov0_0216EE10
+	.word _ZN32CFieldEffectVolcanicSteamFactory5ResetEv
 	.word _ZN19CFieldEffectFactory7ReleaseEP18CFieldEffectManage
 
     .global s_32CFieldEffectVolcanicSteamFacto_overlay_0_0217a8b4
@@ -66359,7 +66359,7 @@ DAT_overlay_0_0217A963:
 
     .global ptr_FUN_overlay_0_0216f490_overlay_0_0217a96c
 ptr_FUN_overlay_0_0216f490_overlay_0_0217a96c: ; 0x0217A96C
-	.word ov0_0216F490
+	.word _ZN17TFieldEffectSmokeI16CSimpleSpriteNTFED1Ev
 
     .global ptr_FUN_overlay_0_0216f3b0_overlay_0_0217a970
 ptr_FUN_overlay_0_0216f3b0_overlay_0_0217a970: ; 0x0217A970
@@ -66381,7 +66381,7 @@ ptr_FUN_overlay_0_02142380_overlay_0_0217a984: ; 0x0217A984
 
     .global ptr_FUN_overlay_0_0216ae28_overlay_0_0217a988
 ptr_FUN_overlay_0_0216ae28_overlay_0_0217a988: ; 0x0217A988
-	.word ov0_0216AE28
+	.word _ZN20TFieldEffectParticleI16CSimpleSpriteNTFE12ov0_021421F0Eiii
 	.word _ZN12CFieldEffect12ov0_02142240Ei
 
     .global ptr_FUN_overlay_0_0216bd40_overlay_0_0217a990
@@ -66390,11 +66390,11 @@ ptr_FUN_overlay_0_0216bd40_overlay_0_0217a990: ; 0x0217A990
 
     .global ptr_FUN_overlay_0_0216af14_overlay_0_0217a994
 ptr_FUN_overlay_0_0216af14_overlay_0_0217a994: ; 0x0217A994
-	.word ov0_0216AF14
+	.word _ZN20TFieldEffectParticleI16CSimpleSpriteNTFE12ov0_02142344EP8Camera2D
 	.word _ZN12CFieldEffect12ov0_0214239CEi
 	.word _ZN12CFieldEffect12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
-	.word ov0_0216EFFC
+	.word _ZN17TFieldEffectSmokeI16CSimpleSpriteNTFE12sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
 	.word _ZN12CFieldEffect12sub_02033440Et
 	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
@@ -66405,13 +66405,13 @@ ptr_FUN_overlay_0_0216af14_overlay_0_0217a994: ; 0x0217A994
 	.word _ZN12CFieldEffect12ov0_02142388EPKv
 	.word ov0_0216A7E8
 	.byte 0x00, 0x00, 0x00, 0x00
-	.word ov0_0216F2F8
+	.word _ZN17TFieldEffectSmokeI16CSimpleSpriteNTFE10GetEmitterEv
 	.byte 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_020835bc_overlay_0_0217a838
 
     .global ptr_FUN_overlay_0_0216ebbc_overlay_0_0217a9dc
 ptr_FUN_overlay_0_0216ebbc_overlay_0_0217a9dc: ; 0x0217A9DC
-	.word ov0_0216EBBC
+	.word _ZN25CFieldEffectVolcanicSteamD1Ev
 
     .global ptr_FUN_overlay_0_0216ebd0_overlay_0_0217a9e0
 ptr_FUN_overlay_0_0216ebd0_overlay_0_0217a9e0: ; 0x0217A9E0
@@ -66420,7 +66420,7 @@ ptr_FUN_overlay_0_0216ebd0_overlay_0_0217a9e0: ; 0x0217A9E0
     .global ptr_FUN_overlay_0_021423a4_overlay_0_0217a9e4
 ptr_FUN_overlay_0_021423a4_overlay_0_0217a9e4: ; 0x0217A9E4
 	.word _ZN12CFieldEffect12ov0_021423A4Ev
-	.word ov0_0216EF00
+	.word _ZN25CFieldEffectVolcanicSteam12sub_02033028Ev
 	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_0217a9f0
@@ -66433,7 +66433,7 @@ ptr_FUN_overlay_0_02142380_overlay_0_0217a9f4: ; 0x0217A9F4
 
     .global ptr_FUN_overlay_0_0216ae28_overlay_0_0217a9f8
 ptr_FUN_overlay_0_0216ae28_overlay_0_0217a9f8: ; 0x0217A9F8
-	.word ov0_0216AE28
+	.word _ZN20TFieldEffectParticleI16CSimpleSpriteNTFE12ov0_021421F0Eiii
 	.word _ZN12CFieldEffect12ov0_02142240Ei
 
     .global ptr_FUN_overlay_0_0216bd40_overlay_0_0217aa00
@@ -66442,11 +66442,11 @@ ptr_FUN_overlay_0_0216bd40_overlay_0_0217aa00: ; 0x0217AA00
 
     .global ptr_FUN_overlay_0_0216ec14_overlay_0_0217aa04
 ptr_FUN_overlay_0_0216ec14_overlay_0_0217aa04: ; 0x0217AA04
-	.word ov0_0216EC14
+	.word _ZN25CFieldEffectVolcanicSteam12ov0_02142344EP8Camera2D
 	.word _ZN12CFieldEffect12ov0_0214239CEi
-	.word ov0_0216EBEC
+	.word _ZN25CFieldEffectVolcanicSteam12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
-	.word ov0_0216EBFC
+	.word _ZN25CFieldEffectVolcanicSteam12sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
 	.word _ZN12CFieldEffect12sub_02033440Et
 	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
@@ -66456,8 +66456,8 @@ ptr_FUN_overlay_0_0216ec14_overlay_0_0217aa04: ; 0x0217AA04
 	.word _ZN12CFieldEffect12ov0_02142390EPvS0_
 	.word _ZN12CFieldEffect12ov0_02142388EPKv
 	.word ov0_0216A7E8
-	.word ov0_0216EEF8
-	.word ov0_0216F2F8
+	.word _ZN25CFieldEffectVolcanicSteam13GetForceFieldEv
+	.word _ZN17TFieldEffectSmokeI16CSimpleSpriteNTFE10GetEmitterEv
 
     .global DAT_overlay_0_0217aa44
 DAT_overlay_0_0217aa44: ; 0x0217AA44
@@ -66515,7 +66515,7 @@ PTR_ptr_FUN_020835bc_overlay_0_0217aab4: ; 0x0217AAB4
 
     .global PTR_LAB_overlay_0_0216f644_overlay_0_0217aac8
 PTR_LAB_overlay_0_0216f644_overlay_0_0217aac8: ; 0x0217AAC8
-	.word ov0_0216F644
+	.word _ZN23CFieldEffectFuwanteWind9CAnimatorD1Ev
 
     .global ptr_FUN_overlay_0_021700d0_overlay_0_0217aacc
 ptr_FUN_overlay_0_021700d0_overlay_0_0217aacc: ; 0x0217AACC
@@ -66523,7 +66523,7 @@ ptr_FUN_overlay_0_021700d0_overlay_0_0217aacc: ; 0x0217AACC
 
     .global ptr_FUN_overlay_0_0216fc7c_overlay_0_0217aad0
 ptr_FUN_overlay_0_0216fc7c_overlay_0_0217aad0: ; 0x0217AAD0
-	.word ov0_0216FC7C
+	.word _ZN23CFieldEffectFuwanteWind9CAnimator5ApplyEP14TFieldParticleI15CSoftwareSpriteEi
 
     .global s_23CFieldEffectFuwanteWind_overlay_0_0217aad4
 s_23CFieldEffectFuwanteWind_overlay_0_0217aad4: ; 0x0217AAD4
@@ -66537,7 +66537,7 @@ DAT_overlay_0_0217AAEE:
 
     .global ptr_FUN_overlay_0_0216fe40_overlay_0_0217aaf8
 ptr_FUN_overlay_0_0216fe40_overlay_0_0217aaf8: ; 0x0217AAF8
-	.word ov0_0216FE40
+	.word _ZN30CFieldEffectFuwanteWindFactoryD1Ev
 
     .global ptr_FUN_overlay_0_0216fe68_overlay_0_0217aafc
 ptr_FUN_overlay_0_0216fe68_overlay_0_0217aafc: ; 0x0217AAFC
@@ -66545,29 +66545,29 @@ ptr_FUN_overlay_0_0216fe68_overlay_0_0217aafc: ; 0x0217AAFC
 
     .global ptr_FUN_overlay_0_0216ffd8_overlay_0_0217ab00
 ptr_FUN_overlay_0_0216ffd8_overlay_0_0217ab00: ; 0x0217AB00
-	.word ov0_0216FFD8
+	.word _ZN30CFieldEffectFuwanteWindFactory6CreateEi
 
     .global ptr_FUN_overlay_0_02170090_overlay_0_0217ab04
 ptr_FUN_overlay_0_02170090_overlay_0_0217ab04: ; 0x0217AB04
-	.word ov0_02170090
-	.word ov0_0216FE98
+	.word _ZN30CFieldEffectFuwanteWindFactory6UpdateEi
+	.word _ZN30CFieldEffectFuwanteWindFactory5ResetEv
 	.word _ZN19CFieldEffectFactory7ReleaseEP18CFieldEffectManage
 	.byte 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_020835bc_overlay_0_0217aa90
 
     .global PTR_LAB_overlay_0_0216f640_overlay_0_0217ab18
 PTR_LAB_overlay_0_0216f640_overlay_0_0217ab18: ; 0x0217AB18
-	.word ov0_0216F640
+	.word _ZN23CFieldEffectFuwanteWind8CEmitterD1Ev
 
     .global ptr_FUN_overlay_0_021700bc_overlay_0_0217ab1c
 ptr_FUN_overlay_0_021700bc_overlay_0_0217ab1c: ; 0x0217AB1C
 	.word ov0_021700BC
-	.word ov0_0215B97C
-	.word ov0_0215B994
+	.word _ZN30TFieldParticleSmokeRectEmitterI15CSoftwareSpriteE5func2Ev
+	.word _ZN30TFieldParticleSmokeRectEmitterI15CSoftwareSpriteE6UpdateEi
 
     .global ptr_FUN_overlay_0_0216fb58_overlay_0_0217ab28
 ptr_FUN_overlay_0_0216fb58_overlay_0_0217ab28: ; 0x0217AB28
-	.word ov0_0216FB58
+	.word _ZN23CFieldEffectFuwanteWind8CEmitter4EmitEP14TFieldParticleI15CSoftwareSpriteE
 	.word ov0_0215B988
 
     .global s_30CFieldEffectFuwanteWindFactory_overlay_0_0217ab30
@@ -66597,7 +66597,7 @@ DAT_overlay_0_0217ABA2:
 
     .global ptr_FUN_overlay_0_0216f648_overlay_0_0217abac
 ptr_FUN_overlay_0_0216f648_overlay_0_0217abac: ; 0x0217ABAC
-	.word ov0_0216F648
+	.word _ZN23CFieldEffectFuwanteWindD1Ev
 
     .global ptr_FUN_overlay_0_0216f6f8_overlay_0_0217abb0
 ptr_FUN_overlay_0_0216f6f8_overlay_0_0217abb0: ; 0x0217ABB0
@@ -66606,7 +66606,7 @@ ptr_FUN_overlay_0_0216f6f8_overlay_0_0217abb0: ; 0x0217ABB0
     .global ptr_FUN_overlay_0_021423a4_overlay_0_0217abb4
 ptr_FUN_overlay_0_021423a4_overlay_0_0217abb4: ; 0x0217ABB4
 	.word _ZN12CFieldEffect12ov0_021423A4Ev
-	.word ov0_021700B4
+	.word _ZN23CFieldEffectFuwanteWind12sub_02033028Ev
 	.word _ZN12CFieldEffect12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_0217abc0
@@ -66619,7 +66619,7 @@ ptr_FUN_overlay_0_02142380_overlay_0_0217abc4: ; 0x0217ABC4
 
     .global ptr_FUN_overlay_0_0215b4a0_overlay_0_0217abc8
 ptr_FUN_overlay_0_0215b4a0_overlay_0_0217abc8: ; 0x0217ABC8
-	.word ov0_0215B4A0
+	.word _ZN20TFieldEffectParticleI15CSoftwareSpriteE12ov0_021421F0Eiii
 	.word _ZN12CFieldEffect12ov0_02142240Ei
 
     .global ptr_FUN_overlay_0_02142ab4_overlay_0_0217abd0
@@ -66628,14 +66628,14 @@ ptr_FUN_overlay_0_02142ab4_overlay_0_0217abd0: ; 0x0217ABD0
 
     .global ptr_FUN_overlay_0_0216fae0_overlay_0_0217abd4
 ptr_FUN_overlay_0_0216fae0_overlay_0_0217abd4: ; 0x0217ABD4
-	.word ov0_0216FAE0
+	.word _ZN23CFieldEffectFuwanteWind12ov0_02142344EP8Camera2D
 	.word _ZN12CFieldEffect12ov0_0214239CEi
 	.word _ZN12CFieldEffect12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
 
     .global ptr_FUN_overlay_0_0216f7b0_overlay_0_0217abe4
 ptr_FUN_overlay_0_0216f7b0_overlay_0_0217abe4: ; 0x0217ABE4
-	.word ov0_0216F7B0
+	.word _ZN23CFieldEffectFuwanteWind12sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
 	.word _ZN12CFieldEffect12sub_02033440Et
 	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
@@ -66648,8 +66648,8 @@ ptr_FUN_overlay_0_0216f7b0_overlay_0_0217abe4: ; 0x0217ABE4
     .global ptr_FUN_overlay_0_021423e8_overlay_0_0217ac08
 ptr_FUN_overlay_0_021423e8_overlay_0_0217ac08: ; 0x0217AC08
 	.word _ZN20TFieldEffectParticleI15CSoftwareSpriteE12ov0_021423E8ERK20FieldEffectSpriteRes
-	.word ov0_021700A4
-	.word ov0_021700AC
+	.word _ZN23CFieldEffectFuwanteWind13GetForceFieldEv
+	.word _ZN23CFieldEffectFuwanteWind10GetEmitterEv
 
     .global PTR_ptr_FUN_020835bc_overlay_0_0217ac14
 PTR_ptr_FUN_020835bc_overlay_0_0217ac14: ; 0x0217AC14
@@ -66668,7 +66668,7 @@ DAT_overlay_0_0217AC3B:
 
     .global ptr_FUN_overlay_0_021702d8_overlay_0_0217ac44
 ptr_FUN_overlay_0_021702d8_overlay_0_0217ac44: ; 0x0217AC44
-	.word ov0_021702D8
+	.word _ZN24CFieldEffectManpuDarkrieD1Ev
 
     .global ptr_FUN_overlay_0_02170338_overlay_0_0217ac48
 ptr_FUN_overlay_0_02170338_overlay_0_0217ac48: ; 0x0217AC48
@@ -66695,7 +66695,7 @@ ptr_FUN_overlay_0_021421f0_overlay_0_0217ac60: ; 0x0217AC60
 
     .global ptr_FUN_overlay_0_021703a0_overlay_0_0217ac68
 ptr_FUN_overlay_0_021703a0_overlay_0_0217ac68: ; 0x0217AC68
-	.word ov0_021703A0
+	.word _ZN24CFieldEffectManpuDarkrie12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_02143bf0_overlay_0_0217ac6c
 ptr_FUN_overlay_0_02143bf0_overlay_0_0217ac6c: ; 0x0217AC6C
@@ -66716,8 +66716,8 @@ ptr_FUN_overlay_0_02143bf0_overlay_0_0217ac6c: ; 0x0217AC6C
 
     .global ptr_FUN_overlay_0_021707e4_overlay_0_0217aca4
 ptr_FUN_overlay_0_021707e4_overlay_0_0217aca4: ; 0x0217ACA4
-	.word ov0_021707E4
-	.word ov0_02170860
+	.word _ZN24CFieldEffectManpuDarkrie4DrawEP8Camera2D
+	.word _ZN24CFieldEffectManpuDarkrie8SetDepthEl
 
     .global PTR_ptr_FUN_020835bc_overlay_0_0217acac
 PTR_ptr_FUN_020835bc_overlay_0_0217acac: ; 0x0217ACAC
@@ -66750,7 +66750,7 @@ DAT_overlay_0_0217ACF9:
 
     .global ptr_FUN_overlay_0_02170e44_overlay_0_0217ad04
 ptr_FUN_overlay_0_02170e44_overlay_0_0217ad04: ; 0x0217AD04
-	.word ov0_02170E44
+	.word _ZN26CFieldEffectGlitterFactoryD1Ev
 
     .global ptr_FUN_overlay_0_02170e6c_overlay_0_0217ad08
 ptr_FUN_overlay_0_02170e6c_overlay_0_0217ad08: ; 0x0217AD08
@@ -66758,16 +66758,16 @@ ptr_FUN_overlay_0_02170e6c_overlay_0_0217ad08: ; 0x0217AD08
 
     .global ptr_FUN_overlay_0_02170ea8_overlay_0_0217ad0c
 ptr_FUN_overlay_0_02170ea8_overlay_0_0217ad0c: ; 0x0217AD0C
-	.word ov0_02170EA8
+	.word _ZN26CFieldEffectGlitterFactory6CreateEi
 	.word _ZN19CFieldEffectFactory6UpdateEi
-	.word ov0_02170E9C
+	.word _ZN26CFieldEffectGlitterFactory5ResetEv
 	.word _ZN19CFieldEffectFactory7ReleaseEP18CFieldEffectManage
 	.byte 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_020835bc_overlay_0_0217acac
 
     .global ptr_FUN_overlay_0_02170954_overlay_0_0217ad24
 ptr_FUN_overlay_0_02170954_overlay_0_0217ad24: ; 0x0217AD24
-	.word ov0_02170954
+	.word _ZN19CFieldEffectGlitterD1Ev
 
     .global ptr_FUN_overlay_0_02170988_overlay_0_0217ad28
 ptr_FUN_overlay_0_02170988_overlay_0_0217ad28: ; 0x0217AD28
@@ -66776,8 +66776,8 @@ ptr_FUN_overlay_0_02170988_overlay_0_0217ad28: ; 0x0217AD28
     .global ptr_FUN_overlay_0_021423a4_overlay_0_0217ad2c
 ptr_FUN_overlay_0_021423a4_overlay_0_0217ad2c: ; 0x0217AD2C
 	.word _ZN12CFieldEffect12ov0_021423A4Ev
-	.word ov0_02171058
-	.word ov0_02171020
+	.word _ZN19CFieldEffectGlitter12sub_02033028Ev
+	.word _ZN19CFieldEffectGlitter12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_0217ad38
 ptr_FUN_overlay_0_021421d0_overlay_0_0217ad38: ; 0x0217AD38
@@ -66786,25 +66786,25 @@ ptr_FUN_overlay_0_021421d0_overlay_0_0217ad38: ; 0x0217AD38
     .global ptr_FUN_overlay_0_02142380_overlay_0_0217ad3c
 ptr_FUN_overlay_0_02142380_overlay_0_0217ad3c: ; 0x0217AD3C
 	.word _ZN12CFieldEffect12ov0_02142380Ev
-	.word ov0_02170AB0
+	.word _ZN19CFieldEffectGlitter12ov0_021421F0Eiii
 	.word _ZN12CFieldEffect12ov0_02142240Ei
 
     .global ptr_FUN_overlay_0_02170acc_overlay_0_0217ad48
 ptr_FUN_overlay_0_02170acc_overlay_0_0217ad48: ; 0x0217AD48
-	.word ov0_02170ACC
+	.word _ZN19CFieldEffectGlitter12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_02170e04_overlay_0_0217ad4c
 ptr_FUN_overlay_0_02170e04_overlay_0_0217ad4c: ; 0x0217AD4C
-	.word ov0_02170E04
+	.word _ZN19CFieldEffectGlitter12ov0_02142344EP8Camera2D
 	.word _ZN12CFieldEffect12ov0_0214239CEi
 	.word _ZN12CFieldEffect12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
 
     .global ptr_FUN_overlay_0_021709d0_overlay_0_0217ad5c
 ptr_FUN_overlay_0_021709d0_overlay_0_0217ad5c: ; 0x0217AD5C
-	.word ov0_021709D0
+	.word _ZN19CFieldEffectGlitter12sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
-	.word ov0_02170E30
+	.word _ZN19CFieldEffectGlitter12sub_02033440Et
 	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
 	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
 	.word _ZN12CFieldEffect12sub_020333D8Eii
@@ -66864,7 +66864,7 @@ DAT_overlay_0_0217AE0D:
 
     .global ptr_FUN_overlay_0_02171730_overlay_0_0217ae18
 ptr_FUN_overlay_0_02171730_overlay_0_0217ae18: ; 0x0217AE18
-	.word ov0_02171730
+	.word _ZN33CFieldEffectBlackStoneAuraFactoryD1Ev
 
     .global ptr_FUN_overlay_0_02171758_overlay_0_0217ae1c
 ptr_FUN_overlay_0_02171758_overlay_0_0217ae1c: ; 0x0217AE1C
@@ -66872,9 +66872,9 @@ ptr_FUN_overlay_0_02171758_overlay_0_0217ae1c: ; 0x0217AE1C
 
     .global ptr_FUN_overlay_0_02171788_overlay_0_0217ae20
 ptr_FUN_overlay_0_02171788_overlay_0_0217ae20: ; 0x0217AE20
-	.word ov0_02171788
+	.word _ZN33CFieldEffectBlackStoneAuraFactory6CreateEi
 	.word _ZN19CFieldEffectFactory6UpdateEi
-	.word ov0_021717F0
+	.word _ZN33CFieldEffectBlackStoneAuraFactory5ResetEv
 	.word _ZN19CFieldEffectFactory7ReleaseEP18CFieldEffectManage
 
     .global s_33CFieldEffectBlackStoneAuraFact_overlay_0_0217ae30
@@ -66888,7 +66888,7 @@ DAT_overlay_0_0217AE54:
 
     .global ptr_FUN_overlay_0_02171198_overlay_0_0217ae5c
 ptr_FUN_overlay_0_02171198_overlay_0_0217ae5c: ; 0x0217AE5C
-	.word ov0_02171198
+	.word _ZN26CFieldEffectBlackStoneAuraD1Ev
 
     .global ptr_FUN_overlay_0_021711dc_overlay_0_0217ae60
 ptr_FUN_overlay_0_021711dc_overlay_0_0217ae60: ; 0x0217AE60
@@ -66897,8 +66897,8 @@ ptr_FUN_overlay_0_021711dc_overlay_0_0217ae60: ; 0x0217AE60
     .global ptr_FUN_overlay_0_021423a4_overlay_0_0217ae64
 ptr_FUN_overlay_0_021423a4_overlay_0_0217ae64: ; 0x0217AE64
 	.word _ZN12CFieldEffect12ov0_021423A4Ev
-	.word ov0_021718D8
-	.word ov0_021718A0
+	.word _ZN26CFieldEffectBlackStoneAura12sub_02033028Ev
+	.word _ZN26CFieldEffectBlackStoneAura12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_0217ae70
 ptr_FUN_overlay_0_021421d0_overlay_0_0217ae70: ; 0x0217AE70
@@ -66910,20 +66910,20 @@ ptr_FUN_overlay_0_02142380_overlay_0_0217ae74: ; 0x0217AE74
 
     .global ptr_FUN_overlay_0_02171358_overlay_0_0217ae78
 ptr_FUN_overlay_0_02171358_overlay_0_0217ae78: ; 0x0217AE78
-	.word ov0_02171358
+	.word _ZN26CFieldEffectBlackStoneAura12ov0_021421F0Eiii
 	.word _ZN12CFieldEffect12ov0_02142240Ei
 
     .global ptr_FUN_overlay_0_02171378_overlay_0_0217ae80
 ptr_FUN_overlay_0_02171378_overlay_0_0217ae80: ; 0x0217AE80
-	.word ov0_02171378
+	.word _ZN26CFieldEffectBlackStoneAura12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_02171598_overlay_0_0217ae84
 ptr_FUN_overlay_0_02171598_overlay_0_0217ae84: ; 0x0217AE84
-	.word ov0_02171598
+	.word _ZN26CFieldEffectBlackStoneAura12ov0_02142344EP8Camera2D
 	.word _ZN12CFieldEffect12ov0_0214239CEi
 	.word _ZN12CFieldEffect12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
-	.word ov0_02171228
+	.word _ZN26CFieldEffectBlackStoneAura12sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
 	.word _ZN12CFieldEffect12sub_02033440Et
 	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
@@ -66989,18 +66989,18 @@ PTR_ptr_FUN_020835bc_overlay_0_0217af28: ; 0x0217AF28
 
     .global PTR_LAB_overlay_0_02171b18_overlay_0_0217af3c
 PTR_LAB_overlay_0_02171b18_overlay_0_0217af3c: ; 0x0217AF3C
-	.word ov0_02171B18
+	.word _ZN24CFieldEffectSpaceCrevice17CEffectDrawObjectD1Ev
 
     .global ptr_FUN_overlay_0_02172bfc_overlay_0_0217af40
 ptr_FUN_overlay_0_02172bfc_overlay_0_0217af40: ; 0x0217AF40
 	.word ov0_02172BFC
-	.word ov0_021722EC
+	.word _ZN24CFieldEffectSpaceCrevice17CEffectDrawObject12sub_020091D4EP8Camera2Di
 	.byte 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_020835bc_overlay_0_0217af28
 
     .global ptr_FUN_overlay_0_02172638_overlay_0_0217af50
 ptr_FUN_overlay_0_02172638_overlay_0_0217af50: ; 0x0217AF50
-	.word ov0_02172638
+	.word _ZN19CFEFRasterTransformD1Ev
 
     .global ptr_FUN_overlay_0_02172660_overlay_0_0217af54
 ptr_FUN_overlay_0_02172660_overlay_0_0217af54: ; 0x0217AF54
@@ -67008,7 +67008,7 @@ ptr_FUN_overlay_0_02172660_overlay_0_0217af54: ; 0x0217AF54
 
     .global ptr_FUN_overlay_0_0217294c_overlay_0_0217af58
 ptr_FUN_overlay_0_0217294c_overlay_0_0217af58: ; 0x0217AF58
-	.word ov0_0217294C
+	.word _ZN19CFEFRasterTransform6RenderEP8Camera2D
 
     .global s_19CFEFRasterTransform_overlay_0_0217af5c
 s_19CFEFRasterTransform_overlay_0_0217af5c: ; 0x0217AF5C
@@ -67030,7 +67030,7 @@ DAT_overlay_0_0217AF8F:
 
     .global ptr_FUN_overlay_0_0217230c_overlay_0_0217af98
 ptr_FUN_overlay_0_0217230c_overlay_0_0217af98: ; 0x0217AF98
-	.word ov0_0217230C
+	.word _ZN31CFieldEffectSpaceCreviceFactoryD1Ev
 
     .global ptr_FUN_overlay_0_02172344_overlay_0_0217af9c
 ptr_FUN_overlay_0_02172344_overlay_0_0217af9c: ; 0x0217AF9C
@@ -67038,9 +67038,9 @@ ptr_FUN_overlay_0_02172344_overlay_0_0217af9c: ; 0x0217AF9C
 
     .global ptr_FUN_overlay_0_02172384_overlay_0_0217afa0
 ptr_FUN_overlay_0_02172384_overlay_0_0217afa0: ; 0x0217AFA0
-	.word ov0_02172384
+	.word _ZN31CFieldEffectSpaceCreviceFactory6CreateEi
 	.word _ZN19CFieldEffectFactory6UpdateEi
-	.word ov0_02172480
+	.word _ZN31CFieldEffectSpaceCreviceFactory5ResetEv
 	.word _ZN19CFieldEffectFactory7ReleaseEP18CFieldEffectManage
 
     .global s_31CFieldEffectSpaceCreviceFactor_overlay_0_0217afb0
@@ -67062,7 +67062,7 @@ DAT_overlay_0_0217B004:
 
     .global ptr_FUN_overlay_0_02171b1c_overlay_0_0217b00c
 ptr_FUN_overlay_0_02171b1c_overlay_0_0217b00c: ; 0x0217B00C
-	.word ov0_02171B1C
+	.word _ZN24CFieldEffectSpaceCreviceD1Ev
 
     .global ptr_FUN_overlay_0_02171b60_overlay_0_0217b010
 ptr_FUN_overlay_0_02171b60_overlay_0_0217b010: ; 0x0217B010
@@ -67071,11 +67071,11 @@ ptr_FUN_overlay_0_02171b60_overlay_0_0217b010: ; 0x0217B010
     .global ptr_FUN_overlay_0_021423a4_overlay_0_0217b014
 ptr_FUN_overlay_0_021423a4_overlay_0_0217b014: ; 0x0217B014
 	.word _ZN12CFieldEffect12ov0_021423A4Ev
-	.word ov0_02172BF4
+	.word _ZN24CFieldEffectSpaceCrevice12sub_02033028Ev
 
     .global ptr_FUN_overlay_0_02172b94_overlay_0_0217b01c
 ptr_FUN_overlay_0_02172b94_overlay_0_0217b01c: ; 0x0217B01C
-	.word ov0_02172B94
+	.word _ZN24CFieldEffectSpaceCrevice12sub_020332A4Ev
 
     .global ptr_FUN_overlay_0_021421d0_overlay_0_0217b020
 ptr_FUN_overlay_0_021421d0_overlay_0_0217b020: ; 0x0217B020
@@ -67092,17 +67092,17 @@ ptr_FUN_overlay_0_021421f0_overlay_0_0217b028: ; 0x0217B028
 
     .global ptr_FUN_overlay_0_02171cfc_overlay_0_0217b030
 ptr_FUN_overlay_0_02171cfc_overlay_0_0217b030: ; 0x0217B030
-	.word ov0_02171CFC
-	.word ov0_02171F28
+	.word _ZN24CFieldEffectSpaceCrevice12ov0_02142264Ei
+	.word _ZN24CFieldEffectSpaceCrevice12ov0_02142344EP8Camera2D
 	.word _ZN12CFieldEffect12ov0_0214239CEi
-	.word ov0_021722D4
+	.word _ZN24CFieldEffectSpaceCrevice12ov0_02142398EP17UnkClass_0211E3FC
 	.word _ZN12CFieldEffect12ov0_0214234CE7Point2Diiii
-	.word ov0_02171C08
+	.word _ZN24CFieldEffectSpaceCrevice12sub_0203312CEii
 	.word _ZN12CFieldEffect12sub_02033244Eiii
-	.word ov0_021721A0
+	.word _ZN24CFieldEffectSpaceCrevice12sub_02033440Et
 	.word _ZN12CFieldEffect12sub_0203331CERK7Point2Di
 	.word _ZN12CFieldEffect12sub_02033388ERK7Point2Di
-	.word ov0_02171BD4
+	.word _ZN24CFieldEffectSpaceCrevice12sub_020333D8Eii
 	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word _ZN12CFieldEffect12ov0_02142390EPvS0_
 	.word _ZN12CFieldEffect12ov0_02142388EPKv

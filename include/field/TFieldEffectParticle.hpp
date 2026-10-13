@@ -11,9 +11,12 @@
 #include "file/CNCERFile.hpp"
 #include "primitive/CSoftwareSprite.hpp"
 
+// Particle effect base (ov0). Slots 24/25 hand the particle system its force field and emitter 0 (names ours).
 template <class T>
 class TFieldEffectParticle : public CFieldEffect {
 public:
+    virtual ~TFieldEffectParticle();
+    virtual BOOL ov0_021421F0(int inTime, int holdTime, int outTime);
     virtual int ov0_02142264(int step)
     {
         int state = CFieldEffect::ov0_02142264(step);
@@ -31,8 +34,22 @@ public:
         }
     }
 
+    virtual int ov0_02142344(Camera2D *camera);
+    virtual int sub_0203312C(int param, int value);
+    virtual TFieldParticleForceField<T> *GetForceField() = 0;
+    virtual TFieldParticleEmitter<T> *GetEmitter() = 0;
+
     TFieldParticleSystem<T> *m_system;
     FieldEffectSpriteRes m_res;
+};
+
+// Smoke particle effect (ov0, CFieldEffectSteam / CFieldEffectVolcanicSteam): owns its emitter (slot 25 returns it).
+template <class T>
+class TFieldEffectSmoke : public TFieldEffectParticle<T> {
+public:
+    virtual ~TFieldEffectSmoke();
+    virtual int sub_0203312C(int param, int value);
+    virtual TFieldParticleEmitter<T> *GetEmitter();
 };
 
 #endif // POKERANGER2_FIELD_TFIELDEFFECTPARTICLE_HPP

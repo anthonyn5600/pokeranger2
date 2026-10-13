@@ -113,6 +113,23 @@ public:
     }
 };
 
+// Emits from a rectangle (ov0). Fields not mapped yet (the smoke subclass uses up to about 0x58).
+template <class T>
+class TFieldParticleRectEmitter : public TFieldParticleEmitter<T> {
+public:
+    virtual ~TFieldParticleRectEmitter();
+};
+
+template <class T>
+class TFieldParticleSmokeRectEmitter : public TFieldParticleRectEmitter<T> {
+public:
+    virtual ~TFieldParticleSmokeRectEmitter();
+    virtual void func2();
+    virtual u32 Update(int dt);
+    virtual void Emit(TFieldParticle<T> *p);
+    virtual void ov0_0215B988(); // clears +0x30
+};
+
 template <class T>
 class TFieldParticleForceField {
 public:

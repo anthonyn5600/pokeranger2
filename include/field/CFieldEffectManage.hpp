@@ -10,7 +10,9 @@
 #include "UnkStruct_02044464.hpp"
 #include "common.hpp"
 #include "field/CFieldEffect.hpp"
+#include "field/CFieldEffectAirBubbles.hpp"
 #include "field/CFieldEffectFactory.hpp"
+#include "field/CFieldEffectFootStepSmoke.hpp"
 #include "field/TFieldEffectParticle.hpp"
 #include "primitive/CPrimitiveRECT.hpp"
 #include "primitive/CSoftwareSprite.hpp"
@@ -20,18 +22,6 @@ class UnkClass_0211E3FC;
 class Camera2D;
 
 // Members of CFieldEffectManage defined in other ov0 TUs.
-class CFieldEffectFootStepSmoke : public CFieldEffect {
-public:
-    CFieldEffectFootStepSmoke();
-    virtual ~CFieldEffectFootStepSmoke();
-    void ov0_021509F4(UnkClass_020074D4 *ncbr, UnkClass_02007AA4 *palette, CNCERFile *ncer);
-    void ov0_02150A04(UnkClass_020074D4 *ncbr, UnkClass_02007AA4 *palette, CNCERFile *ncer, UnkClass_02008788 *cac);
-    void ov0_02150A94();
-    void ov0_02150AE8(int idx, int arg1, int arg2, int arg3);
-
-    u8 unk_18[0x2A0];
-};
-
 class CFieldEffectDamageIndication : public CFieldEffect {
 public:
     CFieldEffectDamageIndication();
@@ -40,15 +30,6 @@ public:
 
     CPrimitiveRECT m_rects[2];
     u8 unk_98[0x18];
-};
-
-class CFieldEffectAirBubbles : public TFieldEffectParticle<CSoftwareSprite> {
-public:
-    CFieldEffectAirBubbles();
-    virtual ~CFieldEffectAirBubbles();
-    void ov0_0216D050(fx32 x, fx32 y);
-
-    u8 unk_28[0x44];
 };
 
 class CFieldEffectAttackActorData : public CEffectActorData {
