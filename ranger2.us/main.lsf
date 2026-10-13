@@ -296,7 +296,6 @@ Overlay overlay1
     Object main.nef.p/src_UnkClass_0213CC28.cpp.o
     Object main.nef.p/src_UnkClass_0213F028.cpp.o
     Object main.nef.p/src_UnkClass_0213F9D0.cpp.o
-    Object main.nef.p/asm_overlay_01_0213F9D0.s.o
 }
 
 Overlay overlay2
