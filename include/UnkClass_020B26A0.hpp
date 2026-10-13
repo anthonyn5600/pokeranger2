@@ -264,7 +264,7 @@ public:
     u32 unk_7C3C[0x20];
     u8 unk_7CBC[500];
     u32 unk_7EB0[0x20];
-    u8 unk_7F30[0x30];
+    u32 unk_7F30[3][4];
     u32 unk_7F60;
     u64 unk_7F64;
     s16 unk_7F6C[64];

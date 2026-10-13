@@ -31,8 +31,8 @@
 #include "UnkClass_0215994C.hpp"
 #include "UnkClass_0216D5F4.hpp"
 #include "UnkStruct_020107A8.hpp"
-#include "field/CFieldEffectManpu.hpp"
 #include "field/CFieldEffectManage.hpp"
+#include "field/CFieldEffectManpu.hpp"
 #include "field/CFieldEnemy.hpp"
 #include "field/CFieldEnemyManage.hpp"
 #include "field/CFieldMap.hpp"
@@ -632,9 +632,6 @@ struct UnkStruct_0201549C {
 };
 
 extern "C" {
-void ov0_0214FB08(UnkClass_0214F9DC *obj);
-int ov0_0214FB18(UnkClass_0214F9DC *obj);
-void ov0_0214FAA0(UnkClass_0214F9DC *obj);
 int sub_02016138(UnkClass_020B26A0 *save, int arg1);
 UnkStruct_0201549C *sub_0201549C(UnkClass_020B26A0 *save, u32 id);
 UnkStruct_020155FC *sub_02015520(UnkClass_020B26A0 *save, u32 id);
@@ -705,9 +702,9 @@ u32 CFieldScene::func0()
     if (unk_00EC != 0) {
         updateActors = FALSE;
         doUpdate = FALSE;
-        ov0_0214FB08(unk_00E8);
-        if (ov0_0214FB18(unk_00E8) == 0) {
-            ov0_0214FAA0(unk_00E8);
+        unk_00E8->ov0_0214FB08();
+        if (unk_00E8->ov0_0214FB18() == FALSE) {
+            unk_00E8->ov0_0214FAA0();
             G2_SetBlendBrightness(GX_BLEND_PLANEMASK_NONE, 0);
             unk_00EC = 0;
         }

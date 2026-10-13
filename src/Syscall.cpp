@@ -27,8 +27,8 @@
 #include "common.hpp"
 #include "field/CFieldActor.hpp"
 #include "field/CFieldActorManage.hpp"
-#include "field/CFieldEffectManpu.hpp"
 #include "field/CFieldEffectManage.hpp"
+#include "field/CFieldEffectManpu.hpp"
 #include "field/CFieldEnemy.hpp"
 #include "field/CFieldEnemyManage.hpp"
 #include "field/CFieldEventRect.hpp"
@@ -4298,7 +4298,7 @@ int sub_020336E4(int *args)
 static inline u32 GetCaptureState(UnkClass_020B26A0 *save, int group, int i)
 {
     if (group >= 0 && group < 3 && i >= 0 && i < 64) {
-        return (((u32 *)(save->unk_7F30 + group * 0x10))[i / 16] >> ((i & 0xF) * 2)) & 3;
+        return (save->unk_7F30[group][i / 16] >> ((i & 0xF) * 2)) & 3;
     }
     return 0;
 }
@@ -4310,8 +4310,8 @@ int sub_02033718(int *args)
     UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
     if (GetCaptureState(save, group, i) == 0 && group >= 0 && group < 3 && i >= 0 && i < 64) {
         int shift = (i & 0xF) * 2;
-        ((u32 *)(save->unk_7F30 + group * 0x10))[i / 16] &= ~(3 << shift);
-        ((u32 *)(save->unk_7F30 + group * 0x10))[i / 16] |= 1 << shift;
+        save->unk_7F30[group][i / 16] &= ~(3 << shift);
+        save->unk_7F30[group][i / 16] |= 1 << shift;
     }
     return 0;
 }
