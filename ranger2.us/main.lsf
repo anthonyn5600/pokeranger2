@@ -249,7 +249,8 @@ Overlay overlay1
     Object main.nef.p/src_CBattleAssistGround.cpp.o
     Object main.nef.p/src_CBattleAssistIce.cpp.o
     Object main.nef.p/src_CBattleAssistInsect.cpp.o
-    Object main.nef.p/asm_overlay_01_02133B44.s.o
+    Object main.nef.p/src_CBattleAssistNormal.cpp.o
+    Object main.nef.p/asm_overlay_01_02133C08.s.o
 }
 
 Overlay overlay2
