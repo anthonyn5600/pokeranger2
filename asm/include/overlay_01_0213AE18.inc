@@ -23,9 +23,6 @@
 .public _Z12sub_020060007Point2D9Rectanglem
 .public _Z17LinearInterpolatellll
 .public _ZN11CBGNCGRFileC1EPKcmmm
-.public _ZN11CBattleDisk12ov1_0212C4ECEh
-.public _ZN11CBattleDisk12ov1_0212C4F4Ei
-.public _ZN11CBattleDisk12ov1_0212C610Ell
 .public _ZN11CBinaryFileC1EPKcmmmPvm
 .public _ZN12CBattleScene12ov1_0211EF74Etm
 .public _ZN12CBattleScene12ov1_0211F010Et
@@ -52,7 +49,6 @@
 .public _ZN17UnkClass_0200CAB412sub_0200CDA0EiiiiPhii
 .public _ZN17UnkClass_0200CAB412sub_0200CF7CEi
 .public _ZN17UnkClass_0200E0B412sub_0200E0E0Ett
-.public _ZN17UnkClass_0200E0B412sub_0200E310Ev
 .public _ZN17UnkClass_0200E96012sub_0200EB28Eii
 .public _ZN17UnkClass_0200E96012sub_0200EB34Eii
 .public _ZN17UnkClass_0200E96012sub_0200EB64Ei
@@ -75,18 +71,12 @@
 .public _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
 .public _ZN17UnkClass_0201AAE0D1Ev
 .public _ZN17UnkClass_0201AD605CloseEv
-.public _ZN17UnkClass_0203447812sub_02034870Ei
-.public _ZN17UnkClass_0203447812sub_02034B58Ei
 .public _ZN17UnkClass_0203447812sub_02034C44Ei
 .public _ZN17UnkClass_0203447812sub_02034CF4Eii
 .public _ZN5CGame11GetInstanceEv
 .public _ZN5CGame12sub_020100E4EPFvPvES0_
-.public _ZN6CActorC2Ev
-.public _ZN6CActorD2Ev
 .public _ZN9CNCLRFileC1EPKcmmm
 .public _ZN9CNSCRFileC1EPKcmmm
-.public _ZTI6CActor
-.public _ZTVN10__cxxabiv120__si_class_type_infoE
 .public _ZdaPv
 .public _ZdlPv
 .public _Znam
