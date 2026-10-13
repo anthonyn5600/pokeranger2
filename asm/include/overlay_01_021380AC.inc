@@ -110,9 +110,7 @@
 .public __cxa_vec_cleanup
 .public __cxa_vec_ctor
 .public _ll_div
-.public abort
 .public ov1_0212EE80
-.public printf
 .public sub_020107A8
 .public sub_02010E60
 .public sub_02010E78

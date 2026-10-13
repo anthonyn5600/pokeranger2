@@ -339,7 +339,7 @@ void CBattleScene::func6()
     }
     for (int i = 0; i < 8; i++) {
         unk_0BC4[i] = new UnkClass_02137DA4();
-        unk_0BC4[i]->unk_0C = i * -0x80;
+        unk_0BC4[i]->m_z = i * -0x80;
     }
     unk_0BAC = new UnkClass_0212E88C();
     unk_0C28 = new UnkClass_02018B9C();
@@ -1738,23 +1738,23 @@ int CBattleScene::ov1_02121DB0(Camera2D *camera, int z)
     }
     z = sub_0204240C(unk_00D4, z);
     sub_020423F4(unk_00D4, unk_00C4);
-    unk_0BC4[7]->unk_0C = z;
-    unk_0BC4[6]->unk_0C = unk_0BC4[7]->ov1_02137F28(unk_00C4);
+    unk_0BC4[7]->m_z = z;
+    unk_0BC4[6]->m_z = unk_0BC4[7]->ov1_02137F28(unk_00C4);
     z = unk_0BC4[6]->ov1_02137F28(unk_00C4);
     z = ov1_0212233C(unk_00C4, z);
     z = unk_0BAC->ov1_0212EDB4(z);
     unk_0BAC->ov1_0212E998(unk_00C4);
     z = unk_00D8->ov1_0212D124(z);
     unk_00D8->ov1_0212C00C(unk_00C4);
-    unk_0BC4[5]->unk_0C = z;
-    unk_0BC4[4]->unk_0C = unk_0BC4[5]->ov1_02137F28(unk_00C4);
+    unk_0BC4[5]->m_z = z;
+    unk_0BC4[4]->m_z = unk_0BC4[5]->ov1_02137F28(unk_00C4);
     z = unk_0BC4[4]->ov1_02137F28(unk_00C4);
     z = unk_00D8->ov1_0212D0D4(z);
     unk_00D8->vfunc_0C(unk_00C4);
-    unk_0BC4[3]->unk_0C = z;
-    unk_0BC4[2]->unk_0C = unk_0BC4[3]->ov1_02137F28(unk_00C4);
-    unk_0BC4[1]->unk_0C = unk_0BC4[2]->ov1_02137F28(unk_00C4);
-    unk_0BC4[0]->unk_0C = unk_0BC4[1]->ov1_02137F28(unk_00C4);
+    unk_0BC4[3]->m_z = z;
+    unk_0BC4[2]->m_z = unk_0BC4[3]->ov1_02137F28(unk_00C4);
+    unk_0BC4[1]->m_z = unk_0BC4[2]->ov1_02137F28(unk_00C4);
+    unk_0BC4[0]->m_z = unk_0BC4[1]->ov1_02137F28(unk_00C4);
     z = unk_0BC4[0]->ov1_02137F28(unk_00C4);
     unk_0BA8->ov1_02136B88(unk_00C4);
     return z;
