@@ -180,13 +180,4 @@
 .public _ll_div
 .public _s32_div_f
 .public g_ntfTextureFormats
-.public ov3_02121498
-.public ov3_021214AC
-.public ov3_021214C8
-.public ov3_0212176C
-.public ov3_02121A90
-.public ov3_02121B78
-.public ov3_02121D0C
-.public ov3_02121D10
-.public ov3_02121D20
 .public s_game
