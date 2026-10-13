@@ -137,7 +137,7 @@ public:
     u16 unk_000A;
     u32 unk_000C;
     CTouchPanel *unk_0010;
-    u8 unk_0014[0x4];
+    BOOL unk_0014;
     int unk_0018;
     UnkClass_02010854 *unk_001C;
     int unk_0020;
