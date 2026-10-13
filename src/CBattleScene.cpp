@@ -67,6 +67,7 @@
 #include "battle/UnkStruct_0212DFEC.hpp"
 #include "file/CBinaryFile.hpp"
 #include "interpolation.hpp"
+#include "primitive/CPrimitiveRECT.hpp"
 #include "sub_02007254.hpp"
 
 static inline u32 GetPokemonState(UnkClass_020B26A0 *save, int i)
@@ -885,7 +886,7 @@ int CBattleScene::ov1_0211F404()
     if (unk_0044 != sub_02010B7C(unk_001C)) {
         if (unk_0010->unk_04 != 0) {
             if (sub_02010BE0(unk_001C)) {
-                if (sub_02006000(touchPos, unk_0C08->unk_04->unk_18, 0)) {
+                if (sub_02006000(touchPos, unk_0C08->m_rect->m_rectangle, 0)) {
                     unk_0C08->ov1_02138280();
                     unk_0080 |= 1;
                     unk_0081 = 0;
@@ -901,7 +902,7 @@ int CBattleScene::ov1_0211F404()
         }
         if (unk_0010->unk_05 != 0) {
             BOOL held = TRUE;
-            if ((unk_0080 & 1) && !sub_02006000(touchPos, unk_0C08->unk_04->unk_18, 0)) {
+            if ((unk_0080 & 1) && !sub_02006000(touchPos, unk_0C08->m_rect->m_rectangle, 0)) {
                 unk_0080 &= ~1;
                 held = FALSE;
             } else if ((unk_0080 & 2) && !sub_02006000(touchPos, unk_0C0C->unk_04->unk_18, 0)) {
@@ -914,7 +915,7 @@ int CBattleScene::ov1_0211F404()
         }
         if (unk_0010->unk_06 != 0) {
             if (unk_0081 <= 12) {
-                if (sub_02006000(touchPos, unk_0C08->unk_04->unk_18, 0)) {
+                if (sub_02006000(touchPos, unk_0C08->m_rect->m_rectangle, 0)) {
                     if (unk_0080 & 1) {
                         unk_0080 &= ~1;
                         unk_0034--;
@@ -1683,7 +1684,7 @@ void CBattleScene::func1()
         ov1_021220AC(unk_00C4, z + 3);
         break;
     }
-    u16 subZ = unk_0BB0->SetZ(0x3AC);
+    int subZ = unk_0BB0->SetZ(0x3AC);
     unk_0BB0->vfunc_0C(unk_00C8);
     if (sub_02010BE0(unk_001C)) {
         subZ = unk_0C08->ov1_021382A4(subZ);

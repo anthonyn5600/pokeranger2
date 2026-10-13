@@ -1,185 +1,7 @@
     .include "macros.inc"
-    .include "include/overlay_01_021380AC.inc"
+    .include "include/overlay_01_021382D0.inc"
 
     .text
-
-	arm_func_start _ZN17UnkClass_021380ACC1Ev
-_ZN17UnkClass_021380ACC1Ev: ; 0x021380AC
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	bl ov1_021380D4
-	mov r0, r4
-	ldmia sp!, {r4, pc}
-	arm_func_end _ZN17UnkClass_021380ACC1Ev
-
-	arm_func_start _ZN17UnkClass_021380ACD1Ev
-_ZN17UnkClass_021380ACD1Ev: ; 0x021380C0
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	bl ov1_021381BC
-	mov r0, r4
-	ldmia sp!, {r4, pc}
-	arm_func_end _ZN17UnkClass_021380ACD1Ev
-
-	arm_func_start ov1_021380D4
-ov1_021380D4: ; 0x021380D4
-	stmdb sp!, {r3, r4, lr}
-	sub sp, sp, #0xc
-	mov r4, r0
-	mov r0, #0x40
-	bl _Znwm
-	cmp r0, #0
-	beq _021380F4
-	bl _ZN14CPrimitiveRECTC1Ev
-	arm_func_end ov1_021380D4
-_021380F4:
-	str r0, [r4, #4]
-	mov r1, #0x70000
-	str r1, [r0, #0x18]
-	mov r1, #0x50000
-	str r1, [r0, #0x1c]
-	ldr r2, [r4, #4]
-	mov r1, #0x20000
-	str r1, [r2, #0x20]
-	mov r0, #0x18
-	str r1, [r2, #0x24]
-	bl _Znwm
-	cmp r0, #0
-	beq _02138150
-	ldr r2, _021381A4 ; =s_BAS_i046_NCLR_overlay_1_02141b2c
-	ldr r1, _021381A8 ; =s_BAS_i046_00_NCER_overlay_1_02141b3c
-	str r2, [sp]
-	ldr ip, _021381AC ; =s_BAS_i046_00_cac_overlay_1_02141b50
-	str r1, [sp, #4]
-	ldr r1, _021381B0 ; =s_BAS_overlay_1_02141af8
-	ldr r2, _021381B4 ; =s_data_interface_i046_LZ_bin_overlay_1_02141afc
-	ldr r3, _021381B8 ; =s_BAS_i046_00_NCBR_overlay_1_02141b18
-	str ip, [sp, #8]
-	bl _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
-_02138150:
-	str r0, [r4, #0xc]
-	mov r0, #0x4c
-	bl _Znwm
-	cmp r0, #0
-	beq _02138168
-	bl _ZN15CSoftwareSpriteC1Ev
-_02138168:
-	str r0, [r4, #8]
-	ldr r1, [r4, #0xc]
-	ldmia r1, {r2, r3, ip}
-	mov r1, #0
-	str r2, [r0, #0x2c]
-	str r1, [r0, #0x30]
-	str r3, [r0, #0x34]
-	str ip, [r0, #0x38]
-	ldr r1, [r4, #8]
-	mov r0, #0x70000
-	str r0, [r1, #0x18]
-	mov r0, #0x50000
-	str r0, [r1, #0x1c]
-	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, pc}
-	.align 2, 0
-_021381A4: .word s_BAS_i046_NCLR_overlay_1_02141b2c
-_021381A8: .word s_BAS_i046_00_NCER_overlay_1_02141b3c
-_021381AC: .word s_BAS_i046_00_cac_overlay_1_02141b50
-_021381B0: .word s_BAS_overlay_1_02141af8
-_021381B4: .word s_data_interface_i046_LZ_bin_overlay_1_02141afc
-_021381B8: .word s_BAS_i046_00_NCBR_overlay_1_02141b18
-
-	arm_func_start ov1_021381BC
-ov1_021381BC: ; 0x021381BC
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	ldr r0, [r5, #4]
-	cmp r0, #0
-	beq _021381E8
-	beq _021381E0
-	ldr r1, [r0]
-	ldr r1, [r1, #4]
-	blx r1
-	arm_func_end ov1_021381BC
-_021381E0:
-	mov r0, #0
-	str r0, [r5, #4]
-_021381E8:
-	ldr r0, [r5, #8]
-	cmp r0, #0
-	beq _0213820C
-	beq _02138204
-	ldr r1, [r0]
-	ldr r1, [r1, #4]
-	blx r1
-_02138204:
-	mov r0, #0
-	str r0, [r5, #8]
-_0213820C:
-	ldr r4, [r5, #0xc]
-	cmp r4, #0
-	ldmeqia sp!, {r3, r4, r5, pc}
-	beq _0213822C
-	mov r0, r4
-	bl _ZN17UnkClass_0201AAE0D1Ev
-	mov r0, r4
-	bl _ZdlPv
-_0213822C:
-	mov r0, #0
-	str r0, [r5, #0xc]
-	ldmia sp!, {r3, r4, r5, pc}
-
-	arm_func_start _ZN17UnkClass_021380AC12ov1_02138238Ev
-_ZN17UnkClass_021380AC12ov1_02138238Ev: ; 0x02138238
-	ldrb r1, [r0]
-	tst r1, #1
-	bxeq lr
-	ldrb r1, [r0, #1]
-	add r2, r1, #1
-	and r1, r2, #0xff
-	cmp r1, #0x10
-	strb r2, [r0, #1]
-	ldrhs r0, [r0, #8]
-	movhs r1, #0
-	strhsh r1, [r0, #0x2a]
-	bx lr
-	arm_func_end _ZN17UnkClass_021380AC12ov1_02138238Ev
-
-	arm_func_start _ZN17UnkClass_021380AC12ov1_02138268EP8Camera2D
-_ZN17UnkClass_021380AC12ov1_02138268EP8Camera2D: ; 0x02138268
-	stmdb sp!, {r3, lr}
-	ldr r0, [r0, #8]
-	ldr r2, [r0]
-	ldr r2, [r2, #8]
-	blx r2
-	ldmia sp!, {r3, pc}
-	arm_func_end _ZN17UnkClass_021380AC12ov1_02138268EP8Camera2D
-
-	arm_func_start _ZN17UnkClass_021380AC12ov1_02138280Ev
-_ZN17UnkClass_021380AC12ov1_02138280Ev: ; 0x02138280
-	ldrb r3, [r0]
-	mov r2, #0
-	mov r1, #1
-	orr r3, r3, #1
-	strb r3, [r0]
-	strb r2, [r0, #1]
-	ldr r0, [r0, #8]
-	strh r1, [r0, #0x2a]
-	bx lr
-	arm_func_end _ZN17UnkClass_021380AC12ov1_02138280Ev
-
-	arm_func_start _ZN17UnkClass_021380AC12ov1_021382A4Et
-_ZN17UnkClass_021380AC12ov1_021382A4Et: ; 0x021382A4
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	ldr r0, [r5, #8]
-	mov r4, r1
-	ldrh r1, [r0, #0x2a]
-	bl _ZN15CSoftwareSprite18GetCellNumOAMAttrsEt
-	add r2, r4, r0
-	ldr r1, [r5, #8]
-	add r0, r2, #1
-	str r2, [r1, #4]
-	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end _ZN17UnkClass_021380AC12ov1_021382A4Et
 
 	arm_func_start _ZN17UnkClass_021382D0C1Ev
 _ZN17UnkClass_021382D0C1Ev: ; 0x021382D0
@@ -345,8 +167,8 @@ _ZN17UnkClass_021382D012ov1_021384A8Ev: ; 0x021384A8
 	bx lr
 	arm_func_end _ZN17UnkClass_021382D012ov1_021384A8Ev
 
-	arm_func_start _ZN17UnkClass_021382D012ov1_021384CCEt
-_ZN17UnkClass_021382D012ov1_021384CCEt: ; 0x021384CC
+	arm_func_start _ZN17UnkClass_021382D012ov1_021384CCEi
+_ZN17UnkClass_021382D012ov1_021384CCEi: ; 0x021384CC
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r0, [r5, #8]
@@ -358,7 +180,7 @@ _ZN17UnkClass_021382D012ov1_021384CCEt: ; 0x021384CC
 	add r0, r2, #1
 	str r2, [r1, #4]
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end _ZN17UnkClass_021382D012ov1_021384CCEt
+	arm_func_end _ZN17UnkClass_021382D012ov1_021384CCEi
 
 	arm_func_start _ZN17UnkClass_021384F8C1Ev
 _ZN17UnkClass_021384F8C1Ev: ; 0x021384F8
@@ -9225,42 +9047,6 @@ DAT_overlay_1_021404f8: ; 0x021404F8
     .section .sinit,4 ; 0x02140734
 
     .data
-
-    .global s_BAS_overlay_1_02141af8
-s_BAS_overlay_1_02141af8: ; 0x02141AF8
-	.asciz "BAS"
-
-    .global s_data_interface_i046_LZ_bin_overlay_1_02141afc
-s_data_interface_i046_LZ_bin_overlay_1_02141afc: ; 0x02141AFC
-	.asciz "/data/interface/i046_LZ.bin"
-
-    .global s_BAS_i046_00_NCBR_overlay_1_02141b18
-s_BAS_i046_00_NCBR_overlay_1_02141b18: ; 0x02141B18
-	.asciz "BAS:i046_00.NCBR"
-
-    .global DAT_overlay_1_02141B29
-DAT_overlay_1_02141B29:
-	.byte 0x00, 0x00, 0x00
-
-    .global s_BAS_i046_NCLR_overlay_1_02141b2c
-s_BAS_i046_NCLR_overlay_1_02141b2c: ; 0x02141B2C
-	.asciz "BAS:i046.NCLR"
-
-    .global DAT_overlay_1_02141B3A
-DAT_overlay_1_02141B3A:
-	.byte 0x00, 0x00
-
-    .global s_BAS_i046_00_NCER_overlay_1_02141b3c
-s_BAS_i046_00_NCER_overlay_1_02141b3c: ; 0x02141B3C
-	.asciz "BAS:i046_00.NCER"
-
-    .global DAT_overlay_1_02141B4D
-DAT_overlay_1_02141B4D:
-	.byte 0x00, 0x00, 0x00
-
-    .global s_BAS_i046_00_cac_overlay_1_02141b50
-s_BAS_i046_00_cac_overlay_1_02141b50: ; 0x02141B50
-	.asciz "BAS:i046_00.cac"
 
     .global DAT_overlay_1_02141b60
 DAT_overlay_1_02141b60: ; 0x02141B60

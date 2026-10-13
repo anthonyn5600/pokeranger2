@@ -15,7 +15,7 @@ public:
     ~UnkClass_021382D0(); // ov1_021382E4
     void ov1_02138460();
     void ov1_02138490(Camera2D *camera);
-    u16 ov1_021384CC(u16 z);
+    int ov1_021384CC(int z);
     void ov1_021384A8();
 
 public:
