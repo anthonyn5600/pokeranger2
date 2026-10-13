@@ -30,7 +30,6 @@
 .public _Z12sub_02007254ll
 .public _Z17LinearInterpolatellll
 .public _ZN11CBGNCGRFileC1EPKcmmm
-.public _ZN11CBattleDisk12ov1_0212C4CCEv
 .public _ZN11CBattleDisk12ov1_0212C4ECEh
 .public _ZN11CBattleDisk12ov1_0212C4F4Ei
 .public _ZN11CBattleDisk12ov1_0212C5C0Ev
@@ -128,7 +127,6 @@
 .public _ZN17UnkClass_0203447812sub_02034C5CEi
 .public _ZN17UnkClass_0203447812sub_02034CF4Eii
 .public _ZN17UnkClass_0203447812sub_02034DE8Eiii
-.public _ZN17UnkClass_0212306C12ov1_02124650Ell
 .public _ZN17UnkClass_0212841412ov1_02128598Ei
 .public _ZN17UnkClass_0212EEB412ov1_0212F32CEitt
 .public _ZN19CBattleAttackEffect12ov1_021270FCEP23CBattleAttackEffectData

@@ -256,6 +256,16 @@ public:
 
 STATIC_SIZE_ASSERT(CBattleAssistRock, 0x50);
 
+struct GhostSlot {
+    u8 m_flags;
+    u16 m_timer;
+    u16 m_angle;
+    Point2D m_center;
+    CBattleAttackEffect *m_effect;
+};
+
+STATIC_SIZE_ASSERT(GhostSlot, 0x14);
+
 class CBattleAssistGhost : public CBattleAssist {
 public:
     CBattleAssistGhost(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3);
@@ -264,8 +274,10 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
+    GhostSlot *ov1_02131A48();
+
 public:
-    u8 unk_18[0x64];
+    GhostSlot m_ghosts[5];
 };
 
 STATIC_SIZE_ASSERT(CBattleAssistGhost, 0x7C);
