@@ -3,26 +3,33 @@
 
 #include <nitro.h>
 
-#include "field/CFieldEffect.hpp"
+// CFieldEffect.hpp comes through TFieldEffectParticle.hpp: completing CFieldEffect before CFieldEffectFactory swaps
+// two typeinfos in this TU's data.
 #include "field/CFieldEffectFactory.hpp"
+#include "field/CFieldParticleSmokeAnimator.hpp"
 #include "field/TFieldEffectParticle.hpp"
 #include "field/TFieldParticle.hpp"
 #include "primitive/CSoftwareSprite.hpp"
 
-class CFieldParticleSmokeAnimator : public TFieldParticleForceField<CSoftwareSprite> {
-public:
-    virtual ~CFieldParticleSmokeAnimator();
-    virtual void Apply(TFieldParticle<CSoftwareSprite> *p, int dt);
-};
-
-// size 0x94, ctor ov0_0215AD18
 class CFieldEffectSteam : public TFieldEffectSmoke<CSoftwareSprite> {
 public:
-    virtual ~CFieldEffectSteam();
-    virtual int sub_02033028();
+    CFieldEffectSteam(int kind);
+    virtual ~CFieldEffectSteam()
+    {
+    }
+    virtual int sub_02033028()
+    {
+        return 9;
+    }
     virtual int sub_0203312C(int param, int value);
-    virtual TFieldParticleForceField<CSoftwareSprite> *GetForceField();
+    virtual TFieldParticleForceField<CSoftwareSprite> *GetForceField()
+    {
+        return &m_animator;
+    }
+
+    CFieldParticleSmokeAnimator m_animator;
 };
+STATIC_SIZE_ASSERT(CFieldEffectSteam, 0x94);
 
 class CFieldEffectSteamFactory : public CFieldEffectFactory {
 public:

@@ -258,7 +258,18 @@ Overlay overlay0
     Object main.nef.p/src_FieldEffectActorData.cpp.o
     Object main.nef.p/src_CFieldEffectFootStepSmoke.cpp.o
     Object main.nef.p/src_FieldEffectFactories.cpp.o
-    Object main.nef.p/asm_overlay_00_021519C0.s.o
+    Object main.nef.p/src_CFieldEffectManpuFactory.cpp.o
+    Object main.nef.p/src_CFieldEffectManpuBalloon.cpp.o
+    Object main.nef.p/src_CFieldEffectManpuJumping.cpp.o
+    Object main.nef.p/src_CFieldEffectManpuAnime.cpp.o
+    Object main.nef.p/asm_overlay_00_02152A14.s.o
+    Object main.nef.p/asm_overlay_00_02177EB8.s.o
+    Object main.nef.p/src_CFieldParticleSmokeAnimator.cpp.o
+    Object main.nef.p/src_CFieldEffectSteam.cpp.o
+    Object main.nef.p/asm_overlay_00_0215BDCC.s.o
+    Object main.nef.p/asm_overlay_00_021785A4.s.o
+    Object main.nef.p/src_CFieldEffectSpreadSmoke.cpp.o
+    Object main.nef.p/asm_overlay_00_0215CDC4.s.o
 }
 
 Overlay overlay1

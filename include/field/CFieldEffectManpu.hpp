@@ -14,6 +14,14 @@ public:
     static void *operator new(size_t size);
     static void operator delete(void *ptr);
 
+    CFieldEffectManpu(CEffectActorData *data)
+        : CFieldEffectActor(data)
+    {
+        unk_1C = NULL;
+        unk_20 = 0;
+        unk_24 = -1;
+        unk_28 = 0;
+    }
     virtual ~CFieldEffectManpu();
     virtual int sub_02033028();
     virtual int ov0_02142344(Camera2D *camera);
@@ -34,6 +42,12 @@ public:
 
 class CFieldEffectManpuSimple : public CFieldEffectManpu {
 public:
+    CFieldEffectManpuSimple(CEffectActorData *data, int type = 0)
+        : CFieldEffectManpu(data)
+    {
+        unk_28 = 1;
+        Init(type);
+    }
     virtual int Draw(Camera2D *camera);
     virtual void SetDepth(fx32 z);
 

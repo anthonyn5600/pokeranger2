@@ -1,17 +1,15 @@
+#include "field/CFieldEffectManpu.hpp"
+
 #include <nitro.h>
 
 #include "Camera2D.hpp"
 #include "field/CFieldActor.hpp"
-#include "field/CFieldEffectManpu.hpp"
+#include "field/CFieldEffectManpuPos.hpp"
+#include "field/UnkClass_0216D2D4.hpp"
 #include "scene/CFieldScene.hpp"
 
 extern CFieldScene *MAIN_BSS_0210CA40;
-extern void *OVERLAY0_BSS_0217B0E0;
-
-extern "C" {
-void *ov0_0216D2E4(void *heap, size_t size);
-void ov0_0216D3D0(void *heap, void *ptr);
-}
+extern UnkClass_0216D2D4 *OVERLAY0_BSS_0217B0E0;
 
 // fake: an unreferenced global (own section, stripped by mwld) that only takes part in mwcc's size sort of the
 // TU's data; it orders the typeinfos ManpuSimple, Manpu, Actor like the original.
@@ -46,12 +44,12 @@ int CFieldEffectManpu::ov0_02142344(Camera2D *camera)
 
 void *CFieldEffectManpu::operator new(size_t size)
 {
-    return ov0_0216D2E4(OVERLAY0_BSS_0217B0E0, size);
+    return OVERLAY0_BSS_0217B0E0->Alloc(size);
 }
 
 void CFieldEffectManpu::operator delete(void *ptr)
 {
-    ov0_0216D3D0(OVERLAY0_BSS_0217B0E0, ptr);
+    OVERLAY0_BSS_0217B0E0->Free(ptr);
 }
 
 void CFieldEffectManpuSimple::Init(int type)
@@ -68,18 +66,6 @@ void CFieldEffectManpuSimple::Init(int type)
 void CFieldEffectManpuSimple::SetDepth(fx32 z)
 {
     m_sprite.m_z = z;
-}
-
-static inline Point2D GetOffset(CFieldActor *actor)
-{
-    return *(Point2D *)&actor->unk_70;
-}
-
-static inline Point2D GetBalloonPos(CFieldActor *actor)
-{
-    Point2D pos = *(Point2D *)&actor->unk_70 + actor->GetPos();
-    pos.y -= actor->GetHeight();
-    return pos;
 }
 
 int CFieldEffectManpuSimple::Draw(Camera2D *camera)
