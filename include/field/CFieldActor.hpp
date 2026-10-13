@@ -63,7 +63,7 @@ public:
         }
     }
 
-    inline void sub_020129F4_(int arg0, int arg1)
+    inline void sub_020129F4_(int arg0, u8 arg1)
     {
         if (unk_0C != NULL) {
             unk_0C->sub_020129F4(arg0, arg1);
@@ -435,7 +435,7 @@ public:
         }
     }
 
-    inline void sub_020129F4_(int arg0, int arg1)
+    inline void sub_020129F4_(int arg0, u8 arg1)
     {
         if (unk_08 != NULL) {
             unk_08->sub_020129F4_(arg0, arg1);
@@ -594,6 +594,62 @@ public:
     {
         if (unk_08 != NULL && unk_08->unk_0C != NULL) {
             unk_08->unk_0C->m_motion.sub_02011C20(pos, speed);
+        }
+    }
+
+    inline void MoveLinear(Point2D pos, u32 duration)
+    {
+        if (unk_08 != NULL && unk_08->unk_0C != NULL) {
+            unk_08->unk_0C->m_motion.sub_02011AB0(pos, duration);
+        }
+    }
+
+    inline void MoveCurve(Point2D end, Point2D ctrl, u32 duration)
+    {
+        if (unk_08 != NULL && unk_08->unk_0C != NULL) {
+            unk_08->unk_0C->m_motion.sub_02011B18(end, ctrl, duration);
+        }
+    }
+
+    inline void MoveCurve(Point2D end, Point2D ctrl1, Point2D ctrl2, u32 duration)
+    {
+        if (unk_08 != NULL && unk_08->unk_0C != NULL) {
+            unk_08->unk_0C->m_motion.sub_02011B94(end, ctrl1, ctrl2, duration);
+        }
+    }
+
+    inline void MoveCurve(Point2D *end, Point2D *ctrl, int speed)
+    {
+        if (unk_08 != NULL && unk_08->unk_0C != NULL) {
+            unk_08->unk_0C->sub_02012F5C(end, ctrl, speed);
+        }
+    }
+
+    inline void sub_02012948_(Point2D pos)
+    {
+        if (unk_08 != NULL && unk_08->unk_0C != NULL) {
+            unk_08->unk_0C->sub_02012948(pos);
+        }
+    }
+
+    inline void SetUnk19C(fx32 value)
+    {
+        if (unk_08 != NULL && unk_08->unk_0C != NULL) {
+            unk_08->unk_0C->unk_19C = value;
+        }
+    }
+
+    inline void Jump(fx32 height, u16 duration)
+    {
+        if (unk_08 != NULL && unk_08->unk_0C != NULL) {
+            unk_08->unk_0C->sub_02012860(height, duration);
+        }
+    }
+
+    inline void sub_02012A3C_(int arg0, fx32 arg1, fx32 arg2)
+    {
+        if (unk_08 != NULL && unk_08->unk_0C != NULL) {
+            unk_08->unk_0C->sub_02012A3C(arg0, arg1, arg2);
         }
     }
 

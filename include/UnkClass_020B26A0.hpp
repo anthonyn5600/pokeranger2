@@ -276,7 +276,7 @@ public:
     int unk_81AC;
     u32 unk_81B0;
     u32 unk_81B4[0x50];
-    u8 unk_82F4[0x140];
+    s16 unk_82F4[0xA0]; // per-flag position x, y (unk_81B4)
     u8 unk_8434;
     u8 unk_8435[0x321];
     u8 unk_8756;
@@ -317,7 +317,10 @@ public:
     u32 unk_8B6C;
     u32 unk_8B70;
     u32 unk_8B74;
-    u8 unk_8B78[0x8];
+    u16 unk_8B78;
+    u16 unk_8B7A;
+    u16 unk_8B7C;
+    u16 unk_8B7E;
     int unk_8B80;
     RTCDate unk_8B84;
     RTCTime unk_8B94;

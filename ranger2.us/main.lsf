@@ -242,7 +242,15 @@ Overlay overlay0
     Object main.nef.p/src_CFieldEffectFlash.cpp.o
     Object main.nef.p/src_CFieldEffectFogcut.cpp.o
     Object main.nef.p/src_CFieldEffectFlowerStorm.cpp.o
-    Object main.nef.p/asm_overlay_00_021480E4.s.o
+    Object main.nef.p/src_UnkClass_021480E4.cpp.o
+    Object main.nef.p/src_SyscallFieldEnemy.cpp.o
+    Object main.nef.p/src_SyscallFieldActor.cpp.o
+    Object main.nef.p/src_SyscallFieldPlayer.cpp.o
+    Object main.nef.p/src_SyscallFieldPartner.cpp.o
+    Object main.nef.p/src_SyscallField.cpp.o
+    Object main.nef.p/src_SyscallFieldNpc.cpp.o
+    Object main.nef.p/src_UnkClass_0214B93C.cpp.o
+    Object main.nef.p/asm_overlay_00_0214B984.s.o
 }
 
 Overlay overlay1
