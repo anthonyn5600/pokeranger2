@@ -1,82 +1,7 @@
     .include "macros.inc"
-    .include "include/overlay_01_02130AB0.inc"
+    .include "include/overlay_01_02130B74.inc"
 
     .text
-
-	arm_func_start _ZN17CBattleAssistEvilC1EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17UnkClass_0212EEB4t
-_ZN17CBattleAssistEvilC1EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17UnkClass_0212EEB4t: ; 0x02130AB0
-	stmdb sp!, {r3, r4, lr}
-	sub sp, sp, #4
-	ldrh ip, [sp, #0x10]
-	mov r4, r0
-	str ip, [sp]
-	bl _ZN13CBattleAssistC2EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17UnkClass_0212EEB4t
-	ldr r1, _02130ADC ; =PTR_LAB_overlay_1_02130ae0_overlay_1_02141538
-	mov r0, r4
-	str r1, [r4]
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, pc}
-	.align 2, 0
-_02130ADC: .word PTR_LAB_overlay_1_02130ae0_overlay_1_02141538
-	arm_func_end _ZN17CBattleAssistEvilC1EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17UnkClass_0212EEB4t
-
-	arm_func_start ov1_02130AE0
-ov1_02130AE0: ; 0x02130AE0
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	bl _ZN13CBattleAssistD2Ev
-	mov r0, r4
-	ldmia sp!, {r4, pc}
-	arm_func_end ov1_02130AE0
-
-	arm_func_start ov1_02130AF4
-ov1_02130AF4: ; 0x02130AF4
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	bl _ZN13CBattleAssistD2Ev
-	mov r0, r4
-	bl _ZdlPv
-	mov r0, r4
-	ldmia sp!, {r4, pc}
-	arm_func_end ov1_02130AF4
-
-	arm_func_start ov1_02130B10
-ov1_02130B10: ; 0x02130B10
-	stmdb sp!, {r3, r4, r5, lr}
-	ldr r1, [r0]
-	mov r5, r0
-	ldr r1, [r1, #0x10]
-	mov r4, r2
-	blx r1
-	ldr r2, _02130B64 ; =MAIN_BSS_020B26A0+32768
-	mov r1, r0
-	ldrb r2, [r2, #0x7db]
-	ldr r0, [r5, #0x10]
-	mov r3, #0
-	bl _ZN17UnkClass_0212EEB412ov1_0212F32CEitt
-	add r1, r4, #0x100
-	strh r0, [r1, #0x9e]
-	ldrh r0, [r5, #4]
-	cmp r0, #0
-	moveq r0, #0
-	subne r0, r0, #1
-	strneh r0, [r5, #4]
-	movne r0, #1
-	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02130B64: .word MAIN_BSS_020B26A0+32768
-	arm_func_end ov1_02130B10
-
-	arm_func_start ov1_02130B68
-ov1_02130B68: ; 0x02130B68
-	mov r0, #0xf
-	bx lr
-	arm_func_end ov1_02130B68
-
-	arm_func_start ov1_02130B70
-ov1_02130B70: ; 0x02130B70
-	bx lr
-	arm_func_end ov1_02130B70
 
 	arm_func_start _ZN17CBattleAssistFireC1EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17UnkClass_0212EEB4t
 _ZN17CBattleAssistFireC1EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17UnkClass_0212EEB4t: ; 0x02130B74
@@ -18088,35 +18013,6 @@ DAT_overlay_1_021404f8: ; 0x021404F8
     .section .sinit,4 ; 0x02140734
 
     .data
-
-    .global PTR_ptr_FUN_020835bc_overlay_1_02141510
-PTR_ptr_FUN_020835bc_overlay_1_02141510: ; 0x02141510
-	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
-	.word s_17CBattleAssistEvil_overlay_1_0214151c
-	.word _ZTI13CBattleAssist
-
-    .global s_17CBattleAssistEvil_overlay_1_0214151c
-s_17CBattleAssistEvil_overlay_1_0214151c: ; 0x0214151C
-	.asciz "17CBattleAssistEvil"
-
-    .global DAT_overlay_1_02141530
-DAT_overlay_1_02141530:
-	.byte 0x00, 0x00, 0x00, 0x00
-	.word PTR_ptr_FUN_020835bc_overlay_1_02141510
-
-    .global PTR_LAB_overlay_1_02130ae0_overlay_1_02141538
-PTR_LAB_overlay_1_02130ae0_overlay_1_02141538: ; 0x02141538
-	.word ov1_02130AE0
-
-    .global ptr_FUN_overlay_1_02130af4_overlay_1_0214153c
-ptr_FUN_overlay_1_02130af4_overlay_1_0214153c: ; 0x0214153C
-	.word ov1_02130AF4
-
-    .global ptr_FUN_overlay_1_02130b10_overlay_1_02141540
-ptr_FUN_overlay_1_02130b10_overlay_1_02141540: ; 0x02141540
-	.word ov1_02130B10
-	.word ov1_02130B70
-	.word ov1_02130B68
 
     .global PTR_ptr_FUN_020835bc_overlay_1_0214154c
 PTR_ptr_FUN_020835bc_overlay_1_0214154c: ; 0x0214154C
