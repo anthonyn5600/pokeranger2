@@ -40,8 +40,6 @@ struct UnkStruct_02044464 {
     u32 unk_18; // stack size in words
     u32 *unk_1C; // stack base
     int unk_20; // wait counter
-
-    int Call(void *script, const char *name);
 };
 
 STATIC_SIZE_ASSERT(UnkStruct_02044464, 0x24);
