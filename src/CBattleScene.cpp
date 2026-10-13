@@ -1033,8 +1033,8 @@ int CBattleScene::ov1_0211FB88()
         m_game->unk_14BC->sub_0200E0E0(4, 10);
         m_game->unk_14C0->sub_0200E0E0(4, 10);
         CBattleResultParameter *result = m_game->unk_1444;
-        result->unk_6A = unk_0BB8->ov1_0213A4A0(unk_0BB8->unk_02E);
-        result->unk_80 = unk_0BB8->unk_008;
+        result->unk_6A = unk_0BB8->ov1_0213A4A0(unk_0BB8->m_score);
+        result->unk_80 = unk_0BB8->m_exp;
         u8 hp = unk_0BB0->m_hp;
         unk_00D8->unk_19C = hp;
         result->unk_04 = hp;
@@ -1955,7 +1955,7 @@ void CBattleScene::ov1_021227CC(int result)
         unk_0020 = 8;
         return;
     }
-    unk_0BB8->unk_00A = unk_002C;
+    unk_0BB8->m_baseExp = unk_002C;
     res->unk_58 = unk_0044;
     for (u8 i = 0; i < unk_0044; i++) {
         res->unk_5A[i] = unk_0046[i];
@@ -2014,7 +2014,7 @@ void CBattleScene::ov1_021227CC(int result)
         }
         ov1_02122DB4();
     }
-    unk_0BB8->unk_028 = unk_000C;
+    unk_0BB8->m_bonusFlags = unk_000C;
     if (result == 0) {
         m_game->m_audioEngine->sub_02034A40(3, 0);
         unk_006C = 0;
