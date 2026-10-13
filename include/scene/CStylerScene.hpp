@@ -4,6 +4,7 @@
 #include "CGame.hpp"
 #include "common.hpp"
 #include "scene/CScene.hpp"
+#include "scene/CStylerScreen.hpp"
 
 // Defined in ov5
 class CStylerScene : public CScene {
@@ -21,7 +22,13 @@ public:
     virtual u32 getSceneId();
 
 public:
-    u8 unk_0004[0x20];
+    u32 unk_04;
+    u32 unk_08;
+    s32 m_screenIdx;
+    CGame *m_game;
+    CStylerData *m_data;
+    CStylerScreen *m_upper;
+    CStylerScreen *m_screens[2];
 };
 
 STATIC_SIZE_ASSERT(CStylerScene, 0x24);
