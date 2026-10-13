@@ -32,7 +32,6 @@
 .public _ZN11CBGNCGRFileC1EPKcmmm
 .public _ZN11CBattleDisk12ov1_0212C4ECEh
 .public _ZN11CBattleDisk12ov1_0212C4F4Ei
-.public _ZN11CBattleDisk12ov1_0212C5C0Ev
 .public _ZN11CBattleDisk12ov1_0212C610Ell
 .public _ZN11CBinaryFileC1EPKcmmmPvm
 .public _ZN12CBattleEnemy12ov1_02126310Eii

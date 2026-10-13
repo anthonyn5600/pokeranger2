@@ -100,6 +100,15 @@ public:
 
 STATIC_SIZE_ASSERT(CBattleAssistElectric, 0x24);
 
+struct GrassSlot {
+    u8 m_flags;
+    u8 m_size;
+    u16 m_timer;
+    CBattleAttackEffect *m_effect;
+};
+
+STATIC_SIZE_ASSERT(GrassSlot, 0x8);
+
 class CBattleAssistGrass : public CBattleAssist {
 public:
     CBattleAssistGrass(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3);
@@ -108,8 +117,14 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
+    GrassSlot *ov1_02131FE4(fx32 x, fx32 y);
+
 public:
-    u8 unk_18[0xCC];
+    u8 m_next;
+    u8 m_bound;
+    u8 m_prevBound;
+    Point2D m_last;
+    GrassSlot m_slots[0x18];
 };
 
 STATIC_SIZE_ASSERT(CBattleAssistGrass, 0xE4);
