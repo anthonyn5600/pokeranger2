@@ -3,7 +3,7 @@
 
 #include <nitro.h>
 
-#include "field/CFieldEffect.hpp"
+#include "field/CFieldEffectActor.hpp"
 #include "field/CFieldEffectFactory.hpp"
 
 // size 0xD0, ctor ov0_0215DA8C

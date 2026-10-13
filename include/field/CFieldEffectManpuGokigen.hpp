@@ -3,7 +3,7 @@
 
 #include <nitro.h>
 
-#include "field/CFieldEffect.hpp"
+#include "field/CFieldEffectManpu.hpp"
 #include "field/TFieldParticle.hpp"
 #include "primitive/CSoftwareSprite.hpp"
 

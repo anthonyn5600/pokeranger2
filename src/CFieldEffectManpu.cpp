@@ -2,7 +2,7 @@
 
 #include "Camera2D.hpp"
 #include "field/CFieldActor.hpp"
-#include "field/CFieldEffect.hpp"
+#include "field/CFieldEffectManpu.hpp"
 #include "scene/CFieldScene.hpp"
 
 extern CFieldScene *MAIN_BSS_0210CA40;

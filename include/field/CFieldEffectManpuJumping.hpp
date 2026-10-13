@@ -3,7 +3,7 @@
 
 #include <nitro.h>
 
-#include "field/CFieldEffect.hpp"
+#include "field/CFieldEffectManpu.hpp"
 
 class CFieldEffectManpuJumping : public CFieldEffectManpuSimple {
 public:

@@ -3,7 +3,7 @@
 
 #include <nitro.h>
 
-#include "field/CFieldEffect.hpp"
+#include "field/CFieldEffectActor.hpp"
 #include "field/CFieldEffectFactory.hpp"
 
 class CFieldEffectExplosion : public CFieldEffectActor {

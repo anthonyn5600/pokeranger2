@@ -27,7 +27,7 @@
 #include "common.hpp"
 #include "field/CFieldActor.hpp"
 #include "field/CFieldActorManage.hpp"
-#include "field/CFieldEffect.hpp"
+#include "field/CFieldEffectManpu.hpp"
 #include "field/CFieldEffectManage.hpp"
 #include "field/CFieldEnemy.hpp"
 #include "field/CFieldEnemyManage.hpp"

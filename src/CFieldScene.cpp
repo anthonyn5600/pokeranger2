@@ -31,7 +31,7 @@
 #include "UnkClass_0215994C.hpp"
 #include "UnkClass_0216D5F4.hpp"
 #include "UnkStruct_020107A8.hpp"
-#include "field/CFieldEffect.hpp"
+#include "field/CFieldEffectManpu.hpp"
 #include "field/CFieldEffectManage.hpp"
 #include "field/CFieldEnemy.hpp"
 #include "field/CFieldEnemyManage.hpp"

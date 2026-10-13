@@ -13,7 +13,7 @@ STATIC_SIZE_ASSERT(TFieldParticlePointEmitter<CSoftwareSprite>, 0x18);
 // clang-format off
 #include "UnkClass_02008788.hpp"
 #include "field/CFieldEffectFactory.hpp"
-#include "field/CFieldEffect.hpp"
+#include "field/CFieldEffectActor.hpp"
 // clang-format on
 
 // Water jet from m_start to m_end (ov0): a nozzle and a head sprite plus a particle spray.

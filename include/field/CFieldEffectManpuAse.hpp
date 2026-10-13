@@ -3,7 +3,7 @@
 
 #include <nitro.h>
 
-#include "field/CFieldEffect.hpp"
+#include "field/CFieldEffectManpu.hpp"
 
 // size 0xCC, ctor ov0_021644B0
 class CFieldEffectManpuAse : public CFieldEffectManpu {

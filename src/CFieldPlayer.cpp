@@ -12,7 +12,7 @@
 #include "UnkClass_02041D80.hpp"
 #include "UnkClass_020B26A0.hpp"
 #include "UnkStruct_020107A8.hpp"
-#include "field/CFieldEffect.hpp"
+#include "field/CFieldEffectManpu.hpp"
 #include "field/CFieldEffectManage.hpp"
 #include "field/CFieldMap.hpp"
 #include "field/CFieldMapLayer.hpp"

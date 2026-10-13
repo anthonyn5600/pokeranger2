@@ -5,7 +5,7 @@
 #include "UnkClass_020416AC.hpp"
 #include "common.hpp"
 #include "field/CFieldActor.hpp"
-#include "field/CFieldEffect.hpp"
+#include "field/CFieldEffectManpu.hpp"
 #include "field/CFieldEffectManage.hpp"
 #include "primitive/CPrimitiveRECT.hpp"
 
