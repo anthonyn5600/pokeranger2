@@ -102,12 +102,11 @@ u32 TFieldParticleEmitter<T>::Update(int dt)
 
 // Its vtable and own virtuals are never emitted in ov0 (the subclasses override everything), so only this is known:
 // it overrides func2, otherwise its vtable would instantiate TFieldParticleEmitter::func2 early (emission order).
+// No user ctor (like TFieldParticleForceField): the implicit one lets the TU-end pass make its vtable in the first
+// walk, which the data order of the effect TUs needs (an inline user ctor is only compiled after that walk).
 template <class T>
 class TFieldParticlePointEmitter : public TFieldParticleEmitter<T> {
 public:
-    TFieldParticlePointEmitter()
-    {
-    }
     virtual void func2()
     {
     }
@@ -130,12 +129,10 @@ public:
     virtual void ov0_0215B988(); // clears +0x30
 };
 
+// No user ctor: see TFieldParticlePointEmitter.
 template <class T>
 class TFieldParticleForceField {
 public:
-    TFieldParticleForceField()
-    {
-    }
     virtual ~TFieldParticleForceField()
     {
     }

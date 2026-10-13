@@ -155,6 +155,7 @@ pokeranger2_cxx = files(
     'CFieldEffect.cpp',
     'FieldEffectManage.cpp',
     'CFieldEffectManpu.cpp',
+    'CFieldEffectWaterGun.cpp',
     'CBattleScene.cpp',
     'UnkClass_0212306C.cpp',
     'CBattleEnemyData.cpp',

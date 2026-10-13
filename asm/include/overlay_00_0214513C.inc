@@ -142,6 +142,8 @@
 .public _ZN14CPrimitiveRECT12sub_02003C00EP7Point2DPS_
 .public _ZN14CPrimitiveRECTC1Ev
 .public _ZN14CPrimitiveRECTD1Ev
+.public _ZN14TFieldParticleI15CSoftwareSpriteEC1Ev
+.public _ZN14TFieldParticleI15CSoftwareSpriteED1Ev
 .public _ZN15CFieldNpcManage12ov0_0213C66CEiitti
 .public _ZN15CSoftwareSpriteC1Ev
 .public _ZN15CSoftwareSpriteD1Ev
@@ -233,6 +235,7 @@
 .public _ZN19CFieldPartnerManage12ov0_0213A050Em
 .public _ZN20TFieldEffectParticleI15CSoftwareSpriteE12ov0_02142264Ei
 .public _ZN20TFieldEffectParticleI15CSoftwareSpriteE12ov0_021423E8ERK20FieldEffectSpriteRes
+.public _ZN21TFieldParticleEmitterI15CSoftwareSpriteE5func2Ev
 .public _ZN21TFieldParticleEmitterI15CSoftwareSpriteE6UpdateEi
 .public _ZN23CFieldEffectManpuSimple4InitEi
 .public _ZN23CFieldEffectManpuSimple8SetDepthEl
@@ -262,14 +265,19 @@
 .public _ZTI16CEffectActorData
 .public _ZTI17CFieldEffectActor
 .public _ZTI17CFieldEffectManpu
+.public _ZTI19CFieldEffectFactory
+.public _ZTI21TFieldParticleEmitterI15CSoftwareSpriteE
 .public _ZTI23CFieldEffectManpuSimple
+.public _ZTI24TFieldParticleForceFieldI15CSoftwareSpriteE
 .public _ZTV11CDrawObject
 .public _ZTV12CFieldEffect
 .public _ZTV16CEffectActorData
 .public _ZTV16CSimpleSpriteNTF
 .public _ZTV17CFieldEffectManpu
 .public _ZTV17CPrimitiveRectNTF
+.public _ZTV21TFieldParticleEmitterI15CSoftwareSpriteE
 .public _ZTV23CFieldEffectManpuSimple
+.public _ZTV27CFieldEffectWaterGunFactory
 .public _ZTVN10__cxxabiv117__class_type_infoE
 .public _ZTVN10__cxxabiv120__si_class_type_infoE
 .public _ZdaPv

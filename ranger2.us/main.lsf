@@ -235,7 +235,8 @@ Overlay overlay0
     Object main.nef.p/src_CFieldEffect.cpp.o
     Object main.nef.p/src_FieldEffectManage.cpp.o
     Object main.nef.p/src_CFieldEffectManpu.cpp.o
-    Object main.nef.p/asm_overlay_00_02143FE4.s.o
+    Object main.nef.p/src_CFieldEffectWaterGun.cpp.o
+    Object main.nef.p/asm_overlay_00_0214513C.s.o
 }
 
 Overlay overlay1

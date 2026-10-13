@@ -3,8 +3,7 @@
 
 #include <nitro.h>
 
-#include "field/CFieldEffect.hpp"
-
+class CFieldEffect;
 class CFieldEffectManage;
 
 // Creates one kind of effect for CFieldEffectManage (ov0).
