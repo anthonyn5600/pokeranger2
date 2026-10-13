@@ -182,6 +182,15 @@ public:
 
 STATIC_SIZE_ASSERT(CBattleAssistFly, 0x2C);
 
+struct EsperSlot {
+    u8 unk_00;
+    u8 state;
+    u16 unk_02;
+    Rectangle rect;
+};
+
+STATIC_SIZE_ASSERT(EsperSlot, 0x14);
+
 class CBattleAssistEsper : public CBattleAssist {
 public:
     CBattleAssistEsper(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3);
@@ -190,8 +199,21 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
+    void ov1_021304F0(CBattleEnemy **enemies);
+    void ov1_02130628(u8 i);
+    BOOL ov1_021306C0(u8 *idx);
+    BOOL ov1_0213071C(u8 *outIdx);
+    BOOL ov1_021307E8(CBattleAttackEffect *effect, CBattleEnemy **enemies);
+    BOOL ov1_021309F4(Point2D pos, Rectangle rect);
+
 public:
-    u8 unk_18[0x70];
+    u8 m_flags;
+    u8 m_selected;
+    u16 unk_1A;
+    u16 m_timer;
+    Point2D m_last;
+    CBattleAttackEffect *m_effects[4];
+    EsperSlot m_slots[4];
 };
 
 STATIC_SIZE_ASSERT(CBattleAssistEsper, 0x88);
