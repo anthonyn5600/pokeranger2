@@ -175,10 +175,13 @@ public:
     virtual int vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
     virtual void vfunc_0C();
     virtual int vfunc_10();
-    void ov1_0213219C(UnkClass_0200D3F8 *arg0);
+    void ov1_0213219C(UnkClass_0200D3F8 *quake);
 
 public:
-    u8 unk_18[0x14];
+    u16 m_shakes;
+    BOOL m_touching;
+    Point2D m_last;
+    UnkClass_0200D3F8 *m_quake;
 };
 
 STATIC_SIZE_ASSERT(CBattleAssistGround, 0x2C);

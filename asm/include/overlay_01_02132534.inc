@@ -91,9 +91,6 @@
 .public _ZN17UnkClass_0200CAB412sub_0200CCD0Eiiiiiiii
 .public _ZN17UnkClass_0200CAB412sub_0200CDA0EiiiiPhii
 .public _ZN17UnkClass_0200CAB412sub_0200CF7CEi
-.public _ZN17UnkClass_0200D3F812sub_0200D924El
-.public _ZN17UnkClass_0200D3F812sub_0200D994Ev
-.public _ZN17UnkClass_0200D3F812sub_0200E098Ev
 .public _ZN17UnkClass_0200E0B412sub_0200E0E0Ett
 .public _ZN17UnkClass_0200E0B412sub_0200E310Ev
 .public _ZN17UnkClass_0200E96012sub_0200EB28Eii
