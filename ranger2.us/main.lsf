@@ -331,9 +331,13 @@ Overlay overlay2
 Overlay overlay3
 {
     After main
-    Object main.nef.p/asm_overlay_03_0211C9E0.s.o
+    Object main.nef.p/src_CTitleScene.cpp.o
+    Object main.nef.p/src_CTitleBG.cpp.o
+    Object main.nef.p/src_CContinueScene.cpp.o
+    Object main.nef.p/src_CConfScene.cpp.o
     Object main.nef.p/src_CNameInputScene.cpp.o
-    Object main.nef.p/asm_overlay_03_02121DBC.s.o
+    Object main.nef.p/src_COpeningDemoScene.cpp.o
+    Object main.nef.p/asm_overlay_03_0212518C.s.o
 }
 
 Overlay overlay4
