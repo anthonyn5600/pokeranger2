@@ -3,6 +3,7 @@
 
 #include <nitro.h>
 
+#include "common.hpp"
 #include "field/CFieldEffectActor.hpp"
 #include "field/CFieldEffectFactory.hpp"
 
@@ -21,9 +22,16 @@ public:
 
 class CFieldEffectExplosionFactory : public CFieldEffectFactory {
 public:
+    CFieldEffectExplosionFactory(CFieldEffectManage *mgr);
+    virtual ~CFieldEffectExplosionFactory();
     virtual CFieldEffect *Create(int arg);
     virtual void Update(int frames);
     virtual void Reset();
+
+public:
+    u8 unk_04[0x70];
 };
+
+STATIC_SIZE_ASSERT(CFieldEffectExplosionFactory, 0x74);
 
 #endif // POKERANGER2_FIELD_CFIELDEFFECTEXPLOSION_HPP

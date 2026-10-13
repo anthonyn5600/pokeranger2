@@ -4,6 +4,7 @@
 #include <nitro.h>
 
 #include "UnkClass_0211E3FC.hpp"
+#include "common.hpp"
 #include "field/CFieldEffect.hpp"
 #include "field/CFieldEffectFactory.hpp"
 
@@ -23,11 +24,22 @@ public:
     virtual int ov0_02142344(Camera2D *camera);
     virtual void ov0_02142398(UnkClass_0211E3FC *renderLists);
     virtual int sub_0203312C(int param, int value);
+
+public:
+    u8 unk_18[0x68];
 };
+
+STATIC_SIZE_ASSERT(CFieldEffectWaterSplash, 0x80);
 
 class CFieldEffectWaterSplashFactory : public CFieldEffectFactory {
 public:
+    CFieldEffectWaterSplashFactory(CFieldEffectManage *mgr);
     virtual CFieldEffect *Create(int arg);
+
+public:
+    CFieldEffectWaterSplash m_splashes[16];
 };
+
+STATIC_SIZE_ASSERT(CFieldEffectWaterSplashFactory, 0x804);
 
 #endif // POKERANGER2_FIELD_CFIELDEFFECTWATERSPLASH_HPP

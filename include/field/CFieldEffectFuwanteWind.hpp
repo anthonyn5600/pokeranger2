@@ -3,8 +3,10 @@
 
 #include <nitro.h>
 
+#include "common.hpp"
 #include "field/CFieldEffect.hpp"
 #include "field/CFieldEffectFactory.hpp"
+#include "field/CFieldEffectManage.hpp"
 #include "field/TFieldEffectParticle.hpp"
 #include "field/TFieldParticle.hpp"
 #include "primitive/CSoftwareSprite.hpp"
@@ -34,9 +36,20 @@ public:
 
 class CFieldEffectFuwanteWindFactory : public CFieldEffectFactory {
 public:
+    CFieldEffectFuwanteWindFactory()
+    {
+        unk_38 = 0;
+    }
+    virtual ~CFieldEffectFuwanteWindFactory();
     virtual CFieldEffect *Create(int arg);
     virtual void Update(int frames);
     virtual void Reset();
+
+public:
+    CFieldEffectNormalActorData m_data;
+    int unk_38;
 };
+
+STATIC_SIZE_ASSERT(CFieldEffectFuwanteWindFactory, 0x3C);
 
 #endif // POKERANGER2_FIELD_CFIELDEFFECTFUWANTEWIND_HPP

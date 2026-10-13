@@ -56,7 +56,6 @@ void sub_0201164C(UnkClass_0201164C *missionQuestData, u32 mapIdx);
 void sub_02018E30(void *arg0);
 void sub_0203401C(void *scriptManager, u8 arg1);
 void sub_02034120(void *scriptManager, u8 arg1);
-void ov0_021518B8(UnkClass_021518AC *obj, CFieldEffectManage *arg1);
 void sub_02017E44(UnkClass_020B26A0 *save);
 void sub_020180F4(UnkClass_020B26A0 *save);
 void sub_02034450(void *scriptManager);
@@ -375,7 +374,7 @@ void CFieldScene::func6()
     unk_003C = new UnkClass_0211E3FC[10];
     unk_0060 = new UnkClass_02029800();
     unk_0028 = new CFieldEffectManage(&unk_0144);
-    ov0_021518B8(&unk_013C, unk_0028);
+    unk_013C.ov0_021518B8(unk_0028);
     unk_002C = new UnkClass_0211D850();
     unk_0048 = new UnkClass_020416AC(5);
 

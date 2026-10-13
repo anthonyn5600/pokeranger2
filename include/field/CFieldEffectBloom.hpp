@@ -3,8 +3,10 @@
 
 #include <nitro.h>
 
+#include "common.hpp"
 #include "field/CFieldEffect.hpp"
 #include "field/CFieldEffectFactory.hpp"
+#include "field/UnkClass_02151244.hpp"
 
 // size 0x1D0, ctor ov0_021667E4
 class CFieldEffectBloom : public CFieldEffect {
@@ -21,8 +23,17 @@ public:
 
 class CFieldEffectBloomFactory : public CFieldEffectFactory {
 public:
+    CFieldEffectBloomFactory()
+    {
+    }
+    virtual ~CFieldEffectBloomFactory();
     virtual CFieldEffect *Create(int arg);
     virtual void Reset();
+
+public:
+    UnkClass_02151244 m_tex[3];
 };
+
+STATIC_SIZE_ASSERT(CFieldEffectBloomFactory, 0x88);
 
 #endif // POKERANGER2_FIELD_CFIELDEFFECTBLOOM_HPP
