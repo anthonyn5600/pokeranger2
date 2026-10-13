@@ -261,7 +261,8 @@ Overlay overlay1
     Object main.nef.p/src_CBattlePowerSave.cpp.o
     Object main.nef.p/src_UnkClass_02137DA4.cpp.o
     Object main.nef.p/src_UnkClass_021380AC.cpp.o
-    Object main.nef.p/asm_overlay_01_021382D0.s.o
+    Object main.nef.p/src_UnkClass_021382D0.cpp.o
+    Object main.nef.p/asm_overlay_01_021384F8.s.o
 }
 
 Overlay overlay2

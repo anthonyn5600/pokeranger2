@@ -893,7 +893,7 @@ int CBattleScene::ov1_0211F404()
                 }
             }
             if (sub_02010BF4(unk_001C)) {
-                if (sub_02006000(touchPos, unk_0C0C->unk_04->unk_18, 0)) {
+                if (sub_02006000(touchPos, unk_0C0C->m_rect->m_rectangle, 0)) {
                     unk_0C0C->ov1_021384A8();
                     unk_0080 |= 2;
                     unk_0081 = 0;
@@ -905,7 +905,7 @@ int CBattleScene::ov1_0211F404()
             if ((unk_0080 & 1) && !sub_02006000(touchPos, unk_0C08->m_rect->m_rectangle, 0)) {
                 unk_0080 &= ~1;
                 held = FALSE;
-            } else if ((unk_0080 & 2) && !sub_02006000(touchPos, unk_0C0C->unk_04->unk_18, 0)) {
+            } else if ((unk_0080 & 2) && !sub_02006000(touchPos, unk_0C0C->m_rect->m_rectangle, 0)) {
                 unk_0080 &= ~2;
                 held = FALSE;
             }
@@ -942,7 +942,7 @@ int CBattleScene::ov1_0211F404()
                         m_game->m_audioEngine->sub_02034C44(0xFA);
                         unk_0020 = 5;
                     }
-                } else if (sub_02006000(touchPos, unk_0C0C->unk_04->unk_18, 0)) {
+                } else if (sub_02006000(touchPos, unk_0C0C->m_rect->m_rectangle, 0)) {
                     if (unk_0080 & 2) {
                         unk_0080 &= ~2;
                         unk_0034--;
