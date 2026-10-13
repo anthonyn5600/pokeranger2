@@ -10,4 +10,6 @@ typedef unsigned short wchar_t;
 #include <nnsys.h>
 #include <stddef.h>
 
+#include "pch/pch_data.hpp"
+
 #endif // POKERANGER2_GLOBAL_HPP

@@ -68,6 +68,14 @@ struct Point2D {
         return *this;
     }
 
+    inline Point2D operator/(fx32 other) const
+    {
+        return (Point2D) {
+            .x = FX32_DIV(x, other),
+            .y = FX32_DIV(y, other),
+        };
+    }
+
     inline Point2D &operator/=(fx32 other)
     {
         x = FX32_DIV(x, other);

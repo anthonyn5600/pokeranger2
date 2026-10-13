@@ -3,14 +3,15 @@
 
 #include <nitro.h>
 
-#include "field/CFieldEffect.hpp"
-
+class CFieldEffect;
 class CFieldEffectManage;
 
 // Creates one kind of effect for CFieldEffectManage (ov0).
 class CFieldEffectFactory {
 public:
-    virtual ~CFieldEffectFactory();
+    virtual ~CFieldEffectFactory()
+    {
+    }
     virtual CFieldEffect *Create(int arg) = 0;
     virtual void Update(int frames)
     {

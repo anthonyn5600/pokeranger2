@@ -3,7 +3,9 @@
 
 #include <nitro.h>
 
+#include "CEffectActorData.hpp"
 #include "common.hpp"
+#include "primitive/CSoftwareSprite.hpp"
 #include "sub_02006000.hpp"
 
 class CFieldActor;
@@ -14,6 +16,10 @@ class Camera2D;
 // Defined in ov0
 class CFieldEffect {
 public:
+    CFieldEffect()
+    {
+        ov0_021421D0();
+    }
     virtual ~CFieldEffect()
     {
         ov0_02142380();
@@ -87,27 +93,5 @@ public:
     int m_frame;
     int m_state;
 };
-
-// TODO: the effect FieldScene starts with ov0_02142F6C(1, 0x25); its real class is unknown.
-class CFieldEffectActor : public CFieldEffect {
-public:
-    void *unk_18;
-    CFieldActor *unk_1C;
-};
-
-// Emotion balloon over an actor (CFieldActor::unk_D0 holds its effect id). Defined in ov0, except SetType.
-class CFieldEffectManpu : public CFieldEffectActor {
-public:
-    virtual ~CFieldEffectManpu();
-    virtual void SetType(int type);
-
-public:
-    u8 unk_20[0x4];
-    int unk_24;
-};
-
-extern "C" {
-int sub_02041A70(CFieldActor *actor, int type, int arg2);
-}
 
 #endif // POKERANGER2_FIELD_CFIELDEFFECT_HPP

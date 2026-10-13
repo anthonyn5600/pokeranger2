@@ -70,7 +70,7 @@ public:
     u16 unk_144;
     u16 unk_146;
     int unk_148;
-    u8 unk_14C[0xC];
+    VecFx32 unk_14C;
     Point2D unk_158;
     int unk_160;
     int unk_164;

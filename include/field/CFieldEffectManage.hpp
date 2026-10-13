@@ -20,17 +20,7 @@ class UnkClass_0211E3FC;
 class Camera2D;
 
 // Members of CFieldEffectManage defined in other ov0 TUs.
-class CFieldEffectFootStepSmoke : public CFieldEffect {
-public:
-    CFieldEffectFootStepSmoke();
-    virtual ~CFieldEffectFootStepSmoke();
-    void ov0_021509F4(UnkClass_020074D4 *ncbr, UnkClass_02007AA4 *palette, CNCERFile *ncer);
-    void ov0_02150A04(UnkClass_020074D4 *ncbr, UnkClass_02007AA4 *palette, CNCERFile *ncer, UnkClass_02008788 *cac);
-    void ov0_02150A94();
-    void ov0_02150AE8(int idx, int arg1, int arg2, int arg3);
-
-    u8 unk_18[0x2A0];
-};
+#include "field/CFieldEffectFootStepSmoke.hpp"
 
 class CFieldEffectDamageIndication : public CFieldEffect {
 public:
@@ -42,21 +32,32 @@ public:
     u8 unk_98[0x18];
 };
 
-class CFieldEffectAirBubbles : public TFieldEffectParticle<CSoftwareSprite> {
-public:
-    CFieldEffectAirBubbles();
-    virtual ~CFieldEffectAirBubbles();
-    void ov0_0216D050(fx32 x, fx32 y);
-
-    u8 unk_28[0x44];
-};
+#include "field/CFieldEffectAirBubbles.hpp"
 
 class CFieldEffectAttackActorData : public CEffectActorData {
 public:
     CFieldEffectAttackActorData()
     {
     }
-    virtual UnkClass_020074D4 *GetNcbr(int i);
+    virtual void Update();
+
+    // Loads data/effect/e<id>_LZ.bin: count entries a<first>, a<first + 1>...
+    BOOL ov0_0214FFF0(int id, int first, int count);
+};
+
+// Between the Attack and Normal actor data on purpose: the class order (Attack, Manpu, Normal) decides the order of
+// their vtables in FieldEffectActorData.cpp's data.
+#include "field/CFieldManpuEffectActorData.hpp"
+
+class CFieldEffectNormalActorData : public CEffectActorData {
+public:
+    CFieldEffectNormalActorData()
+    {
+    }
+    virtual void Update();
+
+    // Loads data/field/effect/ef<id>_LZ.bin.
+    BOOL ov0_021503B8(int id, BOOL immediate);
 };
 
 class UnkClass_021638B8 {

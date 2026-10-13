@@ -75,7 +75,9 @@ public:
     int unk_40;
     int unk_44;
     CFieldActor *unk_48;
-    u8 unk_4C[0x18];
+    u8 unk_4C[0x4];
+    int unk_50;
+    u8 unk_54[0x10];
     int unk_64;
     int unk_68;
     FieldEnemyData unk_6C;
@@ -83,10 +85,12 @@ public:
     int unk_B0;
     u8 unk_B4[0x8];
     int unk_BC;
-    u8 unk_C0[0xC];
+    int unk_C0;
+    u8 unk_C4[0x8];
     int unk_CC;
     int unk_D0;
-    u8 unk_D4[0x4];
+    u8 unk_D4[0x2];
+    u16 unk_D6;
 };
 
 STATIC_SIZE_ASSERT(CFieldPokeMove, 0xD8);
