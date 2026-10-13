@@ -449,8 +449,10 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
+    u8 ov1_02134354(u8 amount);
+
 public:
-    u8 unk_18[0x4];
+    u8 m_flags;
     CPlayerHPGauge *unk_1C;
 };
 

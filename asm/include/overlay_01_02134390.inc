@@ -41,10 +41,7 @@
 .public _ZN13CBattleAssistC2EPP19CBattleAttackEffectPP23CBattleAttackEffectDataP17UnkClass_0212EEB4t
 .public _ZN13CBattleAssistD2Ev
 .public _ZN14CBinaryFileMesC1EPKcm
-.public _ZN14CPlayerHPGauge12SetCurrentHPEt
 .public _ZN14CPlayerHPGauge5SetHPEtt
-.public _ZN14CPlayerHPGauge9IsHealingEv
-.public _ZN14CPlayerHPGauge9StartHealEt
 .public _ZN14CPrimitiveLINEC1Ev
 .public _ZN14CPrimitiveLINED1Ev
 .public _ZN14CPrimitiveQUAD20SetVertexCoordinatesElllllllll
