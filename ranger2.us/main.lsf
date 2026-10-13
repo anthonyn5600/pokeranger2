@@ -255,7 +255,8 @@ Overlay overlay1
     Object main.nef.p/src_CBattleAssistRock.cpp.o
     Object main.nef.p/src_CBattleAssistSteel.cpp.o
     Object main.nef.p/src_CBattleAssistWater.cpp.o
-    Object main.nef.p/asm_overlay_01_02135BB4.s.o
+    Object main.nef.p/src_UnkClass_02135BB4.cpp.o
+    Object main.nef.p/asm_overlay_01_02135CA0.s.o
 }
 
 Overlay overlay2
