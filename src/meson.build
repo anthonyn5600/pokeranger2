@@ -171,6 +171,8 @@ pokeranger2_cxx = files(
     'SyscallFieldNpc.cpp',
     'UnkClass_0214B93C.cpp',
     'UnkClass_0214B984.cpp',
+    'UnkClass_0214FB28.cpp',
+    'UnkClass_0214FD4C.cpp',
     'CBattleScene.cpp',
     'UnkClass_0212306C.cpp',
     'CBattleEnemyData.cpp',

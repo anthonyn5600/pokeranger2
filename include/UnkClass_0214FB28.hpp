@@ -4,24 +4,31 @@
 #include <nitro.h>
 
 #include "common.hpp"
-#include "sub_02006000.hpp"
 
-struct UnkStruct_0214FB28 {
-    u8 unk_00[0x18];
-    Rectangle unk_18;
-};
+class Camera2D;
+class CPrimitiveRECT;
+class CSoftwareSprite;
+class UnkClass_0201AAE0;
 
 // Defined in ov0
+// Field icon i045 (FIB archive), animated for 4 frames after ov0_0214FD24
 class UnkClass_0214FB28 {
 public:
     UnkClass_0214FB28();
     ~UnkClass_0214FB28();
+    void Init(); // ov0_0214FB50
+    void Release(); // ov0_0214FC54
+    void ov0_0214FCD0();
+    void ov0_0214FD00(Camera2D *camera);
+    void ov0_0214FD24();
 
 public:
-    u16 unk_00;
-    u16 unk_02;
-    UnkStruct_0214FB28 *unk_04;
-    u8 unk_08[0x8];
+    u8 m_flags;
+    u8 m_frame;
+    u16 m_z;
+    CPrimitiveRECT *m_rect;
+    CSoftwareSprite *m_sprite;
+    UnkClass_0201AAE0 *m_res;
 };
 
 STATIC_SIZE_ASSERT(UnkClass_0214FB28, 0x10);

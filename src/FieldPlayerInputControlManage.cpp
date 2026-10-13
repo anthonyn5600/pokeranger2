@@ -12,6 +12,8 @@
 #include "UnkClass_02041C80.hpp"
 #include "UnkClass_020B26A0.hpp"
 #include "UnkClass_0211D850.hpp"
+#include "UnkClass_0214FB28.hpp"
+#include "UnkClass_0214FD4C.hpp"
 #include "UnkStruct_020107A8.hpp"
 #include "field/CFieldActor.hpp"
 #include "field/CFieldEffect.hpp"
@@ -42,8 +44,6 @@ extern "C" {
 u32 sub_02016DEC(UnkClass_020B26A0 *save, u32 value);
 u32 sub_02016E34(UnkClass_020B26A0 *save, u32 value);
 int sub_020107C4(int arg0);
-void ov0_0214FD24(UnkClass_0214FB28 *obj);
-void ov0_0214FF44(UnkClass_0214FD4C *obj);
 }
 
 static inline u32 GetPokemonState(UnkClass_020B26A0 *save, int i)
@@ -637,7 +637,7 @@ released:;
                             inst->sub_02022D88();
                             s_game->m_audioEngine->sub_02034C44(0xFA);
                             if (scene->unk_004C != NULL) {
-                                ov0_0214FD24(scene->unk_004C);
+                                scene->unk_004C->ov0_0214FD24();
                             }
                         }
                         i = TRUE;
@@ -657,7 +657,7 @@ released:;
                             }
                             s_game->m_audioEngine->sub_02034C44(0xFA);
                             if (scene->unk_0050 != NULL) {
-                                ov0_0214FF44(scene->unk_0050);
+                                scene->unk_0050->ov0_0214FF44();
                             }
                         }
                         i = TRUE;

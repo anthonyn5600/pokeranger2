@@ -283,8 +283,8 @@ void CFieldScene::func6()
 
     unk_004C = new UnkClass_0214FB28();
     unk_0050 = new UnkClass_0214FD4C();
-    unk_004C->unk_02 = 0x424;
-    unk_0050->unk_02 = 0x424;
+    unk_004C->m_z = 0x424;
+    unk_0050->m_z = 0x424;
 
     unk_0054 = new UnkClass_02022404(m_game);
     unk_0058 = new UnkClass_020233C8(m_game);
@@ -640,10 +640,6 @@ void sub_02015E54(UnkClass_020B26A0 *save, u32 id);
 void sub_02016024(UnkClass_020B26A0 *save);
 int sub_02016268(UnkClass_020B26A0 *save, int arg1);
 int sub_0201621C(UnkClass_020B26A0 *save, int arg1);
-void ov0_0214FD24(UnkClass_0214FB28 *obj);
-void ov0_0214FCD0(UnkClass_0214FB28 *obj);
-void ov0_0214FF44(UnkClass_0214FD4C *obj);
-void ov0_0214FEF0(UnkClass_0214FD4C *obj);
 void ov0_02161F88(void);
 void ov0_02159D7C(UnkClass_0215994C *obj);
 void sub_0201094C(void *obj, int arg1);
@@ -730,14 +726,14 @@ u32 CFieldScene::func0()
                         Point2D touchPos = { (touch->unk_0A.x - 0x80) << FX32_SHIFT, (touch->unk_0A.y - 0x60) << FX32_SHIFT };
                         if (touch->unk_04 != 0) {
                             if (save->IsButton1Enabled()) {
-                                if (sub_02006000(touchPos, unk_004C->unk_04->unk_18, 0)) {
-                                    ov0_0214FD24(unk_004C);
+                                if (sub_02006000(touchPos, unk_004C->m_rect->m_rectangle, 0)) {
+                                    unk_004C->ov0_0214FD24();
                                     unk_00D0 |= 0x100;
                                 }
                             }
                             if (save->IsButton2Enabled()) {
-                                if (sub_02006000(touchPos, unk_0050->unk_04->unk_18, 0)) {
-                                    ov0_0214FF44(unk_0050);
+                                if (sub_02006000(touchPos, unk_0050->m_rect->m_rectangle, 0)) {
+                                    unk_0050->ov0_0214FF44();
                                     unk_00D0 |= 0x200;
                                 }
                             }
@@ -746,11 +742,11 @@ u32 CFieldScene::func0()
                             held = TRUE;
                         }
                         if (touch->unk_06 != 0) {
-                            if (sub_02006000(touchPos, unk_004C->unk_04->unk_18, 0) && (unk_00D0 & 0x100)) {
+                            if (sub_02006000(touchPos, unk_004C->m_rect->m_rectangle, 0) && (unk_00D0 & 0x100)) {
                                 unk_0054->sub_02022D88();
                                 m_game->m_audioEngine->sub_02034C44(0xFA);
                             }
-                            if (sub_02006000(touchPos, unk_0050->unk_04->unk_18, 0) && (unk_00D0 & 0x200)) {
+                            if (sub_02006000(touchPos, unk_0050->m_rect->m_rectangle, 0) && (unk_00D0 & 0x200)) {
                                 unk_0054->sub_02022C1C();
                                 unk_0058->sub_020234D4();
                                 if (unk_0014->unk_08 != NULL && unk_0014->unk_08->unk_0C != NULL) {
@@ -1251,10 +1247,10 @@ u32 CFieldScene::func0()
         unk_0060->sub_02029D4C();
     }
     if (unk_004C != NULL) {
-        ov0_0214FCD0(unk_004C);
+        unk_004C->ov0_0214FCD0();
     }
     if (unk_0050 != NULL) {
-        ov0_0214FEF0(unk_0050);
+        unk_0050->ov0_0214FEF0();
     }
 
     if (doUpdate) {
@@ -1515,8 +1511,6 @@ extern "C" {
 void sub_02041D58(UnkClass_02041C80 *obj, u32 arg1);
 void ov0_02148480(UnkClass_021480E4 *obj, Point2D *pos, Point2D *target);
 void ov0_021481EC(UnkClass_021480E4 *obj, int fps);
-void ov0_0214FD00(UnkClass_0214FB28 *obj, Camera2D *camera);
-void ov0_0214FF20(UnkClass_0214FD4C *obj, Camera2D *camera);
 void ov0_02159DB4(UnkClass_0215994C *obj, UnkClass_0211E3FC *renderLists, UnkClass_020416AC *hud);
 void ov0_0216D62C(UnkClass_0216D5F4 *obj, int time, int arg2, Camera2D *camera);
 void ov0_02148288(UnkClass_021480E4 *obj, Camera2D *camera);
@@ -1639,10 +1633,10 @@ void CFieldScene::func1()
                 unk_00D8->vfunc_0C(unk_000C);
             }
             if (unk_004C != NULL && save->IsButton1Enabled()) {
-                ov0_0214FD00(unk_004C, unk_000C);
+                unk_004C->ov0_0214FD00(unk_000C);
             }
             if (unk_0050 != NULL && save->IsButton2Enabled()) {
-                ov0_0214FF20(unk_0050, unk_000C);
+                unk_0050->ov0_0214FF20(unk_000C);
             }
         }
 
