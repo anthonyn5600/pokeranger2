@@ -257,7 +257,8 @@ Overlay overlay1
     Object main.nef.p/src_CBattleAssistWater.cpp.o
     Object main.nef.p/src_UnkClass_02135BB4.cpp.o
     Object main.nef.p/src_CBattleEnemyGauge.cpp.o
-    Object main.nef.p/asm_overlay_01_02136730.s.o
+    Object main.nef.p/src_UnkClass_02136730.cpp.o
+    Object main.nef.p/asm_overlay_01_02136C00.s.o
 }
 
 Overlay overlay2
