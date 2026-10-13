@@ -1,6 +1,10 @@
 #ifndef POKERANGER2_FIELD_TFIELDPARTICLE_HPP
 #define POKERANGER2_FIELD_TFIELDPARTICLE_HPP
 
+// TFIELDPARTICLE_INLINE_MEMBERS: ov3 (opening demo) was built from a version of these templates whose particle
+// ctor/dtor and TFieldParticleEmitter::Update are defined in the class: they are instantiated right after their first
+// user instead of at the end of the TU. ov0 needs the out-of-class definitions. Set by scene/COPDScreen.hpp.
+
 #include <nitro.h>
 
 #include "UnkClass_020074D4.hpp"
@@ -29,8 +33,20 @@ struct FieldEffectSpriteRes {
 
 template <class T>
 struct TFieldParticle {
+#ifdef TFIELDPARTICLE_INLINE_MEMBERS
+    TFieldParticle()
+    {
+        animIdx = 0;
+        sprite.m_polygonID = 8;
+        sprite.m_z = 0x622;
+    }
+    ~TFieldParticle()
+    {
+    }
+#else
     TFieldParticle();
     ~TFieldParticle();
+#endif
 
     T sprite;
     Point2D pos;
@@ -43,6 +59,12 @@ struct TFieldParticle {
     TFieldParticle *prev;
     TFieldParticle *next;
 
+    void SetPos(fx32 x, fx32 y)
+    {
+        pos.x = x;
+        pos.y = y;
+    }
+
     void SetRes(UnkClass_020074D4 *ncbr, UnkClass_02007AA4 *palette, CNCERFile *ncer)
     {
         sprite.SetImage((UnkClass_CPrimitive_ImageProxy *)ncbr, NULL);
@@ -52,6 +74,7 @@ struct TFieldParticle {
 };
 
 // m_rate and unk_14 are unused by the ov0 subclasses.
+#ifndef TFIELDPARTICLE_INLINE_MEMBERS
 template <class T>
 TFieldParticle<T>::TFieldParticle()
 {
@@ -64,6 +87,7 @@ template <class T>
 TFieldParticle<T>::~TFieldParticle()
 {
 }
+#endif
 
 template <class T>
 class TFieldParticleEmitter {
@@ -80,7 +104,14 @@ public:
     {
     }
     virtual void func2();
+#ifdef TFIELDPARTICLE_INLINE_MEMBERS
+    virtual u32 Update(int dt)
+    {
+        return 0;
+    }
+#else
     virtual u32 Update(int dt);
+#endif
     virtual void Emit(TFieldParticle<T> *p) = 0;
 
     Point2D m_pos;
@@ -94,11 +125,13 @@ void TFieldParticleEmitter<T>::func2()
 {
 }
 
+#ifndef TFIELDPARTICLE_INLINE_MEMBERS
 template <class T>
 u32 TFieldParticleEmitter<T>::Update(int dt)
 {
     return 0;
 }
+#endif
 
 // Its vtable and own virtuals are never emitted in ov0 (the subclasses override everything), so only this is known:
 // it overrides func2, otherwise its vtable would instantiate TFieldParticleEmitter::func2 early (emission order).

@@ -3,8 +3,8 @@
 
     .text
 
-	arm_func_start ov3_02126E9C
-ov3_02126E9C: ; 0x02126E9C
+	arm_func_start _ZN23CSimplePrimitiveQuadNTFC1Ev
+_ZN23CSimplePrimitiveQuadNTFC1Ev: ; 0x02126E9C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl _ZN10CPrimitiveC2Ev
@@ -18,7 +18,7 @@ ov3_02126E9C: ; 0x02126E9C
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02126EC8: .word _ZTV23CSimplePrimitiveQuadNTF+8
-	arm_func_end ov3_02126E9C
+	arm_func_end _ZN23CSimplePrimitiveQuadNTFC1Ev
 
 	arm_func_start _ZN21COPDCaptureDiscScreenC1Ev
 _ZN21COPDCaptureDiscScreenC1Ev: ; 0x02126ECC
@@ -68,8 +68,8 @@ _ZN21COPDCaptureDiscScreenC1Ev: ; 0x02126ECC
 	ldr r0, [r4, #0x2e8]
 	cmp r0, #0
 	beq _02127014
-	ldr r1, _02127248 ; =ov3_021272C8
-	ldr r3, _0212724C ; =ov3_02127278
+	ldr r1, _02127248 ; =_ZN14TFieldParticleI10CSparkLineED1Ev
+	ldr r3, _0212724C ; =_ZN14TFieldParticleI10CSparkLineEC1Ev
 	str r1, [sp]
 	mov r1, #0x58
 	bl __cxa_vec_new
@@ -144,8 +144,8 @@ _02127064:
 	ldr r0, [r4, #0x31c]
 	cmp r0, #0
 	beq _02127130
-	ldr r1, _02127250 ; =ov3_0212732C
-	ldr r3, _02127254 ; =ov3_021272DC
+	ldr r1, _02127250 ; =_ZN14TFieldParticleI13CLineParticleED1Ev
+	ldr r3, _02127254 ; =_ZN14TFieldParticleI13CLineParticleEC1Ev
 	str r1, [sp]
 	mov r1, #0x8c
 	mov r2, #8
@@ -237,7 +237,7 @@ _02127180:
 	str r0, [r4, #0x354]
 	str r3, [r4, #0x36c]
 	ldr r0, _02127270 ; =PTR_LAB_overlay_3_0212734c_overlay_3_0212b154
-	ldr r3, _02127274 ; =ov3_02126E9C
+	ldr r3, _02127274 ; =_ZN23CSimplePrimitiveQuadNTFC1Ev
 	str r0, [r4, #0x370]
 	add r0, r4, #0x374
 	mov r2, #0x64
@@ -257,10 +257,10 @@ _02127238: .word _ZN15CSoftwareSpriteC1Ev
 _0212723C: .word _ZN16CSimpleSpriteNTFD1Ev
 _02127240: .word ov3_0212518C
 _02127244: .word ptr_FUN_overlay_3_02129130_overlay_3_0212b458
-_02127248: .word ov3_021272C8
-_0212724C: .word ov3_02127278
-_02127250: .word ov3_0212732C
-_02127254: .word ov3_021272DC
+_02127248: .word _ZN14TFieldParticleI10CSparkLineED1Ev
+_0212724C: .word _ZN14TFieldParticleI10CSparkLineEC1Ev
+_02127250: .word _ZN14TFieldParticleI13CLineParticleED1Ev
+_02127254: .word _ZN14TFieldParticleI13CLineParticleEC1Ev
 _02127258: .word PTR_LAB_overlay_3_02129124_overlay_3_0212b19c
 _0212725C: .word PTR_LAB_overlay_3_02127340_overlay_3_0212b1d4
 _02127260: .word PTR_LAB_overlay_3_02127344_overlay_3_0212b118
@@ -268,10 +268,10 @@ _02127264: .word PTR_LAB_overlay_3_02129128_overlay_3_0212b1b8
 _02127268: .word _ZN23CSimplePrimitiveQuadNTFD1Ev
 _0212726C: .word PTR_LAB_overlay_3_02127348_overlay_3_0212b180
 _02127270: .word PTR_LAB_overlay_3_0212734c_overlay_3_0212b154
-_02127274: .word ov3_02126E9C
+_02127274: .word _ZN23CSimplePrimitiveQuadNTFC1Ev
 
-	arm_func_start ov3_02127278
-ov3_02127278: ; 0x02127278
+	arm_func_start _ZN14TFieldParticleI10CSparkLineEC1Ev
+_ZN14TFieldParticleI10CSparkLineEC1Ev: ; 0x02127278
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl _ZN14CPrimitiveLINEC2Ev
@@ -288,28 +288,28 @@ ov3_02127278: ; 0x02127278
 	.align 2, 0
 _021272AC: .word PTR_LAB_overlay_3_021272b4_overlay_3_0212b12c
 _021272B0: .word 0x00000622
-	arm_func_end ov3_02127278
+	arm_func_end _ZN14TFieldParticleI10CSparkLineEC1Ev
 
-	arm_func_start ov3_021272B4
-ov3_021272B4: ; 0x021272B4
+	arm_func_start _ZN10CSparkLineD1Ev
+_ZN10CSparkLineD1Ev: ; 0x021272B4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl _ZN14CPrimitiveLINED2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	arm_func_end ov3_021272B4
+	arm_func_end _ZN10CSparkLineD1Ev
 
-	arm_func_start ov3_021272C8
-ov3_021272C8: ; 0x021272C8
+	arm_func_start _ZN14TFieldParticleI10CSparkLineED1Ev
+_ZN14TFieldParticleI10CSparkLineED1Ev: ; 0x021272C8
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl _ZN14CPrimitiveLINED2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	arm_func_end ov3_021272C8
+	arm_func_end _ZN14TFieldParticleI10CSparkLineED1Ev
 
-	arm_func_start ov3_021272DC
-ov3_021272DC: ; 0x021272DC
+	arm_func_start _ZN14TFieldParticleI13CLineParticleEC1Ev
+_ZN14TFieldParticleI13CLineParticleEC1Ev: ; 0x021272DC
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl _ZN14CPrimitiveQUADC2Ev
@@ -326,45 +326,45 @@ ov3_021272DC: ; 0x021272DC
 	.align 2, 0
 _02127310: .word PTR_LAB_overlay_3_02127318_overlay_3_0212b140
 _02127314: .word 0x00000622
-	arm_func_end ov3_021272DC
+	arm_func_end _ZN14TFieldParticleI13CLineParticleEC1Ev
 
-	arm_func_start ov3_02127318
-ov3_02127318: ; 0x02127318
+	arm_func_start _ZN13CLineParticleD1Ev
+_ZN13CLineParticleD1Ev: ; 0x02127318
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl _ZN14CPrimitiveQUADD2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	arm_func_end ov3_02127318
+	arm_func_end _ZN13CLineParticleD1Ev
 
-	arm_func_start ov3_0212732C
-ov3_0212732C: ; 0x0212732C
+	arm_func_start _ZN14TFieldParticleI13CLineParticleED1Ev
+_ZN14TFieldParticleI13CLineParticleED1Ev: ; 0x0212732C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl _ZN14CPrimitiveQUADD2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	arm_func_end ov3_0212732C
+	arm_func_end _ZN14TFieldParticleI13CLineParticleED1Ev
 
-	arm_func_start ov3_02127340
-ov3_02127340: ; 0x02127340
+	arm_func_start _ZN21COPDCaptureDiscScreen20CLineParticleEmitterD1Ev
+_ZN21COPDCaptureDiscScreen20CLineParticleEmitterD1Ev: ; 0x02127340
 	bx lr
-	arm_func_end ov3_02127340
+	arm_func_end _ZN21COPDCaptureDiscScreen20CLineParticleEmitterD1Ev
 
-	arm_func_start ov3_02127344
-ov3_02127344: ; 0x02127344
+	arm_func_start _ZN21COPDCaptureDiscScreen21CLineParticleAnimatorD1Ev
+_ZN21COPDCaptureDiscScreen21CLineParticleAnimatorD1Ev: ; 0x02127344
 	bx lr
-	arm_func_end ov3_02127344
+	arm_func_end _ZN21COPDCaptureDiscScreen21CLineParticleAnimatorD1Ev
 
-	arm_func_start ov3_02127348
-ov3_02127348: ; 0x02127348
+	arm_func_start _ZN21COPDCaptureDiscScreen13CSparkEmitterD1Ev
+_ZN21COPDCaptureDiscScreen13CSparkEmitterD1Ev: ; 0x02127348
 	bx lr
-	arm_func_end ov3_02127348
+	arm_func_end _ZN21COPDCaptureDiscScreen13CSparkEmitterD1Ev
 
-	arm_func_start ov3_0212734C
-ov3_0212734C: ; 0x0212734C
+	arm_func_start _ZN21COPDCaptureDiscScreen14CSparkAnimatorD1Ev
+_ZN21COPDCaptureDiscScreen14CSparkAnimatorD1Ev: ; 0x0212734C
 	bx lr
-	arm_func_end ov3_0212734C
+	arm_func_end _ZN21COPDCaptureDiscScreen14CSparkAnimatorD1Ev
 
 	arm_func_start _ZN21COPDCaptureDiscScreenD1Ev
 _ZN21COPDCaptureDiscScreenD1Ev: ; 0x02127350
@@ -402,7 +402,7 @@ _021273C0:
 	ldr r0, [r4, #0x318]
 	cmp r0, #0
 	beq _021273E4
-	ldr r3, _02127478 ; =ov3_0212732C
+	ldr r3, _02127478 ; =_ZN14TFieldParticleI13CLineParticleED1Ev
 	mov r1, #0x8c
 	mov r2, #8
 	bl __cxa_vec_delete
@@ -426,7 +426,7 @@ _02127414:
 	ldr r0, [r4, #0x2e4]
 	cmp r0, #0
 	beq _02127438
-	ldr r3, _0212747C ; =ov3_021272C8
+	ldr r3, _0212747C ; =_ZN14TFieldParticleI10CSparkLineED1Ev
 	mov r1, #0x58
 	mov r2, #8
 	bl __cxa_vec_delete
@@ -450,13 +450,13 @@ _02127438:
 	.align 2, 0
 _02127470: .word ptr_FUN_overlay_3_02127350_overlay_3_0212b218
 _02127474: .word _ZN23CSimplePrimitiveQuadNTFD1Ev
-_02127478: .word ov3_0212732C
-_0212747C: .word ov3_021272C8
+_02127478: .word _ZN14TFieldParticleI13CLineParticleED1Ev
+_0212747C: .word _ZN14TFieldParticleI10CSparkLineED1Ev
 _02127480: .word _ZN16CSimpleSpriteNTFD1Ev
 _02127484: .word _ZN15CSoftwareSpriteD1Ev
 
-	arm_func_start ov3_02127488
-ov3_02127488: ; 0x02127488
+	arm_func_start _ZN21COPDCaptureDiscScreenD0Ev
+_ZN21COPDCaptureDiscScreenD0Ev: ; 0x02127488
 	stmdb sp!, {r4, lr}
 	ldr r1, _021275B0 ; =ptr_FUN_overlay_3_02127350_overlay_3_0212b218
 	mov r4, r0
@@ -479,7 +479,7 @@ ov3_02127488: ; 0x02127488
 	bl _ZdaPv
 	mov r0, #0
 	str r0, [r4, #0x308]
-	arm_func_end ov3_02127488
+	arm_func_end _ZN21COPDCaptureDiscScreenD0Ev
 _021274E0:
 	ldr r0, [r4, #0x304]
 	cmp r0, #0
@@ -491,7 +491,7 @@ _021274F8:
 	ldr r0, [r4, #0x318]
 	cmp r0, #0
 	beq _0212751C
-	ldr r3, _021275B8 ; =ov3_0212732C
+	ldr r3, _021275B8 ; =_ZN14TFieldParticleI13CLineParticleED1Ev
 	mov r1, #0x8c
 	mov r2, #8
 	bl __cxa_vec_delete
@@ -515,7 +515,7 @@ _0212754C:
 	ldr r0, [r4, #0x2e4]
 	cmp r0, #0
 	beq _02127570
-	ldr r3, _021275BC ; =ov3_021272C8
+	ldr r3, _021275BC ; =_ZN14TFieldParticleI10CSparkLineED1Ev
 	mov r1, #0x58
 	mov r2, #8
 	bl __cxa_vec_delete
@@ -541,13 +541,13 @@ _02127570:
 	.align 2, 0
 _021275B0: .word ptr_FUN_overlay_3_02127350_overlay_3_0212b218
 _021275B4: .word _ZN23CSimplePrimitiveQuadNTFD1Ev
-_021275B8: .word ov3_0212732C
-_021275BC: .word ov3_021272C8
+_021275B8: .word _ZN14TFieldParticleI13CLineParticleED1Ev
+_021275BC: .word _ZN14TFieldParticleI10CSparkLineED1Ev
 _021275C0: .word _ZN16CSimpleSpriteNTFD1Ev
 _021275C4: .word _ZN15CSoftwareSpriteD1Ev
 
-	arm_func_start ov3_021275C8
-ov3_021275C8: ; 0x021275C8
+	arm_func_start _ZN21COPDCaptureDiscScreen4InitEv
+_ZN21COPDCaptureDiscScreen4InitEv: ; 0x021275C8
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0xc
 	mov r4, r0
@@ -565,7 +565,7 @@ ov3_021275C8: ; 0x021275C8
 	ldr r3, _0212765C ; =s_OPD_i019_00_NCBR_overlay_3_0212b3e8
 	str ip, [sp, #8]
 	bl _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
-	arm_func_end ov3_021275C8
+	arm_func_end _ZN21COPDCaptureDiscScreen4InitEv
 _0212760C:
 	str r0, [r4, #0x58]
 	ldr r0, [r0, #0xc]
@@ -577,7 +577,7 @@ _0212760C:
 	strh r0, [r4, #0x5c]
 _0212762C:
 	mov r0, r4
-	bl ov3_02127B34
+	bl _ZN21COPDCaptureDiscScreen12ov3_02127B34Ev
 	add r0, r4, #0x138
 	mov r1, #0x400
 	bl ov3_02129198
@@ -591,8 +591,8 @@ _02127654: .word s_OPD_overlay_3_0212b3c8
 _02127658: .word s_data_interface_i019_LZ_bin_overlay_3_0212b3cc
 _0212765C: .word s_OPD_i019_00_NCBR_overlay_3_0212b3e8
 
-	arm_func_start ov3_02127660
-ov3_02127660: ; 0x02127660
+	arm_func_start _ZN21COPDCaptureDiscScreen7ReleaseEv
+_ZN21COPDCaptureDiscScreen7ReleaseEv: ; 0x02127660
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	add r0, r5, #0x138
@@ -603,7 +603,7 @@ ov3_02127660: ; 0x02127660
 	bl _ZdaPv
 	mov r0, #0
 	str r0, [r5, #0x1b8]
-	arm_func_end ov3_02127660
+	arm_func_end _ZN21COPDCaptureDiscScreen7ReleaseEv
 _02127688:
 	ldrh r1, [r5, #0x5c]
 	cmp r1, #0
@@ -628,8 +628,8 @@ _021276CC:
 	str r0, [r5, #0x58]
 	ldmia sp!, {r3, r4, r5, pc}
 
-	arm_func_start ov3_021276D8
-ov3_021276D8: ; 0x021276D8
+	arm_func_start _ZN21COPDCaptureDiscScreen5StartEP11COPDTexture
+_ZN21COPDCaptureDiscScreen5StartEP11COPDTexture: ; 0x021276D8
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0x20
 	mov r4, r0
@@ -657,7 +657,7 @@ ov3_021276D8: ; 0x021276D8
 	mov r2, r4
 	str r0, [r4, #0x20]
 	mov r3, #0x2c
-	arm_func_end ov3_021276D8
+	arm_func_end _ZN21COPDCaptureDiscScreen5StartEP11COPDTexture
 _02127744:
 	ldr r6, [r1, #0x20]
 	add r0, r0, #1
@@ -916,8 +916,8 @@ _02127B28: .word DAT_overlay_3_0212a688
 _02127B2C: .word 0xB60B60B7
 _02127B30: .word 0x6C16C16D
 
-	arm_func_start ov3_02127B34
-ov3_02127B34: ; 0x02127B34
+	arm_func_start _ZN21COPDCaptureDiscScreen12ov3_02127B34Ev
+_ZN21COPDCaptureDiscScreen12ov3_02127B34Ev: ; 0x02127B34
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
 	sub sp, sp, #0x30
 	str r0, [sp]
@@ -964,7 +964,7 @@ ov3_02127B34: ; 0x02127B34
 	str r1, [sp, #0xc]
 	mov ip, r3, lsl #0xc
 	str r0, [sp, #0x28]
-	arm_func_end ov3_02127B34
+	arm_func_end _ZN21COPDCaptureDiscScreen12ov3_02127B34Ev
 _02127BEC:
 	ldr r0, [sp, #0x18]
 	mov r1, #0xe000
@@ -1164,8 +1164,8 @@ _02127EDC: .word FX_SinCosTable_+0x3800
 _02127EE0: .word FX_SinCosTable_
 _02127EE4: .word 0x00003FFF
 
-	arm_func_start ov3_02127EE8
-ov3_02127EE8: ; 0x02127EE8
+	arm_func_start _ZN21COPDCaptureDiscScreen4StopEv
+_ZN21COPDCaptureDiscScreen4StopEv: ; 0x02127EE8
 	stmdb sp!, {r3, lr}
 	bl _ZN5CGame11GetInstanceEv
 	add r0, r0, #0x1000
@@ -1173,10 +1173,10 @@ ov3_02127EE8: ; 0x02127EE8
 	mov r1, #0
 	bl _ZN17UnkClass_0203447812sub_02034ED8Ei
 	ldmia sp!, {r3, pc}
-	arm_func_end ov3_02127EE8
+	arm_func_end _ZN21COPDCaptureDiscScreen4StopEv
 
-	arm_func_start ov3_02127F04
-ov3_02127F04: ; 0x02127F04
+	arm_func_start _ZN21COPDCaptureDiscScreen6UpdateEv
+_ZN21COPDCaptureDiscScreen6UpdateEv: ; 0x02127F04
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
 	sub sp, sp, #0x28
 	mov r4, r0
@@ -1210,7 +1210,7 @@ ov3_02127F04: ; 0x02127F04
 	bl _ZN17UnkClass_0200E0B412sub_0200E0E0Ett
 	mov r0, #6
 	str r0, [r4, #8]
-	arm_func_end ov3_02127F04
+	arm_func_end _ZN21COPDCaptureDiscScreen6UpdateEv
 _02127F88:
 	ldr r0, [r4, #8]
 	cmp r0, #6
@@ -1913,27 +1913,27 @@ _0212898C:
 	.align 2, 0
 _021289A4: .word 0xFFFFFB34
 
-	arm_func_start ov3_021289A8
-ov3_021289A8: ; 0x021289A8
+	arm_func_start _ZN21COPDCaptureDiscScreen13CSparkEmitter5func2Ev
+_ZN21COPDCaptureDiscScreen13CSparkEmitter5func2Ev: ; 0x021289A8
 	mov r1, #0x1000
 	str r1, [r0, #0x18]
 	bx lr
-	arm_func_end ov3_021289A8
+	arm_func_end _ZN21COPDCaptureDiscScreen13CSparkEmitter5func2Ev
 
-	arm_func_start ov3_021289B4
-ov3_021289B4: ; 0x021289B4
+	arm_func_start _ZN21TFieldParticleEmitterI13CLineParticleE6UpdateEi
+_ZN21TFieldParticleEmitterI13CLineParticleE6UpdateEi: ; 0x021289B4
 	mov r0, #0
 	bx lr
-	arm_func_end ov3_021289B4
+	arm_func_end _ZN21TFieldParticleEmitterI13CLineParticleE6UpdateEi
 
-	arm_func_start ov3_021289BC
-ov3_021289BC: ; 0x021289BC
+	arm_func_start _ZN21TFieldParticleEmitterI10CSparkLineE6UpdateEi
+_ZN21TFieldParticleEmitterI10CSparkLineE6UpdateEi: ; 0x021289BC
 	mov r0, #0
 	bx lr
-	arm_func_end ov3_021289BC
+	arm_func_end _ZN21TFieldParticleEmitterI10CSparkLineE6UpdateEi
 
-	arm_func_start ov3_021289C4
-ov3_021289C4: ; 0x021289C4
+	arm_func_start _ZN21COPDCaptureDiscScreen6RenderEP8Camera2Di
+_ZN21COPDCaptureDiscScreen6RenderEP8Camera2Di: ; 0x021289C4
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0x28
 	mov r7, r0
@@ -1943,7 +1943,7 @@ ov3_021289C4: ; 0x021289C4
 	beq _02128A80
 	ldr r5, _02128C98 ; =0x04000450
 	mov r8, #0
-	arm_func_end ov3_021289C4
+	arm_func_end _ZN21COPDCaptureDiscScreen6RenderEP8Camera2Di
 _021289E8:
 	ldr r0, [r7, #0x328]
 	cmp r0, #0
@@ -2129,18 +2129,18 @@ _02128C7C:
 _02128C98: .word 0x04000450
 _02128C9C: .word FX_SinCosTable_
 
-	arm_func_start ov3_02128CA0
-ov3_02128CA0: ; 0x02128CA0
+	arm_func_start _ZN21COPDCaptureDiscScreen20CLineParticleEmitter6UpdateEi
+_ZN21COPDCaptureDiscScreen20CLineParticleEmitter6UpdateEi: ; 0x02128CA0
 	ldr r2, [r0, #0x18]
 	mov r1, #0
 	str r1, [r0, #0x18]
 	str r1, [r0, #0x20]
 	mov r0, r2
 	bx lr
-	arm_func_end ov3_02128CA0
+	arm_func_end _ZN21COPDCaptureDiscScreen20CLineParticleEmitter6UpdateEi
 
-	arm_func_start ov3_02128CB8
-ov3_02128CB8: ; 0x02128CB8
+	arm_func_start _ZN21COPDCaptureDiscScreen20CLineParticleEmitter4EmitEP14TFieldParticleI13CLineParticleE
+_ZN21COPDCaptureDiscScreen20CLineParticleEmitter4EmitEP14TFieldParticleI13CLineParticleE: ; 0x02128CB8
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x20]
@@ -2236,10 +2236,10 @@ ov3_02128CB8: ; 0x02128CB8
 	.align 2, 0
 _02128E28: .word 0x66666667
 _02128E2C: .word FX_SinCosTable_
-	arm_func_end ov3_02128CB8
+	arm_func_end _ZN21COPDCaptureDiscScreen20CLineParticleEmitter4EmitEP14TFieldParticleI13CLineParticleE
 
-	arm_func_start ov3_02128E30
-ov3_02128E30: ; 0x02128E30
+	arm_func_start _ZN21COPDCaptureDiscScreen21CLineParticleAnimator5ApplyEP14TFieldParticleI13CLineParticleEi
+_ZN21COPDCaptureDiscScreen21CLineParticleAnimator5ApplyEP14TFieldParticleI13CLineParticleEi: ; 0x02128E30
 	stmdb sp!, {r3, lr}
 	ldr r3, [r1, #0x78]
 	ldr r0, _02128E80 ; =0x00002955
@@ -2262,10 +2262,10 @@ ov3_02128E30: ; 0x02128E30
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02128E80: .word 0x00002955
-	arm_func_end ov3_02128E30
+	arm_func_end _ZN21COPDCaptureDiscScreen21CLineParticleAnimator5ApplyEP14TFieldParticleI13CLineParticleEi
 
-	arm_func_start ov3_02128E84
-ov3_02128E84: ; 0x02128E84
+	arm_func_start _ZN21COPDCaptureDiscScreen13CSparkEmitter6UpdateEi
+_ZN21COPDCaptureDiscScreen13CSparkEmitter6UpdateEi: ; 0x02128E84
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x18]
@@ -2315,13 +2315,13 @@ ov3_02128E84: ; 0x02128E84
 	mov r1, r2, lsl #0xc
 	str r1, [r4, #0x18]
 	add r5, r0, #1
-	arm_func_end ov3_02128E84
+	arm_func_end _ZN21COPDCaptureDiscScreen13CSparkEmitter6UpdateEi
 _02128F48:
 	mov r0, r5
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 
-	arm_func_start ov3_02128F50
-ov3_02128F50: ; 0x02128F50
+	arm_func_start _ZN21COPDCaptureDiscScreen13CSparkEmitter4EmitEP14TFieldParticleI10CSparkLineE
+_ZN21COPDCaptureDiscScreen13CSparkEmitter4EmitEP14TFieldParticleI10CSparkLineE: ; 0x02128F50
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	ldr r2, [r0, #8]
 	ldr r0, [r0, #4]
@@ -2371,10 +2371,10 @@ ov3_02128F50: ; 0x02128F50
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 _0212900C: .word FX_SinCosTable_
-	arm_func_end ov3_02128F50
+	arm_func_end _ZN21COPDCaptureDiscScreen13CSparkEmitter4EmitEP14TFieldParticleI10CSparkLineE
 
-	arm_func_start ov3_02129010
-ov3_02129010: ; 0x02129010
+	arm_func_start _ZN21COPDCaptureDiscScreen14CSparkAnimator5ApplyEP14TFieldParticleI10CSparkLineEi
+_ZN21COPDCaptureDiscScreen14CSparkAnimator5ApplyEP14TFieldParticleI10CSparkLineEi: ; 0x02129010
 	stmdb sp!, {r3, lr}
 	ldr r3, [r1, #0x34]
 	ldr r2, [r1, #0x30]
@@ -2399,51 +2399,51 @@ ov3_02129010: ; 0x02129010
 	movle r0, r0, asr #0xc
 	strle r0, [r1, #0x14]
 	ldmia sp!, {r3, pc}
-	arm_func_end ov3_02129010
+	arm_func_end _ZN21COPDCaptureDiscScreen14CSparkAnimator5ApplyEP14TFieldParticleI10CSparkLineEi
 
-	arm_func_start ov3_02129070
-ov3_02129070: ; 0x02129070
+	arm_func_start _ZN21TFieldParticleEmitterI13CLineParticleE5func2Ev
+_ZN21TFieldParticleEmitterI13CLineParticleE5func2Ev: ; 0x02129070
 	bx lr
-	arm_func_end ov3_02129070
+	arm_func_end _ZN21TFieldParticleEmitterI13CLineParticleE5func2Ev
 
-	arm_func_start ov3_02129074
-ov3_02129074: ; 0x02129074
+	arm_func_start _ZN21COPDCaptureDiscScreen20CLineParticleEmitterD0Ev
+_ZN21COPDCaptureDiscScreen20CLineParticleEmitterD0Ev: ; 0x02129074
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl _ZdlPv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	arm_func_end ov3_02129074
+	arm_func_end _ZN21COPDCaptureDiscScreen20CLineParticleEmitterD0Ev
 
-	arm_func_start ov3_02129088
-ov3_02129088: ; 0x02129088
+	arm_func_start _ZN21COPDCaptureDiscScreen21CLineParticleAnimatorD0Ev
+_ZN21COPDCaptureDiscScreen21CLineParticleAnimatorD0Ev: ; 0x02129088
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl _ZdlPv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	arm_func_end ov3_02129088
+	arm_func_end _ZN21COPDCaptureDiscScreen21CLineParticleAnimatorD0Ev
 
-	arm_func_start ov3_0212909C
-ov3_0212909C: ; 0x0212909C
+	arm_func_start _ZN21COPDCaptureDiscScreen13CSparkEmitterD0Ev
+_ZN21COPDCaptureDiscScreen13CSparkEmitterD0Ev: ; 0x0212909C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl _ZdlPv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	arm_func_end ov3_0212909C
+	arm_func_end _ZN21COPDCaptureDiscScreen13CSparkEmitterD0Ev
 
-	arm_func_start ov3_021290B0
-ov3_021290B0: ; 0x021290B0
+	arm_func_start _ZN21COPDCaptureDiscScreen14CSparkAnimatorD0Ev
+_ZN21COPDCaptureDiscScreen14CSparkAnimatorD0Ev: ; 0x021290B0
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl _ZdlPv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	arm_func_end ov3_021290B0
+	arm_func_end _ZN21COPDCaptureDiscScreen14CSparkAnimatorD0Ev
 
-	arm_func_start ov3_021290C4
-ov3_021290C4: ; 0x021290C4
+	arm_func_start _ZN13CLineParticleD0Ev
+_ZN13CLineParticleD0Ev: ; 0x021290C4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl _ZN14CPrimitiveQUADD2Ev
@@ -2451,10 +2451,10 @@ ov3_021290C4: ; 0x021290C4
 	bl _ZdlPv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	arm_func_end ov3_021290C4
+	arm_func_end _ZN13CLineParticleD0Ev
 
-	arm_func_start ov3_021290E0
-ov3_021290E0: ; 0x021290E0
+	arm_func_start _ZN10CSparkLineD0Ev
+_ZN10CSparkLineD0Ev: ; 0x021290E0
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl _ZN14CPrimitiveLINED2Ev
@@ -2462,40 +2462,40 @@ ov3_021290E0: ; 0x021290E0
 	bl _ZdlPv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	arm_func_end ov3_021290E0
+	arm_func_end _ZN10CSparkLineD0Ev
 
-	arm_func_start ov3_021290FC
-ov3_021290FC: ; 0x021290FC
+	arm_func_start _ZN21TFieldParticleEmitterI10CSparkLineED0Ev
+_ZN21TFieldParticleEmitterI10CSparkLineED0Ev: ; 0x021290FC
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl _ZdlPv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	arm_func_end ov3_021290FC
+	arm_func_end _ZN21TFieldParticleEmitterI10CSparkLineED0Ev
 
-	arm_func_start ov3_02129110
-ov3_02129110: ; 0x02129110
+	arm_func_start _ZN21TFieldParticleEmitterI13CLineParticleED0Ev
+_ZN21TFieldParticleEmitterI13CLineParticleED0Ev: ; 0x02129110
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl _ZdlPv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	arm_func_end ov3_02129110
+	arm_func_end _ZN21TFieldParticleEmitterI13CLineParticleED0Ev
 
-	arm_func_start ov3_02129124
-ov3_02129124: ; 0x02129124
+	arm_func_start _ZN21TFieldParticleEmitterI13CLineParticleED1Ev
+_ZN21TFieldParticleEmitterI13CLineParticleED1Ev: ; 0x02129124
 	bx lr
-	arm_func_end ov3_02129124
+	arm_func_end _ZN21TFieldParticleEmitterI13CLineParticleED1Ev
 
-	arm_func_start ov3_02129128
-ov3_02129128: ; 0x02129128
+	arm_func_start _ZN21TFieldParticleEmitterI10CSparkLineED1Ev
+_ZN21TFieldParticleEmitterI10CSparkLineED1Ev: ; 0x02129128
 	bx lr
-	arm_func_end ov3_02129128
+	arm_func_end _ZN21TFieldParticleEmitterI10CSparkLineED1Ev
 
-	arm_func_start ov3_0212912C
-ov3_0212912C: ; 0x0212912C
+	arm_func_start _ZN21TFieldParticleEmitterI10CSparkLineE5func2Ev
+_ZN21TFieldParticleEmitterI10CSparkLineE5func2Ev: ; 0x0212912C
 	bx lr
-	arm_func_end ov3_0212912C
+	arm_func_end _ZN21TFieldParticleEmitterI10CSparkLineE5func2Ev
 
 	arm_func_start ov3_02129130
 ov3_02129130: ; 0x02129130
@@ -4025,15 +4025,15 @@ DAT_overlay_3_0212B110:
 
     .global PTR_LAB_overlay_3_02127344_overlay_3_0212b118
 PTR_LAB_overlay_3_02127344_overlay_3_0212b118: ; 0x0212B118
-	.word ov3_02127344
+	.word _ZN21COPDCaptureDiscScreen21CLineParticleAnimatorD1Ev
 
     .global ptr_FUN_overlay_3_02129088_overlay_3_0212b11c
 ptr_FUN_overlay_3_02129088_overlay_3_0212b11c: ; 0x0212B11C
-	.word ov3_02129088
+	.word _ZN21COPDCaptureDiscScreen21CLineParticleAnimatorD0Ev
 
     .global ptr_FUN_overlay_3_02128e30_overlay_3_0212b120
 ptr_FUN_overlay_3_02128e30_overlay_3_0212b120: ; 0x0212B120
-	.word ov3_02128E30
+	.word _ZN21COPDCaptureDiscScreen21CLineParticleAnimator5ApplyEP14TFieldParticleI13CLineParticleEi
 	.byte 0x00, 0x00, 0x00, 0x00
 
     .global ptr_FUN_overlay_1_0212b0a8_overlay_3_0212b128
@@ -4042,11 +4042,11 @@ ptr_FUN_overlay_1_0212b0a8_overlay_3_0212b128: ; 0x0212B128
 
     .global PTR_LAB_overlay_3_021272b4_overlay_3_0212b12c
 PTR_LAB_overlay_3_021272b4_overlay_3_0212b12c: ; 0x0212B12C
-	.word ov3_021272B4
+	.word _ZN10CSparkLineD1Ev
 
     .global ptr_FUN_overlay_3_021290e0_overlay_3_0212b130
 ptr_FUN_overlay_3_021290e0_overlay_3_0212b130: ; 0x0212B130
-	.word ov3_021290E0
+	.word _ZN10CSparkLineD0Ev
 
     .global ptr_FUN_02003a2c_overlay_3_0212b134
 ptr_FUN_02003a2c_overlay_3_0212b134: ; 0x0212B134
@@ -4059,11 +4059,11 @@ ptr_FUN_overlay_11_0212b0c0_overlay_3_0212b13c: ; 0x0212B13C
 
     .global PTR_LAB_overlay_3_02127318_overlay_3_0212b140
 PTR_LAB_overlay_3_02127318_overlay_3_0212b140: ; 0x0212B140
-	.word ov3_02127318
+	.word _ZN13CLineParticleD1Ev
 
     .global ptr_FUN_overlay_3_021290c4_overlay_3_0212b144
 ptr_FUN_overlay_3_021290c4_overlay_3_0212b144: ; 0x0212B144
-	.word ov3_021290C4
+	.word _ZN13CLineParticleD0Ev
 
     .global ptr_FUN_020041e4_overlay_3_0212b148
 ptr_FUN_020041e4_overlay_3_0212b148: ; 0x0212B148
@@ -4073,15 +4073,15 @@ ptr_FUN_020041e4_overlay_3_0212b148: ; 0x0212B148
 
     .global PTR_LAB_overlay_3_0212734c_overlay_3_0212b154
 PTR_LAB_overlay_3_0212734c_overlay_3_0212b154: ; 0x0212B154
-	.word ov3_0212734C
+	.word _ZN21COPDCaptureDiscScreen14CSparkAnimatorD1Ev
 
     .global ptr_FUN_overlay_3_021290b0_overlay_3_0212b158
 ptr_FUN_overlay_3_021290b0_overlay_3_0212b158: ; 0x0212B158
-	.word ov3_021290B0
+	.word _ZN21COPDCaptureDiscScreen14CSparkAnimatorD0Ev
 
     .global ptr_FUN_overlay_3_02129010_overlay_3_0212b15c
 ptr_FUN_overlay_3_02129010_overlay_3_0212b15c: ; 0x0212B15C
-	.word ov3_02129010
+	.word _ZN21COPDCaptureDiscScreen14CSparkAnimator5ApplyEP14TFieldParticleI10CSparkLineEi
 
     .global s_21COPDCaptureDiscScreen_overlay_3_0212b160
 s_21COPDCaptureDiscScreen_overlay_3_0212b160: ; 0x0212B160
@@ -4094,61 +4094,61 @@ DAT_overlay_3_0212B178:
 
     .global PTR_LAB_overlay_3_02127348_overlay_3_0212b180
 PTR_LAB_overlay_3_02127348_overlay_3_0212b180: ; 0x0212B180
-	.word ov3_02127348
+	.word _ZN21COPDCaptureDiscScreen13CSparkEmitterD1Ev
 
     .global ptr_FUN_overlay_3_0212909c_overlay_3_0212b184
 ptr_FUN_overlay_3_0212909c_overlay_3_0212b184: ; 0x0212B184
-	.word ov3_0212909C
-	.word ov3_021289A8
+	.word _ZN21COPDCaptureDiscScreen13CSparkEmitterD0Ev
+	.word _ZN21COPDCaptureDiscScreen13CSparkEmitter5func2Ev
 
     .global ptr_FUN_overlay_11_02128e84_overlay_3_0212b18c
 ptr_FUN_overlay_11_02128e84_overlay_3_0212b18c: ; 0x0212B18C
-	.word ov3_02128E84
+	.word _ZN21COPDCaptureDiscScreen13CSparkEmitter6UpdateEi
 
     .global ptr_FUN_overlay_3_02128f50_overlay_3_0212b190
 ptr_FUN_overlay_3_02128f50_overlay_3_0212b190: ; 0x0212B190
-	.word ov3_02128F50
+	.word _ZN21COPDCaptureDiscScreen13CSparkEmitter4EmitEP14TFieldParticleI10CSparkLineE
 	.byte 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_02083578_overlay_3_0212b08c
 
     .global PTR_LAB_overlay_3_02129124_overlay_3_0212b19c
 PTR_LAB_overlay_3_02129124_overlay_3_0212b19c: ; 0x0212B19C
-	.word ov3_02129124
+	.word _ZN21TFieldParticleEmitterI13CLineParticleED1Ev
 
     .global ptr_FUN_overlay_3_02129110_overlay_3_0212b1a0
 ptr_FUN_overlay_3_02129110_overlay_3_0212b1a0: ; 0x0212B1A0
-	.word ov3_02129110
-	.word ov3_02129070
-	.word ov3_021289B4
+	.word _ZN21TFieldParticleEmitterI13CLineParticleED0Ev
+	.word _ZN21TFieldParticleEmitterI13CLineParticleE5func2Ev
+	.word _ZN21TFieldParticleEmitterI13CLineParticleE6UpdateEi
 	.byte 0x00, 0x00, 0x00, 0x00
 	.byte 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_02083578_overlay_3_0212b094
 
     .global PTR_LAB_overlay_3_02129128_overlay_3_0212b1b8
 PTR_LAB_overlay_3_02129128_overlay_3_0212b1b8: ; 0x0212B1B8
-	.word ov3_02129128
+	.word _ZN21TFieldParticleEmitterI10CSparkLineED1Ev
 
     .global ptr_FUN_overlay_3_021290fc_overlay_3_0212b1bc
 ptr_FUN_overlay_3_021290fc_overlay_3_0212b1bc: ; 0x0212B1BC
-	.word ov3_021290FC
-	.word ov3_0212912C
-	.word ov3_021289BC
+	.word _ZN21TFieldParticleEmitterI10CSparkLineED0Ev
+	.word _ZN21TFieldParticleEmitterI10CSparkLineE5func2Ev
+	.word _ZN21TFieldParticleEmitterI10CSparkLineE6UpdateEi
 	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_020835bc_overlay_3_0212b09c
 
     .global PTR_LAB_overlay_3_02127340_overlay_3_0212b1d4
 PTR_LAB_overlay_3_02127340_overlay_3_0212b1d4: ; 0x0212B1D4
-	.word ov3_02127340
+	.word _ZN21COPDCaptureDiscScreen20CLineParticleEmitterD1Ev
 
     .global ptr_FUN_overlay_3_02129074_overlay_3_0212b1d8
 ptr_FUN_overlay_3_02129074_overlay_3_0212b1d8: ; 0x0212B1D8
-	.word ov3_02129074
-	.word ov3_02129070
-	.word ov3_02128CA0
+	.word _ZN21COPDCaptureDiscScreen20CLineParticleEmitterD0Ev
+	.word _ZN21TFieldParticleEmitterI13CLineParticleE5func2Ev
+	.word _ZN21COPDCaptureDiscScreen20CLineParticleEmitter6UpdateEi
 
     .global ptr_FUN_overlay_3_02128cb8_overlay_3_0212b1e4
 ptr_FUN_overlay_3_02128cb8_overlay_3_0212b1e4: ; 0x0212B1E4
-	.word ov3_02128CB8
+	.word _ZN21COPDCaptureDiscScreen20CLineParticleEmitter4EmitEP14TFieldParticleI13CLineParticleE
 
     .global s_21TFieldParticleEmitterI10CSpark_overlay_3_0212b1e8
 s_21TFieldParticleEmitterI10CSpark_overlay_3_0212b1e8: ; 0x0212B1E8
@@ -4166,31 +4166,31 @@ ptr_FUN_overlay_3_02127350_overlay_3_0212b218: ; 0x0212B218
 
     .global ptr_FUN_overlay_3_02127488_overlay_3_0212b21c
 ptr_FUN_overlay_3_02127488_overlay_3_0212b21c: ; 0x0212B21C
-	.word ov3_02127488
+	.word _ZN21COPDCaptureDiscScreenD0Ev
 
     .global ptr_FUN_overlay_3_021275c8_overlay_3_0212b220
 ptr_FUN_overlay_3_021275c8_overlay_3_0212b220: ; 0x0212B220
-	.word ov3_021275C8
+	.word _ZN21COPDCaptureDiscScreen4InitEv
 
     .global ptr_FUN_overlay_3_02127660_overlay_3_0212b224
 ptr_FUN_overlay_3_02127660_overlay_3_0212b224: ; 0x0212B224
-	.word ov3_02127660
+	.word _ZN21COPDCaptureDiscScreen7ReleaseEv
 
     .global ptr_FUN_overlay_3_021276d8_overlay_3_0212b228
 ptr_FUN_overlay_3_021276d8_overlay_3_0212b228: ; 0x0212B228
-	.word ov3_021276D8
+	.word _ZN21COPDCaptureDiscScreen5StartEP11COPDTexture
 
     .global ptr_FUN_overlay_3_02127ee8_overlay_3_0212b22c
 ptr_FUN_overlay_3_02127ee8_overlay_3_0212b22c: ; 0x0212B22C
-	.word ov3_02127EE8
+	.word _ZN21COPDCaptureDiscScreen4StopEv
 
     .global ptr_FUN_overlay_3_02127f04_overlay_3_0212b230
 ptr_FUN_overlay_3_02127f04_overlay_3_0212b230: ; 0x0212B230
-	.word ov3_02127F04
+	.word _ZN21COPDCaptureDiscScreen6UpdateEv
 
     .global ptr_FUN_overlay_3_021289c4_overlay_3_0212b234
 ptr_FUN_overlay_3_021289c4_overlay_3_0212b234: ; 0x0212B234
-	.word ov3_021289C4
+	.word _ZN21COPDCaptureDiscScreen6RenderEP8Camera2Di
 
     .global s_24TFieldParticleForceFieldI10CSp_overlay_3_0212b238
 s_24TFieldParticleForceFieldI10CSp_overlay_3_0212b238: ; 0x0212B238

@@ -26,6 +26,14 @@ public:
 
 class CSimpleSpriteNTF : public CPrimitiveRectNTF {
 public:
+    CSimpleSpriteNTF()
+    {
+        unk_4C = 0;
+        unk_50 = 0;
+        unk_54 = 0;
+        unk_58 = GX_TEXPLTTCOLOR0_USE;
+        unk_44 = unk_48 = FX32_ONE;
+    }
     virtual ~CSimpleSpriteNTF();
     virtual u32 Render(Camera2D *camera);
 
