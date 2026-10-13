@@ -129,6 +129,26 @@ public:
 
 STATIC_SIZE_ASSERT(CBattleAssistGrass, 0xE4);
 
+struct IceSlot {
+    u8 thrown;
+    u8 state;
+    u8 growth;
+    u8 level;
+    u16 timer;
+    fx32 scale;
+};
+
+STATIC_SIZE_ASSERT(IceSlot, 0xC);
+
+struct IceFreeze {
+    int state;
+    u8 size;
+    u16 timer;
+    CBattleAttackEffect *effect;
+};
+
+STATIC_SIZE_ASSERT(IceFreeze, 0xC);
+
 class CBattleAssistIce : public CBattleAssist {
 public:
     CBattleAssistIce(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3);
@@ -137,8 +157,24 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
+    void ov1_021329C8(CBattleEnemy **enemies);
+    BOOL ov1_02132B78(u8 *idx);
+    BOOL ov1_02132BD4(u8 *outIdx);
+    BOOL ov1_02132CAC(CBattleAttackEffect *effect, CBattleEnemy **enemies, u8 level);
+    u8 ov1_02132EC4(Point2D pos);
+    void ov1_02132FD4(IceFreeze *freeze, CBattleEnemy *enemy);
+    u8 ov1_021330DC(u32 value);
+
 public:
-    u8 unk_18[0xB4];
+    u8 m_flags;
+    u8 m_selected;
+    u16 unk_1A;
+    u16 m_timer;
+    Point2D m_last;
+    CBattleAttackEffect *m_effects[4];
+    IceSlot m_slots[4];
+    IceFreeze m_freeze[8];
+    CBattleDisk *m_disk;
 };
 
 STATIC_SIZE_ASSERT(CBattleAssistIce, 0xCC);
