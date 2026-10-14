@@ -292,7 +292,8 @@ Overlay overlay0
     Object main.nef.p/src_CFieldEffectDarkCloud.cpp.o
     Object main.nef.p/src_CFieldEffectFireworks.cpp.o
     Object main.nef.p/src_CFieldEffectDarkShadow.cpp.o
-    Object main.nef.p/asm_overlay_00_0216A448.s.o
+    Object src_CFieldEffectDarknessClear.cpp.o
+    Object main.nef.p/asm_overlay_00_0216CB84.s.o
 }
 
 Overlay overlay1
