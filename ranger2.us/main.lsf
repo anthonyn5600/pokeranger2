@@ -383,13 +383,15 @@ Overlay overlay7
 Overlay overlay8
 {
     After main
-    Object main.nef.p/asm_overlay_08_0211C9E0.s.o
+    Object main.nef.p/src_CMissionQuestScene.cpp.o
+    Object main.nef.p/src_UnkClass_0211D770.cpp.o
 }
 
 Overlay overlay9
 {
     After main
-    Object main.nef.p/asm_overlay_09_0211C9E0.s.o
+    Object main.nef.p/src_CFlyingScene.cpp.o
+    Object main.nef.p/src_UnkClass_0211CCA0.cpp.o
 }
 
 Overlay overlay10
@@ -463,7 +465,7 @@ Overlay overlay18
 Overlay overlay19
 {
     After main
-    Object main.nef.p/asm_overlay_19_0211C9E0.s.o
+    Object main.nef.p/src_CSexSelectScene.cpp.o
 }
 
 Overlay overlay20
@@ -524,7 +526,9 @@ Overlay overlay27
 Overlay overlay28
 {
     After main
-    Object main.nef.p/asm_overlay_28_0211C9E0.s.o
+    Object main.nef.p/src_CMapDispScene.cpp.o
+    Object main.nef.p/src_CMapDispRscLoader.cpp.o
+    Object main.nef.p/src_CMapDispScreen.cpp.o
 }
 
 Overlay overlay29
