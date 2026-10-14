@@ -1,6 +1,25 @@
 #ifndef POKERANGER2_SCENE_COPDSCREEN_HPP
 #define POKERANGER2_SCENE_COPDSCREEN_HPP
 
+class Camera2D;
+struct COPDTexture;
+
+// Defined in ov3: one screen of the opening demo. Defined before the includes (the original's base-class header came
+// before the primitive headers): COPDScreen must be completed before CPrimitive/CPrimitiveLINE/CPrimitiveQUAD, which
+// orders the TU-end RTTI/vtable walk and so the capture disc screen's data.
+class COPDScreen {
+public:
+    virtual ~COPDScreen()
+    {
+    }
+    virtual void Init() = 0;
+    virtual void Release() = 0;
+    virtual void Start(COPDTexture *textures) = 0;
+    virtual void Stop() = 0;
+    virtual int Update() = 0;
+    virtual void Render(Camera2D *camera, int flip) = 0;
+};
+
 #include "common.hpp"
 #include "field/CPrimitiveNTF.hpp"
 #include "field/CSimpleSpriteNTF.hpp"
@@ -250,20 +269,6 @@ struct TOPDParticleSystem {
         }
         return p;
     }
-};
-
-// Defined in ov3: one screen of the opening demo
-class COPDScreen {
-public:
-    virtual ~COPDScreen()
-    {
-    }
-    virtual void Init() = 0;
-    virtual void Release() = 0;
-    virtual void Start(COPDTexture *textures) = 0;
-    virtual void Stop() = 0;
-    virtual int Update() = 0;
-    virtual void Render(Camera2D *camera, int flip) = 0;
 };
 
 class CSparkLine;
