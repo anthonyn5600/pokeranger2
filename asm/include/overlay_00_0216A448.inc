@@ -45,9 +45,6 @@
 .public _ZN12CFieldEffect12sub_0203365CEi
 .public _ZN13CArchiveGuardC1EPKcS1_mmmPvm
 .public _ZN13CArchiveGuardD1Ev
-.public _ZN14CPrimitiveRECT12sub_02003C00EP7Point2DPS_
-.public _ZN14CPrimitiveRECTC1Ev
-.public _ZN14CPrimitiveRECTD1Ev
 .public _ZN14TFieldParticleI15CSoftwareSpriteEC1Ev
 .public _ZN14TFieldParticleI15CSoftwareSpriteED1Ev
 .public _ZN15CSoftwareSpriteC1Ev
@@ -85,7 +82,6 @@
 .public _ZN24CFieldEffectLaserFactoryD1Ev
 .public _ZN27CFieldEffectAttackActorData12ov0_0214FFF0Eiii
 .public _ZN27CFieldEffectNormalActorData12ov0_021503B8Eii
-.public _ZN29CFieldEffectDarkShadowFactoryD1Ev
 .public _ZN30TFieldParticleSmokeRectEmitterI15CSoftwareSpriteE4StopEv
 .public _ZN30TFieldParticleSmokeRectEmitterI15CSoftwareSpriteE5func2Ev
 .public _ZN30TFieldParticleSmokeRectEmitterI15CSoftwareSpriteE6UpdateEi
