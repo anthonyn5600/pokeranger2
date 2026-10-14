@@ -5,65 +5,6 @@
 
     .data
 
-    .global PTR_ptr_FUN_02083578_overlay_0_021780cc
-PTR_ptr_FUN_02083578_overlay_0_021780cc: ; 0x021780CC
-	.word _ZTVN10__cxxabiv117__class_type_infoE+8
-	.word s_14CFieldPokeMove_overlay_0_021780e4
-	.byte 0x00, 0x00, 0x00, 0x00
-	.word PTR_ptr_FUN_02083578_overlay_0_021780cc
-
-    .global ptr_FUN_overlay_0_02152ab8_overlay_0_021780dc
-ptr_FUN_overlay_0_02152ab8_overlay_0_021780dc: ; 0x021780DC
-	.word _ZN14CFieldPokeMoveD1Ev
-
-    .global ptr_FUN_overlay_0_02152abc_overlay_0_021780e0
-ptr_FUN_overlay_0_02152abc_overlay_0_021780e0: ; 0x021780E0
-	.word _ZN14CFieldPokeMoveD0Ev
-
-    .global s_14CFieldPokeMove_overlay_0_021780e4
-s_14CFieldPokeMove_overlay_0_021780e4: ; 0x021780E4
-	.asciz "14CFieldPokeMove"
-
-    .global DAT_overlay_0_021780F5
-DAT_overlay_0_021780F5:
-	.byte 0x00, 0x00, 0x00
-
-    .global s_ProcSpecaialEffect_ScriptID_d_overlay_0_021780f8
-s_ProcSpecaialEffect_ScriptID_d_overlay_0_021780f8: ; 0x021780F8
-	.asciz "ProcSpecaialEffect() ScriptID=%d"
-
-    .global DAT_overlay_0_02178119
-DAT_overlay_0_02178119:
-	.byte 0x00, 0x00, 0x00
-
-    .global s_CFieldPokeMove_Sequence_Exceptio_overlay_0_0217811c
-s_CFieldPokeMove_Sequence_Exceptio_overlay_0_0217811c: ; 0x0217811C
-	.asciz "CFieldPokeMove Sequence Exception kabarudon"
-
-    .global s_CFieldPokeMove_Sequence_Exceptio_overlay_0_02178148
-s_CFieldPokeMove_Sequence_Exceptio_overlay_0_02178148: ; 0x02178148
-	.asciz "CFieldPokeMove Sequence Exception"
-
-    .global DAT_overlay_0_0217816A
-DAT_overlay_0_0217816A:
-	.byte 0x00, 0x00
-
-    .global s_ERROR_FieldPokeMove_cpp_PlayEn_overlay_0_0217816c
-s_ERROR_FieldPokeMove_cpp_PlayEn_overlay_0_0217816c: ; 0x0217816C
-	.asciz "ERROR : FieldPokeMove.cpp PlayEnemyAnime "
-
-    .global DAT_overlay_0_02178196
-DAT_overlay_0_02178196:
-	.byte 0x00, 0x00
-
-    .global s_CFieldPokeMove_Sequence_Exceptio_overlay_0_02178198
-s_CFieldPokeMove_Sequence_Exceptio_overlay_0_02178198: ; 0x02178198
-	.asciz "CFieldPokeMove Sequence Exception"
-
-    .global DAT_overlay_0_021781BA
-DAT_overlay_0_021781BA:
-	.byte 0x00, 0x00
-
     .global PTR_ptr_FUN_020835bc_overlay_0_021781bc
 PTR_ptr_FUN_020835bc_overlay_0_021781bc: ; 0x021781BC
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8

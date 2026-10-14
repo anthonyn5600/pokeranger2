@@ -4,7 +4,7 @@ pokeranger2_asm = files(
     'arm9_0208A840.s',
     'arm9_0210CA30.s',
     'arm9_0210CAB0.s',
-    'overlay_00_02152A14.s',
+    'overlay_00_0215994C.s',
     'overlay_00_0215BDCC.s',
     'overlay_00_0215CDC4.s',
     'overlay_00_02177EB8.s',

@@ -46,7 +46,6 @@ public:
     u16 unk_EC;
     int unk_F0;
     CFieldPokeMove unk_F4;
-    u8 unk_1CC[0x4];
     CBinaryFile *unk_1D0;
     int unk_1D4;
 };

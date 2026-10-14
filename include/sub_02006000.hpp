@@ -9,6 +9,13 @@ struct Point2D {
     fx32 x;
     fx32 y;
 
+    inline int DistSqTo(const Point2D &o) const
+    {
+        int dy = (y - o.y) >> FX32_SHIFT;
+        int dx = (x - o.x) >> FX32_SHIFT;
+        return dx * dx + dy * dy;
+    }
+
     inline Point2D operator+(Point2D other) const
     {
         return (Point2D) {

@@ -110,7 +110,7 @@ BOOL CFieldNpc::sub_0203D578(CFieldMap *map)
 void CFieldNpc::ov0_0213C5DC()
 {
     if (unk_E8 != 0) {
-        ov0_02158F38(&unk_F4);
+        unk_F4.ov0_02158F38();
     }
 }
 

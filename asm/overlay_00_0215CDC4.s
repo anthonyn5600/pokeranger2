@@ -7462,7 +7462,7 @@ _ZN17CFieldEffectSlime12ov0_021421F0Eiii: ; 0x021630B8
 	cmp r1, #0
 	moveq r0, #0
 	ldmeqia sp!, {r4, pc}
-	bl ov0_021633B8
+	bl _ZN17CFieldEffectSlime12ov0_021633B8Ev
 	mov r1, #0
 	mov r0, r4
 	mov r3, r1
@@ -7687,17 +7687,17 @@ _02163370:
 	.align 2, 0
 _021633B4: .word MAIN_BSS_0210CA40
 
-	arm_func_start ov0_021633B8
-ov0_021633B8: ; 0x021633B8
+	arm_func_start _ZN17CFieldEffectSlime12ov0_021633B8Ev
+_ZN17CFieldEffectSlime12ov0_021633B8Ev: ; 0x021633B8
 	add r0, r0, #0x100
 	ldrh r1, [r0, #0xfc]
 	bic r1, r1, #2
 	strh r1, [r0, #0xfc]
 	bx lr
-	arm_func_end ov0_021633B8
+	arm_func_end _ZN17CFieldEffectSlime12ov0_021633B8Ev
 
-	arm_func_start ov0_021633CC
-ov0_021633CC: ; 0x021633CC
+	arm_func_start _ZN17CFieldEffectSlime12ov0_021633CCEv
+_ZN17CFieldEffectSlime12ov0_021633CCEv: ; 0x021633CC
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r1, r4, #0x100
@@ -7712,7 +7712,7 @@ ov0_021633CC: ; 0x021633CC
 	orr r1, r1, #2
 	strh r1, [r0, #0xfc]
 	ldmia sp!, {r4, pc}
-	arm_func_end ov0_021633CC
+	arm_func_end _ZN17CFieldEffectSlime12ov0_021633CCEv
 
 	arm_func_start _ZN17CFieldEffectSlime12ov0_02142390EPvS0_
 _ZN17CFieldEffectSlime12ov0_02142390EPvS0_: ; 0x02163404
@@ -16374,8 +16374,8 @@ _0216A7E0: .word s_MEF_ef102_00_ntft_overlay_0_0217a488
 _0216A7E4: .word s_MEF_ef102_00_ntfp_overlay_0_0217a49c
 	arm_func_end ov0_0216A750
 
-	arm_func_start ov0_0216A7E8
-ov0_0216A7E8: ; 0x0216A7E8
+	arm_func_start _ZN20TFieldEffectParticleI16CSimpleSpriteNTFE12ov0_021423E8ERKP17UnkClass_02041D98
+_ZN20TFieldEffectParticleI16CSimpleSpriteNTFE12ov0_021423E8ERKP17UnkClass_02041D98: ; 0x0216A7E8
 	ldr r1, [r1]
 	str r1, [r0, #0x1c]
 	ldr r1, [r0, #0x18]
@@ -16383,7 +16383,7 @@ ov0_0216A7E8: ; 0x0216A7E8
 	ldrne r0, [r0, #0x1c]
 	strne r0, [r1, #0x18]
 	bx lr
-	arm_func_end ov0_0216A7E8
+	arm_func_end _ZN20TFieldEffectParticleI16CSimpleSpriteNTFE12ov0_021423E8ERKP17UnkClass_02041D98
 
 	arm_func_start _ZN25CFieldEffectDarknessClear12sub_0203312CEii
 _ZN25CFieldEffectDarknessClear12sub_0203312CEii: ; 0x0216A804
@@ -17924,8 +17924,8 @@ _0216BD34:
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
 
-	arm_func_start ov0_0216BD40
-ov0_0216BD40: ; 0x0216BD40
+	arm_func_start _ZN20TFieldEffectParticleI16CSimpleSpriteNTFE12ov0_02142264Ei
+_ZN20TFieldEffectParticleI16CSimpleSpriteNTFE12ov0_02142264Ei: ; 0x0216BD40
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0x14
 	mov r4, r0
@@ -17944,7 +17944,7 @@ ov0_0216BD40: ; 0x0216BD40
 	mov fp, #0
 	mov r6, r7, asr #0x1f
 	mov sb, fp
-	arm_func_end ov0_0216BD40
+	arm_func_end _ZN20TFieldEffectParticleI16CSimpleSpriteNTFE12ov0_02142264Ei
 _0216BD88:
 	ldr r0, [r4, #0x70]
 	ldr r5, [r4, #0x80]
@@ -18565,12 +18565,12 @@ _ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFE5func2Ev: ; 0x0216C604
 	bx lr
 	arm_func_end _ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFE5func2Ev
 
-	arm_func_start ov0_0216C610
-ov0_0216C610: ; 0x0216C610
+	arm_func_start _ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFE4StopEv
+_ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFE4StopEv: ; 0x0216C610
 	mov r1, #0
 	str r1, [r0, #0x30]
 	bx lr
-	arm_func_end ov0_0216C610
+	arm_func_end _ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFE4StopEv
 
 	arm_func_start _ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFE6UpdateEi
 _ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFE6UpdateEi: ; 0x0216C61C
@@ -18637,17 +18637,17 @@ ov0_0216C6A8: ; 0x0216C6A8
 	ldmia sp!, {r4, pc}
 	arm_func_end ov0_0216C6A8
 
-	arm_func_start ov0_0216C6BC
-ov0_0216C6BC: ; 0x0216C6BC
+	arm_func_start _ZN21TFieldParticleEmitterI16CSimpleSpriteNTFED0Ev
+_ZN21TFieldParticleEmitterI16CSimpleSpriteNTFED0Ev: ; 0x0216C6BC
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl _ZdlPv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	arm_func_end ov0_0216C6BC
+	arm_func_end _ZN21TFieldParticleEmitterI16CSimpleSpriteNTFED0Ev
 
-	arm_func_start ov0_0216C6D0
-ov0_0216C6D0: ; 0x0216C6D0
+	arm_func_start _ZN20TFieldEffectParticleI16CSimpleSpriteNTFED0Ev
+_ZN20TFieldEffectParticleI16CSimpleSpriteNTFED0Ev: ; 0x0216C6D0
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _0216C77C ; =ptr_FUN_overlay_0_0216caa0_overlay_0_0217a28c
 	mov r4, r0
@@ -18662,7 +18662,7 @@ ov0_0216C6D0: ; 0x0216C6D0
 	bl _ZdaPv
 	mov r0, #0
 	str r0, [r5, #0x10]
-	arm_func_end ov0_0216C6D0
+	arm_func_end _ZN20TFieldEffectParticleI16CSimpleSpriteNTFED0Ev
 _0216C708:
 	ldr r0, [r5, #0xc]
 	cmp r0, #0
@@ -18973,33 +18973,33 @@ _0216CB44: .word ptr_FUN_overlay_0_0216caa0_overlay_0_0217a28c
 _0216CB48: .word ov0_0216AD48
 _0216CB4C: .word _ZTV12CFieldEffect+8
 
-	arm_func_start ov0_0216CB50
-ov0_0216CB50: ; 0x0216CB50
+	arm_func_start _ZN21TFieldParticleEmitterI16CSimpleSpriteNTFED1Ev
+_ZN21TFieldParticleEmitterI16CSimpleSpriteNTFED1Ev: ; 0x0216CB50
 	bx lr
-	arm_func_end ov0_0216CB50
+	arm_func_end _ZN21TFieldParticleEmitterI16CSimpleSpriteNTFED1Ev
 
-	arm_func_start ov0_0216CB54
-ov0_0216CB54: ; 0x0216CB54
+	arm_func_start _ZN25TFieldParticleRectEmitterI16CSimpleSpriteNTFED0Ev
+_ZN25TFieldParticleRectEmitterI16CSimpleSpriteNTFED0Ev: ; 0x0216CB54
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl _ZdlPv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	arm_func_end ov0_0216CB54
+	arm_func_end _ZN25TFieldParticleRectEmitterI16CSimpleSpriteNTFED0Ev
 
 	arm_func_start _ZN25TFieldParticleRectEmitterI16CSimpleSpriteNTFED1Ev
 _ZN25TFieldParticleRectEmitterI16CSimpleSpriteNTFED1Ev: ; 0x0216CB68
 	bx lr
 	arm_func_end _ZN25TFieldParticleRectEmitterI16CSimpleSpriteNTFED1Ev
 
-	arm_func_start ov0_0216CB6C
-ov0_0216CB6C: ; 0x0216CB6C
+	arm_func_start _ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFED0Ev
+_ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFED0Ev: ; 0x0216CB6C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl _ZdlPv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	arm_func_end ov0_0216CB6C
+	arm_func_end _ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFED0Ev
 
 	arm_func_start _ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFED1Ev
 _ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFED1Ev: ; 0x0216CB80
@@ -22062,8 +22062,8 @@ _0216F3A4: .word ptr_FUN_overlay_0_0216caa0_overlay_0_0217a28c
 _0216F3A8: .word ov0_0216AD48
 _0216F3AC: .word _ZTV12CFieldEffect+8
 
-	arm_func_start ov0_0216F3B0
-ov0_0216F3B0: ; 0x0216F3B0
+	arm_func_start _ZN17TFieldEffectSmokeI16CSimpleSpriteNTFED0Ev
+_ZN17TFieldEffectSmokeI16CSimpleSpriteNTFED0Ev: ; 0x0216F3B0
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _0216F45C ; =ptr_FUN_overlay_0_0216caa0_overlay_0_0217a28c
 	mov r4, r0
@@ -22078,7 +22078,7 @@ ov0_0216F3B0: ; 0x0216F3B0
 	bl _ZdaPv
 	mov r0, #0
 	str r0, [r5, #0x10]
-	arm_func_end ov0_0216F3B0
+	arm_func_end _ZN17TFieldEffectSmokeI16CSimpleSpriteNTFED0Ev
 _0216F3E8:
 	ldr r0, [r5, #0xc]
 	cmp r0, #0
@@ -28971,11 +28971,11 @@ ptr_FUN_overlay_0_0216c0a0_overlay_0_02179f60: ; 0x02179F60
 
     .global PTR_LAB_overlay_0_0216cb50_overlay_0_02179f6c
 PTR_LAB_overlay_0_0216cb50_overlay_0_02179f6c: ; 0x02179F6C
-	.word ov0_0216CB50
+	.word _ZN21TFieldParticleEmitterI16CSimpleSpriteNTFED1Ev
 
     .global ptr_FUN_overlay_0_0216c6bc_overlay_0_02179f70
 ptr_FUN_overlay_0_0216c6bc_overlay_0_02179f70: ; 0x02179F70
-	.word ov0_0216C6BC
+	.word _ZN21TFieldParticleEmitterI16CSimpleSpriteNTFED0Ev
 	.word _ZN21TFieldParticleEmitterI16CSimpleSpriteNTFE5func2Ev
 	.word _ZN21TFieldParticleEmitterI16CSimpleSpriteNTFE6UpdateEi
 	.byte 0x00, 0x00, 0x00, 0x00
@@ -28995,7 +28995,7 @@ PTR_LAB_overlay_0_0216cb68_overlay_0_02179fa4: ; 0x02179FA4
 
     .global ptr_FUN_overlay_0_0216cb54_overlay_0_02179fa8
 ptr_FUN_overlay_0_0216cb54_overlay_0_02179fa8: ; 0x02179FA8
-	.word ov0_0216CB54
+	.word _ZN25TFieldParticleRectEmitterI16CSimpleSpriteNTFED0Ev
 	.word _ZN21TFieldParticleEmitterI16CSimpleSpriteNTFE5func2Ev
 	.word _ZN21TFieldParticleEmitterI16CSimpleSpriteNTFE6UpdateEi
 	.byte 0x00, 0x00, 0x00, 0x00
@@ -29022,7 +29022,7 @@ ptr_FUN_overlay_0_0216c66c_overlay_0_02179fe4: ; 0x02179FE4
     .global ptr_FUN_overlay_0_0216b0a0_overlay_0_02179ff0
 ptr_FUN_overlay_0_0216b0a0_overlay_0_02179ff0: ; 0x02179FF0
 	.word _ZN25CFieldEffectDarknessClear8CEmitter4EmitEP14TFieldParticleI16CSimpleSpriteNTFE
-	.word ov0_0216C610
+	.word _ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFE4StopEv
 	.byte 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_020835bc_overlay_0_02179ec4
 
@@ -29032,14 +29032,14 @@ PTR_LAB_overlay_0_0216cb80_overlay_0_0217a000: ; 0x0217A000
 
     .global ptr_FUN_overlay_0_0216cb6c_overlay_0_0217a004
 ptr_FUN_overlay_0_0216cb6c_overlay_0_0217a004: ; 0x0217A004
-	.word ov0_0216CB6C
+	.word _ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFED0Ev
 	.word _ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFE5func2Ev
 	.word _ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFE6UpdateEi
 
     .global ptr_FUN_overlay_0_0216c788_overlay_0_0217a010
 ptr_FUN_overlay_0_0216c788_overlay_0_0217a010: ; 0x0217A010
 	.word _ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFE4EmitEP14TFieldParticleIS0_E
-	.word ov0_0216C610
+	.word _ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFE4StopEv
 	.global _ZTV32CFieldEffectDarknessClearFactory
 _ZTV32CFieldEffectDarknessClearFactory:
 	.byte 0x00, 0x00, 0x00, 0x00
@@ -29075,7 +29075,7 @@ ptr_FUN_overlay_0_0216c694_overlay_0_0217a044: ; 0x0217A044
     .global ptr_FUN_overlay_0_0216c320_overlay_0_0217a050
 ptr_FUN_overlay_0_0216c320_overlay_0_0217a050: ; 0x0217A050
 	.word _ZN26CFieldEffectDarknessClear28CEmitter4EmitEP14TFieldParticleI16CSimpleSpriteNTFE
-	.word ov0_0216C610
+	.word _ZN30TFieldParticleSmokeRectEmitterI16CSimpleSpriteNTFE4StopEv
 
     .global s_32CFieldEffectDarknessClearFacto_overlay_0_0217a058
 s_32CFieldEffectDarknessClearFacto_overlay_0_0217a058: ; 0x0217A058
@@ -29171,7 +29171,7 @@ ptr_FUN_overlay_0_0216adc4_overlay_0_0217a238: ; 0x0217A238
 
     .global ptr_FUN_overlay_0_0216bd40_overlay_0_0217a240
 ptr_FUN_overlay_0_0216bd40_overlay_0_0217a240: ; 0x0217A240
-	.word ov0_0216BD40
+	.word _ZN20TFieldEffectParticleI16CSimpleSpriteNTFE12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_0216ae78_overlay_0_0217a244
 ptr_FUN_overlay_0_0216ae78_overlay_0_0217a244: ; 0x0217A244
@@ -29191,7 +29191,7 @@ ptr_FUN_overlay_0_0216a804_overlay_0_0217a254: ; 0x0217A254
 	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word _ZN12CFieldEffect12ov0_02142390EPvS0_
 	.word _ZN12CFieldEffect12ov0_02142388EPKv
-	.word ov0_0216A7E8
+	.word _ZN20TFieldEffectParticleI16CSimpleSpriteNTFE12ov0_021423E8ERKP17UnkClass_02041D98
 	.word _ZN25CFieldEffectDarknessClear13GetForceFieldEv
 	.word _ZN25CFieldEffectDarknessClear10GetEmitterEv
 	.byte 0x00, 0x00, 0x00, 0x00
@@ -29203,7 +29203,7 @@ ptr_FUN_overlay_0_0216caa0_overlay_0_0217a28c: ; 0x0217A28C
 
     .global ptr_FUN_overlay_0_0216c6d0_overlay_0_0217a290
 ptr_FUN_overlay_0_0216c6d0_overlay_0_0217a290: ; 0x0217A290
-	.word ov0_0216C6D0
+	.word _ZN20TFieldEffectParticleI16CSimpleSpriteNTFED0Ev
 
     .global ptr_FUN_overlay_0_021423a4_overlay_0_0217a294
 ptr_FUN_overlay_0_021423a4_overlay_0_0217a294: ; 0x0217A294
@@ -29226,7 +29226,7 @@ ptr_FUN_overlay_0_0216ae28_overlay_0_0217a2a8: ; 0x0217A2A8
 
     .global ptr_FUN_overlay_0_0216bd40_overlay_0_0217a2b0
 ptr_FUN_overlay_0_0216bd40_overlay_0_0217a2b0: ; 0x0217A2B0
-	.word ov0_0216BD40
+	.word _ZN20TFieldEffectParticleI16CSimpleSpriteNTFE12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_0216af14_overlay_0_0217a2b4
 ptr_FUN_overlay_0_0216af14_overlay_0_0217a2b4: ; 0x0217A2B4
@@ -29246,7 +29246,7 @@ ptr_FUN_overlay_0_0216aac8_overlay_0_0217a2c4: ; 0x0217A2C4
 	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word _ZN12CFieldEffect12ov0_02142390EPvS0_
 	.word _ZN12CFieldEffect12ov0_02142388EPKv
-	.word ov0_0216A7E8
+	.word _ZN20TFieldEffectParticleI16CSimpleSpriteNTFE12ov0_021423E8ERKP17UnkClass_02041D98
 	.byte 0x00, 0x00, 0x00, 0x00
 	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_020835bc_overlay_0_02179f00
@@ -29300,7 +29300,7 @@ ptr_FUN_overlay_0_0216b744_overlay_0_0217a334: ; 0x0217A334
 	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word _ZN12CFieldEffect12ov0_02142390EPvS0_
 	.word _ZN12CFieldEffect12ov0_02142388EPKv
-	.word ov0_0216A7E8
+	.word _ZN20TFieldEffectParticleI16CSimpleSpriteNTFE12ov0_021423E8ERKP17UnkClass_02041D98
 	.word _ZN26CFieldEffectDarknessClear213GetForceFieldEv
 	.word _ZN26CFieldEffectDarknessClear210GetEmitterEv
 
@@ -29825,7 +29825,7 @@ ptr_FUN_overlay_0_0216f490_overlay_0_0217a96c: ; 0x0217A96C
 
     .global ptr_FUN_overlay_0_0216f3b0_overlay_0_0217a970
 ptr_FUN_overlay_0_0216f3b0_overlay_0_0217a970: ; 0x0217A970
-	.word ov0_0216F3B0
+	.word _ZN17TFieldEffectSmokeI16CSimpleSpriteNTFED0Ev
 
     .global ptr_FUN_overlay_0_021423a4_overlay_0_0217a974
 ptr_FUN_overlay_0_021423a4_overlay_0_0217a974: ; 0x0217A974
@@ -29848,7 +29848,7 @@ ptr_FUN_overlay_0_0216ae28_overlay_0_0217a988: ; 0x0217A988
 
     .global ptr_FUN_overlay_0_0216bd40_overlay_0_0217a990
 ptr_FUN_overlay_0_0216bd40_overlay_0_0217a990: ; 0x0217A990
-	.word ov0_0216BD40
+	.word _ZN20TFieldEffectParticleI16CSimpleSpriteNTFE12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_0216af14_overlay_0_0217a994
 ptr_FUN_overlay_0_0216af14_overlay_0_0217a994: ; 0x0217A994
@@ -29865,7 +29865,7 @@ ptr_FUN_overlay_0_0216af14_overlay_0_0217a994: ; 0x0217A994
 	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word _ZN12CFieldEffect12ov0_02142390EPvS0_
 	.word _ZN12CFieldEffect12ov0_02142388EPKv
-	.word ov0_0216A7E8
+	.word _ZN20TFieldEffectParticleI16CSimpleSpriteNTFE12ov0_021423E8ERKP17UnkClass_02041D98
 	.byte 0x00, 0x00, 0x00, 0x00
 	.word _ZN17TFieldEffectSmokeI16CSimpleSpriteNTFE10GetEmitterEv
 	.byte 0x00, 0x00, 0x00, 0x00
@@ -29900,7 +29900,7 @@ ptr_FUN_overlay_0_0216ae28_overlay_0_0217a9f8: ; 0x0217A9F8
 
     .global ptr_FUN_overlay_0_0216bd40_overlay_0_0217aa00
 ptr_FUN_overlay_0_0216bd40_overlay_0_0217aa00: ; 0x0217AA00
-	.word ov0_0216BD40
+	.word _ZN20TFieldEffectParticleI16CSimpleSpriteNTFE12ov0_02142264Ei
 
     .global ptr_FUN_overlay_0_0216ec14_overlay_0_0217aa04
 ptr_FUN_overlay_0_0216ec14_overlay_0_0217aa04: ; 0x0217AA04
@@ -29917,7 +29917,7 @@ ptr_FUN_overlay_0_0216ec14_overlay_0_0217aa04: ; 0x0217AA04
 	.word _ZN12CFieldEffect12sub_0203365CEi
 	.word _ZN12CFieldEffect12ov0_02142390EPvS0_
 	.word _ZN12CFieldEffect12ov0_02142388EPKv
-	.word ov0_0216A7E8
+	.word _ZN20TFieldEffectParticleI16CSimpleSpriteNTFE12ov0_021423E8ERKP17UnkClass_02041D98
 	.word _ZN25CFieldEffectVolcanicSteam13GetForceFieldEv
 	.word _ZN17TFieldEffectSmokeI16CSimpleSpriteNTFE10GetEmitterEv
 

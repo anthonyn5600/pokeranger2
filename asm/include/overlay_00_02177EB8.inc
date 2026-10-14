@@ -14,11 +14,8 @@
 .public _ZN11CFieldActor12sub_0203DA40EP9CFieldMap
 .public _ZN11CFieldActor12sub_0203DA60Em
 .public _ZN12CFieldCannonD1Ev
-.public _ZN14CFieldPokeMoveD0Ev
-.public _ZN14CFieldPokeMoveD1Ev
 .public _ZN16CFieldCannonUnitD1Ev
 .public _ZTI11CFieldActor
-.public _ZTVN10__cxxabiv117__class_type_infoE
 .public _ZTVN10__cxxabiv120__si_class_type_infoE
 .public ov0_02159EA0
 .public ov0_0215A574

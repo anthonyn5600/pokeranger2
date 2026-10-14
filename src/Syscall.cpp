@@ -29,6 +29,7 @@
 #include "field/CFieldActorManage.hpp"
 #include "field/CFieldEffectManage.hpp"
 #include "field/CFieldEffectManpu.hpp"
+#include "field/CFieldEffectSlime.hpp"
 #include "field/CFieldEnemy.hpp"
 #include "field/CFieldEnemyManage.hpp"
 #include "field/CFieldEventRect.hpp"
@@ -94,7 +95,6 @@ void ov0_02163788(void *obj, int arg1);
 void ov0_0216EE1C(void *obj);
 void ov0_0216FEA4(void *obj);
 void ov0_0217248C(void *obj);
-void ov0_021633CC(CFieldEffect *effect);
 int sub_02016138(UnkClass_020B26A0 *save, int group);
 void sub_02015164(UnkStruct_020B26A0_8AD4 *partner, const char *name);
 int sub_02011630(UnkClass_0201164C *obj, int arg1);
@@ -4064,7 +4064,7 @@ int sub_02032F8C(int *args)
             effect->ov0_02142264(0);
             if (effect->sub_02033028() == 0x12) {
                 (*(UnkEffectPart **)((u8 *)effect + 0x1EC))->vfunc_1C();
-                ov0_021633CC(effect);
+                static_cast<CFieldEffectSlime *>(effect)->ov0_021633CC();
             }
         }
     }

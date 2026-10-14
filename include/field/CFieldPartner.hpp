@@ -56,7 +56,6 @@ public:
     CFieldActor *unk_E4;
     int unk_E8;
     CFieldPokeMove unk_EC;
-    u8 unk_1C4[0x4];
     int unk_1C8;
     u16 unk_1CC;
     u8 unk_1CE[0x2];
