@@ -284,22 +284,22 @@ public:
         , unk_28(0)
     {
     }
-    virtual ~COPDCaptureLine(); // ov3_02129130
-    virtual u32 Render(Camera2D *camera); // ov3_021296C4
+    virtual ~COPDCaptureLine();
+    virtual u32 Render(Camera2D *camera);
     void ov3_02129198(int count);
     void ov3_02129280();
     void ov3_021292FC(Point2D *points, int count);
     void ov3_02129A4C();
 
 public:
-    void *unk_18;
-    int unk_1C;
+    COPDTexture *unk_18;
+    Point2D *unk_1C;
     int unk_20;
     int unk_24;
     int unk_28;
-    int unk_2C;
+    UnkClass_0201AAE0 *m_res;
     CSoftwareSprite m_sprite;
-    int unk_7C;
+    u16 m_cellId;
 };
 
 STATIC_SIZE_ASSERT(COPDCaptureLine, 0x80);
@@ -447,9 +447,9 @@ public:
     {
         unk_18 = NULL;
     }
-    virtual ~COPDScreenMeshNTF(); // ov3_02129A68
-    virtual u32 Render(Camera2D *camera); // ov3_02129C90
-    void ov3_02129AC0(int columns, int rows, fx32 x, fx32 y, fx32 s, fx32 t, fx32 width, fx32 height);
+    virtual ~COPDScreenMeshNTF();
+    virtual u32 Render(Camera2D *camera);
+    void ov3_02129AC0(int columns, int rows, fx32 x, fx32 y, fx32 s0, fx32 t0, fx32 s1, fx32 t1);
     void ov3_02129C54();
 
     void SetVertex(u16 x, u16 y, fx32 vx, fx32 vy)
@@ -462,7 +462,7 @@ public:
 public:
     COPDTexture *unk_18;
     Point2D *unk_1C;
-    int unk_20;
+    Point2D *unk_20;
     u16 unk_24;
     u16 unk_26;
 };
@@ -480,8 +480,8 @@ struct UnkStruct_02129E98_1D4 {
 // Defined in ov3
 class UnkClass_02129E98 {
 public:
-    UnkClass_02129E98(); // ov3_02129E98
-    ~UnkClass_02129E98(); // ov3_02129F54
+    UnkClass_02129E98();
+    ~UnkClass_02129E98();
     void ov3_02129F78();
     void ov3_02129FE0(Camera2D *camera);
 
