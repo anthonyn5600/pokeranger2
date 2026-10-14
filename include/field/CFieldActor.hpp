@@ -288,6 +288,13 @@ public:
         }
     }
 
+    inline void ClearClipping()
+    {
+        if (unk_0C != NULL) {
+            unk_0C->ClearClipping();
+        }
+    }
+
     inline BOOL IsAnimating()
     {
         if (unk_0C != NULL) {
@@ -383,6 +390,21 @@ public:
         if (unk_08 != NULL) {
             unk_08->SetClipping(x1, x2, y1, y2);
         }
+    }
+
+    inline void ClearClipping()
+    {
+        if (unk_08 != NULL) {
+            unk_08->ClearClipping();
+        }
+    }
+
+    inline fx32 GetDepth()
+    {
+        if (unk_08 != NULL) {
+            return unk_08->unk_10;
+        }
+        return -0x4000;
     }
 
     inline BOOL IsAnimating()

@@ -280,7 +280,13 @@ Overlay overlay0
     Object main.nef.p/src_FieldTeleport.cpp.o
     Object main.nef.p/src_CFieldEffectExplosion.cpp.o
     Object main.nef.p/src_CFieldEffectSlime.cpp.o
-    Object main.nef.p/asm_overlay_00_021638B8.s.o
+    Object main.nef.p/src_FieldEffectScript.cpp.o
+    Object main.nef.p/src_CFieldEffectManpuAnger.cpp.o
+    Object main.nef.p/src_CFieldEffectManpuAse.cpp.o
+    Object main.nef.p/src_CFieldEffectManpuDokarimo.cpp.o
+    Object main.nef.p/src_CFieldEffectDamageIndication.cpp.o
+    Object main.nef.p/src_CFieldEffectBush.cpp.o
+    Object main.nef.p/asm_overlay_00_021657F0.s.o
 }
 
 Overlay overlay1

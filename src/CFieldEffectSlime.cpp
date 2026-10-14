@@ -9,11 +9,6 @@
 
 extern CFieldScene *MAIN_BSS_0210CA40;
 
-extern "C" {
-int ov0_02163904(UnkClass_021638B8 *obj, int type);
-void ov0_02163A08(UnkClass_021638B8 *obj, int kind, int arg2, int x, int y, int param);
-}
-
 CFieldEffectSlime::CFieldEffectSlime()
     : m_cacId(0)
     , m_timer(0)
@@ -68,7 +63,7 @@ int CFieldEffectSlime::ov0_02142264(int step)
                 UpdatePuddle(i);
                 CFieldEffectManage *mgr = MAIN_BSS_0210CA60;
                 if (mgr->unk_87C == 0 && IsTouchingPlayer(&m_puddles[i].pos) && m_param > 0) {
-                    ov0_02163A08(&mgr->unk_7B0, m_kind, 0, m_puddles[i].pos.x >> 12, m_puddles[i].pos.y >> 12, m_param);
+                    mgr->unk_7B0.ov0_02163A08(m_kind, 0, m_puddles[i].pos.x >> 12, m_puddles[i].pos.y >> 12, m_param);
                 }
             }
         }
@@ -308,7 +303,7 @@ CFieldEffectSlimeFactory::CFieldEffectSlimeFactory(CFieldEffectManage *mgr)
     , m_pool(NULL)
 {
     if (mgr != NULL) {
-        m_kind = ov0_02163904(&mgr->unk_7B0, 2);
+        m_kind = mgr->unk_7B0.ov0_02163904(2);
     }
 }
 

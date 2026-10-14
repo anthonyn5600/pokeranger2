@@ -82,6 +82,13 @@ public:
         }
     }
 
+    inline void ClearClipping()
+    {
+        if (m_sprite != NULL) {
+            m_sprite->m_clipping.enabled = FALSE;
+        }
+    }
+
     inline void SetOutlineColor(u16 color)
     {
         m_outlineColor = color;

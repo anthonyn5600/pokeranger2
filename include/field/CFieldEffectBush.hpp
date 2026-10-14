@@ -6,16 +6,42 @@
 #include "common.hpp"
 #include "field/CFieldEffect.hpp"
 #include "field/CFieldEffectFactory.hpp"
+#include "primitive/CSoftwareSprite.hpp"
 
+class CFieldActor;
+class CFieldEffectManage;
+
+// Grass drawn over an actor's feet while it walks through a bush (kinds 1..4 from the actor's unk_D4).
 class CFieldEffectBush : public CFieldEffect {
 public:
+    CFieldEffectBush();
     virtual ~CFieldEffectBush();
     virtual void ov0_021423A4();
     virtual int sub_02033028();
     virtual int ov0_02142344(Camera2D *camera);
 
+    void SetRes(UnkClass_020074D4 *ncbr, UnkClass_02007AA4 *palette);
+    void Attach(CFieldActor *actor, CFieldEffectManage *mgr);
+    void Activate();
+    void Detach();
+    BOOL IsOnScreen(CFieldActor *actor);
+
+    inline void ReleaseAnim()
+    {
+        if (m_cac != NULL && m_anim != 0) {
+            m_cac->sub_02008B80(m_anim);
+            m_anim = 0;
+            m_cac = NULL;
+        }
+    }
+
 public:
-    u8 unk_18[0x5C];
+    u8 m_active;
+    CFieldActor *m_actor;
+    UnkClass_02008788 *m_cac;
+    CSoftwareSprite m_sprite;
+    u16 m_anim;
+    s8 m_kind;
 };
 
 STATIC_SIZE_ASSERT(CFieldEffectBush, 0x74);

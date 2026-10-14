@@ -11,15 +11,12 @@
 #include "field/CFieldActorManage.hpp"
 #include "field/CFieldActorScript.hpp"
 #include "field/CFieldEffect.hpp"
+#include "field/CFieldEffectBush.hpp"
 #include "field/CFieldEffectManage.hpp"
 #include "field/CFieldMap.hpp"
 #include "field/CFieldMapLayer.hpp"
 #include "fx_utils.hpp"
 #include "heap.hpp"
-
-extern "C" {
-void ov0_021652DC(CFieldEffect *effect, CFieldActor *actor, CFieldEffectManage *mgr);
-}
 
 extern "C" {
 void LogError(const char *fmt, ...);
@@ -761,7 +758,7 @@ void CFieldActor::sub_0203D910()
     }
     CFieldEffect *effect = mgr->ov0_02143088(unk_D8);
     if (effect != NULL) {
-        ov0_021652DC(effect, this, mgr);
+        ((CFieldEffectBush *)effect)->Attach(this, mgr);
     }
 
     if (unk_D8 == 0 || unk_D4 == 0) {

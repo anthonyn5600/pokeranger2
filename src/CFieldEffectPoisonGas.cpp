@@ -8,11 +8,6 @@
 
 extern CFieldScene *MAIN_BSS_0210CA40;
 
-extern "C" {
-int ov0_02163904(UnkClass_021638B8 *obj, int type);
-void ov0_02163A08(UnkClass_021638B8 *obj, int kind, int arg2, int x, int y, int param);
-}
-
 CFieldEffectPoisonGas::CFieldEffectPoisonGas()
     : m_kind(0)
     , m_cacId(0)
@@ -61,7 +56,7 @@ int CFieldEffectPoisonGas::ov0_02142264(int step)
                 } else {
                     CFieldEffectManage *mgr = MAIN_BSS_0210CA60;
                     if (mgr->unk_87C == 0 && IsTouchingPlayer(&m_puffs[i].pos)) {
-                        ov0_02163A08(&mgr->unk_7B0, m_kind, 0, m_puffs[i].pos.x >> 12, m_puffs[i].pos.y >> 12, m_param);
+                        mgr->unk_7B0.ov0_02163A08(m_kind, 0, m_puffs[i].pos.x >> 12, m_puffs[i].pos.y >> 12, m_param);
                         m_puffs[i].life = 0;
                     }
                 }
@@ -239,7 +234,7 @@ CFieldEffectPoisonGasFactory::CFieldEffectPoisonGasFactory(CFieldEffectManage *m
     , m_pool(NULL)
 {
     if (mgr != NULL) {
-        m_kind = ov0_02163904(&mgr->unk_7B0, 0);
+        m_kind = mgr->unk_7B0.ov0_02163904(0);
     }
 }
 
