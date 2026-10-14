@@ -34,7 +34,10 @@ extern UnkClass_0201164C MAIN_BSS_020B2638;
 
 extern "C" {
 void sub_0201135C(UnkClass_0201164C *obj);
+BOOL sub_020114F8(UnkClass_0201164C *obj, int arg1);
+BOOL sub_02011528(UnkClass_0201164C *obj, int arg1);
 void sub_020116C0(UnkClass_0201164C *obj, int arg1);
+BOOL sub_02011630(UnkClass_0201164C *obj, int arg1);
 }
 
 #endif // POKERANGER2_UNKCLASS_0201164C_HPP

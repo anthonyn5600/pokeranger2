@@ -11,7 +11,9 @@ void SetOamAffine(int index, const MtxFx22 *mtx, BOOL mainScreen);
 void SetOamAffineScale(int index, fx32 sx, fx32 sy, BOOL mainScreen);
 
 // BGS archive loaders (data/<dir><name>LZ.bin holding <name>.NCGR/.NCLR/.NSCR); the loaded size and the screen
-// size of the last NSCR are left in sLoadedSize/sScreenWidth/sScreenHeight
+// size of the last NSCR are left in gBGLoadedSize/sScreenWidth/sScreenHeight
+extern u32 gBGLoadedSize;
+
 CArchiveGuard *BGS_OpenArchive(const char *path);
 CArchiveGuard *BGS_OpenArchiveLZ(const char *dir, const char *name);
 int BGS_LoadCharAndPltt(const char *dir, const char *name, int bg, const char *charName, u32 charOffset, const char *plttName, u32 plttOffset);

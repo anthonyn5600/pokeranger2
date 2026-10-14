@@ -548,7 +548,13 @@ Overlay overlay26
 Overlay overlay27
 {
     After main
-    Object main.nef.p/asm_overlay_27_0211C9E0.s.o
+    Object main.nef.p/src_CQuestListScene.cpp.o
+    Object main.nef.p/src_CQuestListScreen.cpp.o
+    Object main.nef.p/src_UnkClass_0211E2A4.cpp.o
+    Object main.nef.p/src_CQLListBox.cpp.o
+    Object main.nef.p/src_UnkClass_0211FBA4.cpp.o
+    Object main.nef.p/src_UnkClass_021205AC.cpp.o
+    Object main.nef.p/src_CQuestListMapScreen.cpp.o
 }
 
 Overlay overlay28
