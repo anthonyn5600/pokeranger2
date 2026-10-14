@@ -3,12 +3,48 @@
 
 #include <nitro.h>
 
+#include "UnkClass_020074D4.hpp"
+#include "UnkClass_02007AA4.hpp"
 #include "primitive/CPrimitive.hpp"
+#include "sub_02006000.hpp"
 
+class CNCERFile;
+
+// One OAM of a cell drawn as a textured quad strip of m_rows rows, each row's edge shifted by m_rowOffsets.
 class CMeshSprite : public CPrimitive {
 public:
-    virtual ~CMeshSprite();
+    CMeshSprite(u8 rows); // ov0_02168F60
     virtual u32 Render(Camera2D *camera);
+
+    void SetRes(UnkClass_020074D4 *image, UnkClass_02007AA4 *palette, CNCERFile *ncer); // ov0_02168FE4
+    BOOL SetCell(u16 cellIdx, u16 oamIdx); // ov0_02168FF4
+
+public:
+    Point2D m_pos;
+    fx32 m_scaleX;
+    fx32 m_scaleY;
+    fx32 m_skewY;
+    fx32 m_skewX;
+    fx32 m_stretchX;
+    fx32 m_stretchY;
+    s16 m_rot;
+    u16 m_plttOffset;
+    s16 m_x1;
+    s16 m_y1;
+    s16 m_x2;
+    s16 m_y2;
+    fx32 m_s1;
+    fx32 m_t1;
+    fx32 m_s2;
+    fx32 m_t2;
+    s16 m_rowOffsets[5];
+    UnkClass_020074D4 *m_image;
+    UnkClass_02007AA4 *m_palette;
+    CNCERFile *m_ncer;
+    int m_cellIdx;
+    u8 m_rows;
 };
+
+STATIC_SIZE_ASSERT(CMeshSprite, 0x74);
 
 #endif // POKERANGER2_FIELD_CMESHSPRITE_HPP
