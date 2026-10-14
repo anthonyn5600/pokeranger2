@@ -34,7 +34,7 @@ extern BOOL OVERLAY11_BSS_02169B40; // set by the WM_Reset/WM_End callbacks
 static void ov11_02123E94(void *arg);
 static void ov11_02123EA8(void *arg);
 BOOL ov11_02123E40();
-extern "C" void ov11_02128FEC();
+void ov11_02128FEC();
 
 extern "C" void thunk_FUN_overlay_11__02128b40(); // wireless lib (D4), ov11_02128C08
 fx32 ov11_021243C4(fx32 start, fx32 b, fx32 t, fx32 a);
