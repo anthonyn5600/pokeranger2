@@ -4,6 +4,7 @@ subdir('fixrom')
 subdir('postconf')
 subdir('scripts')
 subdir('debug')
+subdir('elfrename')
 
 # ARM binutils
 arm_none_eabi_gcc_exe = find_program('arm-none-eabi-gcc', native: true)

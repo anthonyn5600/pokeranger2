@@ -3,19 +3,36 @@
 
 #include <nitro.h>
 
-#include "UnkClass_0211E3FC.hpp"
 #include "common.hpp"
 #include "field/CFieldEffect.hpp"
 #include "field/CFieldEffectFactory.hpp"
+#include "primitive/CSoftwareSprite.hpp"
+
+// After the field headers: CDrawObject completing last gives the .data typeinfo order (WaterSplash, factory, draw
+// object).
+#include "UnkClass_0211E3FC.hpp"
+
+class CNCERFile;
+class UnkClass_02007AA4;
+class UnkClass_020074D4;
+class UnkClass_02008788;
 
 class CFieldEffectWaterSplash : public CFieldEffect {
 public:
+    // Hands the render list's depth to the splash sprite.
     class CEffectDrawObject : public CDrawObject {
     public:
-        virtual ~CEffectDrawObject();
+        CEffectDrawObject()
+        {
+            m_depth = 0;
+        }
         virtual int sub_020091D4(Camera2D *camera, int budget);
+
+    public:
+        int m_depth;
     };
 
+    CFieldEffectWaterSplash();
     virtual ~CFieldEffectWaterSplash();
     virtual void ov0_021423A4();
     virtual int sub_02033028();
@@ -25,8 +42,16 @@ public:
     virtual void ov0_02142398(UnkClass_0211E3FC *renderLists);
     virtual int sub_0203312C(int param, int value);
 
+    void Setup(UnkClass_020074D4 *ncbr, UnkClass_02007AA4 *palette, CNCERFile *ncer, UnkClass_02008788 *cac);
+    void Activate();
+    void Deactivate();
+
 public:
-    u8 unk_18[0x68];
+    u8 m_active;
+    UnkClass_02008788 *m_cac;
+    CSoftwareSprite m_sprite;
+    u16 m_anim;
+    CEffectDrawObject m_drawObj;
 };
 
 STATIC_SIZE_ASSERT(CFieldEffectWaterSplash, 0x80);

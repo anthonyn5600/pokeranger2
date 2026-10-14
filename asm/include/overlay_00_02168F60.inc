@@ -73,8 +73,6 @@
 .public _ZN17CFieldEffectManpudlEPv
 .public _ZN17UnkClass_02007AA4C1Ev
 .public _ZN17UnkClass_0200878812sub_02008828Et
-.public _ZN17UnkClass_0200878812sub_02008860Et
-.public _ZN17UnkClass_0200878812sub_020089B8Et
 .public _ZN17UnkClass_0200878812sub_020089ECEv
 .public _ZN17UnkClass_0200878812sub_02008A38Et
 .public _ZN17UnkClass_0200878812sub_02008A80Emm
@@ -95,10 +93,8 @@
 .public _ZN24CFieldEffectLaserFactoryD1Ev
 .public _ZN27CFieldEffectAttackActorData12ov0_0214FFF0Eiii
 .public _ZN27CFieldEffectNormalActorData12ov0_021503B8Eii
-.public _ZN28CFieldEffectDarkCloudFactoryD1Ev
 .public _ZN28CFieldEffectFireworksFactoryD1Ev
 .public _ZN29CFieldEffectDarkShadowFactoryD1Ev
-.public _ZN30CFieldEffectWaterSplashFactoryD1Ev
 .public _ZN30TFieldParticleSmokeRectEmitterI15CSoftwareSpriteE4StopEv
 .public _ZN30TFieldParticleSmokeRectEmitterI15CSoftwareSpriteE5func2Ev
 .public _ZN30TFieldParticleSmokeRectEmitterI15CSoftwareSpriteE6UpdateEi
@@ -113,7 +109,6 @@
 .public _ZTI17CFieldEffectManpu
 .public _ZTI19CFieldEffectFactory
 .public _ZTI20TFieldEffectParticleI15CSoftwareSpriteE
-.public _ZTI21TFieldParticleEmitterI15CSoftwareSpriteE
 .public _ZTI24TFieldParticleForceFieldI15CSoftwareSpriteE
 .public _ZTI25TFieldParticleRectEmitterI15CSoftwareSpriteE
 .public _ZTI30TFieldParticleSmokeRectEmitterI15CSoftwareSpriteE
@@ -142,3 +137,4 @@
 .public _ll_div
 .public _s32_div_f
 .public g_ntfTextureFormats
+.public ov0_02166794
