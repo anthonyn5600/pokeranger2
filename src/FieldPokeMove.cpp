@@ -1016,7 +1016,7 @@ int CFieldPokeMove::ov0_02154A84()
             }
             for (u16 id = manage->ov0_02143024(0); id != 0; id = manage->ov0_02143024(id)) {
                 CFieldEffectSlime *slime = (CFieldEffectSlime *)manage->ov0_02143088(id);
-                if (slime != NULL && slime->sub_02033028() == 0x12 && slime->unk_1EC == unk_48 && !(slime->unk_1FC & 0x8000)) {
+                if (slime != NULL && slime->sub_02033028() == 0x12 && slime->m_actor == unk_48 && !(slime->m_flags & 0x8000)) {
                     unk_B8 = id;
                     break;
                 }
@@ -1025,7 +1025,7 @@ int CFieldPokeMove::ov0_02154A84()
                 unk_B8 = manage->ov0_02142F6C(0x12, arg);
                 CFieldEffectSlime *slime = (CFieldEffectSlime *)manage->ov0_02143088(unk_B8);
                 if (slime != NULL) {
-                    slime->unk_1EC = unk_48;
+                    slime->m_actor = unk_48;
                     slime->sub_0203312C(18, unk_6C.unk_27);
                     slime->ov0_021421F0(0, -1, 0);
                 }

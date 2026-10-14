@@ -27,6 +27,7 @@
 #include "common.hpp"
 #include "field/CFieldActor.hpp"
 #include "field/CFieldActorManage.hpp"
+#include "field/CFieldEffectExplosion.hpp"
 #include "field/CFieldEffectManage.hpp"
 #include "field/CFieldEffectManpu.hpp"
 #include "field/CFieldEffectPoisonGas.hpp"
@@ -90,8 +91,6 @@ extern "C" {
 void LogError(const char *fmt, ...);
 u32 sub_02016EC4(UnkClass_020B26A0 *save, u32 value);
 void sub_02010988(void *obj, int arg1);
-void ov0_02162988(void *obj);
-void ov0_02163788(void *obj, int arg1);
 void ov0_0216EE1C(void *obj);
 void ov0_0216FEA4(void *obj);
 void ov0_0217248C(void *obj);
@@ -3929,22 +3928,22 @@ int sub_02032A74(int *args)
             break;
         case 201:
             if (manage->m_factories[13] != NULL) {
-                ov0_02162988(manage->m_factories[13]);
+                ((CFieldEffectExplosionFactory *)manage->m_factories[13])->Load();
             }
             break;
         case 202:
             if (manage->m_factories[18] != NULL) {
-                ov0_02163788(manage->m_factories[18], 0x84);
+                ((CFieldEffectSlimeFactory *)manage->m_factories[18])->Load(0x84);
             }
             break;
         case 203:
             if (manage->m_factories[18] != NULL) {
-                ov0_02163788(manage->m_factories[18], 0x85);
+                ((CFieldEffectSlimeFactory *)manage->m_factories[18])->Load(0x85);
             }
             break;
         case 204:
             if (manage->m_factories[18] != NULL) {
-                ov0_02163788(manage->m_factories[18], 0x86);
+                ((CFieldEffectSlimeFactory *)manage->m_factories[18])->Load(0x86);
             }
             break;
         case 0x10:

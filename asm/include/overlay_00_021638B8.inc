@@ -6,12 +6,9 @@
 .public G3_LoadTexMtxTexCoord
 .public G3_MultMtx33
 .public LogInfo
-.public MAIN_BSS_020B26A0
 .public MAIN_BSS_0210CA40
 .public MAIN_BSS_0210CA60
-.public MAIN_BSS_0210CA6C
 .public MAIN_BSS_0210CEC8
-.public MI_CpuCopy8
 .public MI_CpuFill8
 .public MTX_Concat44
 .public MTX_Identity33_
@@ -104,10 +101,8 @@
 .public _ZN22CFieldEffectManpuAnimeD2Ev
 .public _ZN23CFieldEffectBushFactoryD1Ev
 .public _ZN23CFieldEffectManpuSimple8SetDepthEl
-.public _ZN24CFieldEffectJumonFactoryD1Ev
 .public _ZN24CFieldEffectLaserFactoryD1Ev
 .public _ZN27CFieldEffectAttackActorData12ov0_0214FFF0Eiii
-.public _ZN27CFieldEffectAttackActorDataD1Ev
 .public _ZN27CFieldEffectNormalActorData12ov0_021503B8Eii
 .public _ZN28CFieldEffectDamageIndicationD1Ev
 .public _ZN28CFieldEffectDarkCloudFactoryD1Ev
@@ -158,7 +153,6 @@
 .public _ll_div
 .public _s32_div_f
 .public g_ntfTextureFormats
-.public sub_02041D80
 .public sub_02044AC8
 .public sub_02044B48
 .public sub_02044B78
