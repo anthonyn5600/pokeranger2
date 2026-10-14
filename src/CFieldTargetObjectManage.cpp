@@ -4,6 +4,7 @@
 
 #include "UnkClass_02041D80.hpp"
 #include "UnkClass_020B26A0.hpp"
+#include "UnkClass_0215994C.hpp"
 #include "field/CFieldTargetObject.hpp"
 
 extern UnkClass_02041C80 *MAIN_BSS_0210CA6C;
@@ -11,7 +12,6 @@ extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
 
 extern "C" {
 void LogError(const char *fmt, ...);
-void ov0_02159D30(int arg0);
 }
 
 void CFieldTargetObjectManage::sub_0203EFE4(int capacity)

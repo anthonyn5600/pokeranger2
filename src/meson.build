@@ -186,6 +186,7 @@ pokeranger2_cxx = files(
     'CFieldEffectManpuAnime.cpp',
     'FieldPokeMove.cpp',
     'FieldPokeMove2.cpp',
+    'FieldCannon.cpp',
     'CBattleScene.cpp',
     'UnkClass_0212306C.cpp',
     'CBattleEnemyData.cpp',

@@ -468,7 +468,7 @@ void CFieldScene::func6()
                 actor->sub_0201287C_();
             }
         }
-        ov0_02159970(unk_005C);
+        unk_005C->ov0_02159970();
     }
 
     for (int i = 0; i < 0x50; i++) {
@@ -640,7 +640,6 @@ void sub_02016024(UnkClass_020B26A0 *save);
 int sub_02016268(UnkClass_020B26A0 *save, int arg1);
 int sub_0201621C(UnkClass_020B26A0 *save, int arg1);
 void ov0_02161F88(void);
-void ov0_02159D7C(UnkClass_0215994C *obj);
 void sub_0201094C(void *obj, int arg1);
 void sub_02010954(void *obj, u8 arg1);
 void sub_0201095C(void *obj, u8 arg1);
@@ -1100,7 +1099,7 @@ u32 CFieldScene::func0()
                 }
                 if (!(unk_00D0 & 1)) {
                     if (updateActors) {
-                        ov0_02159D7C(unk_005C);
+                        unk_005C->ov0_02159D7C();
                     }
                     unk_0024->sub_0203F2B0(unk_0010, updateActors);
                     unk_0018->sub_0203F2B0(unk_0010, updateActors);
@@ -1510,10 +1509,8 @@ extern "C" {
 void sub_02041D58(UnkClass_02041C80 *obj, u32 arg1);
 void ov0_02148480(UnkClass_021480E4 *obj, Point2D *pos, Point2D *target);
 void ov0_021481EC(UnkClass_021480E4 *obj, int fps);
-void ov0_02159DB4(UnkClass_0215994C *obj, UnkClass_0211E3FC *renderLists, UnkClass_020416AC *hud);
 void ov0_0216D62C(UnkClass_0216D5F4 *obj, int time, int arg2, Camera2D *camera);
 void ov0_02148288(UnkClass_021480E4 *obj, Camera2D *camera);
-void ov0_02159D70(UnkClass_0215994C *obj);
 void sub_0201668C(UnkClass_020B26A0 *save);
 void sub_020342A0(void *scriptManager);
 void sub_020171B8(UnkClass_020B26A0 *save);
@@ -1661,7 +1658,7 @@ void CFieldScene::func1()
                 unk_0024->sub_0203F348(unk_003C, unk_0048);
             }
             if (!(unk_00D0 & 0x40)) {
-                ov0_02159DB4(unk_005C, unk_003C, unk_0048);
+                unk_005C->ov0_02159DB4(unk_003C, unk_0048);
             }
             unk_0028->ov0_02143380(unk_003C);
             for (int i = 0; i < 4; i++) {
@@ -1786,7 +1783,7 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
         unk_0028->ov0_02142F08();
         unk_002C->sub_02035998();
         unk_002C->sub_020359FC();
-        ov0_02159D70(unk_005C);
+        unk_005C->ov0_02159D70();
     }
 
     if (arg1) {

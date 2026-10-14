@@ -264,8 +264,7 @@ Overlay overlay0
     Object main.nef.p/src_CFieldEffectManpuAnime.cpp.o
     Object main.nef.p/src_FieldPokeMove.cpp.o
     Object main.nef.p/src_FieldPokeMove2.cpp.o
-    Object main.nef.p/asm_overlay_00_0215994C.s.o
-    Object main.nef.p/asm_overlay_00_02177EB8.s.o
+    Object main.nef.p/src_FieldCannon.cpp.o
     Object main.nef.p/src_CFieldParticleSmokeAnimator.cpp.o
     Object main.nef.p/src_CFieldEffectSteam.cpp.o
     Object main.nef.p/asm_overlay_00_0215BDCC.s.o

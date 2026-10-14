@@ -150,6 +150,25 @@ public:
         unk_0022 = pos.y >> FX32_SHIFT;
     }
 
+    // Fields of the per-flag words unk_81B4: bit 0 valid, 1-7 kind, 8-11 sub, 12-19 count, 20-31 value.
+    inline void SetFlagKind(u32 i, int kind)
+    {
+        u32 flags = unk_81B4[i];
+        unk_81B4[i] = (flags & ~0xFE) | ((u32)(kind << 25) >> 24) | 1;
+    }
+
+    inline void SetFlagCount(u32 i, int count, int sub)
+    {
+        u32 flags = unk_81B4[i];
+        unk_81B4[i] = (flags & 0xFFF000FE) | ((u32)(count << 24) >> 12) | ((u32)(sub << 28) >> 20) | 1;
+    }
+
+    inline void SetFlagValue(u32 i, int value)
+    {
+        u32 flags = unk_81B4[i];
+        unk_81B4[i] = (flags & 0xFFFFF) | (value << 20);
+    }
+
     // Per-map 4-bit states of the field's actors; mapId < 0 means the current map.
     static inline BOOL IsValidMapId(int mapId)
     {
@@ -277,8 +296,14 @@ public:
     u32 unk_81B0;
     u32 unk_81B4[0x50];
     s16 unk_82F4[0xA0]; // per-flag position x, y (unk_81B4)
-    u8 unk_8434;
-    u8 unk_8435[0x321];
+    u8 unk_8434; // cannon type (UnkClass_0215994C::ov0_02159B84)
+    u8 unk_8435;
+    // per-flag cannon shot state (flags 0x20..0x4F, CFieldCannon::ov0_0215A010)
+    s16 unk_8436[0x50]; // x
+    s16 unk_84D6[0x50]; // y
+    u16 unk_8576[0x50]; // speed
+    u16 unk_8616[0x50]; // angle
+    u16 unk_86B6[0x50];
     u8 unk_8756;
     u8 unk_8757;
     u32 unk_8758;
