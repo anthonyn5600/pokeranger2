@@ -29,6 +29,7 @@
 #include "field/CFieldActorManage.hpp"
 #include "field/CFieldEffectManage.hpp"
 #include "field/CFieldEffectManpu.hpp"
+#include "field/CFieldEffectPoisonGas.hpp"
 #include "field/CFieldEffectSlime.hpp"
 #include "field/CFieldEnemy.hpp"
 #include "field/CFieldEnemyManage.hpp"
@@ -89,7 +90,6 @@ extern "C" {
 void LogError(const char *fmt, ...);
 u32 sub_02016EC4(UnkClass_020B26A0 *save, u32 value);
 void sub_02010988(void *obj, int arg1);
-void ov0_0215F410(void *obj);
 void ov0_02162988(void *obj);
 void ov0_02163788(void *obj, int arg1);
 void ov0_0216EE1C(void *obj);
@@ -3924,7 +3924,7 @@ int sub_02032A74(int *args)
         switch (args[0]) {
         case 200:
             if (manage->m_factories[12] != NULL) {
-                ov0_0215F410(manage->m_factories[12]);
+                ((CFieldEffectPoisonGasFactory *)manage->m_factories[12])->Load();
             }
             break;
         case 201:

@@ -77,10 +77,7 @@ public:
 
     CFieldEffectWaveBullet(int kind);
     virtual ~CFieldEffectWaveBullet();
-    virtual int sub_02033028()
-    {
-        return 5;
-    }
+    virtual int sub_02033028();
     virtual BOOL ov0_021421F0(int inTime, int holdTime, int outTime);
     virtual int ov0_02142264(int step);
     virtual int ov0_02142344(Camera2D *camera);
