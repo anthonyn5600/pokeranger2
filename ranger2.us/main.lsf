@@ -290,7 +290,8 @@ Overlay overlay0
     Object main.nef.p/src_CFieldEffectManpuGokigen.cpp.o
     Object src_CFieldEffectBloom.cpp.o
     Object main.nef.p/src_CFieldEffectDarkCloud.cpp.o
-    Object main.nef.p/asm_overlay_00_02168F60.s.o
+    Object main.nef.p/src_CFieldEffectFireworks.cpp.o
+    Object main.nef.p/asm_overlay_00_02169A08.s.o
 }
 
 Overlay overlay1
