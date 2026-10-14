@@ -30030,10 +30030,10 @@ _0216AE5C:
 	bl _ZN12CFieldEffect12ov0_021421F0Eiii
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 
-	arm_func_start _ZN21TFieldParticleEmitterI16CSimpleSpriteNTFE5func2Ev
-_ZN21TFieldParticleEmitterI16CSimpleSpriteNTFE5func2Ev: ; 0x0216AE74
+	arm_func_start ov0_0216AE74
+ov0_0216AE74: ; 0x0216AE74
 	bx lr
-	arm_func_end _ZN21TFieldParticleEmitterI16CSimpleSpriteNTFE5func2Ev
+	arm_func_end ov0_0216AE74
 
 	arm_func_start _ZN25CFieldEffectDarknessClear12ov0_02142344EP8Camera2D
 _ZN25CFieldEffectDarknessClear12ov0_02142344EP8Camera2D: ; 0x0216AE78
@@ -31284,11 +31284,11 @@ _0216BFF0:
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
 
-	arm_func_start _ZN21TFieldParticleEmitterI16CSimpleSpriteNTFE6UpdateEi
-_ZN21TFieldParticleEmitterI16CSimpleSpriteNTFE6UpdateEi: ; 0x0216BFFC
+	arm_func_start ov0_0216BFFC
+ov0_0216BFFC: ; 0x0216BFFC
 	mov r0, #0
 	bx lr
-	arm_func_end _ZN21TFieldParticleEmitterI16CSimpleSpriteNTFE6UpdateEi
+	arm_func_end ov0_0216BFFC
 
 	arm_func_start _ZN26CFieldEffectDarknessClear212ov0_02142344EP8Camera2D
 _ZN26CFieldEffectDarknessClear212ov0_02142344EP8Camera2D: ; 0x0216C004
@@ -43169,8 +43169,8 @@ PTR_LAB_overlay_0_0216cb50_overlay_0_02179f6c: ; 0x02179F6C
     .global ptr_FUN_overlay_0_0216c6bc_overlay_0_02179f70
 ptr_FUN_overlay_0_0216c6bc_overlay_0_02179f70: ; 0x02179F70
 	.word ov0_0216C6BC
-	.word _ZN21TFieldParticleEmitterI16CSimpleSpriteNTFE5func2Ev
-	.word _ZN21TFieldParticleEmitterI16CSimpleSpriteNTFE6UpdateEi
+	.word ov0_0216AE74
+	.word ov0_0216BFFC
 	.byte 0x00, 0x00, 0x00, 0x00
 
     .global s_25CFieldEffectDarknessClear_overlay_0_02179f80
@@ -43189,8 +43189,8 @@ PTR_LAB_overlay_0_0216cb68_overlay_0_02179fa4: ; 0x02179FA4
     .global ptr_FUN_overlay_0_0216cb54_overlay_0_02179fa8
 ptr_FUN_overlay_0_0216cb54_overlay_0_02179fa8: ; 0x02179FA8
 	.word ov0_0216CB54
-	.word _ZN21TFieldParticleEmitterI16CSimpleSpriteNTFE5func2Ev
-	.word _ZN21TFieldParticleEmitterI16CSimpleSpriteNTFE6UpdateEi
+	.word ov0_0216AE74
+	.word ov0_0216BFFC
 	.byte 0x00, 0x00, 0x00, 0x00
 
     .global s_26CFieldEffectDarknessClear2_overlay_0_02179fb8

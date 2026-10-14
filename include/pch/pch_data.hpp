@@ -36,4 +36,12 @@ static OPDSpriteDef sOPDSpriteDefs[7] = {
     { 0, -0x70000, 0x100000, 0xC0000, 0, 0, 0x100000, 0xC0000, -0x1, 0x65 },
 };
 
+// Opening demo capture disc screen (ov3 COPDCaptureDiscScreen): the line and spark emitters' position and its sprites.
+static const Point2D sOPDDiscOffset = { 0, -0x70000 };
+
+static OPDSpriteDef sOPDDiscSpriteDefs[2] = {
+    { 0, -0x70000, 0x8000, 0x8000, 0, 0, 0x40000, 0x40000, 0, 2 },
+    { 0, 0x60000, 0x100000, 0x10000, 0, 0, 0x100000, 0x10000, 9, 0 },
+};
+
 #endif // POKERANGER2_PCH_DATA_HPP

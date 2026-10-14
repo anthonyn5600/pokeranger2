@@ -69,11 +69,3 @@ u32 CSimplePrimitiveQuadNTF::Render(Camera2D *camera)
     G3_PopMtx(0);
     return 1;
 }
-
-CSimpleSpriteNTF::~CSimpleSpriteNTF()
-{
-}
-
-CSimplePrimitiveQuadNTF::~CSimplePrimitiveQuadNTF()
-{
-}

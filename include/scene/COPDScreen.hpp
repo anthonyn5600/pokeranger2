@@ -51,6 +51,9 @@ struct TOPDParticleRes {
     static void Init(Type &res)
     {
     }
+    static void Set(void *sprite, Type res)
+    {
+    }
 };
 
 template <>
@@ -59,6 +62,10 @@ struct TOPDParticleRes<CSimpleSpriteNTF> {
     static void Init(Type &res)
     {
         res = NULL;
+    }
+    static void Set(CSimpleSpriteNTF *sprite, Type res)
+    {
+        sprite->unk_18 = res;
     }
 };
 
@@ -172,7 +179,7 @@ struct TOPDParticleSystem {
                     for (u32 j = 0; j < m_emitCounts[i]; j++) {
                         TFieldParticle<T> *np = Alloc();
                         if (np != NULL) {
-                            np->sprite.unk_18 = m_res;
+                            TOPDParticleRes<T>::Set(&np->sprite, m_res);
                             m_emitters[i]->Emit(np);
                             if (m_forceField != NULL) {
                                 m_forceField->Apply(np, dt);
@@ -259,28 +266,8 @@ public:
     virtual void Render(Camera2D *camera, int flip) = 0;
 };
 
-// Defined in ov3: spark particle of the capture disc screen
-class CSparkLine : public CPrimitiveLINE {
-public:
-    virtual ~CSparkLine()
-    {
-    }
-
-public:
-    int unk_28;
-    int unk_2C;
-};
-
-// Defined in ov3: light streak particle of the capture disc screen
-class CLineParticle : public CPrimitiveQUAD {
-public:
-    virtual ~CLineParticle()
-    {
-    }
-
-public:
-    int unk_60;
-};
+class CSparkLine;
+class CLineParticle;
 
 // Defined in ov3
 class COPDCaptureLine : public CPrimitive {
@@ -296,6 +283,8 @@ public:
     virtual u32 Render(Camera2D *camera); // ov3_021296C4
     void ov3_02129198(int count);
     void ov3_02129280();
+    void ov3_021292FC(Point2D *points, int count);
+    void ov3_02129A4C();
 
 public:
     void *unk_18;
@@ -317,16 +306,72 @@ struct UnkStruct_COPDRing {
 
 STATIC_SIZE_ASSERT(UnkStruct_COPDRing, 0x24);
 
+struct UnkStruct_COPDBeam {
+    u16 angle;
+    s16 speed;
+    fx32 unk_04;
+    fx32 unk_08;
+    fx32 unk_0C;
+};
+
+STATIC_SIZE_ASSERT(UnkStruct_COPDBeam, 0x10);
+
+// The thrown capture disc: position (z = height), velocity, gravity and bounce count.
+struct UnkStruct_COPDBall {
+    fx32 x;
+    fx32 y;
+    fx32 z;
+    fx32 vx;
+    fx32 vy;
+    fx32 vz;
+    fx32 gravity;
+    u32 bounces;
+};
+
+STATIC_SIZE_ASSERT(UnkStruct_COPDBall, 0x20);
+
 // Defined in ov3
 class COPDCaptureDiscScreen : public COPDScreen {
 public:
+    COPDCaptureDiscScreen(); // ov3_02126ECC
+    virtual ~COPDCaptureDiscScreen(); // ov3_02127350
+    virtual void Init();
+    virtual void Release();
+    virtual void Start(COPDTexture *textures);
+    virtual void Stop();
+    virtual int Update();
+    virtual void Render(Camera2D *camera, int flip);
+    void ov3_02127B34();
+
+public:
+    int unk_004;
+    int unk_008;
+    CSoftwareSprite unk_00C[1];
+    UnkClass_0201AAE0 *unk_058;
+    u16 unk_05C;
+    CSimpleSpriteNTF unk_060[2];
+    UnkStruct_COPDBall unk_118;
+    COPDCaptureLine unk_138;
+    Point2D *unk_1B8;
+    int unk_1BC;
+    UnkStruct_COPDRing unk_1C0[6];
+    u8 unk_298[0x24];
+    int unk_2BC;
+    u8 unk_2C0;
+    TOPDParticleSystem<CSparkLine> m_sparks;
+    TOPDParticleSystem<CLineParticle> m_lines;
+
     class CLineParticleEmitter : public TFieldParticleEmitter<CLineParticle> {
     public:
         CLineParticleEmitter()
         {
             unk_20 = unk_1C = unk_18 = 0;
         }
-        virtual void func2();
+        void Burst(int count, UnkStruct_COPDRing *ring)
+        {
+            unk_18 = count;
+            unk_1C = (int)ring;
+        }
         virtual u32 Update(int dt);
         virtual void Emit(TFieldParticle<CLineParticle> *p);
 
@@ -345,14 +390,17 @@ public:
     public:
         CSparkEmitter()
         {
-            unk_18 = 0;
+            m_timer = 0;
         }
-        virtual void func2();
+        virtual void func2()
+        {
+            m_timer = FX32_ONE;
+        }
         virtual u32 Update(int dt);
         virtual void Emit(TFieldParticle<CSparkLine> *p);
 
     public:
-        int unk_18;
+        int m_timer;
     };
 
     class CSparkAnimator : public TFieldParticleForceField<CSparkLine> {
@@ -360,43 +408,32 @@ public:
         virtual void Apply(TFieldParticle<CSparkLine> *p, int dt);
     };
 
-    COPDCaptureDiscScreen(); // ov3_02126ECC
-    virtual ~COPDCaptureDiscScreen(); // ov3_02127350
-    virtual void Init();
-    virtual void Release();
-    virtual void Start(COPDTexture *textures);
-    virtual void Stop();
-    virtual int Update();
-    virtual void Render(Camera2D *camera, int flip);
-    void ov3_02127B34();
-
 public:
-    int unk_004;
-    int unk_008;
-    CSoftwareSprite unk_00C[1];
-    UnkClass_0201AAE0 *unk_058;
-    u16 unk_05C;
-    CSimpleSpriteNTF unk_060[2];
-    int unk_118[8];
-    COPDCaptureLine unk_138;
-    Point2D *unk_1B8;
-    int unk_1BC;
-    UnkStruct_COPDRing unk_1C0[6];
-    u8 unk_298[0x24];
-    int unk_2BC;
-    u32 unk_2C0;
-    TOPDParticleSystem<CSparkLine> m_sparks;
-    TOPDParticleSystem<CLineParticle> m_lines;
     CLineParticleEmitter m_lineEmitter;
     CLineParticleAnimator m_lineAnimator;
     CSparkEmitter m_sparkEmitter;
     CSparkAnimator m_sparkAnimator;
     CSimplePrimitiveQuadNTF unk_374[10];
-    u8 unk_75C[0xA8];
+    UnkStruct_COPDBeam unk_75C[10];
+    int unk_7FC;
+    int unk_800;
     u8 unk_804;
 };
 
 STATIC_SIZE_ASSERT(COPDCaptureDiscScreen, 0x808);
+
+// Defined in ov3: light streak particle of the capture disc screen
+class CLineParticle : public CPrimitiveQUAD {
+public:
+    int unk_60;
+};
+
+// Defined in ov3: spark particle of the capture disc screen
+class CSparkLine : public CPrimitiveLINE {
+public:
+    int unk_28;
+    int unk_2C;
+};
 
 // Defined in ov3: textured grid mesh (vtable 0x0212B4E0)
 class COPDScreenMeshNTF : public CPrimitive {

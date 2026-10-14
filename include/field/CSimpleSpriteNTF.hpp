@@ -34,7 +34,6 @@ public:
         unk_58 = GX_TEXPLTTCOLOR0_USE;
         unk_44 = unk_48 = FX32_ONE;
     }
-    virtual ~CSimpleSpriteNTF();
     virtual u32 Render(Camera2D *camera);
 
     void BindTexture();
@@ -52,7 +51,12 @@ public:
 
 class CSimplePrimitiveQuadNTF : public CPrimitive {
 public:
-    virtual ~CSimplePrimitiveQuadNTF();
+    CSimplePrimitiveQuadNTF()
+    {
+        unk_18 = NULL;
+        unk_20 = 0;
+        unk_1C = 0;
+    }
     virtual u32 Render(Camera2D *camera);
 
 public:

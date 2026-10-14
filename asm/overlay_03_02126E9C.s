@@ -36,7 +36,7 @@ _ZN21COPDCaptureDiscScreenC1Ev: ; 0x02126ECC
 	mov r0, #0
 	ldr ip, _0212723C ; =_ZN16CSimpleSpriteNTFD1Ev
 	strh r0, [r4, #0x5c]
-	ldr r3, _02127240 ; =ov3_0212518C
+	ldr r3, _02127240 ; =_ZN16CSimpleSpriteNTFC1Ev
 	add r0, r4, #0x60
 	mov r1, #2
 	mov r2, #0x5c
@@ -255,7 +255,7 @@ _02127230: .word ptr_FUN_overlay_3_02127350_overlay_3_0212b218
 _02127234: .word _ZN15CSoftwareSpriteD1Ev
 _02127238: .word _ZN15CSoftwareSpriteC1Ev
 _0212723C: .word _ZN16CSimpleSpriteNTFD1Ev
-_02127240: .word ov3_0212518C
+_02127240: .word _ZN16CSimpleSpriteNTFC1Ev
 _02127244: .word ptr_FUN_overlay_3_02129130_overlay_3_0212b458
 _02127248: .word _ZN14TFieldParticleI10CSparkLineED1Ev
 _0212724C: .word _ZN14TFieldParticleI10CSparkLineEC1Ev
@@ -716,7 +716,7 @@ _02127744:
 	ldr r1, [r4, #0x1b8]
 	ldr r2, [r4, #0x1bc]
 	add r0, r4, #0x138
-	bl ov3_021292FC
+	bl _ZN15COPDCaptureLine12ov3_021292FCEP7Point2Di
 	ldr r0, _02127B28 ; =DAT_overlay_3_0212a688
 	ldmia r0, {r1, r2}
 	str r1, [r4, #0x330]
@@ -1875,7 +1875,7 @@ _02128910:
 	blo _0212884C
 _02128920:
 	add r0, r4, #0x138
-	bl ov3_02129A4C
+	bl _ZN15COPDCaptureLine12ov3_02129A4CEv
 	ldr r0, [r4, #0x7fc]
 	cmp r0, #0
 	beq _0212898C
@@ -2639,8 +2639,8 @@ _021292F0:
 	str r0, [r5, #0x20]
 	ldmia sp!, {r3, r4, r5, pc}
 
-	arm_func_start ov3_021292FC
-ov3_021292FC: ; 0x021292FC
+	arm_func_start _ZN15COPDCaptureLine12ov3_021292FCEP7Point2Di
+_ZN15COPDCaptureLine12ov3_021292FCEP7Point2Di: ; 0x021292FC
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0x68
 	mov r8, r0
@@ -2655,7 +2655,7 @@ ov3_021292FC: ; 0x021292FC
 	add r6, r0, #8
 	mov r7, #1
 	bls _021295C8
-	arm_func_end ov3_021292FC
+	arm_func_end _ZN15COPDCaptureLine12ov3_021292FCEP7Point2Di
 _02129334:
 	cmp r7, #2
 	bge _02129418
@@ -3132,8 +3132,8 @@ _02129A44: .word 0x040004A8
 _02129A48: .word 0x040004AC
 	arm_func_end ov3_021299E0
 
-	arm_func_start ov3_02129A4C
-ov3_02129A4C: ; 0x02129A4C
+	arm_func_start _ZN15COPDCaptureLine12ov3_02129A4CEv
+_ZN15COPDCaptureLine12ov3_02129A4CEv: ; 0x02129A4C
 	stmdb sp!, {r3, lr}
 	ldr r0, [r0, #0x2c]
 	ldr r0, [r0, #0xc]
@@ -3141,22 +3141,22 @@ ov3_02129A4C: ; 0x02129A4C
 	ldmeqia sp!, {r3, pc}
 	bl _ZN17UnkClass_0200878812sub_020089ECEv
 	ldmia sp!, {r3, pc}
-	arm_func_end ov3_02129A4C
+	arm_func_end _ZN15COPDCaptureLine12ov3_02129A4CEv
 
-	arm_func_start ov3_02129A68
-ov3_02129A68: ; 0x02129A68
+	arm_func_start _ZN17COPDScreenMeshNTFD1Ev
+_ZN17COPDScreenMeshNTFD1Ev: ; 0x02129A68
 	stmdb sp!, {r4, lr}
 	ldr r1, _02129A8C ; =ptr_FUN_overlay_3_02129a68_overlay_3_0212b4e0
 	mov r4, r0
 	str r1, [r4]
-	bl ov3_02129C54
+	bl _ZN17COPDScreenMeshNTF12ov3_02129C54Ev
 	mov r0, r4
 	bl _ZN10CPrimitiveD2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02129A8C: .word ptr_FUN_overlay_3_02129a68_overlay_3_0212b4e0
-	arm_func_end ov3_02129A68
+	arm_func_end _ZN17COPDScreenMeshNTFD1Ev
 
 	arm_func_start ov3_02129A90
 ov3_02129A90: ; 0x02129A90
@@ -3164,7 +3164,7 @@ ov3_02129A90: ; 0x02129A90
 	ldr r1, _02129ABC ; =ptr_FUN_overlay_3_02129a68_overlay_3_0212b4e0
 	mov r4, r0
 	str r1, [r4]
-	bl ov3_02129C54
+	bl _ZN17COPDScreenMeshNTF12ov3_02129C54Ev
 	mov r0, r4
 	bl _ZN10CPrimitiveD2Ev
 	mov r0, r4
@@ -3175,8 +3175,8 @@ ov3_02129A90: ; 0x02129A90
 _02129ABC: .word ptr_FUN_overlay_3_02129a68_overlay_3_0212b4e0
 	arm_func_end ov3_02129A90
 
-	arm_func_start ov3_02129AC0
-ov3_02129AC0: ; 0x02129AC0
+	arm_func_start _ZN17COPDScreenMeshNTF12ov3_02129AC0Eiillllll
+_ZN17COPDScreenMeshNTF12ov3_02129AC0Eiillllll: ; 0x02129AC0
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0x18
 	mov sl, r0
@@ -3224,7 +3224,7 @@ ov3_02129AC0: ; 0x02129AC0
 	ldr r0, [sp, #0x44]
 	sub r0, r1, r0
 	str r0, [sp, #8]
-	arm_func_end ov3_02129AC0
+	arm_func_end _ZN17COPDScreenMeshNTF12ov3_02129AC0Eiillllll
 _02129B7C:
 	ldr r0, [sp, #0x10]
 	mov r1, r6
@@ -3283,8 +3283,8 @@ _02129C14:
 	add sp, sp, #0x18
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
 
-	arm_func_start ov3_02129C54
-ov3_02129C54: ; 0x02129C54
+	arm_func_start _ZN17COPDScreenMeshNTF12ov3_02129C54Ev
+_ZN17COPDScreenMeshNTF12ov3_02129C54Ev: ; 0x02129C54
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x1c]
@@ -3293,7 +3293,7 @@ ov3_02129C54: ; 0x02129C54
 	bl _ZdaPv
 	mov r0, #0
 	str r0, [r4, #0x1c]
-	arm_func_end ov3_02129C54
+	arm_func_end _ZN17COPDScreenMeshNTF12ov3_02129C54Ev
 _02129C74:
 	ldr r0, [r4, #0x20]
 	cmp r0, #0
@@ -3443,8 +3443,8 @@ _02129E8C: .word 0x04000500
 _02129E90: .word 0x04000504
 _02129E94: .word 0x04000448
 
-	arm_func_start ov3_02129E98
-ov3_02129E98: ; 0x02129E98
+	arm_func_start _ZN17UnkClass_02129E98C1Ev
+_ZN17UnkClass_02129E98C1Ev: ; 0x02129E98
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, lr}
 	sub sp, sp, #4
 	ldr r5, _02129F44 ; =_ZN14CPrimitiveRECTD1Ev
@@ -3469,7 +3469,7 @@ ov3_02129E98: ; 0x02129E98
 	mov lr, #0x64000
 	mov ip, r0
 	mov r3, #3
-	arm_func_end ov3_02129E98
+	arm_func_end _ZN17UnkClass_02129E98C1Ev
 _02129EF8:
 	add r8, r4, r0, lsl #6
 	str sb, [r8, #0x10]
@@ -3496,8 +3496,8 @@ _02129F48: .word _ZN14CPrimitiveRECTC1Ev
 _02129F4C: .word DAT_overlay_3_0212a6ac
 _02129F50: .word DAT_overlay_3_0212a690
 
-	arm_func_start ov3_02129F54
-ov3_02129F54: ; 0x02129F54
+	arm_func_start _ZN17UnkClass_02129E98D1Ev
+_ZN17UnkClass_02129E98D1Ev: ; 0x02129F54
 	stmdb sp!, {r4, lr}
 	ldr r3, _02129F74 ; =_ZN14CPrimitiveRECTD1Ev
 	mov r1, #7
@@ -3508,10 +3508,10 @@ ov3_02129F54: ; 0x02129F54
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02129F74: .word _ZN14CPrimitiveRECTD1Ev
-	arm_func_end ov3_02129F54
+	arm_func_end _ZN17UnkClass_02129E98D1Ev
 
-	arm_func_start ov3_02129F78
-ov3_02129F78: ; 0x02129F78
+	arm_func_start _ZN17UnkClass_02129E9812ov3_02129F78Ev
+_ZN17UnkClass_02129E9812ov3_02129F78Ev: ; 0x02129F78
 	ldr r2, [r0, #0x1c4]
 	cmp r2, #0
 	beq _02129FB4
@@ -3527,7 +3527,7 @@ ov3_02129F78: ; 0x02129F78
 	mov r1, #0x168
 	str r1, [r0, #0x1c8]
 	bx lr
-	arm_func_end ov3_02129F78
+	arm_func_end _ZN17UnkClass_02129E9812ov3_02129F78Ev
 _02129FB4:
 	ldr r1, [r0, #0x1c8]
 	cmp r1, #0
@@ -3541,8 +3541,8 @@ _02129FB4:
 	str r1, [r0, #0x1cc]
 	bx lr
 
-	arm_func_start ov3_02129FE0
-ov3_02129FE0: ; 0x02129FE0
+	arm_func_start _ZN17UnkClass_02129E9812ov3_02129FE0EP8Camera2D
+_ZN17UnkClass_02129E9812ov3_02129FE0EP8Camera2D: ; 0x02129FE0
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0x24
 	mov sl, r0
@@ -3571,7 +3571,7 @@ ov3_02129FE0: ; 0x02129FE0
 	ldr r4, _0212A0A8 ; =0x04000450
 	mov r5, r8
 	add fp, sp, #0
-	arm_func_end ov3_02129FE0
+	arm_func_end _ZN17UnkClass_02129E9812ov3_02129FE0EP8Camera2D
 _0212A050:
 	str r5, [r4]
 	str r6, [r4, #0x20]
@@ -3630,320 +3630,6 @@ DAT_overlay_3_0212a6b0: ; 0x0212A6B0
 
     .data
 
-    .global PTR_ptr_FUN_02083578_overlay_3_0212ad5c
-PTR_ptr_FUN_02083578_overlay_3_0212ad5c: ; 0x0212AD5C
-	.word _ZTVN10__cxxabiv117__class_type_infoE+8
-	.word s_24TFieldParticleForceFieldI16CSi_overlay_3_0212af34
-
-    .global PTR_ptr_FUN_02083578_overlay_3_0212ad64
-PTR_ptr_FUN_02083578_overlay_3_0212ad64: ; 0x0212AD64
-	.word _ZTVN10__cxxabiv117__class_type_infoE+8
-	.word s_10COPDScreen_overlay_3_0212adb0
-
-    .global PTR_ptr_FUN_02083578_overlay_3_0212ad6c
-PTR_ptr_FUN_02083578_overlay_3_0212ad6c: ; 0x0212AD6C
-	.word _ZTVN10__cxxabiv117__class_type_infoE+8
-	.word s_21TFieldParticleEmitterI16CSimpl_overlay_3_0212af08
-
-    .global PTR_ptr_FUN_020835bc_overlay_3_0212ad74
-PTR_ptr_FUN_020835bc_overlay_3_0212ad74: ; 0x0212AD74
-	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
-	.word s_15COPDTitleScreen_overlay_3_0212adc0
-	.word PTR_ptr_FUN_02083578_overlay_3_0212ad64
-
-    .global PTR_ptr_FUN_020835bc_overlay_3_0212ad80
-PTR_ptr_FUN_020835bc_overlay_3_0212ad80: ; 0x0212AD80
-	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
-	.word s_N15COPDTitleScreen13CSparkEmitte_overlay_3_0212ae98
-	.word PTR_ptr_FUN_02083578_overlay_3_0212ad6c
-
-    .global PTR_ptr_FUN_020835bc_overlay_3_0212ad8c
-PTR_ptr_FUN_020835bc_overlay_3_0212ad8c: ; 0x0212AD8C
-	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
-	.word s_N15COPDTitleScreen13CStarAnimato_overlay_3_0212ae74
-	.word PTR_ptr_FUN_02083578_overlay_3_0212ad5c
-
-    .global PTR_ptr_FUN_020835bc_overlay_3_0212ad98
-PTR_ptr_FUN_020835bc_overlay_3_0212ad98: ; 0x0212AD98
-	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
-	.word s_N15COPDTitleScreen14CSparkAnimat_overlay_3_0212aebc
-	.word PTR_ptr_FUN_02083578_overlay_3_0212ad5c
-
-    .global PTR_ptr_FUN_020835bc_overlay_3_0212ada4
-PTR_ptr_FUN_020835bc_overlay_3_0212ada4: ; 0x0212ADA4
-	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
-	.word s_N15COPDTitleScreen12CStarEmitter_overlay_3_0212ae50
-	.word PTR_ptr_FUN_02083578_overlay_3_0212ad6c
-
-    .global s_10COPDScreen_overlay_3_0212adb0
-s_10COPDScreen_overlay_3_0212adb0: ; 0x0212ADB0
-	.asciz "10COPDScreen"
-
-    .global DAT_overlay_3_0212ADBD
-DAT_overlay_3_0212ADBD:
-	.byte 0x00, 0x00, 0x00
-
-    .global s_15COPDTitleScreen_overlay_3_0212adc0
-s_15COPDTitleScreen_overlay_3_0212adc0: ; 0x0212ADC0
-	.asciz "15COPDTitleScreen"
-
-    .global DAT_overlay_3_0212ADD2
-DAT_overlay_3_0212ADD2:
-	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-    .word PTR_ptr_FUN_020835bc_overlay_3_0212ad98
-
-    .global PTR_LAB_overlay_3_021255ac_overlay_3_0212addc
-PTR_LAB_overlay_3_021255ac_overlay_3_0212addc: ; 0x0212ADDC
-	.word ov3_021255AC
-
-    .global ptr_FUN_overlay_11_02126e44_overlay_3_0212ade0
-ptr_FUN_overlay_11_02126e44_overlay_3_0212ade0: ; 0x0212ADE0
-	.word ov3_02126E44
-
-    .global ptr_FUN_overlay_3_02126a20_overlay_3_0212ade4
-ptr_FUN_overlay_3_02126a20_overlay_3_0212ade4: ; 0x0212ADE4
-	.word ov3_02126A20
-	.byte 0x00, 0x00, 0x00, 0x00
-
-    .global ptr_FUN_overlay_11_0212ad8c_overlay_3_0212adec
-ptr_FUN_overlay_11_0212ad8c_overlay_3_0212adec: ; 0x0212ADEC
-	.word PTR_ptr_FUN_020835bc_overlay_3_0212ad8c
-
-    .global PTR_LAB_overlay_3_021255b4_overlay_3_0212adf0
-PTR_LAB_overlay_3_021255b4_overlay_3_0212adf0: ; 0x0212ADF0
-	.word ov3_021255B4
-
-    .global ptr_FUN_overlay_3_02126e6c_overlay_3_0212adf4
-ptr_FUN_overlay_3_02126e6c_overlay_3_0212adf4: ; 0x0212ADF4
-	.word ov3_02126E6C
-
-    .global ptr_FUN_overlay_3_02126d60_overlay_3_0212adf8
-ptr_FUN_overlay_3_02126d60_overlay_3_0212adf8: ; 0x0212ADF8
-	.word ov3_02126D60
-	.byte 0x00, 0x00, 0x00, 0x00
-	.word PTR_ptr_FUN_02083578_overlay_3_0212ad6c
-
-    .global PTR_LAB_overlay_3_02126e94_overlay_3_0212ae04
-PTR_LAB_overlay_3_02126e94_overlay_3_0212ae04: ; 0x0212AE04
-	.word ov3_02126E94
-
-    .global ptr_FUN_overlay_3_02126e80_overlay_3_0212ae08
-ptr_FUN_overlay_3_02126e80_overlay_3_0212ae08: ; 0x0212AE08
-	.word ov3_02126E80
-	.word ov3_02126E98
-	.word ov3_021264D0
-	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-	.word PTR_ptr_FUN_020835bc_overlay_3_0212ada4
-
-    .global PTR_LAB_overlay_3_021255b0_overlay_3_0212ae20
-PTR_LAB_overlay_3_021255b0_overlay_3_0212ae20: ; 0x0212AE20
-	.word ov3_021255B0
-
-    .global ptr_FUN_overlay_3_02126e58_overlay_3_0212ae24
-ptr_FUN_overlay_3_02126e58_overlay_3_0212ae24: ; 0x0212AE24
-	.word ov3_02126E58
-	.word ov3_02125CA4
-
-    .global ptr_FUN_overlay_3_02126b18_overlay_3_0212ae2c
-ptr_FUN_overlay_3_02126b18_overlay_3_0212ae2c: ; 0x0212AE2C
-	.word ov3_02126B18
-
-    .global ptr_FUN_overlay_3_02126be4_overlay_3_0212ae30
-ptr_FUN_overlay_3_02126be4_overlay_3_0212ae30: ; 0x0212AE30
-	.word ov3_02126BE4
-	.byte 0x00, 0x00, 0x00, 0x00
-	.word PTR_ptr_FUN_020835bc_overlay_3_0212ad80
-
-    .global PTR_LAB_overlay_3_021255a8_overlay_3_0212ae3c
-PTR_LAB_overlay_3_021255a8_overlay_3_0212ae3c: ; 0x0212AE3C
-	.word ov3_021255A8
-
-    .global ptr_FUN_overlay_11_02126e30_overlay_3_0212ae40
-ptr_FUN_overlay_11_02126e30_overlay_3_0212ae40: ; 0x0212AE40
-	.word ov3_02126E30
-	.word ov3_02125C98
-
-    .global ptr_FUN_overlay_3_02126748_overlay_3_0212ae48
-ptr_FUN_overlay_3_02126748_overlay_3_0212ae48: ; 0x0212AE48
-	.word ov3_02126748
-
-    .global ptr_FUN_overlay_3_02126814_overlay_3_0212ae4c
-ptr_FUN_overlay_3_02126814_overlay_3_0212ae4c: ; 0x0212AE4C
-	.word ov3_02126814
-
-    .global s_N15COPDTitleScreen12CStarEmitter_overlay_3_0212ae50
-s_N15COPDTitleScreen12CStarEmitter_overlay_3_0212ae50: ; 0x0212AE50
-	.asciz "N15COPDTitleScreen12CStarEmitterE"
-
-    .global DAT_overlay_3_0212AE72
-DAT_overlay_3_0212AE72:
-	.byte 0x00, 0x00
-
-    .global s_N15COPDTitleScreen13CStarAnimato_overlay_3_0212ae74
-s_N15COPDTitleScreen13CStarAnimato_overlay_3_0212ae74: ; 0x0212AE74
-	.asciz "N15COPDTitleScreen13CStarAnimatorE"
-
-    .global DAT_overlay_3_0212AE97
-DAT_overlay_3_0212AE97:
-	.byte 0x00
-
-    .global s_N15COPDTitleScreen13CSparkEmitte_overlay_3_0212ae98
-s_N15COPDTitleScreen13CSparkEmitte_overlay_3_0212ae98: ; 0x0212AE98
-	.asciz "N15COPDTitleScreen13CSparkEmitterE"
-
-    .global DAT_overlay_3_0212AEBB
-DAT_overlay_3_0212AEBB:
-	.byte 0x00
-
-    .global s_N15COPDTitleScreen14CSparkAnimat_overlay_3_0212aebc
-s_N15COPDTitleScreen14CSparkAnimat_overlay_3_0212aebc: ; 0x0212AEBC
-	.asciz "N15COPDTitleScreen14CSparkAnimatorE"
-
-    .global DAT_overlay_3_0212AEE0
-DAT_overlay_3_0212AEE0:
-	.byte 0x00, 0x00, 0x00, 0x00
-	.word PTR_ptr_FUN_020835bc_overlay_3_0212ad74
-
-    .global ptr_FUN_overlay_3_021255b8_overlay_3_0212aee8
-ptr_FUN_overlay_3_021255b8_overlay_3_0212aee8: ; 0x0212AEE8
-	.word _ZN15COPDTitleScreenD1Ev
-
-    .global ptr_FUN_overlay_3_021256c4_overlay_3_0212aeec
-ptr_FUN_overlay_3_021256c4_overlay_3_0212aeec: ; 0x0212AEEC
-	.word ov3_021256C4
-
-    .global ptr_FUN_overlay_3_021257d8_overlay_3_0212aef0
-ptr_FUN_overlay_3_021257d8_overlay_3_0212aef0: ; 0x0212AEF0
-	.word ov3_021257D8
-
-    .global ptr_FUN_overlay_3_02125824_overlay_3_0212aef4
-ptr_FUN_overlay_3_02125824_overlay_3_0212aef4: ; 0x0212AEF4
-	.word ov3_02125824
-
-    .global ptr_FUN_overlay_3_02125834_overlay_3_0212aef8
-ptr_FUN_overlay_3_02125834_overlay_3_0212aef8: ; 0x0212AEF8
-	.word ov3_02125834
-
-    .global ptr_FUN_overlay_3_02125d0c_overlay_3_0212aefc
-ptr_FUN_overlay_3_02125d0c_overlay_3_0212aefc: ; 0x0212AEFC
-	.word ov3_02125D0C
-
-    .global ptr_FUN_overlay_3_02125d10_overlay_3_0212af00
-ptr_FUN_overlay_3_02125d10_overlay_3_0212af00: ; 0x0212AF00
-	.word ov3_02125D10
-
-    .global ptr_FUN_overlay_3_021264d8_overlay_3_0212af04
-ptr_FUN_overlay_3_021264d8_overlay_3_0212af04: ; 0x0212AF04
-	.word ov3_021264D8
-
-    .global s_21TFieldParticleEmitterI16CSimpl_overlay_3_0212af08
-s_21TFieldParticleEmitterI16CSimpl_overlay_3_0212af08: ; 0x0212AF08
-	.asciz "21TFieldParticleEmitterI16CSimpleSpriteNTFE"
-
-    .global s_24TFieldParticleForceFieldI16CSi_overlay_3_0212af34
-s_24TFieldParticleForceFieldI16CSi_overlay_3_0212af34: ; 0x0212AF34
-	.asciz "24TFieldParticleForceFieldI16CSimpleSpriteNTFE"
-
-    .global DAT_overlay_3_0212AF63
-DAT_overlay_3_0212AF63:
-	.byte 0x00
-
-    .global DAT_overlay_3_0212af64
-DAT_overlay_3_0212af64: ; 0x0212AF64
-	.byte 0x00, 0x10, 0x00, 0x00
-
-    .global DAT_overlay_3_0212af68
-DAT_overlay_3_0212af68: ; 0x0212AF68
-	.byte 0x00, 0xD0, 0xF9, 0xFF
-
-    .global DAT_overlay_3_0212af6c
-DAT_overlay_3_0212af6c: ; 0x0212AF6C
-	.byte 0x00, 0x00, 0x0B, 0x00
-
-    .global DAT_overlay_3_0212af70
-DAT_overlay_3_0212af70: ; 0x0212AF70
-	.byte 0x00, 0x00, 0x06, 0x00
-
-    .global DAT_overlay_3_0212af74
-DAT_overlay_3_0212af74: ; 0x0212AF74
-	.byte 0x00, 0x00, 0x00, 0x00
-
-    .global DAT_overlay_3_0212af78
-DAT_overlay_3_0212af78: ; 0x0212AF78
-	.byte 0x00, 0x00, 0x00, 0x00
-
-    .global DAT_overlay_3_0212af7c
-DAT_overlay_3_0212af7c: ; 0x0212AF7C
-	.byte 0x00, 0x00, 0x0B, 0x00
-
-    .global DAT_overlay_3_0212af80
-DAT_overlay_3_0212af80: ; 0x0212AF80
-	.byte 0x00, 0x00, 0x06, 0x00
-
-    .global DAT_overlay_3_0212af84
-DAT_overlay_3_0212af84: ; 0x0212AF84
-	.byte 0x05, 0x00, 0x00, 0x00
-
-    .global DAT_overlay_3_0212af88
-DAT_overlay_3_0212af88: ; 0x0212AF88
-	.byte 0x64, 0x00, 0x00, 0x00
-
-    .global DAT_overlay_3_0212af8c
-DAT_overlay_3_0212af8c: ; 0x0212AF8C
-	.byte 0x00, 0x10, 0x00, 0x00
-
-    .global DAT_overlay_3_0212af90
-DAT_overlay_3_0212af90: ; 0x0212AF90
-	.byte 0x00, 0x10, 0xF9, 0xFF
-
-    .global DAT_overlay_3_0212af94
-DAT_overlay_3_0212af94: ; 0x0212AF94
-	.byte 0x00, 0x00, 0x0B, 0x00
-
-    .global DAT_overlay_3_0212af98
-DAT_overlay_3_0212af98: ; 0x0212AF98
-	.byte 0x00, 0x00, 0x05, 0x00
-
-    .global DAT_overlay_3_0212af9c
-DAT_overlay_3_0212af9c: ; 0x0212AF9C
-	.byte 0x00, 0x00, 0x00, 0x00
-
-    .global DAT_overlay_3_0212afa0
-DAT_overlay_3_0212afa0: ; 0x0212AFA0
-	.byte 0x00, 0x00, 0x00, 0x00
-
-    .global DAT_overlay_3_0212afa4
-DAT_overlay_3_0212afa4: ; 0x0212AFA4
-	.byte 0x00, 0x00, 0x0B, 0x00
-
-    .global DAT_overlay_3_0212afa8
-DAT_overlay_3_0212afa8: ; 0x0212AFA8
-	.byte 0x00, 0x00, 0x05, 0x00
-
-    .global DAT_overlay_3_0212afac
-DAT_overlay_3_0212afac: ; 0x0212AFAC
-	.byte 0x06, 0x00, 0x00, 0x00
-
-    .global DAT_overlay_3_0212afb0
-DAT_overlay_3_0212afb0: ; 0x0212AFB0
-	.byte 0x66, 0x00, 0x00, 0x00, 0x00, 0xC0, 0x03, 0x00, 0x00, 0x80, 0xF8, 0xFF, 0x00, 0x80, 0x08, 0x00
-	.byte 0x00, 0x00, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x08, 0x00
-	.byte 0x00, 0x00, 0x03, 0x00, 0x0D, 0x00, 0x00, 0x00, 0x66, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0x00, 0xFC, 0xFF, 0x00, 0x00, 0x0B, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00
-	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0B, 0x00, 0x00, 0x00, 0x01, 0x00, 0x0E, 0x00, 0x00, 0x00
-	.byte 0x67, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x06, 0x00, 0x00, 0x00, 0x10, 0x00
-	.byte 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00
-	.byte 0x00, 0x00, 0x01, 0x00
-
-    .global DAT_overlay_3_0212b024
-DAT_overlay_3_0212b024: ; 0x0212B024
-	.byte 0x09, 0x00, 0x00, 0x00, 0x65, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-	.byte 0x00, 0x00, 0x0B, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00
-	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x02, 0x00, 0x0A, 0x00, 0x00, 0x00
-	.byte 0x65, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF9, 0xFF, 0x00, 0x00, 0x10, 0x00
-	.byte 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00
-	.byte 0x00, 0x00, 0x0C, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0x65, 0x00, 0x00, 0x00
-
     .global PTR_ptr_FUN_02083578_overlay_3_0212b07c
 PTR_ptr_FUN_02083578_overlay_3_0212b07c: ; 0x0212B07C
 	.word _ZTVN10__cxxabiv117__class_type_infoE+8
@@ -3980,7 +3666,7 @@ PTR_ptr_FUN_020835bc_overlay_3_0212b0a8: ; 0x0212B0A8
 PTR_ptr_FUN_020835bc_overlay_3_0212b0b4: ; 0x0212B0B4
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word s_21COPDCaptureDiscScreen_overlay_3_0212b160
-	.word PTR_ptr_FUN_02083578_overlay_3_0212ad64
+	.word _ZTI10COPDScreen
 
     .global PTR_ptr_FUN_020835bc_overlay_3_0212b0c0
 PTR_ptr_FUN_020835bc_overlay_3_0212b0c0: ; 0x0212B0C0
@@ -4433,12 +4119,14 @@ PTR_ptr_FUN_020835bc_overlay_3_0212b4cc: ; 0x0212B4CC
 	.word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word s_17COPDScreenMeshNTF_overlay_3_0212b4ec
 	.word _ZTI10CPrimitive
+	.global _ZTV17COPDScreenMeshNTF
+_ZTV17COPDScreenMeshNTF:
 	.byte 0x00, 0x00, 0x00, 0x00
 	.word PTR_ptr_FUN_020835bc_overlay_3_0212b4cc
 
     .global ptr_FUN_overlay_3_02129a68_overlay_3_0212b4e0
 ptr_FUN_overlay_3_02129a68_overlay_3_0212b4e0: ; 0x0212B4E0
-	.word ov3_02129A68
+	.word _ZN17COPDScreenMeshNTFD1Ev
 
     .global ptr_FUN_overlay_3_02129a90_overlay_3_0212b4e4
 ptr_FUN_overlay_3_02129a90_overlay_3_0212b4e4: ; 0x0212B4E4
