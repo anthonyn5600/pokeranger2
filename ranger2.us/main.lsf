@@ -352,7 +352,9 @@ Overlay overlay3
     Object main.nef.p/src_COpeningDemoScene.cpp.o
     Object main.nef.p/src_COPDTitleScreen.cpp.o
     Object main.nef.p/src_COPDCaptureDiscScreen.cpp.o
-    Object main.nef.p/asm_overlay_03_02129130.s.o
+    Object main.nef.p/src_COPDCaptureLine.cpp.o
+    Object main.nef.p/src_COPDScreenMeshNTF.cpp.o
+    Object main.nef.p/src_UnkClass_02129E98.cpp.o
 }
 
 Overlay overlay4
