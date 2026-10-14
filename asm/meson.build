@@ -11,7 +11,6 @@ pokeranger2_asm = files(
     'overlay_00_021785A4.s',
     'overlay_00_0217B0E0.s',
     'overlay_07_0211C9E0.s',
-    'overlay_11_02129B60.s',
     'overlay_11_02169B40.s',
     'overlay_22_0211C9E0.s',
     'overlay_23_0211C9E0.s',

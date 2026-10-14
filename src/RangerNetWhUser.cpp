@@ -95,9 +95,9 @@ void ov11_021289AC();
 int ov11_02128EE0();
 u8 ov11_02128EFC();
 
-extern "C" void ov11_0212B0C0(u16 aid, u16 *data, u16 size); // D7
-extern "C" u32 ov11_0212C2FC();
-extern "C" u16 ov11_0212CE10(u16 mode);
+void ov11_0212B0C0(u16 aid, u16 *data, u16 size); // D7
+u32 ov11_0212C2FC();
+u16 ov11_0212CE10(u16 mode);
 
 void ov11_02128FB4(void *arg, WVRResult result);
 void ov11_02128FD8(void *arg, WVRResult result);

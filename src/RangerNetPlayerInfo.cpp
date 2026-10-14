@@ -44,11 +44,11 @@ struct RangerNetSessionParam {
 RangerNetSessionParam gRangerNetSessionParam = { 0, 0, 2 };
 
 void ov11_02129800(const u8 *mac, int aid); // D5
-extern "C" int ov11_0212B938(u8 type, void *data, u8 size);
-extern "C" BOOL ov11_0212BEA0(u16 aid);
-extern "C" BOOL ov11_0212BF48();
-extern "C" u8 ov11_0212C154();
-extern "C" BOOL ov11_0212C1D0();
+int ov11_0212B938(u8 type, u8 *data, u16 size);
+BOOL ov11_0212BEA0(u16 aid);
+BOOL ov11_0212BF48();
+u8 ov11_0212C154();
+BOOL ov11_0212C1D0();
 
 void ov11_02128974(int i);
 void ov11_02128A74(D3Info *info);
@@ -87,7 +87,7 @@ void ov11_021287A8()
 {
     int idx = ov11_0212C154();
     OS_GetMacAddress(sWork->entries[idx].mac);
-    ov11_0212B938(3, &sWork->entries[idx], sizeof(D3Entry));
+    ov11_0212B938(3, (u8 *)&sWork->entries[idx], sizeof(D3Entry));
 }
 
 u32 ov11_021287EC()
