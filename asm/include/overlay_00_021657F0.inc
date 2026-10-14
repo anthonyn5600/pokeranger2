@@ -30,8 +30,6 @@
 .public _ZN10NtfTexture12ReleaseFilesEv
 .public _ZN10NtfTexture4LoadEPKcS1_i
 .public _ZN10NtfTexture7ReleaseEv
-.public _ZN11CBinaryFileC1EPKcmmmPvm
-.public _ZN11CFieldActor12sub_0203DA10Ev
 .public _ZN11CFieldScene12ov0_02123060Em
 .public _ZN12CFieldEffect12ov0_021421D0Ev
 .public _ZN12CFieldEffect12ov0_021421F0Eiii
@@ -55,7 +53,6 @@
 .public _ZN12CFieldEffect12sub_0203365CEi
 .public _ZN13CArchiveGuardC1EPKcS1_mmmPvm
 .public _ZN13CArchiveGuardD1Ev
-.public _ZN14CPlayerHPGauge7GetPartEi
 .public _ZN14CPrimitiveRECT12sub_02003C00EP7Point2DPS_
 .public _ZN14CPrimitiveRECTC1Ev
 .public _ZN14CPrimitiveRECTD1Ev
@@ -95,16 +92,9 @@
 .public _ZN20TFieldEffectParticleI15CSoftwareSpriteE12ov0_02142344EP8Camera2D
 .public _ZN20TFieldEffectParticleI15CSoftwareSpriteE12ov0_021423E8ERK20FieldEffectSpriteRes
 .public _ZN21TFieldParticleEmitterI15CSoftwareSpriteE5func2Ev
-.public _ZN22CFieldEffectManpuAnime12ov0_02142264Ei
-.public _ZN22CFieldEffectManpuAnime4DrawEP8Camera2D
-.public _ZN22CFieldEffectManpuAnimeC2EP16CEffectActorDataP17UnkClass_0216D420i
-.public _ZN22CFieldEffectManpuAnimeD2Ev
-.public _ZN23CFieldEffectBushFactoryD1Ev
-.public _ZN23CFieldEffectManpuSimple8SetDepthEl
 .public _ZN24CFieldEffectLaserFactoryD1Ev
 .public _ZN27CFieldEffectAttackActorData12ov0_0214FFF0Eiii
 .public _ZN27CFieldEffectNormalActorData12ov0_021503B8Eii
-.public _ZN28CFieldEffectDamageIndicationD1Ev
 .public _ZN28CFieldEffectDarkCloudFactoryD1Ev
 .public _ZN28CFieldEffectFireworksFactoryD1Ev
 .public _ZN29CFieldEffectDarkShadowFactoryD1Ev
@@ -124,7 +114,6 @@
 .public _ZTI19CFieldEffectFactory
 .public _ZTI20TFieldEffectParticleI15CSoftwareSpriteE
 .public _ZTI21TFieldParticleEmitterI15CSoftwareSpriteE
-.public _ZTI22CFieldEffectManpuAnime
 .public _ZTI24TFieldParticleForceFieldI15CSoftwareSpriteE
 .public _ZTI25TFieldParticleRectEmitterI15CSoftwareSpriteE
 .public _ZTI30TFieldParticleSmokeRectEmitterI15CSoftwareSpriteE
@@ -153,8 +142,3 @@
 .public _ll_div
 .public _s32_div_f
 .public g_ntfTextureFormats
-.public sub_02044AC8
-.public sub_02044B48
-.public sub_02044B78
-.public sub_02044B84
-.public sub_02046040

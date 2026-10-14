@@ -10,8 +10,6 @@ extern CFieldScene *MAIN_BSS_0210CA40;
 
 extern "C" {
 void LogInfo(const char *fmt, ...);
-int ov0_02163904(UnkClass_021638B8 *obj, int type);
-void ov0_02163A08(UnkClass_021638B8 *obj, int kind, int arg2, int x, int y, int param);
 }
 
 CFieldEffectExplosion::~CFieldEffectExplosion()
@@ -66,7 +64,7 @@ int CFieldEffectExplosion::ov0_02142264(int step)
             } else if (m_phase == 1 && m_frame < 0x2E) {
                 CFieldEffectManage *mgr = MAIN_BSS_0210CA60;
                 if (mgr->unk_87C == 0 && IsTouchingPlayer()) {
-                    ov0_02163A08(&mgr->unk_7B0, m_kind, 0, m_pos.x >> 12, m_pos.y >> 12, m_param);
+                    mgr->unk_7B0.ov0_02163A08(m_kind, 0, m_pos.x >> 12, m_pos.y >> 12, m_param);
                 }
                 m_frame += step;
             }
@@ -193,7 +191,7 @@ CFieldEffectExplosionFactory::CFieldEffectExplosionFactory(CFieldEffectManage *m
     , m_pool(NULL)
 {
     if (mgr != NULL) {
-        m_kind = ov0_02163904(&mgr->unk_7B0, 1);
+        m_kind = mgr->unk_7B0.ov0_02163904(1);
     }
 }
 

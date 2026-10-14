@@ -5,8 +5,9 @@
 
 #include "field/CFieldEffectManpu.hpp"
 #include "field/UnkClass_0216D420.hpp"
+#include "primitive/CSoftwareSprite.hpp"
 
-// size 0xCC
+// Sweat drops (manpu) on both sides of an actor's head.
 class CFieldEffectManpuAse : public CFieldEffectManpu {
 public:
     CFieldEffectManpuAse(CEffectActorData *data, UnkClass_0216D420 *slots);
@@ -15,7 +16,11 @@ public:
     virtual int Draw(Camera2D *camera);
     virtual void SetDepth(fx32 z);
 
-    u8 unk_2C[0xA0];
+    void InitSprites();
+
+    CSoftwareSprite m_sprites[2];
+    u16 m_anims[2];
+    UnkClass_0216D420 *m_slots;
 };
 
 STATIC_SIZE_ASSERT(CFieldEffectManpuAse, 0xCC);

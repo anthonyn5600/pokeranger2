@@ -18,7 +18,7 @@ CFieldEffectManpuAnime::~CFieldEffectManpuAnime()
 
 int CFieldEffectManpuAnime::ov0_02142264(int step)
 {
-    UpdatePos();
+    UpdatePos(step);
     UnkClass_02008788 *cac = unk_18->GetCac(unk_78);
     if (cac != NULL && m_anim != 0) {
         cac->sub_02008A38(m_anim);
@@ -27,7 +27,7 @@ int CFieldEffectManpuAnime::ov0_02142264(int step)
     return CFieldEffectActor::ov0_02142264(step);
 }
 
-void CFieldEffectManpuAnime::UpdatePos()
+void CFieldEffectManpuAnime::UpdatePos(int step)
 {
     if (unk_1C == NULL) {
         return;

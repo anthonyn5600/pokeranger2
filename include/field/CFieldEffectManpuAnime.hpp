@@ -13,7 +13,7 @@ public:
     virtual ~CFieldEffectManpuAnime();
     virtual int ov0_02142264(int step);
     virtual int Draw(Camera2D *camera);
-    virtual void UpdatePos();
+    virtual void UpdatePos(int step);
 
     u16 m_anim;
     UnkClass_0216D420 *m_slots;

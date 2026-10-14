@@ -16,20 +16,33 @@
 #include "primitive/CSoftwareSprite.hpp"
 
 class CFieldPlayer;
+class UnkClass_0201AAE0;
 class UnkClass_0211E3FC;
 class Camera2D;
 
 // Members of CFieldEffectManage defined in other ov0 TUs.
 #include "field/CFieldEffectFootStepSmoke.hpp"
 
+// Damage number (0..99) popping out of the player's head, drawn from the HP gauge's digit texture.
 class CFieldEffectDamageIndication : public CFieldEffect {
 public:
     CFieldEffectDamageIndication();
+    virtual int sub_02033028()
+    {
+        return 0x24;
+    }
     virtual int ov0_02142264(int step);
-    void ov0_02164DB8(int arg0, int arg1, CFieldPlayer *player);
+    virtual int ov0_02142344(Camera2D *camera);
+
+    // Shows `damage` above `player` for `duration` frames.
+    void ov0_02164DB8(int damage, int duration, CFieldPlayer *player);
+    void InitRects(UnkClass_0201AAE0 *digits);
 
     CPrimitiveRECT m_rects[2];
-    u8 unk_98[0x18];
+    int m_digits;
+    Point2D m_vel;
+    CFieldPlayer *m_player;
+    Point2D m_offset;
 };
 
 #include "field/CFieldEffectAirBubbles.hpp"
@@ -57,13 +70,29 @@ public:
     BOOL ov0_021503B8(int id, BOOL immediate);
 };
 
+class CBinaryFile;
+
+// A loaded data/Script/field/effect/efNNN.fsb.
+struct FieldEffectScript {
+    u32 unk_00;
+    CBinaryFile *m_file;
+    void *m_script;
+};
+
+// FieldEffectScript.cpp (ov0): runs the "EventHandle" handler of the field effects' scripts (3 slots).
 class UnkClass_021638B8 {
 public:
     UnkClass_021638B8();
     ~UnkClass_021638B8();
 
+    // Loads ef<id>.fsb into a free slot; returns the slot or -1.
+    int ov0_02163904(int id);
+    void ov0_021639BC();
+    // Calls the slot's EventHandle(arg, x, y, param).
+    int ov0_02163A08(int slot, int arg, int x, int y, int param);
+
     UnkStruct_02044464 m_vm;
-    u8 unk_24[0x24];
+    FieldEffectScript m_scripts[3];
     u32 m_stack[0x20];
 };
 
