@@ -29,7 +29,7 @@ static NNSG2dPaletteData DAT_0208A7A4 = {
     .pRawData = DAT_0208A7B4,
 };
 
-u32 CSoftwareSprite::sub_020050C8()
+u32 CSoftwareSprite::AllocSharedPalette()
 {
     MAIN_BSS_020AF320 = NNS_GfdAllocLnkPlttVram(sizeof(DAT_0208A7B4), FALSE, 0);
     NNS_G2dInitImagePaletteProxy(&MAIN_BSS_020AF324);
@@ -38,7 +38,7 @@ u32 CSoftwareSprite::sub_020050C8()
     return 1;
 }
 
-u32 CSoftwareSprite::sub_02005120()
+u32 CSoftwareSprite::FreeSharedPalette()
 {
     if (MAIN_BSS_020AF320 != NNS_GFD_ALLOC_ERROR_PLTTKEY) {
         NNS_GfdFreeLnkPlttVram(MAIN_BSS_020AF320);

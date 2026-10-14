@@ -2,12 +2,12 @@
 #include <string.h>
 
 #include "Camera2D.hpp"
-#include "UnkClass_020074D4.hpp"
-#include "UnkClass_02007AA4.hpp"
+#include "Collision.hpp"
+#include "VramImage.hpp"
+#include "VramPalette.hpp"
 #include "field/CFieldMap.hpp"
 #include "field/CFieldMapLayer.hpp"
 #include "heap.hpp"
-#include "sub_02006000.hpp"
 
 void CFieldMapLayerStatic::DrawPieces(Rectangle view)
 {
@@ -182,7 +182,7 @@ BOOL CFieldMapLayerStatic::Load(void *data)
     u8 *p;
     int i;
     int j;
-    UnkClass_021302BC *tex;
+    FieldMapTextures *tex;
     int imagesPerRow;
     int lastPalette;
     int lastPaletteIndex;

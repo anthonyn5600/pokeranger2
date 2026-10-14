@@ -3,28 +3,28 @@
 
 #include <nitro.h>
 
-#include "UnkClass_0200E960.hpp"
-#include "UnkClass_0200ECD0.hpp"
+#include "OamSprite.hpp"
+#include "OamSpriteSet.hpp"
 #include "common.hpp"
 
 class CBrowserMenuManager;
-class UnkClass_0211D330;
+class BrowserScreen;
 
 // Defined in ov21: a sprite of an animation set
-class UnkClass_02120754 {
+class BrowserMenuSprite {
 public:
-    UnkClass_02120754();
-    ~UnkClass_02120754();
+    BrowserMenuSprite();
+    ~BrowserMenuSprite();
 
-    static UnkClass_02120754 *Create(UnkClass_0200ECD0 *anim, int no, int x, int y, int priority);
+    static BrowserMenuSprite *Create(OamSpriteSet *anim, int no, int x, int y, int priority);
 
 public:
-    UnkClass_0200E960 *unk_00;
-    UnkClass_0200ECD0 *unk_04;
+    OamSprite *unk_00;
+    OamSpriteSet *unk_04;
     int unk_08;
 };
 
-STATIC_SIZE_ASSERT(UnkClass_02120754, 0xC);
+STATIC_SIZE_ASSERT(BrowserMenuSprite, 0xC);
 
 // Defined in ov21
 class CBrowserMenuItem {
@@ -149,7 +149,7 @@ class CBrowserMenuItemPokemon : public CBrowserMenuItem {
 public:
     CBrowserMenuItemPokemon();
     virtual ~CBrowserMenuItemPokemon();
-    void ov21_0212131C(UnkClass_0200ECD0 *anim);
+    void ov21_0212131C(OamSpriteSet *anim);
     virtual void func08();
     virtual void func0C();
     virtual BOOL IsTouched();
@@ -157,7 +157,7 @@ public:
     virtual void UpdatePos();
 
 public:
-    UnkClass_02120754 *unk_18;
+    BrowserMenuSprite *unk_18;
 };
 
 STATIC_SIZE_ASSERT(CBrowserMenuItemPokemon, 0x1C);
@@ -167,13 +167,13 @@ class CBrowserMenuCursorPokemon : public CBrowserMenuCursor {
 public:
     CBrowserMenuCursorPokemon();
     virtual ~CBrowserMenuCursorPokemon();
-    void ov21_0212149C(UnkClass_0200ECD0 *anim);
+    void ov21_0212149C(OamSpriteSet *anim);
     virtual void Update();
     virtual void func0C();
     virtual void UpdatePos();
 
 public:
-    UnkClass_02120754 *unk_14;
+    BrowserMenuSprite *unk_14;
     int unk_18; // blink
     int unk_1C; // blink delay
 };
@@ -185,12 +185,12 @@ class CBrowserMenuManagerPokemon : public CBrowserMenuManager {
 public:
     CBrowserMenuManagerPokemon();
     virtual ~CBrowserMenuManagerPokemon();
-    void ov21_021215F8(UnkClass_0200ECD0 *anim, UnkClass_0211D330 *owner);
+    void ov21_021215F8(OamSpriteSet *anim, BrowserScreen *owner);
     virtual void Refresh();
     virtual void Draw();
 
 public:
-    UnkClass_0211D330 *unk_8C;
+    BrowserScreen *unk_8C;
 };
 
 STATIC_SIZE_ASSERT(CBrowserMenuManagerPokemon, 0x90);
@@ -200,7 +200,7 @@ class CBrowserMenuItemIcon : public CBrowserMenuItem {
 public:
     CBrowserMenuItemIcon();
     virtual ~CBrowserMenuItemIcon();
-    void ov21_0212181C(UnkClass_0200ECD0 **anims);
+    void ov21_0212181C(OamSpriteSet **anims);
     virtual void func08();
     virtual void func0C();
     virtual BOOL IsTouched();
@@ -208,7 +208,7 @@ public:
     virtual void UpdatePos();
 
 public:
-    UnkClass_02120754 *unk_18[3];
+    BrowserMenuSprite *unk_18[3];
 };
 
 STATIC_SIZE_ASSERT(CBrowserMenuItemIcon, 0x24);
@@ -218,13 +218,13 @@ class CBrowserMenuCursorIcon : public CBrowserMenuCursor {
 public:
     CBrowserMenuCursorIcon();
     virtual ~CBrowserMenuCursorIcon();
-    void ov21_02121AF0(UnkClass_0200ECD0 *anim);
+    void ov21_02121AF0(OamSpriteSet *anim);
     virtual void Update();
     virtual void func0C();
     virtual void UpdatePos();
 
 public:
-    UnkClass_02120754 *unk_14;
+    BrowserMenuSprite *unk_14;
     BOOL unk_18; // blink visible
     int unk_1C; // blink
     int unk_20; // blink delay
@@ -238,7 +238,7 @@ class CBrowserMenuManagerIcon : public CBrowserMenuManager {
 public:
     CBrowserMenuManagerIcon();
     virtual ~CBrowserMenuManagerIcon();
-    void ov21_02121C74(UnkClass_0200ECD0 **anims, UnkClass_0200ECD0 *cursorAnim, UnkClass_0211D330 *browser);
+    void ov21_02121C74(OamSpriteSet **anims, OamSpriteSet *cursorAnim, BrowserScreen *browser);
     virtual void Refresh();
 
 public:
@@ -253,7 +253,7 @@ class CBrowserMenuItemType : public CBrowserMenuItem {
 public:
     CBrowserMenuItemType();
     virtual ~CBrowserMenuItemType();
-    void ov21_02121EA8(UnkClass_0200ECD0 *anim);
+    void ov21_02121EA8(OamSpriteSet *anim);
     virtual void func08();
     virtual void func0C();
     virtual BOOL IsTouched();
@@ -262,10 +262,10 @@ public:
     virtual void Select();
 
 public:
-    UnkClass_0200E960 *unk_18;
+    OamSprite *unk_18;
     int unk_1C;
     int unk_20; // flash
-    UnkClass_0200ECD0 *unk_24;
+    OamSpriteSet *unk_24;
 };
 
 STATIC_SIZE_ASSERT(CBrowserMenuItemType, 0x28);
@@ -275,7 +275,7 @@ class CBrowserMenuManagerType : public CBrowserMenuManager {
 public:
     CBrowserMenuManagerType();
     virtual ~CBrowserMenuManagerType();
-    void ov21_0212200C(UnkClass_0200ECD0 *anim);
+    void ov21_0212200C(OamSpriteSet *anim);
 };
 
 STATIC_SIZE_ASSERT(CBrowserMenuManagerType, 0x8C);

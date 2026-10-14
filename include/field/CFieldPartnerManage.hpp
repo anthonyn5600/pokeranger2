@@ -13,10 +13,10 @@ class CFieldPartnerManage;
 class CFieldScene;
 
 // The partner scripts: [0] FieldPartnerNpcScript.fsb, [1] FieldPartnerPokemonScript.fsb.
-class UnkClass_0213949C {
+class FieldPartnerScripts {
 public:
-    UnkClass_0213949C();
-    ~UnkClass_0213949C();
+    FieldPartnerScripts();
+    ~FieldPartnerScripts();
     void Load(const char *path, int idx);
 
     u8 unk_00[0x24];
@@ -33,15 +33,15 @@ public:
 
     virtual ~CFieldPartnerManage()
     {
-        sub_0203F034();
+        Free();
         MAIN_BSS_0210CA4C = NULL;
     }
 
-    virtual void sub_0203EFE4(int capacity);
-    virtual void sub_0203F034();
-    virtual BOOL sub_0203F190();
-    virtual void sub_0203F2B0(CFieldMap *map, BOOL update);
-    virtual void sub_0203F348(UnkClass_0211E3FC *renderLists, UnkClass_020416AC *hud);
+    virtual void Alloc(int capacity);
+    virtual void Free();
+    virtual BOOL Clear();
+    virtual void UpdateAll(CFieldMap *map, BOOL update);
+    virtual void DrawAll(DrawObjectList *renderLists, FieldShadow *hud);
 
     virtual void func0(CFieldEffectManage *mgr);
 
@@ -119,7 +119,7 @@ public:
     int unk_80;
     int unk_84; // partner NPCs
     int unk_88; // partner Pokémon
-    UnkClass_0213949C *unk_8C;
+    FieldPartnerScripts *unk_8C;
     CFieldScene *unk_90;
     int unk_94;
 };

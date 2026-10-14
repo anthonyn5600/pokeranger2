@@ -25,8 +25,8 @@ public:
     };
 
     virtual ~CFieldEffectAirBubbles();
-    virtual int sub_02033028();
-    virtual int sub_0203312C(int param, int value);
+    virtual int GetEffectId();
+    virtual int SetParam(int param, int value);
     virtual TFieldParticleForceField<CSoftwareSprite> *GetForceField();
     virtual TFieldParticleEmitter<CSoftwareSprite> *GetEmitter();
     void ov0_0216D050(fx32 x, fx32 y);

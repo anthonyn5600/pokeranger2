@@ -3,7 +3,7 @@
 
 #include <nitro.h>
 
-#include "UnkClass_020074D4.hpp"
+#include "VramImage.hpp"
 #include "common.hpp"
 #include "file/CNCERFile.hpp"
 
@@ -14,7 +14,7 @@ public:
 
     void sub_02007798();
     void sub_020077B4();
-    void sub_020077CC(UnkClass_020074D4 *arg0);
+    void sub_020077CC(VramImage *arg0);
     void sub_020077E4(CNCERFile *arg0);
     void sub_02007848();
     void sub_02007854();
@@ -24,7 +24,7 @@ public:
     u32 sub_02007A94(u32 arg0);
 
 public:
-    UnkClass_020074D4 *unk_00;
+    VramImage *unk_00;
     CNCERFile *unk_04;
     u32 unk_08;
     u16 unk_0C;

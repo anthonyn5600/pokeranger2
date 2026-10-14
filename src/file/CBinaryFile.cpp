@@ -7,7 +7,7 @@
 #include "file/CBinaryFileMes.hpp"
 #include "heap.hpp"
 
-// This is required to match the while-loop in sub_02002DD0.
+// This is required to match the while-loop in ReadFile.
 // This doesn't affect any other function.
 #pragma optimization_level 2
 
@@ -19,34 +19,34 @@ extern u32 *MAIN_BSS_0208F31C;
 
 CBinaryFile::CBinaryFile()
 {
-    sub_02002C9C();
+    Init();
 }
 
 CBinaryFile::CBinaryFile(const char *path, u32 arg1, u32 arg2, u32 arg3, void *arg4, u32 arg5)
 {
-    sub_02002C9C();
-    void *v0 = sub_02002CB4(path, arg1, arg2, arg3, arg4, arg5);
+    Init();
+    void *v0 = Load(path, arg1, arg2, arg3, arg4, arg5);
 
     if (v0 == NULL) {
-        sub_02002C9C();
+        Init();
     }
 }
 
 CBinaryFile::~CBinaryFile()
 {
-    sub_020030D4();
+    Release();
 }
 
-void CBinaryFile::sub_02002C9C()
+void CBinaryFile::Init()
 {
     unk_4C = NULL;
     unk_50 = 0;
     unk_54 = 1;
 }
 
-void *CBinaryFile::sub_02002CB4(const char *path, u32 arg1, u32 arg2, u32 arg3, void *arg4, u32 arg5)
+void *CBinaryFile::Load(const char *path, u32 arg1, u32 arg2, u32 arg3, void *arg4, u32 arg5)
 {
-    sub_020030D4();
+    Release();
 
     if (path != NULL && arg3 == 0) {
         if (STD_GetStringLength(path) >= 0x60) {
@@ -73,7 +73,7 @@ void *CBinaryFile::sub_02002CB4(const char *path, u32 arg1, u32 arg2, u32 arg3, 
         return unk_4C;
     }
 
-    void *v0 = sub_02002DD0(path, arg1, arg2, arg4, arg5);
+    void *v0 = ReadFile(path, arg1, arg2, arg4, arg5);
 
     if (v0 != NULL) {
         DC_FlushRange(v0, unk_50);
@@ -86,7 +86,7 @@ void *CBinaryFile::sub_02002CB4(const char *path, u32 arg1, u32 arg2, u32 arg3, 
     return v0;
 }
 
-void *CBinaryFile::sub_02002DD0(const char *path, u32 arg1, u32 arg2, void *arg3, u32 arg4)
+void *CBinaryFile::ReadFile(const char *path, u32 arg1, u32 arg2, void *arg3, u32 arg4)
 {
     FS_InitFile(&file);
     BOOL v0 = FS_OpenFile(&file, path);
@@ -225,17 +225,17 @@ void *CBinaryFile::sub_02002DD0(const char *path, u32 arg1, u32 arg2, void *arg3
     return unk_4C;
 }
 
-void CBinaryFile::sub_020030D4()
+void CBinaryFile::Release()
 {
     if (unk_54 != 0 && unk_4C != NULL) {
         Heap_Free(unk_4C);
         unk_4C = NULL;
     }
 
-    sub_02002C9C();
+    Init();
 }
 
-BOOL CBinaryFile::sub_02003108(const char *path, u32 arg1)
+BOOL CBinaryFile::Exists(const char *path, u32 arg1)
 {
     FSFileID fileID;
     return FS_ConvertPathToFileID(&fileID, path);
@@ -267,10 +267,10 @@ CBinaryFileMes::CBinaryFileMes(const char *path, u32 arg1)
     char v0[0x40];
     OS_SPrintf(v0, "%s%s", path, sub_02003124());
 
-    void *v1 = sub_02002CB4(v0, arg1, 0, 0, 0, 0);
+    void *v1 = Load(v0, arg1, 0, 0, 0, 0);
 
     if (v1 == NULL) {
-        sub_02002C9C();
+        Init();
     }
 }
 

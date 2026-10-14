@@ -1,9 +1,9 @@
+#include "AudioEngine.hpp"
 #include "CGame.hpp"
 #include "CTouchPanel.hpp"
-#include "UnkClass_0200CAB4.hpp"
-#include "UnkClass_0200E960.hpp"
-#include "UnkClass_0200ECD0.hpp"
-#include "UnkClass_02034478.hpp"
+#include "OamSprite.hpp"
+#include "OamSpriteSet.hpp"
+#include "SubTextPrinter.hpp"
 #include "file/CBinaryFileMes.hpp"
 #include "scene/CQuestListScene.hpp"
 
@@ -16,7 +16,7 @@ static void ov27_0211F7A0(void *arg);
 static void ov27_0211F844(void *arg);
 static void ov27_0211F870(void *arg);
 
-UnkClass_0211E7EC::UnkClass_0211E7EC()
+QLListBoxGroup::QLListBoxGroup()
 {
     unk_00 = 0;
     unk_04 = NULL;
@@ -46,7 +46,7 @@ CQLListBox::CQLListBox(int count)
     unk_194 = FALSE;
     MI_CpuClear8(unk_48, sizeof(unk_48) + sizeof(unk_68) + sizeof(unk_88));
     unk_8C = count;
-    unk_90 = unk_8C <= 0 ? NULL : new UnkClass_0211E7EC[unk_8C];
+    unk_90 = unk_8C <= 0 ? NULL : new QLListBoxGroup[unk_8C];
     OS_InitVAlarm();
     OS_CreateVAlarm(&sAlarmBG);
     OS_CreateVAlarm(&sAlarmSplit);
@@ -60,7 +60,7 @@ CQLListBox::~CQLListBox()
     SAFE_DELETE_ARRAY(unk_90);
 }
 
-BOOL CQLListBox::ov27_0211E958(int id, UnkClass_0200ECD0 *anims, int animCursor, int animNormal, int animCleared, int animCurrent, int x, int y, int w, int h, int argA, int argB, int argC, void *rows)
+BOOL CQLListBox::ov27_0211E958(int id, OamSpriteSet *anims, int animCursor, int animNormal, int animCleared, int animCurrent, int x, int y, int w, int h, int argA, int argB, int argC, void *rows)
 {
     unk_04 = id;
     unk_10 = w;
@@ -69,13 +69,13 @@ BOOL CQLListBox::ov27_0211E958(int id, UnkClass_0200ECD0 *anims, int animCursor,
     unk_0C = y;
     unk_28 = argA + (unk_08 + unk_10 / 2);
     int top = unk_0C + 8;
-    unk_40 = anims->sub_0200F4FC(animCursor, unk_28, top, 0);
+    unk_40 = anims->AddSprite(animCursor, unk_28, top, 0);
     unk_24 = unk_08 + argB;
     for (int i = 0; i < 7; i++) {
-        unk_48[i] = anims->sub_0200F4FC(animNormal, unk_24, top + i * 16, 1);
-        unk_68[i] = anims->sub_0200F4FC(animCleared, unk_24, top + i * 16, 0);
+        unk_48[i] = anims->AddSprite(animNormal, unk_24, top + i * 16, 1);
+        unk_68[i] = anims->AddSprite(animCleared, unk_24, top + i * 16, 0);
     }
-    unk_88 = anims->sub_0200F4FC(animCurrent, unk_24, 0, 1);
+    unk_88 = anims->AddSprite(animCurrent, unk_24, 0, 1);
     unk_2C = unk_30 = top;
     G2S_SetBG0Offset(0, unk_34);
     G2S_SetBG3Offset(0, unk_34);
@@ -144,14 +144,14 @@ void CQLListBox::ov27_0211EBEC(int line)
     unk_1C = unk_20 = top;
     ov27_0211F714(FALSE);
     ov27_0211EF30();
-    unk_40->sub_0200EB28(unk_28, unk_2C);
+    unk_40->SetPos(unk_28, unk_2C);
 }
 
 void CQLListBox::ov27_0211EC68()
 {
-    UnkClass_0211E7EC *g = &unk_90[unk_18];
+    QLListBoxGroup *g = &unk_90[unk_18];
     if (g->unk_00 == 0) {
-        CGame::GetInstance()->m_audioEngine->sub_02034C44(0xFD);
+        CGame::GetInstance()->m_audioEngine->PlaySe(0xFD);
         return;
     }
     if (unk_2C != unk_30) {
@@ -179,10 +179,10 @@ void CQLListBox::ov27_0211EC68()
         }
     }
     if (unk_20 != unk_1C || unk_30 != unk_2C) {
-        CGame::GetInstance()->m_audioEngine->sub_02034C44(0x108);
+        CGame::GetInstance()->m_audioEngine->PlaySe(0x108);
         return;
     }
-    CGame::GetInstance()->m_audioEngine->sub_02034C44(0xFD);
+    CGame::GetInstance()->m_audioEngine->PlaySe(0xFD);
 }
 
 void CQLListBox::ov27_0211ED84()
@@ -207,10 +207,10 @@ void CQLListBox::ov27_0211ED84()
         }
     }
     if (unk_20 != unk_1C || unk_30 != unk_2C) {
-        CGame::GetInstance()->m_audioEngine->sub_02034C44(0x108);
+        CGame::GetInstance()->m_audioEngine->PlaySe(0x108);
         return;
     }
-    CGame::GetInstance()->m_audioEngine->sub_02034C44(0xFD);
+    CGame::GetInstance()->m_audioEngine->PlaySe(0xFD);
 }
 
 void CQLListBox::ov27_0211EE28()
@@ -227,10 +227,10 @@ void CQLListBox::ov27_0211EE28()
         unk_1C = unk_20 = top;
         ov27_0211F714(FALSE);
         ov27_0211EF30();
-        CGame::GetInstance()->m_audioEngine->sub_02034C44(0x108);
+        CGame::GetInstance()->m_audioEngine->PlaySe(0x108);
         return;
     }
-    CGame::GetInstance()->m_audioEngine->sub_02034C44(0xFD);
+    CGame::GetInstance()->m_audioEngine->PlaySe(0xFD);
 }
 
 void CQLListBox::ov27_0211EEB8()
@@ -243,10 +243,10 @@ void CQLListBox::ov27_0211EEB8()
         unk_1C = unk_20 = top;
         ov27_0211F714(FALSE);
         ov27_0211EF30();
-        CGame::GetInstance()->m_audioEngine->sub_02034C44(0x108);
+        CGame::GetInstance()->m_audioEngine->PlaySe(0x108);
         return;
     }
-    CGame::GetInstance()->m_audioEngine->sub_02034C44(0xFD);
+    CGame::GetInstance()->m_audioEngine->PlaySe(0xFD);
 }
 
 void CQLListBox::ov27_0211EF30()
@@ -269,21 +269,21 @@ void CQLListBox::ov27_0211EF30()
 void CQLListBox::ov27_0211EFC4(int dy, int line)
 {
     int current = 0;
-    UnkClass_0211E7EC *group = &unk_90[unk_18];
+    QLListBoxGroup *group = &unk_90[unk_18];
     for (int i = 0; i < 7; i++) {
         int y = unk_0C + 8 + i * 16;
         if (line + i < group->unk_00) {
             int state = group->unk_04[line + i].unk_04;
             if (unk_68[i] != NULL) {
-                unk_68[i]->sub_0200EB28(unk_24, dy + y);
+                unk_68[i]->SetPos(unk_24, dy + y);
                 unk_68[i]->SetVisible(state == 1 ? TRUE : FALSE);
             }
             if (unk_48[i] != NULL) {
-                unk_48[i]->sub_0200EB28(unk_24, dy + y);
+                unk_48[i]->SetPos(unk_24, dy + y);
                 unk_48[i]->SetVisible(state != 2 ? TRUE : FALSE);
             }
             if (unk_88 != NULL && state == 2) {
-                unk_88->sub_0200EB28(unk_24, dy + y);
+                unk_88->SetPos(unk_24, dy + y);
                 current++;
             }
         } else {
@@ -299,7 +299,7 @@ void CQLListBox::ov27_0211EFC4(int dy, int line)
 void CQLListBox::ov27_0211F140()
 {
     s32 group;
-    UnkClass_0211E7EC *groups = unk_90;
+    QLListBoxGroup *groups = unk_90;
     group = unk_18;
     if (groups[group].unk_00 == 0) {
         return;
@@ -316,9 +316,9 @@ void CQLListBox::ov27_0211F140()
                 int ofs = (y - unk_0C) & ~0xF;
                 if (top + (ofs >> 4) < groups[group].unk_00) {
                     unk_2C = unk_30 = unk_0C + 8 + ofs;
-                    unk_40->sub_0200EB28(unk_28, unk_2C);
+                    unk_40->SetPos(unk_28, unk_2C);
                     sel = unk_1C + ((unk_2C - (unk_0C + 8)) >> 4);
-                    game->m_audioEngine->sub_02034C44(0xFA);
+                    game->m_audioEngine->PlaySe(0xFA);
                     ov27_0211F714(TRUE);
                 }
             }
@@ -335,7 +335,7 @@ void CQLListBox::ov27_0211F140()
     }
 }
 
-static inline void SetBlink(UnkClass_0200E960 *sprite, u8 timer)
+static inline void SetBlink(OamSprite *sprite, u8 timer)
 {
     sprite->SetVisible(timer < 6 ? TRUE : FALSE);
 }
@@ -358,7 +358,7 @@ void CQLListBox::ov27_0211F294()
                 unk_2C = unk_30;
             }
         }
-        unk_40->sub_0200EB28(unk_28, unk_2C);
+        unk_40->SetPos(unk_28, unk_2C);
         if (unk_30 == unk_2C) {
             ov27_0211F714(FALSE);
         }
@@ -419,7 +419,7 @@ void CQLListBox::ov27_0211F470(BOOL down)
     ov27_0211EFC4(dy, line);
 }
 
-static inline void SetSpriteVisible(UnkClass_0200E960 *sprite, int count)
+static inline void SetSpriteVisible(OamSprite *sprite, int count)
 {
     sprite->SetVisible(count != 0 ? TRUE : FALSE);
 }
@@ -427,18 +427,18 @@ static inline void SetSpriteVisible(UnkClass_0200E960 *sprite, int count)
 void CQLListBox::ov27_0211F4B0(int group)
 {
     if (unk_18 != group) {
-        UnkClass_0211E7EC *prev = &unk_90[unk_18];
+        QLListBoxGroup *prev = &unk_90[unk_18];
         prev->unk_08 = unk_1C;
         prev->unk_0C = unk_1C + ((unk_2C - 8 - unk_0C) >> 4);
         unk_18 = group;
         int idx;
         prev = unk_90;
         idx = unk_18;
-        UnkClass_0211E7EC *next = &prev[idx];
+        QLListBoxGroup *next = &prev[idx];
         unk_1C = unk_20 = next->unk_08;
         unk_2C = unk_30 = unk_0C + (next->unk_0C - next->unk_08) * 16 + 8;
         ov27_0211EF30();
-        unk_40->sub_0200EB28(unk_28, unk_2C);
+        unk_40->SetPos(unk_28, unk_2C);
         SetSpriteVisible(unk_40, prev[idx].unk_00);
     }
     ov27_0211F714(FALSE);
@@ -446,7 +446,7 @@ void CQLListBox::ov27_0211F4B0(int group)
 
 void CQLListBox::ov27_0211F574(int line)
 {
-    UnkClass_0211E7EC *group = &unk_90[unk_18];
+    QLListBoxGroup *group = &unk_90[unk_18];
     if (line < 0) {
         return;
     }
@@ -454,9 +454,9 @@ void CQLListBox::ov27_0211F574(int line)
         return;
     }
     int row = line % 12;
-    UnkClass_0200CAB4 *text = CGame::GetInstance()->unk_1498;
-    text->sub_0200CF7C(row);
-    text->sub_0200CDA0(row, 32, 3, 3, (u8 *)group->unk_04[line].unk_00, FALSE, 0);
+    SubTextPrinter *text = CGame::GetInstance()->unk_1498;
+    text->ClearWindow(row);
+    text->Print(row, 32, 3, 3, (u8 *)group->unk_04[line].unk_00, FALSE, 0);
     u8 *scr = (u8 *)G2S_GetBG3ScrPtr() + (row << 7);
     MI_CpuCopy8(group->unk_04[line].unk_04 == 2 ? unk_94 : unk_114, scr, 0x80);
 }
@@ -547,25 +547,25 @@ static void ov27_0211F870(void *arg)
     G2S_SetBG3Offset(0, 256 - sScroll[1]);
 }
 
-UnkClass_0211F8A0::UnkClass_0211F8A0()
+QLBlinkMarks::QLBlinkMarks()
 {
     unk_00 = FALSE;
     unk_01 = 0;
     MI_CpuClear8(unk_04, sizeof(unk_04));
 }
 
-BOOL UnkClass_0211F8A0::ov27_0211F8C8(UnkClass_0200ECD0 *anims, int animOff, int animOn, int x, int y, int priority)
+BOOL QLBlinkMarks::ov27_0211F8C8(OamSpriteSet *anims, int animOff, int animOn, int x, int y, int priority)
 {
     int px = x - 10;
     for (int i = 0; i < 3; i++) {
-        unk_04[i].on = anims->sub_0200F4FC(animOn, px, y, priority + 1);
-        unk_04[i].off = anims->sub_0200F4FC(animOff, px, y, priority);
+        unk_04[i].on = anims->AddSprite(animOn, px, y, priority + 1);
+        unk_04[i].off = anims->AddSprite(animOff, px, y, priority);
         px += 10;
     }
     return TRUE;
 }
 
-void UnkClass_0211F8A0::ov27_0211F954(BOOL enabled)
+void QLBlinkMarks::ov27_0211F954(BOOL enabled)
 {
     unk_00 = enabled;
     if (unk_00) {
@@ -582,7 +582,7 @@ void UnkClass_0211F8A0::ov27_0211F954(BOOL enabled)
     }
 }
 
-void UnkClass_0211F8A0::ov27_0211F9C0()
+void QLBlinkMarks::ov27_0211F9C0()
 {
     if (!unk_00) {
         return;
@@ -595,19 +595,19 @@ void UnkClass_0211F8A0::ov27_0211F9C0()
     unk_01++;
 }
 
-UnkClass_0211FA5C::UnkClass_0211FA5C()
+QLMessageStrings::QLMessageStrings()
 {
     unk_00 = NULL;
     unk_04 = 0;
     unk_08 = NULL;
 }
 
-UnkClass_0211FA5C::~UnkClass_0211FA5C()
+QLMessageStrings::~QLMessageStrings()
 {
     ov27_0211FB5C();
 }
 
-int UnkClass_0211FA5C::ov27_0211FA84(const char *path)
+int QLMessageStrings::ov27_0211FA84(const char *path)
 {
     ov27_0211FB5C();
     if (path != NULL) {
@@ -631,7 +631,7 @@ int UnkClass_0211FA5C::ov27_0211FA84(const char *path)
     return 0;
 }
 
-const char *UnkClass_0211FA5C::ov27_0211FB38(int idx)
+const char *QLMessageStrings::ov27_0211FB38(int idx)
 {
     if (idx >= 0 && idx < unk_04) {
         return unk_08[idx];
@@ -639,7 +639,7 @@ const char *UnkClass_0211FA5C::ov27_0211FB38(int idx)
     return NULL;
 }
 
-void UnkClass_0211FA5C::ov27_0211FB5C()
+void QLMessageStrings::ov27_0211FB5C()
 {
     SAFE_DELETE_ARRAY(unk_08);
     SAFE_DELETE(unk_00);

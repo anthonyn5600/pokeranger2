@@ -22,7 +22,7 @@ public:
     {
     }
 
-    virtual BOOL sub_0203BE48(CFieldActor *actor, const char *func);
+    virtual BOOL Call(CFieldActor *actor, const char *func);
 
 public:
     int unk_38;
@@ -35,11 +35,11 @@ class CFieldTargetObject : public CFieldActor {
 public:
     CFieldTargetObject();
     virtual ~CFieldTargetObject();
-    virtual void sub_0203DA40(CFieldMap *map);
-    virtual BOOL sub_0203D578(CFieldMap *map);
+    virtual void Process(CFieldMap *map);
+    virtual BOOL UpdateMove(CFieldMap *map);
     virtual BOOL sub_0203DA38();
-    virtual void sub_0202D7E0();
-    virtual void sub_0202DC54(int arg0, int arg1);
+    virtual void StopMotion();
+    virtual void PlayAnim(int arg0, int arg1);
 
     BOOL ov0_0213CD3C();
     BOOL ov0_0213CD78(int arg);

@@ -4,10 +4,10 @@
 #include <nitro.h>
 
 #include "CActor.hpp"
+#include "Collision.hpp"
 #include "UnkClass_02007770.hpp"
 #include "common.hpp"
 #include "field/CFieldDrawActorData.hpp"
-#include "sub_02006000.hpp"
 
 // FieldDrawActor.cpp (arm9): the drawn part of a field actor (CFieldDrawObject::unk_0C).
 class CFieldDrawActor : public CActor {
@@ -18,10 +18,10 @@ public:
     virtual void vfunc_0C(Camera2D *camera);
     virtual void vfunc_10(Camera2D *camera);
 
-    void sub_0203DBB8(int type, u16 id, int form, u32 mask, BOOL useTransfer);
+    void Load(int type, u16 id, int form, u32 mask, BOOL useTransfer);
     void sub_0203E10C(int type, u16 id, int form, u32 mask, BOOL useTransfer);
-    void sub_0203E55C();
-    u32 sub_0203E934(Camera2D *camera, fx32 z);
+    void Release();
+    u32 Render(Camera2D *camera, fx32 z);
     void sub_0203EE3C();
     void sub_0203EEA8(u16 arg0, u8 alpha, int duration);
     void sub_0203EEEC(int duration);
@@ -44,8 +44,8 @@ public:
 
     inline void SetXY(fx32 x, fx32 y)
     {
-        m_motion.sub_02011D1C(x);
-        m_motion.sub_02011D2C(y);
+        m_motion.SetX(x);
+        m_motion.SetY(y);
     }
 
     inline void sub_show()

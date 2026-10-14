@@ -12,20 +12,20 @@ class CBattlePowerSave;
 class CDiskCursor;
 class CLineEffect;
 class CSoftwareSprite;
-class UnkClass_0201AAE0;
+class GraphicsSet;
 class UnkClass_02127CD8;
 class UnkClass_02127E14;
-class UnkClass_02128860;
+class BattleHPNumber;
 class UnkClass_02128A60;
 class UnkClass_02128B24;
-class UnkClass_0212306C;
-class UnkClass_0212D2C4;
-class UnkClass_02136AD4;
+class StylerLine;
+class BattleDiskRing;
+class BattleParticlePool;
 
 // Defined in ov1
 class CBattleDisk : public CActor {
 public:
-    CBattleDisk(UnkClass_02136AD4 *particles);
+    CBattleDisk(BattleParticlePool *particles);
     virtual ~CBattleDisk();
     virtual void vfunc_08();
     virtual void vfunc_0C(Camera2D *camera);
@@ -93,26 +93,26 @@ public:
     u16 unk_19E;
     u8 unk_1A0[0x4];
     u8 unk_1A4[0x13];
-    UnkClass_0212306C *unk_1B8;
-    UnkClass_02128860 *unk_1BC;
+    StylerLine *unk_1B8;
+    BattleHPNumber *unk_1BC;
     CBattlePowerSave *unk_1C0;
     CPrimitiveSPHERE unk_1C4;
     CPrimitiveRECT unk_1E8;
     CSoftwareSprite *unk_228;
-    UnkClass_0201AAE0 *unk_22C;
+    GraphicsSet *unk_22C;
     u16 unk_230;
     CSoftwareSprite *unk_234;
-    UnkClass_0201AAE0 *unk_238[2];
+    GraphicsSet *unk_238[2];
     u16 unk_240;
     u16 unk_242[3];
     CDiskCursor *unk_248;
     CLineEffect *unk_24C;
-    UnkClass_02136AD4 *unk_250;
+    BattleParticlePool *unk_250;
     UnkClass_02127E14 *unk_254;
     UnkClass_02127CD8 *unk_258;
     UnkClass_02128B24 *unk_25C;
     UnkClass_02128A60 *unk_260;
-    UnkClass_0212D2C4 *unk_264;
+    BattleDiskRing *unk_264;
 };
 
 STATIC_SIZE_ASSERT(CBattleDisk, 0x268);

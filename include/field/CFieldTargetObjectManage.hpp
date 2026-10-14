@@ -12,10 +12,10 @@ class UnkStruct_02141F40;
 extern CFieldTargetObjectManage *MAIN_BSS_0210CA7C;
 
 // Defined in ov0: the target objects' script cache (data/Script/field/targetobject, targettouch).
-class UnkClass_02142028 {
+class FieldTargetObjectScriptCache {
 public:
-    UnkClass_02142028();
-    ~UnkClass_02142028();
+    FieldTargetObjectScriptCache();
+    ~FieldTargetObjectScriptCache();
     void ov0_02142068();
     void *ov0_021420AC(int id, BOOL touch);
 
@@ -34,19 +34,19 @@ public:
 
     virtual ~CFieldTargetObjectManage()
     {
-        sub_0203F034();
+        Free();
         MAIN_BSS_0210CA7C = NULL;
     }
 
-    virtual void sub_0203EFE4(int capacity);
-    virtual void sub_0203F034();
-    virtual BOOL sub_0203F190();
+    virtual void Alloc(int capacity);
+    virtual void Free();
+    virtual BOOL Clear();
 
     int ov0_0213D1AC(int slot, u16 kind, u16 script, u16 touchScript, int arg5);
     int ov0_0213D564();
 
 public:
-    UnkClass_02142028 *unk_10;
+    FieldTargetObjectScriptCache *unk_10;
 };
 
 STATIC_SIZE_ASSERT(CFieldTargetObjectManage, 0x14);

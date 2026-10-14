@@ -3,11 +3,11 @@
 
 #include "common.hpp"
 
-class UnkClass_0200ECD0;
-class UnkClass_0200E960;
+class OamSpriteSet;
+class OamSprite;
 
 // Defined in ov11
-// 0x88-byte element of UnkClass_0211E05C::unk_108[4]
+// 0x88-byte element of RangerNetMenu::unk_108[4]
 class UnkClass_02124578 {
 public:
     UnkClass_02124578();
@@ -25,8 +25,8 @@ public:
     {
         return unk_38 == 0 ? TRUE : FALSE;
     }
-    void ov11_021245A8(UnkClass_0200ECD0 **res, int idx, int v);
-    void ov11_02124604(UnkClass_0200ECD0 *res);
+    void ov11_021245A8(OamSpriteSet **res, int idx, int v);
+    void ov11_02124604(OamSpriteSet *res);
     void ov11_02124730(int type);
     void ov11_02124844(int x, int y);
     void ov11_02124968(fx32 a, fx32 b, fx32 c, fx32 d, int e, int f, int g);
@@ -40,13 +40,13 @@ public:
     void ov11_02124CBC();
     void ov11_02124E38();
     void ov11_02124EBC(BOOL active); // SetActive
-    UnkClass_0200ECD0 **unk_00;
-    UnkClass_0200ECD0 *unk_04;
-    UnkClass_0200ECD0 *unk_08;
-    UnkClass_0200E960 *unk_0C;
-    UnkClass_0200E960 *unk_10;
-    UnkClass_0200E960 *unk_14;
-    UnkClass_0200E960 **unk_18;
+    OamSpriteSet **unk_00;
+    OamSpriteSet *unk_04;
+    OamSpriteSet *unk_08;
+    OamSprite *unk_0C;
+    OamSprite *unk_10;
+    OamSprite *unk_14;
+    OamSprite **unk_18;
     int unk_1C;
     int unk_20;
     int unk_24;

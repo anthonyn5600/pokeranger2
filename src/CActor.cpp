@@ -2,15 +2,15 @@
 
 #include <nitro.h>
 
+#include "ActorMotion.hpp"
 #include "CActorData.hpp"
-#include "UnkClass_02008788.hpp"
-#include "UnkClass_0201179C.hpp"
+#include "CellAnimController.hpp"
+#include "Collision.hpp"
+#include "MathUtil.hpp"
 #include "common.hpp"
 #include "fx_utils.hpp"
 #include "interpolation.hpp"
 #include "primitive/CSoftwareSprite.hpp"
-#include "sub_02006000.hpp"
-#include "sub_02007254.hpp"
 
 CActor::CActor()
 {
@@ -40,9 +40,9 @@ CActor::~CActor()
     SAFE_DELETE_ARRAY(m_sprites);
 }
 
-void CActor::sub_02011FF4(CActorData *data)
+void CActor::SetData(CActorData *data)
 {
-    sub_020120B0();
+    ClearData();
     m_data = data;
     m_sprite->unk_34 = (UnkClass_CPrimitive_ImagePaletteProxy *)data->m_palette;
 
@@ -57,14 +57,14 @@ void CActor::sub_02011FF4(CActorData *data)
     for (u8 i = 0; i < 0x1D; i++) {
         CActorAnim *anim = m_data->GetAnim(i);
         if (anim != NULL && anim->bank != NULL) {
-            unk_C8[i] = anim->bank->sub_02008A80(1, data->unk_05);
+            unk_C8[i] = anim->bank->Create(1, data->unk_05);
         }
     }
 
     m_flags |= 8;
 }
 
-void CActor::sub_020120B0()
+void CActor::ClearData()
 {
     if (m_data == NULL) {
         return;
@@ -73,14 +73,14 @@ void CActor::sub_020120B0()
     for (u8 i = 0; i < 0x1D; i++) {
         CActorAnim *anim = m_data->GetAnim(i);
         if (anim != NULL && anim->bank != NULL) {
-            anim->bank->sub_02008B80(unk_C8[i]);
+            anim->bank->Remove(unk_C8[i]);
         }
     }
 
     m_data = NULL;
 }
 
-void CActor::sub_02012114(int arg0, int arg1)
+void CActor::SetAnim(int arg0, int arg1)
 {
     u8 index = m_data->GetAnimId(arg0, arg1);
     if (index == 0xFF) {
@@ -96,11 +96,11 @@ void CActor::sub_02012114(int arg0, int arg1)
     }
 
     unk_C0 = index;
-    sub_020124BC();
-    anim->bank->sub_020089B8(unk_C8[unk_C0]);
+    UpdateDirection();
+    anim->bank->Restart(unk_C8[unk_C0]);
 }
 
-void CActor::sub_02012184(int arg0, int arg1, fx32 speed)
+void CActor::SetAnimWithSpeed(int arg0, int arg1, fx32 speed)
 {
     u8 index = m_data->GetAnimId(arg0, arg1);
     if (index == 0xFF) {
@@ -116,24 +116,24 @@ void CActor::sub_02012184(int arg0, int arg1, fx32 speed)
     }
 
     unk_C0 = index;
-    anim->bank->sub_02008A58(unk_C8[unk_C0], speed);
+    anim->bank->SetSpeed(unk_C8[unk_C0], speed);
 }
 
-void CActor::sub_020121F4()
+void CActor::Update()
 {
     if (!HasData()) {
         return;
     }
 
-    sub_02012340();
+    UpdateMotion();
     sub_020123AC();
-    sub_020123FC();
-    sub_02012470();
-    sub_020124BC();
+    UpdateJump();
+    UpdateBob();
+    UpdateDirection();
     sub_020125FC();
-    sub_02012648();
-    sub_020126C8();
-    sub_02012750();
+    UpdateAlphaTween();
+    UpdateScaleTween();
+    UpdateTween16();
 
     Point2D pos = m_motion.m_pos;
     pos += GetAnimOffset();
@@ -141,12 +141,12 @@ void CActor::sub_020121F4()
     m_sprite->SetPos(pos);
 }
 
-void CActor::sub_02012340()
+void CActor::UpdateMotion()
 {
     Point2D prev = m_motion.GetPos();
-    m_motion.sub_020117B0();
+    m_motion.Update();
     Point2D delta = m_motion.GetPos() - prev;
-    m_speed = sub_02007254(delta.x, delta.y);
+    m_speed = ApproxLength(delta.x, delta.y);
 }
 
 void CActor::sub_020123AC()
@@ -162,7 +162,7 @@ void CActor::sub_020123AC()
     unk_8C = LinearInterpolate(unk_98, unk_9C, unk_96, unk_94);
 }
 
-void CActor::sub_020123FC()
+void CActor::UpdateJump()
 {
     if (!m_jumping) {
         return;
@@ -175,7 +175,7 @@ void CActor::sub_020123FC()
     m_jumpHeight = FX32_MUL(m_jumpAmplitude, FX_SinIdx(LinearInterpolate(0, 0x8000, m_jumpFrame, m_jumpDuration)));
 }
 
-void CActor::sub_02012470()
+void CActor::UpdateBob()
 {
     if (!m_bobbing) {
         return;
@@ -185,15 +185,15 @@ void CActor::sub_02012470()
     m_bobHeight = FX32_MUL(m_bobAmplitude, FX_SinIdx(m_bobAngle));
 }
 
-void CActor::sub_020124BC()
+void CActor::UpdateDirection()
 {
     CActorAnim *anim = m_data->GetAnim(unk_C0);
 
     switch (m_dirMode) {
     case 0:
-        if (m_motion.m_mode == UnkClass_0201179C::MODE_LINEAR) {
+        if (m_motion.m_mode == ActorMotion::MODE_LINEAR) {
             m_dir = FX_Atan2Idx(m_motion.m_end.y - m_motion.m_start.y, m_motion.m_end.x - m_motion.m_start.x);
-        } else if (m_motion.m_mode == UnkClass_0201179C::MODE_DIRECTION) {
+        } else if (m_motion.m_mode == ActorMotion::MODE_DIRECTION) {
             m_dir = m_motion.m_angle;
         } else {
             m_dir = m_motion.m_dir;
@@ -220,7 +220,7 @@ void CActor::sub_020124BC()
     }
 
     if (anim != NULL && anim->bank != NULL) {
-        anim->bank->sub_02008968(unk_C8[unk_C0], m_dir);
+        anim->bank->SetDirection(unk_C8[unk_C0], m_dir);
     }
 }
 
@@ -232,23 +232,23 @@ void CActor::sub_020125FC()
 
     CActorAnim *anim = m_data->GetAnim(unk_C0);
     if (anim != NULL && anim->bank != NULL) {
-        anim->bank->sub_02008A38(unk_C8[unk_C0]);
+        anim->bank->Update(unk_C8[unk_C0]);
     }
 }
 
-void CActor::sub_02012648()
+void CActor::UpdateAlphaTween()
 {
     if (!(m_flags & 2)) {
         return;
     }
 
-    sub_0201267C(&unk_108);
+    StepTween8(&unk_108);
     if (!unk_108.active) {
         m_flags &= ~2;
     }
 }
 
-void CActor::sub_0201267C(CActorTween8 *tween)
+void CActor::StepTween8(CActorTween8 *tween)
 {
     tween->frame++;
     tween->value = LinearInterpolate(tween->from << FX32_SHIFT, tween->to << FX32_SHIFT, tween->frame, tween->duration) >> FX32_SHIFT;
@@ -257,20 +257,20 @@ void CActor::sub_0201267C(CActorTween8 *tween)
     }
 }
 
-void CActor::sub_020126C8()
+void CActor::UpdateScaleTween()
 {
     if (!(m_flags & 4)) {
         return;
     }
 
-    sub_02012710(&unk_11C);
-    sub_02012710(&unk_134);
+    StepTween32(&unk_11C);
+    StepTween32(&unk_134);
     if (!unk_11C.active && !unk_134.active) {
         m_flags &= ~4;
     }
 }
 
-void CActor::sub_02012710(CActorTween32 *tween)
+void CActor::StepTween32(CActorTween32 *tween)
 {
     tween->frame++;
     tween->value = LinearInterpolate(tween->from, tween->to, tween->frame, tween->duration);
@@ -279,19 +279,19 @@ void CActor::sub_02012710(CActorTween32 *tween)
     }
 }
 
-void CActor::sub_02012750()
+void CActor::UpdateTween16()
 {
     if (!(m_flags & 0x10)) {
         return;
     }
 
-    sub_02012784(&unk_14C);
+    StepTween16(&unk_14C);
     if (!unk_14C.active) {
         m_flags &= ~0x10;
     }
 }
 
-void CActor::sub_02012784(CActorTween16 *tween)
+void CActor::StepTween16(CActorTween16 *tween)
 {
     tween->frame++;
     tween->value = LinearInterpolate(tween->from << FX32_SHIFT, tween->to << FX32_SHIFT, tween->frame, tween->duration) >> FX32_SHIFT;
@@ -323,7 +323,7 @@ void CActor::sub_02012808(fx32 value, fx32 speed)
     unk_94 = FX32_DIV(MATH_IAbs(unk_9C - unk_98), speed) >> FX32_SHIFT;
 }
 
-void CActor::sub_02012860(fx32 height, int duration)
+void CActor::Jump(fx32 height, int duration)
 {
     m_jumping = TRUE;
     m_jumpFrame = 0;
@@ -331,14 +331,14 @@ void CActor::sub_02012860(fx32 height, int duration)
     m_jumpAmplitude = height;
 }
 
-void CActor::sub_0201287C()
+void CActor::FaceMoveDir()
 {
     m_turning = FALSE;
     m_dirMode = 0;
     m_motion.m_dir = m_dir;
 }
 
-void CActor::sub_02012894(Point2D target)
+void CActor::LookAt(Point2D target)
 {
     m_turning = FALSE;
     m_dirMode = 1;
@@ -346,20 +346,20 @@ void CActor::sub_02012894(Point2D target)
     m_lookAt.y = target.y;
 }
 
-void CActor::sub_020128C0(u16 speed)
+void CActor::Spin(u16 speed)
 {
     m_turning = TRUE;
     m_dirMode = 2;
     m_turnSpeed = speed;
 }
 
-void CActor::sub_020128D8()
+void CActor::FixDir()
 {
     m_turning = FALSE;
     m_dirMode = 3;
 }
 
-void CActor::sub_020128EC(u16 dir)
+void CActor::SetDir(u16 dir)
 {
     m_turning = FALSE;
     m_dirMode = 3;
@@ -367,18 +367,18 @@ void CActor::sub_020128EC(u16 dir)
 
     CActorAnim *anim = m_data->GetAnim(unk_C0);
     if (anim != NULL && anim->bank != NULL) {
-        anim->bank->sub_02008968(unk_C8[unk_C0], dir);
+        anim->bank->SetDirection(unk_C8[unk_C0], dir);
     }
 }
 
-void CActor::sub_02012948(Point2D target)
+void CActor::FaceToward(Point2D target)
 {
     m_turning = FALSE;
     m_dirMode = 3;
     m_dir = FX_Atan2Idx(target.y - m_motion.m_pos.y, target.x - m_motion.m_pos.x);
 }
 
-void CActor::sub_02012990(u16 dir, s16 speed)
+void CActor::TurnTo(u16 dir, s16 speed)
 {
     if (speed == 0) {
         return;
@@ -400,7 +400,7 @@ void CActor::sub_02012990(u16 dir, s16 speed)
     }
 }
 
-void CActor::sub_020129F4(int duration, u8 alpha)
+void CActor::FadeAlpha(int duration, u8 alpha)
 {
     if (duration != 0) {
         unk_108.active = TRUE;
@@ -415,7 +415,7 @@ void CActor::sub_020129F4(int duration, u8 alpha)
     }
 }
 
-void CActor::sub_02012A3C(int duration, fx32 scaleX, fx32 scaleY)
+void CActor::ScaleTo(int duration, fx32 scaleX, fx32 scaleY)
 {
     if (duration != 0) {
         unk_11C.active = TRUE;
@@ -461,10 +461,10 @@ int CActor::sub_02012AFC()
     if (anim == NULL) {
         return 0;
     }
-    return anim->bank->sub_02008860(unk_C8[unk_C0]);
+    return anim->bank->GetStatus(unk_C8[unk_C0]);
 }
 
-void CActor::sub_02012B48(CActorGhost *ghost)
+void CActor::ResetGhost(CActorGhost *ghost)
 {
     ghost->active = FALSE;
     ghost->frame = 0;
@@ -472,7 +472,7 @@ void CActor::sub_02012B48(CActorGhost *ghost)
     ghost->scale = FX32_ONE;
 }
 
-void CActor::sub_02012B68(int interval, int life, BOOL fadeAlpha, int alphaStep, u8 fadeScale, fx32 scaleStep)
+void CActor::StartGhosts(int interval, int life, BOOL fadeAlpha, int alphaStep, u8 fadeScale, fx32 scaleStep)
 {
     m_ghostFlags |= 1;
     m_ghostInterval = interval;
@@ -491,31 +491,31 @@ void CActor::sub_02012B68(int interval, int life, BOOL fadeAlpha, int alphaStep,
     CActorGhost *ghost = m_ghosts;
     CSoftwareSprite *sprite = m_sprites;
     for (int i = 0; i < 8; i++) {
-        sub_02012B48(ghost);
+        ResetGhost(ghost);
         sprite->unk_34 = (UnkClass_CPrimitive_ImagePaletteProxy *)m_data->m_palette;
         ghost++;
         sprite++;
     }
 }
 
-void CActor::sub_02012C00()
+void CActor::StopGhosts()
 {
     m_ghostFlags &= ~1;
 }
 
-int CActor::sub_02012C10()
+int CActor::AllocGhost()
 {
     for (int i = 0; i < 8; i++) {
         CActorGhost *ghost = &m_ghosts[i];
         if (!ghost->active) {
-            sub_02012B48(ghost);
+            ResetGhost(ghost);
             return i;
         }
     }
     return -1;
 }
 
-void CActor::sub_02012C4C()
+void CActor::UpdateGhosts()
 {
     int slot = -1;
 
@@ -524,7 +524,7 @@ void CActor::sub_02012C4C()
             m_ghostTimer++;
         } else {
             m_ghostTimer = 0;
-            slot = sub_02012C10();
+            slot = AllocGhost();
         }
     } else {
         m_ghostFlags &= ~1;
@@ -565,27 +565,27 @@ void CActor::sub_02012C4C()
     }
 }
 
-BOOL CActor::sub_02012D88()
+BOOL CActor::IsGhosting()
 {
     return (m_ghostFlags & 1) ? TRUE : FALSE;
 }
 
-u8 CActor::sub_02012D9C(int index)
+u8 CActor::IsGhostActive(int index)
 {
     return m_ghosts[index].active;
 }
 
-CSoftwareSprite *CActor::sub_02012DA8()
+CSoftwareSprite *CActor::GetSprites()
 {
     return m_sprites;
 }
 
-int CActor::sub_02012DB0(int index)
+int CActor::GetGhostAlpha(int index)
 {
     return m_ghosts[index].alpha;
 }
 
-fx32 CActor::sub_02012DC0(int index)
+fx32 CActor::GetGhostScale(int index)
 {
     return m_ghosts[index].scale;
 }
@@ -600,7 +600,7 @@ u16 CActor::sub_02012DD0()
     if (anim == NULL) {
         return 0;
     }
-    return anim->bank->sub_02008D20(unk_C8[unk_C0]);
+    return anim->bank->GetScriptPos(unk_C8[unk_C0]);
 }
 
 u8 CActor::sub_02012E1C()
@@ -626,8 +626,8 @@ void CActor::sub_02012E68()
     if (anim == NULL) {
         return;
     }
-    sub_020124BC();
-    anim->bank->sub_020089B8(unk_C8[unk_C0]);
+    UpdateDirection();
+    anim->bank->Restart(unk_C8[unk_C0]);
 }
 
 static fx32 sub_02012EB4(Point2D *start, Point2D *ctrl, Point2D *end, int steps)
@@ -639,19 +639,19 @@ static fx32 sub_02012EB4(Point2D *start, Point2D *ctrl, Point2D *end, int steps)
     for (int i = 1; i <= steps; i++) {
         fx32 x = QuadraticInterpolate(start->x, ctrl->x, end->x, i, steps);
         fx32 y = QuadraticInterpolate(start->y, ctrl->y, end->y, i, steps);
-        length += sub_02007254(x - prevX, y - prevY);
+        length += ApproxLength(x - prevX, y - prevY);
         prevX = x;
         prevY = y;
     }
     return length;
 }
 
-void CActor::sub_02012F5C(Point2D *end, Point2D *ctrl, int speed)
+void CActor::MoveCurveAtSpeed(Point2D *end, Point2D *ctrl, int speed)
 {
     Point2D pos = m_motion.m_pos;
     int duration = sub_02012EB4(&pos, ctrl, end, 8) / speed;
     if (duration < 1) {
         duration = 1;
     }
-    m_motion.sub_02011B18(*end, *ctrl, duration);
+    m_motion.MoveQuadratic(*end, *ctrl, duration);
 }

@@ -59,14 +59,14 @@ void CBattleAttackEffect::vfunc_08()
     if (!HasData()) {
         return;
     }
-    sub_02012340();
+    UpdateMotion();
     sub_020123AC();
-    sub_020123FC();
-    sub_020124BC();
+    UpdateJump();
+    UpdateDirection();
     NNS_G2dTickCellAnimation(&m_cellAnim, FX32_ONE);
     unk_18A = *(const u16 *)m_cellAnim.animCtrl.pCurrent->pContent;
-    sub_02012648();
-    sub_020126C8();
+    UpdateAlphaTween();
+    UpdateScaleTween();
 
     Point2D pos;
     pos.x = m_motion.m_pos.x;
@@ -107,12 +107,12 @@ void CBattleAttackEffect::ov1_02126F90()
         if (target->unk_18C == 4 || unk_184->m_script == NULL) {
             return;
         }
-        sub_02044C9C(&m_vm, 0xFFFFF);
+        ScriptVM_Run(&m_vm, 0xFFFFF);
     } else {
         if (unk_184->m_script == NULL) {
             return;
         }
-        sub_02044C9C(&m_vm, 0xFFFFF);
+        ScriptVM_Run(&m_vm, 0xFFFFF);
     }
 }
 
@@ -147,15 +147,15 @@ void CBattleAttackEffect::vfunc_10(Camera2D *camera)
 
 void CBattleAttackEffect::ov1_021270FC(CBattleAttackEffectData *data)
 {
-    sub_02011FF4(data);
+    SetData(data);
     unk_184 = data;
     unk_188 = 0;
     ov1_021273A0(7, 0);
-    sub_02012A3C(0, FX32_ONE, FX32_ONE);
-    sub_020129F4(0, 0x1F);
+    ScaleTo(0, FX32_ONE, FX32_ONE);
+    FadeAlpha(0, 0x1F);
     m_sprite->m_rotAngle = 0;
-    sub_020128EC(0);
-    sub_0201287C();
+    SetDir(0);
+    FaceMoveDir();
     Circle circle = data->unk_18->GetCircle();
     if (circle.r == 0) {
         ov1_02127388(FALSE);
@@ -163,7 +163,7 @@ void CBattleAttackEffect::ov1_021270FC(CBattleAttackEffectData *data)
         ov1_02127388(TRUE);
     }
     m_motion.m_mode = 0;
-    sub_02012860(0, 1);
+    Jump(0, 1);
     sub_020127D0(0, 0);
     unk_18A = 0;
     unk_18C = 0;
@@ -171,16 +171,16 @@ void CBattleAttackEffect::ov1_021270FC(CBattleAttackEffectData *data)
     if (data->m_script == NULL) {
         return;
     }
-    sub_02044B48(&m_vm, m_stack, 0x80);
+    ScriptVM_Init(&m_vm, m_stack, 0x80);
     *--m_vm.unk_04 = m_index;
-    sub_02046040(&m_vm, data->m_script, "initialize", 1);
+    ScriptVM_CallFunction(&m_vm, data->m_script, "initialize", 1);
     *--m_vm.unk_04 = m_index;
-    sub_02045A18(&m_vm, data->m_script, "proc");
+    ScriptVM_Start(&m_vm, data->m_script, "proc");
 }
 
 void CBattleAttackEffect::ov1_02127280()
 {
-    sub_020120B0();
+    ClearData();
 }
 
 void CBattleAttackEffect::ov1_0212728C(CBattleEnemy *target, int mode)
@@ -196,17 +196,17 @@ void CBattleAttackEffect::ov1_021272AC()
     if (unk_184 == NULL || unk_184->m_script == NULL) {
         return;
     }
-    sub_02044B84(&m_vm);
+    ScriptVM_Reset(&m_vm);
     *--m_vm.unk_04 = m_index;
-    sub_02045A18(&m_vm, unk_184->m_script, "vanish");
+    ScriptVM_Start(&m_vm, unk_184->m_script, "vanish");
 }
 
 void CBattleAttackEffect::ov1_02127300()
 {
     if (unk_184 != NULL && unk_184->m_script != NULL) {
-        sub_02044B84(&m_vm);
+        ScriptVM_Reset(&m_vm);
         *--m_vm.unk_04 = m_index;
-        sub_02046040(&m_vm, unk_184->m_script, "terminate", 1);
+        ScriptVM_CallFunction(&m_vm, unk_184->m_script, "terminate", 1);
     }
     ov1_02127280();
     unk_188 = 0;

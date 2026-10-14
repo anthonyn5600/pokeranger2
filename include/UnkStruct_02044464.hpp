@@ -20,7 +20,7 @@ struct ScriptImport {
     ScriptSymbol *symbol;
 };
 
-// Loaded .fsb file header (offsets relocated to pointers by sub_02044AC8)
+// Loaded .fsb file header (offsets relocated to pointers by Script_Link)
 struct ScriptHeader {
     u32 *code;
     ScriptSymbol *symbols; // up to imports
@@ -45,14 +45,14 @@ struct UnkStruct_02044464 {
 STATIC_SIZE_ASSERT(UnkStruct_02044464, 0x24);
 
 extern "C" {
-void sub_02044AC8(void *script);
-void sub_02044B38(u32 id, ScriptSyscall *handlers);
-void sub_02044B48(UnkStruct_02044464 *vm, void *stack, u32 stackSize);
-void sub_02044B78(UnkStruct_02044464 *vm);
-void sub_02044B84(UnkStruct_02044464 *vm);
-int sub_02044C9C(UnkStruct_02044464 *vm, u32 steps);
-int sub_02045A18(UnkStruct_02044464 *vm, void *script, const char *name);
-int sub_02046040(UnkStruct_02044464 *vm, void *script, const char *name, int argc);
+void Script_Link(void *script);
+void Script_RegisterSyscalls(u32 id, ScriptSyscall *handlers);
+void ScriptVM_Init(UnkStruct_02044464 *vm, void *stack, u32 stackSize);
+void ScriptVM_Clear(UnkStruct_02044464 *vm);
+void ScriptVM_Reset(UnkStruct_02044464 *vm);
+int ScriptVM_Run(UnkStruct_02044464 *vm, u32 steps);
+int ScriptVM_Start(UnkStruct_02044464 *vm, void *script, const char *name);
+int ScriptVM_CallFunction(UnkStruct_02044464 *vm, void *script, const char *name, int argc);
 }
 
 #endif // POKERANGER2_UNKSTRUCT_02044464_HPP

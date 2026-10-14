@@ -108,7 +108,7 @@ int CFieldEffectFlowerStorm::ov0_02142240(int outTime)
     return CFieldEffect::ov0_02142240(outTime);
 }
 
-int CFieldEffectFlowerStorm::sub_0203312C(int param, int value)
+int CFieldEffectFlowerStorm::SetParam(int param, int value)
 {
     switch (param) {
     case 1:

@@ -1,7 +1,7 @@
     .include "macros.inc"
     .include "include/arm9_02084288.inc"
 
-; Data of the objects before src/UnkClass_0201164C.cpp (split off arm9_0208AC1C.s when it landed)
+; Data of the objects before src/MissionQuestData.cpp (split off arm9_0208AC1C.s when it landed)
 
     .rodata
 

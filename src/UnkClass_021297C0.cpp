@@ -1,7 +1,7 @@
 #include "battle/UnkClass_021297C0.hpp"
 
-#include "UnkClass_020074D4.hpp"
-#include "UnkClass_02007AA4.hpp"
+#include "VramImage.hpp"
+#include "VramPalette.hpp"
 #include "battle/UnkClass_021299CC.hpp"
 #include "file/CArchiveGuard.hpp"
 #include "file/CNCERFile.hpp"
@@ -22,15 +22,15 @@ void UnkClass_021297C0::ov1_021297E8()
 {
     CArchiveGuard *guard = new CArchiveGuard("BOK", "data/interface/i026_LZ.bin", 1, 1, 0, NULL, 0);
 
-    m_image = new UnkClass_020074D4("BOK:i026_00.NCBR", 0, 0, 0);
+    m_image = new VramImage("BOK:i026_00.NCBR", 0, 0, 0);
     m_texKey = NNS_GfdAllocLnkTexVram(m_image->unk_38, FALSE, 0);
-    m_image->sub_020076E8(NNS_GfdGetTexKeyAddr(m_texKey));
-    m_image->sub_020076B0();
+    m_image->LoadToVram(NNS_GfdGetTexKeyAddr(m_texKey));
+    m_image->Release();
 
-    m_palette = new UnkClass_02007AA4("BOK:i026.NCLR", 0, 0);
+    m_palette = new VramPalette("BOK:i026.NCLR", 0, 0);
     m_plttKey = NNS_GfdAllocLnkPlttVram(m_palette->unk_04->szByte, FALSE, 0);
-    m_palette->sub_02007BFC(NNS_GfdGetPlttKeyAddr(m_plttKey));
-    m_palette->sub_02007BC4();
+    m_palette->LoadToVram(NNS_GfdGetPlttKeyAddr(m_plttKey));
+    m_palette->Release();
 
     m_cells = new CNCERFile("BOK:i026_00.NCER", 0, 0, 0);
 

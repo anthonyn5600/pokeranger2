@@ -3,20 +3,20 @@
 #include <nitro.h>
 #include <nnsys.h>
 
+#include "AudioEngine.hpp"
+#include "BGLayer.hpp"
 #include "CGame.hpp"
 #include "CTouchPanel.hpp"
-#include "UnkClass_020091E8.hpp"
-#include "UnkClass_0200CAB4.hpp"
-#include "UnkClass_0200E960.hpp"
-#include "UnkClass_0200ECD0.hpp"
-#include "UnkClass_0201FC80.hpp"
-#include "UnkClass_02034478.hpp"
+#include "Collision.hpp"
+#include "OamSprite.hpp"
+#include "OamSpriteSet.hpp"
+#include "SubTextPrinter.hpp"
+#include "TextboxManager.hpp"
 #include "common.hpp"
 #include "file/CBinaryFileMes.hpp"
 #include "primitive/CPrimitiveSPHERE.hpp"
-#include "sub_02006000.hpp"
 
-static inline UnkClass_0200CAB4 *GetPrinter(CGame *game)
+static inline SubTextPrinter *GetPrinter(CGame *game)
 {
     return game->unk_1498;
 }
@@ -90,30 +90,30 @@ void CContinueScene::func5()
 void CContinueScene::ov3_02120CF4()
 {
     TextWindow win = { 24, 4, 4, 19, 0, 4, 6 };
-    UnkClass_0200CAB4 *printer = GetPrinter(m_game);
-    printer->sub_0200CAE0();
-    printer->sub_0200CB14();
-    printer->sub_0200CC88(1);
-    printer->sub_0200CCD0(0, win.width, win.height, win.left, win.top, 0x20, 0, 2);
+    SubTextPrinter *printer = GetPrinter(m_game);
+    printer->FreeWindows();
+    printer->SetupBG();
+    printer->AllocWindows(1);
+    printer->InitWindow(0, win.width, win.height, win.left, win.top, 0x20, 0, 2);
     ov3_02120D90(unk_0E);
 }
 
 void CContinueScene::ov3_02120D90(int sel)
 {
     TextWindow win = { 24, 4, 4, 19, 0, 4, 6 };
-    UnkClass_0200CAB4 *printer = GetPrinter(m_game);
-    printer->sub_0200CF7C(0);
+    SubTextPrinter *printer = GetPrinter(m_game);
+    printer->ClearWindow(0);
     if (sel == 0) {
-        printer->sub_0200CDA0(0, win.x, win.y, win.color, unk_30->unk_08[39].unk_04, FALSE, 0);
+        printer->Print(0, win.x, win.y, win.color, unk_30->unk_08[39].unk_04, FALSE, 0);
     }
     if (sel == 1) {
-        printer->sub_0200CDA0(0, win.x, win.y, win.color, unk_30->unk_08[47].unk_04, FALSE, 0);
+        printer->Print(0, win.x, win.y, win.color, unk_30->unk_08[47].unk_04, FALSE, 0);
     }
 }
 
 void CContinueScene::func6()
 {
-    unk_20 = new UnkClass_0201FC80((int)m_game);
+    unk_20 = new BGLayer((int)m_game);
     unk_20->SetBG(5);
     unk_20->LoadArchive("menu/", "title004_bg_");
     unk_20->LoadChar("title004", 0, 0, 0);
@@ -159,15 +159,15 @@ void CContinueScene::func6()
 
 void CContinueScene::ov3_021210A4()
 {
-    unk_2C = new UnkClass_0200ECD0((GXOamAttr *)&m_game->unk_0424[0x18], m_game->unk_14A8, TRUE, 0x40);
-    unk_2C->sub_0200EE14("data/menu", "title003_00", 0, 0);
+    unk_2C = new OamSpriteSet((GXOamAttr *)&m_game->unk_0424[0x18], m_game->unk_14A8, TRUE, 0x40);
+    unk_2C->Load("data/menu", "title003_00", 0, 0);
 }
 
 void CContinueScene::ov3_02121110()
 {
-    unk_24 = unk_2C->sub_0200F4FC(0, 0x40, 0x60, 0);
+    unk_24 = unk_2C->AddSprite(0, 0x40, 0x60, 0);
     unk_14 = unk_2C->unk_24;
-    unk_28 = unk_2C->sub_0200F4FC(1, 0xC0, 0x60, 0);
+    unk_28 = unk_2C->AddSprite(1, 0xC0, 0x60, 0);
     unk_18 = unk_2C->unk_24;
 }
 
@@ -193,7 +193,7 @@ void CContinueScene::ov3_02121234(int scale)
 u32 CContinueScene::func0()
 {
     ov3_02121234(unk_1C);
-    unk_2C->sub_0200F64C();
+    unk_2C->Update();
 
     CTouchPanel *tp = m_game->touchPanel;
     Point2D touch;
@@ -220,19 +220,19 @@ u32 CContinueScene::func0()
             unk_1C = FX32_ONE;
         }
     } else if (tp->unk_04 != 0) {
-        if (sub_02006100(touch, unk_34->m_circle)) {
+        if (PointInCircle(touch, unk_34->m_circle)) {
             unk_1C = 0x1400;
-            unk_24->sub_0200EB34(1, FALSE);
+            unk_24->SetAffine(1, FALSE);
             unk_28->unk_14 = 0;
             m_flags |= 1;
-            m_audioEngine->sub_02034C44(0xFF);
+            m_audioEngine->PlaySe(0xFF);
         }
-        if (sub_02006100(touch, unk_38->m_circle)) {
+        if (PointInCircle(touch, unk_38->m_circle)) {
             unk_1C = 0x1400;
-            unk_28->sub_0200EB34(1, FALSE);
+            unk_28->SetAffine(1, FALSE);
             unk_24->unk_14 = 0;
             m_flags |= 2;
-            m_audioEngine->sub_02034C44(0x100);
+            m_audioEngine->PlaySe(0x100);
         }
     }
     return -1;
@@ -244,7 +244,7 @@ void CContinueScene::func1()
 
 void CContinueScene::func2()
 {
-    unk_2C->sub_0200F71C();
+    unk_2C->WriteOam();
 }
 
 u32 CContinueScene::getSceneId()

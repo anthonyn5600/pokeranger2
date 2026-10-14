@@ -1,22 +1,22 @@
+#include "AudioEngine.hpp"
 #include "CTouchPanel.hpp"
-#include "UnkClass_02034478.hpp"
-#include "UnkClass_020B26A0.hpp"
+#include "Collision.hpp"
+#include "MathUtil.hpp"
+#include "SaveData.hpp"
+#include "battle/BattleParamTable.hpp"
 #include "battle/CBattleAssist.hpp"
 #include "battle/CBattleAttackEffect.hpp"
 #include "battle/CBattleDisk.hpp"
 #include "battle/CBattleEnemy.hpp"
 #include "battle/CBattleEnemyData.hpp"
-#include "battle/UnkClass_0212306C.hpp"
+#include "battle/StylerLine.hpp"
 #include "battle/UnkClass_02128414.hpp"
-#include "battle/UnkClass_0212EEB4.hpp"
 #include "fx_utils.hpp"
-#include "sub_02006000.hpp"
-#include "sub_02007254.hpp"
 
 extern "C" fx32 ov1_0212EE80(int assistType, int type);
 extern "C" u16 ov1_0212EE98(int assistType, int idx);
 
-CBattleAssistIce::CBattleAssistIce(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3)
+CBattleAssistIce::CBattleAssistIce(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3)
     : CBattleAssist(effects, effectData, params, arg3)
 {
 }
@@ -47,23 +47,23 @@ int CBattleAssistIce::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEne
         u8 idx = 0;
         if (ov1_02132BD4(&idx)) {
             m_selected = idx;
-            m_effects[idx]->m_motion.sub_02011D3C(pos);
+            m_effects[idx]->m_motion.SetPos(pos);
             m_flags |= 1;
-            unk_14->sub_02034C44(0x124);
+            unk_14->PlaySe(0x124);
         }
     }
     if (touch->unk_05 != 0 && (m_flags & 1)) {
         if (m_effects[m_selected] != NULL && m_effects[m_selected]->HasData()) {
             ov1_02132EC4(pos);
-            if (sub_02007254(m_last.y - pos.y, m_last.x - pos.x) > 0x8000) {
+            if (ApproxLength(m_last.y - pos.y, m_last.x - pos.x) > 0x8000) {
                 fx32 scale = m_slots[m_selected].scale + 10;
                 if (scale <= 0x2000) {
                     m_slots[m_selected].scale = scale;
                     m_slots[m_selected].growth++;
                 }
-                unk_14->sub_02034C44(0x124);
+                unk_14->PlaySe(0x124);
             }
-            m_effects[m_selected]->m_motion.sub_02011D3C(pos);
+            m_effects[m_selected]->m_motion.SetPos(pos);
             m_slots[m_selected].level = ov1_021330DC(m_disk->unk_1B8->unk_54CC);
         }
         if (m_timer == 10) {
@@ -76,10 +76,10 @@ int CBattleAssistIce::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEne
     if (touch->unk_06 != 0) {
         if (m_flags & 1) {
             if (m_effects[m_selected] != NULL && m_effects[m_selected]->HasData()) {
-                m_effects[m_selected]->m_motion.sub_02011D3C(pos);
+                m_effects[m_selected]->m_motion.SetPos(pos);
                 u16 angle = FX_Atan2Idx(pos.y - m_last.y, pos.x - m_last.x);
-                m_effects[m_selected]->m_motion.sub_02011C90(angle, 0x1800);
-                unk_14->sub_02034C44(0x125);
+                m_effects[m_selected]->m_motion.MoveInDirection(angle, 0x1800);
+                unk_14->PlaySe(0x125);
                 m_slots[m_selected].thrown = 1;
             } else {
                 m_effects[m_selected]->ov1_02127300();
@@ -102,7 +102,7 @@ int CBattleAssistIce::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEne
             if (enemies[i]->unk_18C == 0 || !enemies[i]->HasData()) {
                 m_freeze[i].state = 3;
                 m_freeze[i].effect->ov1_021273A0(9, m_freeze[i].size);
-                unk_14->sub_02034C44(0x151);
+                unk_14->PlaySe(0x151);
             }
             break;
         case 3:
@@ -123,7 +123,7 @@ void CBattleAssistIce::ov1_021329C8(CBattleEnemy **enemies)
         if (m_effects[i] == NULL || !m_effects[i]->HasData()) {
             continue;
         }
-        m_effects[i]->sub_02012A3C(0, m_slots[i].scale, m_slots[i].scale);
+        m_effects[i]->ScaleTo(0, m_slots[i].scale, m_slots[i].scale);
         if ((m_flags & 1) && m_selected == i) {
             continue;
         }
@@ -181,7 +181,7 @@ BOOL CBattleAssistIce::ov1_02132BD4(u8 *outIdx)
     effect->ov1_021270FC(unk_0C[0]);
     effect->ov1_02127454(0x20, 0);
     effect->ov1_02127388(TRUE);
-    effect->sub_02012A3C(0, 0x800, 0x800);
+    effect->ScaleTo(0, 0x800, 0x800);
     m_effects[idx] = effect;
     *outIdx = idx;
     return TRUE;
@@ -194,18 +194,18 @@ BOOL CBattleAssistIce::ov1_02132CAC(CBattleAttackEffect *effect, CBattleEnemy **
     area = circle;
     for (int i = 0; i < 8; i++) {
         if (enemies[i] != NULL && enemies[i]->IsAlive() && enemies[i]->IsTargetable()
-            && sub_02006164(area, enemies[i]->m_sphere.m_circle, NULL)) {
-            u16 power = unk_10->ov1_0212F32C(vfunc_10(), MAIN_BSS_020B26A0.unk_87DB, level);
+            && CircleHitCircle(area, enemies[i]->m_sphere.m_circle, NULL)) {
+            u16 power = unk_10->ov1_0212F32C(vfunc_10(), MAIN_BSS_020B26A0.m_stylerLevel, level);
             fx32 rate = ov1_0212EE80(vfunc_10(), enemies[i]->unk_184->unk_18->unk_03);
             enemies[i]->ov1_02126310((u16)(FX32_MUL(rate, power << FX32_SHIFT) >> FX32_SHIFT), TRUE);
             if (rate == 0x1000) {
-                unk_14->sub_02034C44(0x126);
+                unk_14->PlaySe(0x126);
                 enemies[i]->unk_1A8->ov1_02128598(0);
             } else if (rate > 0x1000) {
-                unk_14->sub_02034C44(0x144);
+                unk_14->PlaySe(0x144);
                 enemies[i]->unk_1A8->ov1_02128598(1);
             } else if (rate < 0x1000) {
-                unk_14->sub_02034C44(0x145);
+                unk_14->PlaySe(0x145);
                 enemies[i]->unk_1A8->ov1_02128598(2);
             }
             enemies[i]->ov1_021263A4(4, ov1_0212EE98(vfunc_10(), level));
@@ -239,13 +239,13 @@ void CBattleAssistIce::vfunc_0C()
         }
         m_flags &= ~1;
     }
-    unk_14->sub_02034C5C(0x124);
-    unk_14->sub_02034C5C(0x125);
-    unk_14->sub_02034C5C(0x126);
-    unk_14->sub_02034C5C(0x144);
-    unk_14->sub_02034C5C(0x145);
-    unk_14->sub_02034C5C(0x150);
-    unk_14->sub_02034C5C(0x151);
+    unk_14->StopSe(0x124);
+    unk_14->StopSe(0x125);
+    unk_14->StopSe(0x126);
+    unk_14->StopSe(0x144);
+    unk_14->StopSe(0x145);
+    unk_14->StopSe(0x150);
+    unk_14->StopSe(0x151);
 }
 
 void CBattleAssistIce::ov1_02132FD4(IceFreeze *freeze, CBattleEnemy *enemy)
@@ -272,8 +272,8 @@ void CBattleAssistIce::ov1_02132FD4(IceFreeze *freeze, CBattleEnemy *enemy)
     Point2D pos = enemy->m_motion.m_pos;
     pos += enemy->unk_484;
     pos.y -= enemy->m_bobHeight + (enemy->unk_8C + enemy->m_jumpHeight);
-    freeze->effect->m_motion.sub_02011D3C(pos);
-    unk_14->sub_02034C44(0x150);
+    freeze->effect->m_motion.SetPos(pos);
+    unk_14->PlaySe(0x150);
 }
 
 u8 CBattleAssistIce::ov1_021330DC(u32 value)

@@ -3,8 +3,8 @@
 
 #include <nitro.h>
 
+#include "Collision.hpp"
 #include "primitive/CPrimitive.hpp"
-#include "sub_02006000.hpp"
 
 class CPrimitiveSPHERE : public CPrimitive {
 public:

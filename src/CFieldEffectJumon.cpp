@@ -57,7 +57,7 @@ int CFieldEffectJumon::ov0_02142344(Camera2D *camera)
     return 0;
 }
 
-int CFieldEffectJumon::sub_0203312C(int param, int value)
+int CFieldEffectJumon::SetParam(int param, int value)
 {
     int ret = 1;
     switch (param) {
@@ -136,7 +136,7 @@ CFieldEffect *CFieldEffectJumonFactory::Create(int arg)
     return new CFieldEffectJumon(arg);
 }
 
-int CFieldEffectJumon::sub_02033028()
+int CFieldEffectJumon::GetEffectId()
 {
     return 0x10;
 }

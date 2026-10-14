@@ -6,10 +6,10 @@
 #include "scene/CScene.hpp"
 
 class CPrimitiveSPHERE;
-class UnkClass_0200E960;
-class UnkClass_0200ECD0;
-class UnkClass_0201FC80;
-class UnkClass_02034478;
+class OamSprite;
+class OamSpriteSet;
+class BGLayer;
+class AudioEngine;
 class UnkClass_020091E8_004;
 
 // Defined in ov3
@@ -33,7 +33,7 @@ public:
     void ov3_02121234(int scale);
 
 public:
-    UnkClass_02034478 *m_audioEngine;
+    AudioEngine *m_audioEngine;
     CGame *m_game;
     u16 m_flags;
     u16 unk_0E;
@@ -41,10 +41,10 @@ public:
     int unk_14;
     int unk_18;
     fx32 unk_1C;
-    UnkClass_0201FC80 *unk_20;
-    UnkClass_0200E960 *unk_24;
-    UnkClass_0200E960 *unk_28;
-    UnkClass_0200ECD0 *unk_2C;
+    BGLayer *unk_20;
+    OamSprite *unk_24;
+    OamSprite *unk_28;
+    OamSpriteSet *unk_2C;
     UnkClass_020091E8_004 *unk_30;
     CPrimitiveSPHERE *unk_34;
     CPrimitiveSPHERE *unk_38;

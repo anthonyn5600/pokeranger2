@@ -27,17 +27,17 @@ CFieldEffectCellAnime::CFieldEffectCellAnime(int kind, BOOL attack)
     }
     if (kind >= 0) {
         for (int i = 0; i < 2; i++) {
-            UnkClass_02008788 *cac = unk_18->GetCac(i);
+            CellAnimController *cac = unk_18->GetCac(i);
             if (cac != NULL) {
-                m_cacIds[i] = cac->sub_02008A80(1, 0);
+                m_cacIds[i] = cac->Create(1, 0);
             } else {
                 m_cacIds[i] = 0;
             }
         }
     } else {
-        UnkClass_02008788 *cac = unk_18->GetCac(-1 - kind);
+        CellAnimController *cac = unk_18->GetCac(-1 - kind);
         if (cac != NULL) {
-            m_cacIds[0] = cac->sub_02008A80(1, 0);
+            m_cacIds[0] = cac->Create(1, 0);
         } else {
             m_cacIds[0] = 0;
         }
@@ -52,15 +52,15 @@ CFieldEffectCellAnime::~CFieldEffectCellAnime()
 {
     if (unk_18 != NULL) {
         if (m_kind < 0) {
-            UnkClass_02008788 *cac = unk_18->GetCac(-1 - m_kind);
+            CellAnimController *cac = unk_18->GetCac(-1 - m_kind);
             if (cac != NULL && m_cacIds[0] != 0) {
-                cac->sub_02008B80(m_cacIds[0]);
+                cac->Remove(m_cacIds[0]);
             }
         } else {
             for (int i = 0; i < 2; i++) {
-                UnkClass_02008788 *cac = unk_18->GetCac(i);
+                CellAnimController *cac = unk_18->GetCac(i);
                 if (cac != NULL && m_cacIds[i] != 0) {
-                    cac->sub_02008B80(m_cacIds[i]);
+                    cac->Remove(m_cacIds[i]);
                 }
             }
             SAFE_DELETE(unk_18);
@@ -82,7 +82,7 @@ int CFieldEffectCellAnime::ov0_02142264(int step)
                     m_pos.y -= 0x40000;
                     if (m_se >= 0) {
                         CGame *game = CGame::GetInstance();
-                        game->m_audioEngine->sub_02034C44(m_se);
+                        game->m_audioEngine->PlaySe(m_se);
                     }
                 }
             }
@@ -90,15 +90,15 @@ int CFieldEffectCellAnime::ov0_02142264(int step)
             m_index = 0;
         }
         if (m_index >= 0) {
-            UnkClass_02008788 *cac = GetCac();
+            CellAnimController *cac = GetCac();
             if (cac != NULL) {
-                cac->sub_020089B8(m_cacIds[m_index]);
+                cac->Restart(m_cacIds[m_index]);
             }
         }
         m_lastState = state;
     }
     if (state == 2 && m_index >= 0) {
-        if (GetCac()->sub_02008860(m_cacIds[m_index]) == 0 && m_holdTime < 0) {
+        if (GetCac()->GetStatus(m_cacIds[m_index]) == 0 && m_holdTime < 0) {
             ov0_02142240(0);
         }
     }
@@ -108,17 +108,17 @@ int CFieldEffectCellAnime::ov0_02142264(int step)
 int CFieldEffectCellAnime::ov0_02142344(Camera2D *camera)
 {
     if (m_state != 4 && m_state != 0 && m_index >= 0) {
-        UnkClass_02008788 *cac = GetCac();
+        CellAnimController *cac = GetCac();
         m_sprites[m_index].SetPos(m_pos);
         if (cac != NULL) {
-            m_sprites[m_index].m_cellDataIdx = cac->sub_02008828(m_cacIds[m_index]);
+            m_sprites[m_index].m_cellDataIdx = cac->GetCell(m_cacIds[m_index]);
         }
         m_sprites[m_index].Render(camera);
     }
     return 0;
 }
 
-int CFieldEffectCellAnime::sub_0203312C(int param, int value)
+int CFieldEffectCellAnime::SetParam(int param, int value)
 {
     int ret = 1;
     switch (param) {

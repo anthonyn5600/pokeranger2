@@ -82,7 +82,7 @@ int CFieldEffectDamageIndication::ov0_02142344(Camera2D *camera)
     return 0;
 }
 
-void CFieldEffectDamageIndication::InitRects(UnkClass_0201AAE0 *digits)
+void CFieldEffectDamageIndication::InitRects(GraphicsSet *digits)
 {
     for (int i = 0; i < 2; i++) {
         m_rects[i].unk_38 = (UnkClass_CPrimitive_ImageProxy *)digits->m_image;

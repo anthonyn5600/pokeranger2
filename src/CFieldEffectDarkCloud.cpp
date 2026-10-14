@@ -17,12 +17,12 @@ CFieldEffectDarkCloud::CFieldEffectDarkCloud(int mode)
     switch (mode) {
     case 0:
     default:
-        sub_0203312C(0, 32);
+        SetParam(0, 32);
         m_animator.m_scaleStart = 0x1333;
         m_animator.m_scaleEnd = 0x2000;
         break;
     case 1:
-        sub_0203312C(0, 16);
+        SetParam(0, 16);
         m_animator.m_scaleStart = 0x1999;
         m_animator.m_scaleEnd = 0x2000;
         break;
@@ -39,7 +39,7 @@ CFieldEffectDarkCloud::~CFieldEffectDarkCloud()
 {
 }
 
-void CFieldEffectDarkCloud::SetRes(UnkClass_020074D4 *ncbr, UnkClass_02007AA4 *palette, CNCERFile *ncer)
+void CFieldEffectDarkCloud::SetRes(VramImage *ncbr, VramPalette *palette, CNCERFile *ncer)
 {
     m_remains.m_res.ncbr = ncbr;
     m_remains.m_res.palette = palette;
@@ -47,7 +47,7 @@ void CFieldEffectDarkCloud::SetRes(UnkClass_020074D4 *ncbr, UnkClass_02007AA4 *p
     ov0_021423E8(FieldEffectSpriteRes(ncbr, palette, ncer));
 }
 
-int CFieldEffectDarkCloud::sub_0203312C(int param, int value)
+int CFieldEffectDarkCloud::SetParam(int param, int value)
 {
     int ret = 1;
     switch (param) {
@@ -61,7 +61,7 @@ int CFieldEffectDarkCloud::sub_0203312C(int param, int value)
         m_system->m_speed = value << 12;
         break;
     default:
-        ret = TFieldEffectParticle<CSoftwareSprite>::sub_0203312C(param, value);
+        ret = TFieldEffectParticle<CSoftwareSprite>::SetParam(param, value);
         break;
     }
     return ret;
@@ -268,7 +268,7 @@ CFieldEffect *CFieldEffectDarkCloudFactory::Create(int arg)
     CFieldEffectManage *mgr;
     if (effect != NULL && (mgr = MAIN_BSS_0210CA60) != NULL) {
         CNCERFile *ncer = mgr->m_resident.GetNcer(0);
-        UnkClass_02007AA4 *palette = mgr->m_resident.GetPalette();
+        VramPalette *palette = mgr->m_resident.GetPalette();
         effect->SetRes(mgr->m_resident.GetNcbr(0), palette, ncer);
     }
     return effect;
@@ -284,7 +284,7 @@ TFieldParticleForceField<CSoftwareSprite> *CFieldEffectDarkCloud::GetForceField(
     return &m_animator;
 }
 
-int CFieldEffectDarkCloud::sub_02033028()
+int CFieldEffectDarkCloud::GetEffectId()
 {
     return 0x14;
 }

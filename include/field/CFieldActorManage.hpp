@@ -3,40 +3,40 @@
 
 #include <nitro.h>
 
-#include "UnkClass_020B26A0.hpp"
+#include "SaveData.hpp"
 #include "common.hpp"
 #include "field/CFieldActor.hpp"
 
 class CFieldMap;
-class UnkClass_0211E3FC;
-class UnkClass_020416AC;
+class DrawObjectList;
+class FieldShadow;
 
 class CFieldActorManage {
 public:
     CFieldActorManage();
     virtual ~CFieldActorManage();
-    virtual void sub_0203EFE4(int capacity);
-    virtual void sub_0203F034();
-    virtual BOOL sub_0203F0C0(u32 id);
-    virtual BOOL sub_0203F144(int index);
-    virtual BOOL sub_0203F190();
-    virtual void sub_0203F2B0(CFieldMap *map, BOOL update);
-    virtual BOOL sub_0203F1FC(int index, fx32 x, fx32 y);
+    virtual void Alloc(int capacity);
+    virtual void Free();
+    virtual BOOL RemoveById(u32 id);
+    virtual BOOL Remove(int index);
+    virtual BOOL Clear();
+    virtual void UpdateAll(CFieldMap *map, BOOL update);
+    virtual BOOL SetActorPos(int index, fx32 x, fx32 y);
     virtual BOOL sub_0203F278(int index, int arg1, int arg2);
     virtual void sub_02040460();
     virtual void sub_02040428();
-    virtual void sub_02040384(Point2D pos);
-    virtual void sub_0203F348(UnkClass_0211E3FC *renderLists, UnkClass_020416AC *hud);
-    virtual void sub_0203F4B8(u16 color, u8 width, int time);
-    virtual void sub_0203F58C(u8 width);
-    virtual void sub_0203F604(u16 color);
-    virtual void sub_0203F688(u8 alpha);
+    virtual void SetPosAll(Point2D pos);
+    virtual void DrawAll(DrawObjectList *renderLists, FieldShadow *hud);
+    virtual void SetOutlineAll(u16 color, u8 width, int time);
+    virtual void SetOutlineWidthAll(u8 width);
+    virtual void SetOutlineColorAll(u16 color);
+    virtual void SetAlphaAll(u8 alpha);
     virtual void sub_0203F700();
     virtual void sub_0203F754();
     virtual void sub_0203F7AC();
 
-    BOOL sub_0203F7F4(PointPair2D *move, fx32 radius, int layer, Point2D *out);
-    BOOL sub_02040158(Point2D pos, fx32 radius, int layer);
+    BOOL SweepCollide(PointPair2D *move, fx32 radius, int layer, Point2D *out);
+    BOOL CollideCircle(Point2D pos, fx32 radius, int layer);
 
     inline CFieldActor *Get(int i)
     {
@@ -103,7 +103,7 @@ public:
         return NULL;
     }
 
-    inline CFieldActor *Find(UnkClass_020B26A0 *save)
+    inline CFieldActor *Find(SaveData *save)
     {
         u32 id = save->unk_7C38;
         for (int i = 0; i < m_count; i++) {

@@ -138,7 +138,7 @@ int CFieldSEFHinoko::Update(int fps)
 
 void CFieldSEFHinoko::Draw(Camera2D *camera)
 {
-    UnkClass_02008788 *cac = m_actorData->GetCac(0);
+    CellAnimController *cac = m_actorData->GetCac(0);
     Point2D offset = camera->GetOffsetCopy();
 
     if (m_withSparks) {
@@ -170,7 +170,7 @@ void CFieldSEFHinoko::Draw(Camera2D *camera)
             if (alpha != 0) {
                 m_sprite->m_color = color;
                 m_sprite->m_alpha = alpha;
-                m_sprite->m_cellDataIdx = cac->sub_02008828(m_cells[i & 7]);
+                m_sprite->m_cellDataIdx = cac->GetCell(m_cells[i & 7]);
                 Point2D pos = spark->pos - offset;
                 pos.x -= FX32_CONST(160);
                 pos.y -= FX32_CONST(128);
@@ -207,7 +207,7 @@ void CFieldSEFHinoko::Draw(Camera2D *camera)
             if (alpha != 0) {
                 m_sprite->m_color = color;
                 m_sprite->m_alpha = alpha;
-                m_sprite->m_cellDataIdx = cac->sub_02008828(m_bigCell);
+                m_sprite->m_cellDataIdx = cac->GetCell(m_bigCell);
                 Point2D pos = spark->pos - offset;
                 pos.x -= FX32_CONST(160);
                 pos.y -= FX32_CONST(128);
@@ -246,11 +246,11 @@ BOOL CFieldSEFHinoko::Load()
     m_sprite->SetImage((UnkClass_CPrimitive_ImageProxy *)m_actorData->GetNcbr(0), NULL);
     m_sprite->unk_38 = (UnkClass_CSoftwareSprite_38 *)m_actorData->GetNcer(0);
 
-    UnkClass_02008788 *cac = m_actorData->GetCac(0);
+    CellAnimController *cac = m_actorData->GetCac(0);
 
     for (int i = 0; i < 8; i++) {
-        m_cells[i] = cac->sub_02008A80(1, 0);
-        cac->sub_02008990(m_cells[i], i % 3);
+        m_cells[i] = cac->Create(1, 0);
+        cac->SetAnim(m_cells[i], i % 3);
     }
 
     HinokoSpark *spark = m_sparks1;
@@ -265,8 +265,8 @@ BOOL CFieldSEFHinoko::Load()
         }
     }
 
-    m_bigCell = cac->sub_02008A80(1, 0);
-    cac->sub_02008990(m_bigCell, 3);
+    m_bigCell = cac->Create(1, 0);
+    cac->SetAnim(m_bigCell, 3);
 
     spark = m_sparks2;
     for (int row = 0; row < 4; row++) {

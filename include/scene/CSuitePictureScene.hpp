@@ -1,8 +1,8 @@
 #ifndef POKERANGER2_SCENE_CSUITEPICTURESCENE_HPP
 #define POKERANGER2_SCENE_CSUITEPICTURESCENE_HPP
 
-#include "UnkClass_0200E960.hpp"
-#include "UnkClass_0200ECD0.hpp"
+#include "OamSprite.hpp"
+#include "OamSpriteSet.hpp"
 #include "common.hpp"
 #include "scene/CScene.hpp"
 
@@ -39,8 +39,8 @@ public:
 public:
     int unk_0004; // frame counter
     u32 unk_0008; // state
-    UnkClass_0200ECD0 *unk_000C;
-    UnkClass_0200E960 *unk_0010;
+    OamSpriteSet *unk_000C;
+    OamSprite *unk_0010;
     const SuitePictureMsg *unk_0014;
     const SuitePicture *unk_0018;
     int unk_001C; // frames to show (< 0: skip the wait for input)

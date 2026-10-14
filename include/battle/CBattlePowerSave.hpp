@@ -8,10 +8,10 @@
 #include "primitive/CPrimitiveLINE.hpp"
 #include "primitive/CSoftwareSprite.hpp"
 
-class UnkClass_02034478;
-class UnkClass_0201AAE0;
-class UnkClass_02136730;
-class UnkClass_02136AD4;
+class AudioEngine;
+class GraphicsSet;
+class BattleParticle;
+class BattleParticlePool;
 
 struct PowerStreak {
     u8 m_active;
@@ -59,8 +59,8 @@ public:
     }
 
 public:
-    UnkClass_02034478 *m_audio;
-    UnkClass_0201AAE0 *m_res[2];
+    AudioEngine *m_audio;
+    GraphicsSet *m_res[2];
     Point2D m_touchStart;
     Point2D unk_198;
     Point2D m_center;
@@ -69,14 +69,14 @@ public:
     u16 m_chargeTimer;
     u16 unk_1AE;
     u16 m_anim[2];
-    UnkClass_02136730 *m_particles[20];
-    UnkClass_02136AD4 *m_pool;
+    BattleParticle *m_particles[20];
+    BattleParticlePool *m_pool;
     u8 unk_208;
     u8 m_burstState;
     u8 m_burstCount;
     u16 m_burstFrame;
     u16 m_burstAnim;
-    UnkClass_0201AAE0 *m_burstRes;
+    GraphicsSet *m_burstRes;
     CSoftwareSprite m_burst;
     CSoftwareSprite m_burstFx;
     u8 m_streakNext;

@@ -4,22 +4,22 @@
 
 static const Point2D sDropOffset = { 0x2000, 0 };
 
-CFieldEffectManpuAse::CFieldEffectManpuAse(CEffectActorData *data, UnkClass_0216D420 *slots)
+CFieldEffectManpuAse::CFieldEffectManpuAse(CEffectActorData *data, AnimSlotPool *slots)
     : CFieldEffectManpu(data)
 {
     m_slots = slots;
     unk_28 = 1;
     InitSprites();
     if (unk_18 != NULL) {
-        UnkClass_02008788 *cac = unk_18->GetCac(0);
+        CellAnimController *cac = unk_18->GetCac(0);
         if (cac != NULL) {
             for (int i = 0; i < 2; i++) {
                 m_anims[i] = slots->Acquire();
-                cac->sub_020089B8(m_anims[i]);
+                cac->Restart(m_anims[i]);
             }
             int n = 5;
             while (n--) {
-                cac->sub_02008A38(m_anims[0]);
+                cac->Update(m_anims[0]);
             }
         }
     }
@@ -38,11 +38,11 @@ int CFieldEffectManpuAse::ov0_02142264(int step)
 {
     int state = CFieldEffectActor::ov0_02142264(step);
     if (state != 0 && state != 4) {
-        UnkClass_02008788 *cac = unk_18->GetCac(0);
+        CellAnimController *cac = unk_18->GetCac(0);
         if (IsVisible() && cac != NULL) {
             for (int i = 0; i < 2; i++) {
                 if (m_anims[i] != 0) {
-                    cac->sub_02008A38(m_anims[i]);
+                    cac->Update(m_anims[i]);
                 }
             }
         }
@@ -62,11 +62,11 @@ int CFieldEffectManpuAse::Draw(Camera2D *camera)
     if (unk_1C == NULL || unk_20 == 0) {
         return 0;
     }
-    UnkClass_02008788 *cac = unk_18->GetCac(0);
+    CellAnimController *cac = unk_18->GetCac(0);
     if (cac != NULL) {
         for (int i = 0; i < 2; i++) {
             if (m_anims[i] != 0) {
-                m_sprites[i].m_cellDataIdx = cac->sub_02008828(m_anims[i]);
+                m_sprites[i].m_cellDataIdx = cac->GetCell(m_anims[i]);
             }
         }
     }

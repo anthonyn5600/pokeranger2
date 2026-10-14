@@ -4,13 +4,13 @@
 #include <nitro.h>
 
 #include "CEffectActorData.hpp"
+#include "Collision.hpp"
 #include "common.hpp"
 #include "primitive/CSoftwareSprite.hpp"
-#include "sub_02006000.hpp"
 
 class CFieldActor;
 class CFieldEffectManage;
-class UnkClass_0211E3FC;
+class DrawObjectList;
 class Camera2D;
 
 // Defined in ov0
@@ -28,11 +28,11 @@ public:
     {
         delete this;
     }
-    virtual int sub_02033028()
+    virtual int GetEffectId()
     {
         return 0;
     }
-    virtual int sub_020332A4()
+    virtual int IsReady()
     {
         return 1;
     }
@@ -49,11 +49,11 @@ public:
     {
         return 0;
     }
-    virtual void ov0_02142398(UnkClass_0211E3FC *renderLists)
+    virtual void ov0_02142398(DrawObjectList *renderLists)
     {
     }
     virtual void ov0_0214234C(Point2D pos, int arg1, int arg2, int arg3, int arg4);
-    virtual int sub_0203312C(int param, int value)
+    virtual int SetParam(int param, int value)
     {
         return 0;
     }
@@ -61,7 +61,7 @@ public:
     {
         return 0;
     }
-    virtual void sub_02033440(u16 color)
+    virtual void SetColor(u16 color)
     {
     }
     virtual void sub_0203331C(const Point2D &pos, int arg1)
@@ -70,7 +70,7 @@ public:
     virtual void sub_02033388(const Point2D &pos, int arg1)
     {
     }
-    virtual void sub_020333D8(int arg0, int arg1)
+    virtual void FadeTo(int arg0, int arg1)
     {
     }
     virtual void sub_0203365C(int arg0)

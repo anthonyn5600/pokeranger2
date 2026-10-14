@@ -12,7 +12,7 @@
 #include "field/CFieldEffectManpuGokigen.hpp"
 #include "field/CFieldEffectManpuJumping.hpp"
 
-extern UnkClass_0216D2D4 *OVERLAY0_BSS_0217B0E0;
+extern ManpuBlockHeap *OVERLAY0_BSS_0217B0E0;
 
 CFieldEffectManpuFactory::CFieldEffectManpuFactory()
 {

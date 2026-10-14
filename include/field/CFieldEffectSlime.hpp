@@ -38,7 +38,7 @@ class CFieldEffectSlime : public CFieldEffectActor {
 public:
     CFieldEffectSlime();
     virtual ~CFieldEffectSlime();
-    virtual int sub_02033028()
+    virtual int GetEffectId()
     {
         return 0x12;
     }
@@ -50,7 +50,7 @@ public:
     virtual int ov0_02142264(int step);
     virtual int ov0_02142344(Camera2D *camera);
     virtual int ov0_0214239C(int layer);
-    virtual int sub_0203312C(int param, int value);
+    virtual int SetParam(int param, int value);
     virtual int ov0_02142390(void *buf, void *end);
     virtual BOOL ov0_02142388(const void *data);
 

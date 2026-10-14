@@ -7,7 +7,7 @@
 
 class CFieldScene;
 class CTouchPanel;
-class UnkClass_02001C04;
+class PadInput;
 
 // FieldPlayerInputControlManage.cpp (ov0): A button and touch input on the field (talk, check, capture, partner moves)
 class CFieldPlayerInputControlManage {
@@ -15,7 +15,7 @@ public:
     CFieldPlayerInputControlManage();
     virtual ~CFieldPlayerInputControlManage();
 
-    BOOL ov0_0213FFC4(CFieldScene *scene, UnkClass_02001C04 *pad, CTouchPanel *touch);
+    BOOL ov0_0213FFC4(CFieldScene *scene, PadInput *pad, CTouchPanel *touch);
 
 public:
     u16 unk_04;

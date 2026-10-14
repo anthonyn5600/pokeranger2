@@ -3,8 +3,8 @@
 
 #include <nitro.h>
 
+#include "Collision.hpp"
 #include "common.hpp"
-#include "sub_02006000.hpp"
 
 class CBattleAttackEffect;
 class CBattleDisk;
@@ -12,14 +12,14 @@ class CBattleEnemy;
 class CTouchPanel;
 class CBattleAttackEffectData;
 class CPlayerHPGauge;
-class UnkClass_0200D3F8;
-class UnkClass_02034478;
-class UnkClass_0212EEB4;
+class CameraController;
+class AudioEngine;
+class BattleParamTable;
 
 // Defined in ov1: the partner pokemon assist effects
 class CBattleAssist {
 public:
-    CBattleAssist(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3);
+    CBattleAssist(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3);
     virtual ~CBattleAssist();
     virtual int vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies) = 0;
     virtual void vfunc_0C() = 0;
@@ -32,15 +32,15 @@ public:
     u8 unk_06[0x2];
     CBattleAttackEffect **unk_08;
     CBattleAttackEffectData **unk_0C;
-    UnkClass_0212EEB4 *unk_10;
-    UnkClass_02034478 *unk_14;
+    BattleParamTable *unk_10;
+    AudioEngine *unk_14;
 };
 
 STATIC_SIZE_ASSERT(CBattleAssist, 0x18);
 
 class CBattleAssistNormal : public CBattleAssist {
 public:
-    CBattleAssistNormal(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3);
+    CBattleAssistNormal(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3);
     virtual ~CBattleAssistNormal();
     virtual int vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
     virtual void vfunc_0C();
@@ -51,7 +51,7 @@ STATIC_SIZE_ASSERT(CBattleAssistNormal, 0x18);
 
 class CBattleAssistFire : public CBattleAssist {
 public:
-    CBattleAssistFire(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3);
+    CBattleAssistFire(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3);
     virtual ~CBattleAssistFire();
     virtual int vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
     virtual void vfunc_0C();
@@ -73,7 +73,7 @@ STATIC_SIZE_ASSERT(WaterSlot, 0xC);
 
 class CBattleAssistWater : public CBattleAssist {
 public:
-    CBattleAssistWater(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3);
+    CBattleAssistWater(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3);
     virtual ~CBattleAssistWater();
     virtual int vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
     virtual void vfunc_0C();
@@ -108,7 +108,7 @@ STATIC_SIZE_ASSERT(ElectricBolt, 0xC);
 
 class CBattleAssistElectric : public CBattleAssist {
 public:
-    CBattleAssistElectric(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3);
+    CBattleAssistElectric(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3);
     virtual ~CBattleAssistElectric();
     virtual int vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
     virtual void vfunc_0C();
@@ -134,7 +134,7 @@ STATIC_SIZE_ASSERT(GrassSlot, 0x8);
 
 class CBattleAssistGrass : public CBattleAssist {
 public:
-    CBattleAssistGrass(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3);
+    CBattleAssistGrass(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3);
     virtual ~CBattleAssistGrass();
     virtual int vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
     virtual void vfunc_0C();
@@ -174,7 +174,7 @@ STATIC_SIZE_ASSERT(IceFreeze, 0xC);
 
 class CBattleAssistIce : public CBattleAssist {
 public:
-    CBattleAssistIce(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3);
+    CBattleAssistIce(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3);
     virtual ~CBattleAssistIce();
     virtual int vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
     virtual void vfunc_0C();
@@ -204,7 +204,7 @@ STATIC_SIZE_ASSERT(CBattleAssistIce, 0xCC);
 
 class CBattleAssistGrapple : public CBattleAssist {
 public:
-    CBattleAssistGrapple(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3);
+    CBattleAssistGrapple(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3);
     virtual ~CBattleAssistGrapple();
     virtual int vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
     virtual void vfunc_0C();
@@ -224,7 +224,7 @@ STATIC_SIZE_ASSERT(PoisonSlot, 0xC);
 
 class CBattleAssistPoison : public CBattleAssist {
 public:
-    CBattleAssistPoison(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3);
+    CBattleAssistPoison(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3);
     virtual ~CBattleAssistPoison();
     virtual int vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
     virtual void vfunc_0C();
@@ -246,25 +246,25 @@ STATIC_SIZE_ASSERT(CBattleAssistPoison, 0xF4);
 
 class CBattleAssistGround : public CBattleAssist {
 public:
-    CBattleAssistGround(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3);
+    CBattleAssistGround(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3);
     virtual ~CBattleAssistGround();
     virtual int vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
     virtual void vfunc_0C();
     virtual int vfunc_10();
-    void ov1_0213219C(UnkClass_0200D3F8 *quake);
+    void ov1_0213219C(CameraController *quake);
 
 public:
     u16 m_shakes;
     BOOL m_touching;
     Point2D m_last;
-    UnkClass_0200D3F8 *m_quake;
+    CameraController *m_quake;
 };
 
 STATIC_SIZE_ASSERT(CBattleAssistGround, 0x2C);
 
 class CBattleAssistFly : public CBattleAssist {
 public:
-    CBattleAssistFly(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3);
+    CBattleAssistFly(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3);
     virtual ~CBattleAssistFly();
     virtual int vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
     virtual void vfunc_0C();
@@ -296,7 +296,7 @@ STATIC_SIZE_ASSERT(EsperSlot, 0x14);
 
 class CBattleAssistEsper : public CBattleAssist {
 public:
-    CBattleAssistEsper(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3);
+    CBattleAssistEsper(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3);
     virtual ~CBattleAssistEsper();
     virtual int vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
     virtual void vfunc_0C();
@@ -338,7 +338,7 @@ STATIC_SIZE_ASSERT(InsectBug, 0x8);
 
 class CBattleAssistInsect : public CBattleAssist {
 public:
-    CBattleAssistInsect(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3);
+    CBattleAssistInsect(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3);
     virtual ~CBattleAssistInsect();
     virtual int vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
     virtual void vfunc_0C();
@@ -378,7 +378,7 @@ STATIC_SIZE_ASSERT(RockSlot, 0x6);
 
 class CBattleAssistRock : public CBattleAssist {
 public:
-    CBattleAssistRock(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3);
+    CBattleAssistRock(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3);
     virtual ~CBattleAssistRock();
     virtual int vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
     virtual void vfunc_0C();
@@ -413,7 +413,7 @@ STATIC_SIZE_ASSERT(GhostSlot, 0x14);
 
 class CBattleAssistGhost : public CBattleAssist {
 public:
-    CBattleAssistGhost(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3);
+    CBattleAssistGhost(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3);
     virtual ~CBattleAssistGhost();
     virtual int vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
     virtual void vfunc_0C();
@@ -429,7 +429,7 @@ STATIC_SIZE_ASSERT(CBattleAssistGhost, 0x7C);
 
 class CBattleAssistDragon : public CBattleAssist {
 public:
-    CBattleAssistDragon(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3);
+    CBattleAssistDragon(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3);
     virtual ~CBattleAssistDragon();
     virtual int vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
     virtual void vfunc_0C();
@@ -451,7 +451,7 @@ public:
     Point2D m_pos;
     Circle m_touchArea;
     Circle m_hitArea;
-    UnkClass_0200D3F8 *unk_44;
+    CameraController *unk_44;
     CBattleAttackEffect *m_charge;
     CBattleAttackEffect *m_dragon;
     CBattleAttackEffect *m_bursts[5];
@@ -461,7 +461,7 @@ STATIC_SIZE_ASSERT(CBattleAssistDragon, 0x64);
 
 class CBattleAssistEvil : public CBattleAssist {
 public:
-    CBattleAssistEvil(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3);
+    CBattleAssistEvil(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3);
     virtual ~CBattleAssistEvil();
     virtual int vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
     virtual void vfunc_0C();
@@ -482,7 +482,7 @@ STATIC_SIZE_ASSERT(SteelSlot, 0xC);
 
 class CBattleAssistSteel : public CBattleAssist {
 public:
-    CBattleAssistSteel(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3);
+    CBattleAssistSteel(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3);
     virtual ~CBattleAssistSteel();
     virtual int vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
     virtual void vfunc_0C();
@@ -508,7 +508,7 @@ STATIC_SIZE_ASSERT(CBattleAssistSteel, 0x68);
 
 class CBattleAssistRecover : public CBattleAssist {
 public:
-    CBattleAssistRecover(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3);
+    CBattleAssistRecover(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3);
     virtual ~CBattleAssistRecover();
     virtual int vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
     virtual void vfunc_0C();

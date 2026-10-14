@@ -3,7 +3,7 @@
 
 #include <nitro.h>
 
-#include "UnkClass_0211E3FC.hpp"
+#include "DrawObjectList.hpp"
 #include "common.hpp"
 #include "field/CFieldEffect.hpp"
 #include "field/CFieldEffectFactory.hpp"
@@ -20,7 +20,7 @@ public:
         class CEffectDrawObject : public CDrawObject {
         public:
             virtual ~CEffectDrawObject();
-            virtual int sub_020091D4(Camera2D *camera, int budget);
+            virtual int Draw(Camera2D *camera, int budget);
         };
 
         virtual ~CAnimator();
@@ -28,10 +28,10 @@ public:
     };
 
     virtual ~CFieldEffectVolcanicSteam();
-    virtual int sub_02033028();
+    virtual int GetEffectId();
     virtual int ov0_02142344(Camera2D *camera);
-    virtual void ov0_02142398(UnkClass_0211E3FC *renderLists);
-    virtual int sub_0203312C(int param, int value);
+    virtual void ov0_02142398(DrawObjectList *renderLists);
+    virtual int SetParam(int param, int value);
     virtual TFieldParticleForceField<CSimpleSpriteNTF> *GetForceField();
 };
 

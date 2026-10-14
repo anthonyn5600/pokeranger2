@@ -10,11 +10,11 @@
 class CFieldEffectDarkShadow : public CFieldEffect {
 public:
     virtual ~CFieldEffectDarkShadow();
-    virtual int sub_02033028();
+    virtual int GetEffectId();
     virtual int ov0_02142264(int step);
     virtual int ov0_02142344(Camera2D *camera);
     virtual int ov0_0214239C(int layer);
-    virtual int sub_0203312C(int param, int value);
+    virtual int SetParam(int param, int value);
     virtual void sub_0203331C(const Point2D &pos, int arg1);
     virtual void sub_02033388(const Point2D &pos, int arg1);
 };

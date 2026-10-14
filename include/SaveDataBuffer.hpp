@@ -11,7 +11,7 @@ public:
     virtual void BuildData(void *buf, int size) = 0;
 };
 
-// Buffers saved with the main save blocks (src/UnkClass_02027FE8.cpp); a builder fills them before saving.
+// Buffers saved with the main save blocks (src/SaveManager.cpp); a builder fills them before saving.
 // Each global lives in its own TU (src/sub_0202A4A0.cpp, src/sub_0202A4D8.cpp), whose static init runs the ctor.
 struct UnkStruct_0210C1C0 {
     u8 unk_00[0x60];

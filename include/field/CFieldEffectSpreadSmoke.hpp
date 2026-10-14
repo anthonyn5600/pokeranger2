@@ -12,11 +12,11 @@ class CFieldEffectSpreadSmoke : public TFieldEffectParticle<CSoftwareSprite> {
 public:
     CFieldEffectSpreadSmoke(int kind);
     virtual ~CFieldEffectSpreadSmoke();
-    virtual int sub_02033028()
+    virtual int GetEffectId()
     {
         return 10;
     }
-    virtual int sub_0203312C(int param, int value);
+    virtual int SetParam(int param, int value);
     virtual TFieldParticleForceField<CSoftwareSprite> *GetForceField()
     {
         return &m_animator;

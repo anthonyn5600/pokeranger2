@@ -4,12 +4,12 @@
 #include <nitro.h>
 
 #include "CActor.hpp"
+#include "Collision.hpp"
 #include "UnkStruct_02044464.hpp"
 #include "battle/CBattleAttackEffectData.hpp"
 #include "common.hpp"
 #include "primitive/CPrimitiveLINE.hpp"
 #include "primitive/CPrimitiveSPHERE.hpp"
-#include "sub_02006000.hpp"
 
 class CBattleEnemy;
 

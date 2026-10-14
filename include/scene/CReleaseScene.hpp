@@ -11,16 +11,16 @@ class Camera2D;
 class CFieldActor;
 class CFieldActorManage;
 class CPlayerHPGauge;
-class UnkClass_0200D3F8;
-class UnkClass_0200E960;
-class UnkClass_0200ECD0;
-class UnkClass_0201AAE0;
-class UnkClass_0201CA6C;
-class UnkClass_020B26A0;
-class UnkClass_02040F34;
-class UnkClass_020416AC;
-class UnkClass_02042108;
-class UnkClass_0211E018;
+class CameraController;
+class OamSprite;
+class OamSpriteSet;
+class GraphicsSet;
+class SubScreenPokemonInfo;
+class SaveData;
+class FieldDrawActorDataPool;
+class FieldShadow;
+class CaptureBackground;
+class DrawObjectListTwin;
 
 // One captured Pokémon shown in the release menu
 struct UnkStruct_0211CD84_Entry {
@@ -36,10 +36,10 @@ struct UnkStruct_0211CD84_Entry {
 STATIC_SIZE_ASSERT(UnkStruct_0211CD84_Entry, 0x14);
 
 // Defined in ov7: release menu (CReleaseScene)
-class UnkClass_0211CD84 {
+class ReleaseMenu {
 public:
-    UnkClass_0211CD84(CGame *game);
-    ~UnkClass_0211CD84();
+    ReleaseMenu(CGame *game);
+    ~ReleaseMenu();
 
     void ov7_0211CFB4();
     void ov7_0211D054();
@@ -91,18 +91,18 @@ public:
     int unk_004;
     BOOL unk_008;
     Camera2D *unk_00C;
-    UnkClass_0200D3F8 *unk_010;
-    UnkClass_02042108 *unk_014;
+    CameraController *unk_010;
+    CaptureBackground *unk_014;
     CPrimitiveRECT unk_018;
-    UnkClass_0200ECD0 *unk_058;
-    UnkClass_0200ECD0 *unk_05C;
-    UnkClass_0200E960 *unk_060[8];
+    OamSpriteSet *unk_058;
+    OamSpriteSet *unk_05C;
+    OamSprite *unk_060[8];
     int unk_080[8];
-    UnkClass_02040F34 *unk_0A0;
+    FieldDrawActorDataPool *unk_0A0;
     CFieldActorManage *unk_0A4;
-    UnkClass_0211E018 *unk_0A8; // render lists
-    UnkClass_020416AC *unk_0AC;
-    UnkClass_020B26A0 *unk_0B0;
+    DrawObjectListTwin *unk_0A8; // render lists
+    FieldShadow *unk_0AC;
+    SaveData *unk_0B0;
     UnkStruct_0211CD84_Entry unk_0B4[16];
     int unk_1F4; // message timer
     u16 unk_1F8; // heal state
@@ -119,14 +119,14 @@ public:
     int unk_21C; // highlighted entry
     u16 unk_220;
     u16 unk_222;
-    UnkClass_0201CA6C *unk_224;
-    UnkClass_0201AAE0 *unk_228;
+    SubScreenPokemonInfo *unk_224;
+    GraphicsSet *unk_228;
     CSoftwareSprite unk_22C;
     CPlayerHPGauge *unk_278;
     CGame *unk_27C;
 };
 
-STATIC_SIZE_ASSERT(UnkClass_0211CD84, 0x280);
+STATIC_SIZE_ASSERT(ReleaseMenu, 0x280);
 
 // Defined in ov7
 class CReleaseScene : public CScene {
@@ -147,7 +147,7 @@ public:
 
 public:
     CGame *m_game;
-    UnkClass_0211CD84 *unk_08;
+    ReleaseMenu *unk_08;
 };
 
 STATIC_SIZE_ASSERT(CReleaseScene, 0xC);

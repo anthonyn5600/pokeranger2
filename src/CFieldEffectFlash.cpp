@@ -16,16 +16,16 @@ CFieldEffectFlash::CFieldEffectFlash(int kind)
     m_pos.x = m_pos.y = 0;
     m_scale = 0x1000;
     InitSprite();
-    UnkClass_02008788 *cac = unk_18->GetCac(0);
+    CellAnimController *cac = unk_18->GetCac(0);
     if (cac != NULL) {
-        m_cacId = cac->sub_02008A80(1, 0);
-        cac->sub_02008990(m_cacId, 0);
+        m_cacId = cac->Create(1, 0);
+        cac->SetAnim(m_cacId, 0);
     }
 }
 
 CFieldEffectFlash::~CFieldEffectFlash()
 {
-    unk_18->GetCac(0)->sub_02008B80(m_cacId);
+    unk_18->GetCac(0)->Remove(m_cacId);
     SAFE_DELETE(unk_18);
 }
 
@@ -55,9 +55,9 @@ int CFieldEffectFlash::ov0_02142264(int step)
 
 int CFieldEffectFlash::ov0_02142344(Camera2D *camera)
 {
-    UnkClass_02008788 *cac = unk_18->GetCac(0);
+    CellAnimController *cac = unk_18->GetCac(0);
     if (cac != NULL) {
-        m_sprites[0].m_cellDataIdx = cac->sub_02008828(m_cacId);
+        m_sprites[0].m_cellDataIdx = cac->GetCell(m_cacId);
         m_sprites[0].Render(camera);
     }
     return 1;
@@ -78,7 +78,7 @@ int CFieldEffectFlash::ov0_02142240(int outTime)
     return CFieldEffect::ov0_02142240(outTime);
 }
 
-int CFieldEffectFlash::sub_0203312C(int param, int value)
+int CFieldEffectFlash::SetParam(int param, int value)
 {
     switch (param) {
     case 1:

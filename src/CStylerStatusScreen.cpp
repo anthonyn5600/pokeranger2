@@ -1,14 +1,14 @@
 #include <nitro.h>
 
+#include "AudioEngine.hpp"
+#include "BGLayer.hpp"
+#include "BrightnessFade.hpp"
 #include "CGame.hpp"
-#include "UnkClass_02001C04.hpp"
-#include "UnkClass_0200C38C.hpp"
-#include "UnkClass_0200E0B4.hpp"
-#include "UnkClass_0200E960.hpp"
-#include "UnkClass_0200ECD0.hpp"
-#include "UnkClass_0201FC80.hpp"
-#include "UnkClass_0202A2AC.hpp"
-#include "UnkClass_02034478.hpp"
+#include "OamSprite.hpp"
+#include "OamSpriteSet.hpp"
+#include "PadInput.hpp"
+#include "SubScreenButton.hpp"
+#include "TextPrinter.hpp"
 #include "scene/CStylerScreens.hpp"
 
 // Power-up entry on the status screen: tile position, sprite, assist message and CStylerData::m_powerLevels index
@@ -125,24 +125,24 @@ void CStylerStatusScreen::SetupBG()
 
 void CStylerStatusScreen::LoadSprites()
 {
-    m_sprites = new UnkClass_0200ECD0((GXOamAttr *)&m_game->unk_0024[2], m_game->unk_14A8, FALSE, 0x40);
-    m_sprites->sub_0200EE14("data/menu", "stl000_00", 0x350, 0);
+    m_sprites = new OamSpriteSet((GXOamAttr *)&m_game->unk_0024[2], m_game->unk_14A8, FALSE, 0x40);
+    m_sprites->Load("data/menu", "stl000_00", 0x350, 0);
 
     for (int i = 0; i < 17; i++) {
-        m_sprites->sub_0200F4FC(m_data->m_powerLevels[sParts[i].idx] != 0 ? sParts[i].anim : 26, sParts[i].x * 8 - 8, sParts[i].y * 8 + 8, 0);
+        m_sprites->AddSprite(m_data->m_powerLevels[sParts[i].idx] != 0 ? sParts[i].anim : 26, sParts[i].x * 8 - 8, sParts[i].y * 8 + 8, 0);
     }
     for (int i = 0; i < 4; i++) {
-        m_sprites->sub_0200F4FC(m_data->m_powerLevels[sExtraParts[i].idx] != 0 ? sExtraParts[i].anim : 26, sExtraParts[i].x * 8 - 8, sExtraParts[i].y * 8 + 8, 0);
+        m_sprites->AddSprite(m_data->m_powerLevels[sExtraParts[i].idx] != 0 ? sExtraParts[i].anim : 26, sExtraParts[i].x * 8 - 8, sExtraParts[i].y * 8 + 8, 0);
     }
     for (int i = 0; i < 7; i++) {
         if (m_data->m_powerLevels[sMarks[i].idx] >= sMarks[i].minLevel) {
-            m_sprites->sub_0200F4FC(sMarks[i].anim, sMarks[i].x, sMarks[i].y, 0);
+            m_sprites->AddSprite(sMarks[i].anim, sMarks[i].x, sMarks[i].y, 0);
         }
     }
 
-    m_backButton = m_sprites->sub_0200F4FC(0, 0xF0, 0x5C, 0);
-    m_backButton->sub_0200EBF4(0x20, 0x20, 0, 0);
-    m_backButtonPressed = m_sprites->sub_0200F4FC(0x1B, 0xF0, 0x5C, 0);
+    m_backButton = m_sprites->AddSprite(0, 0xF0, 0x5C, 0);
+    m_backButton->SetTouchRect(0x20, 0x20, 0, 0);
+    m_backButtonPressed = m_sprites->AddSprite(0x1B, 0xF0, 0x5C, 0);
     m_backButtonPressed->unk_14 = FALSE;
     MI_CpuCopyFast((void *)HW_OBJ_PLTT, m_palette, 0x1E0);
 }
@@ -179,24 +179,24 @@ void CStylerStatusScreen::DrawTexts()
 {
     int charNo;
     int i;
-    UnkClass_0200C38C *printer;
+    TextPrinter *printer;
     UnkClass_020091E8_004 *assistMessages;
     printer = m_game->unk_1494;
-    printer->sub_0200C3D0();
-    printer->sub_0200C408(0, GX_BG_SCRBASE_0x9800, GX_BG_CHARBASE_0x10000);
-    printer->sub_0200C680(0x16);
+    printer->FreeWindows();
+    printer->SetupBG(0, GX_BG_SCRBASE_0x9800, GX_BG_CHARBASE_0x10000);
+    printer->AllocWindows(0x16);
 
     assistMessages = m_data->m_assistMessages;
     charNo = 0x3D;
-    printer->sub_0200C6C8(0, 11, 3, 1, 0, charNo, 0, 2);
+    printer->InitWindow(0, 11, 3, 1, 0, charNo, 0, 2);
     charNo += 11 * 3;
 
     if (m_menuMessages->unk_08[63].unk_04 != NULL) {
-        printer->sub_0200C7A4(0, 4, 6, 3, m_menuMessages->unk_08[63].unk_04, FALSE, 0);
+        printer->Print(0, 4, 6, 3, m_menuMessages->unk_08[63].unk_04, FALSE, 0);
     }
 
     for (i = 0; i < 17; i++) {
-        printer->sub_0200C6C8(i + 1, 10, 2, sParts[i].x, sParts[i].y, charNo, 0, 2);
+        printer->InitWindow(i + 1, 10, 2, sParts[i].x, sParts[i].y, charNo, 0, 2);
         charNo += 10 * 2;
 
         int level = m_data->m_powerLevels[sParts[i].idx];
@@ -205,22 +205,22 @@ void CStylerStatusScreen::DrawTexts()
             // the color argument first and merges that store with the else branch's
             u8 *name;
             name = (name = assistMessages->unk_08[sParts[i].msg + 1].unk_04);
-            printer->sub_0200C7A4(i + 1, 2, 2, 3, name, FALSE, 0);
+            printer->Print(i + 1, 2, 2, 3, name, FALSE, 0);
             int levelNames[3] = { 0x41, 0x42, 0x43 };
-            printer->sub_0200C7A4(i + 1, 0x36, 3, 3, m_menuMessages->unk_08[levelNames[level - 1]].unk_04, FALSE, 0);
+            printer->Print(i + 1, 0x36, 3, 3, m_menuMessages->unk_08[levelNames[level - 1]].unk_04, FALSE, 0);
         } else {
-            printer->sub_0200C7A4(i + 1, 4, 2, 3, assistMessages->unk_08[25].unk_04, FALSE, 0);
+            printer->Print(i + 1, 4, 2, 3, assistMessages->unk_08[25].unk_04, FALSE, 0);
         }
     }
 
     for (int i = 0; i < 4; i++) {
-        printer->sub_0200C6C8(i + 18, 10, 2, sExtraParts[i].x, sExtraParts[i].y, charNo, 0, 2);
+        printer->InitWindow(i + 18, 10, 2, sExtraParts[i].x, sExtraParts[i].y, charNo, 0, 2);
         charNo += 10 * 2;
 
         if (m_data->m_powerLevels[sExtraParts[i].idx] != 0) {
-            printer->sub_0200C7A4(i + 18, 4, 2, 3, assistMessages->unk_08[sExtraParts[i].msg].unk_04, FALSE, 0);
+            printer->Print(i + 18, 4, 2, 3, assistMessages->unk_08[sExtraParts[i].msg].unk_04, FALSE, 0);
         } else {
-            printer->sub_0200C7A4(i + 18, 4, 2, 3, assistMessages->unk_08[25].unk_04, FALSE, 0);
+            printer->Print(i + 18, 4, 2, 3, assistMessages->unk_08[25].unk_04, FALSE, 0);
         }
     }
 }
@@ -228,42 +228,42 @@ void CStylerStatusScreen::DrawTexts()
 int CStylerStatusScreen::Update()
 {
     if (m_sprites != NULL) {
-        m_sprites->sub_0200F64C();
+        m_sprites->Update();
     }
     if (unk_224 != NULL) {
-        unk_224->sub_0200F64C();
+        unk_224->Update();
     }
 
     switch (unk_04) {
     case 0:
-        if (!m_game->unk_14BC->sub_0200E310() && !m_game->unk_14C0->sub_0200E310()) {
+        if (!m_game->unk_14BC->IsActive() && !m_game->unk_14C0->IsActive()) {
             unk_04 = 1;
         }
         break;
     case 1: {
-        UnkClass_02001C04 *pad = m_game->unk_0014;
-        if (unk_218->sub_0202A404()) {
+        PadInput *pad = m_game->unk_0014;
+        if (unk_218->UpdateInput()) {
             unk_04 = 2;
-            m_game->unk_14BC->sub_0200E0E0(4, 20);
-            m_game->unk_14C0->sub_0200E0E0(4, 20);
+            m_game->unk_14BC->Start(4, 20);
+            m_game->unk_14C0->Start(4, 20);
             unk_0C = 0;
-        } else if (m_backButton->sub_0200EB84() || (u16)(pad->unk_0002 & PAD_BUTTON_R)) {
+        } else if (m_backButton->GetTouchTrigger() || (u16)(pad->unk_0002 & PAD_BUTTON_R)) {
             m_backButton->unk_14 = FALSE;
             m_backButtonPressed->unk_14 = TRUE;
-            m_game->m_audioEngine->sub_02034C44(0xFA);
+            m_game->m_audioEngine->PlaySe(0xFA);
             unk_04 = 2;
-            m_game->unk_14BC->sub_0200E0E0(4, 20);
+            m_game->unk_14BC->Start(4, 20);
             unk_0C = 1;
         }
         break;
     }
     case 2:
         if (unk_0C == 0) {
-            if (!m_game->unk_14BC->sub_0200E310() && !m_game->unk_14C0->sub_0200E310()) {
+            if (!m_game->unk_14BC->IsActive() && !m_game->unk_14C0->IsActive()) {
                 return -1;
             }
         } else {
-            if (!m_game->unk_14BC->sub_0200E310()) {
+            if (!m_game->unk_14BC->IsActive()) {
                 return 1;
             }
         }
@@ -275,12 +275,12 @@ int CStylerStatusScreen::Update()
 
 void CStylerStatusScreen::Render()
 {
-    unk_218->sub_0202A47C();
+    unk_218->Render();
     if (m_sprites != NULL) {
-        m_sprites->sub_0200F71C();
+        m_sprites->WriteOam();
     }
     if (unk_224 != NULL) {
-        unk_224->sub_0200F71C();
+        unk_224->WriteOam();
     }
 }
 

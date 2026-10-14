@@ -1,10 +1,10 @@
+#include "AudioEngine.hpp"
 #include "CPlayerHPGauge.hpp"
-#include "UnkClass_02034478.hpp"
-#include "UnkClass_020B26A0.hpp"
+#include "SaveData.hpp"
 #include "battle/CBattleAssist.hpp"
 #include "battle/CBattleDisk.hpp"
 
-CBattleAssistRecover::CBattleAssistRecover(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3)
+CBattleAssistRecover::CBattleAssistRecover(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3)
     : CBattleAssist(effects, effectData, params, arg3)
 {
 }
@@ -17,17 +17,17 @@ int CBattleAssistRecover::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattl
 {
     if (!(m_flags & 1)) {
         u8 hp = unk_04 + disk->unk_19C;
-        u8 max = MAIN_BSS_020B26A0.unk_0002;
+        u8 max = MAIN_BSS_020B26A0.m_maxEnergy;
         if (hp >= max) {
             hp = max;
         }
         disk->unk_19C = hp;
         unk_1C->SetCurrentHP(hp);
         unk_1C->StartHeal(ov1_02134354(unk_04));
-        unk_14->sub_02034C44(0x143);
+        unk_14->PlaySe(0x143);
         m_flags |= 1;
     } else if (!unk_1C->IsHealing()) {
-        unk_14->sub_02034C5C(0x143);
+        unk_14->StopSe(0x143);
         return 0;
     }
     return 1;

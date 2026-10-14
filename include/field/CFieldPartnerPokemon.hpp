@@ -24,8 +24,8 @@ class CFieldPartnerPokemon : public CFieldPartner {
 public:
     CFieldPartnerPokemon();
     virtual ~CFieldPartnerPokemon();
-    virtual void sub_0203DA40(CFieldMap *map);
-    virtual BOOL sub_0203D578(CFieldMap *map);
+    virtual void Process(CFieldMap *map);
+    virtual BOOL UpdateMove(CFieldMap *map);
 
     BOOL ov0_0213E3E4(u16 kind, u8 arg1);
     BOOL ov0_0213E4BC(u32 targetId);

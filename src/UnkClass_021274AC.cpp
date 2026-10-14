@@ -1,8 +1,8 @@
 #include "battle/UnkClass_021274AC.hpp"
 
-#include "UnkClass_020074D4.hpp"
-#include "UnkClass_02007AA4.hpp"
-#include "UnkClass_02008788.hpp"
+#include "CellAnimController.hpp"
+#include "VramImage.hpp"
+#include "VramPalette.hpp"
 #include "battle/UnkClass_0212770C.hpp"
 #include "file/CArchiveGuard.hpp"
 #include "file/CNCERFile.hpp"
@@ -23,19 +23,19 @@ void UnkClass_021274AC::ov1_021274D4()
 {
     CArchiveGuard *guard = new CArchiveGuard("BEX", "data/interface/i034_LZ.bin", 1, 1, 0, NULL, 0);
 
-    m_image = new UnkClass_020074D4("BEX:i034_00.NCBR", 0, 0, 0);
+    m_image = new VramImage("BEX:i034_00.NCBR", 0, 0, 0);
     m_texKey = NNS_GfdAllocLnkTexVram(m_image->unk_38, FALSE, 0);
-    m_image->sub_020076E8(NNS_GfdGetTexKeyAddr(m_texKey));
-    m_image->sub_020076B0();
+    m_image->LoadToVram(NNS_GfdGetTexKeyAddr(m_texKey));
+    m_image->Release();
 
-    m_palette = new UnkClass_02007AA4("BEX:i034.NCLR", 0, 0);
+    m_palette = new VramPalette("BEX:i034.NCLR", 0, 0);
     m_plttKey = NNS_GfdAllocLnkPlttVram(m_palette->unk_04->szByte, FALSE, 0);
-    m_palette->sub_02007BFC(NNS_GfdGetPlttKeyAddr(m_plttKey));
-    m_palette->sub_02007BC4();
+    m_palette->LoadToVram(NNS_GfdGetPlttKeyAddr(m_plttKey));
+    m_palette->Release();
 
     m_cells = new CNCERFile("BEX:i034_00.NCER", 0, 0, 0);
-    m_anim = new UnkClass_02008788();
-    m_anim->sub_0200887C("BEX:i034_00.cac", 0, 0);
+    m_anim = new CellAnimController();
+    m_anim->Load("BEX:i034_00.cac", 0, 0);
 
     SAFE_DELETE(guard);
 }

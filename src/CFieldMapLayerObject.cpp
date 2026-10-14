@@ -57,7 +57,7 @@ BOOL CFieldMapLayerObject::Load(void *data)
                 obj->unk_1C = y;
                 obj->unk_E0 = 0;
                 obj->unk_E4 = 0;
-                obj->sub_0202E68C(unk_08);
+                obj->SetLayer(unk_08);
                 switch (m_entries[i].state) {
                 case 0:
                     obj->unk_20 = 0;
@@ -68,7 +68,7 @@ BOOL CFieldMapLayerObject::Load(void *data)
                 case 2:
                     obj->unk_20 = 3;
                     obj->sub_reset();
-                    obj->sub_0202DC54(8, 0);
+                    obj->PlayAnim(8, 0);
                     break;
                 }
             } else {

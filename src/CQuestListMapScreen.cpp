@@ -1,5 +1,5 @@
+#include "BrightnessFade.hpp"
 #include "CGame.hpp"
-#include "UnkClass_0200E0B4.hpp"
 #include "scene/CQuestListScene.hpp"
 
 CQuestListMapScreen::CQuestListMapScreen()
@@ -16,7 +16,7 @@ CQuestListMapScreen::~CQuestListMapScreen()
 void CQuestListMapScreen::func0()
 {
     SAFE_DELETE(unk_08);
-    unk_08 = new UnkClass_0211FBA4(CGame::GetInstance());
+    unk_08 = new QuestListMap(CGame::GetInstance());
     unk_08->ov27_0211FE58();
 }
 
@@ -35,7 +35,7 @@ void CQuestListMapScreen::func3(int prev)
     if (unk_08 != NULL && unk_0C > 0) {
         unk_08->ov27_021201AC(unk_0C - 1);
     }
-    game->unk_14C0->sub_0200E0E0(3, 15);
+    game->unk_14C0->Start(3, 15);
     unk_04 = 0;
 }
 

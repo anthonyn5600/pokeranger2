@@ -1,8 +1,8 @@
 #ifndef POKERANGER2_SCENE_CCOMPANYLOGOSCENE_HPP
 #define POKERANGER2_SCENE_CCOMPANYLOGOSCENE_HPP
 
-#include "UnkClass_0201FC80.hpp"
-#include "UnkClass_02027FE8.hpp"
+#include "BGLayer.hpp"
+#include "SaveManager.hpp"
 #include "common.hpp"
 #include "scene/CScene.hpp"
 
@@ -25,8 +25,8 @@ public:
 public:
     int unk_04;
     int unk_08;
-    UnkClass_02027FE8 *unk_0C;
-    UnkClass_0201FC80 *unk_10[3];
+    SaveManager *unk_0C;
+    BGLayer *unk_10[3];
     UnkClass_0212F3DC *unk_1C;
     int unk_20;
     int unk_24;

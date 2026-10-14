@@ -1,17 +1,17 @@
+#include "AudioEngine.hpp"
 #include "CGame.hpp"
 #include "CTouchPanel.hpp"
 #include "Camera2D.hpp"
-#include "UnkClass_0200CAB4.hpp"
-#include "UnkClass_0200E960.hpp"
-#include "UnkClass_0200ECD0.hpp"
-#include "UnkClass_02034478.hpp"
+#include "OamSprite.hpp"
+#include "OamSpriteSet.hpp"
+#include "SubTextPrinter.hpp"
 #include "file/CBinaryFileMes.hpp"
 #include "file/CNCLRFile.hpp"
 #include "scene/CEncyclopediaScene.hpp"
 
 int ov22_021214CC(NNSG2dFont *font, int hSpace, u8 **str);
 
-UnkClass_0211F9A4::UnkClass_0211F9A4()
+EncycListBoxGroup::EncycListBoxGroup()
 {
     unk_00 = 0;
     unk_04 = NULL;
@@ -40,7 +40,7 @@ CEncycListBox::CEncycListBox(int count)
     unk_6C = NULL;
     MI_CpuClear8(unk_44, sizeof(unk_44));
     unk_68 = count;
-    unk_6C = unk_68 <= 0 ? NULL : new UnkClass_0211F9A4[unk_68];
+    unk_6C = unk_68 <= 0 ? NULL : new EncycListBoxGroup[unk_68];
 }
 
 CEncycListBox::~CEncycListBox()
@@ -48,7 +48,7 @@ CEncycListBox::~CEncycListBox()
     SAFE_DELETE_ARRAY(unk_6C);
 }
 
-BOOL CEncycListBox::ov22_0211FAD4(int arg0, UnkClass_0200ECD0 *anims, int arg2, int arg3, int arg4, int arg5, u32 arg6, int arg7, int arg8, int arg9, int argA)
+BOOL CEncycListBox::ov22_0211FAD4(int arg0, OamSpriteSet *anims, int arg2, int arg3, int arg4, int arg5, u32 arg6, int arg7, int arg8, int arg9, int argA)
 {
     unk_04 = arg0;
     unk_10 = arg6;
@@ -57,10 +57,10 @@ BOOL CEncycListBox::ov22_0211FAD4(int arg0, UnkClass_0200ECD0 *anims, int arg2, 
     unk_0C = arg5;
     unk_28 = arg8 + (unk_08 + unk_10 / 2);
     int y = unk_0C + 8;
-    unk_3C = anims->sub_0200F4FC(arg2, unk_28, y, 0);
+    unk_3C = anims->AddSprite(arg2, unk_28, y, 0);
     unk_24 = unk_08 + arg9;
     for (int i = 0; i < 8; i++) {
-        unk_44[i] = anims->sub_0200F4FC(arg3, unk_24, y + i * 16, 1);
+        unk_44[i] = anims->AddSprite(arg3, unk_24, y + i * 16, 1);
     }
     unk_30 = y;
     unk_2C = y;
@@ -101,9 +101,9 @@ void CEncycListBox::ov22_0211FC24(int group, UnkStruct_0211D918 *lines, int coun
 
 void CEncycListBox::ov22_0211FC58()
 {
-    UnkClass_0211F9A4 *g = &unk_6C[unk_18];
+    EncycListBoxGroup *g = &unk_6C[unk_18];
     if (g->unk_00 == 0) {
-        CGame::GetInstance()->m_audioEngine->sub_02034C44(0xFD);
+        CGame::GetInstance()->m_audioEngine->PlaySe(0xFD);
         return;
     }
     if (unk_2C != unk_30) {
@@ -131,10 +131,10 @@ void CEncycListBox::ov22_0211FC58()
         }
     }
     if (unk_20 != unk_1C || unk_30 != unk_2C) {
-        CGame::GetInstance()->m_audioEngine->sub_02034C44(0x108);
+        CGame::GetInstance()->m_audioEngine->PlaySe(0x108);
         return;
     }
-    CGame::GetInstance()->m_audioEngine->sub_02034C44(0xFD);
+    CGame::GetInstance()->m_audioEngine->PlaySe(0xFD);
 }
 
 void CEncycListBox::ov22_0211FD74()
@@ -159,10 +159,10 @@ void CEncycListBox::ov22_0211FD74()
         }
     }
     if (unk_20 != unk_1C || unk_30 != unk_2C) {
-        CGame::GetInstance()->m_audioEngine->sub_02034C44(0x108);
+        CGame::GetInstance()->m_audioEngine->PlaySe(0x108);
         return;
     }
-    CGame::GetInstance()->m_audioEngine->sub_02034C44(0xFD);
+    CGame::GetInstance()->m_audioEngine->PlaySe(0xFD);
 }
 
 void CEncycListBox::ov22_0211FE18()
@@ -179,10 +179,10 @@ void CEncycListBox::ov22_0211FE18()
         unk_1C = unk_20 = top;
         ov22_021205B8(1);
         ov22_0211FF20();
-        CGame::GetInstance()->m_audioEngine->sub_02034C44(0x108);
+        CGame::GetInstance()->m_audioEngine->PlaySe(0x108);
         return;
     }
-    CGame::GetInstance()->m_audioEngine->sub_02034C44(0xFD);
+    CGame::GetInstance()->m_audioEngine->PlaySe(0xFD);
 }
 
 void CEncycListBox::ov22_0211FEA8()
@@ -195,20 +195,20 @@ void CEncycListBox::ov22_0211FEA8()
         unk_1C = unk_20 = top;
         ov22_021205B8(1);
         ov22_0211FF20();
-        CGame::GetInstance()->m_audioEngine->sub_02034C44(0x108);
+        CGame::GetInstance()->m_audioEngine->PlaySe(0x108);
         return;
     }
-    CGame::GetInstance()->m_audioEngine->sub_02034C44(0xFD);
+    CGame::GetInstance()->m_audioEngine->PlaySe(0xFD);
 }
 
 void CEncycListBox::ov22_0211FF20()
 {
-    UnkClass_0200CAB4 *text = CGame::GetInstance()->unk_1498;
+    SubTextPrinter *text = CGame::GetInstance()->unk_1498;
     if (unk_6C == NULL) {
         return;
     }
     for (int i = 0; i < 16; i++) {
-        text->sub_0200CF7C(i);
+        text->ClearWindow(i);
     }
     for (int i = 0; i < 16; i++) {
         ov22_021204D8(unk_1C + i - 3);
@@ -216,10 +216,10 @@ void CEncycListBox::ov22_0211FF20()
     unk_34 = (256 - (unk_0C - (unk_1C & 0xF) * 16)) & 0xFF;
     G2S_SetBG0Offset(0, unk_34);
     G2S_SetBG3Offset(0, unk_34);
-    UnkClass_0211F9A4 *group = &unk_6C[unk_18];
+    EncycListBoxGroup *group = &unk_6C[unk_18];
     for (int i = 0; i < 9; i++) {
         if (unk_44[i] != NULL) {
-            unk_44[i]->sub_0200EB28(unk_24, unk_0C + 8 + i * 16);
+            unk_44[i]->SetPos(unk_24, unk_0C + 8 + i * 16);
             int line = unk_1C + i;
             if (line < group->unk_00 && (group->unk_04[line].unk_04 & 1)) {
                 unk_44[i]->unk_14 = TRUE;
@@ -233,7 +233,7 @@ void CEncycListBox::ov22_0211FF20()
 void CEncycListBox::ov22_0212005C()
 {
     s32 group;
-    UnkClass_0211F9A4 *groups = unk_6C;
+    EncycListBoxGroup *groups = unk_6C;
     group = unk_18;
     if (groups[group].unk_00 == 0) {
         return;
@@ -250,9 +250,9 @@ void CEncycListBox::ov22_0212005C()
                 int ofs = (y - unk_0C) & ~0xF;
                 if (top + (ofs >> 4) < groups[group].unk_00) {
                     unk_2C = unk_30 = unk_0C + 8 + ofs;
-                    unk_3C->sub_0200EB28(unk_28, unk_2C);
+                    unk_3C->SetPos(unk_28, unk_2C);
                     sel = unk_1C + ((unk_2C - (unk_0C + 8)) >> 4);
-                    game->m_audioEngine->sub_02034C44(0xFA);
+                    game->m_audioEngine->PlaySe(0xFA);
                     ov22_021205B8(1);
                 }
             }
@@ -269,7 +269,7 @@ void CEncycListBox::ov22_0212005C()
     }
 }
 
-static inline void SetBlink(UnkClass_0200E960 *sprite, u8 timer)
+static inline void SetBlink(OamSprite *sprite, u8 timer)
 {
     sprite->SetVisible(timer < 6 ? TRUE : FALSE);
 }
@@ -292,7 +292,7 @@ void CEncycListBox::ov22_021201B0()
                 unk_2C = unk_30;
             }
         }
-        unk_3C->sub_0200EB28(unk_28, unk_2C);
+        unk_3C->SetPos(unk_28, unk_2C);
         if (unk_30 == unk_2C) {
             ov22_021205B8(1);
         }
@@ -331,7 +331,7 @@ void CEncycListBox::ov22_021201B0()
 
 void CEncycListBox::ov22_02120348(BOOL down)
 {
-    UnkClass_0211F9A4 *group;
+    EncycListBoxGroup *group;
     int i;
     int line;
     int dy = unk_34 & 0xF;
@@ -345,7 +345,7 @@ void CEncycListBox::ov22_02120348(BOOL down)
     group = &unk_6C[unk_18];
     for (i = 0; i < 8; i++) {
         if (unk_44[i] != NULL) {
-            unk_44[i]->sub_0200EB28(unk_24, dy + (unk_0C + 8 + i * 16));
+            unk_44[i]->SetPos(unk_24, dy + (unk_0C + 8 + i * 16));
             if (group->unk_04[line + i].unk_04 & 1) {
                 unk_44[i]->unk_14 = TRUE;
             } else {
@@ -355,7 +355,7 @@ void CEncycListBox::ov22_02120348(BOOL down)
     }
 }
 
-static inline void SetSpriteVisible(UnkClass_0200E960 *sprite, int count)
+static inline void SetSpriteVisible(OamSprite *sprite, int count)
 {
     sprite->SetVisible(count != 0 ? TRUE : FALSE);
 }
@@ -363,18 +363,18 @@ static inline void SetSpriteVisible(UnkClass_0200E960 *sprite, int count)
 void CEncycListBox::ov22_02120414(int group)
 {
     if (unk_18 != group) {
-        UnkClass_0211F9A4 *prev = &unk_6C[unk_18];
+        EncycListBoxGroup *prev = &unk_6C[unk_18];
         prev->unk_08 = unk_1C;
         prev->unk_0C = unk_1C + ((unk_2C - 8 - unk_0C) >> 4);
         unk_18 = group;
         int idx;
         prev = unk_6C;
         idx = unk_18;
-        UnkClass_0211F9A4 *next = &prev[idx];
+        EncycListBoxGroup *next = &prev[idx];
         unk_1C = unk_20 = next->unk_08;
         unk_2C = unk_30 = unk_0C + (next->unk_0C - next->unk_08) * 16 + 8;
         ov22_0211FF20();
-        unk_3C->sub_0200EB28(unk_28, unk_2C);
+        unk_3C->SetPos(unk_28, unk_2C);
         SetSpriteVisible(unk_3C, prev[idx].unk_00);
     }
     ov22_021205B8(1);
@@ -382,7 +382,7 @@ void CEncycListBox::ov22_02120414(int group)
 
 void CEncycListBox::ov22_021204D8(int line)
 {
-    UnkClass_0211F9A4 *group = &unk_6C[unk_18];
+    EncycListBoxGroup *group = &unk_6C[unk_18];
     if (line < 0) {
         return;
     }
@@ -390,9 +390,9 @@ void CEncycListBox::ov22_021204D8(int line)
         return;
     }
     int row = line & 0xF;
-    UnkClass_0200CAB4 *text = CGame::GetInstance()->unk_1498;
-    text->sub_0200CF7C(row);
-    text->sub_0200CDA0(row, 32, 3, 3, group->unk_04[line].unk_00, FALSE, 0);
+    SubTextPrinter *text = CGame::GetInstance()->unk_1498;
+    text->ClearWindow(row);
+    text->Print(row, 32, 3, 3, group->unk_04[line].unk_00, FALSE, 0);
 }
 
 int CEncycListBox::ov22_02120560(int group)
@@ -435,7 +435,7 @@ void CEncycListBox::ov22_021205B8(int arg0)
     unk_38->OnListBoxEvent1(unk_04, cursor, flags, arg0);
 }
 
-UnkClass_02120644::UnkClass_02120644()
+EncycRadioButton::EncycRadioButton()
 {
     unk_00 = -1;
     unk_04 = NULL;
@@ -445,23 +445,23 @@ UnkClass_02120644::UnkClass_02120644()
     unk_14 = 0;
 }
 
-UnkClass_02120668::UnkClass_02120668(int arg0, int count)
+EncycRadioButtonGroup::EncycRadioButtonGroup(int arg0, int count)
 {
     unk_00 = arg0;
     unk_04 = count;
     if (count > 0) {
-        unk_08 = new UnkClass_02120644[count];
+        unk_08 = new EncycRadioButton[count];
     } else {
         unk_08 = NULL;
     }
 }
 
-UnkClass_02120668::~UnkClass_02120668()
+EncycRadioButtonGroup::~EncycRadioButtonGroup()
 {
     SAFE_DELETE_ARRAY(unk_08);
 }
 
-void UnkClass_02120668::ov22_021206DC(int idx, UnkClass_0200ECD0 *anims, int animOn, int animOff, int x, int y, int w, int h, int arg8, const char *label)
+void EncycRadioButtonGroup::ov22_021206DC(int idx, OamSpriteSet *anims, int animOn, int animOff, int x, int y, int w, int h, int arg8, const char *label)
 {
     if (unk_08 == NULL) {
         return;
@@ -470,28 +470,28 @@ void UnkClass_02120668::ov22_021206DC(int idx, UnkClass_0200ECD0 *anims, int ani
         if (unk_08[i].unk_00 < 0) {
             unk_08[i].unk_00 = idx;
             unk_08[i].unk_10 = label;
-            unk_08[i].unk_04 = anims->sub_0200F4FC(animOn, x, y, arg8);
-            unk_08[i].unk_08 = anims->sub_0200F4FC(animOff, x, y, arg8);
+            unk_08[i].unk_04 = anims->AddSprite(animOn, x, y, arg8);
+            unk_08[i].unk_08 = anims->AddSprite(animOff, x, y, arg8);
             if (unk_08[i].unk_04 == NULL) {
                 return;
             }
-            unk_08[i].unk_04->sub_0200EBF4(w, h, 0, 0);
+            unk_08[i].unk_04->SetTouchRect(w, h, 0, 0);
             return;
         }
     }
 }
 
-void UnkClass_02120668::ov22_021207E8(int idx, UnkClass_0200ECD0 *anims, int anim, int x, int y, int arg5)
+void EncycRadioButtonGroup::ov22_021207E8(int idx, OamSpriteSet *anims, int anim, int x, int y, int arg5)
 {
     for (int i = 0; i < unk_04; i++) {
         if (unk_08[i].unk_00 >= 0 && idx == unk_08[i].unk_00) {
-            unk_08[i].unk_0C = anims->sub_0200F4FC(anim, x, y, arg5);
+            unk_08[i].unk_0C = anims->AddSprite(anim, x, y, arg5);
             return;
         }
     }
 }
 
-void UnkClass_02120668::ov22_0212086C(int idx, BOOL flag)
+void EncycRadioButtonGroup::ov22_0212086C(int idx, BOOL flag)
 {
     for (int i = 0; i < unk_04; i++) {
         if (unk_08[i].unk_00 >= 0 && idx == unk_08[i].unk_00) {
@@ -501,7 +501,7 @@ void UnkClass_02120668::ov22_0212086C(int idx, BOOL flag)
     }
 }
 
-void UnkClass_02120668::ov22_021208DC(int idx)
+void EncycRadioButtonGroup::ov22_021208DC(int idx)
 {
     for (int i = 0; i < unk_04; i++) {
         if (unk_08[i].unk_00 >= 0) {
@@ -520,29 +520,29 @@ void UnkClass_02120668::ov22_021208DC(int idx)
     unk_0C->OnRadioButton(unk_00, idx);
 }
 
-void UnkClass_02120668::ov22_0212098C()
+void EncycRadioButtonGroup::ov22_0212098C()
 {
     for (int i = 0; i < unk_04; i++) {
-        if (unk_08[i].unk_04 != NULL && unk_08[i].unk_04->sub_0200EB84()) {
+        if (unk_08[i].unk_04 != NULL && unk_08[i].unk_04->GetTouchTrigger()) {
             ov22_021208DC(unk_08[i].unk_00);
             return;
         }
     }
 }
 
-UnkClass_021209FC::UnkClass_021209FC()
+EncycMessageStrings::EncycMessageStrings()
 {
     unk_00 = NULL;
     unk_04 = 0;
     unk_08 = NULL;
 }
 
-UnkClass_021209FC::~UnkClass_021209FC()
+EncycMessageStrings::~EncycMessageStrings()
 {
     ov22_02120B04();
 }
 
-int UnkClass_021209FC::ov22_02120A24(const char *path)
+int EncycMessageStrings::ov22_02120A24(const char *path)
 {
     ov22_02120B04();
     if (path != NULL) {
@@ -566,12 +566,12 @@ int UnkClass_021209FC::ov22_02120A24(const char *path)
     return 0;
 }
 
-int UnkClass_021209FC::ov22_02120AD8()
+int EncycMessageStrings::ov22_02120AD8()
 {
     return unk_04;
 }
 
-const char *UnkClass_021209FC::ov22_02120AE0(int idx)
+const char *EncycMessageStrings::ov22_02120AE0(int idx)
 {
     if (idx >= 0 && idx < unk_04) {
         return unk_08[idx];
@@ -579,13 +579,13 @@ const char *UnkClass_021209FC::ov22_02120AE0(int idx)
     return NULL;
 }
 
-void UnkClass_021209FC::ov22_02120B04()
+void EncycMessageStrings::ov22_02120B04()
 {
     SAFE_DELETE_ARRAY(unk_08);
     SAFE_DELETE(unk_00);
 }
 
-UnkClass_02120B4C::UnkClass_02120B4C()
+EncycEntries::EncycEntries()
     : unk_00(0)
     , unk_10(NULL)
     , unk_14(NULL)
@@ -597,12 +597,12 @@ UnkClass_02120B4C::UnkClass_02120B4C()
     }
 }
 
-UnkClass_02120B4C::~UnkClass_02120B4C()
+EncycEntries::~EncycEntries()
 {
     ov22_02120E80();
 }
 
-BOOL UnkClass_02120B4C::ov22_02120BB4(const char *path)
+BOOL EncycEntries::ov22_02120BB4(const char *path)
 {
     BOOL ret = FALSE;
     if (path != NULL) {
@@ -686,7 +686,7 @@ BOOL UnkClass_02120B4C::ov22_02120BB4(const char *path)
     return ret;
 }
 
-void UnkClass_02120B4C::ov22_02120E80()
+void EncycEntries::ov22_02120E80()
 {
     SAFE_DELETE_ARRAY(unk_1C);
     SAFE_DELETE_ARRAY(unk_18);
@@ -699,7 +699,7 @@ void UnkClass_02120B4C::ov22_02120E80()
     unk_00 = 0;
 }
 
-int UnkClass_02120B4C::ov22_02120F14(int group)
+int EncycEntries::ov22_02120F14(int group)
 {
     if (group >= 0 && group < 3) {
         return unk_04[group];
@@ -707,7 +707,7 @@ int UnkClass_02120B4C::ov22_02120F14(int group)
     return 0;
 }
 
-UnkStruct_02120F34 *UnkClass_02120B4C::ov22_02120F34(int group, int idx)
+UnkStruct_02120F34 *EncycEntries::ov22_02120F34(int group, int idx)
 {
     if (unk_10 != NULL && group >= 0 && group < 3 && idx >= 0 && idx < unk_04[group]) {
         int base = 0;
@@ -741,7 +741,7 @@ UnkStruct_02120FA8 *UnkStruct_02120F34::ov22_02120FA8(int page, int idx)
     return NULL;
 }
 
-void UnkClass_02121024::ov22_02121024(NNSG2dFont *font, void *scr, void *chr, int charNo, int x, int y, int w, int h, int hSpace, int vSpace)
+void EncycTextCanvas::ov22_02121024(NNSG2dFont *font, void *scr, void *chr, int charNo, int x, int y, int w, int h, int hSpace, int vSpace)
 {
     NNS_G2dCharCanvasInitForBG(&unk_10, (u8 *)chr + (charNo << 5), w, h, NNS_G2D_CHARA_COLORMODE_16);
     NNS_G2dTextCanvasInit(&unk_00, &unk_10, font, hSpace, vSpace);
@@ -749,19 +749,19 @@ void UnkClass_02121024::ov22_02121024(NNSG2dFont *font, void *scr, void *chr, in
     ov22_021210B8();
 }
 
-void UnkClass_02121024::ov22_021210B8()
+void EncycTextCanvas::ov22_021210B8()
 {
     CNCLRFile nclr("data/font/prs_lc_jp.NCLR", 1, 0, 0);
     DC_FlushRange(nclr.unk_B8->pRawData, 0x20);
     GX_LoadBGPltt(nclr.unk_B8->pRawData, 0x1C0, 0x20);
 }
 
-void UnkClass_02121024::ov22_02121110()
+void EncycTextCanvas::ov22_02121110()
 {
     NNS_G2dCharCanvasClear(&unk_10, 0);
 }
 
-void UnkClass_0211F4C4::ov22_0212112C(UnkClass_02121024 *canvas, int x, int y, int color, const char *label, int flags)
+void EncycTextRenderer::ov22_0212112C(EncycTextCanvas *canvas, int x, int y, int color, const char *label, int flags)
 {
     int width;
     int lines;
@@ -819,7 +819,7 @@ void UnkClass_0211F4C4::ov22_0212112C(UnkClass_02121024 *canvas, int x, int y, i
     ov22_02121304(canvas, label, x, y, color, width, flags);
 }
 
-void UnkClass_0211F4C4::ov22_021212A4(int x, int y, int w, int h, int flags)
+void EncycTextRenderer::ov22_021212A4(int x, int y, int w, int h, int flags)
 {
     fx32 top, left;
     if (flags & 0x100) {
@@ -834,7 +834,7 @@ void UnkClass_0211F4C4::ov22_021212A4(int x, int y, int w, int h, int flags)
     unk_00.SetVertexCoordinates(left, top, left, bottom, right, bottom, right, top, 0);
 }
 
-void UnkClass_0211F4C4::ov22_02121304(UnkClass_02121024 *canvas, const char *text, int x, int y, int color, int width, int flags)
+void EncycTextRenderer::ov22_02121304(EncycTextCanvas *canvas, const char *text, int x, int y, int color, int width, int flags)
 {
     int py = y;
     NNSG2dFont *font = (NNSG2dFont *)canvas->unk_00.pFont;
@@ -862,7 +862,7 @@ void UnkClass_0211F4C4::ov22_02121304(UnkClass_02121024 *canvas, const char *tex
     } while (pos != NULL);
 }
 
-void UnkClass_0211F4C4::ov22_021213F0(Camera2D *camera)
+void EncycTextRenderer::ov22_021213F0(Camera2D *camera)
 {
     unk_00.m_z = unk_60 * 3 + 1;
     unk_00.m_alpha = 31;
@@ -925,7 +925,7 @@ int ov22_021214CC(NNSG2dFont *font, int hSpace, u8 **str)
     return width;
 }
 
-void UnkClass_0211F4C4::ov22_021215C8(UnkClass_02121024 *canvas, int hSpace, int x, int y, int color, u8 **str)
+void EncycTextRenderer::ov22_021215C8(EncycTextCanvas *canvas, int hSpace, int x, int y, int color, u8 **str)
 {
     if (str == NULL) {
         return;

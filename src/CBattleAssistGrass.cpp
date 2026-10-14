@@ -1,18 +1,18 @@
+#include "AudioEngine.hpp"
 #include "CGame.hpp"
 #include "CTouchPanel.hpp"
-#include "UnkClass_02034478.hpp"
+#include "Collision.hpp"
+#include "MathUtil.hpp"
 #include "battle/CBattleAssist.hpp"
 #include "battle/CBattleAttackEffect.hpp"
 #include "battle/CBattleDisk.hpp"
 #include "battle/CBattleEnemy.hpp"
 #include "battle/CBattleEnemyData.hpp"
 #include "fx_utils.hpp"
-#include "sub_02006000.hpp"
-#include "sub_02007254.hpp"
 
 extern "C" u16 ov1_0212EE98(int assistType, int idx);
 
-CBattleAssistGrass::CBattleAssistGrass(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3)
+CBattleAssistGrass::CBattleAssistGrass(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3)
     : CBattleAssist(effects, effectData, params, arg3)
 {
     m_next = 0;
@@ -42,7 +42,7 @@ int CBattleAssistGrass::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleE
         }
         slot->m_timer++;
         if (slot->m_timer >= 300) {
-            slot->m_effect->sub_020129F4(0x18, 0);
+            slot->m_effect->FadeAlpha(0x18, 0);
             slot->m_flags &= ~1;
             continue;
         }
@@ -50,7 +50,7 @@ int CBattleAssistGrass::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleE
         Circle circle = slot->m_effect->m_sphere.m_circle;
         for (u8 i = 0; i < 8; i++) {
             if (enemies[i] != NULL && enemies[i]->IsAlive() && enemies[i]->IsTargetable() && !enemies[i]->ov1_02126424()) {
-                if (sub_02006164(circle, enemies[i]->m_sphere.m_circle, NULL)) {
+                if (CircleHitCircle(circle, enemies[i]->m_sphere.m_circle, NULL)) {
                     u16 duration = ov1_0212EE98(vfunc_10(), 0);
                     switch (enemies[i]->unk_184->unk_18->unk_03) {
                     case 2:
@@ -84,9 +84,9 @@ int CBattleAssistGrass::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleE
             }
         }
         if (m_prevBound == 0 && m_bound >= 1) {
-            unk_14->sub_02034C44(0x130);
+            unk_14->PlaySe(0x130);
         } else if (m_bound == 0 && m_prevBound >= 1) {
-            unk_14->sub_02034C5C(0x130);
+            unk_14->StopSe(0x130);
         }
     }
     if (touch->unk_04 != 0) {
@@ -95,9 +95,9 @@ int CBattleAssistGrass::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleE
     } else if (disk->ov1_0212C5C0()) {
         fx32 x = (touch->unk_0A.x - 0x80) << FX32_SHIFT;
         fx32 y = (touch->unk_0A.y - 0x60) << FX32_SHIFT;
-        if (sub_02007254(x - m_last.x, y - m_last.y) >= 0x10000) {
+        if (ApproxLength(x - m_last.x, y - m_last.y) >= 0x10000) {
             ov1_02131FE4(x, y);
-            unk_14->sub_02034C44(0x12F);
+            unk_14->PlaySe(0x12F);
             m_last.x = x;
             m_last.y = y;
         }
@@ -112,8 +112,8 @@ int CBattleAssistGrass::vfunc_10()
 
 void CBattleAssistGrass::vfunc_0C()
 {
-    unk_14->sub_02034C5C(0x12F);
-    unk_14->sub_02034C5C(0x130);
+    unk_14->StopSe(0x12F);
+    unk_14->StopSe(0x130);
 }
 
 GrassSlot *CBattleAssistGrass::ov1_02131FE4(fx32 x, fx32 y)
@@ -138,8 +138,8 @@ GrassSlot *CBattleAssistGrass::ov1_02131FE4(fx32 x, fx32 y)
     slot->m_effect->ov1_02127454(0x20, 0);
     slot->m_effect->ov1_021273A0(7, slot->m_size);
     CBattleAttackEffect *effect = slot->m_effect;
-    effect->m_motion.sub_02011D1C(x);
-    effect->m_motion.sub_02011D2C(y);
+    effect->m_motion.SetX(x);
+    effect->m_motion.SetY(y);
     slot->m_timer = 0;
     slot->m_flags |= 5;
     m_next++;

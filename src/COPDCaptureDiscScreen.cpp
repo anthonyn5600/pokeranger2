@@ -2,13 +2,13 @@
 
 #include <nitro.h>
 
+#include "AudioEngine.hpp"
+#include "BrightnessFade.hpp"
 #include "CGame.hpp"
 #include "CPlayerHPGauge.hpp"
 #include "CTouchPanel.hpp"
-#include "UnkClass_02001C04.hpp"
-#include "UnkClass_02008788.hpp"
-#include "UnkClass_0200E0B4.hpp"
-#include "UnkClass_02034478.hpp"
+#include "CellAnimController.hpp"
+#include "PadInput.hpp"
 #include "common.hpp"
 #include "heap.hpp"
 
@@ -53,9 +53,9 @@ COPDCaptureDiscScreen::~COPDCaptureDiscScreen()
 
 void COPDCaptureDiscScreen::Init()
 {
-    unk_058 = new UnkClass_0201AAE0("OPD", "data/interface/i019_LZ.bin", "OPD:i019_00.NCBR", "OPD:i019.NCLR", "OPD:i019_00.NCER", "OPD:i019_00.cac");
+    unk_058 = new GraphicsSet("OPD", "data/interface/i019_LZ.bin", "OPD:i019_00.NCBR", "OPD:i019.NCLR", "OPD:i019_00.NCER", "OPD:i019_00.cac");
     if (unk_058->m_anim != NULL) {
-        unk_05C = unk_058->m_anim->sub_02008A80(1, 0);
+        unk_05C = unk_058->m_anim->Create(1, 0);
     }
     ov3_02127B34();
     unk_138.ov3_02129198(0x400);
@@ -69,7 +69,7 @@ void COPDCaptureDiscScreen::Release()
         unk_1B8 = NULL;
     }
     if (unk_05C != 0 && unk_058->m_anim != NULL) {
-        unk_058->m_anim->sub_02008B80(unk_05C);
+        unk_058->m_anim->Remove(unk_05C);
         unk_05C = 0;
     }
     SAFE_DELETE(unk_058);
@@ -80,7 +80,7 @@ void COPDCaptureDiscScreen::Start(COPDTexture *textures)
     unk_008 = 0;
     unk_004 = 0;
     G3X_SetClearColor(0, 0x1F, 0x7FFF, 0x3F, FALSE);
-    UnkClass_0201AAE0 *res = unk_058;
+    GraphicsSet *res = unk_058;
     unk_00C[0].SetResources((UnkClass_CPrimitive_ImageProxy *)res->m_image, NULL, (UnkClass_CPrimitive_ImagePaletteProxy *)res->m_palette, (UnkClass_CSoftwareSprite_38 *)res->m_cells);
     unk_00C[0].SetXY(0, 0);
     unk_00C[0].m_z = 0x64;
@@ -121,7 +121,7 @@ void COPDCaptureDiscScreen::Start(COPDTexture *textures)
     CGame *game = CGame::GetInstance();
     MI_CpuFill8(unk_75C, 0, sizeof(unk_75C));
     for (int i = 0; i < 10; i++) {
-        unk_374[i].unk_18 = (UnkClass_02041D98 *)&textures[2];
+        unk_374[i].unk_18 = (NtfTextureParam *)&textures[2];
         unk_374[i].m_tex[0].x = unk_374[i].m_tex[1].x = 0;
         unk_374[i].m_tex[0].y = unk_374[i].m_tex[3].y = 0;
         unk_374[i].m_tex[2].x = unk_374[i].m_tex[3].x = 0x20000;
@@ -139,8 +139,8 @@ void COPDCaptureDiscScreen::Start(COPDTexture *textures)
     }
     unk_7FC = 0;
     unk_804 = 0;
-    game->unk_14BC->sub_0200E0E0(3, 30);
-    game->unk_14C0->sub_0200E0E0(3, 30);
+    game->unk_14BC->Start(3, 30);
+    game->unk_14C0->Start(3, 30);
 }
 
 void COPDCaptureDiscScreen::ov3_02127B34()
@@ -203,17 +203,17 @@ void COPDCaptureDiscScreen::Stop()
 int COPDCaptureDiscScreen::Update()
 {
     CGame *game = CGame::GetInstance();
-    UnkClass_02001C04 *pad = game->unk_0014;
+    PadInput *pad = game->unk_0014;
     CTouchPanel *tp = game->touchPanel;
     if (unk_008 <= 3 && ((u16)(pad->unk_0002 & PAD_BUTTON_A) || tp->unk_04 != 0)) {
-        game->m_audioEngine->sub_02034C44(0xFA);
-        game->unk_14BC->sub_0200E0E0(2, 30);
-        game->unk_14C0->sub_0200E0E0(2, 30);
+        game->m_audioEngine->PlaySe(0xFA);
+        game->unk_14BC->Start(2, 30);
+        game->unk_14C0->Start(2, 30);
         unk_008 = 6;
     }
     switch (unk_008) {
     case 0:
-        if (!game->unk_14BC->sub_0200E310() && !game->unk_14C0->sub_0200E310()) {
+        if (!game->unk_14BC->IsActive() && !game->unk_14C0->IsActive()) {
             unk_008 = 1;
             unk_004 = 0;
             m_sparkEmitter.func2();
@@ -233,7 +233,7 @@ int COPDCaptureDiscScreen::Update()
             unk_118.bounces = 0;
             unk_00C[0].SetXY(unk_118.x, unk_118.y - unk_118.z);
             unk_00C[0].m_alpha = 31;
-            game->m_audioEngine->sub_02034C44(0xA1);
+            game->m_audioEngine->PlaySe(0xA1);
         }
         break;
     case 2:
@@ -253,7 +253,7 @@ int COPDCaptureDiscScreen::Update()
                     unk_118.gravity = 0;
                     unk_004 = 45;
                 }
-                game->m_audioEngine->sub_02034C44(0x99);
+                game->m_audioEngine->PlaySe(0x99);
             }
         } else if (unk_118.bounces == 2) {
             if (--unk_004 <= 0) {
@@ -277,7 +277,7 @@ int COPDCaptureDiscScreen::Update()
     case 3:
     case 4:
         if (unk_058->m_anim != NULL) {
-            unk_058->m_anim->sub_020089EC();
+            unk_058->m_anim->UpdateAll();
         }
         unk_138.unk_28 = unk_2BC;
         if (unk_2BC != 0 && (u32)unk_2BC <= (u32)unk_1BC) {
@@ -290,9 +290,9 @@ int COPDCaptureDiscScreen::Update()
         if ((u32)unk_2BC <= (u32)unk_1BC && !(unk_2BC & 0x7F)) {
             m_lineEmitter.Burst(20, &unk_1C0[unk_2C0]);
             if (unk_2C0 <= 5) {
-                game->m_audioEngine->sub_02034C44(unk_2C0 + 0x1A);
+                game->m_audioEngine->PlaySe(unk_2C0 + 0x1A);
             } else {
-                game->m_audioEngine->sub_02034C44(0x1F);
+                game->m_audioEngine->PlaySe(0x1F);
             }
             if (++unk_2C0 == 2) {
                 unk_060[0].m_alpha = 31;
@@ -300,8 +300,8 @@ int COPDCaptureDiscScreen::Update()
             }
             if (unk_2C0 == 5) {
                 unk_7FC = 0x800;
-                game->unk_14BC->sub_0200E0E0(2, 30);
-                game->unk_14C0->sub_0200E0E0(2, 30);
+                game->unk_14BC->Start(2, 30);
+                game->unk_14C0->Start(2, 30);
                 unk_008 = 4;
             }
         }
@@ -311,9 +311,9 @@ int COPDCaptureDiscScreen::Update()
         } else {
             unk_800 += 0x800;
         }
-        if (unk_008 == 4 && !game->unk_14BC->sub_0200E310() && !game->unk_14C0->sub_0200E310() && (u32)unk_2BC > (u32)unk_1BC) {
+        if (unk_008 == 4 && !game->unk_14BC->IsActive() && !game->unk_14C0->IsActive() && (u32)unk_2BC > (u32)unk_1BC) {
             unk_004 = 90;
-            game->m_audioEngine->sub_02034C5C(0xB);
+            game->m_audioEngine->StopSe(0xB);
             unk_008 = 5;
         }
         break;
@@ -323,8 +323,8 @@ int COPDCaptureDiscScreen::Update()
         }
         break;
     case 6:
-        if (!game->unk_14BC->sub_0200E310() && !game->unk_14C0->sub_0200E310()) {
-            game->m_audioEngine->sub_02034C5C(0xB);
+        if (!game->unk_14BC->IsActive() && !game->unk_14C0->IsActive()) {
+            game->m_audioEngine->StopSe(0xB);
             return 1;
         }
         break;
@@ -396,7 +396,7 @@ void COPDCaptureDiscScreen::Render(Camera2D *camera, int flip)
         }
     }
     if (unk_05C != 0 && unk_058->m_anim != NULL) {
-        unk_00C[0].m_cellDataIdx = unk_058->m_anim->sub_02008828(unk_05C);
+        unk_00C[0].m_cellDataIdx = unk_058->m_anim->GetCell(unk_05C);
     }
     unk_00C[0].Render(camera);
 }

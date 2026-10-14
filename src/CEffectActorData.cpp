@@ -15,9 +15,9 @@ void CEffectActorData::Entry::AllocTex(BOOL immediate)
     }
     texKey = NNS_GfdAllocLnkTexVram(ncbr->unk_38, FALSE, 0);
     if (immediate) {
-        ncbr->sub_020076E8(NNS_GfdGetTexKeyAddr(texKey));
+        ncbr->LoadToVram(NNS_GfdGetTexKeyAddr(texKey));
     } else {
-        ncbr->sub_02007714(NNS_GfdGetTexKeyAddr(texKey));
+        ncbr->LoadToVramDeferred(NNS_GfdGetTexKeyAddr(texKey));
     }
 }
 
@@ -29,10 +29,10 @@ void CEffectActorData::Entry::FreeTex()
     }
 }
 
-void CEffectActorData::Entry::sub_020294A8()
+void CEffectActorData::Entry::ReleaseImage()
 {
     if (ncbr != NULL) {
-        ncbr->sub_020076B0();
+        ncbr->Release();
     }
 }
 
@@ -52,19 +52,19 @@ void CEffectActorData::Release()
         }
         SAFE_DELETE_ARRAY(m_entries);
     }
-    m_palette.sub_02007BC4();
+    m_palette.Release();
     FreeVram();
     m_count = 0;
 }
 
-void CEffectActorData::sub_020295B0(BOOL immediate)
+void CEffectActorData::AllocPalette(BOOL immediate)
 {
     if (m_plttKey == 0) {
         m_plttKey = NNS_GfdAllocLnkPlttVram(m_palette.unk_04->szByte, FALSE, 0);
         if (immediate) {
-            m_palette.sub_02007BFC(NNS_GfdGetPlttKeyAddr(m_plttKey));
+            m_palette.LoadToVram(NNS_GfdGetPlttKeyAddr(m_plttKey));
         } else {
-            m_palette.sub_02007C34(NNS_GfdGetPlttKeyAddr(m_plttKey));
+            m_palette.LoadToVramDeferred(NNS_GfdGetPlttKeyAddr(m_plttKey));
         }
     }
     for (u32 i = 0; i < m_count; i++) {
@@ -86,12 +86,12 @@ void CEffectActorData::FreeVram()
     }
 }
 
-void CEffectActorData::sub_020296B0()
+void CEffectActorData::ReleaseAll()
 {
-    m_palette.sub_02007BC4();
+    m_palette.Release();
     if (m_entries != NULL) {
         for (u32 i = 0; i < m_count; i++) {
-            m_entries[i].sub_020294A8();
+            m_entries[i].ReleaseImage();
         }
     }
 }
@@ -126,12 +126,12 @@ void CEffectActorData::Update()
 {
 }
 
-UnkClass_02007AA4 *CEffectActorData::GetPalette()
+VramPalette *CEffectActorData::GetPalette()
 {
     return &m_palette;
 }
 
-UnkClass_02008788 *CEffectActorData::GetCac(int i)
+CellAnimController *CEffectActorData::GetCac(int i)
 {
     if (i >= 0 && i < m_count) {
         return m_entries[i].cac;
@@ -147,7 +147,7 @@ CNCERFile *CEffectActorData::GetNcer(int i)
     return NULL;
 }
 
-UnkClass_020074D4 *CEffectActorData::GetNcbr(int i)
+VramImage *CEffectActorData::GetNcbr(int i)
 {
     if (i >= 0 && i < m_count) {
         return m_entries[i].ncbr;

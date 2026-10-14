@@ -1,22 +1,22 @@
 #include "battle/CBattleEnemyGauge.hpp"
 
 #include "CPlayerHPGauge.hpp"
-#include "UnkClass_020074D4.hpp"
-#include "UnkClass_02007AA4.hpp"
-#include "battle/UnkClass_021364AC.hpp"
+#include "VramImage.hpp"
+#include "VramPalette.hpp"
+#include "battle/BattleEnemyGaugeGfx.hpp"
 #include "file/CArchiveGuard.hpp"
 #include "file/CNCERFile.hpp"
 #include "fx_utils.hpp"
 #include "interpolation.hpp"
 
-static inline void SetSpriteRes(CSoftwareSprite *sprite, UnkClass_020074D4 *image, UnkClass_02007AA4 *palette, CNCERFile *cells)
+static inline void SetSpriteRes(CSoftwareSprite *sprite, VramImage *image, VramPalette *palette, CNCERFile *cells)
 {
     sprite->SetImage((UnkClass_CPrimitive_ImageProxy *)image, NULL);
     sprite->unk_34 = (UnkClass_CPrimitive_ImagePaletteProxy *)palette;
     sprite->unk_38 = (UnkClass_CSoftwareSprite_38 *)cells;
 }
 
-CBattleEnemyGauge::CBattleEnemyGauge(UnkClass_021364AC *res)
+CBattleEnemyGauge::CBattleEnemyGauge(BattleEnemyGaugeGfx *res)
 {
     m_res = res;
     ov1_02135D8C();
@@ -39,7 +39,7 @@ void CBattleEnemyGauge::ov1_02135D8C()
     m_bar.m_color = 0x3FF;
     m_bar.m_alpha = 0x1F;
     u8 i;
-    UnkClass_0201AAE0 *digits = m_res->m_digits;
+    GraphicsSet *digits = m_res->m_digits;
     SetSpriteRes(&m_dmgLabel, digits->m_image, digits->m_palette, digits->m_cells);
     m_dmgLabel.m_cellDataIdx = 10;
     for (i = 0; i < 4; i++) {
@@ -70,14 +70,14 @@ void CBattleEnemyGauge::ov1_02135E70(int type, u16 hp, u16 maxHP, Point2D pos)
         m_cell = 3;
         break;
     }
-    m_motion.sub_02011D3C(pos);
+    m_motion.SetPos(pos);
     m_flags |= 0x10;
 }
 
 void CBattleEnemyGauge::ov1_02135F2C(u16 hp, Point2D pos)
 {
     m_hp = hp;
-    m_motion.sub_02011D3C(pos);
+    m_motion.SetPos(pos);
 }
 
 void CBattleEnemyGauge::vfunc_08()
@@ -224,38 +224,38 @@ void CBattleEnemyGauge::ov1_0213642C()
     }
 }
 
-UnkClass_021364AC::UnkClass_021364AC()
+BattleEnemyGaugeGfx::BattleEnemyGaugeGfx()
 {
     ov1_021364D4();
 }
 
-UnkClass_021364AC::~UnkClass_021364AC()
+BattleEnemyGaugeGfx::~BattleEnemyGaugeGfx()
 {
     ov1_02136678();
 }
 
-void UnkClass_021364AC::ov1_021364D4()
+void BattleEnemyGaugeGfx::ov1_021364D4()
 {
     CArchiveGuard *guard = new CArchiveGuard("BEG", "data/interface/i000_LZ.bin", 1, 1, 0, NULL, 0);
 
-    m_image = new UnkClass_020074D4("BEG:i000_00.NCBR", 0, 0, 0);
+    m_image = new VramImage("BEG:i000_00.NCBR", 0, 0, 0);
     m_texKey = NNS_GfdAllocLnkTexVram(m_image->unk_38, FALSE, 0);
-    m_image->sub_020076E8(NNS_GfdGetTexKeyAddr(m_texKey));
-    m_image->sub_020076B0();
+    m_image->LoadToVram(NNS_GfdGetTexKeyAddr(m_texKey));
+    m_image->Release();
 
-    m_palette = new UnkClass_02007AA4("BEG:i000.NCLR", 0, 0);
+    m_palette = new VramPalette("BEG:i000.NCLR", 0, 0);
     m_plttKey = NNS_GfdAllocLnkPlttVram(m_palette->unk_04->szByte, FALSE, 0);
-    m_palette->sub_02007BFC(NNS_GfdGetPlttKeyAddr(m_plttKey));
-    m_palette->sub_02007BC4();
+    m_palette->LoadToVram(NNS_GfdGetPlttKeyAddr(m_plttKey));
+    m_palette->Release();
 
     m_cells = new CNCERFile("BEG:i000_00.NCER", 1, 0, 0);
 
     SAFE_DELETE(guard);
 
-    m_digits = new UnkClass_0201AAE0("BDN", "/data/interface/i070_LZ.bin", "BDN:i070_00.NCBR", "BDN:i070.NCLR", "BDN:i070_00.NCER", "BDN:i070_00.cac");
+    m_digits = new GraphicsSet("BDN", "/data/interface/i070_LZ.bin", "BDN:i070_00.NCBR", "BDN:i070.NCLR", "BDN:i070_00.NCER", "BDN:i070_00.cac");
 }
 
-void UnkClass_021364AC::ov1_02136678()
+void BattleEnemyGaugeGfx::ov1_02136678()
 {
     SAFE_DELETE(m_image);
     SAFE_DELETE(m_palette);

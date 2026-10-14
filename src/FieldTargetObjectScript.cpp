@@ -6,7 +6,7 @@
 #include "sub_02044440.hpp"
 
 extern "C" {
-void sub_02044AC8(void *script);
+void Script_Link(void *script);
 }
 
 // One loaded target object/touch script (twin of UnkStruct_021357DC).
@@ -40,32 +40,32 @@ void UnkStruct_02141F40::Load(const char *path, int id)
     unk_04 = new CBinaryFile(path, 0, 0, heapId, NULL, 0);
     unk_08 = unk_04->unk_4C;
     if (unk_08 != NULL) {
-        sub_02044AC8(unk_08);
+        Script_Link(unk_08);
     }
     unk_00 = id;
 }
 
-UnkClass_02142028::UnkClass_02142028()
+FieldTargetObjectScriptCache::FieldTargetObjectScriptCache()
 {
-    sub_02044440();
+    Script_InitSyscalls();
     for (int i = 0; i < 32; i++) {
         m_scripts[i] = NULL;
     }
 }
 
-UnkClass_02142028::~UnkClass_02142028()
+FieldTargetObjectScriptCache::~FieldTargetObjectScriptCache()
 {
     ov0_02142068();
 }
 
-void UnkClass_02142028::ov0_02142068()
+void FieldTargetObjectScriptCache::ov0_02142068()
 {
     for (int i = 0; i < 32; i++) {
         SAFE_DELETE(m_scripts[i]);
     }
 }
 
-void *UnkClass_02142028::ov0_021420AC(int id, BOOL touch)
+void *FieldTargetObjectScriptCache::ov0_021420AC(int id, BOOL touch)
 {
     char path[0x100];
     u32 key = id;

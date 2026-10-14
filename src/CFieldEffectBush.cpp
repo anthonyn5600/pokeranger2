@@ -25,7 +25,7 @@ void CFieldEffectBush::ov0_021423A4()
     Detach();
 }
 
-void CFieldEffectBush::SetRes(UnkClass_020074D4 *ncbr, UnkClass_02007AA4 *palette)
+void CFieldEffectBush::SetRes(VramImage *ncbr, VramPalette *palette)
 {
     m_sprite.unk_2C = (UnkClass_CPrimitive_ImageProxy *)ncbr;
     m_sprite.unk_30 = NULL;
@@ -61,7 +61,7 @@ void CFieldEffectBush::Attach(CFieldActor *actor, CFieldEffectManage *mgr)
         ReleaseAnim();
         m_cac = mgr->m_resident.GetCac(m_kind);
         if (m_cac != NULL) {
-            m_anim = m_cac->sub_02008A80(1, 0);
+            m_anim = m_cac->Create(1, 0);
         }
         return;
     }
@@ -99,7 +99,7 @@ int CFieldEffectBush::ov0_02142344(Camera2D *camera)
             return -1;
         }
         if (m_cac != NULL && m_anim != 0) {
-            m_sprite.m_cellDataIdx = m_cac->sub_02008828(m_anim);
+            m_sprite.m_cellDataIdx = m_cac->GetCell(m_anim);
         }
         CFieldActor *actor = m_actor;
         int ofs = (actor->unk_D6 + 8) << 12;
@@ -140,7 +140,7 @@ BOOL CFieldEffectBush::IsOnScreen(CFieldActor *actor)
             r.size.x = 0x10000;
             break;
         }
-        ret = camera->sub_020038A8(&r, 0x1199);
+        ret = camera->IsRectVisible(&r, 0x1199);
     }
     return ret;
 }
@@ -149,7 +149,7 @@ CFieldEffectBushFactory::CFieldEffectBushFactory(CFieldEffectManage *mgr)
 {
     if (mgr != NULL) {
         for (int i = 0; i < 16; i++) {
-            UnkClass_02007AA4 *palette = mgr->m_resident.GetPalette();
+            VramPalette *palette = mgr->m_resident.GetPalette();
             m_bushes[i].SetRes(mgr->m_resident.GetNcbr(0), palette);
         }
     }
@@ -168,7 +168,7 @@ CFieldEffect *CFieldEffectBushFactory::Create(int arg)
     return bush;
 }
 
-int CFieldEffectBush::sub_02033028()
+int CFieldEffectBush::GetEffectId()
 {
     return 0x25;
 }

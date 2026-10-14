@@ -1,7 +1,7 @@
 #include "scene/CMapDispRscLoader.hpp"
 
+#include "BrightnessFade.hpp"
 #include "CGame.hpp"
-#include "UnkClass_0200E0B4.hpp"
 #include "file/CArchiveGuard.hpp"
 
 static void ov28_0211D030(void *arg);
@@ -115,12 +115,12 @@ static void ov28_0211D030(void *arg)
             break;
         }
         BOOL cancel;
-        UnkClass_0200E0B4 *fade = CGame::GetInstance()->unk_14C0;
-        if (fade->sub_0200E324() != 4) {
-            fade->sub_0200E0E0(4, 30);
+        BrightnessFade *fade = CGame::GetInstance()->unk_14C0;
+        if (fade->GetMode() != 4) {
+            fade->Start(4, 30);
         }
         cancel = FALSE;
-        while (fade->sub_0200E310()) {
+        while (fade->IsActive()) {
             OS_Sleep(17);
             if (OS_ReadMessage(&loader->m_queue, &msg, OS_MESSAGE_NOBLOCK)) {
                 cancel = TRUE;
@@ -129,7 +129,7 @@ static void ov28_0211D030(void *arg)
         }
         if (!cancel) {
             loader->Load(id);
-            fade->sub_0200E0E0(3, 30);
+            fade->Start(3, 30);
         }
     }
 }

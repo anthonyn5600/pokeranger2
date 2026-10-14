@@ -5,11 +5,11 @@
 
 #include "CEffectActorData.hpp"
 #include "Camera2D.hpp"
+#include "Collision.hpp"
 #include "common.hpp"
 #include "field/CPrimitiveNTF.hpp"
 #include "primitive/CPrimitiveLINE.hpp"
 #include "primitive/CSoftwareSprite.hpp"
-#include "sub_02006000.hpp"
 
 class CFieldScreenEffectActorData;
 
@@ -114,7 +114,7 @@ public:
     virtual void Update()
     {
         if (GetCac(0) != NULL) {
-            GetCac(0)->sub_020089EC();
+            GetCac(0)->UpdateAll();
         }
     }
 

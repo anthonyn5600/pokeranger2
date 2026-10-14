@@ -3,11 +3,11 @@
 
 #include <nitro.h>
 
+#include "Collision.hpp"
 #include "common.hpp"
-#include "sub_02006000.hpp"
 
 class UnkClass_02127CD8;
-class UnkClass_02008788;
+class CellAnimController;
 class CSoftwareSprite;
 
 class Camera2D;
@@ -34,8 +34,8 @@ public:
     u16 m_cell1;
     CSoftwareSprite *m_sprite0;
     CSoftwareSprite *m_sprite1;
-    UnkClass_02008788 *m_anim0;
-    UnkClass_02008788 *m_anim1;
+    CellAnimController *m_anim0;
+    CellAnimController *m_anim1;
     u16 m_animId0;
     u16 m_animId1;
 };

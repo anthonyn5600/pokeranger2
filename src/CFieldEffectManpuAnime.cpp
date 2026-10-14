@@ -4,7 +4,7 @@
 
 #include "field/CFieldEffectManpuPos.hpp"
 
-CFieldEffectManpuAnime::CFieldEffectManpuAnime(CEffectActorData *data, UnkClass_0216D420 *slots, int type)
+CFieldEffectManpuAnime::CFieldEffectManpuAnime(CEffectActorData *data, AnimSlotPool *slots, int type)
     : CFieldEffectManpuSimple(data, type)
 {
     m_slots = slots;
@@ -19,10 +19,10 @@ CFieldEffectManpuAnime::~CFieldEffectManpuAnime()
 int CFieldEffectManpuAnime::ov0_02142264(int step)
 {
     UpdatePos(step);
-    UnkClass_02008788 *cac = unk_18->GetCac(unk_78);
+    CellAnimController *cac = unk_18->GetCac(unk_78);
     if (cac != NULL && m_anim != 0) {
-        cac->sub_02008A38(m_anim);
-        m_sprite.m_cellDataIdx = cac->sub_02008828(m_anim);
+        cac->Update(m_anim);
+        m_sprite.m_cellDataIdx = cac->GetCell(m_anim);
     }
     return CFieldEffectActor::ov0_02142264(step);
 }

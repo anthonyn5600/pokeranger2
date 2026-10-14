@@ -16,7 +16,7 @@ class CFieldPartner : public CFieldActor {
 public:
     CFieldPartner();
     virtual ~CFieldPartner();
-    virtual void sub_0202D7E0();
+    virtual void StopMotion();
     virtual void sub_02032A44(int sequence);
     virtual void SetUnk1EC(int value);
 

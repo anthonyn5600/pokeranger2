@@ -1,16 +1,16 @@
 #include <nitro.h>
 
+#include "AudioEngine.hpp"
+#include "BGLayer.hpp"
+#include "BrightnessFade.hpp"
 #include "CGame.hpp"
 #include "CTouchPanel.hpp"
-#include "UnkClass_02001C04.hpp"
-#include "UnkClass_020091E8.hpp"
-#include "UnkClass_0200C38C.hpp"
-#include "UnkClass_0200E0B4.hpp"
-#include "UnkClass_0200E960.hpp"
-#include "UnkClass_0200ECD0.hpp"
-#include "UnkClass_0201FC80.hpp"
-#include "UnkClass_0202A2AC.hpp"
-#include "UnkClass_02034478.hpp"
+#include "OamSprite.hpp"
+#include "OamSpriteSet.hpp"
+#include "PadInput.hpp"
+#include "SubScreenButton.hpp"
+#include "TextPrinter.hpp"
+#include "TextboxManager.hpp"
 #include "scene/CStylerScreens.hpp"
 
 static StylerPartEntry sEntries[47] = {
@@ -65,30 +65,30 @@ static StylerPartEntry sEntries[47] = {
 
 static u8 sEmptyText[0x20];
 
-void CStylerPartButton::Init(int id, UnkClass_0200ECD0 *sprites, int anim, int x, int y, BOOL large)
+void CStylerPartButton::Init(int id, OamSpriteSet *sprites, int anim, int x, int y, BOOL large)
 {
     m_id = id;
     m_sprites = sprites;
-    m_obj = sprites->sub_0200F4FC(anim, x, y, 1);
+    m_obj = sprites->AddSprite(anim, x, y, 1);
     m_slot = sprites->unk_24;
     if (large == TRUE) {
-        m_obj->sub_0200EBF4(0x20, 0x40, 0, 0);
+        m_obj->SetTouchRect(0x20, 0x40, 0, 0);
     } else {
-        m_obj->sub_0200EBF4(0x20, 0x20, 0, 0);
+        m_obj->SetTouchRect(0x20, 0x20, 0, 0);
     }
 }
 
 u8 CStylerPartButton::IsTouched()
 {
-    return m_obj->sub_0200EB84();
+    return m_obj->GetTouchTrigger();
 }
 
-void CStylerPartCursor::Init(UnkClass_0200ECD0 *sprites)
+void CStylerPartCursor::Init(OamSpriteSet *sprites)
 {
     m_sprites = sprites;
-    m_objs[0] = sprites->sub_0200F4FC(0, 0, 0, 0);
+    m_objs[0] = sprites->AddSprite(0, 0, 0, 0);
     m_slots[0] = sprites->unk_24;
-    m_objs[1] = sprites->sub_0200F4FC(3, 0, 0, 0);
+    m_objs[1] = sprites->AddSprite(3, 0, 0, 0);
     m_slots[1] = sprites->unk_24;
     m_objs[0]->unk_14 = FALSE;
     m_objs[1]->unk_14 = FALSE;
@@ -101,14 +101,14 @@ void CStylerPartCursor::Set(int x, int y, int size)
     case 0:
         m_objs[0]->unk_14 = TRUE;
         m_objs[1]->unk_14 = FALSE;
-        m_objs[0]->sub_0200EB28(x, y);
-        m_sprites->sub_0200F628(m_slots[0], 0);
+        m_objs[0]->SetPos(x, y);
+        m_sprites->SetAnim(m_slots[0], 0);
         break;
     case 1:
         m_objs[1]->unk_14 = TRUE;
         m_objs[0]->unk_14 = FALSE;
-        m_objs[1]->sub_0200EB28(x, y);
-        m_sprites->sub_0200F628(m_slots[1], 3);
+        m_objs[1]->SetPos(x, y);
+        m_sprites->SetAnim(m_slots[1], 3);
         break;
     }
     m_frame = 0;
@@ -130,7 +130,7 @@ void CStylerPartCursor::Update()
     if (++m_frame == 3) {
         m_frame = 0;
     }
-    m_sprites->sub_0200F628(m_slots[m_size], m_size * 3 + m_frame);
+    m_sprites->SetAnim(m_slots[m_size], m_size * 3 + m_frame);
 }
 
 CStylerPartsScreen::CStylerPartsScreen(CGame *game, CStylerData *data)
@@ -171,7 +171,7 @@ void CStylerPartsScreen::Release()
     SAFE_DELETE(m_cursor);
 
     m_game->m_textboxData->sub_02009FB0(1, 1);
-    m_game->m_textboxData->sub_020092D4();
+    m_game->m_textboxData->Reset();
 }
 
 void CStylerPartsScreen::Reset()
@@ -204,10 +204,10 @@ void CStylerPartsScreen::SetupBG()
 void CStylerPartsScreen::LoadSprites()
 {
     int charNo = 0;
-    m_sprites = new UnkClass_0200ECD0((GXOamAttr *)&m_game->unk_0024[8], m_game->unk_14A8, FALSE, 0x40);
-    charNo += m_sprites->sub_0200EE14("data/menu", "stl001_00", charNo / 32, 0);
-    m_cursorSprites = new UnkClass_0200ECD0((GXOamAttr *)&m_game->unk_0024[2], m_game->unk_14A8, FALSE, 0x40);
-    m_cursorSprites->sub_0200EE14("data/menu", "stl002_00", charNo / 32, 14);
+    m_sprites = new OamSpriteSet((GXOamAttr *)&m_game->unk_0024[8], m_game->unk_14A8, FALSE, 0x40);
+    charNo += m_sprites->Load("data/menu", "stl001_00", charNo / 32, 0);
+    m_cursorSprites = new OamSpriteSet((GXOamAttr *)&m_game->unk_0024[2], m_game->unk_14A8, FALSE, 0x40);
+    m_cursorSprites->Load("data/menu", "stl002_00", charNo / 32, 14);
     MI_CpuCopyFast((void *)HW_OBJ_PLTT, m_palette, 0x1E0);
 }
 
@@ -219,22 +219,22 @@ void CStylerPartsScreen::LoadBG()
 
 void CStylerPartsScreen::DrawTexts()
 {
-    UnkClass_0200C38C *printer = m_game->unk_1494;
-    printer->sub_0200C3D0();
-    printer->sub_0200C408(0, GX_BG_SCRBASE_0x9000, GX_BG_CHARBASE_0x10000);
-    printer->sub_0200C680(1);
-    printer->sub_0200C6C8(0, 20, 3, 0, 0, 1, 0, 2);
+    TextPrinter *printer = m_game->unk_1494;
+    printer->FreeWindows();
+    printer->SetupBG(0, GX_BG_SCRBASE_0x9000, GX_BG_CHARBASE_0x10000);
+    printer->AllocWindows(1);
+    printer->InitWindow(0, 20, 3, 0, 0, 1, 0, 2);
 
     if (m_menuMessages->unk_08[64].unk_04 != NULL) {
-        printer->sub_0200C7A4(0, 4, 6, 3, m_menuMessages->unk_08[64].unk_04, FALSE, 0);
+        printer->Print(0, 4, 6, 3, m_menuMessages->unk_08[64].unk_04, FALSE, 0);
     }
 
-    m_game->m_textboxData->sub_0200AB28(3);
-    m_game->m_textboxData->sub_0200AA04(0);
+    m_game->m_textboxData->LoadSystemMessages(3);
+    m_game->m_textboxData->SetTextSpeed(0);
     if (m_level == 0) {
-        m_game->m_textboxData->sub_0200AD34(0x18, 1, 1, 0);
+        m_game->m_textboxData->ShowSystemMessage(0x18, 1, 1, 0);
     } else {
-        m_game->m_textboxData->sub_02009D8C(sEmptyText, 1, 1, 0);
+        m_game->m_textboxData->ShowText(sEmptyText, 1, 1, 0);
     }
 }
 
@@ -253,10 +253,10 @@ void CStylerPartsScreen::CreateButtons()
             m_buttons[i] = CreateButton(i, entry);
             if (m_level != 0 && entry == m_selected) {
                 m_selectedButton = m_buttons[i];
-                m_selectedButton->m_sprites->sub_0200F628(m_selectedButton->m_slot, entry->unlockLevel == 25 ? 48 : 47);
+                m_selectedButton->m_sprites->SetAnim(m_selectedButton->m_slot, entry->unlockLevel == 25 ? 48 : 47);
             }
         } else {
-            m_sprites->sub_0200F4FC(entry->unlockLevel == 25 ? 48 : 47, entry->x, entry->y, 1);
+            m_sprites->AddSprite(entry->unlockLevel == 25 ? 48 : 47, entry->x, entry->y, 1);
         }
     }
 
@@ -268,31 +268,31 @@ int CStylerPartsScreen::Update()
 {
     unk_08++;
     if (m_level != 0 && unk_08 == 600) {
-        m_game->m_textboxData->sub_0200A088(1);
-        m_game->m_textboxData->sub_0200AA04(0);
-        m_game->m_textboxData->sub_0200AD34(0x72, 1, 1, 0);
+        m_game->m_textboxData->Clear(1);
+        m_game->m_textboxData->SetTextSpeed(0);
+        m_game->m_textboxData->ShowSystemMessage(0x72, 1, 1, 0);
     }
 
     m_cursor->Update();
     if (m_sprites != NULL) {
-        m_sprites->sub_0200F64C();
+        m_sprites->Update();
     }
     if (m_cursorSprites != NULL) {
-        m_cursorSprites->sub_0200F64C();
+        m_cursorSprites->Update();
     }
 
     switch (unk_04) {
     case 0:
-        if (!m_game->unk_14BC->sub_0200E310() && !m_game->unk_14C0->sub_0200E310()) {
+        if (!m_game->unk_14BC->IsActive() && !m_game->unk_14C0->IsActive()) {
             if (m_level != 0) {
                 if (unk_08 == 60) {
                     m_cursor->Set(m_selected->x, m_selected->y, m_selected->unlockLevel == 25);
-                    m_selectedButton->m_sprites->sub_0200F628(m_selectedButton->m_slot, m_selected->anim);
-                    m_game->m_audioEngine->sub_02034C44(0xBA);
+                    m_selectedButton->m_sprites->SetAnim(m_selectedButton->m_slot, m_selected->anim);
+                    m_game->m_audioEngine->PlaySe(0xBA);
                     if (m_level > 25) {
-                        m_game->m_textboxData->sub_0200AD34(m_level + 0x17 + m_selected->level, 1, 1, 0);
+                        m_game->m_textboxData->ShowSystemMessage(m_level + 0x17 + m_selected->level, 1, 1, 0);
                     } else {
-                        m_game->m_textboxData->sub_0200AD34(m_level + 0x18, 1, 1, 0);
+                        m_game->m_textboxData->ShowSystemMessage(m_level + 0x18, 1, 1, 0);
                     }
                     unk_04 = 1;
                 }
@@ -303,18 +303,18 @@ int CStylerPartsScreen::Update()
         break;
     case 1: {
         CGame *game = m_game;
-        UnkClass_02001C04 *pad = game->unk_0014;
+        PadInput *pad = game->unk_0014;
         CTouchPanel *touchPanel = game->touchPanel;
         if (m_level != 0) {
             if (touchPanel->unk_04 != 0 || (u16)(pad->unk_0002 & PAD_BUTTON_A) || (u16)(pad->unk_0002 & PAD_BUTTON_B)) {
-                game->m_audioEngine->sub_02034C44(0x103);
+                game->m_audioEngine->PlaySe(0x103);
                 unk_04 = 2;
-                m_game->unk_14BC->sub_0200E0E0(4, 20);
-                m_game->unk_14C0->sub_0200E0E0(4, 20);
+                m_game->unk_14BC->Start(4, 20);
+                m_game->unk_14C0->Start(4, 20);
             }
-        } else if (unk_220->sub_0202A404()) {
+        } else if (unk_220->UpdateInput()) {
             unk_04 = 2;
-            m_game->unk_14BC->sub_0200E0E0(4, 20);
+            m_game->unk_14BC->Start(4, 20);
         } else {
             UpdateButtons();
         }
@@ -322,11 +322,11 @@ int CStylerPartsScreen::Update()
     }
     case 2:
         if (m_level != 0) {
-            if (!m_game->unk_14BC->sub_0200E310() && !m_game->unk_14C0->sub_0200E310()) {
+            if (!m_game->unk_14BC->IsActive() && !m_game->unk_14C0->IsActive()) {
                 return -1;
             }
         } else {
-            if (!m_game->unk_14BC->sub_0200E310()) {
+            if (!m_game->unk_14BC->IsActive()) {
                 return 1;
             }
         }
@@ -346,9 +346,9 @@ void CStylerPartsScreen::UpdateButtons()
             }
             m_selected = entry;
             m_selectedButton = m_buttons[i];
-            m_game->m_audioEngine->sub_02034C44(0xFA);
+            m_game->m_audioEngine->PlaySe(0xFA);
             m_cursor->Set(m_selected->x, m_selected->y, m_selected->unlockLevel == 25);
-            m_game->m_textboxData->sub_0200AD34(i + 0x77, 1, 1, 0);
+            m_game->m_textboxData->ShowSystemMessage(i + 0x77, 1, 1, 0);
             return;
         }
     }
@@ -357,13 +357,13 @@ void CStylerPartsScreen::UpdateButtons()
 void CStylerPartsScreen::Render()
 {
     if (m_level == 0) {
-        unk_220->sub_0202A47C();
+        unk_220->Render();
     }
     if (m_cursorSprites != NULL) {
-        m_cursorSprites->sub_0200F71C();
+        m_cursorSprites->WriteOam();
     }
     if (m_sprites != NULL) {
-        m_sprites->sub_0200F71C();
+        m_sprites->WriteOam();
     }
 }
 

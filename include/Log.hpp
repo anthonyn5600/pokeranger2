@@ -30,13 +30,13 @@ extern char MAIN_BSS_0210CAC8[0x400];
 
 void thunk_FUN_02064f9c(const char *text);
 void sub_020441AC(const char *text);
-void sub_020441B0(void);
-void sub_02044200(const char *text);
-void sub_02044260(const char *text);
-void sub_020442CC(const char *fmt, va_list args);
-void sub_02044308(const char *fmt, va_list args);
+void Log_Flush(void);
+void Log_WriteFile(const char *text);
+void Log_Write(const char *text);
+void Log_VPrintln(const char *fmt, va_list args);
+void Log_VPrint(const char *fmt, va_list args);
 void thunk_FUN_020442cc(const char *fmt, va_list args);
-void sub_02044340(const char *fmt, ...);
+void Log_Println(const char *fmt, ...);
 void thunk_FUN_02044308(const char *fmt, va_list args);
 }
 

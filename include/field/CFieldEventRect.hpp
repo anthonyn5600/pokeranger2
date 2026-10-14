@@ -3,11 +3,11 @@
 
 #include <nitro.h>
 
+#include "Collision.hpp"
 #include "UnkStruct_02044464.hpp"
 #include "common.hpp"
 #include "file/CBinaryFile.hpp"
 #include "primitive/CPrimitiveRECT.hpp"
-#include "sub_02006000.hpp"
 
 // FieldEventRect.cpp (ov0): a map area that runs a script (EventEnter/EventLeave) when entered or left.
 class CFieldEventRect {

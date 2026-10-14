@@ -1,13 +1,13 @@
+#include "AudioEngine.hpp"
+#include "BattleStartParam.hpp"
 #include "CBattleResultParameter.hpp"
 #include "CGame.hpp"
-#include "UnkClass_02010854.hpp"
-#include "UnkClass_02034478.hpp"
+#include "FieldCannons.hpp"
+#include "FieldEventRectManage.hpp"
+#include "FieldScriptLauncher.hpp"
+#include "FieldSyscallSets.hpp"
+#include "SaveData.hpp"
 #include "UnkClass_02041D80.hpp"
-#include "UnkClass_020B26A0.hpp"
-#include "UnkClass_0213D624.hpp"
-#include "UnkClass_0213DDCC.hpp"
-#include "UnkClass_0213F918.hpp"
-#include "UnkClass_0215994C.hpp"
 #include "UnkStruct_02044464.hpp"
 #include "field/CFieldEffectManage.hpp"
 #include "field/CFieldEnemyManage.hpp"
@@ -20,27 +20,27 @@
 #include "scene/CFieldScene.hpp"
 
 extern CFieldScene *MAIN_BSS_0210CA40;
-extern UnkClass_0213F918 *MAIN_BSS_0210CA44;
-extern UnkClass_0213DDCC *MAIN_BSS_0210CA58;
+extern FieldScriptLauncher *MAIN_BSS_0210CA44;
+extern FieldEventRectManage *MAIN_BSS_0210CA58;
 extern CFieldPlayer *MAIN_BSS_0210CA48;
 extern CFieldPartnerManage *MAIN_BSS_0210CA4C;
 extern CFieldEnemyManage *MAIN_BSS_0210CA5C;
 extern CFieldEffectManage *MAIN_BSS_0210CA60;
-extern UnkClass_02041C80 *MAIN_BSS_0210CA6C;
+extern FieldData *MAIN_BSS_0210CA6C;
 extern CFieldTargetObjectManage *MAIN_BSS_0210CA7C;
-extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
+extern SaveData MAIN_BSS_020B26A0;
 
-static inline UnkClass_02034478 *Audio()
+static inline AudioEngine *Audio()
 {
     return s_game->m_audioEngine;
 }
 
 extern "C" {
-void sub_02015714(UnkClass_020B26A0 *save, int idx, int mapId);
-void sub_0201577C(UnkClass_020B26A0 *save, int idx, int mapId);
-u32 sub_02016EC4(UnkClass_020B26A0 *save, u32 value);
-UnkStruct_020155FC *sub_02015520(UnkClass_020B26A0 *save, u32 id);
-UnkStruct_020155FC *sub_020155FC(UnkClass_020B26A0 *save, int idx);
+void sub_02015714(SaveData *save, int idx, int mapId);
+void sub_0201577C(SaveData *save, int idx, int mapId);
+u32 SaveData_AddPokemonRides(SaveData *save, u32 value);
+UnkStruct_020155FC *SaveData_FindEntry(SaveData *save, u32 id);
+UnkStruct_020155FC *SaveData_GetEntry(SaveData *save, int idx);
 int ov0_02149E78(int *args, int argc);
 int ov0_02149E80(int *args, int argc);
 int ov0_02149ED0(int *args, int argc);
@@ -185,17 +185,17 @@ static ScriptSyscall sFieldSyscalls[] = {
     (ScriptSyscall)ov0_0214B6CC,
 };
 
-UnkClass_02149E58::UnkClass_02149E58()
+FieldSyscalls::FieldSyscalls()
 {
 }
 
-UnkClass_02149E58::~UnkClass_02149E58()
+FieldSyscalls::~FieldSyscalls()
 {
 }
 
-void UnkClass_02149E58::ov0_02149E60()
+void FieldSyscalls::ov0_02149E60()
 {
-    sub_02044B38(0xE, sFieldSyscalls);
+    Script_RegisterSyscalls(0xE, sFieldSyscalls);
 }
 
 extern "C" {
@@ -229,7 +229,7 @@ int ov0_02149ED0(int *args, int argc)
         if (argc > 0) {
             a = args[0];
         }
-        sub_02010868(scene->m_game->unk_143C);
+        BattleStartParam_Reset(scene->m_game->unk_143C);
         sub_02010D04(scene->m_game->unk_1444);
         scene->ov0_02122FEC(a, -1, -1);
         scene->unk_00D0 |= 1;
@@ -239,7 +239,7 @@ int ov0_02149ED0(int *args, int argc)
 
 int ov0_02149F3C(int *args, int argc)
 {
-    UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+    SaveData *save = &MAIN_BSS_020B26A0;
     int map = 0;
     int idx = 0;
     if (argc > 0) {
@@ -249,8 +249,8 @@ int ov0_02149F3C(int *args, int argc)
         idx = args[1];
     }
     sub_0201577C(save, idx, map);
-    if (map == save->unk_001A) {
-        UnkClass_0213DDCC *manage = MAIN_BSS_0210CA58;
+    if (map == save->m_mapId) {
+        FieldEventRectManage *manage = MAIN_BSS_0210CA58;
         if (manage != NULL) {
             CFieldEventRect *rect = manage->Get(idx);
             if (rect != NULL) {
@@ -263,7 +263,7 @@ int ov0_02149F3C(int *args, int argc)
 
 int ov0_02149FB8(int *args, int argc)
 {
-    UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+    SaveData *save = &MAIN_BSS_020B26A0;
     int map = 0;
     int idx = 0;
     if (argc > 0) {
@@ -273,8 +273,8 @@ int ov0_02149FB8(int *args, int argc)
         idx = args[1];
     }
     sub_02015714(save, idx, map);
-    if (map == save->unk_001A) {
-        UnkClass_0213DDCC *manage = MAIN_BSS_0210CA58;
+    if (map == save->m_mapId) {
+        FieldEventRectManage *manage = MAIN_BSS_0210CA58;
         if (manage != NULL) {
             CFieldEventRect *rect = manage->Get(idx);
             if (rect != NULL) {
@@ -341,9 +341,9 @@ int ov0_0214A110(int *args, int argc)
 int ov0_0214A138(int *args, int argc)
 {
     u32 id = args[0];
-    UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
-    sub_02016EC4(save, 1);
-    UnkStruct_020155FC *data = sub_02015520(save, id);
+    SaveData *save = &MAIN_BSS_020B26A0;
+    SaveData_AddPokemonRides(save, 1);
+    UnkStruct_020155FC *data = SaveData_FindEntry(save, id);
     CFieldPlayer *player = MAIN_BSS_0210CA48;
     if (data != NULL && player != NULL) {
         switch (data->unk_00) {
@@ -363,8 +363,8 @@ int ov0_0214A138(int *args, int argc)
             save->unk_8802 = 3;
             Audio()->sub_02034D54(0x18B, 0x40);
             if (Audio()->unk_F0 != 1) {
-                Audio()->sub_0203499C(0x1E);
-                Audio()->sub_02034A40(0x10, 0);
+                Audio()->LoadBgmGroup(0x1E);
+                Audio()->PlayBgm(0x10, 0);
                 Audio()->sub_02034F4C(1);
             }
             break;
@@ -393,12 +393,12 @@ int ov0_0214A138(int *args, int argc)
 
 int ov0_0214A3A8(int *args, int argc)
 {
-    UnkClass_020B26A0 *save = (UnkClass_020B26A0 *)(void *)&MAIN_BSS_020B26A0;
+    SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     u32 ret = 0;
     u32 id = save->unk_7C38;
     if (id != 0) {
         u8 ride = save->unk_8802;
-        UnkStruct_020155FC *data = sub_02015520(save, id);
+        UnkStruct_020155FC *data = SaveData_FindEntry(save, id);
         CFieldPlayer *player = MAIN_BSS_0210CA48;
         if (data != NULL && player != NULL) {
             switch (ride) {
@@ -408,11 +408,11 @@ int ov0_0214A3A8(int *args, int argc)
                 save->unk_8802 = 1;
                 break;
             case 3: {
-                UnkClass_02041C80 *maps = MAIN_BSS_0210CA6C;
+                FieldData *maps = MAIN_BSS_0210CA6C;
                 if (Audio()->unk_D0 == 0x10) {
-                    sub_02041D80(maps, save->unk_001A);
+                    FieldData_GetMap(maps, save->m_mapId);
                     Audio()->sub_02034F4C(0);
-                    Audio()->sub_020346CC(save->unk_001A, 0x1E, 0);
+                    Audio()->PlayMapBgm(save->m_mapId, 0x1E, 0);
                 }
             }
             default:
@@ -423,7 +423,7 @@ int ov0_0214A3A8(int *args, int argc)
             CFieldPartnerManage *partners = MAIN_BSS_0210CA4C;
             if (partners != NULL) {
                 partners->sub_02040428();
-                partners->sub_02040384(player->GetPos());
+                partners->SetPosAll(player->GetPos());
             }
         }
         sub_020162BC(save, 0);
@@ -433,7 +433,7 @@ int ov0_0214A3A8(int *args, int argc)
 }
 int ov0_0214A56C(int *args, int argc)
 {
-    UnkClass_020B26A0 *save = (UnkClass_020B26A0 *)(void *)&MAIN_BSS_020B26A0;
+    SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     if (save != NULL) {
         return save->unk_7C38;
     }
@@ -455,7 +455,7 @@ int ov0_0214A588(int *args, int argc)
 
 int ov0_0214A5D4(int *args, int argc)
 {
-    UnkStruct_020155FC *record = sub_020155FC(&MAIN_BSS_020B26A0, args[0]);
+    UnkStruct_020155FC *record = SaveData_GetEntry(&MAIN_BSS_020B26A0, args[0]);
     if (record != NULL && (record->unk_08 & 1)) {
         return (record->unk_04 & 0xFFF) | (((record->unk_02 & 0xFFF) << 12) | 0x6000000);
     }
@@ -464,7 +464,7 @@ int ov0_0214A5D4(int *args, int argc)
 
 int ov0_0214A62C(int *args, int argc)
 {
-    UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+    SaveData *save = &MAIN_BSS_020B26A0;
     UnkStruct_020B26A0_8AD4 *partner = save->GetPartner(args[0]);
     if (partner != NULL && partner->unk_00 != 0) {
         return partner->unk_04;
@@ -588,7 +588,7 @@ int ov0_0214A8B4(int *args, int argc)
     rect.pos.y = obj->GetY() + 0x10000;
     rect.size.x += 0x2000;
     rect.size.y += 0x2000;
-    if (player->unk_14 == obj->unk_14 && sub_02006000(pos, rect, 0)) {
+    if (player->unk_14 == obj->unk_14 && PointInRect(pos, rect, 0)) {
         return TRUE;
     }
     return FALSE;
@@ -604,14 +604,14 @@ int ov0_0214AA3C(int *args, int argc)
     rect.pos.y = obj->GetY() + (height << FX32_SHIFT);
     rect.size.x += 0x2000;
     rect.size.y += 0x2000;
-    if (player->unk_14 == obj->unk_14 && sub_02006000(pos, rect, 0)) {
+    if (player->unk_14 == obj->unk_14 && PointInRect(pos, rect, 0)) {
         return TRUE;
     }
     return FALSE;
 }
 int ov0_0214ABC8(int *args, int argc)
 {
-    UnkClass_020B26A0 *save = (UnkClass_020B26A0 *)(void *)&MAIN_BSS_020B26A0;
+    SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     if (save != NULL) {
         return save->unk_8B80;
     }
@@ -620,7 +620,7 @@ int ov0_0214ABC8(int *args, int argc)
 
 int ov0_0214ABE4(int *args, int argc)
 {
-    UnkClass_020B26A0 *save = (UnkClass_020B26A0 *)(void *)&MAIN_BSS_020B26A0;
+    SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     if (save != NULL) {
         return save->unk_8B78;
     }
@@ -629,7 +629,7 @@ int ov0_0214ABE4(int *args, int argc)
 
 int ov0_0214AC00(int *args, int argc)
 {
-    UnkClass_020B26A0 *save = (UnkClass_020B26A0 *)(void *)&MAIN_BSS_020B26A0;
+    SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     if (save != NULL) {
         return save->unk_8B7A;
     }
@@ -638,7 +638,7 @@ int ov0_0214AC00(int *args, int argc)
 
 int ov0_0214AC1C(int *args, int argc)
 {
-    UnkClass_020B26A0 *save = (UnkClass_020B26A0 *)(void *)&MAIN_BSS_020B26A0;
+    SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     if (save != NULL) {
         return save->unk_8B7C;
     }
@@ -654,7 +654,7 @@ int ov0_0214AC54(int *args, int argc)
 {
     int idx = args[0];
     CFieldPlayer *player = MAIN_BSS_0210CA48;
-    UnkClass_0213DDCC *manage = MAIN_BSS_0210CA58;
+    FieldEventRectManage *manage = MAIN_BSS_0210CA58;
     if (manage != NULL && player != NULL) {
         CFieldEventRect *rect = manage->Get(idx);
         if (rect != NULL) {
@@ -670,7 +670,7 @@ int ov0_0214AD0C(int *args, int argc)
 {
     int idx = args[0];
     CFieldPlayer *player = MAIN_BSS_0210CA48;
-    UnkClass_0213DDCC *manage = MAIN_BSS_0210CA58;
+    FieldEventRectManage *manage = MAIN_BSS_0210CA58;
     if (manage != NULL && player != NULL) {
         CFieldEventRect *rect = manage->Get(idx);
         if (rect != NULL) {
@@ -686,7 +686,7 @@ int ov0_0214ADC4(int *args, int argc)
 {
     int idx = args[0];
     CFieldPlayer *player = MAIN_BSS_0210CA48;
-    UnkClass_0213DDCC *manage = MAIN_BSS_0210CA58;
+    FieldEventRectManage *manage = MAIN_BSS_0210CA58;
     if (manage != NULL && player != NULL) {
         CFieldEventRect *rect = manage->Get(idx);
         if (rect != NULL) {
@@ -702,7 +702,7 @@ int ov0_0214AE7C(int *args, int argc)
 {
     int idx = args[0];
     CFieldPlayer *player = MAIN_BSS_0210CA48;
-    UnkClass_0213DDCC *manage = MAIN_BSS_0210CA58;
+    FieldEventRectManage *manage = MAIN_BSS_0210CA58;
     if (manage != NULL && player != NULL) {
         CFieldEventRect *rect = manage->Get(idx);
         if (rect != NULL) {
@@ -739,7 +739,7 @@ int ov0_0214B020(int *args, int argc)
 int ov0_0214B058(int *args, int argc)
 {
     u32 i = args[0] & 0x3FF;
-    UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+    SaveData *save = &MAIN_BSS_020B26A0;
     save->SetFlagCount(i, args[1], args[2]);
     return 0;
 }
@@ -747,7 +747,7 @@ int ov0_0214B058(int *args, int argc)
 int ov0_0214B0A8(int *args, int argc)
 {
     u32 i = args[0] & 0x3FF;
-    UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+    SaveData *save = &MAIN_BSS_020B26A0;
     u32 flags = save->unk_81B4[i];
     save->unk_81B4[i] = (flags & 0xFFFFF0FE) | ((u32)(args[1] << 28) >> 20) | 1;
     return 0;
@@ -791,7 +791,7 @@ int ov0_0214B194(int *args, int argc)
     rect.pos.y = obj->GetY() + (height << FX32_SHIFT);
     rect.size.x += 0x18000;
     rect.size.y += 0x18000;
-    if (player->unk_14 == obj->unk_14 && sub_02006000(pos, rect, 0)) {
+    if (player->unk_14 == obj->unk_14 && PointInRect(pos, rect, 0)) {
         return TRUE;
     }
     return FALSE;
@@ -805,7 +805,7 @@ int ov0_0214B320(int *args, int argc)
 
 int ov0_0214B338(int *args, int argc)
 {
-    UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+    SaveData *save = &MAIN_BSS_020B26A0;
     int i = args[0];
     int value = args[1];
     int w = args[2];
@@ -844,7 +844,7 @@ int ov0_0214B4A4(int *args, int argc)
 int ov0_0214B4D0(int *args, int argc)
 {
     u32 i = args[0] & 0x3FF;
-    UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+    SaveData *save = &MAIN_BSS_020B26A0;
     save->SetFlagKind(i, args[1]);
     return 0;
 }
@@ -856,7 +856,7 @@ int ov0_0214B50C(int *args, int argc)
 int ov0_0214B534(int *args, int argc)
 {
     u32 i = args[0] & 0x3FF;
-    UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+    SaveData *save = &MAIN_BSS_020B26A0;
     save->SetFlagValue(i, args[1]);
     return 0;
 }
@@ -864,7 +864,7 @@ int ov0_0214B534(int *args, int argc)
 int ov0_0214B574(int *args, int argc)
 {
     BOOL ret = FALSE;
-    UnkClass_0213F918 *runner = MAIN_BSS_0210CA44;
+    FieldScriptLauncher *runner = MAIN_BSS_0210CA44;
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (runner != NULL && runner->ov0_0213FEEC()) {
         ret = TRUE;
@@ -881,7 +881,7 @@ int ov0_0214B574(int *args, int argc)
 int ov0_0214B5F4(int *args, int argc)
 {
     int enable = args[0];
-    UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+    SaveData *save = &MAIN_BSS_020B26A0;
     if (enable == 0) {
         save->unk_8756 |= 1;
     } else {
@@ -893,7 +893,7 @@ int ov0_0214B5F4(int *args, int argc)
 int ov0_0214B624(int *args, int argc)
 {
     int enable = args[0];
-    UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+    SaveData *save = &MAIN_BSS_020B26A0;
     if (enable == 0) {
         save->unk_8756 |= 2;
     } else {

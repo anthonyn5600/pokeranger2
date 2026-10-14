@@ -2,7 +2,7 @@
 
 #include <nnsys.h>
 
-#include "UnkClass_020074D4.hpp"
+#include "VramImage.hpp"
 #include "file/CNCERFile.hpp"
 #include "heap.hpp"
 
@@ -40,7 +40,7 @@ void UnkClass_02007770::sub_020077B4()
     sub_02007854();
 }
 
-void UnkClass_02007770::sub_020077CC(UnkClass_020074D4 *arg0)
+void UnkClass_02007770::sub_020077CC(VramImage *arg0)
 {
     sub_02007848();
     unk_00 = arg0;

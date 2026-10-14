@@ -8,9 +8,9 @@ CBattleEnemyData::CBattleEnemyData(u16 id, UnkStruct_020107A8 *info, UnkStruct_0
     unk_16 = id;
     unk_18 = info;
     unk_1C = param;
-    m_plttKey = NNS_GfdAllocLnkPlttVram(sub_02014364(), FALSE, 0);
-    sub_0201429C(NNS_GfdGetPlttKeyAddr(m_plttKey));
-    sub_020142F8();
+    m_plttKey = NNS_GfdAllocLnkPlttVram(GetPaletteSize(), FALSE, 0);
+    LoadPaletteToVram(NNS_GfdGetPlttKeyAddr(m_plttKey));
+    ReleasePalette();
     unk_20.pos.x = param->unk_06 << FX32_SHIFT;
     unk_20.pos.y = param->unk_07 << FX32_SHIFT;
     unk_20.r = param->unk_08 << FX32_SHIFT;
@@ -27,10 +27,10 @@ CBattleEnemyData::CBattleEnemyData(u16 id, UnkStruct_020107A8 *info, UnkStruct_0
 
     char path[0x60];
     OS_SPrintf(path, "data/script/battle/pokemon/p%03d.fsb", unk_16);
-    if (CBinaryFile::sub_02003108(path, heapId)) {
+    if (CBinaryFile::Exists(path, heapId)) {
         m_scriptFile = new CBinaryFile(path, 0, 0, heapId, NULL, 0);
         m_script = m_scriptFile->unk_4C;
-        sub_02044AC8(m_script);
+        Script_Link(m_script);
     } else {
         m_scriptFile = NULL;
         m_script = NULL;

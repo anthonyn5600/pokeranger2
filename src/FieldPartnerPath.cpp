@@ -1,5 +1,6 @@
 #include <nitro.h>
 
+#include "Collision.hpp"
 #include "common.hpp"
 #include "field/CFieldMap.hpp"
 #include "field/CFieldMapLayer.hpp"
@@ -8,7 +9,6 @@
 #include "field/CFieldPartnerManage.hpp"
 #include "field/CFieldTargetObjectManage.hpp"
 #include "scene/CFieldScene.hpp"
-#include "sub_02006000.hpp"
 
 extern CFieldScene *MAIN_BSS_0210CA40;
 
@@ -137,10 +137,10 @@ int ov0_0213E53C(CellLine *line, Point2D from, Point2D to)
 
 BOOL ov0_0213E668(Point2D pos, fx32 radius, int floor, int arg3)
 {
-    if (MAIN_BSS_0210CA7C != NULL && MAIN_BSS_0210CA7C->sub_02040158(pos, radius, floor)) {
+    if (MAIN_BSS_0210CA7C != NULL && MAIN_BSS_0210CA7C->CollideCircle(pos, radius, floor)) {
         return TRUE;
     }
-    if (MAIN_BSS_0210CA50 != NULL && MAIN_BSS_0210CA50->sub_02040158(pos, radius, floor)) {
+    if (MAIN_BSS_0210CA50 != NULL && MAIN_BSS_0210CA50->CollideCircle(pos, radius, floor)) {
         return TRUE;
     }
     CFieldMap *fieldMap = MAIN_BSS_0210CA40->unk_0010;
@@ -178,7 +178,7 @@ BOOL ov0_0213E7C4(Point2D from, fx32 step, Point2D to, int floor, int mode)
             }
         }
     }
-    if (MAIN_BSS_0210CA7C != NULL && MAIN_BSS_0210CA7C->sub_0203F7F4(&seg, step, floor, &hit)) {
+    if (MAIN_BSS_0210CA7C != NULL && MAIN_BSS_0210CA7C->SweepCollide(&seg, step, floor, &hit)) {
         return TRUE;
     }
     return FALSE;
@@ -212,7 +212,7 @@ BOOL ov0_0213E9EC(Point2D from, fx32 step, Point2D to, int floor)
     Point2D hit;
     SetPoint(&seg.p1, from.x, from.y);
     seg.p2 = to;
-    if (MAIN_BSS_0210CA7C != NULL && MAIN_BSS_0210CA7C->sub_0203F7F4(&seg, step, floor, &hit)) {
+    if (MAIN_BSS_0210CA7C != NULL && MAIN_BSS_0210CA7C->SweepCollide(&seg, step, floor, &hit)) {
         return TRUE;
     }
     return FALSE;

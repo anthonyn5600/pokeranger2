@@ -5,7 +5,7 @@
 
 #include "common.hpp"
 
-// Record returned by sub_020107A8 (from the table at CGame::unk_1434)
+// Record returned by PokeIdTable_Get (from the table at CGame::unk_1434)
 struct UnkStruct_020107A8 {
     u16 unk_00;
     u8 unk_02;
@@ -30,7 +30,7 @@ struct UnkStruct_020107A8 {
 STATIC_SIZE_ASSERT(UnkStruct_020107A8, 0x18);
 
 extern "C" {
-UnkStruct_020107A8 *sub_020107A8(void *obj, u16 arg1);
+UnkStruct_020107A8 *PokeIdTable_Get(void *obj, u16 arg1);
 }
 
 #endif // POKERANGER2_UNKSTRUCT_020107A8_HPP

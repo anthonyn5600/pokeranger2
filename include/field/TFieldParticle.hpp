@@ -8,8 +8,8 @@
 #include <nitro.h>
 
 #include "CGame.hpp"
-#include "UnkClass_020074D4.hpp"
-#include "UnkClass_02007AA4.hpp"
+#include "VramImage.hpp"
+#include "VramPalette.hpp"
 #include "common.hpp"
 #include "field/CPrimitiveNTF.hpp"
 #include "field/CSimpleSpriteNTF.hpp"
@@ -30,15 +30,15 @@ struct FieldEffectSpriteRes {
     FieldEffectSpriteRes()
     {
     }
-    FieldEffectSpriteRes(UnkClass_020074D4 *ncbr, UnkClass_02007AA4 *palette, CNCERFile *ncer)
+    FieldEffectSpriteRes(VramImage *ncbr, VramPalette *palette, CNCERFile *ncer)
     {
         this->ncbr = ncbr;
         this->palette = palette;
         this->ncer = ncer;
     }
 
-    UnkClass_020074D4 *ncbr;
-    UnkClass_02007AA4 *palette;
+    VramImage *ncbr;
+    VramPalette *palette;
     CNCERFile *ncer;
 };
 
@@ -76,7 +76,7 @@ struct TFieldParticle {
         pos.y = y;
     }
 
-    void SetRes(UnkClass_020074D4 *ncbr, UnkClass_02007AA4 *palette, CNCERFile *ncer)
+    void SetRes(VramImage *ncbr, VramPalette *palette, CNCERFile *ncer)
     {
         sprite.SetImage((UnkClass_CPrimitive_ImageProxy *)ncbr, NULL);
         sprite.unk_34 = (UnkClass_CPrimitive_ImagePaletteProxy *)palette;
@@ -128,7 +128,7 @@ struct TFieldParticleRes<CSoftwareSprite> {
 
 template <>
 struct TFieldParticleRes<CSimpleSpriteNTF> {
-    typedef UnkClass_02041D98 *Type;
+    typedef NtfTextureParam *Type;
 
     static void Clear(Type &res)
     {

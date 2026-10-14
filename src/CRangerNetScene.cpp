@@ -2,7 +2,7 @@
 
 #include "CGame.hpp"
 #include "CPowerManage.hpp"
-#include "UnkClass_0211E05C.hpp"
+#include "RangerNetMenu.hpp"
 
 CRangerNetScene::CRangerNetScene(CGame *game)
 {
@@ -14,14 +14,14 @@ CRangerNetScene::~CRangerNetScene()
 {
     GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);
     SAFE_DELETE(unk_08);
-    CPowerManage::sub_0200FA48(0);
+    CPowerManage::SetMode(0);
 }
 
 void CRangerNetScene::ov11_0211CAE4()
 {
-    unk_08 = new UnkClass_0211E05C(m_game, 0);
-    m_game->unk_146C.sub_02008DB4(60);
-    CPowerManage::sub_0200FA48(1);
+    unk_08 = new RangerNetMenu(m_game, 0);
+    m_game->unk_146C.SetFps(60);
+    CPowerManage::SetMode(1);
 }
 
 void CRangerNetScene::func5()
@@ -65,7 +65,7 @@ void CRangerNetScene::func5()
 
 void CRangerNetScene::func6()
 {
-    m_game->sub_020101F4(0x20000, 0, 0x4000);
+    m_game->InitVramManagers(0x20000, 0, 0x4000);
     if (unk_08 != NULL) {
         unk_08->ov11_02121EEC();
     }
@@ -73,7 +73,7 @@ void CRangerNetScene::func6()
 
 void CRangerNetScene::func7()
 {
-    m_game->sub_020101F4(0x80000, 0, 0x4000);
+    m_game->InitVramManagers(0x80000, 0, 0x4000);
 }
 
 u32 CRangerNetScene::func0()

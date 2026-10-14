@@ -35,7 +35,7 @@ public:
 #include "primitive/CSoftwareSprite.hpp"
 
 class Camera2D;
-class UnkClass_0201AAE0;
+class GraphicsSet;
 
 // Opening demo texture: an NtfTexture plus its frame layout from the scene's table
 struct COPDTexture {
@@ -297,7 +297,7 @@ public:
     int unk_20;
     int unk_24;
     int unk_28;
-    UnkClass_0201AAE0 *m_res;
+    GraphicsSet *m_res;
     CSoftwareSprite m_sprite;
     u16 m_cellId;
 };
@@ -352,7 +352,7 @@ public:
     int unk_004;
     int unk_008;
     CSoftwareSprite unk_00C[1];
-    UnkClass_0201AAE0 *unk_058;
+    GraphicsSet *unk_058;
     u16 unk_05C;
     CSimpleSpriteNTF unk_060[2];
     UnkStruct_COPDBall unk_118;

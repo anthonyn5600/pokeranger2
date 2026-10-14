@@ -5,11 +5,11 @@
 #include "Camera2D.hpp"
 #include "field/CFieldActor.hpp"
 #include "field/CFieldEffectManpuPos.hpp"
-#include "field/UnkClass_0216D2D4.hpp"
+#include "field/ManpuBlockHeap.hpp"
 #include "scene/CFieldScene.hpp"
 
 extern CFieldScene *MAIN_BSS_0210CA40;
-extern UnkClass_0216D2D4 *OVERLAY0_BSS_0217B0E0;
+extern ManpuBlockHeap *OVERLAY0_BSS_0217B0E0;
 
 // fake: an unreferenced global (own section, stripped by mwld) that only takes part in mwcc's size sort of the
 // TU's data; it orders the typeinfos ManpuSimple, Manpu, Actor like the original.
@@ -89,12 +89,12 @@ BOOL CFieldEffectManpu::IsVisible()
         rect.pos.x = unk_1C->GetX();
         rect.pos.y = unk_1C->GetY() + GetOffset(unk_1C).y;
         rect.size.x = rect.size.y = 0x40000;
-        visible = camera->sub_020038A8(&rect, 0x1199);
+        visible = camera->IsRectVisible(&rect, 0x1199);
     }
     return visible;
 }
 
-int CFieldEffectManpu::sub_02033028()
+int CFieldEffectManpu::GetEffectId()
 {
     return 1;
 }

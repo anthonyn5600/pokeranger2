@@ -4,9 +4,9 @@
 #include <nitro.h>
 
 #include "CEffectActorData.hpp"
-#include "UnkClass_02008788.hpp"
+#include "CellAnimController.hpp"
+#include "FieldEffectListeners.hpp"
 #include "UnkClass_02041D80.hpp"
-#include "UnkClass_02143714.hpp"
 #include "UnkStruct_02044464.hpp"
 #include "common.hpp"
 #include "field/CFieldEffect.hpp"
@@ -16,8 +16,8 @@
 #include "primitive/CSoftwareSprite.hpp"
 
 class CFieldPlayer;
-class UnkClass_0201AAE0;
-class UnkClass_0211E3FC;
+class GraphicsSet;
+class DrawObjectList;
 class Camera2D;
 
 // Members of CFieldEffectManage defined in other ov0 TUs.
@@ -27,7 +27,7 @@ class Camera2D;
 class CFieldEffectDamageIndication : public CFieldEffect {
 public:
     CFieldEffectDamageIndication();
-    virtual int sub_02033028()
+    virtual int GetEffectId()
     {
         return 0x24;
     }
@@ -36,7 +36,7 @@ public:
 
     // Shows `damage` above `player` for `duration` frames.
     void ov0_02164DB8(int damage, int duration, CFieldPlayer *player);
-    void InitRects(UnkClass_0201AAE0 *digits);
+    void InitRects(GraphicsSet *digits);
 
     CPrimitiveRECT m_rects[2];
     int m_digits;
@@ -80,10 +80,10 @@ struct FieldEffectScript {
 };
 
 // FieldEffectScript.cpp (ov0): runs the "EventHandle" handler of the field effects' scripts (3 slots).
-class UnkClass_021638B8 {
+class FieldEffectScriptHandler {
 public:
-    UnkClass_021638B8();
-    ~UnkClass_021638B8();
+    FieldEffectScriptHandler();
+    ~FieldEffectScriptHandler();
 
     // Loads ef<id>.fsb into a free slot; returns the slot or -1.
     int ov0_02163904(int id);
@@ -103,7 +103,7 @@ class CFieldEffectManage : public IFieldEffectDataBuilder {
 public:
     class CResidentResource;
 
-    CFieldEffectManage(UnkClass_02143714 *listeners);
+    CFieldEffectManage(FieldEffectListeners *listeners);
     virtual void BuildData(void *buf, int size);
     virtual ~CFieldEffectManage();
     int ov0_021428EC(int fps, BOOL arg1);
@@ -119,7 +119,7 @@ public:
     void ov0_02143344(fx32 x, fx32 y);
     void ov0_02143358();
     int ov0_0214336C(int layer, int budget);
-    void ov0_02143380(UnkClass_0211E3FC *renderLists);
+    void ov0_02143380(DrawObjectList *renderLists);
     void ov0_021433D0();
     void ov0_02143410();
     void ov0_021434F0();
@@ -130,20 +130,20 @@ public:
     public:
         CResidentResource();
         virtual ~CResidentResource();
-        virtual UnkClass_020074D4 *GetNcbr(int i);
+        virtual VramImage *GetNcbr(int i);
         virtual CNCERFile *GetNcer(int i);
-        virtual UnkClass_02008788 *GetCac(int i);
-        virtual UnkClass_02007AA4 *GetPalette();
+        virtual CellAnimController *GetCac(int i);
+        virtual VramPalette *GetPalette();
         virtual void Update();
         virtual int GetCount();
         virtual BOOL IsLoaded();
         void Load();
         void Release();
 
-        UnkClass_020074D4 m_ncbr;
-        UnkClass_02007AA4 m_palette;
+        VramImage m_ncbr;
+        VramPalette m_palette;
         CNCERFile *m_ncer[12];
-        UnkClass_02008788 *m_cac[12];
+        CellAnimController *m_cac[12];
         NNSGfdTexKey m_texKey;
         NNSGfdPlttKey m_plttKey;
     };
@@ -159,8 +159,8 @@ public:
     int unk_780[4];
     int unk_790[4];
     int unk_7A0[4];
-    UnkClass_021638B8 unk_7B0;
-    UnkClass_02143714 *m_listeners;
+    FieldEffectScriptHandler unk_7B0;
+    FieldEffectListeners *m_listeners;
     u8 unk_87C;
     u8 unk_87D;
 };

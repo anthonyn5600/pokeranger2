@@ -13,7 +13,7 @@ CFlyingScene::~CFlyingScene()
 
 void CFlyingScene::ov9_0211CAAC()
 {
-    unk_08 = new UnkClass_0211CCA0(m_game);
+    unk_08 = new FlyingMap(m_game);
 }
 
 void CFlyingScene::func5()

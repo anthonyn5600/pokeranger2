@@ -90,7 +90,7 @@ int CFieldSEFSnow::Update(int fps)
 
 void CFieldSEFSnow::Draw(Camera2D *camera)
 {
-    UnkClass_02008788 *cac = m_actorData->GetCac(0);
+    CellAnimController *cac = m_actorData->GetCac(0);
     Point2D offset = camera->GetOffsetCopy();
     int i;
     SnowFlake *flake;
@@ -149,11 +149,11 @@ BOOL CFieldSEFSnow::Load()
     m_sprite->SetImage((UnkClass_CPrimitive_ImageProxy *)m_actorData->GetNcbr(0), NULL);
     m_sprite->unk_38 = (UnkClass_CSoftwareSprite_38 *)m_actorData->GetNcer(0);
 
-    UnkClass_02008788 *cac = m_actorData->GetCac(0);
+    CellAnimController *cac = m_actorData->GetCac(0);
 
     for (int i = 0; i < 8; i++) {
-        m_cells[i] = cac->sub_02008A80(1, 0);
-        cac->sub_02008990(m_cells[i], 0);
+        m_cells[i] = cac->Create(1, 0);
+        cac->SetAnim(m_cells[i], 0);
     }
 
     SnowFlake *flake = m_flakes;

@@ -1,7 +1,7 @@
 #include <nitro.h>
 
 #include "CActorData.hpp"
-#include "UnkClass_02007AA4.hpp"
+#include "VramPalette.hpp"
 #include "common.hpp"
 #include "field/CFieldDrawActorData.hpp"
 #include "file/CArchiveGuard.hpp"
@@ -18,7 +18,7 @@ CActorDataPlayer::~CActorDataPlayer()
     Release();
 }
 
-void CActorDataPlayer::sub_02041344(u16 id, int form, u32 mask, const char *arcName, BOOL useTransfer, BOOL alloc)
+void CActorDataPlayer::LoadPlayer(u16 id, int form, u32 mask, const char *arcName, BOOL useTransfer, BOOL alloc)
 {
     char name[0x60];
     char path[0x60];
@@ -53,7 +53,7 @@ void CActorDataPlayer::sub_02041344(u16 id, int form, u32 mask, const char *arcN
     OS_SPrintf(palettePath, "%s:%s.NCLR", arc, name);
     void *data = NNS_FndGetArchiveFileByName(palettePath);
     if (data != NULL && NNS_G2dGetUnpackedPaletteData(data, &paletteData)) {
-        m_palette = new UnkClass_02007AA4(paletteData);
+        m_palette = new VramPalette(paletteData);
     }
 
     int index = 0;
@@ -72,13 +72,13 @@ void CActorDataPlayer::sub_02041344(u16 id, int form, u32 mask, const char *arcN
     unk_28 = useTransfer;
     if (alloc) {
         if (!useTransfer) {
-            unk_2C = NNS_GfdAllocLnkTexVram(sub_02014310(), FALSE, 0);
-            sub_020141AC(NNS_GfdGetTexKeyAddr(unk_2C));
-            sub_020142B4();
+            unk_2C = NNS_GfdAllocLnkTexVram(GetImagesSize(), FALSE, 0);
+            LoadImagesToVram(NNS_GfdGetTexKeyAddr(unk_2C));
+            ReleaseImages();
         }
-        unk_30 = NNS_GfdAllocLnkPlttVram(sub_02014364(), FALSE, 0);
-        sub_0201429C(NNS_GfdGetPlttKeyAddr(unk_30));
-        sub_020142F8();
+        unk_30 = NNS_GfdAllocLnkPlttVram(GetPaletteSize(), FALSE, 0);
+        LoadPaletteToVram(NNS_GfdGetPlttKeyAddr(unk_30));
+        ReleasePalette();
     }
     unk_50834 = id;
 }
@@ -93,7 +93,7 @@ CActorAnim *CActorDataPlayer::GetAnim(u8 id)
     return NULL;
 }
 
-CActorAnim *CActorDataPlayer::sub_020143B8(int action, u32 sub)
+CActorAnim *CActorDataPlayer::FindAnim(int action, u32 sub)
 {
     u8 id = GetAnimId(action, sub);
     if (id == 0xFF) {

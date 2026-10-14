@@ -8,7 +8,7 @@ extern "C" {
 extern CardBackupInfo sCardBackupInfo;
 }
 
-BOOL sub_0202B80C(void)
+BOOL DetectCardBackup(void)
 {
     s32 lockID = OS_GetLockID();
     sCardBackupInfo.valid = FALSE;

@@ -21,9 +21,9 @@ CFieldEffectParabolaBullet::CFieldEffectParabolaBullet(int kind)
     }
     unk_18 = data;
     for (int i = 0; i < 2; i++) {
-        UnkClass_02008788 *cac = unk_18->GetCac(i);
+        CellAnimController *cac = unk_18->GetCac(i);
         if (cac != NULL) {
-            m_cacIds[i] = cac->sub_02008A80(1, 0);
+            m_cacIds[i] = cac->Create(1, 0);
         } else {
             m_cacIds[i] = 0;
         }
@@ -42,9 +42,9 @@ CFieldEffectParabolaBullet::~CFieldEffectParabolaBullet()
 {
     if (unk_18 != NULL) {
         for (int i = 0; i < 2; i++) {
-            UnkClass_02008788 *cac = unk_18->GetCac(i);
+            CellAnimController *cac = unk_18->GetCac(i);
             if (cac != NULL) {
-                cac->sub_02008B80(m_cacIds[i]);
+                cac->Remove(m_cacIds[i]);
             }
         }
     }
@@ -62,16 +62,16 @@ int CFieldEffectParabolaBullet::ov0_02142264(int step)
             m_index++;
         }
         if (m_index >= 0) {
-            UnkClass_02008788 *cac = unk_18->GetCac(m_index);
+            CellAnimController *cac = unk_18->GetCac(m_index);
             if (cac != NULL) {
-                cac->sub_020089B8(m_cacIds[m_index]);
+                cac->Restart(m_cacIds[m_index]);
             }
         }
         m_lastState = state;
     }
     if (state == 4 && m_index == 1) {
-        UnkClass_02008788 *cac = unk_18->GetCac(m_index);
-        if (cac != NULL && cac->sub_02008860(m_cacIds[m_index]) == 1) {
+        CellAnimController *cac = unk_18->GetCac(m_index);
+        if (cac != NULL && cac->GetStatus(m_cacIds[m_index]) == 1) {
             state = 3;
         }
     }
@@ -92,17 +92,17 @@ int CFieldEffectParabolaBullet::ov0_02142264(int step)
 int CFieldEffectParabolaBullet::ov0_02142344(Camera2D *camera)
 {
     if (m_state != 0 && m_index >= 0) {
-        UnkClass_02008788 *cac = unk_18->GetCac(m_index);
+        CellAnimController *cac = unk_18->GetCac(m_index);
         m_sprites[m_index].SetPos(m_pos);
         if (cac != NULL) {
-            m_sprites[m_index].m_cellDataIdx = cac->sub_02008828(m_cacIds[m_index]);
+            m_sprites[m_index].m_cellDataIdx = cac->GetCell(m_cacIds[m_index]);
         }
         m_sprites[m_index].Render(camera);
     }
     return 0;
 }
 
-int CFieldEffectParabolaBullet::sub_0203312C(int param, int value)
+int CFieldEffectParabolaBullet::SetParam(int param, int value)
 {
     BOOL ret = TRUE;
     switch (param) {

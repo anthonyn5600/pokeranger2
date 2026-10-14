@@ -2,15 +2,15 @@
 #include <string.h>
 
 #include "Camera2D.hpp"
+#include "Collision.hpp"
 #include "field/CFieldMap.hpp"
 #include "field/CFieldMapLayer.hpp"
 #include "heap.hpp"
-#include "sub_02006000.hpp"
 
 void CFieldMapLayerCharaTrans::DrawEntries(Rectangle view, int baseX, int baseY, fx32 scale)
 {
     for (int i = 0; i < m_count; i++) {
-        UnkClass_0212F82C *mct = m_mct[m_entries[i].mct];
+        FieldMapAnimQuad *mct = m_mct[m_entries[i].mct];
         if (mct == NULL) {
             continue;
         }

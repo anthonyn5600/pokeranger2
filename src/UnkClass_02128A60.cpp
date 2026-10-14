@@ -17,7 +17,7 @@ UnkClass_02128A60::~UnkClass_02128A60()
 
 void UnkClass_02128A60::ov1_02128A88()
 {
-    m_res = new UnkClass_0201AAE0("BDN", "/data/interface/i069_LZ.bin", "BDN:i069_00.NCBR", "BDN:i069.NCLR", "BDN:i069_00.NCER", "BDN:i069_00.cac");
+    m_res = new GraphicsSet("BDN", "/data/interface/i069_LZ.bin", "BDN:i069_00.NCBR", "BDN:i069.NCLR", "BDN:i069_00.NCER", "BDN:i069_00.cac");
 }
 
 void UnkClass_02128A60::ov1_02128AF0()

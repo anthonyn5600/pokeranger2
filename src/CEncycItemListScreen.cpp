@@ -1,32 +1,32 @@
+#include "AudioEngine.hpp"
+#include "BGLayer.hpp"
+#include "BrightnessFade.hpp"
 #include "CGame.hpp"
-#include "UnkClass_0200CAB4.hpp"
-#include "UnkClass_0200E0B4.hpp"
-#include "UnkClass_0200ECD0.hpp"
-#include "UnkClass_0201FC80.hpp"
-#include "UnkClass_02034478.hpp"
-#include "UnkClass_020B26A0.hpp"
+#include "OamSpriteSet.hpp"
+#include "SaveData.hpp"
+#include "SubTextPrinter.hpp"
 #include "scene/CEncyclopediaScene.hpp"
 
-static inline u32 GetCaptureState(UnkClass_020B26A0 *save, int group, int i)
+static inline u32 GetCaptureState(SaveData *save, int group, int i)
 {
     if (group >= 0 && group < 3 && i >= 0 && i < 64) {
-        return (save->unk_7F30[group][i / 16] >> ((i & 0xF) * 2)) & 3;
+        return (save->m_encyclopediaStates[group][i / 16] >> ((i & 0xF) * 2)) & 3;
     }
     return 0;
 }
 
-static inline u32 SetCaptureState(UnkClass_020B26A0 *save, int group, int i, u32 state)
+static inline u32 SetCaptureState(SaveData *save, int group, int i, u32 state)
 {
     if (group >= 0 && group < 3 && i >= 0 && i < 64) {
         int shift = (i & 0xF) * 2;
-        save->unk_7F30[group][i / 16] &= ~(3 << shift);
-        save->unk_7F30[group][i / 16] |= (state & 3) << shift;
+        save->m_encyclopediaStates[group][i / 16] &= ~(3 << shift);
+        save->m_encyclopediaStates[group][i / 16] |= (state & 3) << shift;
         return state;
     }
     return 0;
 }
 
-CEncycItemListScreen::CEncycItemListScreen(UnkClass_0211F134 *backButton)
+CEncycItemListScreen::CEncycItemListScreen(EncycPushButton *backButton)
     : unk_14(-1)
     , unk_18(0)
     , unk_1C(NULL)
@@ -40,12 +40,12 @@ CEncycItemListScreen::CEncycItemListScreen(UnkClass_0211F134 *backButton)
     }
 }
 
-void CEncycItemListScreen::func0(UnkClass_0211F3DC *loader)
+void CEncycItemListScreen::func0(EncycAnimLoader *loader)
 {
     unk_128.ov22_02120A24("/data/message/etc/dictionary02_mes");
     unk_134.ov22_02120BB4("/data/encyclo/encyclopedia.bin");
     int total;
-    UnkClass_020B26A0 *save = CGame::GetInstance()->unk_14A4;
+    SaveData *save = CGame::GetInstance()->unk_14A4;
     if (save != NULL) {
         int counts[3];
         total = 0;
@@ -92,7 +92,7 @@ void CEncycItemListScreen::func0(UnkClass_0211F3DC *loader)
     unk_A4[2].SetListener(this);
     unk_A4[3].ov22_0211F134(3, unk_20, 6, 7, 232, 132, 16, 16, 1);
     unk_A4[3].SetListener(this);
-    unk_20->sub_0200F64C();
+    unk_20->Update();
     for (int i = 0; i < 3; i++) {
         unk_24.ov22_0212086C(i, unk_164[i] > 0 ? TRUE : FALSE);
     }
@@ -150,15 +150,15 @@ void CEncycItemListScreen::func2()
     G2S_SetBG3Offset(0, 0);
 }
 
-void CEncycItemListScreen::func3(UnkClass_0211F4E0 *display)
+void CEncycItemListScreen::func3(EncycMainScreen *display)
 {
     int charNo;
     int i;
-    UnkClass_0200CAB4 *text = CGame::GetInstance()->unk_1498;
-    text->sub_0200CAE0();
-    text->sub_0200CC88(16);
+    SubTextPrinter *text = CGame::GetInstance()->unk_1498;
+    text->FreeWindows();
+    text->AllocWindows(16);
     for (charNo = 0, i = 0; i < 16; charNo += 64, i++) {
-        text->sub_0200CCD0(i, 32, 2, 0, i * 2, charNo, 0, 2);
+        text->InitWindow(i, 32, 2, 0, i * 2, charNo, 0, 2);
     }
     display->ov22_0211F8A8();
     display->ov22_0211F7B8("data/menu/rd000_LZ.bin", "rd000.nbfs");
@@ -174,8 +174,8 @@ int CEncycItemListScreen::func4()
     int ret = 0;
     switch (unk_04) {
     case 0:
-        if (!game->unk_14BC->sub_0200E310()) {
-            if (!game->unk_14C0->sub_0200E310()) {
+        if (!game->unk_14BC->IsActive()) {
+            if (!game->unk_14C0->IsActive()) {
                 unk_04 = 1;
             }
         }
@@ -204,14 +204,14 @@ int CEncycItemListScreen::func4()
         unk_A4[3].unk_14 = (u16)(game->unk_0014->unk_0000 & PAD_KEY_DOWN);
         unk_A4[0].unk_14 = game->unk_0014->unk_0000 & PAD_KEY_LEFT;
         unk_A4[1].unk_14 = game->unk_0014->unk_0000 & PAD_KEY_RIGHT;
-        unk_20->sub_0200F64C();
+        unk_20->Update();
         unk_34.ov22_0212005C();
         if ((u16)(game->unk_0014->unk_0002 & PAD_BUTTON_B)) {
             func6();
         }
         break;
     case 2:
-        if (!game->unk_14BC->sub_0200E310() && !game->unk_14C0->sub_0200E310()) {
+        if (!game->unk_14BC->IsActive() && !game->unk_14C0->IsActive()) {
             ret = unk_14;
         }
         break;
@@ -226,7 +226,7 @@ int CEncycItemListScreen::func4()
 void CEncycItemListScreen::func5()
 {
     if (unk_20 != NULL) {
-        unk_20->sub_0200F71C();
+        unk_20->WriteOam();
     }
 }
 
@@ -240,9 +240,9 @@ void CEncycItemListScreen::func6()
     CGame *game = CGame::GetInstance();
     unk_04 = 2;
     unk_14 = -1;
-    game->m_audioEngine->sub_02034C44(0x103);
-    game->unk_14BC->sub_0200E0E0(4, 15);
-    game->unk_14C0->sub_0200E0E0(4, 15);
+    game->m_audioEngine->PlaySe(0x103);
+    game->unk_14BC->Start(4, 15);
+    game->unk_14C0->Start(4, 15);
 }
 
 void CEncycItemListScreen::ov22_0211DE40(int group)
@@ -251,7 +251,7 @@ void CEncycItemListScreen::ov22_0211DE40(int group)
     unk_34.ov22_02120414(unk_18);
     unk_34.ov22_0211FF20();
     if (unk_04 != 0) {
-        CGame::GetInstance()->m_audioEngine->sub_02034C44(0xFA);
+        CGame::GetInstance()->m_audioEngine->PlaySe(0xFA);
     }
     NNS_GfdRegisterNewVramTransferTask(NNS_GFD_DST_2D_BG_PLTT_SUB, 0, unk_170[unk_18], 0x20);
 }
@@ -290,7 +290,7 @@ void CEncycItemListScreen::OnListBoxEvent0(int id, int idx)
     unk_1C = unk_160[line].unk_08;
     int group = unk_18;
     int no = unk_1C->unk_04;
-    UnkClass_020B26A0 *save = game->unk_14A4;
+    SaveData *save = game->unk_14A4;
     u32 state = GetCaptureState(save, group, no);
     if (state == 1) {
         state = SetCaptureState(save, group, no, 2);
@@ -305,9 +305,9 @@ void CEncycItemListScreen::OnListBoxEvent0(int id, int idx)
     }
     unk_14 = 1;
     unk_04 = 2;
-    game->m_audioEngine->sub_02034C44(0xFA);
-    game->unk_14BC->sub_0200E0E0(4, 15);
-    game->unk_14C0->sub_0200E0E0(4, 15);
+    game->m_audioEngine->PlaySe(0xFA);
+    game->unk_14BC->Start(4, 15);
+    game->unk_14C0->Start(4, 15);
 }
 
 void CEncycItemListScreen::OnListBoxEvent1(int id, int cursor, u32 flags, int arg3)

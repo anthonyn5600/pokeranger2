@@ -13,13 +13,13 @@ public:
     ~CPowerManage();
 
     virtual void Init();
-    virtual void sub_0200F8BC();
+    virtual void CheckFold();
 
-    static BOOL sub_0200F9E0();
-    static void sub_0200F9F8();
-    static void sub_0200FA0C(u32 bit);
-    static void sub_0200FA2C(u32 bit);
-    static void sub_0200FA48(u32 mode);
+    static BOOL Initialize();
+    static void Process();
+    static void AllowSleep(u32 bit);
+    static void BlockSleep(u32 bit);
+    static void SetMode(u32 mode);
 
 public:
     u32 unk_4;

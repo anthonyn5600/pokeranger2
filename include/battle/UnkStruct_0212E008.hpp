@@ -3,10 +3,10 @@
 
 #include <nitro.h>
 
+#include "Collision.hpp"
 #include "common.hpp"
-#include "sub_02006000.hpp"
 
-// Attack effect parameter record (UnkClass_0212E008 table entry)
+// Attack effect parameter record (BattleEffectTable table entry)
 struct UnkStruct_0212E008 {
     u16 unk_00;
     u16 unk_02;

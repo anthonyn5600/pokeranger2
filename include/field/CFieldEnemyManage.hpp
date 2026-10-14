@@ -26,10 +26,10 @@ public:
 };
 
 // Enemy scripts loaded so far, by script id.
-class UnkClass_0213588C {
+class FieldEnemyScriptCache {
 public:
-    UnkClass_0213588C();
-    ~UnkClass_0213588C();
+    FieldEnemyScriptCache();
+    ~FieldEnemyScriptCache();
     void *Get(u32 id);
     void Clear();
 
@@ -47,14 +47,14 @@ public:
 
     virtual ~CFieldEnemyManage()
     {
-        sub_0203F034();
+        Free();
         MAIN_BSS_0210CA5C = NULL;
     }
 
-    virtual void sub_0203EFE4(int capacity);
-    virtual void sub_0203F034();
-    virtual BOOL sub_0203F190();
-    virtual void sub_0203F2B0(CFieldMap *map, BOOL update);
+    virtual void Alloc(int capacity);
+    virtual void Free();
+    virtual BOOL Clear();
+    virtual void UpdateAll(CFieldMap *map, BOOL update);
     virtual void BuildData(void *buf, int size);
 
     int ov0_02135E30(int slot, u16 kind, u16 script, int arg4);
@@ -68,7 +68,7 @@ public:
     void ov0_021369DC(CFieldEnemy *enemy);
 
 public:
-    UnkClass_0213588C *unk_14;
+    FieldEnemyScriptCache *unk_14;
 };
 
 STATIC_SIZE_ASSERT(CFieldEnemyManage, 0x18);

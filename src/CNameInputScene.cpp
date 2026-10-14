@@ -3,16 +3,17 @@
 #include <nitro.h>
 #include <nnsys.h>
 
+#include "AudioEngine.hpp"
+#include "BrightnessFade.hpp"
 #include "CGame.hpp"
 #include "CTouchPanel.hpp"
-#include "UnkClass_020091E8.hpp"
-#include "UnkClass_0200C38C.hpp"
-#include "UnkClass_0200CFF4.hpp"
-#include "UnkClass_0200E0B4.hpp"
-#include "UnkClass_0200E960.hpp"
-#include "UnkClass_0200ECD0.hpp"
-#include "UnkClass_02034478.hpp"
-#include "UnkClass_020B26A0.hpp"
+#include "Collision.hpp"
+#include "FontSet.hpp"
+#include "OamSprite.hpp"
+#include "OamSpriteSet.hpp"
+#include "SaveData.hpp"
+#include "TextPrinter.hpp"
+#include "TextboxManager.hpp"
 #include "common.hpp"
 #include "file/CArchiveGuard.hpp"
 #include "file/CBGNCGRFile.hpp"
@@ -20,9 +21,8 @@
 #include "file/CNCLRFile.hpp"
 #include "file/CNSCRFile.hpp"
 #include "primitive/CPrimitiveRECT.hpp"
-#include "sub_02006000.hpp"
 
-extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
+extern SaveData MAIN_BSS_020B26A0;
 
 #define LOAD_MESSAGES(table, path)                                                                         \
     {                                                                                                      \
@@ -127,7 +127,7 @@ CNameInputScene::CNameInputScene()
     m_game = CGame::GetInstance();
     m_audioEngine = CGame::GetInstance()->m_audioEngine;
     m_audioEngine->sub_020345D4();
-    m_audioEngine->sub_0203499C(3);
+    m_audioEngine->LoadBgmGroup(3);
     unk_000C = 0;
     unk_0010 = 0;
     unk_0004 = 0;
@@ -146,48 +146,48 @@ CNameInputScene::CNameInputScene()
 
 CNameInputScene::~CNameInputScene()
 {
-    m_audioEngine->sub_02034B58(1);
+    m_audioEngine->StopBgm(1);
     func7();
 }
 
 void CNameInputScene::ov3_02121E44(int page)
 {
-    unk_00BC[1]->sub_0200F628(unk_0020, 7);
-    unk_00BC[1]->sub_0200F628(unk_0024, 7);
-    unk_00BC[1]->sub_0200F628(unk_002C, 7);
-    UnkClass_0200C38C *text = m_game->unk_1494;
-    text->sub_0200C980(0);
-    text->sub_0200C980(1);
-    text->sub_0200C980(2);
-    text->sub_0200C980(3);
-    text->sub_0200C980(4);
-    text->sub_0200C980(5);
-    text->sub_0200C980(6);
+    unk_00BC[1]->SetAnim(unk_0020, 7);
+    unk_00BC[1]->SetAnim(unk_0024, 7);
+    unk_00BC[1]->SetAnim(unk_002C, 7);
+    TextPrinter *text = m_game->unk_1494;
+    text->ClearWindow(0);
+    text->ClearWindow(1);
+    text->ClearWindow(2);
+    text->ClearWindow(3);
+    text->ClearWindow(4);
+    text->ClearWindow(5);
+    text->ClearWindow(6);
 
     const u32 *keys;
     switch (page) {
     default:
     case 0:
         keys = s_keysUpper[0];
-        text->sub_0200C7A4(3, 5, 4, 3, unk_01DC->unk_08[1].unk_04, FALSE, 0);
-        text->sub_0200C7A4(4, 5, 4, 7, unk_01DC->unk_08[2].unk_04, FALSE, 0);
-        text->sub_0200C7A4(5, 5, 4, 7, unk_01DC->unk_08[4].unk_04, FALSE, 0);
-        unk_00BC[1]->sub_0200F628(unk_0020, 6);
+        text->Print(3, 5, 4, 3, unk_01DC->unk_08[1].unk_04, FALSE, 0);
+        text->Print(4, 5, 4, 7, unk_01DC->unk_08[2].unk_04, FALSE, 0);
+        text->Print(5, 5, 4, 7, unk_01DC->unk_08[4].unk_04, FALSE, 0);
+        unk_00BC[1]->SetAnim(unk_0020, 6);
         break;
     case 1:
         keys = s_keysLower[0];
-        text->sub_0200C7A4(3, 5, 4, 7, unk_01DC->unk_08[1].unk_04, FALSE, 0);
-        text->sub_0200C7A4(4, 5, 4, 3, unk_01DC->unk_08[2].unk_04, FALSE, 0);
-        text->sub_0200C7A4(5, 5, 4, 7, unk_01DC->unk_08[4].unk_04, FALSE, 0);
-        unk_00BC[1]->sub_0200F628(unk_0024, 6);
+        text->Print(3, 5, 4, 7, unk_01DC->unk_08[1].unk_04, FALSE, 0);
+        text->Print(4, 5, 4, 3, unk_01DC->unk_08[2].unk_04, FALSE, 0);
+        text->Print(5, 5, 4, 7, unk_01DC->unk_08[4].unk_04, FALSE, 0);
+        unk_00BC[1]->SetAnim(unk_0024, 6);
         break;
     case 2:
     case 3:
         keys = s_keysSymbol[0];
-        text->sub_0200C7A4(3, 5, 4, 7, unk_01DC->unk_08[1].unk_04, FALSE, 0);
-        text->sub_0200C7A4(4, 5, 4, 7, unk_01DC->unk_08[2].unk_04, FALSE, 0);
-        text->sub_0200C7A4(5, 5, 4, 3, unk_01DC->unk_08[4].unk_04, FALSE, 0);
-        unk_00BC[1]->sub_0200F628(unk_002C, 6);
+        text->Print(3, 5, 4, 7, unk_01DC->unk_08[1].unk_04, FALSE, 0);
+        text->Print(4, 5, 4, 7, unk_01DC->unk_08[2].unk_04, FALSE, 0);
+        text->Print(5, 5, 4, 3, unk_01DC->unk_08[4].unk_04, FALSE, 0);
+        unk_00BC[1]->SetAnim(unk_002C, 6);
         break;
     }
 
@@ -201,10 +201,10 @@ void CNameInputScene::ov3_02121E44(int page)
             } else {
                 switch (c & ~0xFF000000) {
                 case 1:
-                    m_game->unk_1494->sub_0200C7A4(0, x, y, 1, (u8 *)"[...]", FALSE, 0);
+                    m_game->unk_1494->Print(0, x, y, 1, (u8 *)"[...]", FALSE, 0);
                     break;
                 case 2:
-                    m_game->unk_1494->sub_0200C7A4(0, x, y, 1, (u8 *)"[-]", FALSE, 0);
+                    m_game->unk_1494->Print(0, x, y, 1, (u8 *)"[-]", FALSE, 0);
                     break;
                 }
             }
@@ -219,7 +219,7 @@ void CNameInputScene::ov3_02122264(u8 pos)
     if (pos >= 7) {
         col = 6;
     }
-    unk_0090->sub_0200EB28((u16)(col * 11 + 0x5E), 0x20);
+    unk_0090->SetPos((u16)(col * 11 + 0x5E), 0x20);
     unk_0004 = pos;
 }
 
@@ -291,7 +291,7 @@ BOOL CNameInputScene::ov3_021223FC()
         unk_0030[i] = 0;
         unk_004C[i] = 0;
     }
-    if (MAIN_BSS_020B26A0.unk_0000 == 0) {
+    if (MAIN_BSS_020B26A0.m_sex == 0) {
         unk_0068[0] = 'K';
         unk_0068[1] = 'e';
         unk_0068[2] = 'l';
@@ -311,7 +311,7 @@ BOOL CNameInputScene::ov3_021223FC()
         unk_004C[4] = 'y';
         unk_004C[5] = 'n';
         ov3_02122264(6);
-    } else if (MAIN_BSS_020B26A0.unk_0000 == 1) {
+    } else if (MAIN_BSS_020B26A0.m_sex == 1) {
         unk_0068[0] = 'K';
         unk_0068[1] = 'a';
         unk_0068[2] = 't';
@@ -332,14 +332,14 @@ BOOL CNameInputScene::ov3_021223FC()
 
 u32 CNameInputScene::func0()
 {
-    if (s_game->unk_14BC->sub_0200E310() && s_game->unk_14C0->sub_0200E310()) {
+    if (s_game->unk_14BC->IsActive() && s_game->unk_14C0->IsActive()) {
         return -1;
     }
     switch (unk_0010) {
     case 0:
         unk_0010 = 2;
         unk_000C = 0;
-        m_audioEngine->sub_02034A40(0x16, 0x40);
+        m_audioEngine->PlayBgm(0x16, 0x40);
         break;
     case 2:
         ov3_02122688();
@@ -354,7 +354,7 @@ u32 CNameInputScene::func0()
         ov3_02122BCC();
         break;
     case 6:
-        if (!s_game->unk_14BC->sub_0200E310() && !s_game->unk_14C0->sub_0200E310()) {
+        if (!s_game->unk_14BC->IsActive() && !s_game->unk_14C0->IsActive()) {
             return 1;
         }
         break;
@@ -365,8 +365,8 @@ u32 CNameInputScene::func0()
 void CNameInputScene::ov3_02122688()
 {
     int i;
-    unk_00BC[0]->sub_0200F64C();
-    unk_00BC[1]->sub_0200F64C();
+    unk_00BC[0]->Update();
+    unk_00BC[1]->Update();
     CTouchPanel *tp = m_game->touchPanel;
     Point2D touch;
     touch.x = (tp->unk_0A.x - 0x80) << FX32_SHIFT;
@@ -375,60 +375,60 @@ void CNameInputScene::ov3_02122688()
         for (i = 0; i < 12; i++) {
             for (int j = 0; j < 5; j++) {
                 int idx = i * 5 + j;
-                if (sub_02006000(touch, unk_00CC[idx]->m_rectangle, 0)) {
+                if (PointInRect(touch, unk_00CC[idx]->m_rectangle, 0)) {
                     if (unk_0004 < 7) {
                         ov3_02122340(unk_0004, unk_0005, idx);
                         ov3_02122264(unk_0004 + 1);
                     }
-                    unk_0098->sub_0200EB28(i * 16 + 0x18, j * 16 + 0x40);
+                    unk_0098->SetPos(i * 16 + 0x18, j * 16 + 0x40);
                     unk_0098->unk_14 = 1;
-                    m_audioEngine->sub_02034C44(0xFA);
+                    m_audioEngine->PlaySe(0xFA);
                 }
             }
         }
-        if (sub_02006000(touch, unk_00CC[62]->m_rectangle, 0)) {
+        if (PointInRect(touch, unk_00CC[62]->m_rectangle, 0)) {
             ov3_021222A0();
-            unk_00A0->sub_0200EB28(0xE0, 0x70);
+            unk_00A0->SetPos(0xE0, 0x70);
             unk_00A0->unk_14 = 1;
-            m_audioEngine->sub_02034C44(0xFE);
+            m_audioEngine->PlaySe(0xFE);
         }
-        if (sub_02006000(touch, unk_00CC[63]->m_rectangle, 0)) {
+        if (PointInRect(touch, unk_00CC[63]->m_rectangle, 0)) {
             ov3_02121E44(0);
-            m_audioEngine->sub_02034C44(0xFA);
+            m_audioEngine->PlaySe(0xFA);
         }
-        if (sub_02006000(touch, unk_00CC[64]->m_rectangle, 0)) {
+        if (PointInRect(touch, unk_00CC[64]->m_rectangle, 0)) {
             ov3_02121E44(1);
-            m_audioEngine->sub_02034C44(0xFA);
+            m_audioEngine->PlaySe(0xFA);
         }
-        if (sub_02006000(touch, unk_00CC[66]->m_rectangle, 0)) {
+        if (PointInRect(touch, unk_00CC[66]->m_rectangle, 0)) {
             ov3_02121E44(3);
-            m_audioEngine->sub_02034C44(0xFA);
+            m_audioEngine->PlaySe(0xFA);
         }
-        if (sub_02006000(touch, unk_00CC[67]->m_rectangle, 0)) {
+        if (PointInRect(touch, unk_00CC[67]->m_rectangle, 0)) {
             if (!ov3_021223FC()) {
                 unk_0006 = 1;
             }
-            unk_00BC[1]->sub_0200F628(unk_001C, 2);
-            m_audioEngine->sub_02034C44(0xFF);
+            unk_00BC[1]->SetAnim(unk_001C, 2);
+            m_audioEngine->PlaySe(0xFF);
         }
     }
     if (tp->unk_06 != 0) {
         unk_0098->unk_14 = 0;
         unk_00A0->unk_14 = 0;
-        unk_00BC[1]->sub_0200F628(unk_001C, 1);
+        unk_00BC[1]->SetAnim(unk_001C, 1);
         if (unk_0006 == 1) {
             char *name = unk_0068;
-            UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+            SaveData *save = &MAIN_BSS_020B26A0;
             int i;
             for (i = 0; i < 30; i++) {
-                (&save->unk_87E3)[i] = 0;
+                (&save->m_playerName)[i] = 0;
             }
             for (i = 0; i < 30 && name[i] != 0; i++) {
-                (&save->unk_87E3)[i] = name[i];
+                (&save->m_playerName)[i] = name[i];
             }
             unk_0006 = 0;
-            s_game->unk_14BC->sub_0200E0E0(4, 5);
-            s_game->unk_14C0->sub_0200E0E0(4, 5);
+            s_game->unk_14BC->Start(4, 5);
+            s_game->unk_14C0->Start(4, 5);
             unk_0010 = 5;
             unk_0014 = 3;
         }
@@ -445,20 +445,20 @@ void CNameInputScene::ov3_02122688()
 void CNameInputScene::ov3_02122A8C()
 {
     u32 result;
-    UnkClass_020091E8 *textbox = m_game->m_textboxData;
+    TextboxManager *textbox = m_game->m_textboxData;
     if (textbox->sub_0200B6A4(1)) {
         return;
     }
-    result = textbox->sub_0200B6D4();
+    result = textbox->GetYesNoResult();
     if (result == 0) {
         textbox->sub_02009FB0(1, 1);
-        s_game->unk_14BC->sub_0200E0E0(2, 20);
-        s_game->unk_14C0->sub_0200E0E0(2, 20);
+        s_game->unk_14BC->Start(2, 20);
+        s_game->unk_14C0->Start(2, 20);
         unk_0010 = 6;
     }
     if (result == 1) {
-        s_game->unk_14BC->sub_0200E0E0(4, 5);
-        s_game->unk_14C0->sub_0200E0E0(4, 5);
+        s_game->unk_14BC->Start(4, 5);
+        s_game->unk_14C0->Start(4, 5);
         textbox->sub_02009FB0(1, 1);
         unk_0010 = 5;
         unk_0014 = 2;
@@ -467,8 +467,8 @@ void CNameInputScene::ov3_02122A8C()
 
 void CNameInputScene::ov3_02122B7C()
 {
-    s_game->unk_14BC->sub_0200E0E0(3, 5);
-    s_game->unk_14C0->sub_0200E0E0(3, 5);
+    s_game->unk_14BC->Start(3, 5);
+    s_game->unk_14C0->Start(3, 5);
     unk_0010 = unk_0014;
 }
 
@@ -477,7 +477,7 @@ void CNameInputScene::ov3_02122BCC()
     if (unk_0014 == 2) {
         func7();
         GX_SetVisiblePlane(GX_PLANEMASK_BG0 | GX_PLANEMASK_BG2 | GX_PLANEMASK_BG3 | GX_PLANEMASK_OBJ);
-        m_game->m_textboxData->sub_02009328(m_game->unk_0014, m_game->touchPanel, &m_game->unk_14AC->unk_0C, m_game->unk_14B0, m_game->unk_0024, m_game->m_audioEngine, 0x10, 0x4000, 0);
+        m_game->m_textboxData->Init(m_game->unk_0014, m_game->touchPanel, &m_game->unk_14AC->unk_0C, m_game->unk_14B0, m_game->unk_0024, m_game->m_audioEngine, 0x10, 0x4000, 0);
         ov3_021231F4();
         ov3_0212351C();
         ov3_02122E68();
@@ -503,12 +503,12 @@ void CNameInputScene::func1()
     switch (unk_0010) {
     case 0:
     case 2:
-        unk_00BC[0]->sub_0200F71C();
-        unk_00BC[1]->sub_0200F71C();
+        unk_00BC[0]->WriteOam();
+        unk_00BC[1]->WriteOam();
         break;
     case 3:
-        unk_00BC[2]->sub_0200F71C();
-        unk_00BC[3]->sub_0200F71C();
+        unk_00BC[2]->WriteOam();
+        unk_00BC[3]->WriteOam();
         break;
     }
 }
@@ -567,40 +567,40 @@ void CNameInputScene::ov3_02122E68()
     };
     int ofs;
     int i;
-    UnkClass_0200C38C *text = m_game->unk_1494;
-    text->sub_0200C3D0();
-    text->sub_0200C408(0, GX_BG_SCRBASE_0x6000, GX_BG_CHARBASE_0x00000);
-    text->sub_0200C680(9);
+    TextPrinter *text = m_game->unk_1494;
+    text->FreeWindows();
+    text->SetupBG(0, GX_BG_SCRBASE_0x6000, GX_BG_CHARBASE_0x00000);
+    text->AllocWindows(9);
     ofs = 0x40;
     for (i = 0; i < 9; i++) {
-        text->sub_0200C6C8(i, windows[i].width, windows[i].height, windows[i].left, windows[i].top, ofs, windows[i].hSpace, windows[i].vSpace);
+        text->InitWindow(i, windows[i].width, windows[i].height, windows[i].left, windows[i].top, ofs, windows[i].hSpace, windows[i].vSpace);
         ofs += windows[i].width * windows[i].height;
     }
-    text->sub_0200C7A4(3, windows[3].x, windows[3].y, windows[3].color, unk_01DC->unk_08[1].unk_04, FALSE, 0);
-    text->sub_0200C7A4(4, windows[4].x, windows[4].y, windows[4].color, unk_01DC->unk_08[2].unk_04, FALSE, 0);
-    text->sub_0200C7A4(5, windows[5].x, windows[5].y, windows[5].color, unk_01DC->unk_08[4].unk_04, FALSE, 0);
-    text->sub_0200C7A4(7, windows[7].x, windows[7].y, windows[7].color, unk_01DC->unk_08[5].unk_04, TRUE, 0);
+    text->Print(3, windows[3].x, windows[3].y, windows[3].color, unk_01DC->unk_08[1].unk_04, FALSE, 0);
+    text->Print(4, windows[4].x, windows[4].y, windows[4].color, unk_01DC->unk_08[2].unk_04, FALSE, 0);
+    text->Print(5, windows[5].x, windows[5].y, windows[5].color, unk_01DC->unk_08[4].unk_04, FALSE, 0);
+    text->Print(7, windows[7].x, windows[7].y, windows[7].color, unk_01DC->unk_08[5].unk_04, TRUE, 0);
 }
 
 void CNameInputScene::ov3_02123014()
 {
     int i;
-    UnkClass_0200C38C *text = m_game->unk_1494;
+    TextPrinter *text = m_game->unk_1494;
     for (i = 0; i < 9; i++) {
-        text->sub_0200C980(i);
+        text->ClearWindow(i);
     }
     GX_SetVisiblePlane(GX_PLANEMASK_BG0 | GX_PLANEMASK_BG3 | GX_PLANEMASK_OBJ);
-    m_game->m_textboxData->sub_02009328(m_game->unk_0014, m_game->touchPanel, &m_game->unk_14AC->unk_0C, m_game->unk_14B0, m_game->unk_0024, m_game->m_audioEngine, 0x10, 0x4000, 0);
-    m_game->m_textboxData->sub_0200AB28(2);
-    m_game->m_textboxData->sub_0200AA04(0);
-    m_game->m_textboxData->sub_0200AD34(5, 1, 1, 0);
+    m_game->m_textboxData->Init(m_game->unk_0014, m_game->touchPanel, &m_game->unk_14AC->unk_0C, m_game->unk_14B0, m_game->unk_0024, m_game->m_audioEngine, 0x10, 0x4000, 0);
+    m_game->m_textboxData->LoadSystemMessages(2);
+    m_game->m_textboxData->SetTextSpeed(0);
+    m_game->m_textboxData->ShowSystemMessage(5, 1, 1, 0);
 }
 
 void CNameInputScene::func6()
 {
     unk_000C = 0;
     unk_0010 = 0;
-    m_game->m_textboxData->sub_02009328(m_game->unk_0014, m_game->touchPanel, &m_game->unk_14AC->unk_0C, m_game->unk_14B0, m_game->unk_0024, m_game->m_audioEngine, 0x10, 0x4000, 0);
+    m_game->m_textboxData->Init(m_game->unk_0014, m_game->touchPanel, &m_game->unk_14AC->unk_0C, m_game->unk_14B0, m_game->unk_0024, m_game->m_audioEngine, 0x10, 0x4000, 0);
     ov3_021231F4();
     ov3_0212351C();
     ov3_02122E68();
@@ -608,8 +608,8 @@ void CNameInputScene::func6()
     ov3_021239A8();
     unk_0098->unk_14 = 0;
     unk_00A0->unk_14 = 0;
-    s_game->unk_14BC->sub_0200E0E0(1, 30);
-    s_game->unk_14C0->sub_0200E0E0(1, 30);
+    s_game->unk_14BC->Start(1, 30);
+    s_game->unk_14C0->Start(1, 30);
     ov3_02121E44(unk_0005);
 }
 
@@ -659,23 +659,23 @@ void CNameInputScene::ov3_02123654()
 {
     char name[0x60];
     int ofs = 0;
-    OS_SPrintf(name, "tp%03d", MAIN_BSS_020B26A0.unk_0000);
-    unk_00BC[0] = new UnkClass_0200ECD0((GXOamAttr *)&m_game->unk_0024[8], m_game->unk_14A8, FALSE, 0x40);
-    ofs += unk_00BC[0]->sub_0200EE14("data/menu", name, 0, 4);
-    unk_008C = unk_00BC[0]->sub_0200F4FC(0, 0x4A, 0x20, 0);
+    OS_SPrintf(name, "tp%03d", MAIN_BSS_020B26A0.m_sex);
+    unk_00BC[0] = new OamSpriteSet((GXOamAttr *)&m_game->unk_0024[8], m_game->unk_14A8, FALSE, 0x40);
+    ofs += unk_00BC[0]->Load("data/menu", name, 0, 4);
+    unk_008C = unk_00BC[0]->AddSprite(0, 0x4A, 0x20, 0);
     unk_0018 = unk_00BC[0]->unk_24;
-    unk_00BC[1] = new UnkClass_0200ECD0((GXOamAttr *)&m_game->unk_0024[0x10], m_game->unk_14A8, FALSE, 0x40);
-    unk_00BC[1]->sub_0200EE14("data/menu", "mni000_00", ofs / 32, 5);
-    unk_0090 = unk_00BC[1]->sub_0200F4FC(0, 0x5E, 0x20, 0);
-    unk_0094 = unk_00BC[1]->sub_0200F4FC(1, 0x80, 0xB0, 1);
+    unk_00BC[1] = new OamSpriteSet((GXOamAttr *)&m_game->unk_0024[0x10], m_game->unk_14A8, FALSE, 0x40);
+    unk_00BC[1]->Load("data/menu", "mni000_00", ofs / 32, 5);
+    unk_0090 = unk_00BC[1]->AddSprite(0, 0x5E, 0x20, 0);
+    unk_0094 = unk_00BC[1]->AddSprite(1, 0x80, 0xB0, 1);
     unk_001C = unk_00BC[1]->unk_24;
-    unk_0098 = unk_00BC[1]->sub_0200F4FC(3, 0, 0, 1);
-    unk_00A0 = unk_00BC[1]->sub_0200F4FC(5, 0, 0, 1);
-    unk_00A4 = unk_00BC[1]->sub_0200F4FC(6, 0x48, 0x90, 1);
+    unk_0098 = unk_00BC[1]->AddSprite(3, 0, 0, 1);
+    unk_00A0 = unk_00BC[1]->AddSprite(5, 0, 0, 1);
+    unk_00A4 = unk_00BC[1]->AddSprite(6, 0x48, 0x90, 1);
     unk_0020 = unk_00BC[1]->unk_24;
-    unk_00A8 = unk_00BC[1]->sub_0200F4FC(7, 0x80, 0x90, 1);
+    unk_00A8 = unk_00BC[1]->AddSprite(7, 0x80, 0x90, 1);
     unk_0024 = unk_00BC[1]->unk_24;
-    unk_00B0 = unk_00BC[1]->sub_0200F4FC(7, 0xB8, 0x90, 1);
+    unk_00B0 = unk_00BC[1]->AddSprite(7, 0xB8, 0x90, 1);
     unk_002C = unk_00BC[1]->unk_24;
     unk_0090->unk_14 = 0;
 }
@@ -684,13 +684,13 @@ void CNameInputScene::ov3_02123878()
 {
     char name[0x60];
     int ofs = 0;
-    unk_00BC[2] = new UnkClass_0200ECD0((GXOamAttr *)&m_game->unk_0024[0x20], m_game->unk_14A8, FALSE, 0x40);
-    ofs += unk_00BC[2]->sub_0200EE14("data/menu", "mps000_00", 0, 4);
-    unk_00B4 = unk_00BC[2]->sub_0200F4FC(0, 0x80, 0x48, 1);
-    OS_SPrintf(name, "mp%03d_00", (u8)(MAIN_BSS_020B26A0.unk_0000 + 3));
-    unk_00BC[3] = new UnkClass_0200ECD0((GXOamAttr *)&m_game->unk_0024[0x40], m_game->unk_14A8, FALSE, 0x40);
-    unk_00BC[3]->sub_0200EE14("data/menu", name, ofs / 32, 6);
-    unk_00B8 = unk_00BC[3]->sub_0200F4FC(1, 0x80, 0x48, 0);
+    unk_00BC[2] = new OamSpriteSet((GXOamAttr *)&m_game->unk_0024[0x20], m_game->unk_14A8, FALSE, 0x40);
+    ofs += unk_00BC[2]->Load("data/menu", "mps000_00", 0, 4);
+    unk_00B4 = unk_00BC[2]->AddSprite(0, 0x80, 0x48, 1);
+    OS_SPrintf(name, "mp%03d_00", (u8)(MAIN_BSS_020B26A0.m_sex + 3));
+    unk_00BC[3] = new OamSpriteSet((GXOamAttr *)&m_game->unk_0024[0x40], m_game->unk_14A8, FALSE, 0x40);
+    unk_00BC[3]->Load("data/menu", name, ofs / 32, 6);
+    unk_00B8 = unk_00BC[3]->AddSprite(1, 0x80, 0x48, 0);
 }
 
 void CNameInputScene::ov3_021239A8()
@@ -716,7 +716,7 @@ void CNameInputScene::ov3_021239A8()
 void CNameInputScene::func7()
 {
     m_game->m_textboxData->sub_02009FB0(1, 1);
-    m_game->m_textboxData->sub_020092D4();
+    m_game->m_textboxData->Reset();
     for (int i = 0; i < 0x44; i++) {
         SAFE_DELETE(unk_00CC[i]);
     }
@@ -767,12 +767,12 @@ void CNameInputScene::ov3_02123E84(int idx, int x, int y, int color, int c)
         buf[n] = 0;
     }
     int width = NNS_G2dFontGetTextWidth(&m_game->unk_14AC->unk_0C, 0, buf);
-    m_game->unk_1494->sub_0200C7A4(idx, x + 5 - ((width & 1) + (width >> 1)), y, color, (u8 *)buf, FALSE, 0);
+    m_game->unk_1494->Print(idx, x + 5 - ((width & 1) + (width >> 1)), y, color, (u8 *)buf, FALSE, 0);
 }
 
 void CNameInputScene::ov3_02123F8C()
 {
-    m_game->unk_1494->sub_0200C980(8);
+    m_game->unk_1494->ClearWindow(8);
     int i;
     int x;
     for (i = 0, x = 2; i < 7 && unk_004C[i] != 0; i++) {

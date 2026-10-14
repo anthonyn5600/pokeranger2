@@ -14,7 +14,7 @@ static const u8 sColors[9][3] = {
     { 31, 31, 31 },
 };
 
-CFieldEffectManpuDokarimo::CFieldEffectManpuDokarimo(CFieldEffectManage::CResidentResource *res, UnkClass_0216D420 *slots, int cac, int type)
+CFieldEffectManpuDokarimo::CFieldEffectManpuDokarimo(CFieldEffectManage::CResidentResource *res, AnimSlotPool *slots, int cac, int type)
     : CFieldEffectManpuAnime((CEffectActorData *)res, slots, cac)
 {
     m_bobSpeed = 0x2AA;

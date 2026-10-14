@@ -2,10 +2,10 @@
 
 #include <nitro.h>
 
+#include "MathUtil.hpp"
 #include "field/CFieldEnemy.hpp"
 #include "field/CFieldPlayer.hpp"
 #include "scene/CFieldScene.hpp"
-#include "sub_02007254.hpp"
 
 extern CFieldScene *MAIN_BSS_0210CA40;
 
@@ -23,9 +23,9 @@ CFieldEffectSlime::CFieldEffectSlime()
 CFieldEffectSlime::~CFieldEffectSlime()
 {
     if (unk_18 != NULL) {
-        UnkClass_02008788 *cac = unk_18->GetCac(0);
+        CellAnimController *cac = unk_18->GetCac(0);
         if (cac != NULL) {
-            cac->sub_02008B80(m_cacId);
+            cac->Remove(m_cacId);
         }
     }
 }
@@ -38,9 +38,9 @@ void CFieldEffectSlime::Init(int type, CEffectActorData *data, int kind)
     m_param = 0;
     m_flags |= 2;
     unk_18 = data;
-    UnkClass_02008788 *cac = data->GetCac(0);
+    CellAnimController *cac = data->GetCac(0);
     if (cac != NULL) {
-        m_cacId = cac->sub_02008A80(1, 0);
+        m_cacId = cac->Create(1, 0);
     }
     InitSprites();
     MI_CpuFill8(m_puddles, 0, sizeof(m_puddles));
@@ -74,10 +74,10 @@ int CFieldEffectSlime::ov0_02142264(int step)
 int CFieldEffectSlime::ov0_02142344(Camera2D *camera)
 {
     if (m_state != 0 && m_state != 4) {
-        UnkClass_02008788 *cac = unk_18->GetCac(0);
+        CellAnimController *cac = unk_18->GetCac(0);
         u16 cell = 0;
         if (cac != NULL) {
-            cell = cac->sub_02008828(m_cacId);
+            cell = cac->GetCell(m_cacId);
         }
         CFieldEffectManage *mgr = MAIN_BSS_0210CA60;
         int layer = m_actor->unk_14;
@@ -99,7 +99,7 @@ int CFieldEffectSlime::ov0_02142344(Camera2D *camera)
     return 1;
 }
 
-int CFieldEffectSlime::sub_0203312C(int param, int value)
+int CFieldEffectSlime::SetParam(int param, int value)
 {
     int ret = 1;
     switch (param) {
@@ -206,7 +206,7 @@ BOOL CFieldEffectSlime::IsTouchingPlayer(const Point2D *pos)
     CFieldPlayer *player = (CFieldPlayer *)MAIN_BSS_0210CA40->ov0_02123060(0);
     fx32 range = player->unk_E0 + 0x9000;
     Point2D d = player->GetPos() - *pos;
-    if (sub_02007254(d.x, d.y) < range) {
+    if (ApproxLength(d.x, d.y) < range) {
         return TRUE;
     }
     return FALSE;

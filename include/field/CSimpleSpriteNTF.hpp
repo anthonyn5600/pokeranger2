@@ -9,9 +9,9 @@
 #include "primitive/CPrimitive.hpp"
 
 // NtfTexture with its texture parameters (what CSimpleSpriteNTF draws with)
-class UnkClass_02041D98 : public NtfTexture {
+class NtfTextureParam : public NtfTexture {
 public:
-    UnkClass_02041D98()
+    NtfTextureParam()
     {
         m_texFmt = GX_TEXFMT_NONE;
         m_sizeS = GX_TEXSIZE_S8;
@@ -66,14 +66,14 @@ public:
     virtual u32 Render(Camera2D *camera);
 
 public:
-    UnkClass_02041D98 *unk_18;
+    NtfTextureParam *unk_18;
     fx32 unk_1C;
     fx32 unk_20;
     Point2D m_vtx[4];
     Point2D m_tex[4];
 };
 
-STATIC_SIZE_ASSERT(UnkClass_02041D98, 0x28);
+STATIC_SIZE_ASSERT(NtfTextureParam, 0x28);
 STATIC_SIZE_ASSERT(CSimpleSpriteNTF, 0x5C);
 STATIC_SIZE_ASSERT(CSimplePrimitiveQuadNTF, 0x64);
 

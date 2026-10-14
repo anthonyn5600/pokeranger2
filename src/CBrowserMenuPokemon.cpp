@@ -1,5 +1,5 @@
+#include "BrowserScreen.hpp"
 #include "CGame.hpp"
-#include "UnkClass_0211D330.hpp"
 #include "UnkStruct_020107A8.hpp"
 #include "scene/CBrowserMenu.hpp"
 
@@ -13,15 +13,15 @@ CBrowserMenuItemPokemon::~CBrowserMenuItemPokemon()
     SAFE_DELETE(unk_18);
 }
 
-void CBrowserMenuItemPokemon::ov21_0212131C(UnkClass_0200ECD0 *anim)
+void CBrowserMenuItemPokemon::ov21_0212131C(OamSpriteSet *anim)
 {
-    unk_18 = UnkClass_02120754::Create(anim, 0x10, 0, 0, 3);
-    unk_18->unk_00->sub_0200EBF4(0xB0, 0x10, -4, 0);
+    unk_18 = BrowserMenuSprite::Create(anim, 0x10, 0, 0, 3);
+    unk_18->unk_00->SetTouchRect(0xB0, 0x10, -4, 0);
 }
 
 BOOL CBrowserMenuItemPokemon::IsTouched()
 {
-    return unk_18->unk_00->sub_0200EB84();
+    return unk_18->unk_00->GetTouchTrigger();
 }
 
 void CBrowserMenuItemPokemon::func08()
@@ -31,12 +31,12 @@ void CBrowserMenuItemPokemon::func08()
 void CBrowserMenuItemPokemon::SetData(int id, int arg1, int arg2)
 {
     unk_04 = id;
-    sub_020107A8(CGame::GetInstance()->unk_1434, id);
+    PokeIdTable_Get(CGame::GetInstance()->unk_1434, id);
 }
 
 void CBrowserMenuItemPokemon::UpdatePos()
 {
-    unk_18->unk_00->sub_0200EB28(unk_0C + unk_08->unk_70, unk_10 + unk_08->unk_74);
+    unk_18->unk_00->SetPos(unk_0C + unk_08->unk_70, unk_10 + unk_08->unk_74);
 }
 
 void CBrowserMenuItemPokemon::func0C()
@@ -54,10 +54,10 @@ CBrowserMenuCursorPokemon::~CBrowserMenuCursorPokemon()
     SAFE_DELETE(unk_14);
 }
 
-void CBrowserMenuCursorPokemon::ov21_0212149C(UnkClass_0200ECD0 *anim)
+void CBrowserMenuCursorPokemon::ov21_0212149C(OamSpriteSet *anim)
 {
-    unk_14 = UnkClass_02120754::Create(anim, 0x10, 0, 0, 0);
-    anim->sub_0200F628(anim->unk_24, 0x10);
+    unk_14 = BrowserMenuSprite::Create(anim, 0x10, 0, 0, 0);
+    anim->SetAnim(anim->unk_24, 0x10);
     unk_18 = 0;
     unk_1C = 0;
 }
@@ -85,7 +85,7 @@ void CBrowserMenuCursorPokemon::Update()
 
 void CBrowserMenuCursorPokemon::UpdatePos()
 {
-    unk_14->unk_00->sub_0200EB28(unk_08 + unk_04->unk_70, unk_0C + unk_04->unk_74);
+    unk_14->unk_00->SetPos(unk_08 + unk_04->unk_70, unk_0C + unk_04->unk_74);
 }
 
 void CBrowserMenuCursorPokemon::func0C()
@@ -100,7 +100,7 @@ CBrowserMenuManagerPokemon::~CBrowserMenuManagerPokemon()
 {
 }
 
-void CBrowserMenuManagerPokemon::ov21_021215F8(UnkClass_0200ECD0 *anim, UnkClass_0211D330 *owner)
+void CBrowserMenuManagerPokemon::ov21_021215F8(OamSpriteSet *anim, BrowserScreen *owner)
 {
     unk_8C = owner;
     unk_20 = 0;

@@ -18,23 +18,23 @@ CFieldEffectFootStepSmoke::~CFieldEffectFootStepSmoke()
 {
 }
 
-void CFieldEffectFootStepSmoke::ov0_021509F4(UnkClass_020074D4 *ncbr, UnkClass_02007AA4 *palette, CNCERFile *ncer)
+void CFieldEffectFootStepSmoke::ov0_021509F4(VramImage *ncbr, VramPalette *palette, CNCERFile *ncer)
 {
     m_system.m_res.ncbr = ncbr;
     m_system.m_res.palette = palette;
     m_system.m_res.ncer = ncer;
 }
 
-void CFieldEffectFootStepSmoke::ov0_02150A04(UnkClass_020074D4 *ncbr, UnkClass_02007AA4 *palette, CNCERFile *ncer, UnkClass_02008788 *cac)
+void CFieldEffectFootStepSmoke::ov0_02150A04(VramImage *ncbr, VramPalette *palette, CNCERFile *ncer, CellAnimController *cac)
 {
     m_cac = cac;
     for (int i = 0; i < 4; i++) {
         m_sprites[i].SetResources((UnkClass_CPrimitive_ImageProxy *)ncbr, NULL, (UnkClass_CPrimitive_ImagePaletteProxy *)palette, (UnkClass_CSoftwareSprite_38 *)ncer);
         m_sprites[i].m_polygonID = 8;
         if (m_cac != NULL) {
-            m_puffs[i].cacId = m_cac->sub_02008A80(1, 0);
+            m_puffs[i].cacId = m_cac->Create(1, 0);
             if (m_puffs[i].cacId != 0) {
-                m_cac->sub_02008990(m_puffs[i].cacId, 4);
+                m_cac->SetAnim(m_puffs[i].cacId, 4);
             }
         }
     }
@@ -47,7 +47,7 @@ void CFieldEffectFootStepSmoke::ov0_02150A94()
     }
     for (int i = 0; i < 4; i++) {
         if (m_puffs[i].cacId != 0) {
-            m_cac->sub_02008B80(m_puffs[i].cacId);
+            m_cac->Remove(m_puffs[i].cacId);
             m_puffs[i].cacId = 0;
         }
     }
@@ -72,7 +72,7 @@ void CFieldEffectFootStepSmoke::ov0_02150AE8(int idx, int x, int y, int layer)
                 m_puffs[i].timer = 0x18;
                 m_puffs[i].layer = layer;
                 if (m_cac != NULL) {
-                    m_cac->sub_020089B8(m_puffs[i].cacId);
+                    m_cac->Restart(m_puffs[i].cacId);
                 }
                 m_sprites[i].m_coords[0] = x;
                 m_sprites[i].m_coords[1] = y + 0x8000;
@@ -97,7 +97,7 @@ int CFieldEffectFootStepSmoke::ov0_02142264(int step)
     return 0;
 }
 
-void CFieldEffectFootStepSmoke::ov0_02142398(UnkClass_0211E3FC *renderLists)
+void CFieldEffectFootStepSmoke::ov0_02142398(DrawObjectList *renderLists)
 {
     m_emitter.AddToRenderLists(renderLists);
 }
@@ -109,7 +109,7 @@ int CFieldEffectFootStepSmoke::ov0_02142344(Camera2D *camera)
     for (int i = 0; i < 4; i++) {
         if (m_puffs[i].timer > 0) {
             if (m_cac != NULL) {
-                m_sprites[i].m_cellDataIdx = m_cac->sub_02008828(m_puffs[i].cacId);
+                m_sprites[i].m_cellDataIdx = m_cac->GetCell(m_puffs[i].cacId);
             }
             m_sprites[i].m_z = mgr->unk_790[m_puffs[i].layer];
             m_sprites[i].Render(camera);
@@ -137,12 +137,12 @@ void CFieldEffectFootStepSmoke::CFieldParticleOneShotEmitter::Emit(TFieldParticl
     e->obj.m_particle = p;
 }
 
-void CFieldEffectFootStepSmoke::CFieldParticleOneShotEmitter::AddToRenderLists(UnkClass_0211E3FC *lists)
+void CFieldEffectFootStepSmoke::CFieldParticleOneShotEmitter::AddToRenderLists(DrawObjectList *lists)
 {
     for (u8 i = 0; i < 8; i++) {
         if (m_entries[i].obj.m_particle != NULL && m_entries[i].obj.m_particle->life != 0) {
             if (m_entries[i].layer >= 0 && m_entries[i].layer < 4) {
-                lists[m_entries[i].layer].sub_0200912C(&m_entries[i].obj);
+                lists[m_entries[i].layer].Insert(&m_entries[i].obj);
             }
         }
     }
@@ -162,7 +162,7 @@ void CFieldEffectFootStepSmoke::CFieldParticleOneShotEmitter::Add(u16 color, fx3
     m_count++;
 }
 
-int CFieldEffectFootStepSmoke::CDrawObjectParticle::sub_020091D4(Camera2D *camera, int budget)
+int CFieldEffectFootStepSmoke::CDrawObjectParticle::Draw(Camera2D *camera, int budget)
 {
     if (m_particle != NULL) {
         m_particle->sprite.m_z = budget;

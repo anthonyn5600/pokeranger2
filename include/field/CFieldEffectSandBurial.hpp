@@ -53,7 +53,7 @@ public:
 
     CFieldEffectSandBurial();
     virtual ~CFieldEffectSandBurial();
-    virtual int sub_02033028()
+    virtual int GetEffectId()
     {
         return 0x1F;
     }

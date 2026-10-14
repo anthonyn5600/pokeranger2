@@ -3,8 +3,8 @@
 #include <nitro.h>
 
 #include "CGame.hpp"
-#include "UnkClass_0200D3F8.hpp"
-#include "UnkClass_0211D850.hpp"
+#include "CameraController.hpp"
+#include "FieldScreenEffectManage.hpp"
 
 BOOL CFieldSEFFog::s_dirty;
 int CFieldSEFFog::s_density;
@@ -165,9 +165,9 @@ void CFieldScreenEffectObjectBase::UpdateScroll()
     sCameraPos = pos;
 }
 
-void UnkClass_0211D850::sub_02035720(int count)
+void FieldScreenEffectManage::Alloc(int count)
 {
-    sub_02035774();
+    Free();
     m_count = count;
     m_effects = new CFieldScreenEffectObjectBase *[m_count];
     for (int i = 0; i < m_count; i++) {
@@ -176,7 +176,7 @@ void UnkClass_0211D850::sub_02035720(int count)
     CFieldScreenEffectObjectBase::InitScroll();
 }
 
-void UnkClass_0211D850::sub_02035774()
+void FieldScreenEffectManage::Free()
 {
     if (m_effects != NULL) {
         for (int i = 0; i < m_count; i++) {
@@ -189,7 +189,7 @@ void UnkClass_0211D850::sub_02035774()
     m_count = 0;
 }
 
-void UnkClass_0211D850::sub_0203580C(int fps)
+void FieldScreenEffectManage::Update(int fps)
 {
     CFieldScreenEffectObjectBase::UpdateScroll();
     CFieldScreenEffectObjectBase::s_frameStep = 60 / fps;
@@ -202,7 +202,7 @@ void UnkClass_0211D850::sub_0203580C(int fps)
     }
 }
 
-void UnkClass_0211D850::sub_020358AC(Camera2D *camera)
+void FieldScreenEffectManage::Draw(Camera2D *camera)
 {
     for (int i = 0; i < m_count; i++) {
         if (m_effects[i] != NULL) {
@@ -211,7 +211,7 @@ void UnkClass_0211D850::sub_020358AC(Camera2D *camera)
     }
 }
 
-int UnkClass_0211D850::sub_02035900(CFieldScreenEffectObjectBase *effect)
+int FieldScreenEffectManage::Add(CFieldScreenEffectObjectBase *effect)
 {
     if (m_effects != NULL) {
         for (int i = 1; i < m_count; i++) {
@@ -224,7 +224,7 @@ int UnkClass_0211D850::sub_02035900(CFieldScreenEffectObjectBase *effect)
     return -1;
 }
 
-int UnkClass_0211D850::sub_02035940(CFieldScreenEffectObjectBase *effect)
+int FieldScreenEffectManage::SetPrimary(CFieldScreenEffectObjectBase *effect)
 {
     if (m_effects != NULL) {
         if (m_effects[0] != NULL) {
@@ -236,7 +236,7 @@ int UnkClass_0211D850::sub_02035940(CFieldScreenEffectObjectBase *effect)
     return -1;
 }
 
-void UnkClass_0211D850::sub_02035998()
+void FieldScreenEffectManage::ClearSecondary()
 {
     if (m_effects == NULL) {
         return;
@@ -248,14 +248,14 @@ void UnkClass_0211D850::sub_02035998()
     }
 }
 
-void UnkClass_0211D850::sub_020359FC()
+void FieldScreenEffectManage::ClearPrimary()
 {
     if (m_effects != NULL && m_effects[0] != NULL) {
         SAFE_DELETE(m_effects[0]);
     }
 }
 
-CFieldScreenEffectObjectBase *UnkClass_0211D850::sub_02035A38(int type)
+CFieldScreenEffectObjectBase *FieldScreenEffectManage::CreateEffect(int type)
 {
     if (type > 0) {
         switch (type) {
@@ -291,7 +291,7 @@ CFieldScreenEffectObjectBase *UnkClass_0211D850::sub_02035A38(int type)
     return NULL;
 }
 
-int UnkClass_0211D850::sub_02035CA4(int type)
+int FieldScreenEffectManage::FindByType(int type)
 {
     if (type > 0 && m_effects != NULL) {
         for (int i = 0; i < m_count; i++) {
@@ -299,23 +299,23 @@ int UnkClass_0211D850::sub_02035CA4(int type)
                 return i;
             }
         }
-        return sub_02035900(sub_02035A38(type));
+        return Add(CreateEffect(type));
     }
     return -1;
 }
 
-int UnkClass_0211D850::sub_02035D38(int type)
+int FieldScreenEffectManage::sub_02035D38(int type)
 {
     if (type > 0 && m_effects != NULL) {
         if (m_effects[0] != NULL && type == m_effects[0]->GetType()) {
             return 0;
         }
-        return sub_02035940(sub_02035A38(type));
+        return SetPrimary(CreateEffect(type));
     }
     return -1;
 }
 
-BOOL UnkClass_0211D850::sub_02035DA0(int type, int fadeIn, int hold, int fadeOut)
+BOOL FieldScreenEffectManage::StartEffect(int type, int fadeIn, int hold, int fadeOut)
 {
     if (type > 0 && m_effects != NULL) {
         for (int i = 0; i < m_count; i++) {
@@ -328,7 +328,7 @@ BOOL UnkClass_0211D850::sub_02035DA0(int type, int fadeIn, int hold, int fadeOut
     return FALSE;
 }
 
-BOOL UnkClass_0211D850::sub_02035E3C(int type, int fadeOut)
+BOOL FieldScreenEffectManage::StopEffect(int type, int fadeOut)
 {
     if (type > 0 && m_effects != NULL) {
         for (int i = 0; i < m_count; i++) {
@@ -341,7 +341,7 @@ BOOL UnkClass_0211D850::sub_02035E3C(int type, int fadeOut)
     return FALSE;
 }
 
-BOOL UnkClass_0211D850::sub_02035ECC(int type)
+BOOL FieldScreenEffectManage::IsEffectActive(int type)
 {
     if (type > 0 && m_effects != NULL) {
         for (int i = 0; i < m_count; i++) {
@@ -355,7 +355,7 @@ BOOL UnkClass_0211D850::sub_02035ECC(int type)
     return FALSE;
 }
 
-BOOL UnkClass_0211D850::sub_02035F50(int type, int arg)
+BOOL FieldScreenEffectManage::sub_02035F50(int type, int arg)
 {
     if (type != 3) {
         return FALSE;

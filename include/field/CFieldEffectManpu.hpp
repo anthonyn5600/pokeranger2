@@ -23,7 +23,7 @@ public:
         unk_28 = 0;
     }
     virtual ~CFieldEffectManpu();
-    virtual int sub_02033028();
+    virtual int GetEffectId();
     virtual int ov0_02142344(Camera2D *camera);
     virtual void SetType(int type);
     virtual int Draw(Camera2D *camera) = 0;
@@ -59,7 +59,7 @@ public:
 };
 
 extern "C" {
-int sub_02041A70(CFieldActor *actor, int type, int arg2);
+int Actor_ShowManpu(CFieldActor *actor, int type, int arg2);
 }
 
 #endif // POKERANGER2_FIELD_CFIELDEFFECTMANPU_HPP

@@ -1,5 +1,5 @@
+#include "BrowserScreen.hpp"
 #include "CGame.hpp"
-#include "UnkClass_0211D330.hpp"
 #include "UnkStruct_020107A8.hpp"
 #include "scene/CBrowserMenu.hpp"
 
@@ -13,17 +13,17 @@ CBrowserMenuItemType::~CBrowserMenuItemType()
 {
 }
 
-void CBrowserMenuItemType::ov21_02121EA8(UnkClass_0200ECD0 *anim)
+void CBrowserMenuItemType::ov21_02121EA8(OamSpriteSet *anim)
 {
     unk_24 = anim;
-    unk_18 = unk_24->sub_0200F4FC(0xB, 0, 0, 2);
+    unk_18 = unk_24->AddSprite(0xB, 0, 0, 2);
     unk_1C = unk_24->unk_24;
-    unk_18->sub_0200EBF4(0x68, 0x14, -4, 8);
+    unk_18->SetTouchRect(0x68, 0x14, -4, 8);
 }
 
 BOOL CBrowserMenuItemType::IsTouched()
 {
-    return unk_18->sub_0200EB84();
+    return unk_18->GetTouchTrigger();
 }
 
 void CBrowserMenuItemType::func08()
@@ -37,16 +37,16 @@ void CBrowserMenuItemType::SetData(int id, int arg1, int arg2)
 
 void CBrowserMenuItemType::UpdatePos()
 {
-    unk_18->sub_0200EB28(unk_0C + unk_08->unk_70, unk_10 + unk_08->unk_74);
+    unk_18->SetPos(unk_0C + unk_08->unk_70, unk_10 + unk_08->unk_74);
     if (this == unk_08->unk_68) {
         if (unk_20 != 0) {
-            unk_24->sub_0200F628(unk_1C, 0xF);
+            unk_24->SetAnim(unk_1C, 0xF);
             unk_20--;
         } else {
-            unk_24->sub_0200F628(unk_1C, 0xE);
+            unk_24->SetAnim(unk_1C, 0xE);
         }
     } else {
-        unk_24->sub_0200F628(unk_1C, 0xD);
+        unk_24->SetAnim(unk_1C, 0xD);
     }
 }
 
@@ -67,7 +67,7 @@ CBrowserMenuManagerType::~CBrowserMenuManagerType()
 {
 }
 
-void CBrowserMenuManagerType::ov21_0212200C(UnkClass_0200ECD0 *anim)
+void CBrowserMenuManagerType::ov21_0212200C(OamSpriteSet *anim)
 {
     for (int i = 0; i < 4; i++) {
         CBrowserMenuItemType *item = new CBrowserMenuItemType();

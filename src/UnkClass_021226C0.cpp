@@ -1,10 +1,10 @@
 #include "UnkClass_021226C0.hpp"
 
 #include "CGame.hpp"
-#include "UnkClass_020B26A0.hpp"
+#include "SaveData.hpp"
 #include "UnkStruct_020107A8.hpp"
 
-extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
+extern SaveData MAIN_BSS_020B26A0;
 
 int OVERLAY21_BSS_021242C4;
 
@@ -313,10 +313,10 @@ static int *sLists[] = {
     sList_02123198,
 };
 
-static inline u32 GetPokemonState(UnkClass_020B26A0 *save, int i)
+static inline u32 GetPokemonState(SaveData *save, int i)
 {
     if (i >= 0 && i < 500) {
-        return (save->unk_7C3C[i >> 4] >> ((i & 0xF) * 2)) & 3;
+        return (save->m_pokemonStates[i >> 4] >> ((i & 0xF) * 2)) & 3;
     }
     return 0;
 }
@@ -337,7 +337,7 @@ UnkClass_021226C0::~UnkClass_021226C0()
 void UnkClass_021226C0::ov21_02122724(u32 mode, int arg)
 {
     CGame *game = CGame::GetInstance();
-    UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+    SaveData *save = &MAIN_BSS_020B26A0;
 
     switch (mode) {
     case 0: {
@@ -346,7 +346,7 @@ void UnkClass_021226C0::ov21_02122724(u32 mode, int arg)
         unk_80C = 0;
         for (int i = 0; i < count; i++) {
             int idx = list[i];
-            u16 no = sub_020107A8(game->unk_1434, OVERLAY21_DATA_02123618[idx].id)->unk_00;
+            u16 no = PokeIdTable_Get(game->unk_1434, OVERLAY21_DATA_02123618[idx].id)->unk_00;
             if (OVERLAY21_BSS_021242C4 != 0 || GetPokemonState(save, no) != 0) {
                 unk_008[unk_80C++] = idx;
             }
@@ -356,7 +356,7 @@ void UnkClass_021226C0::ov21_02122724(u32 mode, int arg)
     case 1:
         unk_80C = 0;
         for (int i = 0; i < unk_000; i++) {
-            UnkStruct_020107A8 *rec = sub_020107A8(game->unk_1434, OVERLAY21_DATA_02123618[i].id);
+            UnkStruct_020107A8 *rec = PokeIdTable_Get(game->unk_1434, OVERLAY21_DATA_02123618[i].id);
             u16 no = rec->unk_00;
             if (rec->unk_04 == arg) {
                 if (OVERLAY21_BSS_021242C4 != 0 || GetPokemonState(save, no) == 2) {
@@ -369,7 +369,7 @@ void UnkClass_021226C0::ov21_02122724(u32 mode, int arg)
     case 2:
         unk_80C = 0;
         for (int i = 0; i < unk_000; i++) {
-            UnkStruct_020107A8 *rec = sub_020107A8(game->unk_1434, OVERLAY21_DATA_02123618[i].id);
+            UnkStruct_020107A8 *rec = PokeIdTable_Get(game->unk_1434, OVERLAY21_DATA_02123618[i].id);
             u16 no = rec->unk_00;
             if (rec->unk_05 == arg) {
                 if (OVERLAY21_BSS_021242C4 != 0 || GetPokemonState(save, no) == 2) {
@@ -384,7 +384,7 @@ void UnkClass_021226C0::ov21_02122724(u32 mode, int arg)
         int count = unk_810;
         for (int i = 0; i < count; i++) {
             if (OVERLAY21_DATA_02123618[i].no >= 1000) {
-                u16 no = sub_020107A8(game->unk_1434, OVERLAY21_DATA_02123618[i].id)->unk_00;
+                u16 no = PokeIdTable_Get(game->unk_1434, OVERLAY21_DATA_02123618[i].id)->unk_00;
                 if (OVERLAY21_BSS_021242C4 != 0 || GetPokemonState(save, no) != 0) {
                     unk_008[unk_80C++] = i;
                 }
@@ -401,10 +401,10 @@ void UnkClass_021226C0::ov21_02122724(u32 mode, int arg)
 int UnkClass_021226C0::ov21_02122A8C()
 {
     CGame *game = CGame::GetInstance();
-    UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+    SaveData *save = &MAIN_BSS_020B26A0;
     int seen = 0;
     for (int i = 0; i < unk_000; i++) {
-        UnkStruct_020107A8 *rec = sub_020107A8(game->unk_1434, OVERLAY21_DATA_02123618[i].id);
+        UnkStruct_020107A8 *rec = PokeIdTable_Get(game->unk_1434, OVERLAY21_DATA_02123618[i].id);
         u16 no = rec->unk_00;
         if (OVERLAY21_BSS_021242C4 != 0 || GetPokemonState(save, no) != 0) {
             seen = i + 1;

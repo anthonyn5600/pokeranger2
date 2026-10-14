@@ -44,11 +44,11 @@ public:
 class CFieldEffectScatterLeaves : public TFieldEffectParticle<CSoftwareSprite> {
 public:
     CFieldEffectScatterLeaves(int kind);
-    virtual int sub_02033028()
+    virtual int GetEffectId()
     {
         return 11;
     }
-    virtual int sub_0203312C(int param, int value);
+    virtual int SetParam(int param, int value);
     virtual TFieldParticleForceField<CSoftwareSprite> *GetForceField()
     {
         return &m_animator;

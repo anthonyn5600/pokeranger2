@@ -1,22 +1,22 @@
+#include "AudioEngine.hpp"
 #include "CTouchPanel.hpp"
-#include "UnkClass_02034478.hpp"
-#include "UnkClass_020B26A0.hpp"
+#include "Collision.hpp"
+#include "MathUtil.hpp"
+#include "SaveData.hpp"
+#include "battle/BattleParamTable.hpp"
 #include "battle/CBattleAssist.hpp"
 #include "battle/CBattleAttackEffect.hpp"
 #include "battle/CBattleDisk.hpp"
 #include "battle/CBattleEnemy.hpp"
 #include "battle/CBattleEnemyData.hpp"
-#include "battle/UnkClass_0212306C.hpp"
+#include "battle/StylerLine.hpp"
 #include "battle/UnkClass_02128414.hpp"
-#include "battle/UnkClass_0212EEB4.hpp"
 #include "fx_utils.hpp"
-#include "sub_02006000.hpp"
-#include "sub_02007254.hpp"
 
 extern "C" fx32 ov1_0212EE80(int assistType, int type);
 extern "C" u16 ov1_0212EE98(int assistType, int idx);
 
-CBattleAssistWater::CBattleAssistWater(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3)
+CBattleAssistWater::CBattleAssistWater(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3)
     : CBattleAssist(effects, effectData, params, arg3)
 {
 }
@@ -40,14 +40,14 @@ int CBattleAssistWater::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleE
         u8 idx = 0;
         if (ov1_02135848(&idx)) {
             m_selected = idx;
-            m_effects[idx]->m_motion.sub_02011D3C(pos);
+            m_effects[idx]->m_motion.SetPos(pos);
             m_flags |= 1;
-            unk_14->sub_02034C44(0x121);
+            unk_14->PlaySe(0x121);
         }
     }
     if (touch->unk_05 != 0 && (m_flags & 1)) {
         if (m_effects[m_selected] != NULL && m_effects[m_selected]->HasData()) {
-            m_effects[m_selected]->m_motion.sub_02011D3C(pos);
+            m_effects[m_selected]->m_motion.SetPos(pos);
         }
         ov1_02135794(m_selected);
         if (m_timer == 5) {
@@ -59,18 +59,18 @@ int CBattleAssistWater::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleE
     }
     if (touch->unk_06 != 0) {
         if ((m_flags & 1) && m_effects[m_selected] != NULL && m_effects[m_selected]->HasData()) {
-            if (sub_02007254(pos.x - m_last.x, pos.y - m_last.y) >= 0x8000) {
-                m_effects[m_selected]->m_motion.sub_02011D3C(pos);
+            if (ApproxLength(pos.x - m_last.x, pos.y - m_last.y) >= 0x8000) {
+                m_effects[m_selected]->m_motion.SetPos(pos);
                 u16 angle = FX_Atan2Idx(pos.y - m_last.y, pos.x - m_last.x);
-                m_effects[m_selected]->m_motion.sub_02011C90(angle, 0x2000);
+                m_effects[m_selected]->m_motion.MoveInDirection(angle, 0x2000);
                 m_slots[m_selected].m_thrown = 1;
-                unk_14->sub_02034C44(0x122);
+                unk_14->PlaySe(0x122);
             } else {
                 m_effects[m_selected]->ov1_02127300();
                 m_slots[m_selected].m_thrown = 1;
             }
         }
-        unk_14->sub_02034C5C(0x121);
+        unk_14->StopSe(0x121);
         m_flags &= ~1;
     }
     return 1;
@@ -145,7 +145,7 @@ void CBattleAssistWater::ov1_02135794(u8 idx)
     m_slots[idx].m_level = level;
     m_slots[idx].m_growTimer = timer;
     m_slots[idx].m_scale = scale;
-    m_effects[idx]->sub_02012A3C(0, m_slots[idx].m_scale, m_slots[idx].m_scale);
+    m_effects[idx]->ScaleTo(0, m_slots[idx].m_scale, m_slots[idx].m_scale);
 }
 
 BOOL CBattleAssistWater::ov1_02135848(u8 *outIdx)
@@ -167,7 +167,7 @@ BOOL CBattleAssistWater::ov1_02135848(u8 *outIdx)
     effect->ov1_021270FC(unk_0C[0]);
     effect->ov1_021273A0(7, 2);
     effect->ov1_02127388(TRUE);
-    effect->sub_02012A3C(0, m_slots[idx].m_scale, m_slots[idx].m_scale);
+    effect->ScaleTo(0, m_slots[idx].m_scale, m_slots[idx].m_scale);
     m_effects[idx] = effect;
     *outIdx = idx;
     return TRUE;
@@ -180,8 +180,8 @@ BOOL CBattleAssistWater::ov1_02135938(CBattleAttackEffect *effect, CBattleEnemy 
     area = circle;
     for (int i = 0; i < 8; i++) {
         if (enemies[i] != NULL && enemies[i]->IsAlive() && enemies[i]->IsTargetable()
-            && sub_02006164(area, enemies[i]->m_sphere.m_circle, NULL)) {
-            u16 power = unk_10->ov1_0212F32C(vfunc_10(), MAIN_BSS_020B26A0.unk_87DB, level);
+            && CircleHitCircle(area, enemies[i]->m_sphere.m_circle, NULL)) {
+            u16 power = unk_10->ov1_0212F32C(vfunc_10(), MAIN_BSS_020B26A0.m_stylerLevel, level);
             fx32 rate = ov1_0212EE80(vfunc_10(), enemies[i]->unk_184->unk_18->unk_03);
             enemies[i]->ov1_02126310((u16)(FX32_MUL(rate, power << FX32_SHIFT) >> FX32_SHIFT), TRUE);
             enemies[i]->ov1_021263A4(3, ov1_0212EE98(vfunc_10(), level));
@@ -192,7 +192,7 @@ BOOL CBattleAssistWater::ov1_02135938(CBattleAttackEffect *effect, CBattleEnemy 
             } else if (rate < 0x1000) {
                 enemies[i]->unk_1A8->ov1_02128598(2);
             }
-            unk_14->sub_02034C44(0x123);
+            unk_14->PlaySe(0x123);
             return TRUE;
         }
     }
@@ -213,7 +213,7 @@ void CBattleAssistWater::vfunc_0C()
         }
         m_flags &= ~1;
     }
-    unk_14->sub_02034C5C(0x121);
-    unk_14->sub_02034C5C(0x122);
-    unk_14->sub_02034C5C(0x123);
+    unk_14->StopSe(0x121);
+    unk_14->StopSe(0x122);
+    unk_14->StopSe(0x123);
 }

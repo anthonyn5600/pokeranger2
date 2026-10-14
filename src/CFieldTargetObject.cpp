@@ -3,7 +3,7 @@
 #include <nitro.h>
 #include <string.h>
 
-#include "UnkClass_0213F918.hpp"
+#include "FieldScriptLauncher.hpp"
 #include "field/CFieldMap.hpp"
 
 extern "C" {
@@ -24,10 +24,10 @@ static inline void SetRect(CFieldActor *actor, Rectangle r)
     actor->unk_34.size.y = r.size.y;
 }
 
-BOOL CFieldTargetObjectActorScript::sub_0203BE48(CFieldActor *actor, const char *func)
+BOOL CFieldTargetObjectActorScript::Call(CFieldActor *actor, const char *func)
 {
     if (unk_2C != NULL && actor != NULL) {
-        sub_02044B48(&unk_08, unk_30, unk_34);
+        ScriptVM_Init(&unk_08, unk_30, unk_34);
         if (unk_38 == -1) {
             *--unk_08.unk_04 = actor->unk_58;
         } else {
@@ -36,7 +36,7 @@ BOOL CFieldTargetObjectActorScript::sub_0203BE48(CFieldActor *actor, const char 
             sp[1] = unk_38;
         }
         if (func != NULL) {
-            if (sub_02045A18(&unk_08, unk_2C, func) == -1) {
+            if (ScriptVM_Start(&unk_08, unk_2C, func) == -1) {
                 LogError("not found func FieldTargetObject.cpp");
                 return FALSE;
             }
@@ -91,7 +91,7 @@ BOOL CFieldTargetObject::sub_0203DA38()
 BOOL CFieldTargetObject::ov0_0213CD3C()
 {
     GetScript()->unk_38 = -1;
-    unk_DC->sub_0203BE48(this, "Normal");
+    unk_DC->Call(this, "Normal");
     unk_110 = 1;
     return TRUE;
 }
@@ -99,7 +99,7 @@ BOOL CFieldTargetObject::ov0_0213CD3C()
 BOOL CFieldTargetObject::ov0_0213CD78(int arg)
 {
     GetScript()->unk_38 = arg;
-    unk_DC->sub_0203BE48(this, "TargetClear");
+    unk_DC->Call(this, "TargetClear");
     unk_110 = 2;
     return TRUE;
 }
@@ -110,13 +110,13 @@ BOOL CFieldTargetObject::ov0_0213CDB4(int arg)
     CFieldTargetObjectActorScript *script = GetScript();
     if (script != NULL) {
         script->unk_38 = arg;
-        result = script->sub_0203BE48(this, "TargetInit");
+        result = script->Call(this, "TargetInit");
     }
     unk_110 = 3;
     return result;
 }
 
-void CFieldTargetObject::sub_0202DC54(int arg0, int arg1)
+void CFieldTargetObject::PlayAnim(int arg0, int arg1)
 {
     switch (arg0) {
     case 0x10:
@@ -157,7 +157,7 @@ BOOL CFieldTargetObject::ov0_0213CF30(CFieldActorScript *script, void *block)
 BOOL CFieldTargetObject::ov0_0213CF60(const char *func)
 {
     if (unk_F8 != NULL && func != NULL) {
-        if (unk_F8->sub_0203BE48(this, func)) {
+        if (unk_F8->Call(this, func)) {
             strcpy(unk_100, func);
             return TRUE;
         }
@@ -169,7 +169,7 @@ BOOL CFieldTargetObject::ov0_0213CF60(const char *func)
 void CFieldTargetObject::ov0_0213CFBC()
 {
     if (unk_FC && unk_F8 != NULL) {
-        unk_F8->sub_0203BF20();
+        unk_F8->Step();
     }
 }
 
@@ -181,13 +181,13 @@ BOOL CFieldTargetObject::ov0_0213CFDC()
     return FALSE;
 }
 
-void CFieldTargetObject::sub_0203DA40(CFieldMap *map)
+void CFieldTargetObject::Process(CFieldMap *map)
 {
-    sub_0203C2B8();
-    sub_0203C87C(map);
+    UpdateScript();
+    Update(map);
 }
 
-BOOL CFieldTargetObject::sub_0203D578(CFieldMap *map)
+BOOL CFieldTargetObject::UpdateMove(CFieldMap *map)
 {
     switch (unk_E8) {
     case 0x70:
@@ -200,20 +200,20 @@ BOOL CFieldTargetObject::sub_0203D578(CFieldMap *map)
         case 0:
         case 1:
         default:
-            return CFieldActor::sub_0203D578(map);
+            return CFieldActor::UpdateMove(map);
         case 2:
         case 3:
-            sub_0203C2B8();
-            sub_0203C87C(map);
+            UpdateScript();
+            Update(map);
             return FALSE;
         }
     }
-    sub_0203C2B8();
-    sub_0203C87C(map);
+    UpdateScript();
+    Update(map);
     return FALSE;
 }
 
-void CFieldTargetObject::sub_0202D7E0()
+void CFieldTargetObject::StopMotion()
 {
     if (unk_08 != NULL && unk_08->unk_0C != NULL) {
         unk_08->unk_0C->m_motion.m_mode = 0;

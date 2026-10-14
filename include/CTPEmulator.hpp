@@ -13,9 +13,9 @@ public:
 
     virtual void func0();
 
-    void sub_0200215C(fx32 arg0, fx32 arg1);
-    void sub_02002178();
-    void sub_02002198(fx32 arg0, fx32 arg1, u16 arg2);
+    void Press(fx32 arg0, fx32 arg1);
+    void Release();
+    void DragTo(fx32 arg0, fx32 arg1, u16 arg2);
 
 public:
     u32 unk_30;

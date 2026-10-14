@@ -2,8 +2,8 @@
 #define POKERANGER2_SCENE_CLETTERSCENE_HPP
 
 #include "CGame.hpp"
-#include "UnkClass_020091E8.hpp"
-#include "UnkClass_0200ECD0.hpp"
+#include "OamSpriteSet.hpp"
+#include "TextboxManager.hpp"
 #include "common.hpp"
 #include "scene/CScene.hpp"
 
@@ -35,7 +35,7 @@ public:
     s32 unk_20;
     s32 unk_24;
     s32 unk_28;
-    UnkClass_0200ECD0 *unk_2C;
+    OamSpriteSet *unk_2C;
 };
 
 STATIC_SIZE_ASSERT(CLetterScene, 0x30);

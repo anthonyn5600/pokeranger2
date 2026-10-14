@@ -3,15 +3,15 @@
 #include <nitro.h>
 #include <nnsys.h>
 
+#include "AudioEngine.hpp"
+#include "BrightnessFade.hpp"
 #include "CGame.hpp"
-#include "UnkClass_020091E8.hpp"
-#include "UnkClass_0200C38C.hpp"
-#include "UnkClass_0200CFF4.hpp"
-#include "UnkClass_0200E0B4.hpp"
-#include "UnkClass_0200ECD0.hpp"
-#include "UnkClass_0201164C.hpp"
-#include "UnkClass_02034478.hpp"
-#include "UnkClass_020B26A0.hpp"
+#include "FontSet.hpp"
+#include "MissionQuestData.hpp"
+#include "OamSpriteSet.hpp"
+#include "SaveData.hpp"
+#include "TextPrinter.hpp"
+#include "TextboxManager.hpp"
 #include "file/CArchiveGuard.hpp"
 #include "file/CBGNCGRFile.hpp"
 #include "file/CBinaryFileMes.hpp"
@@ -21,7 +21,7 @@
 CLetterScene::CLetterScene(CGame *game)
 {
     m_game = game;
-    game->unk_146C.sub_02008DB4(30);
+    game->unk_146C.SetFps(30);
     m_messages = NULL;
     unk_2C = NULL;
     unk_20 = 0;
@@ -53,7 +53,7 @@ CLetterScene::~CLetterScene()
     SAFE_DELETE(unk_2C);
     NNS_GfdResetLnkTexVramState();
     NNS_GfdResetLnkPlttVramState();
-    m_game->unk_146C.sub_02008DB4(30);
+    m_game->unk_146C.SetFps(30);
 }
 
 void CLetterScene::func5()
@@ -87,9 +87,9 @@ void CLetterScene::func6()
 {
     char path[64];
 
-    unk_2C = new UnkClass_0200ECD0((GXOamAttr *)m_game->unk_0024, m_game->unk_14A8, FALSE, 0x40);
-    unk_2C->sub_0200EE14("data/eventicon", "eventicon000", 0, 0);
-    unk_2C->sub_0200F4FC(0, 0xF0, 0xB3, 0);
+    unk_2C = new OamSpriteSet((GXOamAttr *)m_game->unk_0024, m_game->unk_14A8, FALSE, 0x40);
+    unk_2C->Load("data/eventicon", "eventicon000", 0, 0);
+    unk_2C->AddSprite(0, 0xF0, 0xB3, 0);
 
     m_chapter = m_game->m_missionQuestData->unk_10;
     unk_18 = 8;
@@ -132,11 +132,11 @@ void CLetterScene::func6()
     }
 
     if (unk_10 == 0x33333333) {
-        m_game->unk_14BC->sub_0200E0E0(2, 0);
-        m_game->unk_14C0->sub_0200E0E0(2, 0);
+        m_game->unk_14BC->Start(2, 0);
+        m_game->unk_14C0->Start(2, 0);
     } else {
-        m_game->unk_14BC->sub_0200E0E0(4, 0);
-        m_game->unk_14C0->sub_0200E0E0(4, 0);
+        m_game->unk_14BC->Start(4, 0);
+        m_game->unk_14C0->Start(4, 0);
     }
 
     OS_SPrintf(path, "data/message/chapter/chapter%03d_mes", m_chapter);
@@ -215,17 +215,17 @@ void CLetterScene::ov4_0211D394()
 
 void CLetterScene::ov4_0211D440()
 {
-    m_game->unk_1494->sub_0200C3BC(&m_game->unk_14AC->unk_0C, 1);
-    m_game->unk_1494->sub_0200C3D0();
-    m_game->unk_1494->sub_0200C408(0, GX_BG_SCRBASE_0x6000, GX_BG_CHARBASE_0x00000);
-    m_game->unk_1494->sub_0200C680(1);
-    m_game->unk_1494->sub_0200C6C8(0, 30, 20, 1, 2, 0x80, 0, 2);
+    m_game->unk_1494->SetFont(&m_game->unk_14AC->unk_0C, 1);
+    m_game->unk_1494->FreeWindows();
+    m_game->unk_1494->SetupBG(0, GX_BG_SCRBASE_0x6000, GX_BG_CHARBASE_0x00000);
+    m_game->unk_1494->AllocWindows(1);
+    m_game->unk_1494->InitWindow(0, 30, 20, 1, 2, 0x80, 0, 2);
     if (unk_10 == 0x33333333) {
-        m_game->unk_14BC->sub_0200E0E0(1, 180);
-        m_game->unk_14C0->sub_0200E0E0(1, 180);
+        m_game->unk_14BC->Start(1, 180);
+        m_game->unk_14C0->Start(1, 180);
     } else {
-        m_game->unk_14BC->sub_0200E0E0(3, 180);
-        m_game->unk_14C0->sub_0200E0E0(3, 180);
+        m_game->unk_14BC->Start(3, 180);
+        m_game->unk_14C0->Start(3, 180);
     }
 }
 
@@ -235,31 +235,31 @@ void CLetterScene::func7()
 
 u32 CLetterScene::func0()
 {
-    unk_2C->sub_0200F64C();
+    unk_2C->Update();
 
     if (unk_20 != 0) {
         if (--unk_20 == 0) {
-            m_game->unk_1494->sub_0200C3BC(&m_game->unk_14AC->unk_14, 0);
+            m_game->unk_1494->SetFont(&m_game->unk_14AC->unk_14, 0);
             return 1;
         }
     } else {
         CTouchPanel *touchPanel = m_game->touchPanel;
-        UnkClass_02001C04 *pad = m_game->unk_0014;
+        PadInput *pad = m_game->unk_0014;
         if (unk_24 < 0xF0) {
             unk_24++;
         } else if (unk_10 == 0x33333333) {
             if ((u16)(pad->unk_0002 & 1) || (u16)(pad->unk_0002 & 2) || touchPanel->unk_04 != 0) {
-                m_game->unk_14BC->sub_0200E0E0(2, 60);
-                m_game->unk_14C0->sub_0200E0E0(2, 60);
+                m_game->unk_14BC->Start(2, 60);
+                m_game->unk_14C0->Start(2, 60);
                 unk_20 = 60;
-                m_game->m_audioEngine->sub_02034C44(3);
+                m_game->m_audioEngine->PlaySe(3);
             }
         } else {
             if ((u16)(pad->unk_0002 & 1) || (u16)(pad->unk_0002 & 2) || touchPanel->unk_04 != 0) {
-                m_game->unk_14BC->sub_0200E0E0(4, 60);
-                m_game->unk_14C0->sub_0200E0E0(4, 60);
+                m_game->unk_14BC->Start(4, 60);
+                m_game->unk_14C0->Start(4, 60);
                 unk_20 = 60;
-                m_game->m_audioEngine->sub_02034C44(3);
+                m_game->m_audioEngine->PlaySe(3);
             }
         }
 
@@ -269,7 +269,7 @@ u32 CLetterScene::func0()
         if (unk_28 == 2) {
             int color = unk_10 == 0x33333333 ? 4 : 1;
             int msg;
-            u8 gender = m_game->unk_14A4->unk_0000;
+            u8 gender = m_game->unk_14A4->m_sex;
             if (m_chapter == 10 || m_chapter == 12 || m_chapter == 14 || m_chapter == 19 || m_chapter == 20) {
                 if (gender == 0) {
                     msg = 1;
@@ -279,7 +279,7 @@ u32 CLetterScene::func0()
             } else {
                 msg = 1;
             }
-            m_game->unk_1494->sub_0200C7A4(0, unk_18, unk_1C, color, m_messages->unk_08[msg].unk_04, FALSE, 0);
+            m_game->unk_1494->Print(0, unk_18, unk_1C, color, m_messages->unk_08[msg].unk_04, FALSE, 0);
         }
     }
 
@@ -289,7 +289,7 @@ u32 CLetterScene::func0()
 void CLetterScene::func1()
 {
     if (unk_24 >= 0xF0) {
-        unk_2C->sub_0200F71C();
+        unk_2C->WriteOam();
     }
 }
 

@@ -3,7 +3,7 @@
 #include <nitro.h>
 #include <string.h>
 
-#include "UnkClass_0201FC80.hpp"
+#include "BGLayer.hpp"
 
 static CTitleBG::LayerConfig sLayersDay[4] = {
     { 0, 0, 0, 0 },

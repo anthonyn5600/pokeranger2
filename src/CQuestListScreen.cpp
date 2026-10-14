@@ -1,15 +1,15 @@
+#include "AudioEngine.hpp"
+#include "BGLayer.hpp"
+#include "BrightnessFade.hpp"
 #include "CGame.hpp"
-#include "UnkClass_0200CAB4.hpp"
-#include "UnkClass_0200E0B4.hpp"
-#include "UnkClass_0200ECD0.hpp"
-#include "UnkClass_0201164C.hpp"
-#include "UnkClass_0201FC80.hpp"
-#include "UnkClass_02034478.hpp"
+#include "MissionQuestData.hpp"
+#include "OamSpriteSet.hpp"
+#include "SubTextPrinter.hpp"
 #include "file/CArchiveGuard.hpp"
 #include "heap.hpp"
 #include "scene/CQuestListScene.hpp"
 
-CQuestListScreen::CQuestListScreen(UnkClass_021205AC *map)
+CQuestListScreen::CQuestListScreen(QuestGiverInfo *map)
     : unk_044(NULL)
     , unk_184(1)
     , unk_338(0)
@@ -48,7 +48,7 @@ void CQuestListScreen::ov27_0211D150()
 
 void CQuestListScreen::func2()
 {
-    CGame::GetInstance()->unk_1498->sub_0200CB14();
+    CGame::GetInstance()->unk_1498->SetupBG();
     G2S_SetBG0Control(GX_BG_SCRSIZE_TEXT_256x256, GX_BG_COLORMODE_16, GX_BG_SCRBASE_0x8000, GX_BG_CHARBASE_0x00000, GX_BG_EXTPLTT_23);
     MI_CpuClearFast((void *)HW_DB_BG_VRAM, 0x20);
     MI_CpuClearFast(G2S_GetBG0ScrPtr(), 0x800);
@@ -87,7 +87,7 @@ void CQuestListScreen::func0()
     unk_048 = unk_038.ov27_0211E2B8("data/menu", "ma005_00", 1, -1);
     unk_04C[5].ov27_0211E394(5, unk_048, 0, 0, 240, 16, 24, 24, 0, 0);
     unk_04C[5].unk_10 = this;
-    unk_044->sub_0200F64C();
+    unk_044->Update();
 }
 
 void CQuestListScreen::func1()
@@ -113,16 +113,16 @@ void CQuestListScreen::func3(int prev)
     ov27_0211DDC0();
     unk_184.ov27_0211EACC();
     if (unk_044 != NULL) {
-        unk_044->sub_0200F398();
+        unk_044->CopyToVram();
     }
     if (unk_048 != NULL) {
-        unk_048->sub_0200F398();
+        unk_048->CopyToVram();
     }
-    UnkClass_0200CAB4 *text = game->unk_1498;
-    text->sub_0200CAE0();
-    text->sub_0200CC88(16);
+    SubTextPrinter *text = game->unk_1498;
+    text->FreeWindows();
+    text->AllocWindows(16);
     for (charNo = 0, i = 0; i < 16; charNo += 64, i++) {
-        text->sub_0200CCD0(i, 32, 2, 0, i * 2, charNo, 0, 2);
+        text->InitWindow(i, 32, 2, 0, i * 2, charNo, 0, 2);
     }
     unk_04 = 0;
     int current = -1;
@@ -132,7 +132,7 @@ void CQuestListScreen::func3(int prev)
             break;
         }
     }
-    text->sub_0200CF7C(15);
+    text->ClearWindow(15);
     const char *title;
     if (current >= 0) {
         title = unk_34C[current].unk_00;
@@ -140,7 +140,7 @@ void CQuestListScreen::func3(int prev)
         title = unk_340.ov27_0211FB38(7);
     }
     if (title != NULL) {
-        text->sub_0200CDA0(15, 24, 2, 3, (u8 *)title, FALSE, 0);
+        text->Print(15, 24, 2, 3, (u8 *)title, FALSE, 0);
     }
     unk_31C.ov27_0211F954(current >= 0 ? TRUE : FALSE);
     unk_184.ov27_0211F4B0(0);
@@ -163,7 +163,7 @@ void CQuestListScreen::func3(int prev)
         unk_04C[i].ov27_0211E7CC();
     }
     GXS_SetVisiblePlane(GX_PLANEMASK_BG0 | GX_PLANEMASK_BG1 | GX_PLANEMASK_BG2 | GX_PLANEMASK_BG3 | GX_PLANEMASK_OBJ);
-    game->unk_14C0->sub_0200E0E0(3, 15);
+    game->unk_14C0->Start(3, 15);
 }
 
 int CQuestListScreen::func4()
@@ -172,7 +172,7 @@ int CQuestListScreen::func4()
     int ret = 0;
     switch (unk_04) {
     case 0:
-        if (!game->unk_14BC->sub_0200E310() && !game->unk_14C0->sub_0200E310()) {
+        if (!game->unk_14BC->IsActive() && !game->unk_14C0->IsActive()) {
             unk_04 = 1;
         }
         break;
@@ -187,21 +187,21 @@ int CQuestListScreen::func4()
             unk_04C[i].ov27_0211E438();
         }
         if (unk_044 != NULL) {
-            unk_044->sub_0200F64C();
+            unk_044->Update();
         }
         if (unk_048 != NULL) {
-            unk_048->sub_0200F64C();
+            unk_048->Update();
         }
         unk_184.ov27_0211F140();
         unk_31C.ov27_0211F9C0();
         break;
     case 2:
-        if (!game->unk_14BC->sub_0200E310() && !game->unk_14C0->sub_0200E310()) {
+        if (!game->unk_14BC->IsActive() && !game->unk_14C0->IsActive()) {
             ret = -1;
         }
         break;
     case 3:
-        if (!game->unk_14C0->sub_0200E310()) {
+        if (!game->unk_14C0->IsActive()) {
             ret = 1;
         }
         break;
@@ -213,7 +213,7 @@ int CQuestListScreen::func4()
     if (ret != 0) {
         OS_CancelAllVAlarms();
         GXS_SetVisibleWnd(GX_WNDMASK_NONE);
-        game->unk_1498->sub_0200CAE0();
+        game->unk_1498->FreeWindows();
     }
     return ret;
 }
@@ -221,10 +221,10 @@ int CQuestListScreen::func4()
 void CQuestListScreen::func5()
 {
     if (unk_044 != NULL) {
-        unk_044->sub_0200F71C();
+        unk_044->WriteOam();
     }
     if (unk_048 != NULL) {
-        unk_048->sub_0200F71C();
+        unk_048->WriteOam();
     }
 }
 
@@ -232,9 +232,9 @@ void CQuestListScreen::ov27_0211DB4C()
 {
     CGame *game = CGame::GetInstance();
     unk_04 = 2;
-    game->m_audioEngine->sub_02034C44(0x103);
-    game->unk_14BC->sub_0200E0E0(4, 15);
-    game->unk_14C0->sub_0200E0E0(4, 15);
+    game->m_audioEngine->PlaySe(0x103);
+    game->unk_14BC->Start(4, 15);
+    game->unk_14C0->Start(4, 15);
 }
 
 void CQuestListScreen::func7()
@@ -286,20 +286,20 @@ void CQuestListScreen::ov27_0211DE28()
 {
     u8 ids[61];
     char path[0x60];
-    UnkClass_0201164C *quests = &MAIN_BSS_020B2638;
+    MissionQuestData *quests = &MAIN_BSS_020B2638;
 
     OS_SPrintf(path, "data/message/etc/quest_info_%02d", 61);
     unk_340.ov27_0211FA84(path);
     unk_338 = 0;
     for (int id = 1; id < 62; id++) {
-        if (sub_020114F8(quests, id) || sub_02011630(quests, id)) {
+        if (MissionQuestData_IsQuestActive(quests, id) || MissionQuestData_IsQuestCleared(quests, id)) {
             ids[unk_338++] = id;
         }
     }
     if (unk_338 <= 0) {
         return;
     }
-    unk_33C = new UnkClass_0211FA5C[unk_338];
+    unk_33C = new QLMessageStrings[unk_338];
     if (unk_33C != NULL) {
         for (int i = 0; i < unk_338; i++) {
             OS_SPrintf(path, "data/message/etc/quest_info_%02d", ids[i]);
@@ -313,9 +313,9 @@ void CQuestListScreen::ov27_0211DE28()
     for (int i = 0; i < unk_338; i++) {
         unk_34C[i].unk_00 = unk_33C[i].ov27_0211FB38(1);
         unk_34C[i].unk_08 = ids[i];
-        if (sub_02011630(quests, ids[i])) {
+        if (MissionQuestData_IsQuestCleared(quests, ids[i])) {
             unk_34C[i].unk_04 = 1;
-        } else if (sub_020114F8(quests, ids[i])) {
+        } else if (MissionQuestData_IsQuestActive(quests, ids[i])) {
             if (quests->unk_01 == 1 && ids[i] == quests->unk_03) {
                 unk_34C[i].unk_04 = 2;
             } else {
@@ -355,7 +355,7 @@ void CQuestListScreen::OnPushButton(int id, BOOL repeat)
         ov27_0211DB4C();
         break;
     case 4:
-        CGame::GetInstance()->unk_14C0->sub_0200E0E0(4, 15);
+        CGame::GetInstance()->unk_14C0->Start(4, 15);
         unk_04 = 3;
         break;
     }

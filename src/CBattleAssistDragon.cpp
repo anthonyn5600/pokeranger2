@@ -1,22 +1,22 @@
+#include "AudioEngine.hpp"
 #include "CTouchPanel.hpp"
-#include "UnkClass_0200D3F8.hpp"
-#include "UnkClass_02034478.hpp"
-#include "UnkClass_020B26A0.hpp"
+#include "CameraController.hpp"
+#include "Collision.hpp"
+#include "SaveData.hpp"
+#include "battle/BattleParamTable.hpp"
 #include "battle/CBattleAssist.hpp"
 #include "battle/CBattleAttackEffect.hpp"
 #include "battle/CBattleEnemy.hpp"
 #include "battle/CBattleEnemyData.hpp"
 #include "battle/UnkClass_02128414.hpp"
-#include "battle/UnkClass_0212EEB4.hpp"
 #include "fx_utils.hpp"
-#include "sub_02006000.hpp"
 
 extern "C" fx32 ov1_0212EE80(int assistType, int type);
 extern "C" u16 ov1_0212EE98(int assistType, int idx);
 
 static const u16 sChargeTimes[] = { 30, 60, 0xFFFF };
 
-CBattleAssistDragon::CBattleAssistDragon(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3)
+CBattleAssistDragon::CBattleAssistDragon(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3)
     : CBattleAssist(effects, effectData, params, arg3)
 {
     m_state = 0;
@@ -73,8 +73,8 @@ void CBattleAssistDragon::ov1_0212F56C(CTouchPanel *touch)
     m_charge = ov1_0212EE3C();
     m_charge->ov1_021270FC(unk_0C[0]);
     m_charge->ov1_02127454(0x20, 0);
-    m_charge->m_motion.sub_02011D3C(m_pos);
-    unk_14->sub_02034C44(0x13D);
+    m_charge->m_motion.SetPos(m_pos);
+    unk_14->PlaySe(0x13D);
     m_state = 1;
 }
 
@@ -83,9 +83,9 @@ void CBattleAssistDragon::ov1_0212F620(CTouchPanel *touch)
     Point2D pos;
     pos.x = (touch->unk_0A.x - 0x80) << FX32_SHIFT;
     pos.y = (touch->unk_0A.y - 0x60) << FX32_SHIFT;
-    if (touch->unk_06 != 0 || !sub_02006100(pos, m_touchArea)) {
+    if (touch->unk_06 != 0 || !PointInCircle(pos, m_touchArea)) {
         m_state = 2;
-        unk_14->sub_02034C5C(0x13D);
+        unk_14->StopSe(0x13D);
         return;
     }
     if (m_level >= 3) {
@@ -104,7 +104,7 @@ void CBattleAssistDragon::ov1_0212F700(CTouchPanel *touch, CBattleDisk *disk, CB
     switch (m_frame) {
     case 1:
         unk_44->sub_0200D8C8(0x1000);
-        unk_14->sub_02034C44(0x13E);
+        unk_14->PlaySe(0x13E);
         break;
     case 0x3C: {
         m_dragon = ov1_0212EE3C();
@@ -113,20 +113,20 @@ void CBattleAssistDragon::ov1_0212F700(CTouchPanel *touch, CBattleDisk *disk, CB
         Point2D start = m_pos;
         if (m_pos.x >= 0) {
             start.x -= 0x80000;
-            m_dragon->sub_020128EC(0x2000);
+            m_dragon->SetDir(0x2000);
         } else {
             start.x += 0x80000;
-            m_dragon->sub_020128EC(0x6000);
+            m_dragon->SetDir(0x6000);
         }
-        m_dragon->m_motion.sub_02011D3C(start);
-        m_dragon->m_motion.sub_02011AB0(m_pos, 0x3C);
+        m_dragon->m_motion.SetPos(start);
+        m_dragon->m_motion.MoveLinear(m_pos, 0x3C);
         m_dragon->unk_8C = 0xC0000;
         m_dragon->sub_020127D0(0, 0x3C);
         break;
     }
     case 0x78:
         m_dragon->ov1_02127300();
-        unk_14->sub_02034C44(0x13F);
+        unk_14->PlaySe(0x13F);
         m_charge->ov1_02127300();
         m_charge = NULL;
         m_hitArea.pos.x = m_pos.x;
@@ -134,8 +134,8 @@ void CBattleAssistDragon::ov1_0212F700(CTouchPanel *touch, CBattleDisk *disk, CB
         m_hitArea.r = 0x18000;
         for (u8 i = 0; i < 8; i++) {
             if (enemies[i] != NULL && enemies[i]->IsAlive() && enemies[i]->IsTargetable()
-                && sub_02006164(m_hitArea, enemies[i]->m_sphere.m_circle, NULL)) {
-                u16 power = unk_10->ov1_0212F32C(14, MAIN_BSS_020B26A0.unk_87DB, m_level);
+                && CircleHitCircle(m_hitArea, enemies[i]->m_sphere.m_circle, NULL)) {
+                u16 power = unk_10->ov1_0212F32C(14, MAIN_BSS_020B26A0.m_stylerLevel, m_level);
                 fx32 rate = ov1_0212EE80(vfunc_10(), enemies[i]->unk_184->unk_18->unk_03);
                 enemies[i]->ov1_02126310((u16)(FX32_MUL(rate, power << FX32_SHIFT) >> FX32_SHIFT), TRUE);
                 enemies[i]->ov1_021263A4(2, ov1_0212EE98(vfunc_10(), m_level));
@@ -176,9 +176,9 @@ void CBattleAssistDragon::vfunc_0C()
         m_charge = NULL;
         m_state = 0;
     }
-    unk_14->sub_02034C5C(0x13D);
-    unk_14->sub_02034C5C(0x13E);
-    unk_14->sub_02034C5C(0x13F);
+    unk_14->StopSe(0x13D);
+    unk_14->StopSe(0x13E);
+    unk_14->StopSe(0x13F);
 }
 
 BOOL CBattleAssistDragon::ov1_0212FA80(fx32 x, fx32 y, u8 level, u8 frame)
@@ -239,8 +239,8 @@ CBattleAttackEffect *CBattleAssistDragon::ov1_0212FBD0(fx32 x, fx32 y)
     if (effect != NULL) {
         effect->ov1_021270FC(unk_0C[0]);
         effect->ov1_02127454(0x20, 2);
-        effect->m_motion.sub_02011D1C(x);
-        effect->m_motion.sub_02011D2C(y);
+        effect->m_motion.SetX(x);
+        effect->m_motion.SetY(y);
     }
     return effect;
 }

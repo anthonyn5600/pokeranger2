@@ -21,9 +21,9 @@ CFieldEffectWaveBullet::CFieldEffectWaveBullet(int kind)
     }
     unk_18 = data;
     if (unk_18 != NULL) {
-        UnkClass_02008788 *cac = unk_18->GetCac(0);
+        CellAnimController *cac = unk_18->GetCac(0);
         if (cac != NULL) {
-            m_cacId = cac->sub_02008A80(1, 0);
+            m_cacId = cac->Create(1, 0);
         } else {
             LogError("effect anime data is null");
         }
@@ -42,9 +42,9 @@ CFieldEffectWaveBullet::CFieldEffectWaveBullet(int kind)
 CFieldEffectWaveBullet::~CFieldEffectWaveBullet()
 {
     if (unk_18 != NULL) {
-        UnkClass_02008788 *cac = unk_18->GetCac(0);
+        CellAnimController *cac = unk_18->GetCac(0);
         if (cac != NULL) {
-            cac->sub_02008B80(m_cacId);
+            cac->Remove(m_cacId);
         }
     }
     SAFE_DELETE(unk_18);
@@ -57,13 +57,13 @@ int CFieldEffectWaveBullet::ov0_02142264(int step)
         unk_18->Update();
     }
     if (state != 4 && state != 0) {
-        UnkClass_02008788 *cac = unk_18->GetCac(0);
+        CellAnimController *cac = unk_18->GetCac(0);
         if (cac != NULL) {
-            m_animator.m_cell = cac->sub_02008828(m_cacId);
+            m_animator.m_cell = cac->GetCell(m_cacId);
         }
         if (m_system.Update(step) != 0 && m_se >= 0) {
             CGame *game = CGame::GetInstance();
-            game->m_audioEngine->sub_02034C44(m_se);
+            game->m_audioEngine->PlaySe(m_se);
         }
     }
     return state;
@@ -80,7 +80,7 @@ int CFieldEffectWaveBullet::ov0_02142344(Camera2D *camera)
     return 0;
 }
 
-int CFieldEffectWaveBullet::sub_0203312C(int param, int value)
+int CFieldEffectWaveBullet::SetParam(int param, int value)
 {
     BOOL ret = TRUE;
     switch (param) {
@@ -205,7 +205,7 @@ CFieldEffect *CFieldEffectWaveBulletFactory::Create(int arg)
 }
 
 // Out of line (not inline in the class): the original emits it here, before the nested classes' deleting dtors.
-int CFieldEffectWaveBullet::sub_02033028()
+int CFieldEffectWaveBullet::GetEffectId()
 {
     return 5;
 }

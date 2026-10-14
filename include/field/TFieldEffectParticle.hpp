@@ -3,8 +3,8 @@
 
 #include <nitro.h>
 
-#include "UnkClass_020074D4.hpp"
-#include "UnkClass_02007AA4.hpp"
+#include "VramImage.hpp"
+#include "VramPalette.hpp"
 #include "common.hpp"
 #include "field/CFieldEffect.hpp"
 #include "field/TFieldParticle.hpp"
@@ -48,7 +48,7 @@ public:
         }
     }
 
-    virtual int sub_0203312C(int param, int value)
+    virtual int SetParam(int param, int value)
     {
         int ret = 0;
         switch (param) {
@@ -235,7 +235,7 @@ class TFieldEffectSmoke : public TFieldEffectParticle<T> {
 public:
     TFieldEffectSmoke(int mode);
     virtual ~TFieldEffectSmoke();
-    virtual int sub_0203312C(int param, int value);
+    virtual int SetParam(int param, int value);
     virtual TFieldParticleEmitter<T> *GetEmitter();
 
     TFieldParticleSmokeRectEmitter<T> m_emitter;
@@ -256,7 +256,7 @@ TFieldEffectSmoke<T>::~TFieldEffectSmoke()
 }
 
 template <class T>
-int TFieldEffectSmoke<T>::sub_0203312C(int param, int value)
+int TFieldEffectSmoke<T>::SetParam(int param, int value)
 {
     int ret = 1;
     switch (param) {
@@ -277,7 +277,7 @@ int TFieldEffectSmoke<T>::sub_0203312C(int param, int value)
         m_emitter.m_lifeMax = value;
         break;
     default:
-        ret = TFieldEffectParticle<T>::sub_0203312C(param, value);
+        ret = TFieldEffectParticle<T>::SetParam(param, value);
         break;
     }
     return ret;

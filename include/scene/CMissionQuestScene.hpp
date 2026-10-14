@@ -2,7 +2,7 @@
 #define POKERANGER2_SCENE_CMISSIONQUESTSCENE_HPP
 
 #include "CGame.hpp"
-#include "UnkClass_0211CD00.hpp"
+#include "MissionQuestMap.hpp"
 #include "common.hpp"
 #include "scene/CScene.hpp"
 
@@ -24,7 +24,7 @@ public:
 
 public:
     CGame *m_game;
-    UnkClass_0211CD00 *unk_08;
+    MissionQuestMap *unk_08;
 };
 
 STATIC_SIZE_ASSERT(CMissionQuestScene, 0xC);

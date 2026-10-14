@@ -1,22 +1,22 @@
+#include "AudioEngine.hpp"
 #include "CTouchPanel.hpp"
-#include "UnkClass_02034478.hpp"
-#include "UnkClass_020B26A0.hpp"
+#include "Collision.hpp"
+#include "MathUtil.hpp"
+#include "SaveData.hpp"
+#include "battle/BattleParamTable.hpp"
 #include "battle/CBattleAssist.hpp"
 #include "battle/CBattleAttackEffect.hpp"
 #include "battle/CBattleDisk.hpp"
 #include "battle/CBattleEnemy.hpp"
 #include "battle/CBattleEnemyData.hpp"
-#include "battle/UnkClass_0212306C.hpp"
+#include "battle/StylerLine.hpp"
 #include "battle/UnkClass_02128414.hpp"
-#include "battle/UnkClass_0212EEB4.hpp"
 #include "fx_utils.hpp"
-#include "sub_02006000.hpp"
-#include "sub_02007254.hpp"
 
 extern "C" fx32 ov1_0212EE80(int assistType, int type);
 extern "C" u16 ov1_0212EE98(int assistType, int idx);
 
-CBattleAssistRock::CBattleAssistRock(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3)
+CBattleAssistRock::CBattleAssistRock(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3)
     : CBattleAssist(effects, effectData, params, arg3)
 {
 }
@@ -40,13 +40,13 @@ int CBattleAssistRock::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEn
         u8 idx = 0;
         if (ov1_02134770(&idx)) {
             m_selected = idx;
-            m_effects[idx]->m_motion.sub_02011D3C(pos);
+            m_effects[idx]->m_motion.SetPos(pos);
             m_flags |= 1;
         }
     }
     if (touch->unk_05 != 0) {
         if ((m_flags & 1) && m_effects[m_selected] != NULL && m_effects[m_selected]->HasData()) {
-            m_effects[m_selected]->m_motion.sub_02011D3C(pos);
+            m_effects[m_selected]->m_motion.SetPos(pos);
         }
         if (m_timer == 10) {
             m_last = pos;
@@ -58,10 +58,10 @@ int CBattleAssistRock::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEn
     if (touch->unk_06 != 0) {
         if (m_flags & 1) {
             if (m_effects[m_selected] != NULL && m_effects[m_selected]->HasData()) {
-                m_effects[m_selected]->m_motion.sub_02011D3C(pos);
+                m_effects[m_selected]->m_motion.SetPos(pos);
                 u16 angle = FX_Atan2Idx(pos.y - m_last.y, pos.x - m_last.x);
-                m_effects[m_selected]->m_motion.sub_02011C90(angle, 0x6000);
-                unk_14->sub_02034C44(0x12A);
+                m_effects[m_selected]->m_motion.MoveInDirection(angle, 0x6000);
+                unk_14->PlaySe(0x12A);
                 m_slots[m_selected].m_flags |= 1;
             } else {
                 m_effects[m_selected]->ov1_02127300();
@@ -132,18 +132,18 @@ BOOL CBattleAssistRock::ov1_02134820(CBattleAttackEffect *effect, CBattleEnemy *
     area = circle;
     for (int i = 0; i < 8; i++) {
         if (enemies[i] != NULL && enemies[i]->IsAlive() && enemies[i]->IsTargetable()
-            && sub_02006164(area, enemies[i]->m_sphere.m_circle, NULL)) {
-            u16 power = unk_10->ov1_0212F32C(vfunc_10(), MAIN_BSS_020B26A0.unk_87DB, 0);
+            && CircleHitCircle(area, enemies[i]->m_sphere.m_circle, NULL)) {
+            u16 power = unk_10->ov1_0212F32C(vfunc_10(), MAIN_BSS_020B26A0.m_stylerLevel, 0);
             fx32 rate = ov1_0212EE80(vfunc_10(), enemies[i]->unk_184->unk_18->unk_03);
             enemies[i]->ov1_02126310((u16)(FX32_MUL(rate, power << FX32_SHIFT) >> FX32_SHIFT), TRUE);
             if (rate == 0x1000) {
-                unk_14->sub_02034C44(0x12B);
+                unk_14->PlaySe(0x12B);
                 enemies[i]->unk_1A8->ov1_02128598(0);
             } else if (rate > 0x1000) {
-                unk_14->sub_02034C44(0x148);
+                unk_14->PlaySe(0x148);
                 enemies[i]->unk_1A8->ov1_02128598(1);
             } else if (rate < 0x1000) {
-                unk_14->sub_02034C44(0x149);
+                unk_14->PlaySe(0x149);
                 enemies[i]->unk_1A8->ov1_02128598(2);
             }
             return TRUE;
@@ -165,8 +165,8 @@ void CBattleAssistRock::vfunc_0C()
         }
         m_flags &= ~1;
     }
-    unk_14->sub_02034C5C(0x12A);
-    unk_14->sub_02034C5C(0x12B);
-    unk_14->sub_02034C5C(0x148);
-    unk_14->sub_02034C5C(0x149);
+    unk_14->StopSe(0x12A);
+    unk_14->StopSe(0x12B);
+    unk_14->StopSe(0x148);
+    unk_14->StopSe(0x149);
 }

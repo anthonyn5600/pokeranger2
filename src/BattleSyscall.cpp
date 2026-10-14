@@ -1,12 +1,12 @@
+#include "AudioEngine.hpp"
+#include "BattleStartParam.hpp"
+#include "BrightnessFade.hpp"
 #include "CActor.hpp"
 #include "CGame.hpp"
 #include "CTPEmulator.hpp"
-#include "UnkClass_020091E8.hpp"
-#include "UnkClass_0200D3F8.hpp"
-#include "UnkClass_0200E0B4.hpp"
-#include "UnkClass_02010854.hpp"
-#include "UnkClass_02034478.hpp"
-#include "UnkClass_020B26A0.hpp"
+#include "CameraController.hpp"
+#include "SaveData.hpp"
+#include "TextboxManager.hpp"
 #include "UnkStruct_02044464.hpp"
 #include "battle/CBattleAssist.hpp"
 #include "battle/CBattleAttackEffect.hpp"
@@ -97,13 +97,13 @@ int ov1_0212A298(int *args)
 
 int ov1_0212A2CC(int *args)
 {
-    s_game->m_textboxData->sub_0200B45C(args[0]);
+    s_game->m_textboxData->LoadBattleMessages(args[0]);
     return 1;
 }
 
 int ov1_0212A2F4(int *args)
 {
-    s_game->m_audioEngine->sub_0203499C(args[0]);
+    s_game->m_audioEngine->LoadBgmGroup(args[0]);
     return 1;
 }
 
@@ -134,7 +134,7 @@ int ov1_0212A36C(int *args)
     Point2D pos;
     pos.x = args[1];
     pos.y = args[2];
-    effect->m_motion.sub_02011D3C(pos);
+    effect->m_motion.SetPos(pos);
     effect->unk_18E = 1;
     return slot;
 }
@@ -154,7 +154,7 @@ int ov1_0212A3FC(int *args)
     Point2D pos;
     pos.x = args[1];
     pos.y = args[2];
-    effect->m_motion.sub_02011D3C(pos);
+    effect->m_motion.SetPos(pos);
     effect->unk_18E = args[3];
     return slot;
 }
@@ -168,7 +168,7 @@ int ov1_0212A48C(int *args)
     Point2D pos;
     pos.x = args[1];
     pos.y = args[2];
-    actor->m_motion.sub_02011AB0(pos, (u16)args[3]);
+    actor->m_motion.MoveLinear(pos, (u16)args[3]);
     return 1;
 }
 
@@ -181,7 +181,7 @@ int ov1_0212A4EC(int *args)
     Point2D pos;
     pos.x = args[1];
     pos.y = args[2];
-    actor->m_motion.sub_02011C20(pos, args[3]);
+    actor->m_motion.MoveAtSpeed(pos, args[3]);
     return 1;
 }
 
@@ -191,7 +191,7 @@ int ov1_0212A544(int *args)
     if (actor == NULL) {
         return 0;
     }
-    actor->m_motion.sub_02011C90(args[1], args[2]);
+    actor->m_motion.MoveInDirection(args[1], args[2]);
     return 1;
 }
 
@@ -201,7 +201,7 @@ int ov1_0212A580(int *args)
     if (actor == NULL) {
         return 0;
     }
-    actor->m_motion.sub_02011CB4(actor->m_motion.m_pos, args[1], args[2], args[3], args[4], args[5]);
+    actor->m_motion.Orbit(actor->m_motion.m_pos, args[1], args[2], args[3], args[4], args[5]);
     return 1;
 }
 
@@ -231,7 +231,7 @@ int ov1_0212A668(int *args)
     if (actor == NULL) {
         return 0;
     }
-    actor->m_motion.sub_02011D3C(actor->m_motion.m_pos);
+    actor->m_motion.SetPos(actor->m_motion.m_pos);
     return 0;
 }
 
@@ -241,7 +241,7 @@ int ov1_0212A69C(int *args)
     if (actor == NULL) {
         return 0;
     }
-    actor->sub_02012860(args[1], (u16)args[2]);
+    actor->Jump(args[1], (u16)args[2]);
     return 0;
 }
 
@@ -258,7 +258,7 @@ int ov1_0212A6D4(int *args)
     if (effect != NULL) {
         effect->ov1_02127454(args[1], (u8)(args[2] - 1));
     } else {
-        actor->sub_02012114(args[1], (u8)(args[2] - 1));
+        actor->SetAnim(args[1], (u8)(args[2] - 1));
     }
     return 1;
 }
@@ -347,7 +347,7 @@ int ov1_0212A90C(int *args)
     if (actor == NULL) {
         return 0;
     }
-    actor->sub_02012A3C(args[3], args[1], args[2]);
+    actor->ScaleTo(args[3], args[1], args[2]);
     return 1;
 }
 
@@ -357,7 +357,7 @@ int ov1_0212A940(int *args)
     if (actor == NULL) {
         return 0;
     }
-    actor->sub_020129F4(args[2], args[1]);
+    actor->FadeAlpha(args[2], args[1]);
     return 1;
 }
 
@@ -368,7 +368,7 @@ int ov1_0212A978(int *args)
         return 0;
     }
     if ((s16)args[2] == 0) {
-        actor->sub_020128EC(args[1]);
+        actor->SetDir(args[1]);
     }
     u16 target = args[1];
     u16 cur = actor->m_dir;
@@ -380,7 +380,7 @@ int ov1_0212A978(int *args)
     } else {
         speed = -MATH_IAbs((s16)args[2]);
     }
-    actor->sub_02012990(args[1], speed);
+    actor->TurnTo(args[1], speed);
     return 1;
 }
 
@@ -390,7 +390,7 @@ int ov1_0212AA30(int *args)
     if (actor == NULL) {
         return 0;
     }
-    actor->sub_0201287C();
+    actor->FaceMoveDir();
     return 1;
 }
 
@@ -403,7 +403,7 @@ int ov1_0212AA58(int *args)
     Point2D pos;
     pos.x = args[1];
     pos.y = args[2];
-    actor->sub_02012894(pos);
+    actor->LookAt(pos);
     return 1;
 }
 
@@ -413,7 +413,7 @@ int ov1_0212AAA8(int *args)
     if (actor == NULL) {
         return 0;
     }
-    actor->sub_020128C0((u16)args[1]);
+    actor->Spin((u16)args[1]);
     return 1;
 }
 
@@ -555,7 +555,7 @@ int ov1_0212AD88(int *args)
     int maxHp;
     switch (CBattleScene::ov1_02122728(id)) {
     case 0: {
-        u8 level = sub_02010B34(s_game->unk_143C);
+        u8 level = BattleStartParam_GetStylerLevel(s_game->unk_143C);
         hp = ov1_0212A124()->unk_19C;
         maxHp = sub_02010E78(s_game->unk_1438, level);
         break;
@@ -740,19 +740,19 @@ int ov1_0212B11C(int *args)
 
 int ov1_0212B170(int *args)
 {
-    s_game->m_textboxData->sub_0200B640(args[0], 1, 1, 0);
+    s_game->m_textboxData->ShowBattleMessage(args[0], 1, 1, 0);
     return 1;
 }
 
 int ov1_0212B1AC(int *args)
 {
-    s_game->m_textboxData->sub_0200B640(args[0], 0, 1, 0);
+    s_game->m_textboxData->ShowBattleMessage(args[0], 0, 1, 0);
     return 1;
 }
 
 int ov1_0212B1E4(int *args)
 {
-    return s_game->m_textboxData->sub_02009ECC();
+    return s_game->m_textboxData->IsActive();
 }
 
 int ov1_0212B204(int *args)
@@ -805,55 +805,55 @@ int ov1_0212B2FC(int *args)
 
 int ov1_0212B320(int *args)
 {
-    s_game->unk_14BC->sub_0200E0E0(2, args[0]);
+    s_game->unk_14BC->Start(2, args[0]);
     return 1;
 }
 
 int ov1_0212B354(int *args)
 {
-    s_game->unk_14BC->sub_0200E0E0(1, args[0]);
+    s_game->unk_14BC->Start(1, args[0]);
     return 1;
 }
 
 int ov1_0212B388(int *args)
 {
-    s_game->unk_14BC->sub_0200E0E0(4, args[0]);
+    s_game->unk_14BC->Start(4, args[0]);
     return 1;
 }
 
 int ov1_0212B3BC(int *args)
 {
-    s_game->unk_14BC->sub_0200E0E0(3, args[0]);
+    s_game->unk_14BC->Start(3, args[0]);
     return 1;
 }
 
 int ov1_0212B3F0(int *args)
 {
-    s_game->m_audioEngine->sub_02034C44(args[0]);
+    s_game->m_audioEngine->PlaySe(args[0]);
     return 1;
 }
 
 int ov1_0212B418(int *args)
 {
-    s_game->m_audioEngine->sub_02034C5C(args[0]);
+    s_game->m_audioEngine->StopSe(args[0]);
     return 1;
 }
 
 int ov1_0212B440(int *args)
 {
-    s_game->m_audioEngine->sub_02034CF4(args[0], 0x40);
+    s_game->m_audioEngine->PlayStream(args[0], 0x40);
     return 1;
 }
 
 int ov1_0212B46C(int *args)
 {
-    s_game->m_audioEngine->sub_02034A40(args[0], 0);
+    s_game->m_audioEngine->PlayBgm(args[0], 0);
     return 1;
 }
 
 int ov1_0212B498(int *args)
 {
-    s_game->m_audioEngine->sub_02034B58(args[0]);
+    s_game->m_audioEngine->StopBgm(args[0]);
     return 1;
 }
 
@@ -878,7 +878,7 @@ int ov1_0212B530(int *args)
     if (emu == NULL) {
         return 0;
     }
-    emu->sub_0200215C(args[0], args[1]);
+    emu->Press(args[0], args[1]);
     return 1;
 }
 
@@ -888,7 +888,7 @@ int ov1_0212B55C(int *args)
     if (emu == NULL) {
         return 0;
     }
-    emu->sub_02002178();
+    emu->Release();
     return 1;
 }
 
@@ -898,68 +898,68 @@ int ov1_0212B580(int *args)
     if (emu == NULL) {
         return 0;
     }
-    emu->sub_02002198(args[0], args[1], args[2]);
+    emu->DragTo(args[0], args[1], args[2]);
     return 1;
 }
 
-UnkClass_0200D3F8 *ov1_0212B5BC()
+CameraController *ov1_0212B5BC()
 {
     return BattleScene()->ov1_021227C4();
 }
 
 int ov1_0212B5D8(int *args)
 {
-    UnkClass_0200D3F8 *camera = ov1_0212B5BC();
+    CameraController *camera = ov1_0212B5BC();
     if (camera != NULL) {
         return 0;
     }
-    camera->sub_0200D44C(args[0], args[1]);
+    camera->SetPos(args[0], args[1]);
     return 1;
 }
 
 int ov1_0212B600(int *args)
 {
-    UnkClass_0200D3F8 *camera = ov1_0212B5BC();
+    CameraController *camera = ov1_0212B5BC();
     if (camera != NULL) {
         return 0;
     }
-    camera->sub_0200D460(args[0]);
+    camera->SetScale(args[0]);
     return 1;
 }
 
 int ov1_0212B628(int *args)
 {
-    UnkClass_0200D3F8 *camera = ov1_0212B5BC();
+    CameraController *camera = ov1_0212B5BC();
     if (camera == NULL) {
         return 0;
     }
-    camera->sub_0200D490(args[0], args[1], args[2]);
+    camera->MoveTo(args[0], args[1], args[2]);
     return 1;
 }
 
 int ov1_0212B650(int *args)
 {
-    UnkClass_0200D3F8 *camera = ov1_0212B5BC();
+    CameraController *camera = ov1_0212B5BC();
     if (camera == NULL) {
         return 0;
     }
-    camera->sub_0200D5FC(args[0], args[1], args[3]);
+    camera->MoveToTimed(args[0], args[1], args[3]);
     return 1;
 }
 
 int ov1_0212B688(int *args)
 {
-    UnkClass_0200D3F8 *camera = ov1_0212B5BC();
+    CameraController *camera = ov1_0212B5BC();
     if (camera == NULL) {
         return 0;
     }
-    camera->sub_0200D748(args[0], args[1]);
+    camera->ZoomTo(args[0], args[1]);
     return 1;
 }
 
 int ov1_0212B6B8(int *args)
 {
-    UnkClass_0200D3F8 *camera = ov1_0212B5BC();
+    CameraController *camera = ov1_0212B5BC();
     if (camera == NULL) {
         return 0;
     }
@@ -969,7 +969,7 @@ int ov1_0212B6B8(int *args)
 
 int ov1_0212B6F8(int *args)
 {
-    UnkClass_0200D3F8 *camera = ov1_0212B5BC();
+    CameraController *camera = ov1_0212B5BC();
     if (camera == NULL) {
         return 0;
     }
@@ -979,7 +979,7 @@ int ov1_0212B6F8(int *args)
 
 int ov1_0212B728(int *args)
 {
-    UnkClass_0200D3F8 *camera = ov1_0212B5BC();
+    CameraController *camera = ov1_0212B5BC();
     if (camera == NULL) {
         return 0;
     }
@@ -989,7 +989,7 @@ int ov1_0212B728(int *args)
 
 int ov1_0212B760(int *args)
 {
-    UnkClass_0200D3F8 *camera = ov1_0212B5BC();
+    CameraController *camera = ov1_0212B5BC();
     if (camera == NULL) {
         return 0;
     }

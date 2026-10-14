@@ -1,10 +1,10 @@
 #include <nitro.h>
 #include <string.h>
 
+#include "Collision.hpp"
+#include "MathUtil.hpp"
 #include "field/CFieldMap.hpp"
 #include "field/CFieldMapLayer.hpp"
-#include "sub_02006000.hpp"
-#include "sub_02007254.hpp"
 
 CFieldMapLayerAttribute::CFieldMapLayerAttribute()
 {
@@ -133,16 +133,16 @@ BOOL CFieldMapLayerAttribute::Sweep(PointPair2D *move, fx32 radius, u32 kinds, P
     return FALSE;
 }
 
-#define PUSH_OUT(x1, y1, x2, y2)                    \
-    {                                               \
-        edge.p1.x = x1;                             \
-        edge.p1.y = y1;                             \
-        edge.p2.x = x2;                             \
-        edge.p2.y = y2;                             \
-        if (sub_02006764(edge, circle, &h, 0)) {    \
-            circle.pos = sub_0200732C(&circle, &h); \
-            hit = TRUE;                             \
-        }                                           \
+#define PUSH_OUT(x1, y1, x2, y2)                     \
+    {                                                \
+        edge.p1.x = x1;                              \
+        edge.p1.y = y1;                              \
+        edge.p2.x = x2;                              \
+        edge.p2.y = y2;                              \
+        if (SegmentHitCircle(edge, circle, &h, 0)) { \
+            circle.pos = sub_0200732C(&circle, &h);  \
+            hit = TRUE;                              \
+        }                                            \
     }
 
 BOOL CFieldMapLayerAttribute::Collide(PointPair2D *move, fx32 radius, u32 kinds, Point2D *out)
@@ -316,7 +316,7 @@ BOOL CFieldMapLayerAttribute::IsCircleBlockedFine(Point2D pos, fx32 radius, u32 
                 poly[3].y = py;
                 for (int i = 0; i < 4; i++) {
                     PointPair2D edge = { poly[i], poly[(i + 1) % 4] };
-                    if (sub_02006764(edge, circle, NULL, 0)) {
+                    if (SegmentHitCircle(edge, circle, NULL, 0)) {
                         return TRUE;
                     }
                 }

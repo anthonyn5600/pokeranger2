@@ -3,7 +3,7 @@
 #include "SaveDataBuffer.hpp"
 #include "common.hpp"
 
-// Read by UnkClass_0201CA6C and overlays 0 and 21.
+// Read by SubScreenPokemonInfo and overlays 0 and 21.
 u16 DAT_0208c55c[] = {
     0x0000,
     0xFFFF,

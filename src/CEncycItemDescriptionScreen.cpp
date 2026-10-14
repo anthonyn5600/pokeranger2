@@ -1,10 +1,10 @@
+#include "AudioEngine.hpp"
+#include "BGLayer.hpp"
+#include "BrightnessFade.hpp"
 #include "CGame.hpp"
-#include "UnkClass_0200CAB4.hpp"
-#include "UnkClass_0200CFF4.hpp"
-#include "UnkClass_0200E0B4.hpp"
-#include "UnkClass_0200ECD0.hpp"
-#include "UnkClass_0201FC80.hpp"
-#include "UnkClass_02034478.hpp"
+#include "FontSet.hpp"
+#include "OamSpriteSet.hpp"
+#include "SubTextPrinter.hpp"
 #include "file/CBinaryFileMes.hpp"
 #include "scene/CEncyclopediaScene.hpp"
 
@@ -15,7 +15,7 @@ static const struct {
     const char *path;
 } sMenuMes = { 1, "data/message/etc/menu_mes" };
 
-CEncycItemDescriptionScreen::CEncycItemDescriptionScreen(UnkClass_0211F134 *backButton)
+CEncycItemDescriptionScreen::CEncycItemDescriptionScreen(EncycPushButton *backButton)
     : unk_0C(0)
     , unk_10(0)
     , unk_14(0)
@@ -28,7 +28,7 @@ CEncycItemDescriptionScreen::CEncycItemDescriptionScreen(UnkClass_0211F134 *back
 {
 }
 
-void CEncycItemDescriptionScreen::func0(UnkClass_0211F3DC *loader)
+void CEncycItemDescriptionScreen::func0(EncycAnimLoader *loader)
 {
     BGS_LoadCharAndPltt("menu/", "md001_bg_", 5, "md001", 0x200, "md001", 1);
     MI_CpuCopy8((void *)(HW_DB_BG_PLTT + 0x20), unk_68, sizeof(unk_68));
@@ -98,13 +98,13 @@ void CEncycItemDescriptionScreen::func2()
     NNS_GfdRegisterNewVramTransferTask(NNS_GFD_DST_2D_BG_PLTT_SUB, 0x20, unk_68[unk_C8], 0x20);
 }
 
-void CEncycItemDescriptionScreen::func3(UnkClass_0211F4E0 *display)
+void CEncycItemDescriptionScreen::func3(EncycMainScreen *display)
 {
     unk_1C = display;
-    UnkClass_0200CAB4 *text = CGame::GetInstance()->unk_1498;
-    text->sub_0200CAE0();
-    text->sub_0200CC88(1);
-    text->sub_0200CCD0(0, 32, 32, 0, 0, 0, 0, 2);
+    SubTextPrinter *text = CGame::GetInstance()->unk_1498;
+    text->FreeWindows();
+    text->AllocWindows(1);
+    text->InitWindow(0, 32, 32, 0, 0, 0, 0, 2);
     unk_10 = 0;
     ov22_0211EF04(unk_10);
     ov22_0211EA78(unk_10);
@@ -118,7 +118,7 @@ int CEncycItemDescriptionScreen::func4()
     int ret = 1;
     switch (unk_04) {
     case 0:
-        if (!game->unk_14BC->sub_0200E310() && !game->unk_14C0->sub_0200E310()) {
+        if (!game->unk_14BC->IsActive() && !game->unk_14C0->IsActive()) {
             unk_04 = 1;
             unk_0C = 0;
         }
@@ -126,14 +126,14 @@ int CEncycItemDescriptionScreen::func4()
     case 1:
         switch (unk_0C) {
         case 1:
-            if (!game->unk_14BC->sub_0200E310() && !game->unk_14C0->sub_0200E310()) {
+            if (!game->unk_14BC->IsActive() && !game->unk_14C0->IsActive()) {
                 ov22_0211EF04(unk_10);
                 unk_0C = 2;
-                game->unk_14BC->sub_0200E0E0(3, 15);
+                game->unk_14BC->Start(3, 15);
             }
             break;
         case 2:
-            if (!game->unk_14BC->sub_0200E310() && !game->unk_14C0->sub_0200E310()) {
+            if (!game->unk_14BC->IsActive() && !game->unk_14C0->IsActive()) {
                 unk_0C = 0;
             }
             break;
@@ -144,12 +144,12 @@ int CEncycItemDescriptionScreen::func4()
             unk_20[i].ov22_0211F1D0();
         }
         if (unk_14) {
-            game->unk_14BC->sub_0200E0E0(4, 15);
+            game->unk_14BC->Start(4, 15);
             unk_0C = 1;
             unk_14 = FALSE;
         }
         if (unk_18 != NULL) {
-            unk_18->sub_0200F64C();
+            unk_18->Update();
         }
         unk_60->ov22_0211F1D0();
         unk_60->ov22_0211F2A4();
@@ -158,7 +158,7 @@ int CEncycItemDescriptionScreen::func4()
         }
         break;
     case 2:
-        if (!game->unk_14BC->sub_0200E310() && !game->unk_14C0->sub_0200E310()) {
+        if (!game->unk_14BC->IsActive() && !game->unk_14C0->IsActive()) {
             ret = 0;
         }
         break;
@@ -172,7 +172,7 @@ int CEncycItemDescriptionScreen::func4()
 void CEncycItemDescriptionScreen::func5()
 {
     if (unk_18 != NULL) {
-        unk_18->sub_0200F71C();
+        unk_18->WriteOam();
     }
     if (unk_1C != NULL) {
         unk_1C->ov22_0211F928();
@@ -184,16 +184,16 @@ void CEncycItemDescriptionScreen::func6()
     CGame *game = CGame::GetInstance();
     unk_04 = 2;
     unk_0C = 0;
-    game->m_audioEngine->sub_02034C44(0x103);
-    game->unk_14BC->sub_0200E0E0(4, 15);
-    game->unk_14C0->sub_0200E0E0(4, 15);
+    game->m_audioEngine->PlaySe(0x103);
+    game->unk_14BC->Start(4, 15);
+    game->unk_14C0->Start(4, 15);
 }
 
 void CEncycItemDescriptionScreen::ov22_0211EA78(int page)
 {
-    UnkClass_0200CFF4 *font;
+    FontSet *font;
     u8 *str;
-    UnkClass_0200CAB4 *text;
+    SubTextPrinter *text;
     unk_20[0].ov22_0211F398(unk_10 > 0 ? TRUE : FALSE);
     BOOL next = unk_64 != NULL ? TRUE : FALSE;
     if (next) {
@@ -201,25 +201,25 @@ void CEncycItemDescriptionScreen::ov22_0211EA78(int page)
     }
     unk_20[1].ov22_0211F398(next);
     text = CGame::GetInstance()->unk_1498;
-    text->sub_0200CF7C(0);
+    text->ClearWindow(0);
     if (unk_64 == NULL) {
         return;
     }
-    text->sub_0200CDA0(0, 0, 11, 1, unk_64->GetName(), TRUE, 0);
-    text->sub_0200CDA0(0, 48, 51, 3, (u8 *)unk_64->GetDescription(page), FALSE, 0);
+    text->Print(0, 0, 11, 1, unk_64->GetName(), TRUE, 0);
+    text->Print(0, 48, 51, 3, (u8 *)unk_64->GetDescription(page), FALSE, 0);
     if (unk_CC == NULL) {
         return;
     }
     font = CGame::GetInstance()->unk_14AC;
     str = unk_CC->unk_08[page + 9].unk_04;
     u8 *tmp = str;
-    text->sub_0200CDA0(0, (10 - ov22_021214CC(&font->unk_14, 1, &tmp)) / 2 + 221, 180, 1, str, FALSE, 0);
+    text->Print(0, (10 - ov22_021214CC(&font->unk_14, 1, &tmp)) / 2 + 221, 180, 1, str, FALSE, 0);
     str = unk_CC->unk_08[30].unk_04;
     tmp = str;
-    text->sub_0200CDA0(0, (10 - ov22_021214CC(&font->unk_14, 1, &tmp)) / 2 + 232, 180, 1, str, FALSE, 0);
+    text->Print(0, (10 - ov22_021214CC(&font->unk_14, 1, &tmp)) / 2 + 232, 180, 1, str, FALSE, 0);
     str = unk_CC->unk_08[unk_64->GetPageCount() + 8].unk_04;
     tmp = str;
-    text->sub_0200CDA0(0, (10 - ov22_021214CC(&font->unk_14, 1, &tmp)) / 2 + 243, 180, 1, str, FALSE, 0);
+    text->Print(0, (10 - ov22_021214CC(&font->unk_14, 1, &tmp)) / 2 + 243, 180, 1, str, FALSE, 0);
 }
 
 BOOL CEncycItemDescriptionScreen::ov22_0211ED04()
@@ -228,10 +228,10 @@ BOOL CEncycItemDescriptionScreen::ov22_0211ED04()
         int prev = unk_64->GetPicture(unk_10);
         unk_10++;
         ov22_0211EA78(unk_10);
-        CGame::GetInstance()->m_audioEngine->sub_02034C44(0xFA);
+        CGame::GetInstance()->m_audioEngine->PlaySe(0xFA);
         return prev != unk_64->GetPicture(unk_10) ? TRUE : FALSE;
     }
-    CGame::GetInstance()->m_audioEngine->sub_02034C44(0xFD);
+    CGame::GetInstance()->m_audioEngine->PlaySe(0xFD);
     return FALSE;
 }
 
@@ -241,10 +241,10 @@ BOOL CEncycItemDescriptionScreen::ov22_0211EE10()
         int prev = unk_64->GetPicture(unk_10);
         unk_10--;
         ov22_0211EA78(unk_10);
-        CGame::GetInstance()->m_audioEngine->sub_02034C44(0xFA);
+        CGame::GetInstance()->m_audioEngine->PlaySe(0xFA);
         return prev != unk_64->GetPicture(unk_10) ? TRUE : FALSE;
     }
-    CGame::GetInstance()->m_audioEngine->sub_02034C44(0xFD);
+    CGame::GetInstance()->m_audioEngine->PlaySe(0xFD);
     return FALSE;
 }
 
@@ -258,7 +258,7 @@ void CEncycItemDescriptionScreen::ov22_0211EF04(int page)
     u8 y;
     int arg;
     int color;
-    UnkClass_0211CF54 *pair;
+    EncycDictionary *pair;
     int idx;
     int count;
     if (unk_64 == NULL) {
@@ -310,7 +310,7 @@ void CEncycItemDescriptionScreen::OnPushButton(int id)
     }
 }
 
-UnkStruct_02120FA8 *UnkClass_0211CF54::ov22_0211F0F0(int page, int idx)
+UnkStruct_02120FA8 *EncycDictionary::ov22_0211F0F0(int page, int idx)
 {
     if (unk_18 == NULL) {
         return NULL;

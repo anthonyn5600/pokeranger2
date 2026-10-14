@@ -1,40 +1,40 @@
 #include "scene/CDownloadMissionEndScene.hpp"
 
-#include "UnkClass_02010D2C.hpp"
-#include "UnkClass_020B26A0.hpp"
+#include "DiskHPTable.hpp"
+#include "SaveData.hpp"
 
 void CDownloadMissionEndScene::func6()
 {
-    unk_0010 = MAIN_BSS_020B26A0.unk_0002;
-    unk_0011 = MAIN_BSS_020B26A0.unk_87DB;
-    unk_0014 = MAIN_BSS_020B26A0.unk_0028;
-    unk_0018 = MAIN_BSS_020B26A0.unk_002C;
-    MI_CpuCopyFast(MAIN_BSS_020B26A0.unk_7C3C, unk_001C, sizeof(unk_001C));
+    unk_0010 = MAIN_BSS_020B26A0.m_maxEnergy;
+    unk_0011 = MAIN_BSS_020B26A0.m_stylerLevel;
+    unk_0014 = MAIN_BSS_020B26A0.m_levelExp;
+    unk_0018 = MAIN_BSS_020B26A0.m_exp;
+    MI_CpuCopyFast(MAIN_BSS_020B26A0.m_pokemonStates, unk_001C, sizeof(unk_001C));
     MI_CpuCopyFast(MAIN_BSS_020B26A0.unk_7EB0, unk_009C, sizeof(unk_009C));
-    MI_CpuCopy8(MAIN_BSS_020B26A0.unk_7CBC, unk_011C, sizeof(unk_011C));
-    unk_0314 = MAIN_BSS_020B26A0.unk_8758;
-    unk_0318 = MAIN_BSS_020B26A0.unk_875C;
-    unk_031C = MAIN_BSS_020B26A0.unk_8760;
-    unk_0320 = MAIN_BSS_020B26A0.unk_8764;
-    unk_0324 = MAIN_BSS_020B26A0.unk_8768;
-    MI_CpuCopyFast(MAIN_BSS_020B26A0.unk_876C, unk_0328, sizeof(unk_0328));
-    unk_036C = MAIN_BSS_020B26A0.unk_87B0;
-    unk_0370 = MAIN_BSS_020B26A0.unk_87B4;
-    unk_0374 = MAIN_BSS_020B26A0.unk_87B8;
-    unk_0376 = MAIN_BSS_020B26A0.unk_87BA;
-    unk_0378 = MAIN_BSS_020B26A0.unk_87BC;
-    unk_037C = MAIN_BSS_020B26A0.unk_87CC;
-    unk_0380 = MAIN_BSS_020B26A0.unk_87D0;
-    unk_0384 = MAIN_BSS_020B26A0.unk_87D4;
-    unk_0388 = MAIN_BSS_020B26A0.unk_87D8;
-    unk_0389 = MAIN_BSS_020B26A0.unk_87D9;
+    MI_CpuCopy8(MAIN_BSS_020B26A0.m_captureCounts, unk_011C, sizeof(unk_011C));
+    unk_0314 = MAIN_BSS_020B26A0.m_stepsWalked;
+    unk_0318 = MAIN_BSS_020B26A0.m_conversations;
+    unk_031C = MAIN_BSS_020B26A0.m_targetsChecked;
+    unk_0320 = MAIN_BSS_020B26A0.m_saveCount;
+    unk_0324 = MAIN_BSS_020B26A0.m_pokemonRides;
+    MI_CpuCopyFast(MAIN_BSS_020B26A0.m_partnerCounts, unk_0328, sizeof(unk_0328));
+    unk_036C = MAIN_BSS_020B26A0.m_captureLineLength;
+    unk_0370 = MAIN_BSS_020B26A0.m_loopCount;
+    unk_0374 = MAIN_BSS_020B26A0.m_totalCaptures;
+    unk_0376 = MAIN_BSS_020B26A0.m_fledCount;
+    unk_0378 = MAIN_BSS_020B26A0.m_assistsUsed;
+    unk_037C = MAIN_BSS_020B26A0.m_lastPlayHours;
+    unk_0380 = MAIN_BSS_020B26A0.m_lastPlayMinutes;
+    unk_0384 = MAIN_BSS_020B26A0.m_playHours;
+    unk_0388 = MAIN_BSS_020B26A0.m_playMinutes;
+    unk_0389 = MAIN_BSS_020B26A0.m_playSeconds;
     unk_038A = MAIN_BSS_020B26A0.unk_87DA;
     unk_0310 = MAIN_BSS_020B26A0.unk_8803;
     unk_038C = MAIN_BSS_020B26A0.unk_81AC;
-    game->m_textboxData->sub_02009328(game->unk_0014, game->touchPanel, &game->unk_14AC->unk_0C, game->unk_14B0, game->unk_0024, game->m_audioEngine, 0x10, 0x4000, 0);
-    game->m_textboxData->sub_0200AB28(0);
+    game->m_textboxData->Init(game->unk_0014, game->touchPanel, &game->unk_14AC->unk_0C, game->unk_14B0, game->unk_0024, game->m_audioEngine, 0x10, 0x4000, 0);
+    game->m_textboxData->LoadSystemMessages(0);
     unk_0008 = 0;
-    game->unk_146C.sub_02008DB4(60);
+    game->unk_146C.SetFps(60);
 }
 
 void CDownloadMissionEndScene::func7()
@@ -43,15 +43,15 @@ void CDownloadMissionEndScene::func7()
         delete unk_000C;
         unk_000C = NULL;
     }
-    game->m_textboxData->sub_0200AC90();
-    game->m_textboxData->sub_020092D4();
+    game->m_textboxData->FreeSystemMessages();
+    game->m_textboxData->Reset();
 }
 
 u32 CDownloadMissionEndScene::func0()
 {
     switch (unk_0008) {
     case 0:
-        unk_000C = new UnkClass_02027FE8(1);
+        unk_000C = new SaveManager(1);
         unk_000C->Load(0);
         unk_0008 = 1;
         break;
@@ -79,35 +79,35 @@ u32 CDownloadMissionEndScene::func0()
             }
         } else {
             unk_0008 = 2;
-            game->sub_0201024C();
+            game->ApplyTextSettings();
         }
         break;
     }
     case 2: {
-        MAIN_BSS_020B26A0.unk_0002 = unk_0010;
-        sub_020160B8(&MAIN_BSS_020B26A0, unk_0011);
-        MAIN_BSS_020B26A0.unk_0028 = unk_0014;
-        sub_02016D4C(&MAIN_BSS_020B26A0, unk_0018);
-        MI_CpuCopyFast(unk_001C, MAIN_BSS_020B26A0.unk_7C3C, sizeof(unk_001C));
+        MAIN_BSS_020B26A0.m_maxEnergy = unk_0010;
+        SaveData_SetStylerLevel(&MAIN_BSS_020B26A0, unk_0011);
+        MAIN_BSS_020B26A0.m_levelExp = unk_0014;
+        SaveData_SetExp(&MAIN_BSS_020B26A0, unk_0018);
+        MI_CpuCopyFast(unk_001C, MAIN_BSS_020B26A0.m_pokemonStates, sizeof(unk_001C));
         MI_CpuCopyFast(unk_009C, MAIN_BSS_020B26A0.unk_7EB0, sizeof(unk_009C));
-        MI_CpuCopy8(unk_011C, MAIN_BSS_020B26A0.unk_7CBC, sizeof(unk_011C));
+        MI_CpuCopy8(unk_011C, MAIN_BSS_020B26A0.m_captureCounts, sizeof(unk_011C));
         MAIN_BSS_020B26A0.unk_8803 = unk_0310;
-        sub_02016D88(&MAIN_BSS_020B26A0, unk_0314);
-        sub_02016DD0(&MAIN_BSS_020B26A0, unk_0318);
-        sub_02016E18(&MAIN_BSS_020B26A0, unk_031C);
-        sub_02016E60(&MAIN_BSS_020B26A0, unk_0320);
-        sub_02016EA8(&MAIN_BSS_020B26A0, unk_0324);
-        MI_CpuCopyFast(unk_0328, MAIN_BSS_020B26A0.unk_876C, sizeof(unk_0328));
-        sub_02017020(&MAIN_BSS_020B26A0, unk_036C);
-        sub_02017068(&MAIN_BSS_020B26A0, unk_0370);
-        sub_020170B0(&MAIN_BSS_020B26A0, unk_0374);
-        sub_02017100(&MAIN_BSS_020B26A0, unk_0376);
-        sub_02017150(&MAIN_BSS_020B26A0, unk_0378);
-        MAIN_BSS_020B26A0.unk_87CC = unk_037C;
-        MAIN_BSS_020B26A0.unk_87D0 = unk_0380;
-        MAIN_BSS_020B26A0.unk_87D4 = unk_0384;
-        MAIN_BSS_020B26A0.unk_87D8 = unk_0388;
-        MAIN_BSS_020B26A0.unk_87D9 = unk_0389;
+        SaveData_SetStepsWalked(&MAIN_BSS_020B26A0, unk_0314);
+        SaveData_SetConversations(&MAIN_BSS_020B26A0, unk_0318);
+        SaveData_SetTargetsChecked(&MAIN_BSS_020B26A0, unk_031C);
+        SaveData_SetSaveCount(&MAIN_BSS_020B26A0, unk_0320);
+        SaveData_SetPokemonRides(&MAIN_BSS_020B26A0, unk_0324);
+        MI_CpuCopyFast(unk_0328, MAIN_BSS_020B26A0.m_partnerCounts, sizeof(unk_0328));
+        SaveData_SetCaptureLineLength(&MAIN_BSS_020B26A0, unk_036C);
+        SaveData_SetLoopCount(&MAIN_BSS_020B26A0, unk_0370);
+        SaveData_SetTotalCaptures(&MAIN_BSS_020B26A0, unk_0374);
+        SaveData_SetFledCount(&MAIN_BSS_020B26A0, unk_0376);
+        SaveData_SetAssistsUsed(&MAIN_BSS_020B26A0, unk_0378);
+        MAIN_BSS_020B26A0.m_lastPlayHours = unk_037C;
+        MAIN_BSS_020B26A0.m_lastPlayMinutes = unk_0380;
+        MAIN_BSS_020B26A0.m_playHours = unk_0384;
+        MAIN_BSS_020B26A0.m_playMinutes = unk_0388;
+        MAIN_BSS_020B26A0.m_playSeconds = unk_0389;
         MAIN_BSS_020B26A0.unk_87DA = unk_038A;
         int idx = unk_038C - 1;
         if (idx >= 0 && idx < 6) {
@@ -122,52 +122,52 @@ u32 CDownloadMissionEndScene::func0()
     case 3:
         return 0x15;
     case 4:
-        game->m_textboxData->sub_0200AA14();
-        game->m_textboxData->sub_0200AA84(0, 0x48, 1, 1, 0);
-        game->unk_14BC->sub_0200E0E0(3, 5);
-        game->unk_14C0->sub_0200E0E0(3, 5);
+        game->m_textboxData->ResetTextSpeed();
+        game->m_textboxData->ShowMessage(0, 0x48, 1, 1, 0);
+        game->unk_14BC->Start(3, 5);
+        game->unk_14C0->Start(3, 5);
         unk_0008 = 5;
         break;
     case 5:
-        if (game->m_textboxData->sub_02009ECC()) {
+        if (game->m_textboxData->IsActive()) {
             break;
         }
         game->m_textboxData->sub_02009FB0(1, 1);
         unk_0008 = 10;
         break;
     case 6:
-        game->m_textboxData->sub_0200AA14();
-        game->m_textboxData->sub_0200AA84(0, 0x45, 1, 1, 0);
-        game->unk_14BC->sub_0200E0E0(3, 5);
-        game->unk_14C0->sub_0200E0E0(3, 5);
+        game->m_textboxData->ResetTextSpeed();
+        game->m_textboxData->ShowMessage(0, 0x45, 1, 1, 0);
+        game->unk_14BC->Start(3, 5);
+        game->unk_14C0->Start(3, 5);
         unk_0008 = 7;
         break;
     case 7:
         break;
     case 8:
-        game->m_textboxData->sub_0200AA14();
-        game->m_textboxData->sub_0200AA84(0, 0x50, 1, 1, 0);
-        game->unk_14BC->sub_0200E0E0(3, 5);
-        game->unk_14C0->sub_0200E0E0(3, 5);
+        game->m_textboxData->ResetTextSpeed();
+        game->m_textboxData->ShowMessage(0, 0x50, 1, 1, 0);
+        game->unk_14BC->Start(3, 5);
+        game->unk_14C0->Start(3, 5);
         unk_0008 = 9;
         break;
     case 9:
-        if (game->m_textboxData->sub_02009ECC()) {
+        if (game->m_textboxData->IsActive()) {
             break;
         }
         game->m_textboxData->sub_02009FB0(1, 1);
         unk_0008 = 10;
         break;
     case 10:
-        game->unk_14BC->sub_0200E0E0(2, 30);
-        game->unk_14C0->sub_0200E0E0(2, 30);
+        game->unk_14BC->Start(2, 30);
+        game->unk_14C0->Start(2, 30);
         unk_0008 = 11;
         break;
     case 11:
-        if (game->unk_14BC->sub_0200E310()) {
+        if (game->unk_14BC->IsActive()) {
             break;
         }
-        if (game->unk_14C0->sub_0200E310()) {
+        if (game->unk_14C0->IsActive()) {
             break;
         }
         return 0x11;

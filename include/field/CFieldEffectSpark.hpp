@@ -3,7 +3,7 @@
 
 #include <nitro.h>
 
-#include "UnkClass_02007AA4.hpp"
+#include "VramPalette.hpp"
 #include "field/CFieldEffectActor.hpp"
 #include "field/CFieldEffectFactory.hpp"
 #include "primitive/CSoftwareSprite.hpp"
@@ -22,12 +22,12 @@ class CFieldEffectSpark : public CFieldEffectActor {
 public:
     CFieldEffectSpark(int kind);
     virtual ~CFieldEffectSpark();
-    virtual int sub_02033028();
-    virtual int sub_020332A4();
+    virtual int GetEffectId();
+    virtual int IsReady();
     virtual BOOL ov0_021421F0(int inTime, int holdTime, int outTime);
     virtual int ov0_02142264(int step);
     virtual int ov0_02142344(Camera2D *camera);
-    virtual int sub_0203312C(int param, int value);
+    virtual int SetParam(int param, int value);
 
     void InitSprites();
 
@@ -36,7 +36,7 @@ public:
     Point2D m_size;
     CSoftwareSprite m_sprites[3];
     u16 m_cacIds[3];
-    UnkClass_02007AA4 m_palettes[3][2];
+    VramPalette m_palettes[3][2];
     NNSG2dPaletteData m_plttData[3];
     u8 m_plttRaw[3][0x20];
     NNSGfdPlttKey m_plttKeys[3][2];

@@ -1,8 +1,8 @@
 #include <nitro.h>
 
 #include "CActorData.hpp"
-#include "UnkClass_02007AA4.hpp"
-#include "UnkClass_02040F34.hpp"
+#include "FieldDrawActorDataPool.hpp"
+#include "VramPalette.hpp"
 #include "common.hpp"
 #include "field/CFieldDrawActorData.hpp"
 #include "file/CArchiveGuard.hpp"
@@ -20,13 +20,13 @@ CFieldDrawActorData::CFieldDrawActorData()
     unk_30 = 0;
 }
 
-void CFieldDrawActorData::sub_02040830(int type, u16 id, int form, u16 mask, BOOL useTransfer, const char *arcName, BOOL alloc)
+void CFieldDrawActorData::LoadData(int type, u16 id, int form, u16 mask, BOOL useTransfer, const char *arcName, BOOL alloc)
 {
     if (type != 2) {
         if (useTransfer) {
-            sub_02013154(type, id, form, mask, TRUE, arcName, 0);
+            Load(type, id, form, mask, TRUE, arcName, 0);
         } else {
-            sub_02014514(type, id, form, mask, arcName, 0, 1, useTransfer);
+            LoadArchived(type, id, form, mask, arcName, 0, 1, useTransfer);
         }
     } else {
         sub_020409B4(id, form, mask, 0, arcName);
@@ -38,18 +38,18 @@ void CFieldDrawActorData::sub_02040830(int type, u16 id, int form, u16 mask, BOO
     unk_20 = mask;
     if (alloc) {
         if (!useTransfer) {
-            unk_2C = NNS_GfdAllocLnkTexVram(sub_02014310(), FALSE, 0);
-            sub_020141AC(NNS_GfdGetTexKeyAddr(unk_2C));
-            sub_020142B4();
+            unk_2C = NNS_GfdAllocLnkTexVram(GetImagesSize(), FALSE, 0);
+            LoadImagesToVram(NNS_GfdGetTexKeyAddr(unk_2C));
+            ReleaseImages();
         }
-        unk_30 = NNS_GfdAllocLnkPlttVram(sub_02014364(), FALSE, 0);
+        unk_30 = NNS_GfdAllocLnkPlttVram(GetPaletteSize(), FALSE, 0);
         if (useTransfer) {
             if (m_palette != NULL) {
-                m_palette->sub_02007C34(NNS_GfdGetPlttKeyAddr(unk_30));
+                m_palette->LoadToVramDeferred(NNS_GfdGetPlttKeyAddr(unk_30));
             }
         } else {
-            sub_0201429C(NNS_GfdGetPlttKeyAddr(unk_30));
-            sub_020142F8();
+            LoadPaletteToVram(NNS_GfdGetPlttKeyAddr(unk_30));
+            ReleasePalette();
         }
     }
     SAFE_DELETE(m_archive);
@@ -99,9 +99,9 @@ void CFieldDrawActorData::sub_020409B4(u16 id, int form, u16 mask, u32 heapId, c
     OS_SPrintf(palettePath, "%s:%s.NCLR", arc, name);
     void *data = NNS_FndGetArchiveFileByName(palettePath);
     if (data != NULL && NNS_G2dGetUnpackedPaletteData(data, &paletteData)) {
-        m_palette = new UnkClass_02007AA4(paletteData);
+        m_palette = new VramPalette(paletteData);
     }
-    UnkClass_020074D4 *image = NULL;
+    VramImage *image = NULL;
     OS_SPrintf(base, "%s:%s", arc, name);
 
     int index = 0;
@@ -185,16 +185,16 @@ void CFieldDrawActorData::sub_02040DB8()
     unk_30 = 0;
 }
 
-void CFieldDrawActorData::sub_02040E2C()
+void CFieldDrawActorData::AllocVram()
 {
-    sub_02040E80();
+    ReleaseVram();
     if (!unk_28) {
-        unk_2C = NNS_GfdAllocLnkTexVram(sub_02014310(), FALSE, 0);
+        unk_2C = NNS_GfdAllocLnkTexVram(GetImagesSize(), FALSE, 0);
     }
-    unk_30 = NNS_GfdAllocLnkPlttVram(sub_02014364(), FALSE, 0);
+    unk_30 = NNS_GfdAllocLnkPlttVram(GetPaletteSize(), FALSE, 0);
 }
 
-void CFieldDrawActorData::sub_02040E80()
+void CFieldDrawActorData::ReleaseVram()
 {
     if (unk_2C != 0) {
         NNS_GfdFreeLnkTexVram(unk_2C);
@@ -206,18 +206,18 @@ void CFieldDrawActorData::sub_02040E80()
     }
 }
 
-void CFieldDrawActorData::sub_02040EBC()
+void CFieldDrawActorData::LoadToVram()
 {
     if (!unk_28) {
-        sub_020141AC(NNS_GfdGetTexKeyAddr(unk_2C));
+        LoadImagesToVram(NNS_GfdGetTexKeyAddr(unk_2C));
     }
-    sub_0201429C(NNS_GfdGetPlttKeyAddr(unk_30));
+    LoadPaletteToVram(NNS_GfdGetPlttKeyAddr(unk_30));
 }
 
-void CFieldDrawActorData::sub_02040EF8()
+void CFieldDrawActorData::LoadPaletteDeferred()
 {
     if (m_palette != NULL) {
-        m_palette->sub_02007C34(NNS_GfdGetPlttKeyAddr(unk_30));
+        m_palette->LoadToVramDeferred(NNS_GfdGetPlttKeyAddr(unk_30));
     }
 }
 
@@ -225,14 +225,14 @@ extern "C" {
 void LogInfo(const char *fmt, ...);
 }
 
-UnkClass_02040F34::UnkClass_02040F34()
+FieldDrawActorDataPool::FieldDrawActorDataPool()
 {
     MAIN_BSS_0210CA64 = this;
     m_count = 0x28;
     m_data = new CFieldDrawActorData[m_count];
 }
 
-UnkClass_02040F34::~UnkClass_02040F34()
+FieldDrawActorDataPool::~FieldDrawActorDataPool()
 {
     for (int i = 0; i < m_count; i++) {
         m_data[i].sub_02040DB8();
@@ -242,7 +242,7 @@ UnkClass_02040F34::~UnkClass_02040F34()
     MAIN_BSS_0210CA64 = NULL;
 }
 
-CFieldDrawActorData *UnkClass_02040F34::sub_02041008(int type, u16 id, int form, u16 mask, BOOL useTransfer)
+CFieldDrawActorData *FieldDrawActorDataPool::Acquire(int type, u16 id, int form, u16 mask, BOOL useTransfer)
 {
     int i;
     for (i = 0; i < m_count; i++) {
@@ -257,7 +257,7 @@ CFieldDrawActorData *UnkClass_02040F34::sub_02041008(int type, u16 id, int form,
         if (data->unk_24 == 0) {
             char arc[4];
             OS_SPrintf(arc, "F%02d", i);
-            data->sub_02040830(type, id, form, mask, useTransfer, arc, TRUE);
+            data->LoadData(type, id, form, mask, useTransfer, arc, TRUE);
             data->unk_24 = 1;
             return data;
         }
@@ -284,13 +284,13 @@ void CActorDataPartner::Release()
     }
 }
 
-void CActorDataPartner::sub_02040E2C()
+void CActorDataPartner::AllocVram()
 {
     if (!unk_28 && unk_2C == 0) {
-        unk_2C = NNS_GfdAllocLnkTexVram(sub_02014310(), FALSE, 0);
+        unk_2C = NNS_GfdAllocLnkTexVram(GetImagesSize(), FALSE, 0);
     }
     if (unk_30 == 0) {
-        unk_30 = NNS_GfdAllocLnkPlttVram(sub_02014364(), FALSE, 0);
+        unk_30 = NNS_GfdAllocLnkPlttVram(GetPaletteSize(), FALSE, 0);
     }
 }
 
@@ -299,10 +299,10 @@ void CActorDataPartner::sub_02041230(int type, u16 id, int form, u16 mask)
     if (unk_34 != 0) {
         Release();
     }
-    sub_02040830(type, id, form, mask, TRUE, NULL, FALSE);
+    LoadData(type, id, form, mask, TRUE, NULL, FALSE);
     unk_34 = 1;
 }
 
-void CActorDataPartner::sub_02040E80()
+void CActorDataPartner::ReleaseVram()
 {
 }

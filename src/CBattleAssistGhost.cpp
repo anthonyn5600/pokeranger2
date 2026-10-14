@@ -1,16 +1,16 @@
-#include "UnkClass_02034478.hpp"
-#include "UnkClass_020B26A0.hpp"
+#include "AudioEngine.hpp"
+#include "Collision.hpp"
+#include "SaveData.hpp"
+#include "battle/BattleParamTable.hpp"
 #include "battle/CBattleAssist.hpp"
 #include "battle/CBattleAttackEffect.hpp"
 #include "battle/CBattleDisk.hpp"
 #include "battle/CBattleEnemy.hpp"
 #include "battle/CBattleEnemyData.hpp"
-#include "battle/UnkClass_0212306C.hpp"
+#include "battle/StylerLine.hpp"
 #include "battle/UnkClass_02128414.hpp"
-#include "battle/UnkClass_0212EEB4.hpp"
 #include "fx_utils.hpp"
 #include "interpolation.hpp"
-#include "sub_02006000.hpp"
 
 extern "C" fx32 ov1_0212EE80(int assistType, int type);
 extern "C" u16 ov1_0212EE98(int assistType, int idx);
@@ -20,7 +20,7 @@ static inline Circle GetCircle(CBattleAttackEffect *effect)
     return effect->m_sphere.m_circle;
 }
 
-CBattleAssistGhost::CBattleAssistGhost(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3)
+CBattleAssistGhost::CBattleAssistGhost(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3)
     : CBattleAssist(effects, effectData, params, arg3)
 {
     MI_CpuFill8(m_ghosts, 0, sizeof(m_ghosts));
@@ -36,7 +36,7 @@ int CBattleAssistGhost::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleE
         return 0;
     }
     unk_04--;
-    u8 *level = &MAIN_BSS_020B26A0.unk_87DB;
+    u8 *level = &MAIN_BSS_020B26A0.m_stylerLevel;
     for (u8 k = 0; k < 5; k++) {
         if (m_ghosts[k].m_flags & 1) {
             m_ghosts[k].m_angle += 0x100;
@@ -44,12 +44,12 @@ int CBattleAssistGhost::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleE
             Point2D pos = m_ghosts[k].m_center;
             pos.x += FX32_MUL(radius, FX_CosIdx(m_ghosts[k].m_angle));
             pos.y += FX32_MUL(radius, FX_SinIdx(m_ghosts[k].m_angle));
-            m_ghosts[k].m_effect->m_motion.sub_02011D3C(pos);
-            m_ghosts[k].m_effect->m_motion.sub_02011C90(m_ghosts[k].m_effect->m_motion.m_angle + 0x100, 0x800);
+            m_ghosts[k].m_effect->m_motion.SetPos(pos);
+            m_ghosts[k].m_effect->m_motion.MoveInDirection(m_ghosts[k].m_effect->m_motion.m_angle + 0x100, 0x800);
             m_ghosts[k].m_timer++;
             if (m_ghosts[k].m_timer >= 0xF0) {
-                m_ghosts[k].m_effect->sub_020129F4(0x20, 0);
-                m_ghosts[k].m_effect->sub_02012A3C(0x20, 0x2000, 0x2000);
+                m_ghosts[k].m_effect->FadeAlpha(0x20, 0);
+                m_ghosts[k].m_effect->ScaleTo(0x20, 0x2000, 0x2000);
                 m_ghosts[k].m_effect->ov1_02127388(FALSE);
                 m_ghosts[k].m_flags &= ~1;
             }
@@ -57,7 +57,7 @@ int CBattleAssistGhost::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleE
                 Circle circle = GetCircle(m_ghosts[k].m_effect);
                 for (u8 i = 0; i < 8; i++) {
                     if (enemies[i] != NULL && enemies[i]->IsAlive() && enemies[i]->IsTargetable()
-                        && sub_02006164(circle, enemies[i]->m_sphere.m_circle, NULL)) {
+                        && CircleHitCircle(circle, enemies[i]->m_sphere.m_circle, NULL)) {
                         u16 power = unk_10->ov1_0212F32C(vfunc_10(), *level, 0);
                         fx32 rate = ov1_0212EE80(vfunc_10(), enemies[i]->unk_184->unk_18->unk_03);
                         enemies[i]->ov1_02126310((u16)(FX32_MUL(rate, power << FX32_SHIFT) >> FX32_SHIFT), TRUE);
@@ -70,7 +70,7 @@ int CBattleAssistGhost::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleE
                             enemies[i]->unk_1A8->ov1_02128598(2);
                         }
                         m_ghosts[k].m_effect->ov1_02127300();
-                        unk_14->sub_02034C44(0x13C);
+                        unk_14->PlaySe(0x13C);
                         m_ghosts[k].m_flags &= ~1;
                     }
                 }
@@ -95,11 +95,11 @@ int CBattleAssistGhost::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleE
                 newPos = rect.pos;
                 ghost->m_effect = ov1_0212EE3C();
                 ghost->m_effect->ov1_021270FC(unk_0C[0]);
-                ghost->m_effect->m_motion.sub_02011D3C(newPos);
-                ghost->m_effect->m_motion.sub_02011C90(0, 0x800);
+                ghost->m_effect->m_motion.SetPos(newPos);
+                ghost->m_effect->m_motion.MoveInDirection(0, 0x800);
                 ghost->m_timer = 0;
                 ghost->m_center = newPos;
-                unk_14->sub_02034C44(0x13B);
+                unk_14->PlaySe(0x13B);
                 ghost->m_flags |= 1;
             }
         }
@@ -114,8 +114,8 @@ int CBattleAssistGhost::vfunc_10()
 
 void CBattleAssistGhost::vfunc_0C()
 {
-    unk_14->sub_02034C5C(0x13B);
-    unk_14->sub_02034C5C(0x13C);
+    unk_14->StopSe(0x13B);
+    unk_14->StopSe(0x13C);
 }
 
 GhostSlot *CBattleAssistGhost::ov1_02131A48()

@@ -3,21 +3,21 @@
 
 #include "CActor.hpp"
 #include "CGame.hpp"
+#include "FieldDrawActorDataPool.hpp"
 #include "UnkClass_02007770.hpp"
-#include "UnkClass_02040F34.hpp"
 #include "common.hpp"
 #include "field/CFieldDrawActor.hpp"
 #include "field/CFieldDrawActorData.hpp"
 #include "interpolation.hpp"
 #include "scene/CScene.hpp"
 
-class UnkClass_020B26A0;
-extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
+class SaveData;
+extern SaveData MAIN_BSS_020B26A0;
 
 extern "C" {
-CFieldDrawActorData *sub_020176BC(UnkClass_020B26A0 *save, int arg1);
-CFieldDrawActorData *sub_02017748(UnkClass_020B26A0 *save, u16 id, int form, u16 mask, BOOL arg4);
-CFieldDrawActorData *sub_02017848(UnkClass_020B26A0 *save, u16 id, int form, u16 mask, BOOL arg4);
+CFieldDrawActorData *SaveData_LoadPlayerActorData(SaveData *save, int arg1);
+CFieldDrawActorData *SaveData_FindPartnerActorData(SaveData *save, u16 id, int form, u16 mask, BOOL arg4);
+CFieldDrawActorData *sub_02017848(SaveData *save, u16 id, int form, u16 mask, BOOL arg4);
 }
 
 CFieldDrawActor::CFieldDrawActor()
@@ -59,43 +59,43 @@ CFieldDrawActor::CFieldDrawActor()
 
 CFieldDrawActor::~CFieldDrawActor()
 {
-    sub_0203E55C();
+    Release();
 }
 
-void CFieldDrawActor::sub_0203DBB8(int type, u16 id, int form, u32 mask, BOOL useTransfer)
+void CFieldDrawActor::Load(int type, u16 id, int form, u32 mask, BOOL useTransfer)
 {
-    sub_0203E55C();
+    Release();
     if (type == 4) {
-        unk_184 = sub_020176BC(&MAIN_BSS_020B26A0, -1);
-        unk_184->sub_02040E2C();
+        unk_184 = SaveData_LoadPlayerActorData(&MAIN_BSS_020B26A0, -1);
+        unk_184->AllocVram();
         if (OS_GetIrqMask() & OS_IE_V_BLANK) {
-            unk_184->sub_02040EF8();
+            unk_184->LoadPaletteDeferred();
         } else {
-            unk_184->sub_02040EBC();
+            unk_184->LoadToVram();
         }
         unk_1F8 = 1;
         unk_1FC = 0;
     } else if (type != 2 && useTransfer && s_game->currentScene->getSceneId() == 1) {
         if (type == 1) {
-            unk_184 = sub_02017748(&MAIN_BSS_020B26A0, id, form, mask, TRUE);
+            unk_184 = SaveData_FindPartnerActorData(&MAIN_BSS_020B26A0, id, form, mask, TRUE);
         } else {
             unk_184 = sub_02017848(&MAIN_BSS_020B26A0, id, form, mask, TRUE);
         }
-        unk_184->sub_02040E2C();
+        unk_184->AllocVram();
         if (OS_GetIrqMask() & OS_IE_V_BLANK) {
-            unk_184->sub_02040EF8();
+            unk_184->LoadPaletteDeferred();
         } else {
-            unk_184->sub_02040EBC();
+            unk_184->LoadToVram();
         }
         unk_1F8 = 1;
         unk_1FC = 0;
     } else {
-        unk_184 = MAIN_BSS_0210CA64->sub_02041008(type, id, form, mask, useTransfer);
+        unk_184 = MAIN_BSS_0210CA64->Acquire(type, id, form, mask, useTransfer);
         unk_1F8 = 0;
         unk_1FC = 1;
     }
     unk_190 = unk_184->unk_30;
-    sub_02011FF4(unk_184);
+    SetData(unk_184);
     if (useTransfer) {
         if (unk_184->m_animCount != 0) {
             unk_198 = unk_184->m_animCount;
@@ -177,16 +177,16 @@ void CFieldDrawActor::sub_0203DBB8(int type, u16 id, int form, u32 mask, BOOL us
 
 void CFieldDrawActor::sub_0203E10C(int type, u16 id, int form, u32 mask, BOOL useTransfer)
 {
-    sub_0203E55C();
+    Release();
     if (type == 4) {
         unk_184 = new CActorDataPlayer();
-        ((CActorDataPlayer *)unk_184)->sub_02041344(id, form, mask, "PDR", useTransfer, TRUE);
+        ((CActorDataPlayer *)unk_184)->LoadPlayer(id, form, mask, "PDR", useTransfer, TRUE);
     } else {
         unk_184 = new CFieldDrawActorData();
-        unk_184->sub_02040830(type, id, form, mask, useTransfer, NULL, TRUE);
+        unk_184->LoadData(type, id, form, mask, useTransfer, NULL, TRUE);
     }
     unk_190 = unk_184->unk_30;
-    sub_02011FF4(unk_184);
+    SetData(unk_184);
     if (useTransfer) {
         if (unk_184->m_animCount != 0) {
             unk_198 = unk_184->m_animCount;
@@ -267,7 +267,7 @@ void CFieldDrawActor::sub_0203E10C(int type, u16 id, int form, u32 mask, BOOL us
     unk_1F8 = 1;
 }
 
-void CFieldDrawActor::sub_0203E55C()
+void CFieldDrawActor::Release()
 {
     if (unk_184 != NULL) {
         if (unk_1F4 != 0) {
@@ -280,8 +280,8 @@ void CFieldDrawActor::sub_0203E55C()
                 SAFE_DELETE(unk_184);
             }
         } else {
-            sub_020120B0();
-            unk_184->sub_02040E80();
+            ClearData();
+            unk_184->ReleaseVram();
         }
         unk_1D8 = 0;
         unk_1DC = 0;
@@ -305,12 +305,12 @@ void CFieldDrawActor::vfunc_08()
     }
     if (unk_1A8 & 1) {
         if (m_outlineTime >= 0) {
-            m_outlineTime -= 60 / s_game->unk_146C.sub_02008E50();
+            m_outlineTime -= 60 / s_game->unk_146C.GetFps();
             if (m_outlineTime <= 0) {
                 unk_1A8 &= ~1;
             }
         }
-        m_outlinePhase += 300 / s_game->unk_146C.sub_02008E50();
+        m_outlinePhase += 300 / s_game->unk_146C.GetFps();
         if (m_outlinePhase >= 600) {
             m_outlinePhase -= 600;
         }
@@ -334,7 +334,7 @@ void CFieldDrawActor::vfunc_08()
             }
         }
     }
-    sub_020121F4();
+    Update();
     m_sprite->m_alpha = unk_108.value;
     m_sprite->SetScale(unk_11C.value, unk_134.value);
     m_sprite->m_rotAngle = unk_14C.value;
@@ -353,7 +353,7 @@ void CFieldDrawActor::vfunc_08()
 
 void CFieldDrawActor::vfunc_0C(Camera2D *camera)
 {
-    sub_0203E934(camera, 0);
+    Render(camera, 0);
 }
 
 void CFieldDrawActor::vfunc_10(Camera2D *camera)
@@ -367,7 +367,7 @@ static inline void BlendToWhite(int &r, int &g, int &b, int t, int w)
     g = (g * t + w * 31) / 300;
     b = (b * t + w * 31) / 300;
 }
-u32 CFieldDrawActor::sub_0203E934(Camera2D *camera, fx32 z)
+u32 CFieldDrawActor::Render(Camera2D *camera, fx32 z)
 {
     fx32 y;
     fx32 x;
@@ -380,11 +380,11 @@ u32 CFieldDrawActor::sub_0203E934(Camera2D *camera, fx32 z)
         CActorAnim *anim = unk_184->GetAnim(unk_C0);
         if (anim != NULL && (anim->flags & 1)) {
             CSoftwareSprite *sprite = m_sprite;
-            u16 cell = anim->bank->sub_02008828(unk_C8[unk_C0]);
+            u16 cell = anim->bank->GetCell(unk_C8[unk_C0]);
             sprite->m_z = z;
             if (unk_1F4 != 0) {
                 if ((anim->flags & 1) && (unk_1C9 != unk_C0 || unk_1CA != cell)) {
-                    UnkClass_02007770 *pal = &unk_194[unk_184->sub_02015070(unk_C0)];
+                    UnkClass_02007770 *pal = &unk_194[unk_184->FindAnimIndex(unk_C0)];
                     u8 buf = unk_200 ^ 1;
                     pal->sub_020078E4(cell);
                     pal->sub_02007A94(NNS_GfdGetTexKeyAddr(unk_188[buf]));
@@ -468,15 +468,15 @@ u32 CFieldDrawActor::sub_0203E934(Camera2D *camera, fx32 z)
                 sprite->SetColorAlpha(color, alpha, unk3C);
             }
             sprite->SetPos(origPos);
-            if (sub_02012D88()) {
-                CSoftwareSprite *ghost = sub_02012DA8();
+            if (IsGhosting()) {
+                CSoftwareSprite *ghost = GetSprites();
                 for (i = 0; i < 8; i++, ghost++) {
-                    if (sub_02012D9C(i)) {
+                    if (IsGhostActive(i)) {
                         ghost->m_z = z - count;
                         ghost->unk_38 = (UnkClass_CSoftwareSprite_38 *)anim->cells;
                         ghost->m_cellDataIdx = sprite->m_cellDataIdx;
-                        ghost->m_alpha = sub_02012DB0(i);
-                        fx32 scale = sub_02012DC0(i);
+                        ghost->m_alpha = GetGhostAlpha(i);
+                        fx32 scale = GetGhostScale(i);
                         ghost->SetScale(scale, scale);
                         if (unk_1F4 != 0) {
                             ghost->unk_30 = sprite->unk_30;
@@ -498,12 +498,12 @@ void CFieldDrawActor::sub_0203EE3C()
 {
     switch (unk_1D8) {
     case 0:
-        sub_02012184(unk_1A0, unk_1E0, unk_19C);
-        sub_02012114(unk_1A0, unk_1E0);
+        SetAnimWithSpeed(unk_1A0, unk_1E0, unk_19C);
+        SetAnim(unk_1A0, unk_1E0);
         break;
     case 1:
-        sub_02012184(unk_1A4, unk_1E0, unk_19C);
-        sub_02012114(unk_1A4, unk_1E0);
+        SetAnimWithSpeed(unk_1A4, unk_1E0, unk_19C);
+        SetAnim(unk_1A4, unk_1E0);
         break;
     case 3:
         break;

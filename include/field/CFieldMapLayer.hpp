@@ -3,9 +3,9 @@
 
 #include <nitro.h>
 
+#include "Collision.hpp"
 #include "common.hpp"
 #include "field/CFieldMap.hpp"
-#include "sub_02006000.hpp"
 
 class Camera2D;
 
@@ -93,7 +93,7 @@ public:
     int unk_0C;
     int m_width;
     int m_height;
-    UnkClass_021302BC **m_textures;
+    FieldMapTextures **m_textures;
     GXRgb m_color;
     u16 unk_1E;
     GXPolygonMode m_polygonMode;
@@ -204,7 +204,7 @@ public:
     GXRgb m_color;
     u16 unk_1E;
     FieldMapCharaEntry *m_entries;
-    UnkClass_0212F82C **m_mct;
+    FieldMapAnimQuad **m_mct;
     BOOL m_repeat;
 };
 
@@ -226,8 +226,8 @@ public:
     u8 unk_14[0x8];
     s16 m_offsetX;
     s16 m_offsetY;
-    UnkClass_021302BC **m_textures;
-    UnkClass_0212F82C **m_mct;
+    FieldMapTextures **m_textures;
+    FieldMapAnimQuad **m_mct;
 };
 
 // NPC placement of an Npc/Enemy layer (11 bytes in the map file).

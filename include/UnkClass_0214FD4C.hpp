@@ -8,7 +8,7 @@
 class Camera2D;
 class CPrimitiveRECT;
 class CSoftwareSprite;
-class UnkClass_0201AAE0;
+class GraphicsSet;
 
 // Defined in ov0
 // Field icon i044 (FMB archive), animated for 4 frames after ov0_0214FF44
@@ -28,7 +28,7 @@ public:
     u16 m_z;
     CPrimitiveRECT *m_rect;
     CSoftwareSprite *m_sprite;
-    UnkClass_0201AAE0 *m_res;
+    GraphicsSet *m_res;
 };
 
 STATIC_SIZE_ASSERT(UnkClass_0214FD4C, 0x10);

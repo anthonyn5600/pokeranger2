@@ -22,9 +22,9 @@ extern u8 DAT_0208aaf8;
 static CScene *sub_020010F8(void);
 static void sub_02001184(void);
 static void sub_0200120C(u64 arg0);
-static void sub_02001248(void);
+static void InitSystem(void);
 static void VBlankIntr(void);
-static void HBlankIntr_1(s32 vcount, UnkClass_0200E330 *arg1);
+static void HBlankIntr_1(s32 vcount, WindowWipe *arg1);
 static void HBlankIntr(void);
 
 CGame *s_game;
@@ -33,25 +33,25 @@ static OSTick MAIN_BSS_0208F308;
 
 void NitroMain(void)
 {
-    UnkClass_020B26A0 *game_unk_14A4;
+    SaveData *game_unk_14A4;
     NNSFndHeapHandle *handle;
     CScene *v3;
     u32 v6;
     u32 v4;
-    UnkClass_0200E0B4 *v7;
-    UnkClass_0200E0B4 *v8;
-    UnkClass_0200E330 *v9;
-    UnkClass_0200E330 *v10;
+    BrightnessFade *v7;
+    BrightnessFade *v8;
+    WindowWipe *v9;
+    WindowWipe *v10;
     u32 v11;
     u32 v12;
     u32 v13;
     OSTick v14;
 
-    sub_02001248();
+    InitSystem();
     SetupInterrupts();
 
     s_game = new CGame();
-    sub_0202B80C();
+    DetectCardBackup();
 
     game_unk_14A4 = s_game->unk_14A4;
     game_unk_14A4->unk_8B68 = 1;
@@ -66,8 +66,8 @@ void NitroMain(void)
     sub_02001184();
     v3 = Scene_LoadByID(SCENE_RANGER_NET_AGB, s_game);
     v4 = SCENE_NONE;
-    CPowerManage::sub_0200F9E0();
-    CPowerManage::sub_0200FA48(0);
+    CPowerManage::Initialize();
+    CPowerManage::SetMode(0);
 
     v6 = v4;
     v7 = s_game->unk_14BC;
@@ -77,30 +77,30 @@ void NitroMain(void)
 
     while (1) {
         if (
-            (v7->sub_0200E310() != 0)
-            || (v7->sub_0200E324() == 2)
-            || (v7->sub_0200E324() == 4)
-            || (v8->sub_0200E310() != 0)
-            || (v8->sub_0200E324() == 2)
-            || (v8->sub_0200E324() == 4)
+            (v7->IsActive() != 0)
+            || (v7->GetMode() == 2)
+            || (v7->GetMode() == 4)
+            || (v8->IsActive() != 0)
+            || (v8->GetMode() == 2)
+            || (v8->GetMode() == 4)
             || (v9->func0() != FALSE)
             || (v9->sub_0200E91C() != 0)
             || (v10->func0() != FALSE)
             || (v10->sub_0200E91C() != 0)) {
-            CPowerManage::sub_0200FA2C(1);
+            CPowerManage::BlockSleep(1);
         } else {
-            CPowerManage::sub_0200FA0C(1);
+            CPowerManage::AllowSleep(1);
         }
 
-        CPowerManage::sub_0200F9F8();
-        s_game->unk_0014->sub_02001C20();
+        CPowerManage::Process();
+        s_game->unk_0014->Update();
         s_game->touchPanel->func0();
         s_game->touchPanelEmulator->func0();
 
         s_game->func0();
 
-        s_game->unk_0C24->sub_02002A78(0, 0, 0x20, 0x18);
-        s_game->unk_0C28->sub_02002A78(0, 0, 0x20, 0x18);
+        s_game->unk_0C24->ClearArea(0, 0, 0x20, 0x18);
+        s_game->unk_0C28->ClearArea(0, 0, 0x20, 0x18);
         G3X_Reset();
 
         G3_Identity();
@@ -113,7 +113,7 @@ void NitroMain(void)
         if (v4 != v6) {
             OS_GetTick();
             OS_DisableIrqMask(1);
-            s_game->sub_020101B4("Delete Scene");
+            s_game->PrintHeapInfo("Delete Scene");
 
             DAT_0208aaf8 = 0;
 
@@ -125,8 +125,8 @@ void NitroMain(void)
             delete v3;
 
             s_game->unk_0010 = v6;
-            s_game->sub_020102E8();
-            s_game->sub_0201044C();
+            s_game->InitVramTransfer();
+            s_game->FreeTextWindows();
 
             handle = Heap_GetMainHandle();
             NNS_FndGetTotalFreeSizeForExpHeap(*handle);
@@ -134,12 +134,12 @@ void NitroMain(void)
             handle = Heap_GetMainHandle();
             NNS_FndGetAllocatableSizeForExpHeapEx(*handle, 4);
 
-            s_game->sub_020101B4("Create Scene");
+            s_game->PrintHeapInfo("Create Scene");
             sub_02001184();
 
             v3 = Scene_LoadByID(v4, s_game);
             OS_GetTick();
-            s_game->sub_020101B4("Scene Create Finished");
+            s_game->PrintHeapInfo("Scene Create Finished");
 
             OS_EnableIrqMask(1);
         }
@@ -164,7 +164,7 @@ void NitroMain(void)
         OS_GetTick();
         OS_GetTick();
 
-        s_game->unk_146C.sub_02008D7C();
+        s_game->unk_146C.WaitFrame();
 
         OS_GetTick();
         OS_GetTick();
@@ -177,7 +177,7 @@ void NitroMain(void)
         OS_GetTick();
         v3->func3();
 
-        s_game->sub_0201028C();
+        s_game->UpdateBarScroll();
         OS_GetTick();
     }
 }
@@ -197,7 +197,7 @@ CScene *sub_020010F8(void)
 
     s_game->sub_0200FB28();
 
-    UnkClass_020B26A0 *game_unk_14A4 = s_game->unk_14A4;
+    SaveData *game_unk_14A4 = s_game->unk_14A4;
     game_unk_14A4->unk_8B68 = 1;
     game_unk_14A4->unk_8B6C = 0;
 
@@ -225,7 +225,7 @@ void sub_02001210(void)
     sub_0200120C(OS_TicksToMicroSeconds(MAIN_BSS_0208F308));
 }
 
-void sub_02001248(void)
+void InitSystem(void)
 {
     OS_Init();
     FX_Init();
@@ -235,8 +235,8 @@ void sub_02001248(void)
     G3X_Init();
     RTC_Init();
     Heap_Init(0xB0000);
-    sub_0204436C();
-    sub_02044440();
+    InitScriptRandom();
+    Script_InitSyscalls();
     CRYPTO_SetAllocator(Heap_Alloc, Heap_Free);
 }
 
@@ -258,7 +258,7 @@ void VBlankIntr(void)
     u16 wasIrqEnabled = OS_EnableIrq();
 
     if (s_game != NULL) {
-        s_game->sub_0201002C();
+        s_game->OnVBlank();
     }
 
     if (wasIrqEnabled) {
@@ -270,7 +270,7 @@ void VBlankIntr(void)
     OS_SetIrqCheckFlag(OS_IE_V_BLANK);
 }
 
-void inline HBlankIntr_1(s32 vcount, UnkClass_0200E330 *arg1)
+void inline HBlankIntr_1(s32 vcount, WindowWipe *arg1)
 {
     if (arg1->func0()) {
         u32 idx = vcount + 1;

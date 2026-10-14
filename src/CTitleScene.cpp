@@ -4,31 +4,31 @@
 #include <nnsys.h>
 #include <string.h>
 
+#include "AudioEngine.hpp"
+#include "BrightnessFade.hpp"
 #include "CGame.hpp"
+#include "Collision.hpp"
+#include "DisplayUtil.hpp"
+#include "FontSet.hpp"
+#include "GlobalValues.hpp"
+#include "OamSprite.hpp"
+#include "SaveData.hpp"
 #include "SaveDataBuffer.hpp"
-#include "UnkClass_0200CAB4.hpp"
-#include "UnkClass_0200CFF4.hpp"
-#include "UnkClass_0200E0B4.hpp"
-#include "UnkClass_0200E960.hpp"
-#include "UnkClass_02018DF4.hpp"
-#include "UnkClass_02027FE8.hpp"
-#include "UnkClass_02034478.hpp"
+#include "SaveManager.hpp"
+#include "SubTextPrinter.hpp"
 #include "UnkClass_02041D80.hpp"
-#include "UnkClass_020B26A0.hpp"
 #include "common.hpp"
 #include "file/CBinaryFileMes.hpp"
-#include "sub_02006000.hpp"
-#include "sub_02007CF0.hpp"
 
 extern "C" {
-void sub_02034450(void *scriptManager);
+void ScriptManager_UnloadAll(void *scriptManager);
 }
 
 extern u32 MAIN_BSS_0208F31C;
-extern UnkClass_02041C80 *MAIN_BSS_0210CA6C;
+extern FieldData *MAIN_BSS_0210CA6C;
 
-extern "C" BOOL sub_02017298(void);
-extern "C" void sub_020172BC(void);
+extern "C" BOOL SaveData_IsInitialized(void);
+extern "C" void SaveData_MarkInitialized(void);
 
 #define LOAD_MESSAGES(table, path)                                                                         \
     {                                                                                                      \
@@ -66,7 +66,7 @@ extern "C" void sub_020172BC(void);
         }                                          \
     }
 
-static inline UnkClass_0200CAB4 *GetPrinter(CGame *game)
+static inline SubTextPrinter *GetPrinter(CGame *game)
 {
     return game->unk_1498;
 }
@@ -199,29 +199,29 @@ void CTitleScene::ov3_0211CD8C()
         { 15, 2, 2, 17, 0, 4, 1 },
         { 20, 2, 6, 21, -1, 3, 3 },
     };
-    UnkClass_0200CAB4 *printer = GetPrinter(m_game);
-    printer->sub_0200CAE0();
-    printer->sub_0200CB14();
-    printer->sub_0200CACC(&m_game->unk_14AC->unk_14, 0);
-    printer->sub_0200CC88(8);
+    SubTextPrinter *printer = GetPrinter(m_game);
+    printer->FreeWindows();
+    printer->SetupBG();
+    printer->SetFont(&m_game->unk_14AC->unk_14, 0);
+    printer->AllocWindows(8);
 
-    UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+    SaveData *save = &MAIN_BSS_020B26A0;
     int minutes = 59;
     u32 hours = 99;
     if (MAIN_BSS_020B26A0.unk_87DA == 0) {
-        minutes = save->unk_87D8;
-        hours = save->unk_87D4;
+        minutes = save->m_playMinutes;
+        hours = save->m_playHours;
     }
 
     int charNo = 0x20;
     for (int i = 0; i < 8; i++) {
-        printer->sub_0200CCD0(i, wins[i].width, wins[i].height, wins[i].left, wins[i].top, charNo, 0, 2);
+        printer->InitWindow(i, wins[i].width, wins[i].height, wins[i].left, wins[i].top, charNo, 0, 2);
         charNo += wins[i].width * wins[i].height;
     }
 
     u8 *texts[8] = { NULL };
     texts[0] = unk_8C->unk_08[33].unk_04;
-    texts[1] = &save->unk_87E3;
+    texts[1] = &save->m_playerName;
     texts[2] = unk_8C->unk_08[26].unk_04;
     texts[3] = unk_8C->unk_08[35].unk_04;
     texts[5] = unk_8C->unk_08[34].unk_04;
@@ -229,15 +229,15 @@ void CTitleScene::ov3_0211CD8C()
     texts[7] = unk_8C->unk_08[37].unk_04;
     for (int i = 0; i < 8; i++) {
         if (texts[i] != NULL) {
-            printer->sub_0200CDA0(i, wins[i].x, wins[i].y, wins[i].color, texts[i], wins[i].x < 0 ? TRUE : FALSE, 0);
+            printer->Print(i, wins[i].x, wins[i].y, wins[i].color, texts[i], wins[i].x < 0 ? TRUE : FALSE, 0);
         }
     }
 
-    printer->sub_0200CDA0(4, wins[4].x, wins[4].y, wins[4].color, unk_8C->unk_08[(int)((hours / 10) % 10) + 8].unk_04, FALSE, 0);
-    printer->sub_0200CDA0(4, wins[4].x + 11, wins[4].y, wins[4].color, unk_8C->unk_08[(int)(hours % 10) + 8].unk_04, FALSE, 0);
-    printer->sub_0200CDA0(4, wins[4].x + 22, wins[4].y, wins[4].color, unk_8C->unk_08[52].unk_04, FALSE, 0);
-    printer->sub_0200CDA0(4, wins[4].x + 33, wins[4].y, wins[4].color, unk_8C->unk_08[minutes / 10 + 8].unk_04, FALSE, 0);
-    printer->sub_0200CDA0(4, wins[4].x + 44, wins[4].y, wins[4].color, unk_8C->unk_08[minutes % 10 + 8].unk_04, FALSE, 0);
+    printer->Print(4, wins[4].x, wins[4].y, wins[4].color, unk_8C->unk_08[(int)((hours / 10) % 10) + 8].unk_04, FALSE, 0);
+    printer->Print(4, wins[4].x + 11, wins[4].y, wins[4].color, unk_8C->unk_08[(int)(hours % 10) + 8].unk_04, FALSE, 0);
+    printer->Print(4, wins[4].x + 22, wins[4].y, wins[4].color, unk_8C->unk_08[52].unk_04, FALSE, 0);
+    printer->Print(4, wins[4].x + 33, wins[4].y, wins[4].color, unk_8C->unk_08[minutes / 10 + 8].unk_04, FALSE, 0);
+    printer->Print(4, wins[4].x + 44, wins[4].y, wins[4].color, unk_8C->unk_08[minutes % 10 + 8].unk_04, FALSE, 0);
 
     unk_5C.pos.x = 0;
     unk_5C.pos.y = -0x28000;
@@ -267,15 +267,15 @@ void CTitleScene::ov3_0211D1B0()
         { 15, 2, 2, 6, 0, 3, 1 },
         { 20, 2, 6, 21, -1, 2, 3 },
     };
-    UnkClass_0200CAB4 *printer = GetPrinter(m_game);
-    printer->sub_0200CAE0();
-    printer->sub_0200CB14();
-    printer->sub_0200CACC(&m_game->unk_14AC->unk_14, 0);
-    printer->sub_0200CC88(3);
+    SubTextPrinter *printer = GetPrinter(m_game);
+    printer->FreeWindows();
+    printer->SetupBG();
+    printer->SetFont(&m_game->unk_14AC->unk_14, 0);
+    printer->AllocWindows(3);
 
     int charNo = 0x20;
     for (int i = 0; i < 3; i++) {
-        printer->sub_0200CCD0(i, wins[i].width, wins[i].height, wins[i].left, wins[i].top, charNo, 0, 2);
+        printer->InitWindow(i, wins[i].width, wins[i].height, wins[i].left, wins[i].top, charNo, 0, 2);
         charNo += wins[i].width * wins[i].height;
     }
 
@@ -284,7 +284,7 @@ void CTitleScene::ov3_0211D1B0()
     texts[1] = unk_8C->unk_08[36].unk_04;
     texts[2] = unk_8C->unk_08[37].unk_04;
     for (int i = 0; i < 3; i++) {
-        printer->sub_0200CDA0(i, wins[i].x, wins[i].y, wins[i].color, texts[i], wins[i].x < 0 ? TRUE : FALSE, 0);
+        printer->Print(i, wins[i].x, wins[i].y, wins[i].color, texts[i], wins[i].x < 0 ? TRUE : FALSE, 0);
     }
 
     unk_6C.pos.x = 0;
@@ -313,11 +313,11 @@ void CTitleScene::func6()
         m_resource->Load(m_game);
     }
 
-    m_game->unk_146C.sub_02008DB4(60);
+    m_game->unk_146C.SetFps(60);
     GX_SetOBJVRamModeChar(GX_OBJVRAMMODE_CHAR_1D_32K);
     GXS_SetOBJVRamModeChar(GX_OBJVRAMMODE_CHAR_1D_32K);
-    m_game->m_textboxData->sub_02009328(m_game->unk_0014, m_game->touchPanel, &m_game->unk_14AC->unk_14, m_game->unk_14B0, m_game->unk_0024, m_game->m_audioEngine, 0x10, 0x4000, 0);
-    sub_02007D68();
+    m_game->m_textboxData->Init(m_game->unk_0014, m_game->touchPanel, &m_game->unk_14AC->unk_14, m_game->unk_14B0, m_game->unk_0024, m_game->m_audioEngine, 0x10, 0x4000, 0);
+    SetupBGFonts();
     m_flags = 0x400;
     ov3_0211CD2C();
 
@@ -356,9 +356,9 @@ void CTitleScene::func6()
     unk_C0.r = 0x20000;
     unk_C0.pos.x = 0x40000;
     unk_C0.pos.y = 0;
-    m_game->unk_14BC->sub_0200E0E0(1, 30);
-    m_game->unk_14C0->sub_0200E0E0(1, 30);
-    unk_E4 = new UnkClass_02027FE8(0);
+    m_game->unk_14BC->Start(1, 30);
+    m_game->unk_14C0->Start(1, 30);
+    unk_E4 = new SaveManager(0);
     unk_DC = 0;
     unk_E0 = 0;
     m_audioEngine = m_game->m_audioEngine;
@@ -374,36 +374,36 @@ void CTitleScene::func6()
     RTCDate date;
     RTC_GetTime(&time);
     RTC_GetDate(&date);
-    MAIN_BSS_020B26A0.unk_8B94 = time;
-    MAIN_BSS_020B26A0.unk_8B84 = date;
+    MAIN_BSS_020B26A0.m_lastTime = time;
+    MAIN_BSS_020B26A0.m_lastDate = date;
 }
 
 void CTitleScene::ov3_0211DD90()
 {
-    u8 b3 = MAIN_BSS_020B26A0.unk_0003;
+    u8 b3 = MAIN_BSS_020B26A0.m_rangerClassGrade;
     u8 lo = b3 & 0xF;
-    u8 b0 = MAIN_BSS_020B26A0.unk_0000;
+    u8 b0 = MAIN_BSS_020B26A0.m_sex;
     u8 hi = (b3 >> 4) & 0xF;
 
     if (m_flags & 0x200) {
-        unk_28 = unk_40->sub_0200F4FC(0, 0x80, 0x38, 2);
+        unk_28 = unk_40->AddSprite(0, 0x80, 0x38, 2);
         unk_18 = unk_40->unk_24;
-        unk_2C = unk_40->sub_0200F4FC(2, 0x80, 0x70, 2);
+        unk_2C = unk_40->AddSprite(2, 0x80, 0x70, 2);
         unk_1C = unk_40->unk_24;
         if (m_flags & 0x400) {
-            unk_30 = unk_40->sub_0200F4FC(2, 0x80, 0x90, 2);
+            unk_30 = unk_40->AddSprite(2, 0x80, 0x90, 2);
             unk_20 = unk_40->unk_24;
         }
-        unk_38 = unk_54->sub_0200F4FC(0, 0x20, 0x4B, 1);
+        unk_38 = unk_54->AddSprite(0, 0x20, 0x4B, 1);
         if (lo != 0) {
-            unk_3C = unk_58->sub_0200F4FC(lo - 1, 0x9C, 0x44, 0);
+            unk_3C = unk_58->AddSprite(lo - 1, 0x9C, 0x44, 0);
         }
-        unk_34 = unk_44[b0 | (hi == 0 ? 0 : 2)]->sub_0200F4FC(0, 0x20, 0x4D, 0);
+        unk_34 = unk_44[b0 | (hi == 0 ? 0 : 2)]->AddSprite(0, 0x20, 0x4D, 0);
     } else {
-        unk_2C = unk_40->sub_0200F4FC(2, 0x80, 0x18, 2);
+        unk_2C = unk_40->AddSprite(2, 0x80, 0x18, 2);
         unk_1C = unk_40->unk_24;
         if (m_flags & 0x400) {
-            unk_30 = unk_40->sub_0200F4FC(2, 0x80, 0x38, 2);
+            unk_30 = unk_40->AddSprite(2, 0x80, 0x38, 2);
             unk_20 = unk_40->unk_24;
         }
     }
@@ -411,12 +411,12 @@ void CTitleScene::ov3_0211DD90()
 
 void CTitleScene::ov3_0211DF20()
 {
-    unk_40->sub_0200F6C4();
-    unk_54->sub_0200F6C4();
-    unk_58->sub_0200F6C4();
+    unk_40->RemoveAll();
+    unk_54->RemoveAll();
+    unk_58->RemoveAll();
     for (int i = 0; i < 4; i++) {
         if (unk_44[i] != NULL) {
-            unk_44[i]->sub_0200F6C4();
+            unk_44[i]->RemoveAll();
         }
     }
 }
@@ -433,23 +433,23 @@ void CTitleScene::func7()
     RELEASE_MESSAGES(unk_90);
     SAFE_DELETE(unk_E4);
 
-    UnkClass_0200CAB4 *printer = GetPrinter(m_game);
-    printer->sub_0200CACC(&m_game->unk_14AC->unk_14, 0);
-    printer->sub_0200CAE0();
+    SubTextPrinter *printer = GetPrinter(m_game);
+    printer->SetFont(&m_game->unk_14AC->unk_14, 0);
+    printer->FreeWindows();
     G2_SetBG0Offset(0, 0);
     G2_SetBG1Offset(0, 0);
     G2_SetBG2Offset(0, 0);
     G2_SetBG3Offset(0, 0);
-    m_game->unk_146C.sub_02008DB4(30);
-    m_game->m_textboxData->sub_020092D4();
-    sub_02034450(m_game->m_scriptManager);
+    m_game->unk_146C.SetFps(30);
+    m_game->m_textboxData->Reset();
+    ScriptManager_UnloadAll(m_game->m_scriptManager);
     MAIN_BSS_0208F31C = 0;
     G2S_SetBlendBrightness(GX_BLEND_PLANEMASK_BG1, 0);
 }
 
 u32 CTitleScene::func0()
 {
-    UnkClass_0200CAB4 *printer;
+    SubTextPrinter *printer;
     RTCTime time;
     RTCDate date;
 
@@ -457,14 +457,14 @@ u32 CTitleScene::func0()
         m_bg->Update();
     }
     if (unk_D8 != NULL) {
-        unk_D8->sub_0200F64C();
+        unk_D8->Update();
     }
     if (unk_D0 != NULL) {
-        unk_D0->sub_0200F64C();
+        unk_D0->Update();
     }
 
-    UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
-    UnkClass_02001C04 *pad = m_game->unk_0014;
+    SaveData *save = &MAIN_BSS_020B26A0;
+    PadInput *pad = m_game->unk_0014;
     CTouchPanel *tp = m_game->touchPanel;
     Point2D touch;
     touch.x = (tp->unk_0A.x - 0x80) << FX32_SHIFT;
@@ -474,8 +474,8 @@ u32 CTitleScene::func0()
     case 0:
         m_game->sub_0200FAA4();
         printer = GetPrinter(m_game);
-        printer->sub_0200CAE0();
-        printer->sub_0200CB14();
+        printer->FreeWindows();
+        printer->SetupBG();
         unk_E4->SetDevice(0);
         unk_E4->Load(1);
         SetState(1);
@@ -502,14 +502,14 @@ u32 CTitleScene::func0()
                 SetState(0x15);
                 break;
             }
-        } else if (sub_02017298() == 0) {
-            sub_020172BC();
+        } else if (SaveData_IsInitialized() == 0) {
+            SaveData_MarkInitialized();
             SetState(0x19);
         } else {
             SetState(2);
             m_flags |= 0x100;
-            m_game->sub_0201024C();
-            save->unk_8B64 = sub_02041D80(MAIN_BSS_0210CA6C, save->unk_001A)->unk_04;
+            m_game->ApplyTextSettings();
+            save->m_areaType = FieldData_GetMap(MAIN_BSS_0210CA6C, save->m_mapId)->unk_04;
         }
         break;
     }
@@ -520,14 +520,14 @@ u32 CTitleScene::func0()
         ov3_0212038C(unk_DC);
         unk_A8->unk_14 = 1;
         unk_AC->unk_14 = 1;
-        unk_A8->sub_0200EB34(0x20, FALSE);
-        unk_AC->sub_0200EB34(0x20, FALSE);
+        unk_A8->SetAffine(0x20, FALSE);
+        unk_AC->SetAffine(0x20, FALSE);
         m_flags &= ~3;
         SetState(3);
         break;
     case 3:
         ov3_021206E8(unk_A0);
-        unk_B0->sub_0200F64C();
+        unk_B0->Update();
         if (m_flags & 3) {
             unk_96++;
             if (unk_96 >= 16) {
@@ -544,32 +544,32 @@ u32 CTitleScene::func0()
             }
         } else if ((u16)(pad->unk_0002 & 1)) {
             unk_A0 = 0x1400;
-            unk_A8->sub_0200EB34(1, FALSE);
+            unk_A8->SetAffine(1, FALSE);
             unk_AC->unk_14 = 0;
             m_flags |= 1;
-            m_audioEngine->sub_02034C44(0xFF);
+            m_audioEngine->PlaySe(0xFF);
             unk_96 = 0;
         } else if ((u16)(pad->unk_0002 & 2)) {
             unk_A0 = 0x1400;
-            unk_AC->sub_0200EB34(1, FALSE);
+            unk_AC->SetAffine(1, FALSE);
             unk_A8->unk_14 = 0;
             m_flags |= 2;
-            m_audioEngine->sub_02034C44(0x100);
+            m_audioEngine->PlaySe(0x100);
             unk_96 = 0;
         } else if (tp->unk_04 != 0) {
-            if (sub_02006100(touch, unk_B4)) {
+            if (PointInCircle(touch, unk_B4)) {
                 unk_A0 = 0x1400;
-                unk_A8->sub_0200EB34(1, FALSE);
+                unk_A8->SetAffine(1, FALSE);
                 unk_AC->unk_14 = 0;
                 m_flags |= 1;
-                m_audioEngine->sub_02034C44(0xFF);
+                m_audioEngine->PlaySe(0xFF);
                 unk_96 = 0;
-            } else if (sub_02006100(touch, unk_C0)) {
+            } else if (PointInCircle(touch, unk_C0)) {
                 unk_A0 = 0x1400;
-                unk_AC->sub_0200EB34(1, FALSE);
+                unk_AC->SetAffine(1, FALSE);
                 unk_A8->unk_14 = 0;
                 m_flags |= 2;
-                m_audioEngine->sub_02034C44(0x100);
+                m_audioEngine->PlaySe(0x100);
                 unk_96 = 0;
             }
         }
@@ -583,21 +583,21 @@ u32 CTitleScene::func0()
     case 8:
         if (tp->unk_04 != 0 || (u16)(pad->unk_0002 & 3)) {
             SetState(9);
-            m_audioEngine->sub_02034C44(3);
+            m_audioEngine->PlaySe(3);
         }
         break;
     case 9:
         ov3_0212038C(unk_DC);
         unk_A8->unk_14 = 1;
         unk_AC->unk_14 = 1;
-        unk_A8->sub_0200EB34(0x20, FALSE);
-        unk_AC->sub_0200EB34(0x20, FALSE);
+        unk_A8->SetAffine(0x20, FALSE);
+        unk_AC->SetAffine(0x20, FALSE);
         m_flags &= ~3;
         SetState(10);
         break;
     case 10:
         ov3_021206E8(unk_A0);
-        unk_B0->sub_0200F64C();
+        unk_B0->Update();
         if (m_flags & 3) {
             unk_96++;
             if (unk_96 >= 16) {
@@ -614,32 +614,32 @@ u32 CTitleScene::func0()
             }
         } else if ((u16)(pad->unk_0002 & 1)) {
             unk_A0 = 0x1400;
-            unk_A8->sub_0200EB34(1, FALSE);
+            unk_A8->SetAffine(1, FALSE);
             unk_AC->unk_14 = 0;
             m_flags |= 1;
-            m_audioEngine->sub_02034C44(0xFF);
+            m_audioEngine->PlaySe(0xFF);
             unk_96 = 0;
         } else if ((u16)(pad->unk_0002 & 2)) {
             unk_A0 = 0x1400;
-            unk_AC->sub_0200EB34(1, FALSE);
+            unk_AC->SetAffine(1, FALSE);
             unk_A8->unk_14 = 0;
             m_flags |= 2;
-            m_audioEngine->sub_02034C44(0x100);
+            m_audioEngine->PlaySe(0x100);
             unk_96 = 0;
         } else if (tp->unk_04 != 0) {
-            if (sub_02006100(touch, unk_B4)) {
+            if (PointInCircle(touch, unk_B4)) {
                 unk_A0 = 0x1400;
-                unk_A8->sub_0200EB34(1, FALSE);
+                unk_A8->SetAffine(1, FALSE);
                 unk_AC->unk_14 = 0;
                 m_flags |= 1;
-                m_audioEngine->sub_02034C44(0xFF);
+                m_audioEngine->PlaySe(0xFF);
                 unk_96 = 0;
-            } else if (sub_02006100(touch, unk_C0)) {
+            } else if (PointInCircle(touch, unk_C0)) {
                 unk_A0 = 0x1400;
-                unk_AC->sub_0200EB34(1, FALSE);
+                unk_AC->SetAffine(1, FALSE);
                 unk_A8->unk_14 = 0;
                 m_flags |= 2;
-                m_audioEngine->sub_02034C44(0x100);
+                m_audioEngine->PlaySe(0x100);
                 unk_96 = 0;
             }
         }
@@ -653,7 +653,7 @@ u32 CTitleScene::func0()
     case 12:
         if (tp->unk_04 != 0 || (u16)(pad->unk_0002 & 3)) {
             SetState(13);
-            m_audioEngine->sub_02034C44(3);
+            m_audioEngine->PlaySe(3);
         }
         break;
     case 13:
@@ -665,7 +665,7 @@ u32 CTitleScene::func0()
     case 14:
         if (tp->unk_04 != 0 || (u16)(pad->unk_0002 & 3)) {
             SetState(4);
-            m_audioEngine->sub_02034C44(3);
+            m_audioEngine->PlaySe(3);
         }
         break;
     case 4:
@@ -679,14 +679,14 @@ u32 CTitleScene::func0()
         ov3_0212038C(unk_DC);
         unk_A8->unk_14 = 1;
         unk_AC->unk_14 = 1;
-        unk_A8->sub_0200EB34(0x20, FALSE);
-        unk_AC->sub_0200EB34(0x20, FALSE);
+        unk_A8->SetAffine(0x20, FALSE);
+        unk_AC->SetAffine(0x20, FALSE);
         m_flags &= ~3;
         SetState(6);
         break;
     case 6:
         ov3_021206E8(unk_A0);
-        unk_B0->sub_0200F64C();
+        unk_B0->Update();
         if (m_flags & 3) {
             unk_96++;
             if (unk_96 >= 16) {
@@ -703,32 +703,32 @@ u32 CTitleScene::func0()
             }
         } else if ((u16)(pad->unk_0002 & 1)) {
             unk_A0 = 0x1400;
-            unk_A8->sub_0200EB34(1, FALSE);
+            unk_A8->SetAffine(1, FALSE);
             unk_AC->unk_14 = 0;
             m_flags |= 1;
-            m_audioEngine->sub_02034C44(0xFF);
+            m_audioEngine->PlaySe(0xFF);
             unk_96 = 0;
         } else if ((u16)(pad->unk_0002 & 2)) {
             unk_A0 = 0x1400;
-            unk_AC->sub_0200EB34(1, FALSE);
+            unk_AC->SetAffine(1, FALSE);
             unk_A8->unk_14 = 0;
             m_flags |= 2;
-            m_audioEngine->sub_02034C44(0x100);
+            m_audioEngine->PlaySe(0x100);
             unk_96 = 0;
         } else if (tp->unk_04 != 0) {
-            if (sub_02006100(touch, unk_B4)) {
+            if (PointInCircle(touch, unk_B4)) {
                 unk_A0 = 0x1400;
-                unk_A8->sub_0200EB34(1, FALSE);
+                unk_A8->SetAffine(1, FALSE);
                 unk_AC->unk_14 = 0;
                 m_flags |= 1;
-                m_audioEngine->sub_02034C44(0xFF);
+                m_audioEngine->PlaySe(0xFF);
                 unk_96 = 0;
-            } else if (sub_02006100(touch, unk_C0)) {
+            } else if (PointInCircle(touch, unk_C0)) {
                 unk_A0 = 0x1400;
-                unk_AC->sub_0200EB34(1, FALSE);
+                unk_AC->SetAffine(1, FALSE);
                 unk_A8->unk_14 = 0;
                 m_flags |= 2;
-                m_audioEngine->sub_02034C44(0x100);
+                m_audioEngine->PlaySe(0x100);
                 unk_96 = 0;
             }
         }
@@ -807,22 +807,22 @@ u32 CTitleScene::func0()
     case 23:
         if (unk_E4->sub_0202841C() != 0) {
             SetState(0x18);
-            m_audioEngine->sub_02034C44(2);
+            m_audioEngine->PlaySe(2);
         }
         break;
     case 24:
         if (tp->unk_04 != 0 || (u16)(pad->unk_0002 & 3)) {
             SetState(0x19);
-            m_audioEngine->sub_02034C44(3);
+            m_audioEngine->PlaySe(3);
         }
         break;
     case 25:
         m_game->sub_0200FAA4();
         G2S_SetBlendBrightness(GX_BLEND_PLANEMASK_BG1, -31);
-        sub_02015198(save);
+        SaveData_Init(save);
         printer = GetPrinter(m_game);
-        printer->sub_0200CAE0();
-        printer->sub_0200CB14();
+        printer->FreeWindows();
+        printer->SetupBG();
         unk_E4->SetDevice(0);
         unk_E4->Load(0);
         SetState(0x1A);
@@ -849,14 +849,14 @@ u32 CTitleScene::func0()
                 SetState(0x1B);
                 break;
             }
-        } else if (sub_02017298() == 0) {
-            sub_020172BC();
+        } else if (SaveData_IsInitialized() == 0) {
+            SaveData_MarkInitialized();
             SetState(0x1B);
         } else {
             SetState(0x27);
             m_flags |= 0x200;
-            m_game->sub_0201024C();
-            save->unk_8B64 = sub_02041D80(MAIN_BSS_0210CA6C, save->unk_001A)->unk_04;
+            m_game->ApplyTextSettings();
+            save->m_areaType = FieldData_GetMap(MAIN_BSS_0210CA6C, save->m_mapId)->unk_04;
         }
         break;
     }
@@ -886,11 +886,11 @@ u32 CTitleScene::func0()
     case 30:
         if (tp->unk_04 != 0 || (u16)(pad->unk_0002 & 3)) {
             SetState(0x1F);
-            m_audioEngine->sub_02034C44(3);
+            m_audioEngine->PlaySe(3);
         }
         break;
     case 31:
-        sub_02015198(save);
+        SaveData_Init(save);
         unk_E4->SetDevice(0);
         unk_E4->Load(0);
         SetState(0x20);
@@ -917,20 +917,20 @@ u32 CTitleScene::func0()
                 SetState(0x23);
                 break;
             }
-        } else if (sub_02017298() == 0) {
-            sub_020172BC();
+        } else if (SaveData_IsInitialized() == 0) {
+            SaveData_MarkInitialized();
             SetState(0x23);
         } else {
             SetState(0x21);
             m_flags |= 0x200;
-            m_game->sub_0201024C();
-            save->unk_8B64 = sub_02041D80(MAIN_BSS_0210CA6C, save->unk_001A)->unk_04;
+            m_game->ApplyTextSettings();
+            save->m_areaType = FieldData_GetMap(MAIN_BSS_0210CA6C, save->m_mapId)->unk_04;
         }
         break;
     }
     case 33:
         SetState(0x22);
-        m_audioEngine->sub_02034C44(2);
+        m_audioEngine->PlaySe(2);
         G2S_SetBlendBrightness(GX_BLEND_PLANEMASK_BG1, 0);
         unk_A4->LoadToVram();
         ov3_021202E0();
@@ -939,7 +939,7 @@ u32 CTitleScene::func0()
     case 34:
         if (tp->unk_04 != 0 || (u16)(pad->unk_0002 & 3)) {
             SetState(0x27);
-            m_audioEngine->sub_02034C44(3);
+            m_audioEngine->PlaySe(3);
         }
         break;
     case 35:
@@ -967,13 +967,13 @@ u32 CTitleScene::func0()
             ov3_021202E0();
             ov3_0212038C(unk_DC);
             SetState(0x26);
-            m_audioEngine->sub_02034C44(2);
+            m_audioEngine->PlaySe(2);
         }
         break;
     case 38:
         if (tp->unk_04 != 0 || (u16)(pad->unk_0002 & 3)) {
             SetState(0x27);
-            m_audioEngine->sub_02034C44(3);
+            m_audioEngine->PlaySe(3);
         }
         break;
     case 39:
@@ -991,32 +991,32 @@ u32 CTitleScene::func0()
         }
         break;
     case 40:
-        unk_40->sub_0200F64C();
+        unk_40->Update();
         if (m_flags & 0x200) {
             for (int i = 0; i < 4; i++) {
-                unk_44[i]->sub_0200F64C();
+                unk_44[i]->Update();
             }
-            unk_54->sub_0200F64C();
-            unk_58->sub_0200F64C();
+            unk_54->Update();
+            unk_58->Update();
         }
         if (unk_F4-- <= 0) {
             SetState(0x34);
             break;
         }
         if (!(m_flags & 0x10) && tp->unk_04 != 0) {
-            if ((m_flags & 0x200) && sub_02006000(touch, unk_5C, 0)) {
-                m_audioEngine->sub_02034C44(0xFF);
-                unk_40->sub_0200F628(unk_18, 1);
+            if ((m_flags & 0x200) && PointInRect(touch, unk_5C, 0)) {
+                m_audioEngine->PlaySe(0xFF);
+                unk_40->SetAnim(unk_18, 1);
                 m_flags |= 0x12;
                 unk_10 = 0;
-            } else if ((m_flags & 0x400) && sub_02006000(touch, unk_7C, 0)) {
-                m_audioEngine->sub_02034C44(0xFF);
-                unk_40->sub_0200F628(unk_20, 3);
+            } else if ((m_flags & 0x400) && PointInRect(touch, unk_7C, 0)) {
+                m_audioEngine->PlaySe(0xFF);
+                unk_40->SetAnim(unk_20, 3);
                 m_flags |= 0x18;
                 unk_10 = 0;
-            } else if (sub_02006000(touch, unk_6C, 0)) {
-                m_audioEngine->sub_02034C44(0xFF);
-                unk_40->sub_0200F628(unk_1C, 3);
+            } else if (PointInRect(touch, unk_6C, 0)) {
+                m_audioEngine->PlaySe(0xFF);
+                unk_40->SetAnim(unk_1C, 3);
                 m_flags |= 0x14;
                 unk_10 = 0;
             }
@@ -1024,13 +1024,13 @@ u32 CTitleScene::func0()
             unk_10++;
             if (unk_10 == 4) {
                 if (m_flags & 2) {
-                    unk_40->sub_0200F628(unk_18, 0);
+                    unk_40->SetAnim(unk_18, 0);
                     SetState(0x29);
                 } else if (m_flags & 8) {
-                    unk_40->sub_0200F628(unk_20, 2);
+                    unk_40->SetAnim(unk_20, 2);
                     SetState(0x2B);
                 } else if (m_flags & 4) {
-                    unk_40->sub_0200F628(unk_1C, 2);
+                    unk_40->SetAnim(unk_1C, 2);
                     if (m_flags & 0x200) {
                         SetState(0x2C);
                     } else {
@@ -1054,9 +1054,9 @@ u32 CTitleScene::func0()
         SetState(0x35);
         break;
     case 42:
-        sub_02018E94((UnkClass_02018DF4 *)m_game->unk_14B4, 0);
-        sub_02018E94((UnkClass_02018DF4 *)m_game->unk_14B4, 0x10);
-        m_game->sub_0201024C();
+        GlobalValues_ApplyProgress((GlobalValues *)m_game->unk_14B4, 0);
+        GlobalValues_ApplyProgress((GlobalValues *)m_game->unk_14B4, 0x10);
+        m_game->ApplyTextSettings();
         unk_E8 = 0x13;
         SetState(0x35);
         break;
@@ -1075,14 +1075,14 @@ u32 CTitleScene::func0()
         ov3_0212038C(unk_DC);
         unk_A8->unk_14 = 1;
         unk_AC->unk_14 = 1;
-        unk_A8->sub_0200EB34(0x20, FALSE);
-        unk_AC->sub_0200EB34(0x20, FALSE);
+        unk_A8->SetAffine(0x20, FALSE);
+        unk_AC->SetAffine(0x20, FALSE);
         m_flags &= ~3;
         SetState(0x2D);
         break;
     case 45:
         ov3_021206E8(unk_A0);
-        unk_B0->sub_0200F64C();
+        unk_B0->Update();
         if (m_flags & 3) {
             unk_96++;
             if (unk_96 >= 16) {
@@ -1099,41 +1099,41 @@ u32 CTitleScene::func0()
             }
         } else if ((u16)(pad->unk_0002 & 1)) {
             unk_A0 = 0x1400;
-            unk_A8->sub_0200EB34(1, FALSE);
+            unk_A8->SetAffine(1, FALSE);
             unk_AC->unk_14 = 0;
             m_flags |= 1;
-            m_audioEngine->sub_02034C44(0xFF);
+            m_audioEngine->PlaySe(0xFF);
             unk_96 = 0;
         } else if ((u16)(pad->unk_0002 & 2)) {
             unk_A0 = 0x1400;
-            unk_AC->sub_0200EB34(1, FALSE);
+            unk_AC->SetAffine(1, FALSE);
             unk_A8->unk_14 = 0;
             m_flags |= 2;
-            m_audioEngine->sub_02034C44(0x100);
+            m_audioEngine->PlaySe(0x100);
             unk_96 = 0;
         } else if (tp->unk_04 != 0) {
-            if (sub_02006100(touch, unk_B4)) {
+            if (PointInCircle(touch, unk_B4)) {
                 unk_A0 = 0x1400;
-                unk_A8->sub_0200EB34(1, FALSE);
+                unk_A8->SetAffine(1, FALSE);
                 unk_AC->unk_14 = 0;
                 m_flags |= 1;
-                m_audioEngine->sub_02034C44(0xFF);
+                m_audioEngine->PlaySe(0xFF);
                 unk_96 = 0;
-            } else if (sub_02006100(touch, unk_C0)) {
+            } else if (PointInCircle(touch, unk_C0)) {
                 unk_A0 = 0x1400;
-                unk_AC->sub_0200EB34(1, FALSE);
+                unk_AC->SetAffine(1, FALSE);
                 unk_A8->unk_14 = 0;
                 m_flags |= 2;
-                m_audioEngine->sub_02034C44(0x100);
+                m_audioEngine->PlaySe(0x100);
                 unk_96 = 0;
             }
         }
         break;
     case 46:
-        sub_02018E94((UnkClass_02018DF4 *)m_game->unk_14B4, 0);
-        sub_02018E94((UnkClass_02018DF4 *)m_game->unk_14B4, 0x10);
-        m_game->sub_0201024C();
-        sub_02015198(save);
+        GlobalValues_ApplyProgress((GlobalValues *)m_game->unk_14B4, 0);
+        GlobalValues_ApplyProgress((GlobalValues *)m_game->unk_14B4, 0x10);
+        m_game->ApplyTextSettings();
+        SaveData_Init(save);
         unk_E8 = 0x13;
         SetState(0x35);
         break;
@@ -1146,7 +1146,7 @@ u32 CTitleScene::func0()
         unk_A4->LoadToVram();
         ov3_021202E0();
         ov3_0212038C(unk_DC);
-        m_audioEngine->sub_02034C44(2);
+        m_audioEngine->PlaySe(2);
         SetState(0x31);
         break;
     case 49:
@@ -1159,7 +1159,7 @@ u32 CTitleScene::func0()
         unk_A4->LoadToVram();
         ov3_021202E0();
         ov3_0212038C(unk_DC);
-        m_audioEngine->sub_02034C44(5);
+        m_audioEngine->PlaySe(5);
         SetState(0x33);
         break;
     case 53:
@@ -1250,17 +1250,17 @@ u32 CTitleScene::func0()
         unk_DC = 0x41;
         break;
     case 65:
-        m_game->unk_14BC->sub_0200E0E0(4, 30);
-        m_game->unk_14C0->sub_0200E0E0(4, 30);
+        m_game->unk_14BC->Start(4, 30);
+        m_game->unk_14C0->Start(4, 30);
         m_audioEngine->sub_02034DC8(30);
         unk_DC = 0x42;
         break;
     case 66:
-        if (!m_game->unk_14BC->sub_0200E310() && !m_game->unk_14C0->sub_0200E310()) {
+        if (!m_game->unk_14BC->IsActive() && !m_game->unk_14C0->IsActive()) {
             RTC_GetTime(&time);
             RTC_GetDate(&date);
-            MAIN_BSS_020B26A0.unk_8B94 = time;
-            MAIN_BSS_020B26A0.unk_8B84 = date;
+            MAIN_BSS_020B26A0.m_lastTime = time;
+            MAIN_BSS_020B26A0.m_lastDate = date;
             return unk_E8;
         }
         break;
@@ -1316,51 +1316,51 @@ void CTitleScene::func2()
         break;
     case 3:
         if (unk_E8 == -1) {
-            unk_B0->sub_0200F71C();
+            unk_B0->WriteOam();
         }
         break;
     case 6:
-        unk_B0->sub_0200F71C();
+        unk_B0->WriteOam();
         break;
     case 8:
-        unk_D0->sub_0200F71C();
+        unk_D0->WriteOam();
         break;
     case 10:
-        unk_B0->sub_0200F71C();
+        unk_B0->WriteOam();
         break;
     case 12:
-        unk_D0->sub_0200F71C();
+        unk_D0->WriteOam();
         break;
     case 39:
     case 40:
     case 41:
     case 42:
     case 43:
-        unk_40->sub_0200F71C();
+        unk_40->WriteOam();
         if (m_flags & 0x200) {
             for (int i = 0; i < 4; i++) {
-                unk_44[i]->sub_0200F71C();
+                unk_44[i]->WriteOam();
             }
-            unk_54->sub_0200F71C();
-            unk_58->sub_0200F71C();
+            unk_54->WriteOam();
+            unk_58->WriteOam();
         }
         break;
     case 45:
-        unk_B0->sub_0200F71C();
+        unk_B0->WriteOam();
         break;
     case 24:
     case 30:
     case 34:
     case 38:
     case 49:
-        unk_D0->sub_0200F71C();
+        unk_D0->WriteOam();
         break;
     }
 }
 
 void CTitleScene::func3()
 {
-    sub_02007D98();
+    LoadOam();
     if (m_bg != NULL) {
         m_bg->Apply();
     }
@@ -1369,19 +1369,19 @@ void CTitleScene::func3()
 void CTitleScene::ov3_021202E0()
 {
     TextWindow win = { 28, 4, 2, 19, 3, 2, 4 };
-    UnkClass_0200CAB4 *printer = GetPrinter(m_game);
-    printer->sub_0200CAE0();
-    printer->sub_0200CB14();
-    printer->sub_0200CC88(1);
-    printer->sub_0200CACC(&m_game->unk_14AC->unk_0C, 1);
-    printer->sub_0200CCD0(0, win.width, win.height, win.left, win.top, 0x20, 0, 4);
+    SubTextPrinter *printer = GetPrinter(m_game);
+    printer->FreeWindows();
+    printer->SetupBG();
+    printer->AllocWindows(1);
+    printer->SetFont(&m_game->unk_14AC->unk_0C, 1);
+    printer->InitWindow(0, win.width, win.height, win.left, win.top, 0x20, 0, 4);
 }
 
 void CTitleScene::ov3_0212038C(int msg)
 {
     TextWindow win = { 28, 4, 2, 19, 0, 2, 4 };
-    UnkClass_0200CAB4 *printer = GetPrinter(m_game);
-    printer->sub_0200CF7C(0);
+    SubTextPrinter *printer = GetPrinter(m_game);
+    printer->ClearWindow(0);
     u8 *text = NULL;
     switch (msg) {
     case 2:
@@ -1463,22 +1463,22 @@ void CTitleScene::ov3_0212038C(int msg)
         break;
     }
     if (text != NULL) {
-        printer->sub_0200CDA0(0, win.x, win.y, win.color, text, FALSE, 0);
+        printer->Print(0, win.x, win.y, win.color, text, FALSE, 0);
     }
 }
 
 void CTitleScene::ov3_02120634()
 {
-    unk_A8 = unk_B0->sub_0200F4FC(0, 0x40, 0x60, 0);
+    unk_A8 = unk_B0->AddSprite(0, 0x40, 0x60, 0);
     unk_98 = unk_B0->unk_24;
-    unk_AC = unk_B0->sub_0200F4FC(1, 0xC0, 0x60, 0);
+    unk_AC = unk_B0->AddSprite(1, 0xC0, 0x60, 0);
     unk_9C = unk_B0->unk_24;
 }
 
 void CTitleScene::ov3_0212069C()
 {
-    unk_CC = unk_D0->sub_0200F4FC(0, 0xF8, 0xB0, 0);
-    unk_D4 = unk_D8->sub_0200F4FC(0, 0xF8, 0xB0, 0);
+    unk_CC = unk_D0->AddSprite(0, 0xF8, 0xB0, 0);
+    unk_D4 = unk_D8->AddSprite(0, 0xF8, 0xB0, 0);
 }
 
 void CTitleScene::ov3_021206E8(int scale)

@@ -53,11 +53,11 @@ public:
 
     CFieldEffectFire(int kind);
     virtual ~CFieldEffectFire();
-    virtual int sub_02033028()
+    virtual int GetEffectId()
     {
         return 0x11;
     }
-    virtual int sub_020332A4()
+    virtual int IsReady()
     {
         BOOL ret = TRUE;
         if (m_data != NULL && !m_data->IsLoaded()) {
@@ -66,7 +66,7 @@ public:
         return ret;
     }
     virtual int ov0_02142264(int step);
-    virtual int sub_0203312C(int param, int value);
+    virtual int SetParam(int param, int value);
     // Declared in reverse: the inline virtuals are emitted in reverse declaration order.
     virtual TFieldParticleEmitter<CSoftwareSprite> *GetEmitter()
     {

@@ -2,27 +2,27 @@
 
 #include <nitro.h>
 
+#include "FieldCannons.hpp"
+#include "SaveData.hpp"
 #include "UnkClass_02041D80.hpp"
-#include "UnkClass_020B26A0.hpp"
-#include "UnkClass_0215994C.hpp"
 #include "field/CFieldTargetObject.hpp"
 
-extern UnkClass_02041C80 *MAIN_BSS_0210CA6C;
-extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
+extern FieldData *MAIN_BSS_0210CA6C;
+extern SaveData MAIN_BSS_020B26A0;
 
 extern "C" {
 void LogError(const char *fmt, ...);
 }
 
-void CFieldTargetObjectManage::sub_0203EFE4(int capacity)
+void CFieldTargetObjectManage::Alloc(int capacity)
 {
-    CFieldActorManage::sub_0203EFE4(capacity);
-    unk_10 = new UnkClass_02142028();
+    CFieldActorManage::Alloc(capacity);
+    unk_10 = new FieldTargetObjectScriptCache();
 }
 
-void CFieldTargetObjectManage::sub_0203F034()
+void CFieldTargetObjectManage::Free()
 {
-    CFieldActorManage::sub_0203F034();
+    CFieldActorManage::Free();
     SAFE_DELETE(unk_10);
 }
 
@@ -44,19 +44,19 @@ int CFieldTargetObjectManage::ov0_0213D1AC(int slot, u16 kind, u16 script, u16 t
 {
     if (m_actors != NULL) {
         int i;
-        UnkClass_02041C80 *table = MAIN_BSS_0210CA6C;
-        UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+        FieldData *table = MAIN_BSS_0210CA6C;
+        SaveData *save = &MAIN_BSS_020B26A0;
         for (i = 0; i < m_count; i++) {
             if (Get(i) != NULL) {
                 continue;
             }
             CFieldTargetObject *obj = new CFieldTargetObject();
             u32 id = slot & 0xFFF;
-            id |= ((save->unk_001A & 0xFFF) << 12) | 0x3000000;
-            obj->sub_0203DA60(id);
+            id |= ((save->m_mapId & 0xFFF) << 12) | 0x3000000;
+            obj->SetId(id);
             obj->unk_E8 = kind;
-            FieldTargetObjectData *data = sub_02041D6C(table, kind);
-            obj->sub_0203C418(2, data->unk_00, data->unk_02, 0xE, arg5);
+            FieldTargetObjectData *data = FieldData_GetTargetObject(table, kind);
+            obj->CreateDrawObject(2, data->unk_00, data->unk_02, 0xE, arg5);
             obj->SetUnkBC(data->unk_13, data->unk_14);
             obj->SetUnkBE(data->unk_15, data->unk_16);
             if (data->unk_0E == 0) {
@@ -80,7 +80,7 @@ int CFieldTargetObjectManage::ov0_0213D1AC(int slot, u16 kind, u16 script, u16 t
                     block = unk_10->ov0_021420AC(data->unk_06, FALSE);
                 }
                 if (block != NULL) {
-                    if (!obj->sub_0203C1FC(new CFieldTargetObjectActorScript(0x30), block)) {
+                    if (!obj->SetScript(new CFieldTargetObjectActorScript(0x30), block)) {
                         LogError("SetScript  ERROR by FieldTargetObjectManage.cpp");
                     } else {
                         obj->unk_0C = TRUE;
@@ -115,12 +115,12 @@ int CFieldTargetObjectManage::ov0_0213D1AC(int slot, u16 kind, u16 script, u16 t
     return -1;
 }
 
-BOOL CFieldTargetObjectManage::sub_0203F190()
+BOOL CFieldTargetObjectManage::Clear()
 {
     if (unk_10 != NULL) {
         unk_10->ov0_02142068();
     }
-    return CFieldActorManage::sub_0203F190();
+    return CFieldActorManage::Clear();
 }
 
 int CFieldTargetObjectManage::ov0_0213D564()

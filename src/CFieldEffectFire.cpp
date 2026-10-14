@@ -22,9 +22,9 @@ CFieldEffectFire::CFieldEffectFire(int kind)
     CFieldEffectNormalActorData *data = new CFieldEffectNormalActorData();
     if (data != NULL) {
         data->ov0_021503B8(kind, FALSE);
-        UnkClass_02008788 *cac = data->GetCac(0);
+        CellAnimController *cac = data->GetCac(0);
         if (cac != NULL) {
-            m_cacId = cac->sub_02008A80(1, 0);
+            m_cacId = cac->Create(1, 0);
         }
         ov0_021423E8(FieldEffectSpriteRes(data->GetNcbr(0), data->GetPalette(), data->GetNcer(0)));
     }
@@ -36,15 +36,15 @@ CFieldEffectFire::CFieldEffectFire(int kind)
 CFieldEffectFire::~CFieldEffectFire()
 {
     if (m_data != NULL) {
-        UnkClass_02008788 *cac = m_data->GetCac(0);
+        CellAnimController *cac = m_data->GetCac(0);
         if (cac != NULL) {
-            cac->sub_02008B80(m_cacId);
+            cac->Remove(m_cacId);
         }
     }
     SAFE_DELETE(m_data);
 }
 
-int CFieldEffectFire::sub_0203312C(int param, int value)
+int CFieldEffectFire::SetParam(int param, int value)
 {
     int ret = 1;
     switch (param) {
@@ -67,7 +67,7 @@ int CFieldEffectFire::sub_0203312C(int param, int value)
     case 7:
         break;
     default:
-        ret = TFieldEffectParticle<CSoftwareSprite>::sub_0203312C(param, value);
+        ret = TFieldEffectParticle<CSoftwareSprite>::SetParam(param, value);
         break;
     }
     return ret;
@@ -128,9 +128,9 @@ int CFieldEffectFire::ov0_02142264(int step)
     }
     if (state != 0 && state != 4 && m_data != NULL) {
         m_data->Update();
-        UnkClass_02008788 *cac = m_data->GetCac(0);
+        CellAnimController *cac = m_data->GetCac(0);
         if (cac != NULL) {
-            m_animator.m_cell = cac->sub_02008828(m_cacId);
+            m_animator.m_cell = cac->GetCell(m_cacId);
         }
     }
     return state;

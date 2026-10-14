@@ -2,9 +2,9 @@
 
 #include <nitro.h>
 
+#include "MathUtil.hpp"
 #include "field/CFieldPlayer.hpp"
 #include "scene/CFieldScene.hpp"
-#include "sub_02007254.hpp"
 
 extern CFieldScene *MAIN_BSS_0210CA40;
 
@@ -16,9 +16,9 @@ CFieldEffectExplosion::~CFieldEffectExplosion()
 {
     for (int i = 0; i < 2; i++) {
         if (m_data[i] != NULL) {
-            UnkClass_02008788 *cac = m_data[i]->GetCac(0);
+            CellAnimController *cac = m_data[i]->GetCac(0);
             if (cac != NULL) {
-                cac->sub_02008B80(m_cacIds[i]);
+                cac->Remove(m_cacIds[i]);
             }
         }
     }
@@ -33,9 +33,9 @@ void CFieldEffectExplosion::Init(CEffectActorData *data0, CEffectActorData *data
     m_data[1] = data1;
     unk_18 = m_data[0];
     for (int i = 0; i < 2; i++) {
-        UnkClass_02008788 *cac = m_data[i]->GetCac(0);
+        CellAnimController *cac = m_data[i]->GetCac(0);
         if (cac != NULL) {
-            m_cacIds[i] = cac->sub_02008A80(1, 0);
+            m_cacIds[i] = cac->Create(1, 0);
         }
     }
     InitSprites();
@@ -49,12 +49,12 @@ int CFieldEffectExplosion::ov0_02142264(int step)
             m_phase = m_nextPhase;
             m_nextPhase = -1;
             unk_18 = m_data[m_phase];
-            UnkClass_02008788 *cac = m_data[m_phase]->GetCac(0);
-            cac->sub_020089B8(m_cacIds[m_phase]);
+            CellAnimController *cac = m_data[m_phase]->GetCac(0);
+            cac->Restart(m_cacIds[m_phase]);
         }
-        UnkClass_02008788 *cac = m_data[m_phase]->GetCac(0);
+        CellAnimController *cac = m_data[m_phase]->GetCac(0);
         if (cac != NULL) {
-            if (!cac->sub_02008860(m_cacIds[m_phase])) {
+            if (!cac->GetStatus(m_cacIds[m_phase])) {
                 if (m_phase == 0) {
                     m_nextPhase = 1;
                     m_frame = 0;
@@ -76,10 +76,10 @@ int CFieldEffectExplosion::ov0_02142264(int step)
 int CFieldEffectExplosion::ov0_02142344(Camera2D *camera)
 {
     if (m_state != 0 && m_state != 4) {
-        UnkClass_02008788 *cac = m_data[m_phase]->GetCac(0);
+        CellAnimController *cac = m_data[m_phase]->GetCac(0);
         u16 cell = 0;
         if (cac != NULL) {
-            cell = cac->sub_02008828(m_cacIds[m_phase]);
+            cell = cac->GetCell(m_cacIds[m_phase]);
         }
         m_sprites[m_phase].m_cellDataIdx = cell;
         m_sprites[m_phase].SetPos(m_pos);
@@ -88,7 +88,7 @@ int CFieldEffectExplosion::ov0_02142344(Camera2D *camera)
     return 0;
 }
 
-int CFieldEffectExplosion::sub_0203312C(int param, int value)
+int CFieldEffectExplosion::SetParam(int param, int value)
 {
     int ret = 1;
     switch (param) {
@@ -113,8 +113,8 @@ BOOL CFieldEffectExplosion::ov0_021421F0(int inTime, int holdTime, int outTime)
     m_phase = 0;
     m_nextPhase = -1;
     unk_18 = m_data[0];
-    UnkClass_02008788 *cac = m_data[m_phase]->GetCac(0);
-    cac->sub_020089B8(m_cacIds[m_phase]);
+    CellAnimController *cac = m_data[m_phase]->GetCac(0);
+    cac->Restart(m_cacIds[m_phase]);
     return CFieldEffect::ov0_021421F0(0, -1, 0);
 }
 
@@ -134,7 +134,7 @@ BOOL CFieldEffectExplosion::IsTouchingPlayer()
     CFieldPlayer *player = (CFieldPlayer *)MAIN_BSS_0210CA40->ov0_02123060(0);
     fx32 range = player->unk_E0 + 0x20800;
     Point2D d = player->GetPos() - m_pos;
-    if (sub_02007254(d.x, d.y) < range) {
+    if (ApproxLength(d.x, d.y) < range) {
         return TRUE;
     }
     return FALSE;
@@ -143,8 +143,8 @@ BOOL CFieldEffectExplosion::IsTouchingPlayer()
 int CFieldEffectExplosion::ov0_02142390(void *buf, void *end)
 {
     ExplosionSave save;
-    UnkClass_02008788 *cac = m_data[m_phase]->GetCac(0);
-    LogInfo("cell %d", cac->sub_02008828(m_cacIds[m_phase]));
+    CellAnimController *cac = m_data[m_phase]->GetCac(0);
+    LogInfo("cell %d", cac->GetCell(m_cacIds[m_phase]));
     MI_CpuFill8(&save, 0, sizeof(save));
     if ((u32)m_phase <= 1 && m_frame < 0x80) {
         save.type = 0xD;
@@ -172,14 +172,14 @@ BOOL CFieldEffectExplosion::ov0_02142388(const void *data)
         m_frame = frame & 0x7F;
         m_param = save->param;
         unk_18 = m_data[m_phase];
-        sub_0203312C(1, save->x);
-        sub_0203312C(2, save->y);
-        UnkClass_02008788 *cac = m_data[m_phase]->GetCac(0);
-        cac->sub_020089B8(m_cacIds[m_phase]);
+        SetParam(1, save->x);
+        SetParam(2, save->y);
+        CellAnimController *cac = m_data[m_phase]->GetCac(0);
+        cac->Restart(m_cacIds[m_phase]);
         for (int n = m_frame; n >= 0; n -= 2) {
-            cac->sub_020089EC();
+            cac->UpdateAll();
         }
-        LogInfo("cell %d", cac->sub_02008828(m_cacIds[m_phase]));
+        LogInfo("cell %d", cac->GetCell(m_cacIds[m_phase]));
         CFieldEffect::ov0_021421F0(0, -1, 0);
         return TRUE;
     }

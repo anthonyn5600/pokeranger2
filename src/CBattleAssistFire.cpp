@@ -1,17 +1,17 @@
-#include "UnkClass_02034478.hpp"
-#include "UnkClass_020B26A0.hpp"
+#include "AudioEngine.hpp"
+#include "SaveData.hpp"
+#include "battle/BattleParamTable.hpp"
 #include "battle/CBattleAssist.hpp"
 #include "battle/CBattleAttackEffect.hpp"
 #include "battle/CBattleDisk.hpp"
 #include "battle/CBattleEnemy.hpp"
 #include "battle/CBattleEnemyData.hpp"
-#include "battle/UnkClass_0212306C.hpp"
-#include "battle/UnkClass_0212EEB4.hpp"
+#include "battle/StylerLine.hpp"
 #include "battle/UnkStruct_0212DFEC.hpp"
 
 extern "C" u16 ov1_0212EE98(int assistType, int idx);
 
-CBattleAssistFire::CBattleAssistFire(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3)
+CBattleAssistFire::CBattleAssistFire(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3)
     : CBattleAssist(effects, effectData, params, arg3)
 {
 }
@@ -22,7 +22,7 @@ CBattleAssistFire::~CBattleAssistFire()
 
 int CBattleAssistFire::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies)
 {
-    disk->unk_19E = unk_10->ov1_0212F32C(vfunc_10(), MAIN_BSS_020B26A0.unk_87DB, 0);
+    disk->unk_19E = unk_10->ov1_0212F32C(vfunc_10(), MAIN_BSS_020B26A0.m_stylerLevel, 0);
     for (u8 i = 0; i < 0x20; i++) {
         if (unk_08[i]->HasData() && !unk_08[i]->ov1_0212747C()) {
             unk_08[i]->ov1_02127300();
@@ -51,14 +51,14 @@ int CBattleAssistFire::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEn
                     pos = enemy->m_motion.m_pos;
                     pos += enemy->unk_484;
                     pos.y -= enemy->m_bobHeight + (enemy->unk_8C + enemy->m_jumpHeight);
-                    effect->m_motion.sub_02011D3C(pos);
+                    effect->m_motion.SetPos(pos);
                     enemies[i]->ov1_021263A4(2, ov1_0212EE98(vfunc_10(), 0));
                     hit = TRUE;
                 }
             }
         }
         if (hit) {
-            unk_14->sub_02034C44(0x12E);
+            unk_14->PlaySe(0x12E);
         }
     }
     if (unk_04 == 0) {
@@ -75,5 +75,5 @@ int CBattleAssistFire::vfunc_10()
 
 void CBattleAssistFire::vfunc_0C()
 {
-    unk_14->sub_02034C5C(0x12E);
+    unk_14->StopSe(0x12E);
 }

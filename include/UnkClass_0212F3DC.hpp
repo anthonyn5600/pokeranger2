@@ -3,7 +3,7 @@
 
 #include "common.hpp"
 
-// Defined in ov11, owned by UnkClass_0211E05C::unk_708 (also used by CCompanyLogoScene)
+// Defined in ov11, owned by RangerNetMenu::unk_708 (also used by CCompanyLogoScene)
 class UnkClass_0212F3DC {
 public:
     UnkClass_0212F3DC();

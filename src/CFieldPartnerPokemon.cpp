@@ -11,12 +11,12 @@ void LogError(const char *fmt, ...);
 BOOL CFieldPokemonTargetClearScript::Run(u32 actorId, u32 targetId)
 {
     if (unk_2C != NULL) {
-        sub_02044B48(&unk_08, unk_30, unk_34);
+        ScriptVM_Init(&unk_08, unk_30, unk_34);
         unk_08.unk_04 -= 2;
         u32 *args = unk_08.unk_04;
         args[0] = actorId;
         args[1] = targetId;
-        if (sub_02045A18(&unk_08, unk_2C, "TargetClear") == -1) {
+        if (ScriptVM_Start(&unk_08, unk_2C, "TargetClear") == -1) {
             LogError("not found func FieldPartnerPokemon.cpp");
             return FALSE;
         }
@@ -42,21 +42,21 @@ CFieldPartnerPokemon::~CFieldPartnerPokemon()
     SAFE_DELETE(unk_26C);
 }
 
-void CFieldPartnerPokemon::sub_0203DA40(CFieldMap *map)
+void CFieldPartnerPokemon::Process(CFieldMap *map)
 {
-    sub_0203C2B8();
+    UpdateScript();
     unk_EC.ov0_02152B04();
-    sub_0203C87C(map);
+    Update(map);
 }
 
-BOOL CFieldPartnerPokemon::sub_0203D578(CFieldMap *map)
+BOOL CFieldPartnerPokemon::UpdateMove(CFieldMap *map)
 {
     ov0_0213E4F0();
     ov0_02138628();
-    BOOL result = CFieldActor::sub_0203D578(map);
+    BOOL result = CFieldActor::UpdateMove(map);
     unk_EC.ov0_02158988();
     if (result) {
-        s_game->m_audioEngine->sub_02034CF4(unk_268, 0x40);
+        s_game->m_audioEngine->PlayStream(unk_268, 0x40);
     }
     return result;
 }
@@ -69,7 +69,7 @@ BOOL CFieldPartnerPokemon::ov0_0213E3E4(u16 kind, u8 arg1)
     SAFE_DELETE(unk_270);
     unk_26C = new CBinaryFile(path, 0, 0, heapId, NULL, 0);
     void *block = unk_26C->unk_4C;
-    sub_02044AC8(block);
+    Script_Link(block);
     if (unk_274 == NULL) {
         unk_274 = new CFieldPokemonTargetClearScript();
     }
@@ -89,7 +89,7 @@ BOOL CFieldPartnerPokemon::ov0_0213E4BC(u32 targetId)
 void CFieldPartnerPokemon::ov0_0213E4F0()
 {
     if (unk_278 && unk_274 != NULL) {
-        unk_274->sub_0203BF20();
+        unk_274->Step();
         if (unk_274->unk_04 == 2) {
             unk_278 = FALSE;
         }

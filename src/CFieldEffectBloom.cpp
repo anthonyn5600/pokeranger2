@@ -70,7 +70,7 @@ int CFieldEffectBloom::SetPolygonIDs(int base)
     return 4;
 }
 
-void CFieldEffectBloom::sub_020333D8(int arg0, int arg1)
+void CFieldEffectBloom::FadeTo(int arg0, int arg1)
 {
     m_fader.from = m_alpha << 12;
     m_fader.to = arg0 << 12;
@@ -80,7 +80,7 @@ void CFieldEffectBloom::sub_020333D8(int arg0, int arg1)
     m_fader.frame = 0;
 }
 
-int CFieldEffectBloom::sub_0203312C(int param, int value)
+int CFieldEffectBloom::SetParam(int param, int value)
 {
     int ret = 1;
     switch (param) {
@@ -246,7 +246,7 @@ int CFieldEffectBloom::ov0_02142344(Camera2D *camera)
     return 0;
 }
 
-void CFieldEffectBloom::sub_02033440(u16 color)
+void CFieldEffectBloom::SetColor(u16 color)
 {
     m_sprites[3].m_color = color;
 }
@@ -332,7 +332,7 @@ void CFieldEffectBloomFactory::ReleaseTextures()
     }
 }
 
-int CFieldEffectBloom::sub_020332A4()
+int CFieldEffectBloom::IsReady()
 {
     BOOL ret = TRUE;
     for (int i = 0; i < 4; i++) {
@@ -344,7 +344,7 @@ int CFieldEffectBloom::sub_020332A4()
     return ret;
 }
 
-int CFieldEffectBloom::sub_02033028()
+int CFieldEffectBloom::GetEffectId()
 {
     return 0x13;
 }

@@ -20,13 +20,13 @@ BOOL CFieldSEFRain::Load()
     m_sprite->SetImage((UnkClass_CPrimitive_ImageProxy *)m_actorData->GetNcbr(0), NULL);
     m_sprite->unk_38 = (UnkClass_CSoftwareSprite_38 *)m_actorData->GetNcer(0);
 
-    UnkClass_02008788 *cac = m_actorData->GetCac(0);
+    CellAnimController *cac = m_actorData->GetCac(0);
 
     for (int i = 0; i < 8; i++) {
-        m_cells[i] = cac->sub_02008A80(1, 0);
-        cac->sub_02008990(m_cells[i], 0);
+        m_cells[i] = cac->Create(1, 0);
+        cac->SetAnim(m_cells[i], 0);
         for (int j = 0; j < i * 3; j++) {
-            cac->sub_02008A38(m_cells[i]);
+            cac->Update(m_cells[i]);
         }
     }
 
@@ -117,12 +117,12 @@ int CFieldSEFRain::Update(int fps)
         }
     }
 
-    UnkClass_02008788 *cac = m_actorData->GetCac(0);
+    CellAnimController *cac = m_actorData->GetCac(0);
 
     for (int i = 0; i < 8; i++) {
-        cac->sub_02008A38(m_cells[i]);
-        if (cac->sub_02008860(m_cells[i]) == 0) {
-            cac->sub_020089B8(m_cells[i]);
+        cac->Update(m_cells[i]);
+        if (cac->GetStatus(m_cells[i]) == 0) {
+            cac->Restart(m_cells[i]);
             for (int j = 0; j < 2; j++) {
                 m_splashes[i + j * 8].pos.x = MATH_Rand16(&MAIN_BSS_0210CEC8, 256) << FX32_SHIFT;
                 m_splashes[i + j * 8].pos.y = MATH_Rand16(&MAIN_BSS_0210CEC8, 192) << FX32_SHIFT;
@@ -158,11 +158,11 @@ void CFieldSEFRain::Draw(Camera2D *camera)
         }
     }
 
-    UnkClass_02008788 *cac = m_actorData->GetCac(0);
+    CellAnimController *cac = m_actorData->GetCac(0);
 
     for (int i = 0; i < 16; i++) {
         if (m_splashes[i].active) {
-            m_sprite->m_cellDataIdx = cac->sub_02008828(m_cells[i & 7]);
+            m_sprite->m_cellDataIdx = cac->GetCell(m_cells[i & 7]);
             Point2D pos = m_splashes[i].pos - offset;
             pos.x -= FX32_CONST(128);
             pos.y -= FX32_CONST(96);

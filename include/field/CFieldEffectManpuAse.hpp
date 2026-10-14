@@ -3,14 +3,14 @@
 
 #include <nitro.h>
 
+#include "field/AnimSlotPool.hpp"
 #include "field/CFieldEffectManpu.hpp"
-#include "field/UnkClass_0216D420.hpp"
 #include "primitive/CSoftwareSprite.hpp"
 
 // Sweat drops (manpu) on both sides of an actor's head.
 class CFieldEffectManpuAse : public CFieldEffectManpu {
 public:
-    CFieldEffectManpuAse(CEffectActorData *data, UnkClass_0216D420 *slots);
+    CFieldEffectManpuAse(CEffectActorData *data, AnimSlotPool *slots);
     virtual ~CFieldEffectManpuAse();
     virtual int ov0_02142264(int step);
     virtual int Draw(Camera2D *camera);
@@ -20,7 +20,7 @@ public:
 
     CSoftwareSprite m_sprites[2];
     u16 m_anims[2];
-    UnkClass_0216D420 *m_slots;
+    AnimSlotPool *m_slots;
 };
 
 STATIC_SIZE_ASSERT(CFieldEffectManpuAse, 0xCC);

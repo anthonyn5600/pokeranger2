@@ -1,4 +1,4 @@
-#include "UnkClass_0213D624.hpp"
+#include "FieldSyscallSets.hpp"
 #include "UnkStruct_02044464.hpp"
 #include "field/CFieldEnemy.hpp"
 #include "field/CFieldEnemyManage.hpp"
@@ -23,17 +23,17 @@ static ScriptSyscall sFieldEnemySyscalls[] = {
     (ScriptSyscall)ov0_02148D08,
 };
 
-UnkClass_021485C0::UnkClass_021485C0()
+FieldEnemySyscalls::FieldEnemySyscalls()
 {
 }
 
-UnkClass_021485C0::~UnkClass_021485C0()
+FieldEnemySyscalls::~FieldEnemySyscalls()
 {
 }
 
-void UnkClass_021485C0::ov0_021485C8()
+void FieldEnemySyscalls::ov0_021485C8()
 {
-    sub_02044B38(0xA, sFieldEnemySyscalls);
+    Script_RegisterSyscalls(0xA, sFieldEnemySyscalls);
 }
 
 static void ov0_02148CDC(VecFx32 *out, CFieldEnemy *enemy);

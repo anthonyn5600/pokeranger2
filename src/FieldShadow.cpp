@@ -1,15 +1,15 @@
 #include <nitro.h>
 
-#include "UnkClass_020074D4.hpp"
-#include "UnkClass_02007AA4.hpp"
-#include "UnkClass_020416AC.hpp"
+#include "VramImage.hpp"
+#include "VramPalette.hpp"
+#include "FieldShadow.hpp"
 #include "common.hpp"
 #include "field/CFieldActor.hpp"
 #include "field/CFieldEffectManpu.hpp"
 #include "field/CFieldEffectManage.hpp"
 #include "primitive/CPrimitiveRECT.hpp"
 
-UnkClass_020416AC::UnkClass_020416AC(int layerCount)
+FieldShadow::FieldShadow(int layerCount)
 {
     unk_00 = NULL;
     unk_04 = NULL;
@@ -24,22 +24,22 @@ UnkClass_020416AC::UnkClass_020416AC(int layerCount)
     Load();
 }
 
-UnkClass_020416AC::~UnkClass_020416AC()
+FieldShadow::~FieldShadow()
 {
     Release();
 }
 
-void UnkClass_020416AC::Load()
+void FieldShadow::Load()
 {
-    unk_00 = new UnkClass_020074D4("data/shadow.NCBR", 0, 0, 0);
+    unk_00 = new VramImage("data/shadow.NCBR", 0, 0, 0);
     unk_0C = NNS_GfdAllocLnkTexVram(unk_00->unk_38, FALSE, 0);
-    unk_00->sub_020076E8(NNS_GfdGetTexKeyAddr(unk_0C));
-    unk_00->sub_020076B0();
+    unk_00->LoadToVram(NNS_GfdGetTexKeyAddr(unk_0C));
+    unk_00->Release();
 
-    unk_04 = new UnkClass_02007AA4("data/shadow.NCLR", 0, 0);
+    unk_04 = new VramPalette("data/shadow.NCLR", 0, 0);
     unk_10 = NNS_GfdAllocLnkPlttVram(unk_04->unk_04->szByte, FALSE, 0);
-    unk_04->sub_02007BFC(NNS_GfdGetPlttKeyAddr(unk_10));
-    unk_04->sub_02007BC4();
+    unk_04->LoadToVram(NNS_GfdGetPlttKeyAddr(unk_10));
+    unk_04->Release();
 
     unk_08 = new CPrimitiveRECT();
     unk_08->SetRectangle(0, 0, 0, 0, 0x3FF);
@@ -50,7 +50,7 @@ void UnkClass_020416AC::Load()
     unk_08->m_alpha = 8;
 }
 
-void UnkClass_020416AC::Release()
+void FieldShadow::Release()
 {
     SAFE_DELETE(unk_00);
     SAFE_DELETE(unk_04);
@@ -65,11 +65,11 @@ void UnkClass_020416AC::Release()
     }
 }
 
-extern "C" void sub_02041920(UnkClass_020416AC *obj)
+extern "C" void sub_02041920(FieldShadow *obj)
 {
 }
 
-extern "C" void sub_02041924(UnkClass_020416AC *obj, Camera2D *camera, int layer, int z)
+extern "C" void FieldShadow_Render(FieldShadow *obj, Camera2D *camera, int layer, int z)
 {
     for (int i = 0; i < obj->unk_914; i++) {
         if (layer == obj->unk_14[i].layer) {
@@ -80,7 +80,7 @@ extern "C" void sub_02041924(UnkClass_020416AC *obj, Camera2D *camera, int layer
     }
 }
 
-extern "C" void sub_020419AC(UnkClass_020416AC *obj)
+extern "C" void FieldShadow_Clear(FieldShadow *obj)
 {
     for (int i = 0; i < 0x73; i++) {
         obj->unk_14[i].layer = -1;
@@ -88,7 +88,7 @@ extern "C" void sub_020419AC(UnkClass_020416AC *obj)
     obj->unk_914 = 0;
 }
 
-extern "C" void sub_020419D8(UnkClass_020416AC *obj, int layer, Rectangle rect)
+extern "C" void FieldShadow_Add(FieldShadow *obj, int layer, Rectangle rect)
 {
     if (layer < 0) {
         return;
@@ -104,14 +104,14 @@ extern "C" void sub_020419D8(UnkClass_020416AC *obj, int layer, Rectangle rect)
     }
 }
 
-extern "C" void sub_02041A60(UnkClass_020416AC *obj, u8 alpha)
+extern "C" void FieldShadow_SetAlpha(FieldShadow *obj, u8 alpha)
 {
     if (obj->unk_08 != NULL) {
         obj->unk_08->m_alpha = alpha;
     }
 }
 
-extern "C" int sub_02041A70(CFieldActor *actor, int type, int arg2)
+extern "C" int Actor_ShowManpu(CFieldActor *actor, int type, int arg2)
 {
     CFieldEffectManage *mgr;
     u16 id = 0;
@@ -196,7 +196,7 @@ void CFieldEffectManpu::SetType(int type)
     unk_24 = type;
 }
 
-extern "C" void sub_02041C1C(CFieldActor *actor)
+extern "C" void Actor_HideManpu(CFieldActor *actor)
 {
     if (actor == NULL) {
         return;

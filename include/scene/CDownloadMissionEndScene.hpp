@@ -2,7 +2,7 @@
 #define POKERANGER2_SCENE_CDOWNLOADMISSIONENDSCENE_HPP
 
 #include "CGame.hpp"
-#include "UnkClass_02027FE8.hpp"
+#include "SaveManager.hpp"
 #include "common.hpp"
 #include "scene/CScene.hpp"
 
@@ -37,7 +37,7 @@ public:
 public:
     CGame *game;
     u32 unk_0008;
-    UnkClass_02027FE8 *unk_000C;
+    SaveManager *unk_000C;
     // Snapshot of the save fields the download mission overwrites
     u8 unk_0010;
     u8 unk_0011;

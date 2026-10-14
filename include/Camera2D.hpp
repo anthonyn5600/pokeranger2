@@ -3,19 +3,19 @@
 
 #include <nitro.h>
 
+#include "Collision.hpp"
 #include "common.hpp"
-#include "sub_02006000.hpp"
 
 class Camera2D {
 public:
     Camera2D();
     ~Camera2D();
 
-    void sub_02003730();
-    void sub_02003788(fx32 arg0, fx32 arg1, fx32 arg2, fx32 arg3, fx32 arg4, fx32 arg5, fx32 arg6);
-    void sub_020037B4();
-    void sub_0200381C();
-    BOOL sub_020038A8(Rectangle *arg0, fx32 arg1);
+    void Init();
+    void SetOrtho(fx32 arg0, fx32 arg1, fx32 arg2, fx32 arg3, fx32 arg4, fx32 arg5, fx32 arg6);
+    void ApplyProjection();
+    void ApplyView();
+    BOOL IsRectVisible(Rectangle *arg0, fx32 arg1);
 
     inline const Point2D &GetOffset()
     {

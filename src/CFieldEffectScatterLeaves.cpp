@@ -8,7 +8,7 @@ CFieldEffectScatterLeaves::CFieldEffectScatterLeaves(int kind)
 {
 }
 
-int CFieldEffectScatterLeaves::sub_0203312C(int param, int value)
+int CFieldEffectScatterLeaves::SetParam(int param, int value)
 {
     int ret = 1;
     switch (param) {
@@ -28,7 +28,7 @@ int CFieldEffectScatterLeaves::sub_0203312C(int param, int value)
         m_emitter.m_life = value << 12;
         break;
     default:
-        ret = TFieldEffectParticle<CSoftwareSprite>::sub_0203312C(param, value);
+        ret = TFieldEffectParticle<CSoftwareSprite>::SetParam(param, value);
         break;
     }
     return ret;

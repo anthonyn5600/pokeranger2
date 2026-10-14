@@ -1,4 +1,4 @@
-#include "UnkClass_0213D624.hpp"
+#include "FieldSyscallSets.hpp"
 #include "UnkStruct_02044464.hpp"
 #include "field/CFieldPlayer.hpp"
 
@@ -16,12 +16,12 @@ static ScriptSyscall sFieldPlayerSyscalls[] = {
     (ScriptSyscall)ov0_021499BC,
 };
 
-UnkClass_02149984::UnkClass_02149984() {}
+FieldPlayerSyscalls::FieldPlayerSyscalls() {}
 
-UnkClass_02149984::~UnkClass_02149984() {}
+FieldPlayerSyscalls::~FieldPlayerSyscalls() {}
 
-void UnkClass_02149984::ov0_0214998C() {
-  sub_02044B38(0xC, sFieldPlayerSyscalls);
+void FieldPlayerSyscalls::ov0_0214998C() {
+  Script_RegisterSyscalls(0xC, sFieldPlayerSyscalls);
 }
 
 extern "C" {

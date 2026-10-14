@@ -5,7 +5,7 @@
 
 CNCGRFile::CNCGRFile(const char *path, u32 arg1, u32 arg2, u32 arg3)
 {
-    void *v0 = sub_02002CB4(path, arg1, arg2, arg3, NULL, 0);
+    void *v0 = Load(path, arg1, arg2, arg3, NULL, 0);
 
     if (v0 == NULL) {
         return;
@@ -14,12 +14,12 @@ CNCGRFile::CNCGRFile(const char *path, u32 arg1, u32 arg2, u32 arg3)
     BOOL v1 = NNS_G2dGetUnpackedCharacterData(unk_4C, &unk_B8);
 
     if (!v1) {
-        sub_020030D4();
+        Release();
         return;
     }
 }
 
 CNCGRFile::~CNCGRFile()
 {
-    sub_020030D4();
+    Release();
 }

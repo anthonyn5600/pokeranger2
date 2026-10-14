@@ -78,25 +78,25 @@ int CFieldEnemy::ov0_021343B8(int index)
         case 0:
             return -1;
         case 1:
-            sub_0202DC54(0x20, 0);
+            PlayAnim(0x20, 0);
             return 0;
         case 2:
-            sub_0202DC54(0x20, 1);
+            PlayAnim(0x20, 1);
             return 0;
         case 3:
-            sub_0202DC54(0x20, 2);
+            PlayAnim(0x20, 2);
             return 0;
         case 4:
-            sub_0202DC54(0x20, 3);
+            PlayAnim(0x20, 3);
             return 0;
         case 5:
-            sub_0202DC54(0x10, 0);
+            PlayAnim(0x10, 0);
             return 0;
         case 6:
-            sub_0202DC54(0x10, 1);
+            PlayAnim(0x10, 1);
             return 0;
         case 7:
-            sub_0202DC54(8, 0);
+            PlayAnim(8, 0);
             return 0;
         }
     } else {
@@ -105,7 +105,7 @@ int CFieldEnemy::ov0_021343B8(int index)
     return -1;
 }
 
-void CFieldEnemy::sub_0203DA40(CFieldMap *map)
+void CFieldEnemy::Process(CFieldMap *map)
 {
     CFieldPlayer *player = MAIN_BSS_0210CA48;
     if (player != NULL) {
@@ -135,10 +135,10 @@ void CFieldEnemy::sub_0203DA40(CFieldMap *map)
                     Point2D dest = GetPos() + dir;
                     if (unk_08 != NULL) {
                         if (unk_08->unk_0C != NULL) {
-                            unk_08->unk_0C->sub_02012860(0x23000, 30);
+                            unk_08->unk_0C->Jump(0x23000, 30);
                         }
                         if (unk_08->unk_0C != NULL) {
-                            unk_08->unk_0C->m_motion.sub_02011AB0(dest, 30);
+                            unk_08->unk_0C->m_motion.MoveLinear(dest, 30);
                         }
                     }
                 }
@@ -160,7 +160,7 @@ void CFieldEnemy::sub_0203DA40(CFieldMap *map)
     case 2:
         unk_04 &= ~2;
         if (ov0_02134D60(unk_F0)) {
-            s_game->m_audioEngine->sub_02034C44(0x10A);
+            s_game->m_audioEngine->PlaySe(0x10A);
             unk_EC = 3;
             unk_04 &= ~1;
             SetUnk8C(0x96000);
@@ -203,24 +203,24 @@ void CFieldEnemy::sub_0203DA40(CFieldMap *map)
         if (unk_04 & 0x400) {
             ov0_02134F70();
         }
-        sub_0203C2B8();
+        UpdateScript();
         if (--unk_164 < 0) {
             unk_164 = 0;
         }
         break;
     }
     unk_168.ov0_02152B04();
-    sub_0203C87C(map);
+    Update(map);
     ov0_0213524C();
 }
 
-BOOL CFieldEnemy::sub_0203D578(CFieldMap *map)
+BOOL CFieldEnemy::UpdateMove(CFieldMap *map)
 {
-    BOOL result = CFieldActor::sub_0203D578(map);
+    BOOL result = CFieldActor::UpdateMove(map);
     unk_168.ov0_02158988();
     ov0_0213524C();
     if (result) {
-        s_game->m_audioEngine->sub_02034CF4(unk_E4, 0x40);
+        s_game->m_audioEngine->PlayStream(unk_E4, 0x40);
     }
     return result;
 }
@@ -297,7 +297,7 @@ void CFieldEnemy::ov0_021351AC()
     if (target == NULL) {
         return;
     }
-    sub_02041C1C(target);
+    Actor_HideManpu(target);
     target->unk_20 = 0;
     target->sub_0202D394();
     unk_04 &= ~0x800;
@@ -309,7 +309,7 @@ void CFieldEnemy::ov0_0213524C()
 
 void CFieldEnemy::ov0_02135250()
 {
-    s_game->m_audioEngine->sub_02034CF4(unk_E4, 0x40);
+    s_game->m_audioEngine->PlayStream(unk_E4, 0x40);
 }
 
 CFieldActor *CFieldEnemy::ov0_02135278()
@@ -346,12 +346,12 @@ void CFieldEnemy::ov0_021352E4(int arg1)
         if (effect == NULL) {
             return;
         }
-        effect->sub_0203312C(0, 8);
-        effect->sub_0203312C(8, 20);
-        effect->sub_0203312C(1, x >> FX32_SHIFT);
-        effect->sub_0203312C(2, y >> FX32_SHIFT);
-        effect->sub_0203312C(3, 0);
-        effect->sub_0203312C(4, 0);
+        effect->SetParam(0, 8);
+        effect->SetParam(8, 20);
+        effect->SetParam(1, x >> FX32_SHIFT);
+        effect->SetParam(2, y >> FX32_SHIFT);
+        effect->SetParam(3, 0);
+        effect->SetParam(4, 0);
         effect->ov0_021421F0(0, -1, 0);
         break;
     case 3:
@@ -361,11 +361,11 @@ void CFieldEnemy::ov0_021352E4(int arg1)
         if (effect == NULL) {
             return;
         }
-        effect->sub_0203312C(0, 16);
-        effect->sub_0203312C(1, x >> FX32_SHIFT);
-        effect->sub_0203312C(2, (y >> FX32_SHIFT) + 8);
-        effect->sub_0203312C(3, 16);
-        effect->sub_0203312C(4, 0);
+        effect->SetParam(0, 16);
+        effect->SetParam(1, x >> FX32_SHIFT);
+        effect->SetParam(2, (y >> FX32_SHIFT) + 8);
+        effect->SetParam(3, 16);
+        effect->SetParam(4, 0);
         effect->ov0_021421F0(0, -1, 0);
         break;
     case 2:
@@ -374,8 +374,8 @@ void CFieldEnemy::ov0_021352E4(int arg1)
         if (effect == NULL) {
             return;
         }
-        effect->sub_0203312C(1, x >> FX32_SHIFT);
-        effect->sub_0203312C(2, (y >> FX32_SHIFT) + 8);
+        effect->SetParam(1, x >> FX32_SHIFT);
+        effect->SetParam(2, (y >> FX32_SHIFT) + 8);
         effect->ov0_021421F0(0, -1, 0);
         break;
     case 7:
@@ -387,12 +387,12 @@ void CFieldEnemy::ov0_021352E4(int arg1)
         if (effect == NULL) {
             return;
         }
-        effect->sub_0203312C(0, 16);
-        effect->sub_0203312C(1, x >> FX32_SHIFT);
-        effect->sub_0203312C(2, (y >> FX32_SHIFT) + 8);
-        effect->sub_0203312C(3, 16);
-        effect->sub_0203312C(4, 0);
-        effect->sub_0203312C(19, 1);
+        effect->SetParam(0, 16);
+        effect->SetParam(1, x >> FX32_SHIFT);
+        effect->SetParam(2, (y >> FX32_SHIFT) + 8);
+        effect->SetParam(3, 16);
+        effect->SetParam(4, 0);
+        effect->SetParam(19, 1);
         effect->ov0_021421F0(0, -1, 0);
         break;
     case 12:

@@ -1,8 +1,8 @@
 #include "battle/UnkClass_02129B74.hpp"
 
-#include "UnkClass_020074D4.hpp"
-#include "UnkClass_02007AA4.hpp"
-#include "UnkClass_02008788.hpp"
+#include "CellAnimController.hpp"
+#include "VramImage.hpp"
+#include "VramPalette.hpp"
 #include "battle/UnkClass_02129DD4.hpp"
 #include "file/CArchiveGuard.hpp"
 #include "file/CNCERFile.hpp"
@@ -24,19 +24,19 @@ void UnkClass_02129B74::ov1_02129B9C()
 {
     CArchiveGuard *guard = new CArchiveGuard("BCE", "data/interface/i033_LZ.bin", 1, 1, 0, NULL, 0);
 
-    m_image = new UnkClass_020074D4("BCE:i033_00.NCBR", 0, 0, 0);
+    m_image = new VramImage("BCE:i033_00.NCBR", 0, 0, 0);
     m_texKey = NNS_GfdAllocLnkTexVram(m_image->unk_38, FALSE, 0);
-    m_image->sub_020076E8(NNS_GfdGetTexKeyAddr(m_texKey));
-    m_image->sub_020076B0();
+    m_image->LoadToVram(NNS_GfdGetTexKeyAddr(m_texKey));
+    m_image->Release();
 
-    m_palette = new UnkClass_02007AA4("BCE:i033.NCLR", 0, 0);
+    m_palette = new VramPalette("BCE:i033.NCLR", 0, 0);
     m_plttKey = NNS_GfdAllocLnkPlttVram(m_palette->unk_04->szByte, FALSE, 0);
-    m_palette->sub_02007BFC(NNS_GfdGetPlttKeyAddr(m_plttKey));
-    m_palette->sub_02007BC4();
+    m_palette->LoadToVram(NNS_GfdGetPlttKeyAddr(m_plttKey));
+    m_palette->Release();
 
     m_cells = new CNCERFile("BCE:i033_00.NCER", 0, 0, 0);
-    m_anim = new UnkClass_02008788();
-    m_anim->sub_0200887C("BCE:i033_00.cac", 0, 0);
+    m_anim = new CellAnimController();
+    m_anim->Load("BCE:i033_00.cac", 0, 0);
 
     SAFE_DELETE(guard);
 }
@@ -63,7 +63,7 @@ UnkClass_02129DD4::UnkClass_02129DD4()
 
 UnkClass_02129DD4::~UnkClass_02129DD4()
 {
-    m_data->m_anim->sub_02008B80(m_animId);
+    m_data->m_anim->Remove(m_animId);
     SAFE_DELETE(unk_04);
     SAFE_DELETE(unk_08);
     SAFE_DELETE(m_sphere);
@@ -86,7 +86,7 @@ void UnkClass_02129DD4::ov1_02129ED4()
         m_sphere->m_circle.r = LinearInterpolate(0x40000, 0x8000, unk_18, 8);
         m_sphere->m_alpha = (u8)LinearInterpolate(1, 0x10, unk_18, 8);
     }
-    m_data->m_anim->sub_02008A38(m_animId);
+    m_data->m_anim->Update(m_animId);
 }
 
 void UnkClass_02129DD4::ov1_02129FD0(Camera2D *camera)
@@ -94,7 +94,7 @@ void UnkClass_02129DD4::ov1_02129FD0(Camera2D *camera)
     if (!unk_14) {
         return;
     }
-    unk_04->m_cellDataIdx = m_data->m_anim->sub_02008828(m_animId);
+    unk_04->m_cellDataIdx = m_data->m_anim->GetCell(m_animId);
     unk_04->Render(camera);
     if (unk_18 & 1) {
         unk_08->Render(camera);
@@ -114,7 +114,7 @@ void UnkClass_02129DD4::ov1_0212A058(UnkClass_02129B74 *data)
     unk_08->unk_34 = (UnkClass_CPrimitive_ImagePaletteProxy *)data->m_palette;
     unk_08->unk_38 = (UnkClass_CSoftwareSprite_38 *)data->m_cells;
     unk_08->m_cellDataIdx = 8;
-    m_animId = data->m_anim->sub_02008A80(1, 0);
+    m_animId = data->m_anim->Create(1, 0);
 }
 
 int UnkClass_02129DD4::ov1_0212A0D8(int z)

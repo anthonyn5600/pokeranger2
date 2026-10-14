@@ -3,8 +3,8 @@
 
 #include <nitro.h>
 
+#include "Collision.hpp"
 #include "primitive/CPrimitive.hpp"
-#include "sub_02006000.hpp"
 
 // TODO: Figure out what this is
 class UnkClass_CSoftwareSprite_30 {
@@ -44,8 +44,8 @@ public:
     u32 ObjSizeToTexSize(u16 objSize);
     u16 GetCellNumOAMAttrs(u16 cellIdx);
 
-    static u32 sub_020050C8(void);
-    static u32 sub_02005120(void);
+    static u32 AllocSharedPalette(void);
+    static u32 FreeSharedPalette(void);
 
     inline Point2D GetPos()
     {

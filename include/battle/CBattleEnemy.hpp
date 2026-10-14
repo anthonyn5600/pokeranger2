@@ -4,24 +4,24 @@
 #include <nitro.h>
 
 #include "CActor.hpp"
+#include "Collision.hpp"
 #include "UnkClass_02007770.hpp"
 #include "UnkStruct_02044464.hpp"
 #include "battle/CBattleEnemyData.hpp"
 #include "common.hpp"
 #include "primitive/CPrimitiveLINE.hpp"
 #include "primitive/CPrimitiveSPHERE.hpp"
-#include "sub_02006000.hpp"
 
 class CBattleEnemyGauge;
-class UnkClass_02136AD4;
+class BattleParticlePool;
 class UnkClass_02129DD4;
 class UnkClass_021299CC;
 class UnkClass_02127B48;
 class UnkClass_0212770C;
 class UnkClass_02128414;
-class UnkClass_02128860;
-class UnkClass_021291BC;
-class UnkClass_021296C8;
+class BattleHPNumber;
+class BattleStatusIcon;
+class BattleStatusDebug;
 
 // Defined in ov1
 class CBattleEnemy : public CActor {
@@ -98,11 +98,11 @@ public:
     UnkClass_02127B48 *unk_1A0;
     UnkClass_0212770C *unk_1A4;
     UnkClass_02128414 *unk_1A8;
-    UnkClass_02128860 *unk_1AC;
-    UnkClass_021291BC *unk_1B0;
-    UnkClass_021296C8 *unk_1B4;
+    BattleHPNumber *unk_1AC;
+    BattleStatusIcon *unk_1B0;
+    BattleStatusDebug *unk_1B4;
     CBattleEnemyGauge *unk_1B8;
-    UnkClass_02136AD4 *unk_1BC;
+    BattleParticlePool *unk_1BC;
     UnkClass_02007770 m_palettes[0x1D];
     NNSGfdTexKey m_texKey;
     u16 unk_47C;

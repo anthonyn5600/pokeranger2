@@ -2,8 +2,8 @@
 #define POKERANGER2_SCENE_CSTYLERSCREENS_HPP
 
 #include "CGame.hpp"
-#include "UnkClass_0200E960.hpp"
-#include "UnkClass_0200ECD0.hpp"
+#include "OamSprite.hpp"
+#include "OamSpriteSet.hpp"
 #include "common.hpp"
 #include "scene/CStylerScreen.hpp"
 
@@ -44,9 +44,9 @@ public:
     CStylerData *m_data;
     CGame *m_game;
     UnkClass_020091E8_004 *m_menuMessages;
-    UnkClass_0200ECD0 *m_sprites;
-    UnkClass_0200ECD0 *m_arrowSprites;
-    UnkClass_0200E960 *m_objs[6];
+    OamSpriteSet *m_sprites;
+    OamSpriteSet *m_arrowSprites;
+    OamSprite *m_objs[6];
     int m_slots[5];
 };
 
@@ -77,12 +77,12 @@ public:
     u8 m_palette[0x200];
     CStylerData *m_data;
     CGame *m_game;
-    UnkClass_0202A2AC *unk_218;
+    SubScreenButton *unk_218;
     UnkClass_020091E8_004 *m_menuMessages;
-    UnkClass_0200ECD0 *m_sprites;
-    UnkClass_0200ECD0 *unk_224;
-    UnkClass_0200E960 *m_backButton;
-    UnkClass_0200E960 *m_backButtonPressed;
+    OamSpriteSet *m_sprites;
+    OamSpriteSet *unk_224;
+    OamSprite *m_backButton;
+    OamSprite *m_backButtonPressed;
 };
 
 STATIC_SIZE_ASSERT(CStylerStatusScreen, 0x230);
@@ -112,14 +112,14 @@ public:
     {
     }
 
-    void Init(int id, UnkClass_0200ECD0 *sprites, int anim, int x, int y, BOOL large);
+    void Init(int id, OamSpriteSet *sprites, int anim, int x, int y, BOOL large);
     u8 IsTouched();
 
 public:
     int m_slot;
     int m_id;
-    UnkClass_0200ECD0 *m_sprites;
-    UnkClass_0200E960 *m_obj;
+    OamSpriteSet *m_sprites;
+    OamSprite *m_obj;
 };
 
 STATIC_SIZE_ASSERT(CStylerPartButton, 0x10);
@@ -141,7 +141,7 @@ public:
     {
     }
 
-    void Init(UnkClass_0200ECD0 *sprites);
+    void Init(OamSpriteSet *sprites);
     void Set(int x, int y, int size);
     void Update();
 
@@ -150,8 +150,8 @@ public:
     int m_slots[2];
     int m_counter;
     int m_frame;
-    UnkClass_0200ECD0 *m_sprites;
-    UnkClass_0200E960 *m_objs[2];
+    OamSpriteSet *m_sprites;
+    OamSprite *m_objs[2];
 };
 
 STATIC_SIZE_ASSERT(CStylerPartCursor, 0x20);
@@ -187,10 +187,10 @@ public:
     u8 m_palette[0x200];
     CStylerData *m_data;
     CGame *m_game;
-    UnkClass_0202A2AC *unk_220;
+    SubScreenButton *unk_220;
     UnkClass_020091E8_004 *m_menuMessages;
-    UnkClass_0200ECD0 *m_sprites;
-    UnkClass_0200ECD0 *m_cursorSprites;
+    OamSpriteSet *m_sprites;
+    OamSpriteSet *m_cursorSprites;
     CStylerPartButton *m_buttons[47];
     CStylerPartCursor *m_cursor;
 };

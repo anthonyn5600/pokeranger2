@@ -3,7 +3,7 @@
 
 #include <nitro.h>
 
-#include "sub_02006000.hpp"
+#include "Collision.hpp"
 
 // Moves a point linearly from `from` to `to` over `duration` frames (ov0 DarkCloud, DarkShadow).
 struct FieldPointMover {

@@ -1,21 +1,21 @@
+#include "AudioEngine.hpp"
 #include "CTouchPanel.hpp"
-#include "UnkClass_02034478.hpp"
-#include "UnkClass_020B26A0.hpp"
+#include "Collision.hpp"
+#include "SaveData.hpp"
+#include "battle/BattleParamTable.hpp"
 #include "battle/CBattleAssist.hpp"
 #include "battle/CBattleAttackEffect.hpp"
 #include "battle/CBattleDisk.hpp"
 #include "battle/CBattleEnemy.hpp"
 #include "battle/CBattleEnemyData.hpp"
-#include "battle/UnkClass_0212306C.hpp"
+#include "battle/StylerLine.hpp"
 #include "battle/UnkClass_02128414.hpp"
-#include "battle/UnkClass_0212EEB4.hpp"
 #include "fx_utils.hpp"
-#include "sub_02006000.hpp"
 
 extern "C" fx32 ov1_0212EE80(int assistType, int type);
 extern "C" u16 ov1_0212EE98(int assistType, int idx);
 
-CBattleAssistEsper::CBattleAssistEsper(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3)
+CBattleAssistEsper::CBattleAssistEsper(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3)
     : CBattleAssist(effects, effectData, params, arg3)
 {
 }
@@ -63,11 +63,11 @@ int CBattleAssistEsper::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleE
                     m_slots[idx].rect.size.x = 0x30000;
                     m_slots[idx].rect.size.y = 0x20000;
                     CBattleAttackEffect *effect = m_effects[idx];
-                    effect->m_motion.sub_02011D1C(rect.pos.x);
-                    effect->m_motion.sub_02011D2C(rect.pos.y);
+                    effect->m_motion.SetX(rect.pos.x);
+                    effect->m_motion.SetY(rect.pos.y);
                     m_effects[idx]->ov1_02127388(FALSE);
-                    m_effects[idx]->sub_02012A3C(0, 0x1000, 0x1000);
-                    unk_14->sub_02034C44(0x127);
+                    m_effects[idx]->ScaleTo(0, 0x1000, 0x1000);
+                    unk_14->PlaySe(0x127);
                 }
             }
         }
@@ -81,10 +81,10 @@ int CBattleAssistEsper::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleE
     if (touch->unk_06 != 0) {
         if ((m_flags & 2) && m_effects[m_selected] != NULL && m_effects[m_selected]->HasData()) {
             u16 angle = FX_Atan2Idx(pos.y - m_last.y, pos.x - m_last.x);
-            m_effects[m_selected]->m_motion.sub_02011C90(angle, 0x1000);
+            m_effects[m_selected]->m_motion.MoveInDirection(angle, 0x1000);
             m_last = pos;
             m_slots[m_selected].unk_00 = 1;
-            unk_14->sub_02034C44(0x128);
+            unk_14->PlaySe(0x128);
         }
         m_flags &= ~2;
     }
@@ -148,7 +148,7 @@ BOOL CBattleAssistEsper::ov1_0213071C(u8 *outIdx)
     effect->ov1_021270FC(unk_0C[0]);
     effect->ov1_02127454(0x20, 0);
     effect->ov1_02127388(TRUE);
-    effect->sub_02012A3C(0, 0, 0);
+    effect->ScaleTo(0, 0, 0);
     m_effects[idx] = effect;
     *outIdx = idx;
     return TRUE;
@@ -164,20 +164,20 @@ BOOL CBattleAssistEsper::ov1_021307E8(CBattleAttackEffect *effect, CBattleEnemy 
     BOOL hit = FALSE;
     for (int i = 0; i < 8; i++) {
         if (enemies[i] != NULL && enemies[i]->IsAlive() && enemies[i]->IsTargetable()
-            && sub_02006164(area, enemies[i]->m_sphere.m_circle, NULL)) {
+            && CircleHitCircle(area, enemies[i]->m_sphere.m_circle, NULL)) {
             fx32 rate = ov1_0212EE80(vfunc_10(), enemies[i]->unk_184->unk_18->unk_03);
             if (effect->m_motion.m_speed != 0) {
-                u16 power = unk_10->ov1_0212F32C(vfunc_10(), MAIN_BSS_020B26A0.unk_87DB, 0);
+                u16 power = unk_10->ov1_0212F32C(vfunc_10(), MAIN_BSS_020B26A0.m_stylerLevel, 0);
                 enemies[i]->ov1_02126310((u16)(FX32_MUL(rate, power << FX32_SHIFT) >> FX32_SHIFT), TRUE);
                 enemies[i]->ov1_021263A4(4, ov1_0212EE98(vfunc_10(), 0));
                 if (rate == 0x1000) {
-                    unk_14->sub_02034C44(0x129);
+                    unk_14->PlaySe(0x129);
                     enemies[i]->unk_1A8->ov1_02128598(0);
                 } else if (rate > 0x1000) {
-                    unk_14->sub_02034C44(0x146);
+                    unk_14->PlaySe(0x146);
                     enemies[i]->unk_1A8->ov1_02128598(1);
                 } else if (rate < 0x1000) {
-                    unk_14->sub_02034C44(0x147);
+                    unk_14->PlaySe(0x147);
                     enemies[i]->unk_1A8->ov1_02128598(2);
                 }
                 hit = TRUE;
@@ -202,9 +202,9 @@ BOOL CBattleAssistEsper::ov1_021309F4(Point2D pos, Rectangle rect)
 
 void CBattleAssistEsper::vfunc_0C()
 {
-    unk_14->sub_02034C5C(0x127);
-    unk_14->sub_02034C5C(0x128);
-    unk_14->sub_02034C5C(0x129);
-    unk_14->sub_02034C5C(0x146);
-    unk_14->sub_02034C5C(0x147);
+    unk_14->StopSe(0x127);
+    unk_14->StopSe(0x128);
+    unk_14->StopSe(0x129);
+    unk_14->StopSe(0x146);
+    unk_14->StopSe(0x147);
 }

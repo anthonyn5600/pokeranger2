@@ -4,9 +4,9 @@
 
 #include "CGame.hpp"
 #include "CPlayerHPGauge.hpp"
-#include "UnkClass_02022404.hpp"
+#include "FieldSubScreen.hpp"
+#include "SaveData.hpp"
 #include "UnkClass_02041D80.hpp"
-#include "UnkClass_020B26A0.hpp"
 #include "UnkStruct_020107A8.hpp"
 #include "field/CFieldEffectManpu.hpp"
 #include "field/CFieldPartnerNpc.hpp"
@@ -24,24 +24,24 @@ struct FieldNpcData {
 };
 
 extern CFieldScene *MAIN_BSS_0210CA40;
-extern UnkClass_02041C80 *MAIN_BSS_0210CA6C;
-extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
+extern FieldData *MAIN_BSS_0210CA6C;
+extern SaveData MAIN_BSS_020B26A0;
 extern MATHRandContext16 MAIN_BSS_0210CEC8;
 
 extern "C" {
 void LogError(const char *fmt, ...);
 void LogInfo(const char *fmt, ...);
-void sub_02044AC8(void *script);
-FieldNpcData *sub_02041D44(UnkClass_02041C80 *obj, int kind);
-FieldEnemyData *sub_02041D58(UnkClass_02041C80 *obj, int kind);
-BOOL sub_02015434(UnkClass_020B26A0 *save, int mapId, int idx);
-void sub_02015124(UnkStruct_020B26A0_8AD4 *partner);
-void sub_02015C78(UnkClass_020B26A0 *save, u32 id, u16 kind, int arg3);
+void Script_Link(void *script);
+FieldNpcData *FieldData_GetNpc(FieldData *obj, int kind);
+FieldEnemyData *FieldData_GetEnemy(FieldData *obj, int kind);
+BOOL sub_02015434(SaveData *save, int mapId, int idx);
+void SavePartner_Clear(UnkStruct_020B26A0_8AD4 *partner);
+void sub_02015C78(SaveData *save, u32 id, u16 kind, int arg3);
 }
 
-UnkClass_0213949C::UnkClass_0213949C()
+FieldPartnerScripts::FieldPartnerScripts()
 {
-    sub_02044440();
+    Script_InitSyscalls();
     for (int i = 0; i < 2; i++) {
         unk_24[i] = NULL;
         unk_2C[i] = NULL;
@@ -50,19 +50,19 @@ UnkClass_0213949C::UnkClass_0213949C()
     Load("data/Script/field/actor/FieldPartnerNpcScript.fsb", 0);
 }
 
-UnkClass_0213949C::~UnkClass_0213949C()
+FieldPartnerScripts::~FieldPartnerScripts()
 {
     for (int i = 0; i < 2; i++) {
         SAFE_DELETE(unk_24[i]);
     }
 }
 
-void UnkClass_0213949C::Load(const char *path, int idx)
+void FieldPartnerScripts::Load(const char *path, int idx)
 {
     u32 heapId = s_game->unk_14A8;
     unk_24[idx] = new CBinaryFile(path, 0, 0, heapId, NULL, 0);
     unk_2C[idx] = unk_24[idx]->unk_4C;
-    sub_02044AC8(unk_2C[idx]);
+    Script_Link(unk_2C[idx]);
 }
 
 CFieldPartnerManage::CFieldPartnerManage()
@@ -71,10 +71,10 @@ CFieldPartnerManage::CFieldPartnerManage()
     unk_0C = 4;
 }
 
-void CFieldPartnerManage::sub_0203EFE4(int capacity)
+void CFieldPartnerManage::Alloc(int capacity)
 {
-    CFieldActorManage::sub_0203EFE4(capacity);
-    unk_8C = new UnkClass_0213949C();
+    CFieldActorManage::Alloc(capacity);
+    unk_8C = new FieldPartnerScripts();
     unk_90 = MAIN_BSS_0210CA40;
     unk_84 = 0;
     unk_88 = 0;
@@ -86,13 +86,13 @@ void CFieldPartnerManage::sub_0203EFE4(int capacity)
     unk_80 = 0;
 }
 
-void CFieldPartnerManage::sub_0203F034()
+void CFieldPartnerManage::Free()
 {
-    CFieldActorManage::sub_0203F034();
+    CFieldActorManage::Free();
     SAFE_DELETE(unk_8C);
 }
 
-void CFieldPartnerManage::sub_0203F2B0(CFieldMap *map, BOOL update)
+void CFieldPartnerManage::UpdateAll(CFieldMap *map, BOOL update)
 {
     CFieldPlayer *player = (CFieldPlayer *)MAIN_BSS_0210CA40->ov0_02123060(0);
     if (update) {
@@ -103,19 +103,19 @@ void CFieldPartnerManage::sub_0203F2B0(CFieldMap *map, BOOL update)
         if (m_actors == NULL) {
             return;
         }
-        UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+        SaveData *save = &MAIN_BSS_020B26A0;
         for (int i = 0; i < m_count; i++) {
             CFieldPartner *partner = (CFieldPartner *)m_actors[i];
             if (partner == NULL || !partner->IsActive()) {
                 continue;
             }
-            if (save->unk_8B64 == 4 && partner->IsKind0() && !(partner->unk_04 & 0x20)) {
+            if (save->m_areaType == 4 && partner->IsKind0() && !(partner->unk_04 & 0x20)) {
                 continue;
             }
             if (player->unk_110 & 3) {
                 continue;
             }
-            partner->sub_0203DA40(map);
+            partner->Process(map);
             partner->ov0_02139164();
         }
     } else {
@@ -129,13 +129,13 @@ void CFieldPartnerManage::sub_0203F2B0(CFieldMap *map, BOOL update)
             if (partner == NULL || !partner->IsActive()) {
                 continue;
             }
-            partner->sub_0203D578(map);
+            partner->UpdateMove(map);
             partner->ov0_02139164();
         }
     }
 }
 
-void CFieldPartnerManage::sub_0203F348(UnkClass_0211E3FC *renderLists, UnkClass_020416AC *hud)
+void CFieldPartnerManage::DrawAll(DrawObjectList *renderLists, FieldShadow *hud)
 {
     CFieldPlayer *player = (CFieldPlayer *)MAIN_BSS_0210CA40->ov0_02123060(0);
     if (player->ov0_0213416C()) {
@@ -144,16 +144,16 @@ void CFieldPartnerManage::sub_0203F348(UnkClass_0211E3FC *renderLists, UnkClass_
     if (m_actors == NULL) {
         return;
     }
-    UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+    SaveData *save = &MAIN_BSS_020B26A0;
     for (int i = 0; i < m_count; i++) {
         CFieldPartner *partner = (CFieldPartner *)m_actors[i];
         if (partner == NULL || !partner->IsActive()) {
             continue;
         }
-        if (save->unk_8B64 == 4 && partner->IsKind0() && !(partner->unk_04 & 0x20)) {
+        if (save->m_areaType == 4 && partner->IsKind0() && !(partner->unk_04 & 0x20)) {
             continue;
         }
-        partner->sub_0203C590(renderLists, hud);
+        partner->Draw(renderLists, hud);
     }
 }
 
@@ -171,22 +171,22 @@ int CFieldPartnerManage::ov0_02139920(u32 id, u16 kind, u16 flags, int type, int
         }
         CFieldPartner *partner;
         void *script;
-        UnkClass_02041C80 *table = MAIN_BSS_0210CA6C;
+        FieldData *table = MAIN_BSS_0210CA6C;
         if (type == 1) {
-            FieldNpcData *data = sub_02041D44(table, kind);
+            FieldNpcData *data = FieldData_GetNpc(table, kind);
             partner = new CFieldPartnerNpc();
             partner->unk_200 = kind;
-            partner->sub_0203C418(1, data->unk_00, 0, flags, arg5);
+            partner->CreateDrawObject(1, data->unk_00, 0, flags, arg5);
             script = unk_8C->unk_2C[0];
             partner->unk_1E8 = unk_84;
             partner->unk_1FC = 1;
-            partner->sub_0203DA60((id & 0xFFFFFF) | 0x5000000);
+            partner->SetId((id & 0xFFFFFF) | 0x5000000);
             unk_84++;
             ov0_0213A2B4();
             SetUnk70(partner, data->unk_02 << FX32_SHIFT, data->unk_03 << FX32_SHIFT);
         } else {
-            FieldEnemyData *data = sub_02041D58(table, kind);
-            UnkStruct_020107A8 *info = sub_020107A8(s_game->unk_1434, kind);
+            FieldEnemyData *data = FieldData_GetEnemy(table, kind);
+            UnkStruct_020107A8 *info = PokeIdTable_Get(s_game->unk_1434, kind);
             CFieldPartnerPokemon *pokemon = new CFieldPartnerPokemon();
             pokemon->unk_EC.unk_B0 = pokemon->unk_268 = info->unk_00;
             pokemon->unk_E8 = (int)data;
@@ -200,9 +200,9 @@ int CFieldPartnerManage::ov0_02139920(u32 id, u16 kind, u16 flags, int type, int
             if (data->unk_30 == 2 || data->unk_30 == 5) {
                 pokemonFlags |= 0xC00;
             }
-            pokemon->sub_0203C418(0, info->unk_00, info->unk_02, pokemonFlags, arg5);
+            pokemon->CreateDrawObject(0, info->unk_00, info->unk_02, pokemonFlags, arg5);
             pokemon->unk_1FC = 0;
-            pokemon->sub_0203DA60((id & 0xFFFFFF) | 0x6000000);
+            pokemon->SetId((id & 0xFFFFFF) | 0x6000000);
             pokemon->SetUnkBC(info->unk_0A, info->unk_0B);
             pokemon->SetUnkBE(info->unk_0C, info->unk_0D);
             pokemon->ov0_0213E3E4(info->unk_00, info->unk_02);
@@ -216,7 +216,7 @@ int CFieldPartnerManage::ov0_02139920(u32 id, u16 kind, u16 flags, int type, int
             pokemon->unk_D6 = info->unk_0F;
             SetUnk70(pokemon, data->unk_3D << FX32_SHIFT, data->unk_3E << FX32_SHIFT);
             ov0_0213A57C(kind, pokemon);
-            pokemon->sub_0202E68C(MAIN_BSS_0210CA40->ov0_02123060(0)->unk_14);
+            pokemon->SetLayer(MAIN_BSS_0210CA40->ov0_02123060(0)->unk_14);
             if (sub_02034F9C(kind)) {
                 pokemon->unk_1E8 = unk_84;
                 ov0_0213A2B4();
@@ -226,10 +226,10 @@ int CFieldPartnerManage::ov0_02139920(u32 id, u16 kind, u16 flags, int type, int
             unk_88++;
             partner = pokemon;
         }
-        if (!partner->sub_0203C1B4(script)) {
+        if (!partner->SetScriptBlock(script)) {
             LogError("SetScript ERROR by FieldPartnerMange.cpp");
         } else {
-            partner->sub_0203C22C("main");
+            partner->RunScriptLabel("main");
             partner->unk_0C = TRUE;
         }
         if (Set(i, partner)) {
@@ -287,7 +287,7 @@ void CFieldPartnerManage::ov0_02139F98(fx32 x, fx32 y, int dir)
         CFieldPartner *partner = (CFieldPartner *)Get(i);
         if (partner != NULL) {
             partner->SetPosXY(x, y);
-            partner->sub_0202E68C(dir);
+            partner->SetLayer(dir);
             partner->sub_02032A44(1);
         }
     }
@@ -302,7 +302,7 @@ void CFieldPartnerManage::ov0_0213A050(u32 id)
     if (((result >> 24) & 0xFF) == 2) {
         return;
     }
-    UnkClass_02022404 *obj = UnkClass_02022404::GetInstance();
+    FieldSubScreen *obj = FieldSubScreen::GetInstance();
     if (obj != NULL) {
         obj->sub_02022B20();
     }
@@ -325,7 +325,7 @@ inline BOOL CFieldPartnerManage::RemovePartner(u32 target)
     for (int i = 0; i < m_count; i++) {
         CFieldPartner *partner = (CFieldPartner *)Get(i);
         if (partner != NULL && id == partner->unk_58 && kind == partner->unk_1FC) {
-            if (sub_0203F144(i)) {
+            if (Remove(i)) {
                 if (kind == 1) {
                     unk_84--;
                     LogInfo("%d", unk_84);
@@ -380,7 +380,7 @@ void CFieldPartnerManage::ov0_0213A2B4()
     }
 }
 
-BOOL CFieldPartnerManage::sub_0203F190()
+BOOL CFieldPartnerManage::Clear()
 {
     unk_84 = 0;
     unk_88 = 0;
@@ -388,17 +388,17 @@ BOOL CFieldPartnerManage::sub_0203F190()
     if (scene != NULL && scene->unk_00D8 != NULL) {
         scene->unk_00D8->SetPartnerVisible(FALSE);
     }
-    return CFieldActorManage::sub_0203F190();
+    return CFieldActorManage::Clear();
 }
 
 void CFieldPartnerManage::ov0_0213A360(u32 id, u16 kind, u16 flags, int type, int arg5)
 {
-    UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+    SaveData *save = &MAIN_BSS_020B26A0;
     if (type == 1) {
         for (int i = 0; i < 3; i++) {
             UnkStruct_020B26A0_8AD4 *slot = save->GetPartner(i);
             if (slot != NULL && slot->unk_00 == 0) {
-                sub_02015124(slot);
+                SavePartner_Clear(slot);
                 slot->unk_00 = 1;
                 slot->unk_04 = id;
                 slot->unk_08 = kind;
@@ -455,17 +455,17 @@ BOOL CFieldPartnerManage::ov0_0213A57C(u16 kind, CFieldPartner *partner)
         partner->unk_04 |= 0x30;
         CFieldScene *scene = MAIN_BSS_0210CA40;
         if (scene != NULL) {
-            UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+            SaveData *save = &MAIN_BSS_020B26A0;
             CPlayerHPGauge *obj = scene->unk_00D8;
             if (obj != NULL && save != NULL) {
                 save->unk_0008 = ov0_0213A658(kind);
                 obj->SetPartnerVisible(TRUE);
                 obj->SetPartner(save->unk_0004 >> FX32_SHIFT, save->unk_0008);
-                u8 mood = save->unk_0009[sub_02035088(kind)];
+                u8 mood = save->m_partnerMoods[PartnerKindToIndex(kind)];
                 if (mood == 2) {
-                    sub_02041A70(partner, 0xB, -1);
+                    Actor_ShowManpu(partner, 0xB, -1);
                 } else if (mood == 1) {
-                    sub_02041A70(partner, 0xA, -1);
+                    Actor_ShowManpu(partner, 0xA, -1);
                 }
             }
         }
@@ -537,13 +537,13 @@ void CFieldPartnerManage::func0(CFieldEffectManage *mgr)
 {
     CFieldPartner *leader = (CFieldPartner *)FindLeader();
     CFieldScene *scene = MAIN_BSS_0210CA40;
-    UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+    SaveData *save = &MAIN_BSS_020B26A0;
     if (leader != NULL && scene != NULL && save != NULL) {
-        u8 mood = save->unk_0009[sub_02035088(leader->unk_200)];
+        u8 mood = save->m_partnerMoods[PartnerKindToIndex(leader->unk_200)];
         if (mood == 2) {
-            sub_02041A70(leader, 0xB, -1);
+            Actor_ShowManpu(leader, 0xB, -1);
         } else if (mood == 1) {
-            sub_02041A70(leader, 0xA, -1);
+            Actor_ShowManpu(leader, 0xA, -1);
         }
     }
 }

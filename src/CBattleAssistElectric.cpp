@@ -1,19 +1,19 @@
+#include "AudioEngine.hpp"
 #include "CTouchPanel.hpp"
-#include "UnkClass_02034478.hpp"
-#include "UnkClass_020B26A0.hpp"
+#include "Collision.hpp"
+#include "SaveData.hpp"
+#include "battle/BattleParamTable.hpp"
 #include "battle/CBattleAssist.hpp"
 #include "battle/CBattleAttackEffect.hpp"
 #include "battle/CBattleEnemy.hpp"
 #include "battle/CBattleEnemyData.hpp"
 #include "battle/UnkClass_02128414.hpp"
-#include "battle/UnkClass_0212EEB4.hpp"
 #include "fx_utils.hpp"
-#include "sub_02006000.hpp"
 
 extern "C" fx32 ov1_0212EE80(int assistType, int type);
 extern "C" u16 ov1_0212EE98(int assistType, int idx);
 
-CBattleAssistElectric::CBattleAssistElectric(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3)
+CBattleAssistElectric::CBattleAssistElectric(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3)
     : CBattleAssist(effects, effectData, params, arg3)
 {
 }
@@ -35,7 +35,7 @@ int CBattleAssistElectric::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBatt
         pos.y = (touch->unk_0A.y - 0x60) << FX32_SHIFT;
         for (u8 i = 0; i < 8; i++) {
             if (enemies[i] != NULL && enemies[i]->IsAlive() && enemies[i]->IsTargetable()
-                && sub_02006100(pos, enemies[i]->m_sphere.m_circle)) {
+                && PointInCircle(pos, enemies[i]->m_sphere.m_circle)) {
                 hit = TRUE;
             }
         }
@@ -43,30 +43,30 @@ int CBattleAssistElectric::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBatt
             ElectricBolt *bolt = ov1_02130038();
             if (bolt != NULL) {
                 ov1_02130074(bolt, pos.x, pos.y);
-                unk_14->sub_02034C44(0x131);
+                unk_14->PlaySe(0x131);
             }
         }
     }
-    u8 *level = &MAIN_BSS_020B26A0.unk_87DB;
+    u8 *level = &MAIN_BSS_020B26A0.m_stylerLevel;
     if (m_bolts[0].m_flags & 1) {
         m_bolts[0].m_timer++;
         switch (m_bolts[0].m_timer) {
         case 0x3C:
             m_bolts[0].m_effect->ov1_02127454(0x20, 0);
-            m_bolts[0].m_effect->m_motion.sub_02011D2C(m_bolts[0].m_effect->m_motion.m_pos.y - 0x60000);
-            unk_14->sub_02034C44(0x132);
+            m_bolts[0].m_effect->m_motion.SetY(m_bolts[0].m_effect->m_motion.m_pos.y - 0x60000);
+            unk_14->PlaySe(0x132);
             break;
         case 0x46: {
             m_bolts[0].m_effect->ov1_02127454(0x20, 2);
-            m_bolts[0].m_effect->m_motion.sub_02011D2C(m_bolts[0].m_effect->m_motion.m_pos.y + 0x60000);
-            unk_14->sub_02034C44(0x133);
+            m_bolts[0].m_effect->m_motion.SetY(m_bolts[0].m_effect->m_motion.m_pos.y + 0x60000);
+            unk_14->PlaySe(0x133);
             Point2D pos = m_bolts[0].m_effect->m_motion.m_pos;
             Circle area;
             area.pos = pos;
             area.r = 0x20000;
             for (u8 i = 0; i < 8; i++) {
                 if (enemies[i] != NULL && enemies[i]->IsAlive() && enemies[i]->IsTargetable()
-                    && sub_02006164(area, enemies[i]->m_sphere.m_circle, NULL)) {
+                    && CircleHitCircle(area, enemies[i]->m_sphere.m_circle, NULL)) {
                     u16 power = unk_10->ov1_0212F32C(vfunc_10(), *level, 0);
                     fx32 rate = ov1_0212EE80(vfunc_10(), enemies[i]->unk_184->unk_18->unk_03);
                     enemies[i]->ov1_02126310((u16)(FX32_MUL(rate, power << FX32_SHIFT) >> FX32_SHIFT), TRUE);
@@ -97,9 +97,9 @@ int CBattleAssistElectric::vfunc_10()
 
 void CBattleAssistElectric::vfunc_0C()
 {
-    unk_14->sub_02034C5C(0x131);
-    unk_14->sub_02034C5C(0x132);
-    unk_14->sub_02034C5C(0x133);
+    unk_14->StopSe(0x131);
+    unk_14->StopSe(0x132);
+    unk_14->StopSe(0x133);
 }
 
 ElectricBolt *CBattleAssistElectric::ov1_02130038()
@@ -127,8 +127,8 @@ void CBattleAssistElectric::ov1_02130074(ElectricBolt *bolt, fx32 x, fx32 y)
     }
     bolt->m_effect->ov1_021270FC(unk_0C[0]);
     bolt->m_effect->ov1_02127454(0x20, 3);
-    bolt->m_effect->m_motion.sub_02011D1C(x);
-    bolt->m_effect->m_motion.sub_02011D2C(y);
+    bolt->m_effect->m_motion.SetX(x);
+    bolt->m_effect->m_motion.SetY(y);
     bolt->m_timer = 0;
     bolt->m_flags |= 1;
 }

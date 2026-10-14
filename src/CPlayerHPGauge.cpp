@@ -3,8 +3,8 @@
 #include <nitro.h>
 #include <nnsys.h>
 
+#include "AudioEngine.hpp"
 #include "CGame.hpp"
-#include "UnkClass_02034478.hpp"
 #include "common.hpp"
 #include "file/CArchiveGuard.hpp"
 #include "fx_utils.hpp"
@@ -24,14 +24,14 @@ CPlayerHPGauge::~CPlayerHPGauge()
 
 void CPlayerHPGauge::CreateParts()
 {
-    m_parts[0] = new UnkClass_0201AAE0("PGM", "data/interface/i021_LZ.bin", "PGM:i021_00.NCBR", "PGM:i021.NCLR", "PGM:i021_00.NCER", "PGM:i021_00.cac");
-    m_parts[1] = new UnkClass_0201AAE0("PGA", "data/interface/i024_LZ.bin", "PGA:i024_00.NCBR", "PGA:i024.NCLR", NULL, NULL);
-    m_parts[2] = new UnkClass_0201AAE0("PGB", "data/interface/i023_LZ.bin", "PGB:i023_00.NCBR", "PGB:i023.NCLR", NULL, NULL);
-    m_parts[3] = new UnkClass_0201AAE0("PGF", "data/interface/i020_LZ.bin", "PGF:i020_00.NCBR", "PGF:i020.NCLR", "PGF:i020_00.NCER", "PGF:i020_00.cac");
-    m_parts[4] = new UnkClass_0201AAE0("PGP", "data/interface/i022_LZ.bin", "PGP:i022_00.NCBR", "PGP:i022.NCLR", NULL, NULL);
-    m_parts[5] = new UnkClass_0201AAE0("PGG", "data/interface/i057_LZ.bin", "PGG:i057_00.NCBR", "PGG:i057.NCLR", NULL, NULL);
-    m_parts[6] = new UnkClass_0201AAE0("PGC", "data/interface/i020_LZ.bin", "PGC:i020_01.NCBR", "PGC:i020.NCLR", "PGC:i020_01.NCER", "PGC:i020_01.cac");
-    unk_5C0 = m_parts[6]->m_anim->sub_02008A80(1, 0);
+    m_parts[0] = new GraphicsSet("PGM", "data/interface/i021_LZ.bin", "PGM:i021_00.NCBR", "PGM:i021.NCLR", "PGM:i021_00.NCER", "PGM:i021_00.cac");
+    m_parts[1] = new GraphicsSet("PGA", "data/interface/i024_LZ.bin", "PGA:i024_00.NCBR", "PGA:i024.NCLR", NULL, NULL);
+    m_parts[2] = new GraphicsSet("PGB", "data/interface/i023_LZ.bin", "PGB:i023_00.NCBR", "PGB:i023.NCLR", NULL, NULL);
+    m_parts[3] = new GraphicsSet("PGF", "data/interface/i020_LZ.bin", "PGF:i020_00.NCBR", "PGF:i020.NCLR", "PGF:i020_00.NCER", "PGF:i020_00.cac");
+    m_parts[4] = new GraphicsSet("PGP", "data/interface/i022_LZ.bin", "PGP:i022_00.NCBR", "PGP:i022.NCLR", NULL, NULL);
+    m_parts[5] = new GraphicsSet("PGG", "data/interface/i057_LZ.bin", "PGG:i057_00.NCBR", "PGG:i057.NCLR", NULL, NULL);
+    m_parts[6] = new GraphicsSet("PGC", "data/interface/i020_LZ.bin", "PGC:i020_01.NCBR", "PGC:i020.NCLR", "PGC:i020_01.NCER", "PGC:i020_01.cac");
+    unk_5C0 = m_parts[6]->m_anim->Create(1, 0);
 }
 
 void CPlayerHPGauge::DeleteParts()
@@ -120,7 +120,7 @@ void CPlayerHPGauge::vfunc_08()
     UpdatePartner();
     UpdateAlpha();
     if (unk_592 & 0x80) {
-        m_parts[6]->m_anim->sub_020089EC();
+        m_parts[6]->m_anim->UpdateAll();
         if (m_shownHP == m_hp << FX32_SHIFT) {
             StopHeal();
         }
@@ -195,14 +195,14 @@ void CPlayerHPGauge::UpdatePartner()
             unk_5AA |= 0x10;
             unk_5A8 = 0;
             unk_5AC = 0;
-            m_audio->sub_02034C44(0x42);
+            m_audio->PlaySe(0x42);
         } else if (unk_5AC < 32) {
             unk_5A8 += 2;
             if (unk_5AC != 0 && unk_5AC % 16 == 0) {
                 unk_5A8 = 0;
-                m_audio->sub_02034F3C(0x3F);
-                m_audio->sub_02034C44(0x42);
-                m_audio->sub_02034F3C(0x7F);
+                m_audio->SetSeVolume(0x3F);
+                m_audio->PlaySe(0x42);
+                m_audio->SetSeVolume(0x7F);
             }
             unk_5AC++;
         }
@@ -222,7 +222,7 @@ void CPlayerHPGauge::UpdateHPLevel(fx32 ratio)
         u1 = FX32_CONST(8);
     } else if (ratio > 0x333) {
         if (m_hpLevel != 1 && (unk_592 & 8)) {
-            m_audio->sub_02034C44(0x104);
+            m_audio->PlaySe(0x104);
         }
         m_hpLevel = 1;
         u0 = FX32_CONST(8);
@@ -232,7 +232,7 @@ void CPlayerHPGauge::UpdateHPLevel(fx32 ratio)
         u1 = FX32_CONST(16);
     } else {
         if (m_hpLevel != 2 && (unk_592 & 8)) {
-            m_audio->sub_02034C44(0x105);
+            m_audio->PlaySe(0x105);
         }
         m_hpLevel = 2;
         u0 = FX32_CONST(16);
@@ -322,16 +322,16 @@ void CPlayerHPGauge::SetCurrentHP(u16 hp)
 
 void CPlayerHPGauge::StartHeal(u16 anim)
 {
-    int frames = m_game->unk_146C.sub_02008E50() * 2;
+    int frames = m_game->unk_146C.GetFps() * 2;
     m_healRate = FX32_DIV((m_hp << FX32_SHIFT) - m_shownHP, frames << FX32_SHIFT);
-    m_parts[6]->m_anim->sub_02008990(unk_5C0, anim);
-    m_audio->sub_02034C44(0x106);
+    m_parts[6]->m_anim->SetAnim(unk_5C0, anim);
+    m_audio->PlaySe(0x106);
     unk_592 |= 0x80;
 }
 
 void CPlayerHPGauge::StopHeal()
 {
-    m_audio->sub_02034C5C(0x106);
+    m_audio->StopSe(0x106);
     unk_592 &= ~0x80;
 }
 
@@ -609,14 +609,14 @@ void CPlayerHPGauge::DrawHealEffect(Camera2D *camera)
     sprite->SetImage((UnkClass_CPrimitive_ImageProxy *)m_parts[6]->m_image, NULL);
     sprite->unk_34 = (UnkClass_CPrimitive_ImagePaletteProxy *)m_parts[6]->m_palette;
     sprite->unk_38 = (UnkClass_CSoftwareSprite_38 *)m_parts[6]->m_cells;
-    sprite->m_cellDataIdx = m_parts[6]->m_anim->sub_02008828(unk_5C0);
+    sprite->m_cellDataIdx = m_parts[6]->m_anim->GetCell(unk_5C0);
     sprite->m_alpha = m_alpha;
     sprite->m_z = m_z + 8;
     sprite->SetXY(0, FX32_CONST(86));
     sprite->Render(camera);
 }
 
-UnkClass_0201AAE0 *CPlayerHPGauge::GetPart(int index)
+GraphicsSet *CPlayerHPGauge::GetPart(int index)
 {
     if (index >= 0 && index < 7) {
         return m_parts[index];
@@ -624,40 +624,40 @@ UnkClass_0201AAE0 *CPlayerHPGauge::GetPart(int index)
     return NULL;
 }
 
-UnkClass_0201AAE0::UnkClass_0201AAE0(const char *arcName, const char *arcPath, const char *ncbr, const char *nclr, const char *ncer, const char *cac)
+GraphicsSet::GraphicsSet(const char *arcName, const char *arcPath, const char *ncbr, const char *nclr, const char *ncer, const char *cac)
 {
     Load(arcName, arcPath, ncbr, nclr, ncer, cac);
 }
 
-UnkClass_0201AAE0::~UnkClass_0201AAE0()
+GraphicsSet::~GraphicsSet()
 {
     Release();
 }
 
-void UnkClass_0201AAE0::Load(const char *arcName, const char *arcPath, const char *ncbr, const char *nclr, const char *ncer, const char *cac)
+void GraphicsSet::Load(const char *arcName, const char *arcPath, const char *ncbr, const char *nclr, const char *ncer, const char *cac)
 {
     CArchiveGuard *guard = new CArchiveGuard(arcName, arcPath, 1, 1, 0, NULL, 0);
 
-    m_image = new UnkClass_020074D4(ncbr, 0, 0, 0);
+    m_image = new VramImage(ncbr, 0, 0, 0);
     m_texKey = NNS_GfdAllocLnkTexVram(m_image->unk_38, FALSE, 0);
-    m_image->sub_020076E8(NNS_GfdGetTexKeyAddr(m_texKey));
-    m_image->sub_020076B0();
+    m_image->LoadToVram(NNS_GfdGetTexKeyAddr(m_texKey));
+    m_image->Release();
 
-    m_palette = new UnkClass_02007AA4(nclr, 0, 0);
+    m_palette = new VramPalette(nclr, 0, 0);
     m_plttKey = NNS_GfdAllocLnkPlttVram(m_palette->unk_04->szByte, FALSE, 0);
-    m_palette->sub_02007BFC(NNS_GfdGetPlttKeyAddr(m_plttKey));
-    m_palette->sub_02007BC4();
+    m_palette->LoadToVram(NNS_GfdGetPlttKeyAddr(m_plttKey));
+    m_palette->Release();
 
     if (ncer != NULL) {
         m_cells = new CNCERFile(ncer, 0, 0, 0);
     }
     if (cac != NULL) {
-        m_anim = new UnkClass_02008788(cac);
+        m_anim = new CellAnimController(cac);
     }
     delete guard;
 }
 
-void UnkClass_0201AAE0::Release()
+void GraphicsSet::Release()
 {
     SAFE_DELETE(m_anim);
     SAFE_DELETE(m_cells);

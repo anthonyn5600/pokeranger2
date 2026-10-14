@@ -1,4 +1,4 @@
-#include "UnkClass_0213D624.hpp"
+#include "FieldSyscallSets.hpp"
 #include "UnkStruct_02044464.hpp"
 #include "field/CFieldNpc.hpp"
 #include "field/CFieldNpcManage.hpp"
@@ -19,12 +19,12 @@ static ScriptSyscall sFieldNpcSyscalls[] = {
     (ScriptSyscall)ov0_0214B774,
 };
 
-UnkClass_0214B6F0::UnkClass_0214B6F0() {}
+FieldNpcSyscalls::FieldNpcSyscalls() {}
 
-UnkClass_0214B6F0::~UnkClass_0214B6F0() {}
+FieldNpcSyscalls::~FieldNpcSyscalls() {}
 
-void UnkClass_0214B6F0::ov0_0214B6F8() {
-  sub_02044B38(0x10, sFieldNpcSyscalls);
+void FieldNpcSyscalls::ov0_0214B6F8() {
+  Script_RegisterSyscalls(0x10, sFieldNpcSyscalls);
 }
 
 extern "C" {

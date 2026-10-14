@@ -4,10 +4,10 @@
 #include <nitro.h>
 #include <nnsys.h>
 
+#include "Collision.hpp"
 #include "common.hpp"
 #include "file/CBinaryFile.hpp"
 #include "primitive/CPrimitive.hpp"
-#include "sub_02006000.hpp"
 
 struct NtfTextureFormat {
     GXTexFmt texFmt;

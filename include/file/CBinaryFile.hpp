@@ -11,12 +11,12 @@ public:
     CBinaryFile(const char *path, u32 arg1, u32 arg2, u32 arg3, void *arg4, u32 arg5);
     virtual ~CBinaryFile();
 
-    void sub_02002C9C();
-    void *sub_02002CB4(const char *path, u32 arg1, u32 arg2, u32 arg3, void *arg4, u32 arg5);
-    void *sub_02002DD0(const char *path, u32 arg1, u32 arg2, void *arg3, u32 arg4);
-    void sub_020030D4();
+    void Init();
+    void *Load(const char *path, u32 arg1, u32 arg2, u32 arg3, void *arg4, u32 arg5);
+    void *ReadFile(const char *path, u32 arg1, u32 arg2, void *arg3, u32 arg4);
+    void Release();
 
-    static BOOL sub_02003108(const char *path, u32 arg1);
+    static BOOL Exists(const char *path, u32 arg1);
 
 public:
     FSFile file;

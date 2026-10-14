@@ -15,9 +15,9 @@ CFieldEffectWaterGun::CFieldEffectWaterGun(int id)
     }
     unk_18 = data;
     for (int i = 0; i < 2; i++) {
-        UnkClass_02008788 *cac = unk_18->GetCac(sWaterGunCacKinds[i]);
+        CellAnimController *cac = unk_18->GetCac(sWaterGunCacKinds[i]);
         if (cac != NULL) {
-            m_cacIds[i] = cac->sub_02008A80(1, 0);
+            m_cacIds[i] = cac->Create(1, 0);
         } else {
             m_cacIds[i] = 0xFFFF;
         }
@@ -44,7 +44,7 @@ CFieldEffectWaterGun::~CFieldEffectWaterGun()
     m_animator.Release();
     if (unk_18 != NULL) {
         for (int i = 0; i < 2; i++) {
-            unk_18->GetCac(sWaterGunCacKinds[i])->sub_02008B80(m_cacIds[i]);
+            unk_18->GetCac(sWaterGunCacKinds[i])->Remove(m_cacIds[i]);
         }
     }
     SAFE_DELETE(unk_18);
@@ -77,9 +77,9 @@ int CFieldEffectWaterGun::ov0_02142344(Camera2D *camera)
         m_sprites[1].SetPos(m_pos);
         m_system.Draw(camera);
         for (i = 0; i < 2; i++) {
-            UnkClass_02008788 *cac = unk_18->GetCac(sWaterGunCacKinds[i]);
+            CellAnimController *cac = unk_18->GetCac(sWaterGunCacKinds[i]);
             if (cac != NULL) {
-                m_sprites[i].m_cellDataIdx = cac->sub_02008828(m_cacIds[i]);
+                m_sprites[i].m_cellDataIdx = cac->GetCell(m_cacIds[i]);
             }
             if ((state != 1 || i != 1 || m_frame >= 10) && (i != 0 || state != 3)) {
                 m_sprites[i].Render(camera);
@@ -89,7 +89,7 @@ int CFieldEffectWaterGun::ov0_02142344(Camera2D *camera)
     return 0;
 }
 
-int CFieldEffectWaterGun::sub_0203312C(int param, int value)
+int CFieldEffectWaterGun::SetParam(int param, int value)
 {
     BOOL ret = TRUE;
     switch (param) {
@@ -207,13 +207,13 @@ CFieldEffectWaterGun::CAnimator::CAnimator()
     MI_CpuFill8(m_ids, 0, sizeof(m_ids));
 }
 
-void CFieldEffectWaterGun::CAnimator::Init(UnkClass_02008788 *cac)
+void CFieldEffectWaterGun::CAnimator::Init(CellAnimController *cac)
 {
     m_cac = cac;
     if (cac != NULL) {
         for (int i = 0; i < 16; i++) {
-            m_ids[i] = cac->sub_02008A80(1, 0);
-            cac->sub_020089EC();
+            m_ids[i] = cac->Create(1, 0);
+            cac->UpdateAll();
         }
     }
 }
@@ -223,7 +223,7 @@ void CFieldEffectWaterGun::CAnimator::Release()
     if (m_cac != NULL) {
         for (int i = 0; i < 16; i++) {
             if (m_ids[i] != 0) {
-                m_cac->sub_02008B80(m_ids[i]);
+                m_cac->Remove(m_ids[i]);
                 m_ids[i] = 0;
             }
         }
@@ -238,7 +238,7 @@ void CFieldEffectWaterGun::CAnimator::Reset()
 void CFieldEffectWaterGun::CAnimator::Apply(TFieldParticle<CSoftwareSprite> *p, int dt)
 {
     if (p->animIdx >= 0 && p->animIdx < 16) {
-        p->sprite.m_cellDataIdx = m_cac->sub_02008828(m_ids[p->animIdx]);
+        p->sprite.m_cellDataIdx = m_cac->GetCell(m_ids[p->animIdx]);
     }
     int age = p->maxLife - p->life;
     int alpha;

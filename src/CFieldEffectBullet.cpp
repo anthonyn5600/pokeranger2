@@ -19,10 +19,10 @@ CFieldEffectBullet::CFieldEffectBullet(int kind)
         data->ov0_0214FFF0(kind, 1, 1);
     }
     unk_18 = data;
-    UnkClass_02008788 *cac = data->GetCac(0);
+    CellAnimController *cac = data->GetCac(0);
     if (cac != NULL) {
-        m_cacId = cac->sub_02008A80(1, 0);
-        if (cac->sub_020089D0(m_cacId) > 1) {
+        m_cacId = cac->Create(1, 0);
+        if (cac->GetAnimCount(m_cacId) > 1) {
             m_directional = TRUE;
         }
     } else {
@@ -41,9 +41,9 @@ CFieldEffectBullet::CFieldEffectBullet(int kind)
 CFieldEffectBullet::~CFieldEffectBullet()
 {
     if (unk_18 != NULL) {
-        UnkClass_02008788 *cac = unk_18->GetCac(0);
+        CellAnimController *cac = unk_18->GetCac(0);
         if (cac != NULL) {
-            cac->sub_02008B80(m_cacId);
+            cac->Remove(m_cacId);
         }
     }
     SAFE_DELETE(unk_18);
@@ -70,20 +70,20 @@ int CFieldEffectBullet::ov0_02142264(int step)
 int CFieldEffectBullet::ov0_02142344(Camera2D *camera)
 {
     if (m_state != 4 && m_state != 0) {
-        UnkClass_02008788 *cac = unk_18->GetCac(0);
+        CellAnimController *cac = unk_18->GetCac(0);
         m_sprite.SetPos(m_pos);
         if (cac != NULL) {
             if (m_directional) {
-                cac->sub_02008990(m_cacId, m_dir);
+                cac->SetAnim(m_cacId, m_dir);
             }
-            m_sprite.m_cellDataIdx = cac->sub_02008828(m_cacId);
+            m_sprite.m_cellDataIdx = cac->GetCell(m_cacId);
         }
         m_sprite.Render(camera);
     }
     return 0;
 }
 
-int CFieldEffectBullet::sub_0203312C(int param, int value)
+int CFieldEffectBullet::SetParam(int param, int value)
 {
     BOOL ret = TRUE;
     switch (param) {
@@ -159,9 +159,9 @@ BOOL CFieldEffectBullet::ov0_021421F0(int inTime, int holdTime, int outTime)
         m_vel.y = 0;
         m_vel.x = 0;
     }
-    UnkClass_02008788 *cac = unk_18->GetCac(0);
+    CellAnimController *cac = unk_18->GetCac(0);
     if (cac != NULL) {
-        cac->sub_020089B8(m_cacId);
+        cac->Restart(m_cacId);
     }
     return CFieldEffect::ov0_021421F0(inTime, holdTime, outTime);
 }

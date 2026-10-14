@@ -33,7 +33,7 @@ BOOL sub_02034F9C(int kind)
 }
 
 // GetEnemyLabel2PartnerIndex
-int sub_02035088(int kind)
+int PartnerKindToIndex(int kind)
 {
     switch (kind) {
     case 0xD7:
@@ -79,7 +79,7 @@ int sub_02035088(int kind)
 }
 
 // GetPartnerIndex2EnemyLabel
-int sub_02035240(int index)
+int PartnerIndexToKind(int index)
 {
     switch (index) {
     case 0:

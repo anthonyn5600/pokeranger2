@@ -1,9 +1,9 @@
 #include "scene/CBrowserScene.hpp"
 
+#include "BrightnessFade.hpp"
+#include "BrowserScreen.hpp"
 #include "CGame.hpp"
-#include "UnkClass_0200E0B4.hpp"
-#include "UnkClass_0211D330.hpp"
-#include "sub_02007CF0.hpp"
+#include "DisplayUtil.hpp"
 
 static int sScrollX;
 
@@ -89,16 +89,16 @@ void CBrowserScene::func6()
     sScrollX = 0;
     unk_000C = 0;
     unk_0010 = 0;
-    s_game->unk_146C.sub_02008DB4(60);
-    unk_0008 = new UnkClass_0211D330(s_game);
-    s_game->unk_14BC->sub_0200E0E0(3, 30);
-    s_game->unk_14C0->sub_0200E0E0(3, 30);
+    s_game->unk_146C.SetFps(60);
+    unk_0008 = new BrowserScreen(s_game);
+    s_game->unk_14BC->Start(3, 30);
+    s_game->unk_14C0->Start(3, 30);
 }
 
 void CBrowserScene::func7()
 {
     SAFE_DELETE(unk_0008);
-    s_game->unk_146C.sub_02008DB4(30);
+    s_game->unk_146C.SetFps(30);
     G2_SetWnd0InsidePlane(unk_0018.planeMask, unk_0018.effect);
     G2_SetWndOutsidePlane(unk_0019.planeMask, unk_0019.effect);
     GX_SetVisibleWnd(unk_0014);
@@ -114,7 +114,7 @@ u32 CBrowserScene::func0()
     sScrollX = slide.x >> 12;
     switch (unk_0010) {
     case 0:
-        if (!s_game->unk_14BC->sub_0200E310() && !s_game->unk_14C0->sub_0200E310()) {
+        if (!s_game->unk_14BC->IsActive() && !s_game->unk_14C0->IsActive()) {
             unk_0010 = 1;
             unk_000C = 0;
         }
@@ -122,12 +122,12 @@ u32 CBrowserScene::func0()
     case 1:
         if (unk_0008->unk_034 == 3) {
             unk_0010 = 2;
-            s_game->unk_14BC->sub_0200E0E0(4, 20);
-            s_game->unk_14C0->sub_0200E0E0(4, 20);
+            s_game->unk_14BC->Start(4, 20);
+            s_game->unk_14C0->Start(4, 20);
         }
         break;
     case 2:
-        if (!s_game->unk_14BC->sub_0200E310() && !s_game->unk_14C0->sub_0200E310()) {
+        if (!s_game->unk_14BC->IsActive() && !s_game->unk_14C0->IsActive()) {
             return 6;
         }
         break;
@@ -147,7 +147,7 @@ void CBrowserScene::func2()
 
 void CBrowserScene::func3()
 {
-    sub_02007D98();
+    LoadOam();
     if (unk_0008 != NULL) {
         unk_0008->ov21_021204B0();
     }

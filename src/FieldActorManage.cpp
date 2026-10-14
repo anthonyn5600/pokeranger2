@@ -1,8 +1,8 @@
+#include "Collision.hpp"
+#include "MathUtil.hpp"
 #include "field/CFieldActor.hpp"
 #include "field/CFieldActorManage.hpp"
 #include "field/CFieldDrawActor.hpp"
-#include "sub_02006000.hpp"
-#include "sub_02007254.hpp"
 
 CFieldActorManage::CFieldActorManage()
 {
@@ -13,12 +13,12 @@ CFieldActorManage::CFieldActorManage()
 
 CFieldActorManage::~CFieldActorManage()
 {
-    sub_0203F034();
+    Free();
 }
 
-void CFieldActorManage::sub_0203EFE4(int capacity)
+void CFieldActorManage::Alloc(int capacity)
 {
-    sub_0203F034();
+    Free();
     m_count = capacity;
     m_actors = new CFieldActor *[capacity];
     for (int i = 0; i < capacity; i++) {
@@ -26,7 +26,7 @@ void CFieldActorManage::sub_0203EFE4(int capacity)
     }
 }
 
-void CFieldActorManage::sub_0203F034()
+void CFieldActorManage::Free()
 {
     if (m_count > 0 && m_actors != NULL) {
         for (int i = 0; i < m_count; i++) {
@@ -42,7 +42,7 @@ void CFieldActorManage::sub_0203F034()
     m_count = 0;
 }
 
-BOOL CFieldActorManage::sub_0203F0C0(u32 id)
+BOOL CFieldActorManage::RemoveById(u32 id)
 {
     if (m_count > 0 && m_actors != NULL) {
         for (int i = 0; i < m_count; i++) {
@@ -58,7 +58,7 @@ BOOL CFieldActorManage::sub_0203F0C0(u32 id)
     return FALSE;
 }
 
-BOOL CFieldActorManage::sub_0203F144(int index)
+BOOL CFieldActorManage::Remove(int index)
 {
     if (m_actors[index] != NULL) {
         if (m_actors[index] != NULL) {
@@ -69,7 +69,7 @@ BOOL CFieldActorManage::sub_0203F144(int index)
     return FALSE;
 }
 
-BOOL CFieldActorManage::sub_0203F190()
+BOOL CFieldActorManage::Clear()
 {
     if (m_count > 0 && m_actors != NULL) {
         for (int i = m_count - 1; i >= 0; i--) {
@@ -82,7 +82,7 @@ BOOL CFieldActorManage::sub_0203F190()
     return FALSE;
 }
 
-BOOL CFieldActorManage::sub_0203F1FC(int index, fx32 x, fx32 y)
+BOOL CFieldActorManage::SetActorPos(int index, fx32 x, fx32 y)
 {
     if (index < m_count && m_actors != NULL && m_actors[index] != NULL) {
         CFieldDrawObject *obj = m_actors[index]->unk_08;
@@ -105,7 +105,7 @@ BOOL CFieldActorManage::sub_0203F278(int index, int arg1, int arg2)
     return FALSE;
 }
 
-void CFieldActorManage::sub_0203F2B0(CFieldMap *map, BOOL update)
+void CFieldActorManage::UpdateAll(CFieldMap *map, BOOL update)
 {
     if (m_actors == NULL) {
         return;
@@ -114,15 +114,15 @@ void CFieldActorManage::sub_0203F2B0(CFieldMap *map, BOOL update)
         CFieldActor *actor = m_actors[i];
         if (actor != NULL && actor->IsActive()) {
             if (update) {
-                actor->sub_0203DA40(map);
+                actor->Process(map);
             } else {
-                actor->sub_0203D578(map);
+                actor->UpdateMove(map);
             }
         }
     }
 }
 
-void CFieldActorManage::sub_0203F348(UnkClass_0211E3FC *renderLists, UnkClass_020416AC *hud)
+void CFieldActorManage::DrawAll(DrawObjectList *renderLists, FieldShadow *hud)
 {
     if (m_actors == NULL) {
         return;
@@ -130,7 +130,7 @@ void CFieldActorManage::sub_0203F348(UnkClass_0211E3FC *renderLists, UnkClass_02
     for (int i = 0; i < m_count; i++) {
         CFieldActor *actor = m_actors[i];
         if (actor != NULL && actor->IsActive()) {
-            actor->sub_0203C590(renderLists, hud);
+            actor->Draw(renderLists, hud);
         }
     }
 }
@@ -143,7 +143,7 @@ void sub_0203F3C8(CFieldActorManage *mgr)
     for (int i = 0; i < mgr->m_count; i++) {
         CFieldActor *actor = mgr->m_actors[i];
         if (actor != NULL && actor->IsActive()) {
-            actor->sub_0202D7E0();
+            actor->StopMotion();
         }
     }
 }
@@ -156,12 +156,12 @@ void sub_0203F440(CFieldActorManage *mgr)
     for (int i = 0; i < mgr->m_count; i++) {
         CFieldActor *actor = mgr->m_actors[i];
         if (actor != NULL && actor->IsActive()) {
-            actor->sub_0203C2D8();
+            actor->RestartScriptLabel();
         }
     }
 }
 
-void CFieldActorManage::sub_0203F4B8(u16 color, u8 width, int time)
+void CFieldActorManage::SetOutlineAll(u16 color, u8 width, int time)
 {
     if (m_actors == NULL) {
         return;
@@ -177,7 +177,7 @@ void CFieldActorManage::sub_0203F4B8(u16 color, u8 width, int time)
     }
 }
 
-void CFieldActorManage::sub_0203F58C(u8 width)
+void CFieldActorManage::SetOutlineWidthAll(u8 width)
 {
     if (m_actors == NULL) {
         return;
@@ -189,7 +189,7 @@ void CFieldActorManage::sub_0203F58C(u8 width)
     }
 }
 
-void CFieldActorManage::sub_0203F604(u16 color)
+void CFieldActorManage::SetOutlineColorAll(u16 color)
 {
     if (m_actors == NULL) {
         return;
@@ -201,7 +201,7 @@ void CFieldActorManage::sub_0203F604(u16 color)
     }
 }
 
-void CFieldActorManage::sub_0203F688(u8 alpha)
+void CFieldActorManage::SetAlphaAll(u8 alpha)
 {
     if (m_actors == NULL) {
         return;
@@ -264,7 +264,7 @@ struct ActorHit {
         ActorHit *entry = &hits[count];                                     \
         entry->actor = actor;                                               \
         entry->pos = hit;                                                   \
-        entry->dist = sub_02007254(hit.x - move->p1.x, hit.y - move->p1.y); \
+        entry->dist = ApproxLength(hit.x - move->p1.x, hit.y - move->p1.y); \
         if (count == 0) {                                                   \
             head = entry;                                                   \
         } else {                                                            \
@@ -290,7 +290,7 @@ struct ActorHit {
         count++;                                                            \
     }
 
-BOOL CFieldActorManage::sub_0203F7F4(PointPair2D *move, fx32 radius, int layer, Point2D *out)
+BOOL CFieldActorManage::SweepCollide(PointPair2D *move, fx32 radius, int layer, Point2D *out)
 {
     ActorHit hits[128];
     int count = 0;
@@ -319,7 +319,7 @@ BOOL CFieldActorManage::sub_0203F7F4(PointPair2D *move, fx32 radius, int layer, 
                 rect.pos.y += actor->GetY();
                 rect.size.x += radius * 2;
                 rect.size.y += radius * 2;
-                if (sub_02006C04(*move, rect, &hit)) {
+                if (SegmentHitRect(*move, rect, &hit)) {
                     ADD_HIT();
                 }
             }
@@ -331,7 +331,7 @@ BOOL CFieldActorManage::sub_0203F7F4(PointPair2D *move, fx32 radius, int layer, 
                 shape.pos.x += actor->GetX();
                 shape.pos.y += actor->GetY();
                 shape.r += radius;
-                if (sub_02006764(*move, shape, &hit, 0)) {
+                if (SegmentHitCircle(*move, shape, &hit, 0)) {
                     ADD_HIT();
                 }
             }
@@ -348,7 +348,7 @@ BOOL CFieldActorManage::sub_0203F7F4(PointPair2D *move, fx32 radius, int layer, 
         if (dy < 0) {
             dy = -dy;
         }
-        fx32 len = sub_02007254(dx, dy);
+        fx32 len = ApproxLength(dx, dy);
         fx32 step = 0;
         for (int k = 0; k < 4; k++) {
             step += radius >> (k + 1);
@@ -409,9 +409,9 @@ BOOL CFieldActorManage::sub_0203F7F4(PointPair2D *move, fx32 radius, int layer, 
                         } else {
                             c.pos = move->p2;
                         }
-                        if (sub_02006164(c, shape, &pos)) {
+                        if (CircleHitCircle(c, shape, &pos)) {
                             pos -= shape.pos;
-                            fx32 l = sub_02007254(pos.x, pos.y);
+                            fx32 l = ApproxLength(pos.x, pos.y);
                             pos.x = FX32_DIV(FX32_MUL(pos.x, shape.r), l);
                             pos.y = FX32_DIV(FX32_MUL(pos.y, shape.r), l);
                             pos += shape.pos;
@@ -430,7 +430,7 @@ BOOL CFieldActorManage::sub_0203F7F4(PointPair2D *move, fx32 radius, int layer, 
     return FALSE;
 }
 
-BOOL CFieldActorManage::sub_02040158(Point2D pos, fx32 radius, int layer)
+BOOL CFieldActorManage::CollideCircle(Point2D pos, fx32 radius, int layer)
 {
     Circle circle = { pos, radius };
     for (int i = 0; i < m_count; i++) {
@@ -452,7 +452,7 @@ BOOL CFieldActorManage::sub_02040158(Point2D pos, fx32 radius, int layer)
             if (rect.size.x != 0 && rect.size.y != 0) {
                 rect.pos.x += actor->GetX();
                 rect.pos.y += actor->GetY();
-                if (sub_02006F80(circle, rect)) {
+                if (CircleHitRect(circle, rect)) {
                     return TRUE;
                 }
             }
@@ -463,7 +463,7 @@ BOOL CFieldActorManage::sub_02040158(Point2D pos, fx32 radius, int layer)
             if (shape.r != 0) {
                 shape.pos.x += actor->GetX();
                 shape.pos.y += actor->GetY();
-                if (sub_02006164(circle, shape, NULL)) {
+                if (CircleHitCircle(circle, shape, NULL)) {
                     return TRUE;
                 }
             }
@@ -474,7 +474,7 @@ BOOL CFieldActorManage::sub_02040158(Point2D pos, fx32 radius, int layer)
     return FALSE;
 }
 
-void CFieldActorManage::sub_02040384(Point2D pos)
+void CFieldActorManage::SetPosAll(Point2D pos)
 {
     for (int i = 0; i < m_count; i++) {
         CFieldActor *actor = m_actors[i];
@@ -499,7 +499,7 @@ void CFieldActorManage::sub_02040460()
     for (int i = 0; i < m_count; i++) {
         CFieldActor *actor = m_actors[i];
         if (actor != NULL) {
-            sub_02041C1C(actor);
+            Actor_HideManpu(actor);
             actor->unk_20 = 0;
             actor->sub_0202D394();
         }

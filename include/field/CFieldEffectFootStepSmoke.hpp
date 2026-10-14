@@ -5,8 +5,8 @@
 
 // clang-format off
 #include "field/CFieldEffect.hpp"
-#include "UnkClass_02008788.hpp"
-#include "UnkClass_0211E3FC.hpp"
+#include "CellAnimController.hpp"
+#include "DrawObjectList.hpp"
 #include "field/TFieldParticle.hpp"
 #include "primitive/CSoftwareSprite.hpp"
 // clang-format on
@@ -22,7 +22,7 @@ public:
         {
             m_particle = NULL;
         }
-        virtual int sub_020091D4(Camera2D *camera, int budget);
+        virtual int Draw(Camera2D *camera, int budget);
 
         TFieldParticle<CSoftwareSprite> *m_particle;
     };
@@ -53,7 +53,7 @@ public:
         }
         virtual void Emit(TFieldParticle<CSoftwareSprite> *p);
 
-        void AddToRenderLists(UnkClass_0211E3FC *lists);
+        void AddToRenderLists(DrawObjectList *lists);
         void Add(u16 color, fx32 x, fx32 y, u16 kind, int layer);
 
         Entry m_entries[8];
@@ -75,7 +75,7 @@ public:
 
     CFieldEffectFootStepSmoke();
     virtual ~CFieldEffectFootStepSmoke();
-    virtual int sub_02033028()
+    virtual int GetEffectId()
     {
         return 0x27;
     }
@@ -85,9 +85,9 @@ public:
     {
         return 1;
     }
-    virtual void ov0_02142398(UnkClass_0211E3FC *renderLists);
-    void ov0_021509F4(UnkClass_020074D4 *ncbr, UnkClass_02007AA4 *palette, CNCERFile *ncer);
-    void ov0_02150A04(UnkClass_020074D4 *ncbr, UnkClass_02007AA4 *palette, CNCERFile *ncer, UnkClass_02008788 *cac);
+    virtual void ov0_02142398(DrawObjectList *renderLists);
+    void ov0_021509F4(VramImage *ncbr, VramPalette *palette, CNCERFile *ncer);
+    void ov0_02150A04(VramImage *ncbr, VramPalette *palette, CNCERFile *ncer, CellAnimController *cac);
     void ov0_02150A94();
     void ov0_02150AE8(int idx, int arg1, int arg2, int arg3);
 
@@ -96,7 +96,7 @@ public:
     CFieldParticleAlphaAnimator m_animator;
     Puff m_puffs[4];
     CSoftwareSprite m_sprites[4];
-    UnkClass_02008788 *m_cac;
+    CellAnimController *m_cac;
 };
 
 #endif // POKERANGER2_FIELD_CFIELDEFFECTFOOTSTEPSMOKE_HPP

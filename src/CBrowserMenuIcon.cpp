@@ -1,5 +1,5 @@
+#include "BrowserScreen.hpp"
 #include "CGame.hpp"
-#include "UnkClass_0211D330.hpp"
 #include "UnkStruct_020107A8.hpp"
 #include "scene/CBrowserMenu.hpp"
 
@@ -17,11 +17,11 @@ CBrowserMenuItemIcon::~CBrowserMenuItemIcon()
     }
 }
 
-void CBrowserMenuItemIcon::ov21_0212181C(UnkClass_0200ECD0 **anims)
+void CBrowserMenuItemIcon::ov21_0212181C(OamSpriteSet **anims)
 {
     for (int i = 0; i < 3; i++) {
-        unk_18[i] = UnkClass_02120754::Create(anims[i], 0, 0, 0, 2);
-        unk_18[i]->unk_00->sub_0200EBF4(0x10, 0x10, 0, 0);
+        unk_18[i] = BrowserMenuSprite::Create(anims[i], 0, 0, 0, 2);
+        unk_18[i]->unk_00->SetTouchRect(0x10, 0x10, 0, 0);
     }
 }
 
@@ -31,7 +31,7 @@ BOOL CBrowserMenuItemIcon::IsTouched()
     if (kind >= 3) {
         return FALSE;
     }
-    return unk_18[kind]->unk_00->sub_0200EB84();
+    return unk_18[kind]->unk_00->GetTouchTrigger();
 }
 
 void CBrowserMenuItemIcon::func08()
@@ -44,24 +44,24 @@ void CBrowserMenuItemIcon::SetData(int id, int count, int arg2)
     int kind = unk_08->unk_20;
     switch (kind) {
     case 0:
-        unk_18[kind]->unk_04->sub_0200F628(unk_18[kind]->unk_08, id);
+        unk_18[kind]->unk_04->SetAnim(unk_18[kind]->unk_08, id);
         break;
     case 1:
         if (count != 0) {
-            unk_18[kind]->unk_04->sub_0200F628(unk_18[kind]->unk_08, id);
+            unk_18[kind]->unk_04->SetAnim(unk_18[kind]->unk_08, id);
         } else {
-            unk_18[kind]->unk_04->sub_0200F628(unk_18[kind]->unk_08, 0x13);
+            unk_18[kind]->unk_04->SetAnim(unk_18[kind]->unk_08, 0x13);
         }
         break;
     case 2:
         if (count == 0) {
-            unk_18[kind]->unk_04->sub_0200F628(unk_18[kind]->unk_08, 0x18);
+            unk_18[kind]->unk_04->SetAnim(unk_18[kind]->unk_08, 0x18);
         } else if (id == 0) {
-            unk_18[kind]->unk_04->sub_0200F628(unk_18[kind]->unk_08, 0x17);
+            unk_18[kind]->unk_04->SetAnim(unk_18[kind]->unk_08, 0x17);
         } else if (id == 0x18) {
-            unk_18[kind]->unk_04->sub_0200F628(unk_18[kind]->unk_08, 0x19);
+            unk_18[kind]->unk_04->SetAnim(unk_18[kind]->unk_08, 0x19);
         } else {
-            unk_18[kind]->unk_04->sub_0200F628(unk_18[kind]->unk_08, id - 1);
+            unk_18[kind]->unk_04->SetAnim(unk_18[kind]->unk_08, id - 1);
         }
         break;
     }
@@ -80,7 +80,7 @@ void CBrowserMenuItemIcon::UpdatePos()
         return;
     }
     unk_18[kind]->unk_00->unk_14 = TRUE;
-    unk_18[kind]->unk_00->sub_0200EB28(unk_0C + unk_08->unk_70, unk_10 + unk_08->unk_74);
+    unk_18[kind]->unk_00->SetPos(unk_0C + unk_08->unk_70, unk_10 + unk_08->unk_74);
 }
 
 void CBrowserMenuItemIcon::func0C()
@@ -101,9 +101,9 @@ CBrowserMenuCursorIcon::~CBrowserMenuCursorIcon()
     SAFE_DELETE(unk_14);
 }
 
-void CBrowserMenuCursorIcon::ov21_02121AF0(UnkClass_0200ECD0 *anim)
+void CBrowserMenuCursorIcon::ov21_02121AF0(OamSpriteSet *anim)
 {
-    unk_14 = UnkClass_02120754::Create(anim, 0x11, 0, 0, 0);
+    unk_14 = BrowserMenuSprite::Create(anim, 0x11, 0, 0, 0);
 }
 
 void CBrowserMenuCursorIcon::Update()
@@ -138,7 +138,7 @@ void CBrowserMenuCursorIcon::UpdatePos()
         return;
     }
     unk_14->unk_00->SetVisible(unk_18);
-    unk_14->unk_00->sub_0200EB28(unk_08 + unk_04->unk_70, unk_0C + unk_04->unk_74);
+    unk_14->unk_00->SetPos(unk_08 + unk_04->unk_70, unk_0C + unk_04->unk_74);
 }
 
 void CBrowserMenuCursorIcon::func0C()
@@ -153,7 +153,7 @@ CBrowserMenuManagerIcon::~CBrowserMenuManagerIcon()
 {
 }
 
-void CBrowserMenuManagerIcon::ov21_02121C74(UnkClass_0200ECD0 **anims, UnkClass_0200ECD0 *cursorAnim, UnkClass_0211D330 *browser)
+void CBrowserMenuManagerIcon::ov21_02121C74(OamSpriteSet **anims, OamSpriteSet *cursorAnim, BrowserScreen *browser)
 {
     unk_20 = 0;
     UnkClass_021226C0 *list = browser->unk_010;

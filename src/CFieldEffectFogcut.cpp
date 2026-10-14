@@ -48,10 +48,10 @@ CFieldEffectFogcut::CFieldEffectFogcut()
     CFieldEffectAttackActorData *data = new CFieldEffectAttackActorData();
     if (data != NULL) {
         data->ov0_0214FFF0(0x6E, 1, 1);
-        UnkClass_02008788 *cac = data->GetCac(0);
+        CellAnimController *cac = data->GetCac(0);
         if (cac != NULL) {
-            m_cacId = cac->sub_02008A80(1, 0);
-            cac->sub_02008990(m_cacId, 1);
+            m_cacId = cac->Create(1, 0);
+            cac->SetAnim(m_cacId, 1);
         }
         m_system.SetRes(FieldEffectSpriteRes(data->GetNcbr(0), data->GetPalette(), data->GetNcer(0)));
     }
@@ -65,9 +65,9 @@ CFieldEffectFogcut::CFieldEffectFogcut()
 CFieldEffectFogcut::~CFieldEffectFogcut()
 {
     if (unk_18 != NULL) {
-        UnkClass_02008788 *cac = unk_18->GetCac(0);
+        CellAnimController *cac = unk_18->GetCac(0);
         if (cac != NULL) {
-            cac->sub_02008B80(m_cacId);
+            cac->Remove(m_cacId);
         }
     }
     SAFE_DELETE(unk_18);
@@ -80,9 +80,9 @@ int CFieldEffectFogcut::ov0_02142264(int step)
     m_system.Update(step);
     if (unk_18 != NULL) {
         unk_18->Update();
-        UnkClass_02008788 *cac = unk_18->GetCac(0);
+        CellAnimController *cac = unk_18->GetCac(0);
         if (cac != NULL) {
-            m_forceField.m_cell = cac->sub_02008828(m_cacId);
+            m_forceField.m_cell = cac->GetCell(m_cacId);
         }
     }
     if (m_state == 2 && --m_timer == 0) {
@@ -119,7 +119,7 @@ int CFieldEffectFogcut::ov0_02142240(int outTime)
     return CFieldEffect::ov0_02142240(outTime);
 }
 
-int CFieldEffectFogcut::sub_0203312C(int param, int value)
+int CFieldEffectFogcut::SetParam(int param, int value)
 {
     switch (param) {
     case 1:

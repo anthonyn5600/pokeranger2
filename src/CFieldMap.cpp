@@ -5,8 +5,8 @@
 
 #include "CGame.hpp"
 #include "Camera2D.hpp"
-#include "UnkClass_020074D4.hpp"
-#include "UnkClass_02007AA4.hpp"
+#include "VramImage.hpp"
+#include "VramPalette.hpp"
 #include "field/CFieldMapLayer.hpp"
 #include "file/CBinaryFile.hpp"
 #include "heap.hpp"
@@ -59,9 +59,9 @@ void CFieldMap::ov0_02124D98(const char *name)
     OS_SPrintf(path, "data/Script/field/map/%s", name);
     unk_4C = new CBinaryFile(path, 0, 0, heapId, NULL, 0);
     unk_78 = unk_4C->unk_4C;
-    sub_02044AC8(unk_78);
+    Script_Link(unk_78);
     if (unk_78 != NULL) {
-        sub_02044B48(&unk_54, unk_7C, 0x80);
+        ScriptVM_Init(&unk_54, unk_7C, 0x80);
     } else {
         LogError("ScriptBlock ==  NULL by FieldMap.cpp");
     }
@@ -72,15 +72,15 @@ void CFieldMap::ov0_02124E48()
     if (unk_78 == NULL) {
         return;
     }
-    if (sub_02045A18(&unk_54, unk_78, "main") == -1) {
+    if (ScriptVM_Start(&unk_54, unk_78, "main") == -1) {
         LogError("not found func FieldMap.cpp");
     }
-    unk_50 = sub_02044C9C(&unk_54, 0xFFFFF);
+    unk_50 = ScriptVM_Run(&unk_54, 0xFFFFF);
 }
 
 void CFieldMap::ov0_02124E9C()
 {
-    sub_02044B78(&unk_54);
+    ScriptVM_Clear(&unk_54);
     SAFE_DELETE(unk_4C);
     unk_78 = NULL;
     unk_50 = 2;
@@ -159,7 +159,7 @@ void CFieldMap::ov0_021251D8(BOOL runScript, int fps)
         }
     }
     if (runScript) {
-        unk_50 = sub_02044C9C(&unk_54, 0xFFFFF);
+        unk_50 = ScriptVM_Run(&unk_54, 0xFFFFF);
     }
 }
 
@@ -201,13 +201,13 @@ int CFieldMap::ov0_0212546C(int group)
     return depth;
 }
 
-UnkClass_021302BC *CFieldMap::ov0_0212550C(void *data, int id)
+FieldMapTextures *CFieldMap::ov0_0212550C(void *data, int id)
 {
     char arcName[] = "MTP";
     NNSFndArchive archive;
     if (data != NULL && NNS_FndMountArchive(&archive, arcName, data)) {
         int count = archive.fatData->numFiles;
-        UnkClass_021302BC *tex = new UnkClass_021302BC();
+        FieldMapTextures *tex = new FieldMapTextures();
         tex->unk_3C = id;
         for (int i = 0; i < count; i++) {
             void *file = NNS_FndGetArchiveFileByIndex(&archive, i);
@@ -222,10 +222,10 @@ UnkClass_021302BC *CFieldMap::ov0_0212550C(void *data, int id)
                     continue;
                 }
                 if (!(id & 1)) {
-                    UnkClass_020074D4 *image = new UnkClass_020074D4(chr);
+                    VramImage *image = new VramImage(chr);
                     NNSGfdTexKey key = NNS_GfdAllocLnkTexVram(image->unk_38, FALSE, 0);
-                    image->sub_020076E8(NNS_GfdGetTexKeyAddr(key));
-                    image->sub_020076B0();
+                    image->LoadToVram(NNS_GfdGetTexKeyAddr(key));
+                    image->Release();
                     tex->AddImage(image, key);
                     NNS_G2dGetImageLocation(&image->unk_08, NNS_G2D_VRAM_TYPE_3DMAIN);
                 } else {
@@ -241,10 +241,10 @@ UnkClass_021302BC *CFieldMap::ov0_0212550C(void *data, int id)
                             for (int row = 0; row < 16; row++) {
                                 memcpy(buf + row * 8, src + (chr->W * 4 * (row + y * 16) + x * 8), 8);
                             }
-                            UnkClass_020074D4 *image = new UnkClass_020074D4(&block);
+                            VramImage *image = new VramImage(&block);
                             NNSGfdTexKey key = NNS_GfdAllocLnkTexVram(image->unk_38, FALSE, 0);
-                            image->sub_020076E8(NNS_GfdGetTexKeyAddr(key));
-                            image->sub_020076B0();
+                            image->LoadToVram(NNS_GfdGetTexKeyAddr(key));
+                            image->Release();
                             tex->AddImage(image, key);
                             NNS_G2dGetImageLocation(&image->unk_08, NNS_G2D_VRAM_TYPE_3DMAIN);
                         }
@@ -262,9 +262,9 @@ UnkClass_021302BC *CFieldMap::ov0_0212550C(void *data, int id)
                     FS_ReadFile(&fsFile, buf, size);
                     NNSG2dPaletteData *pal;
                     if (NNS_G2dGetUnpackedPaletteData(buf, &pal)) {
-                        UnkClass_02007AA4 *palette = new UnkClass_02007AA4(pal);
+                        VramPalette *palette = new VramPalette(pal);
                         NNSGfdPlttKey key = NNS_GfdAllocLnkPlttVram(palette->unk_04->szByte, FALSE, 0);
-                        palette->sub_02007BFC(NNS_GfdGetPlttKeyAddr(key));
+                        palette->LoadToVram(NNS_GfdGetPlttKeyAddr(key));
                         tex->AddPalette(palette, key, buf);
                         NNS_G2dGetImagePaletteLocation(&palette->unk_08, NNS_G2D_VRAM_TYPE_3DMAIN);
                     }
@@ -389,17 +389,17 @@ CFieldMapLayerBase *CFieldMap::ov0_02125904(void *data, int group, int index)
     return layer;
 }
 
-UnkClass_0212F82C *CFieldMap::ov0_02125CA8(void *data, int index)
+FieldMapAnimQuad *CFieldMap::ov0_02125CA8(void *data, int index)
 {
-    UnkClass_0212F82C *obj = new UnkClass_0212F82C();
+    FieldMapAnimQuad *obj = new FieldMapAnimQuad();
     obj->m_textures = unk_04;
     obj->Load(data);
     return obj;
 }
 
-UnkClass_0212FEDC *CFieldMap::ov0_02125CE8(void *data, int index)
+FieldMapPaletteAnim *CFieldMap::ov0_02125CE8(void *data, int index)
 {
-    UnkClass_0212FEDC *obj = new UnkClass_0212FEDC();
+    FieldMapPaletteAnim *obj = new FieldMapPaletteAnim();
     obj->m_textures = unk_04;
     obj->Load(data);
     return obj;
@@ -513,13 +513,13 @@ BOOL CFieldMap::ov0_02125D28(u8 group, const char *name, u32 heapId)
                                 unk_04 = NULL;
                             }
                         }
-                        unk_04 = (UnkClass_021302BC **)Heap_AllocWithAlignment(texCount * sizeof(UnkClass_021302BC *), 4);
+                        unk_04 = (FieldMapTextures **)Heap_AllocWithAlignment(texCount * sizeof(FieldMapTextures *), 4);
                         unk_0C = texCount;
                         unk_08 = 0;
                         for (int i = 0; i < texCount; i++) {
                             void *texData = NNS_FndGetArchiveFileByIndex(&texArchive, i);
                             if (texData != NULL) {
-                                UnkClass_021302BC *texture = ov0_0212550C(texData, texIds != NULL ? texIds[i] : 0);
+                                FieldMapTextures *texture = ov0_0212550C(texData, texIds != NULL ? texIds[i] : 0);
                                 if (texture != NULL) {
                                     unk_04[unk_08] = texture;
                                     unk_08++;
@@ -533,7 +533,7 @@ BOOL CFieldMap::ov0_02125D28(u8 group, const char *name, u32 heapId)
                     NNSFndArchive ctaArchive;
                     if (NNS_FndMountArchive(&ctaArchive, "MCT", cta)) {
                         int ctaCount = ctaArchive.fatData->numFiles;
-                        unk_10 = new UnkClass_0212F82C *[ctaCount];
+                        unk_10 = new FieldMapAnimQuad *[ctaCount];
                         unk_14 = ctaCount;
                         for (int i = 0; i < ctaCount; i++) {
                             unk_10[i] = ov0_02125CA8(NNS_FndGetArchiveFileByIndex(&ctaArchive, i), i);
@@ -545,7 +545,7 @@ BOOL CFieldMap::ov0_02125D28(u8 group, const char *name, u32 heapId)
                     NNSFndArchive plaArchive;
                     if (NNS_FndMountArchive(&plaArchive, "MPA", pla)) {
                         int plaCount = plaArchive.fatData->numFiles;
-                        unk_18 = new UnkClass_0212FEDC *[plaCount];
+                        unk_18 = new FieldMapPaletteAnim *[plaCount];
                         unk_1C = plaCount;
                         for (int i = 0; i < plaCount; i++) {
                             unk_18[i] = ov0_02125CE8(NNS_FndGetArchiveFileByIndex(&plaArchive, i), i);

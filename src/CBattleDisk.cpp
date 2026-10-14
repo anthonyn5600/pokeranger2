@@ -2,20 +2,20 @@
 
 #include "CGame.hpp"
 #include "CPlayerHPGauge.hpp"
-#include "UnkClass_02008788.hpp"
-#include "UnkClass_020B26A0.hpp"
+#include "CellAnimController.hpp"
+#include "SaveData.hpp"
+#include "battle/BattleDiskRing.hpp"
+#include "battle/BattleHPNumber.hpp"
+#include "battle/BattleParticle.hpp"
+#include "battle/BattleParticlePool.hpp"
 #include "battle/CBattlePowerSave.hpp"
 #include "battle/CDiskCursor.hpp"
 #include "battle/CLineEffect.hpp"
-#include "battle/UnkClass_0212306C.hpp"
+#include "battle/StylerLine.hpp"
 #include "battle/UnkClass_02127CD8.hpp"
 #include "battle/UnkClass_02127E14.hpp"
-#include "battle/UnkClass_02128860.hpp"
 #include "battle/UnkClass_02128A60.hpp"
 #include "battle/UnkClass_02128B24.hpp"
-#include "battle/UnkClass_0212D2C4.hpp"
-#include "battle/UnkClass_02136730.hpp"
-#include "battle/UnkClass_02136AD4.hpp"
 #include "fx_utils.hpp"
 #include "interpolation.hpp"
 #include "primitive/CSoftwareSprite.hpp"
@@ -33,11 +33,11 @@ static inline PointPair2D GetLinePoints(CPrimitiveLINE *line)
 static const char *sDiskArcs[] = { "DP1", "DP2" };
 static const char *sDiskNums[] = { "00", "01" };
 
-CBattleDisk::CBattleDisk(UnkClass_02136AD4 *particles)
+CBattleDisk::CBattleDisk(BattleParticlePool *particles)
 {
     ov1_0212BAD0();
-    unk_1B8 = new UnkClass_0212306C();
-    unk_1BC = new UnkClass_02128860();
+    unk_1B8 = new StylerLine();
+    unk_1BC = new BattleHPNumber();
     unk_1C0 = new CBattlePowerSave();
     unk_228 = new CSoftwareSprite();
     unk_234 = new CSoftwareSprite();
@@ -102,8 +102,8 @@ void CBattleDisk::ov1_0212BAD0()
     char ncer[96];
     char cac[96];
 
-    unk_22C = new UnkClass_0201AAE0("BDS", "/data/interface/i019_LZ.bin", "BDS:i019_00.NCBR", "BDS:i019.NCLR", "BDS:i019_00.NCER", "BDS:i019_00.cac");
-    unk_230 = unk_22C->m_anim->sub_02008A80(1, 0);
+    unk_22C = new GraphicsSet("BDS", "/data/interface/i019_LZ.bin", "BDS:i019_00.NCBR", "BDS:i019.NCLR", "BDS:i019_00.NCER", "BDS:i019_00.cac");
+    unk_230 = unk_22C->m_anim->Create(1, 0);
 
     OS_SPrintf(path, "data/interface/i019_LZ.bin");
     for (int i = 0; i < 2; i++) {
@@ -111,11 +111,11 @@ void CBattleDisk::ov1_0212BAD0()
         OS_SPrintf(nclr, "%s:i019.NCLR", sDiskArcs[i]);
         OS_SPrintf(ncer, "%s:i019_%s.NCER", sDiskArcs[i], sDiskNums[i]);
         OS_SPrintf(cac, "%s:i019_%s.cac", sDiskArcs[i], sDiskNums[i]);
-        unk_238[i] = new UnkClass_0201AAE0(sDiskArcs[i], path, ncbr, nclr, ncer, cac);
+        unk_238[i] = new GraphicsSet(sDiskArcs[i], path, ncbr, nclr, ncer, cac);
     }
-    unk_240 = unk_238[0]->m_anim->sub_02008A80(1, 0);
+    unk_240 = unk_238[0]->m_anim->Create(1, 0);
 
-    unk_264 = new UnkClass_0212D2C4();
+    unk_264 = new BattleDiskRing();
 }
 
 void CBattleDisk::ov1_0212BC54()
@@ -148,7 +148,7 @@ void CBattleDisk::vfunc_08()
     if (!ov1_0212C5C0()) {
         return;
     }
-    sub_020121F4();
+    Update();
     unk_1B8->ov1_0212402C();
     if (unk_18C != 0 && unk_190 == 0) {
         ov1_0212C414();
@@ -156,7 +156,7 @@ void CBattleDisk::vfunc_08()
     ov1_0212C3B4();
     unk_1E8.m_rectangle.pos = m_motion.GetPos();
     unk_1C4.m_circle.pos = m_motion.GetPos();
-    unk_22C->m_anim->sub_020089EC();
+    unk_22C->m_anim->UpdateAll();
 }
 
 void CBattleDisk::vfunc_0C(Camera2D *camera)
@@ -202,7 +202,7 @@ void CBattleDisk::ov1_0212C02C(Camera2D *camera)
     sprite->SetImage((UnkClass_CPrimitive_ImageProxy *)unk_22C->m_image, NULL);
     sprite->unk_34 = (UnkClass_CPrimitive_ImagePaletteProxy *)unk_22C->m_palette;
     sprite->unk_38 = (UnkClass_CSoftwareSprite_38 *)unk_22C->m_cells;
-    sprite->m_cellDataIdx = unk_22C->m_anim->sub_02008828(unk_230);
+    sprite->m_cellDataIdx = unk_22C->m_anim->GetCell(unk_230);
     sprite->SetPos(m_motion.GetPos());
     sprite->Render(camera);
 }
@@ -213,7 +213,7 @@ void CBattleDisk::ov1_0212C0B8(Camera2D *camera)
     sprite->SetImage((UnkClass_CPrimitive_ImageProxy *)unk_238[0]->m_image, NULL);
     sprite->unk_34 = (UnkClass_CPrimitive_ImagePaletteProxy *)unk_238[0]->m_palette;
     sprite->unk_38 = (UnkClass_CSoftwareSprite_38 *)unk_238[0]->m_cells;
-    sprite->m_cellDataIdx = unk_238[0]->m_anim->sub_02008828(unk_240);
+    sprite->m_cellDataIdx = unk_238[0]->m_anim->GetCell(unk_240);
     sprite->SetPos(m_motion.GetPos());
     sprite->Render(camera);
 }
@@ -232,7 +232,7 @@ void CBattleDisk::ov1_0212C144(Camera2D *camera)
 void CBattleDisk::ov1_0212C1C4(Point2D pos)
 {
     unk_194 &= ~0x10;
-    UnkClass_0212306C *line = unk_1B8;
+    StylerLine *line = unk_1B8;
     PointPair2D seg;
     seg.p1 = line->m_lines[line->m_head].GetStart();
     seg.p2 = pos;
@@ -242,7 +242,7 @@ void CBattleDisk::ov1_0212C1C4(Point2D pos)
         unk_194 |= 0x10;
     }
     unk_1B8->ov1_021243CC(pos.x, pos.y);
-    m_motion.sub_02011D3C(pos);
+    m_motion.SetPos(pos);
     if (IsUnk194Flag80()) {
         unk_264->SetPos(pos);
     }
@@ -281,7 +281,7 @@ void CBattleDisk::ov1_0212C3B4()
         unk_198 &= ~1;
     }
     if (unk_198 & 1) {
-        unk_248->m_motion.sub_02011D3C(m_motion.m_pos);
+        unk_248->m_motion.SetPos(m_motion.m_pos);
         unk_248->vfunc_08();
     }
 }
@@ -309,7 +309,7 @@ void CBattleDisk::ov1_0212C414()
             break;
         }
     }
-    unk_238[0]->m_anim->sub_020089EC();
+    unk_238[0]->m_anim->UpdateAll();
 }
 
 BOOL CBattleDisk::ov1_0212C4B8()
@@ -417,7 +417,7 @@ void CBattleDisk::ov1_0212C6D0(u16 color)
     for (int i = 0; i < ov1_0212C6C0(); i++) {
         Point2D end;
         end = ov1_0212C690(ov1_0212C6B0((u8)i));
-        UnkClass_02136730 *particle = unk_250->ov1_02136B24(0x50, end.x, end.y, 0, 0x2800, color);
+        BattleParticle *particle = unk_250->ov1_02136B24(0x50, end.x, end.y, 0, 0x2800, color);
         MATHRandContext32 *rand = &game->m_rand32;
         particle->ov1_02136A58(-(MATH_Rand32(rand, 0x3000) + 0x1000), 0x1028);
         particle->ov1_02136A88(0x1F, 0);
@@ -441,7 +441,7 @@ void CBattleDisk::ov1_0212C7E8(Point2D pos, int count, fx32 arg2, u16 color)
             p = GetLinePoints(&unk_1B8->m_lines2[idx]);
             fx32 x = LinearInterpolate(p.p1.x, p.p2.x, frac, 8);
             fx32 y = LinearInterpolate(p.p1.y, p.p2.y, frac, 8);
-            UnkClass_02136730 *particle = unk_250->ov1_02136B24(0xC, x, y, 0, 0x1000, color);
+            BattleParticle *particle = unk_250->ov1_02136B24(0xC, x, y, 0, 0x1000, color);
             particle->ov1_02136A40((pos.x - x) / 12, 0x1000);
             particle->ov1_02136A58((pos.y - y) / 12, 0x1000);
             particle->ov1_02136AA0(arg2, 0x1000);
@@ -470,7 +470,7 @@ void CBattleDisk::ov1_0212C990(Point2D pos, int count, fx32 arg2, u16 color)
             p = GetLinePoints(&unk_1B8->m_lines2[idx]);
             fx32 x = LinearInterpolate(p.p1.x, p.p2.x, frac, 8);
             fx32 y = LinearInterpolate(p.p1.y, p.p2.y, frac, 8);
-            UnkClass_02136730 *particle = unk_250->ov1_02136B24(0x18, x, y, 0, 0x1000, color);
+            BattleParticle *particle = unk_250->ov1_02136B24(0x18, x, y, 0, 0x1000, color);
             dx = (pos.x - x) / 12;
             dy = (pos.y - y) / 12;
             particle->ov1_02136A40(dx, 0x1000);
@@ -501,7 +501,7 @@ void CBattleDisk::ov1_0212CBA0(Point2D pos, int count, fx32 arg2)
             p = GetLinePoints(&unk_1B8->m_lines2[idx]);
             fx32 x = LinearInterpolate(p.p1.x, p.p2.x, frac, 8);
             fx32 y = LinearInterpolate(p.p1.y, p.p2.y, frac, 8);
-            UnkClass_02136730 *particle = unk_250->ov1_02136B24(0xC, x, y, 0, 0x1000, unk_242[colorIdx]);
+            BattleParticle *particle = unk_250->ov1_02136B24(0xC, x, y, 0, 0x1000, unk_242[colorIdx]);
             particle->ov1_02136A40((pos.x - x) / 12, 0x1000);
             particle->ov1_02136A58((pos.y - y) / 12, 0x1000);
             particle->ov1_02136AA0(arg2, 0x1000);
@@ -520,10 +520,10 @@ int CBattleDisk::ov1_0212CD6C(u16 level, int assistType, u8 type)
 {
     fx32 power;
     fx32 base = level << FX32_SHIFT;
-    UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+    SaveData *save = &MAIN_BSS_020B26A0;
     power = FX32_MUL(base, unk_1C0->ov1_02137ADC());
 
-    switch (sub_02016C14(save, 0x12)) {
+    switch (SaveData_GetPartsLevel(save, STYLER_PART_SOKO)) {
     case 0:
         break;
     case 1:
@@ -538,7 +538,7 @@ int CBattleDisk::ov1_0212CD6C(u16 level, int assistType, u8 type)
         break;
     }
 
-    switch (sub_02016C14(save, 0x13)) {
+    switch (SaveData_GetPartsLevel(save, STYLER_PART_COMBO)) {
     case 0:
         break;
     case 1:
@@ -573,7 +573,7 @@ int CBattleDisk::ov1_0212CD6C(u16 level, int assistType, u8 type)
         break;
     }
 
-    int bonus = sub_02016C14(save, 0x17);
+    int bonus = SaveData_GetPartsLevel(save, STYLER_PART_POWPLS);
     if (bonus != 0) {
         switch (bonus) {
         case 0:
@@ -601,23 +601,23 @@ void CBattleDisk::ov1_0212CF0C(fx32 x, fx32 y, int arg2)
 void CBattleDisk::ov1_0212CF1C()
 {
     MI_CpuFill8(unk_1A4, 0, sizeof(unk_1A4));
-    unk_1A4[4] += sub_02016CF0(&MAIN_BSS_020B26A0, 0);
-    unk_1A4[2] += sub_02016CF0(&MAIN_BSS_020B26A0, 1);
-    unk_1A4[3] += sub_02016CF0(&MAIN_BSS_020B26A0, 2);
-    unk_1A4[1] += sub_02016CF0(&MAIN_BSS_020B26A0, 3);
-    unk_1A4[6] += sub_02016CF0(&MAIN_BSS_020B26A0, 4);
-    unk_1A4[7] += sub_02016CF0(&MAIN_BSS_020B26A0, 5);
-    unk_1A4[10] += sub_02016CF0(&MAIN_BSS_020B26A0, 6);
-    unk_1A4[11] += sub_02016CF0(&MAIN_BSS_020B26A0, 7);
-    unk_1A4[8] += sub_02016CF0(&MAIN_BSS_020B26A0, 8);
-    unk_1A4[12] += sub_02016CF0(&MAIN_BSS_020B26A0, 9);
-    unk_1A4[9] += sub_02016CF0(&MAIN_BSS_020B26A0, 10);
-    unk_1A4[15] += sub_02016CF0(&MAIN_BSS_020B26A0, 11);
-    unk_1A4[13] += sub_02016CF0(&MAIN_BSS_020B26A0, 12);
-    unk_1A4[5] += sub_02016CF0(&MAIN_BSS_020B26A0, 13);
-    unk_1A4[0] += sub_02016CF0(&MAIN_BSS_020B26A0, 14);
-    unk_1A4[16] += sub_02016CF0(&MAIN_BSS_020B26A0, 15);
-    unk_1A4[14] += sub_02016CF0(&MAIN_BSS_020B26A0, 16);
+    unk_1A4[4] += SaveData_GetPartsBonus(&MAIN_BSS_020B26A0, STYLER_PART_LEAF_G);
+    unk_1A4[2] += SaveData_GetPartsBonus(&MAIN_BSS_020B26A0, STYLER_PART_AQUA_G);
+    unk_1A4[3] += SaveData_GetPartsBonus(&MAIN_BSS_020B26A0, STYLER_PART_LIGHT_G);
+    unk_1A4[1] += SaveData_GetPartsBonus(&MAIN_BSS_020B26A0, STYLER_PART_FIRE_G);
+    unk_1A4[6] += SaveData_GetPartsBonus(&MAIN_BSS_020B26A0, STYLER_PART_FIGHT_G);
+    unk_1A4[7] += SaveData_GetPartsBonus(&MAIN_BSS_020B26A0, STYLER_PART_POISON_G);
+    unk_1A4[10] += SaveData_GetPartsBonus(&MAIN_BSS_020B26A0, STYLER_PART_PSYCHO_G);
+    unk_1A4[11] += SaveData_GetPartsBonus(&MAIN_BSS_020B26A0, STYLER_PART_INSECT_G);
+    unk_1A4[8] += SaveData_GetPartsBonus(&MAIN_BSS_020B26A0, STYLER_PART_GROUND_G);
+    unk_1A4[12] += SaveData_GetPartsBonus(&MAIN_BSS_020B26A0, STYLER_PART_ROCK_G);
+    unk_1A4[9] += SaveData_GetPartsBonus(&MAIN_BSS_020B26A0, STYLER_PART_AIR_G);
+    unk_1A4[15] += SaveData_GetPartsBonus(&MAIN_BSS_020B26A0, STYLER_PART_DARK_G);
+    unk_1A4[13] += SaveData_GetPartsBonus(&MAIN_BSS_020B26A0, STYLER_PART_HORROR_G);
+    unk_1A4[5] += SaveData_GetPartsBonus(&MAIN_BSS_020B26A0, STYLER_PART_ICE_G);
+    unk_1A4[0] += SaveData_GetPartsBonus(&MAIN_BSS_020B26A0, STYLER_PART_NORMAL_G);
+    unk_1A4[16] += SaveData_GetPartsBonus(&MAIN_BSS_020B26A0, STYLER_PART_METAL_G);
+    unk_1A4[14] += SaveData_GetPartsBonus(&MAIN_BSS_020B26A0, STYLER_PART_DRAGON_G);
 }
 
 int CBattleDisk::ov1_0212D0D4(int z)
@@ -632,7 +632,7 @@ int CBattleDisk::ov1_0212D0D4(int z)
 
 int CBattleDisk::ov1_0212D124(int z)
 {
-    UnkClass_0212306C *line = unk_1B8;
+    StylerLine *line = unk_1B8;
     line->unk_54BC = z;
     line->m_sprite0.m_z = z + 0x60;
     line->m_sprite1.m_z = z + 0x60;
@@ -644,7 +644,7 @@ void CBattleDisk::ov1_0212D148(Point2D pos, int count)
     CGame *game = CGame::GetInstance();
     for (u8 i = 0; i < count; i++) {
         MATHRandContext32 *rand = &game->m_rand32;
-        UnkClass_02136730 *particle = unk_250->ov1_02136B24(
+        BattleParticle *particle = unk_250->ov1_02136B24(
             (u16)(MATH_Rand32(rand, 0x20) + 0x20), pos.x, pos.y, 0, 0x1000, 0x7FFF);
         particle->ov1_02136A40(MATH_Rand32(rand, 0x999) - 0x4CC, 0x1000);
         particle->ov1_02136A70(-0x333, 0x1199);

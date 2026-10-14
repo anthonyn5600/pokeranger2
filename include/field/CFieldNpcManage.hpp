@@ -21,12 +21,12 @@ public:
 
     virtual ~CFieldNpcManage()
     {
-        sub_0203F034();
+        Free();
         MAIN_BSS_0210CA50 = NULL;
     }
 
-    virtual void sub_0203EFE4(int capacity);
-    virtual void sub_0203F034();
+    virtual void Alloc(int capacity);
+    virtual void Free();
 
     int ov0_0213C66C(int slot, int type, u16 kind, u16 script, int arg5);
 };

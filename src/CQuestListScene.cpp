@@ -1,8 +1,8 @@
 #include "scene/CQuestListScene.hpp"
 
+#include "BrightnessFade.hpp"
 #include "CGame.hpp"
-#include "UnkClass_0200E0B4.hpp"
-#include "sub_02007CF0.hpp"
+#include "DisplayUtil.hpp"
 
 CQuestListScene::CQuestListScene()
     : unk_004(0)
@@ -14,7 +14,7 @@ CQuestListScene::CQuestListScene()
 
 CQuestListScene::~CQuestListScene()
 {
-    CGame::GetInstance()->unk_146C.sub_02008DB4(30);
+    CGame::GetInstance()->unk_146C.SetFps(30);
 }
 
 u32 CQuestListScene::func0()
@@ -99,13 +99,13 @@ void CQuestListScene::func5()
     unk_010.ov27_0211D0E0();
     GX_DispOn();
     GXS_DispOn();
-    CGame::GetInstance()->unk_146C.sub_02008DB4(60);
+    CGame::GetInstance()->unk_146C.SetFps(60);
 }
 
 void CQuestListScene::func6()
 {
     CGame *game = CGame::GetInstance();
-    game->sub_020101F4(0x20000, 0, 0x4000);
+    game->InitVramManagers(0x20000, 0, 0x4000);
     for (int i = 0; i < 2; i++) {
         CQuestListScreenBase *screen = unk_008[i];
         if (screen != NULL) {
@@ -115,7 +115,7 @@ void CQuestListScene::func6()
     unk_008[unk_004]->func2();
     unk_008[unk_004]->func3(-1);
     unk_384.ov27_02120CC4(unk_010.unk_338 == 0 ? TRUE : FALSE);
-    game->unk_14BC->sub_0200E0E0(3, 30);
+    game->unk_14BC->Start(3, 30);
 }
 
 void CQuestListScene::func7()
@@ -128,7 +128,7 @@ void CQuestListScene::func7()
     }
     unk_010.ov27_0211D150();
     GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);
-    CGame::GetInstance()->sub_020101F4(0x80000, 0, 0x4000);
+    CGame::GetInstance()->InitVramManagers(0x80000, 0, 0x4000);
 }
 
 void CQuestListScene::func3()
@@ -137,7 +137,7 @@ void CQuestListScene::func3()
     if (screen != NULL) {
         screen->func7();
     }
-    sub_02007D98();
+    LoadOam();
 }
 
 u32 CQuestListScene::getSceneId()

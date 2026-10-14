@@ -3,8 +3,8 @@
 
 #include <nitro.h>
 
+#include "Collision.hpp"
 #include "common.hpp"
-#include "sub_02006000.hpp"
 
 class UnkClass_02128A60;
 class CSoftwareSprite;

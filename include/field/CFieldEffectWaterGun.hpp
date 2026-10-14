@@ -11,7 +11,7 @@
 STATIC_SIZE_ASSERT(TFieldParticlePointEmitter<CSoftwareSprite>, 0x18);
 
 // clang-format off
-#include "UnkClass_02008788.hpp"
+#include "CellAnimController.hpp"
 #include "field/CFieldEffectFactory.hpp"
 #include "field/CFieldEffectActor.hpp"
 // clang-format on
@@ -56,25 +56,25 @@ public:
 
         virtual void Apply(TFieldParticle<CSoftwareSprite> *p, int dt);
 
-        void Init(UnkClass_02008788 *cac);
+        void Init(CellAnimController *cac);
         void Release();
         void Reset();
 
-        UnkClass_02008788 *m_cac;
+        CellAnimController *m_cac;
         u16 m_ids[16];
         int m_count;
     };
 
     CFieldEffectWaterGun(int id);
     virtual ~CFieldEffectWaterGun();
-    virtual int sub_02033028()
+    virtual int GetEffectId()
     {
         return 8;
     }
     virtual BOOL ov0_021421F0(int inTime, int holdTime, int outTime);
     virtual int ov0_02142264(int step);
     virtual int ov0_02142344(Camera2D *camera);
-    virtual int sub_0203312C(int param, int value);
+    virtual int SetParam(int param, int value);
 
     void InitSprites();
 

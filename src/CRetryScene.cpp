@@ -1,13 +1,13 @@
 #include "scene/CRetryScene.hpp"
 
 #include "CGame.hpp"
+#include "DisplayUtil.hpp"
+#include "SaveData.hpp"
 #include "SaveDataBuffer.hpp"
 #include "UnkClass_02041D80.hpp"
-#include "UnkClass_020B26A0.hpp"
-#include "sub_02007CF0.hpp"
 
-extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
-extern UnkClass_02041C80 *MAIN_BSS_0210CA6C;
+extern SaveData MAIN_BSS_020B26A0;
+extern FieldData *MAIN_BSS_0210CA6C;
 
 CRetryScene::CRetryScene()
 {
@@ -25,31 +25,31 @@ u32 CRetryScene::func0()
 {
     switch (unk_0008) {
     case 0:
-        if (s_game->unk_14BC->sub_0200E310()) {
+        if (s_game->unk_14BC->IsActive()) {
             break;
         }
-        if (s_game->unk_14C0->sub_0200E310()) {
+        if (s_game->unk_14C0->IsActive()) {
             break;
         }
-        s_game->m_textboxData->sub_0200AA84(0, 0x4F, 1, 1, 0);
+        s_game->m_textboxData->ShowMessage(0, 0x4F, 1, 1, 0);
         unk_0008 = 1;
         break;
     case 1:
-        if (s_game->m_textboxData->sub_02009ECC()) {
+        if (s_game->m_textboxData->IsActive()) {
             break;
         }
         if (s_game->m_textboxData->sub_0200B6A4(1)) {
             break;
         }
-        if (s_game->m_textboxData->sub_0200B6D4() == 0) {
+        if (s_game->m_textboxData->GetYesNoResult() == 0) {
             unk_0008 = 2;
         } else {
-            s_game->m_textboxData->sub_0200AA84(0, 0x51, 1, 1, 0);
+            s_game->m_textboxData->ShowMessage(0, 0x51, 1, 1, 0);
             unk_0008 = 8;
         }
         break;
     case 2:
-        unk_0010 = new UnkClass_02027FE8(1);
+        unk_0010 = new SaveManager(1);
         unk_0010->Load(0);
         unk_0008 = 3;
         break;
@@ -59,14 +59,14 @@ u32 CRetryScene::func0()
             break;
         }
         if (!(result & 0x80)) {
-            s_game->sub_0201024C();
-            MAIN_BSS_020B26A0.unk_8B64 = sub_02041D80(MAIN_BSS_0210CA6C, MAIN_BSS_020B26A0.unk_001A)->unk_04;
+            s_game->ApplyTextSettings();
+            MAIN_BSS_020B26A0.m_areaType = FieldData_GetMap(MAIN_BSS_0210CA6C, MAIN_BSS_020B26A0.m_mapId)->unk_04;
             MAIN_BSS_020B26A0.unk_8B68 = 0;
             MAIN_BSS_020B26A0.unk_8B6C = 0;
             MAIN_BSS_0210C1C0.unk_60 = 1;
             MAIN_BSS_0210C228.unk_800 = 1;
-            s_game->unk_14BC->sub_0200E0E0(4, 30);
-            s_game->unk_14C0->sub_0200E0E0(4, 30);
+            s_game->unk_14BC->Start(4, 30);
+            s_game->unk_14C0->Start(4, 30);
             unk_000C = 1;
             unk_0008 = 10;
         } else {
@@ -74,11 +74,11 @@ u32 CRetryScene::func0()
             case 1:
             case 2:
             case 8:
-                s_game->m_textboxData->sub_0200AA84(0, 0x45, 1, 1, 0);
+                s_game->m_textboxData->ShowMessage(0, 0x45, 1, 1, 0);
                 unk_0008 = 7;
                 break;
             case 10:
-                s_game->m_textboxData->sub_0200AA84(0, 0x50, 1, 1, 0);
+                s_game->m_textboxData->ShowMessage(0, 0x50, 1, 1, 0);
                 unk_0008 = 4;
                 break;
             default:
@@ -96,14 +96,14 @@ u32 CRetryScene::func0()
         }
         SAFE_DELETE(unk_0010);
         if (!(result & 0x80)) {
-            s_game->sub_0201024C();
-            MAIN_BSS_020B26A0.unk_8B64 = sub_02041D80(MAIN_BSS_0210CA6C, MAIN_BSS_020B26A0.unk_001A)->unk_04;
+            s_game->ApplyTextSettings();
+            MAIN_BSS_020B26A0.m_areaType = FieldData_GetMap(MAIN_BSS_0210CA6C, MAIN_BSS_020B26A0.m_mapId)->unk_04;
             MAIN_BSS_020B26A0.unk_8B68 = 0;
             MAIN_BSS_020B26A0.unk_8B6C = 0;
             MAIN_BSS_0210C1C0.unk_60 = 1;
             MAIN_BSS_0210C228.unk_800 = 1;
-            s_game->unk_14BC->sub_0200E0E0(4, 30);
-            s_game->unk_14C0->sub_0200E0E0(4, 30);
+            s_game->unk_14BC->Start(4, 30);
+            s_game->unk_14C0->Start(4, 30);
             unk_000C = 1;
             unk_0008 = 10;
         } else {
@@ -111,12 +111,12 @@ u32 CRetryScene::func0()
             case 1:
             case 2:
             case 8:
-                s_game->m_textboxData->sub_0200AA84(0, 0x45, 1, 1, 0);
+                s_game->m_textboxData->ShowMessage(0, 0x45, 1, 1, 0);
                 unk_0008 = 7;
                 break;
             case 10:
             default:
-                s_game->m_textboxData->sub_0200AA84(0, 0x47, 1, 1, 0);
+                s_game->m_textboxData->ShowMessage(0, 0x47, 1, 1, 0);
                 unk_0008 = 4;
                 break;
             }
@@ -124,34 +124,34 @@ u32 CRetryScene::func0()
         break;
     }
     case 4:
-        if (s_game->m_textboxData->sub_02009ECC()) {
+        if (s_game->m_textboxData->IsActive()) {
             break;
         }
-        s_game->m_textboxData->sub_0200AA84(0, 0x51, 1, 1, 0);
+        s_game->m_textboxData->ShowMessage(0, 0x51, 1, 1, 0);
         unk_0008 = 8;
         break;
     case 8:
-        if (s_game->m_textboxData->sub_02009ECC()) {
+        if (s_game->m_textboxData->IsActive()) {
             break;
         }
-        s_game->unk_14BC->sub_0200E0E0(4, 30);
-        s_game->unk_14C0->sub_0200E0E0(4, 30);
+        s_game->unk_14BC->Start(4, 30);
+        s_game->unk_14C0->Start(4, 30);
         unk_000C = 0x11;
         unk_0008 = 10;
         break;
     case 10:
-        if (s_game->unk_14BC->sub_0200E310()) {
+        if (s_game->unk_14BC->IsActive()) {
             break;
         }
-        if (s_game->unk_14C0->sub_0200E310()) {
+        if (s_game->unk_14C0->IsActive()) {
             break;
         }
         RTCTime time;
         RTCDate date;
         RTC_GetTime(&time);
         RTC_GetDate(&date);
-        MAIN_BSS_020B26A0.unk_8B94 = time;
-        MAIN_BSS_020B26A0.unk_8B84 = date;
+        MAIN_BSS_020B26A0.m_lastTime = time;
+        MAIN_BSS_020B26A0.m_lastDate = date;
         return unk_000C;
     }
 
@@ -202,23 +202,23 @@ void CRetryScene::func5()
 
 void CRetryScene::func6()
 {
-    s_game->unk_146C.sub_02008DB4(60);
+    s_game->unk_146C.SetFps(60);
     unk_0004 = 0;
     unk_0008 = 0;
-    sub_02015198(&MAIN_BSS_020B26A0);
-    sub_02007D68();
-    s_game->m_textboxData->sub_02009328(s_game->unk_0014, s_game->touchPanel, &s_game->unk_14AC->unk_0C, s_game->unk_14B0, s_game->unk_0024, s_game->m_audioEngine, 0x10, 0x4000, 0);
-    s_game->m_textboxData->sub_0200AB28(0);
-    s_game->unk_14BC->sub_0200E0E0(3, 30);
-    s_game->unk_14C0->sub_0200E0E0(3, 30);
+    SaveData_Init(&MAIN_BSS_020B26A0);
+    SetupBGFonts();
+    s_game->m_textboxData->Init(s_game->unk_0014, s_game->touchPanel, &s_game->unk_14AC->unk_0C, s_game->unk_14B0, s_game->unk_0024, s_game->m_audioEngine, 0x10, 0x4000, 0);
+    s_game->m_textboxData->LoadSystemMessages(0);
+    s_game->unk_14BC->Start(3, 30);
+    s_game->unk_14C0->Start(3, 30);
 }
 
 void CRetryScene::func7()
 {
     SAFE_DELETE(unk_0010);
-    s_game->m_textboxData->sub_0200AC90();
-    s_game->m_textboxData->sub_020092D4();
-    s_game->unk_146C.sub_02008DB4(30);
+    s_game->m_textboxData->FreeSystemMessages();
+    s_game->m_textboxData->Reset();
+    s_game->unk_146C.SetFps(30);
 }
 
 u32 CRetryScene::getSceneId()

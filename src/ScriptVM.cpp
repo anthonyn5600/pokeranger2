@@ -13,13 +13,13 @@ extern "C" {
 extern ScriptGlobals MAIN_BSS_0210CED4;
 extern ScriptSyscall *MAIN_BSS_0210CED8[64];
 
-void sub_02044404(const u32 *values, char *out);
-void sub_02044BAC(ScriptVM *vm, const char *fmt, ...);
-ScriptSymbol *sub_020444C4(const u32 *key, ScriptHeader **script);
-u32 *sub_02044518(ScriptHeader *script, const char *name);
-void sub_020459B0(ScriptVM *vm, ScriptHeader *script, u32 *pc);
+void DecodeSymbol(const u32 *values, char *out);
+void ScriptVM_Log(ScriptVM *vm, const char *fmt, ...);
+ScriptSymbol *Script_FindGlobalSymbol(const u32 *key, ScriptHeader **script);
+u32 *Script_FindFunction(ScriptHeader *script, const char *name);
+void ScriptVM_PushCall(ScriptVM *vm, ScriptHeader *script, u32 *pc);
 void thunk_FUN_020459b0(ScriptVM *vm, ScriptHeader *script, u32 *pc);
-int sub_02045FEC(ScriptVM *vm, ScriptHeader *script, u32 *pc, int argc);
+int ScriptVM_CallSync(ScriptVM *vm, ScriptHeader *script, u32 *pc, int argc);
 }
 
 union ScriptInsn {
@@ -88,7 +88,7 @@ static inline void EncodeSymbol(u32 *key, const char *name)
 
 extern "C" {
 
-ScriptSymbol *sub_02044464(ScriptHeader *script, const u32 *key)
+ScriptSymbol *Script_FindSymbol(ScriptHeader *script, const u32 *key)
 {
     // the symbol table ends where the imports start; re-read every iteration
     for (ScriptSymbol *sym = script->symbols; sym < (ScriptSymbol *)((void **)script)[2]; sym++) {
@@ -99,10 +99,10 @@ ScriptSymbol *sub_02044464(ScriptHeader *script, const u32 *key)
     return NULL;
 }
 
-ScriptSymbol *sub_020444C4(const u32 *key, ScriptHeader **script)
+ScriptSymbol *Script_FindGlobalSymbol(const u32 *key, ScriptHeader **script)
 {
     for (ScriptHeader *s = MAIN_BSS_0210CED4.scripts; s != NULL; s = s->next) {
-        ScriptSymbol *sym = sub_02044464(s, key);
+        ScriptSymbol *sym = Script_FindSymbol(s, key);
         if (sym != NULL) {
             if (script != NULL) {
                 *script = s;
@@ -113,18 +113,18 @@ ScriptSymbol *sub_020444C4(const u32 *key, ScriptHeader **script)
     return NULL;
 }
 
-u32 *sub_02044518(ScriptHeader *script, const char *name)
+u32 *Script_FindFunction(ScriptHeader *script, const char *name)
 {
     u32 key[2];
     EncodeSymbol(key, name);
-    ScriptSymbol *sym = sub_02044464(script, key);
+    ScriptSymbol *sym = Script_FindSymbol(script, key);
     if (sym != NULL) {
         return sym->code;
     }
     return NULL;
 }
 
-void sub_02044AC8(void *data)
+void Script_Link(void *data)
 {
     ScriptHeader *script = (ScriptHeader *)data;
     if (script == NULL) {
@@ -140,12 +140,12 @@ void sub_02044AC8(void *data)
     }
 }
 
-void sub_02044B38(u32 id, ScriptSyscall *handlers)
+void Script_RegisterSyscalls(u32 id, ScriptSyscall *handlers)
 {
     MAIN_BSS_0210CED8[id] = handlers;
 }
 
-void sub_02044B48(ScriptVM *vm, void *stack, u32 stackSize)
+void ScriptVM_Init(ScriptVM *vm, void *stack, u32 stackSize)
 {
     vm->unk_04 = NULL;
     vm->unk_08 = NULL;
@@ -155,15 +155,15 @@ void sub_02044B48(ScriptVM *vm, void *stack, u32 stackSize)
     vm->unk_20 = 0;
     vm->unk_18 = stackSize;
     vm->unk_1C = (u32 *)stack;
-    sub_02044B84(vm);
+    ScriptVM_Reset(vm);
 }
 
-void sub_02044B78(ScriptVM *vm)
+void ScriptVM_Clear(ScriptVM *vm)
 {
-    sub_02044B84(vm);
+    ScriptVM_Reset(vm);
 }
 
-void sub_02044B84(ScriptVM *vm)
+void ScriptVM_Reset(ScriptVM *vm)
 {
     vm->unk_00 = NULL;
     vm->unk_04 = vm->unk_1C + vm->unk_18;
@@ -176,7 +176,7 @@ struct ScriptLogArgs {
     va_list args;
 };
 
-void sub_02044BAC(ScriptVM *vm, const char *fmt, ...)
+void ScriptVM_Log(ScriptVM *vm, const char *fmt, ...)
 {
     ScriptLogArgs log;
     log.fmt = fmt;
@@ -188,7 +188,7 @@ void sub_02044BAC(ScriptVM *vm, const char *fmt, ...)
     MAIN_BSS_0210CED4.syscalls[0][2]((int *)&log, 1);
 }
 
-ScriptImport *sub_02044C08(ScriptVM *vm, int index)
+ScriptImport *ScriptVM_ResolveImport(ScriptVM *vm, int index)
 {
     ScriptImport *import = &vm->unk_14->imports[index];
     if (import->symbol != NULL) {
@@ -198,15 +198,15 @@ ScriptImport *sub_02044C08(ScriptVM *vm, int index)
     u32 key[2];
     key[0] = import->key[0];
     key[1] = import->key[1];
-    ScriptSymbol *sym = sub_020444C4(key, &script);
+    ScriptSymbol *sym = Script_FindGlobalSymbol(key, &script);
     if (sym != NULL) {
         import->symbol = sym;
         import->script = script;
         return import;
     }
     char name[16];
-    sub_02044404(key, name);
-    sub_02044BAC(vm, "fsc:symbol not found %s\n", name);
+    DecodeSymbol(key, name);
+    ScriptVM_Log(vm, "fsc:symbol not found %s\n", name);
     return NULL;
 }
 
@@ -229,7 +229,7 @@ static inline void RPush(ScriptVM *vm, u32 value)
 #define PUSH(vm, v)  Push(vm, (u32)(v))
 #define RPUSH(vm, v) RPush(vm, (u32)(v))
 
-int sub_02044C9C(ScriptVM *vm, u32 steps)
+int ScriptVM_Run(ScriptVM *vm, u32 steps)
 {
     if (vm->unk_20 != 0) {
         vm->unk_20--;
@@ -250,7 +250,7 @@ int sub_02044C9C(ScriptVM *vm, u32 steps)
             case 1:
                 return 1;
             case 2:
-                sub_02044B84(vm);
+                ScriptVM_Reset(vm);
                 break;
             case 3:
                 vm->unk_20 = POP(vm);
@@ -325,9 +325,9 @@ int sub_02044C9C(ScriptVM *vm, u32 steps)
             int argc = insn.sub;
             ScriptSyscall *table = MAIN_BSS_0210CED8[page];
             if (table == NULL) {
-                sub_02044BAC(vm, "fsc:undef syscall page=%d\n", page);
+                ScriptVM_Log(vm, "fsc:undef syscall page=%d\n", page);
             } else if (table[id] == NULL) {
-                sub_02044BAC(vm, "fsc:undef syscall function page=%d id=%x\n", page, id);
+                ScriptVM_Log(vm, "fsc:undef syscall function page=%d id=%x\n", page, id);
             } else {
                 vm->unk_10 = table[id]((int *)vm->unk_04, argc);
             }
@@ -354,7 +354,7 @@ int sub_02044C9C(ScriptVM *vm, u32 steps)
             vm->unk_00 += insn.arg;
             break;
         case 5: {
-            ScriptImport *import = sub_02044C08(vm, insn.arg);
+            ScriptImport *import = ScriptVM_ResolveImport(vm, insn.arg);
             if (import != NULL) {
                 RPUSH(vm, vm->unk_00);
                 RPUSH(vm, vm->unk_0C);
@@ -545,7 +545,7 @@ int sub_02044C9C(ScriptVM *vm, u32 steps)
             }
             break;
         case 21:
-            sub_02044BAC(vm, "fsc:float operator not imprement\n");
+            ScriptVM_Log(vm, "fsc:float operator not imprement\n");
             break;
         case 22:
             switch (insn.arg) {
@@ -583,7 +583,7 @@ int sub_02044C9C(ScriptVM *vm, u32 steps)
             }
             break;
         case 23:
-            sub_02044BAC(vm, "fsc:float operator not imprement\n");
+            ScriptVM_Log(vm, "fsc:float operator not imprement\n");
             break;
         case 24:
             switch (insn.arg) {
@@ -606,22 +606,22 @@ int sub_02044C9C(ScriptVM *vm, u32 steps)
             }
             break;
         case 28:
-            sub_02044BAC(vm, "fsc:float operator not imprement\n");
+            ScriptVM_Log(vm, "fsc:float operator not imprement\n");
             break;
         case 0:
             break;
         default:
-            sub_02044BAC(vm, "fsc:unknown opcode %x\n", insn.word);
+            ScriptVM_Log(vm, "fsc:unknown opcode %x\n", insn.word);
             return 1;
         }
         if ((int)vm->unk_04 <= (int)vm->unk_08) {
-            sub_02044BAC(vm, "fsc:stack overflow stacksize=%d\n", vm->unk_18);
+            ScriptVM_Log(vm, "fsc:stack overflow stacksize=%d\n", vm->unk_18);
         }
     }
     return 8;
 }
 
-void sub_020459B0(ScriptVM *vm, ScriptHeader *script, u32 *pc)
+void ScriptVM_PushCall(ScriptVM *vm, ScriptHeader *script, u32 *pc)
 {
     RPUSH(vm, vm->unk_00);
     RPUSH(vm, vm->unk_0C);
@@ -634,14 +634,14 @@ void sub_020459B0(ScriptVM *vm, ScriptHeader *script, u32 *pc)
 
 void thunk_FUN_020459b0(ScriptVM *vm, ScriptHeader *script, u32 *pc)
 {
-    sub_020459B0(vm, script, pc);
+    ScriptVM_PushCall(vm, script, pc);
 }
 
-int sub_02045A18(ScriptVM *vm, void *script, const char *name)
+int ScriptVM_Start(ScriptVM *vm, void *script, const char *name)
 {
     u32 key[2];
     EncodeSymbol(key, name);
-    u32 *pc = sub_02044518((ScriptHeader *)script, name);
+    u32 *pc = Script_FindFunction((ScriptHeader *)script, name);
     if (pc == NULL) {
         return 0;
     }
@@ -649,13 +649,13 @@ int sub_02045A18(ScriptVM *vm, void *script, const char *name)
     return 1;
 }
 
-int sub_02045FEC(ScriptVM *vm, ScriptHeader *script, u32 *pc, int argc)
+int ScriptVM_CallSync(ScriptVM *vm, ScriptHeader *script, u32 *pc, int argc)
 {
     u32 *ret = vm->unk_00;
     int wait = vm->unk_20;
-    sub_020459B0(vm, script, pc);
+    ScriptVM_PushCall(vm, script, pc);
     while (vm->unk_00 != ret) {
-        if (sub_02044C9C(vm, 1) & 3) {
+        if (ScriptVM_Run(vm, 1) & 3) {
             return -2;
         }
     }
@@ -663,14 +663,14 @@ int sub_02045FEC(ScriptVM *vm, ScriptHeader *script, u32 *pc, int argc)
     return vm->unk_10;
 }
 
-int sub_02046040(ScriptVM *vm, void *script, const char *name, int argc)
+int ScriptVM_CallFunction(ScriptVM *vm, void *script, const char *name, int argc)
 {
     u32 key[2];
     EncodeSymbol(key, name);
-    u32 *pc = sub_02044518((ScriptHeader *)script, name);
+    u32 *pc = Script_FindFunction((ScriptHeader *)script, name);
     if (pc == NULL) {
         return -1;
     }
-    return sub_02045FEC(vm, (ScriptHeader *)script, pc, argc);
+    return ScriptVM_CallSync(vm, (ScriptHeader *)script, pc, argc);
 }
 }

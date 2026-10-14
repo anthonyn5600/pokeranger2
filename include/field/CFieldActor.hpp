@@ -3,29 +3,29 @@
 
 #include <nitro.h>
 
-#include "UnkClass_0211E3FC.hpp"
+#include "Collision.hpp"
+#include "DrawObjectList.hpp"
 #include "common.hpp"
 #include "field/CFieldActorScript.hpp"
 #include "field/CFieldDrawActor.hpp"
-#include "sub_02006000.hpp"
 
 class CFieldMap;
-class UnkClass_020416AC;
+class FieldShadow;
 
 class CFieldDrawObject : public CDrawObject {
 public:
     CFieldDrawObject();
     virtual ~CFieldDrawObject();
 
-    BOOL sub_02040530(int arg0, u16 arg1, int arg2, u32 mask, int arg4);
+    BOOL CreateActor(int arg0, u16 arg1, int arg2, u32 mask, int arg4);
     BOOL sub_020405B4(int arg0, u16 arg1, int arg2, u32 mask, int arg4);
-    void sub_02040638();
-    virtual int sub_020091D4(Camera2D *camera, int budget);
+    void DeleteActor();
+    virtual int Draw(Camera2D *camera, int budget);
 
     inline void SetPos(Point2D pos)
     {
         if (unk_0C != NULL) {
-            unk_0C->m_motion.sub_02011D3C(pos);
+            unk_0C->m_motion.SetPos(pos);
             if (unk_0C->m_sprite != NULL) {
                 unk_0C->m_sprite->SetPos(pos);
             }
@@ -45,28 +45,28 @@ public:
     inline void sub_02012114_(int arg0, int arg1)
     {
         if (unk_0C != NULL) {
-            unk_0C->sub_02012114(arg0, arg1);
+            unk_0C->SetAnim(arg0, arg1);
         }
     }
 
     inline void sub_020128EC_(u16 arg0)
     {
         if (unk_0C != NULL) {
-            unk_0C->sub_020128EC(arg0);
+            unk_0C->SetDir(arg0);
         }
     }
 
     inline void sub_0201287C_()
     {
         if (unk_0C != NULL) {
-            unk_0C->sub_0201287C();
+            unk_0C->FaceMoveDir();
         }
     }
 
     inline void sub_020129F4_(int arg0, u8 arg1)
     {
         if (unk_0C != NULL) {
-            unk_0C->sub_020129F4(arg0, arg1);
+            unk_0C->FadeAlpha(arg0, arg1);
         }
     }
 
@@ -256,28 +256,28 @@ public:
     inline void Jump(fx32 height, int duration)
     {
         if (unk_0C != NULL) {
-            unk_0C->sub_02012860(height, duration);
+            unk_0C->Jump(height, duration);
         }
     }
 
     inline void MoveLinear(Point2D dest, u32 duration)
     {
         if (unk_0C != NULL) {
-            unk_0C->m_motion.sub_02011AB0(dest, duration);
+            unk_0C->m_motion.MoveLinear(dest, duration);
         }
     }
 
     inline void StopGhost()
     {
         if (unk_0C != NULL) {
-            unk_0C->sub_02012C00();
+            unk_0C->StopGhosts();
         }
     }
 
     inline void LookAt(Point2D pos)
     {
         if (unk_0C != NULL) {
-            unk_0C->sub_02012894(pos);
+            unk_0C->LookAt(pos);
         }
     }
 
@@ -329,33 +329,33 @@ class CFieldActor {
 public:
     CFieldActor();
     virtual ~CFieldActor();
-    virtual BOOL sub_0203C1B4(void *script);
-    virtual BOOL sub_0203C1FC(CFieldActorScript *script, void *block);
-    virtual BOOL sub_0203C22C(const char *label);
-    virtual BOOL sub_0203C288();
-    virtual BOOL sub_0203C2D8();
+    virtual BOOL SetScriptBlock(void *script);
+    virtual BOOL SetScript(CFieldActorScript *script, void *block);
+    virtual BOOL RunScriptLabel(const char *label);
+    virtual BOOL StopScript();
+    virtual BOOL RestartScriptLabel();
     virtual void sub_0202D394();
-    virtual void sub_0203DA60(u32 id);
-    virtual void sub_0203DA40(CFieldMap *map);
-    virtual BOOL sub_0203D578(CFieldMap *map);
+    virtual void SetId(u32 id);
+    virtual void Process(CFieldMap *map);
+    virtual BOOL UpdateMove(CFieldMap *map);
     virtual BOOL sub_0203DA38();
-    virtual void sub_0202E68C(int arg0);
-    virtual void sub_0202D7E0();
-    virtual void sub_0202DC54(int arg0, int arg1);
+    virtual void SetLayer(int arg0);
+    virtual void StopMotion();
+    virtual void PlayAnim(int arg0, int arg1);
     virtual void sub_02032A44(int arg0);
 
-    void sub_0203C2B8();
-    void sub_0203C310();
-    BOOL sub_0203C418(int arg0, u16 arg1, int arg2, u32 mask, int arg4);
+    void UpdateScript();
+    void Reset();
+    BOOL CreateDrawObject(int arg0, u16 arg1, int arg2, u32 mask, int arg4);
     BOOL sub_0203C4BC(int arg0, u16 arg1, int arg2, u32 mask, int arg4);
-    void sub_0203C560();
-    void sub_0203C590(UnkClass_0211E3FC *renderLists, UnkClass_020416AC *hud);
-    void sub_0203C87C(CFieldMap *map);
+    void DeleteDrawObject();
+    void Draw(DrawObjectList *renderLists, FieldShadow *hud);
+    void Update(CFieldMap *map);
     void sub_0203CCD4();
     void sub_0203CDB0();
-    BOOL sub_0203CF40(const PointPair2D &move, fx32 radius, u32 flags);
-    BOOL sub_0203D110(Point2D pos, fx32 radius, u32 flags);
-    BOOL sub_0203D404(Point2D dest);
+    BOOL CheckSweepCollision(const PointPair2D &move, fx32 radius, u32 flags);
+    BOOL CheckCircleCollision(Point2D pos, fx32 radius, u32 flags);
+    BOOL StartMoveTo(Point2D dest);
     void sub_0203D320();
     void sub_0203D2F4();
     void sub_0203D394();
@@ -623,42 +623,42 @@ public:
     inline void MoveTo(Point2D pos, int speed)
     {
         if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-            unk_08->unk_0C->m_motion.sub_02011C20(pos, speed);
+            unk_08->unk_0C->m_motion.MoveAtSpeed(pos, speed);
         }
     }
 
     inline void MoveLinear(Point2D pos, u32 duration)
     {
         if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-            unk_08->unk_0C->m_motion.sub_02011AB0(pos, duration);
+            unk_08->unk_0C->m_motion.MoveLinear(pos, duration);
         }
     }
 
     inline void MoveCurve(Point2D end, Point2D ctrl, u32 duration)
     {
         if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-            unk_08->unk_0C->m_motion.sub_02011B18(end, ctrl, duration);
+            unk_08->unk_0C->m_motion.MoveQuadratic(end, ctrl, duration);
         }
     }
 
     inline void MoveCurve(Point2D end, Point2D ctrl1, Point2D ctrl2, u32 duration)
     {
         if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-            unk_08->unk_0C->m_motion.sub_02011B94(end, ctrl1, ctrl2, duration);
+            unk_08->unk_0C->m_motion.MoveCubic(end, ctrl1, ctrl2, duration);
         }
     }
 
     inline void MoveCurve(Point2D *end, Point2D *ctrl, int speed)
     {
         if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-            unk_08->unk_0C->sub_02012F5C(end, ctrl, speed);
+            unk_08->unk_0C->MoveCurveAtSpeed(end, ctrl, speed);
         }
     }
 
     inline void sub_02012948_(Point2D pos)
     {
         if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-            unk_08->unk_0C->sub_02012948(pos);
+            unk_08->unk_0C->FaceToward(pos);
         }
     }
 
@@ -672,21 +672,21 @@ public:
     inline void Jump(fx32 height, u16 duration)
     {
         if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-            unk_08->unk_0C->sub_02012860(height, duration);
+            unk_08->unk_0C->Jump(height, duration);
         }
     }
 
     inline void sub_02012A3C_(int arg0, fx32 arg1, fx32 arg2)
     {
         if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-            unk_08->unk_0C->sub_02012A3C(arg0, arg1, arg2);
+            unk_08->unk_0C->ScaleTo(arg0, arg1, arg2);
         }
     }
 
     inline void sub_020128D8_()
     {
         if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-            unk_08->unk_0C->sub_020128D8();
+            unk_08->unk_0C->FixDir();
         }
     }
 
@@ -804,7 +804,7 @@ public:
             Rectangle rect = unk_24;
             rect.pos.x += GetX();
             rect.pos.y += GetY() - GetHeight();
-            return sub_02006000(pos, rect, 0);
+            return PointInRect(pos, rect, 0);
         }
         return FALSE;
     }
@@ -866,7 +866,7 @@ public:
 };
 
 extern "C" {
-void sub_02041C1C(CFieldActor *actor);
+void Actor_HideManpu(CFieldActor *actor);
 }
 
 #endif // POKERANGER2_FIELD_CFIELDACTOR_HPP

@@ -2,33 +2,34 @@
 
 #include <string.h>
 
+#include "BGFontPrinter.hpp"
+#include "BrightnessFade.hpp"
 #include "CGame.hpp"
 #include "CPlayerHPGauge.hpp"
 #include "CTouchPanel.hpp"
 #include "Camera2D.hpp"
-#include "UnkClass_02001C04.hpp"
-#include "UnkClass_020023EC.hpp"
-#include "UnkClass_020091E8.hpp"
-#include "UnkClass_0200D3F8.hpp"
-#include "UnkClass_0200E0B4.hpp"
-#include "UnkClass_02022404.hpp"
-#include "UnkClass_020233C8.hpp"
-#include "UnkClass_02029800.hpp"
-#include "UnkClass_02040F34.hpp"
-#include "UnkClass_020416AC.hpp"
+#include "CameraController.hpp"
+#include "DisplayUtil.hpp"
+#include "DrawObjectList.hpp"
+#include "FieldCannons.hpp"
+#include "FieldDebugMenu.hpp"
+#include "FieldDrawActorDataPool.hpp"
+#include "FieldEventRectManage.hpp"
+#include "FieldScreenEffectManage.hpp"
+#include "FieldScriptLauncher.hpp"
+#include "FieldShadow.hpp"
+#include "FieldSubScreen.hpp"
+#include "FieldSyscallSets.hpp"
+#include "PadInput.hpp"
+#include "SaveData.hpp"
+#include "SubScreenIconMenu.hpp"
+#include "TextboxManager.hpp"
+#include "TitleBanner.hpp"
+#include "TouchDotLine.hpp"
 #include "UnkClass_02041D80.hpp"
-#include "UnkClass_020B26A0.hpp"
-#include "UnkClass_0211D850.hpp"
-#include "UnkClass_0211E3FC.hpp"
-#include "UnkClass_0213D624.hpp"
-#include "UnkClass_0213DDCC.hpp"
-#include "UnkClass_0213F918.hpp"
-#include "UnkClass_021480E4.hpp"
 #include "UnkClass_0214B984.hpp"
-#include "UnkClass_0214F9DC.hpp"
 #include "UnkClass_0214FB28.hpp"
 #include "UnkClass_0214FD4C.hpp"
-#include "UnkClass_0215994C.hpp"
 #include "UnkClass_0216D5F4.hpp"
 #include "UnkStruct_020107A8.hpp"
 #include "field/CFieldEffectManage.hpp"
@@ -49,16 +50,15 @@
 #include "field/CFieldTargetObjectManage.hpp"
 #include "interpolation.hpp"
 #include "primitive/CSoftwareSprite.hpp"
-#include "sub_02007CF0.hpp"
 
 extern "C" {
-void sub_0201164C(UnkClass_0201164C *missionQuestData, u32 mapIdx);
-void sub_02018E30(void *arg0);
-void sub_0203401C(void *scriptManager, u8 arg1);
-void sub_02034120(void *scriptManager, u8 arg1);
-void sub_02017E44(UnkClass_020B26A0 *save);
-void sub_020180F4(UnkClass_020B26A0 *save);
-void sub_02034450(void *scriptManager);
+void MissionQuestData_SetChapter(MissionQuestData *missionQuestData, u32 mapIdx);
+void GlobalValues_ClearChapterValues(void *arg0);
+void ScriptManager_LoadArea(void *scriptManager, u8 arg1);
+void ScriptManager_LoadQuest(void *scriptManager, u8 arg1);
+void sub_02017E44(SaveData *save);
+void SaveData_ReleasePartnerVram(SaveData *save);
+void ScriptManager_UnloadAll(void *scriptManager);
 }
 
 struct UnkStruct_0208AC1C {
@@ -71,8 +71,8 @@ struct UnkStruct_0208AC1C {
 extern CFieldScene *MAIN_BSS_0210CA40;
 extern u16 DAT_0208d58c;
 extern UnkStruct_0208AC1C s_c000First_0208ac1c[];
-extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
-extern UnkClass_02041C80 *MAIN_BSS_0210CA6C;
+extern SaveData MAIN_BSS_020B26A0;
+extern FieldData *MAIN_BSS_0210CA6C;
 extern void *MAIN_BSS_0210CA74;
 
 CFieldScene::CFieldScene(CGame *game)
@@ -80,7 +80,7 @@ CFieldScene::CFieldScene(CGame *game)
 {
     MAIN_BSS_0210CA40 = this;
     m_game = game;
-    m_game->unk_146C.sub_02008DB4(30);
+    m_game->unk_146C.SetFps(30);
     DAT_0208d58c = 30;
     unk_008C = 0;
     unk_007C = 0;
@@ -103,7 +103,7 @@ CFieldScene::CFieldScene(CGame *game)
 
 CFieldScene::~CFieldScene()
 {
-    m_game->unk_146C.sub_02008DB4(30);
+    m_game->unk_146C.SetFps(30);
     MAIN_BSS_0210CA40 = NULL;
 }
 
@@ -168,7 +168,7 @@ void CFieldScene::func6()
     BOOL fromTable;
     UnkStruct_02041D80 *mapInfo;
     int doorEventId;
-    UnkClass_020B26A0 *save;
+    SaveData *save;
     BOOL firstScene;
     BOOL flag2;
     u32 mapIdx;
@@ -176,10 +176,10 @@ void CFieldScene::func6()
     NNS_GfdResetLnkTexVramState();
     NNS_GfdResetLnkPlttVramState();
     sceneId = m_game->unk_0008;
-    CSoftwareSprite::sub_020050C8();
+    CSoftwareSprite::AllocSharedPalette();
     save = &MAIN_BSS_020B26A0;
     MAIN_BSS_0210CA74 = NULL;
-    m_game->m_textboxData->sub_02009328(m_game->unk_0014, m_game->touchPanel, &m_game->unk_14AC->unk_0C, m_game->unk_14B0, m_game->unk_0024, m_game->m_audioEngine, 0x10, 0x4000, 0);
+    m_game->m_textboxData->Init(m_game->unk_0014, m_game->touchPanel, &m_game->unk_14AC->unk_0C, m_game->unk_14B0, m_game->unk_0024, m_game->m_audioEngine, 0x10, 0x4000, 0);
 
     firstScene = FALSE;
     fromTable = FALSE;
@@ -187,14 +187,14 @@ void CFieldScene::func6()
     if (MAIN_BSS_020B26A0.unk_8B68 != 0) {
         mapIdx = save->unk_8B6C;
         firstScene = TRUE;
-        sub_02018E30(m_game->unk_14B4);
+        GlobalValues_ClearChapterValues(m_game->unk_14B4);
         const char *name = s_c000First_0208ac1c[mapIdx].name;
         if (name != NULL) {
-            strcpy(save->unk_8B44, name);
+            strcpy(save->m_saveName, name);
         } else {
-            save->unk_8B44[0] = 0;
+            save->m_saveName[0] = 0;
         }
-        save->unk_001A = s_c000First_0208ac1c[mapIdx].mapId;
+        save->m_mapId = s_c000First_0208ac1c[mapIdx].mapId;
         Point2D pos;
         pos.x = s_c000First_0208ac1c[mapIdx].x << FX32_SHIFT;
         pos.y = s_c000First_0208ac1c[mapIdx].y << FX32_SHIFT;
@@ -203,12 +203,12 @@ void CFieldScene::func6()
         save->unk_8B6C = 0;
         fromTable = TRUE;
     } else {
-        mapIdx = m_game->m_missionQuestData->unk_08;
+        mapIdx = m_game->m_missionQuestData->m_chapter;
     }
 
     unk_0038 = MAIN_BSS_0210CA6C;
-    mapInfo = sub_02041D80(unk_0038, save->unk_001A);
-    save->unk_8B64 = mapInfo->unk_04;
+    mapInfo = FieldData_GetMap(unk_0038, save->m_mapId);
+    save->m_areaType = mapInfo->unk_04;
     if (firstScene) {
         if (mapInfo->unk_04 == 1) {
             save->unk_8802 = 1;
@@ -217,13 +217,13 @@ void CFieldScene::func6()
         }
     }
 
-    m_game->m_textboxData->sub_0200AB28(0);
-    sub_02033F90(m_game->m_scriptManager, 0);
-    sub_0201164C(m_game->m_missionQuestData, mapIdx);
+    m_game->m_textboxData->LoadSystemMessages(0);
+    ScriptManager_LoadSystem(m_game->m_scriptManager, 0);
+    MissionQuestData_SetChapter(m_game->m_missionQuestData, mapIdx);
     u8 quest = m_game->m_missionQuestData->unk_03;
     if (quest != 0) {
-        m_game->m_textboxData->sub_0200B21C(quest);
-        sub_02034120(m_game->m_scriptManager, quest);
+        m_game->m_textboxData->LoadQuestMessages(quest);
+        ScriptManager_LoadQuest(m_game->m_scriptManager, quest);
     }
 
     if (save->unk_8B74 & 1) {
@@ -242,41 +242,41 @@ void CFieldScene::func6()
         sub_02010D04(m_game->unk_1444);
     }
 
-    unk_00E0 = new UnkClass_0213D624();
+    unk_00E0 = new FieldSyscallSets();
     unk_00E0->ov0_0213D658();
 
     unk_0008 = new Camera2D();
-    unk_0008->sub_02003788(0, 0xC0000, 0, 0x100000, -0x800000, 0x800000, 0x10000);
-    m_game->unk_14B8->sub_0200E0AC((UnkStruct_0200D3F8_Target *)unk_0008);
+    unk_0008->SetOrtho(0, 0xC0000, 0, 0x100000, -0x800000, 0x800000, 0x10000);
+    m_game->unk_14B8->SetTarget((UnkStruct_0200D3F8_Target *)unk_0008);
 
     unk_000C = new Camera2D();
-    unk_000C->sub_02003788(0, 0xC0000, 0, 0x100000, -0x800000, 0x800000, 0x400000);
+    unk_000C->SetOrtho(0, 0xC0000, 0, 0x100000, -0x800000, 0x800000, 0x400000);
     Camera2D *camera = unk_000C;
     camera->unk_1C = 0;
     camera->unk_20 = 0;
 
-    unk_0044 = new UnkClass_02040F34();
+    unk_0044 = new FieldDrawActorDataPool();
 
     unk_001C = new CFieldPartnerManage();
-    unk_001C->sub_0203EFE4(0x10);
+    unk_001C->Alloc(0x10);
     unk_0144.ov0_02143730(unk_001C);
 
     unk_0020 = new CFieldNpcManage();
-    unk_0020->sub_0203EFE4(0x20);
+    unk_0020->Alloc(0x20);
     unk_0018 = new CFieldEnemyManage();
-    unk_0018->sub_0203EFE4(0x20);
+    unk_0018->Alloc(0x20);
     unk_0024 = new CFieldTargetObjectManage();
-    unk_0024->sub_0203EFE4(0x20);
+    unk_0024->Alloc(0x20);
 
-    unk_0030 = new UnkClass_0213DDCC();
+    unk_0030 = new FieldEventRectManage();
     unk_0030->Create(0x30);
-    unk_0034 = new UnkClass_0213F918(m_game);
+    unk_0034 = new FieldScriptLauncher(m_game);
     unk_0034->ov0_0213F960();
 
     unk_00D8 = new CPlayerHPGauge();
     unk_00D8->SetVisible(TRUE);
     unk_00D8->SetPartnerVisible(FALSE);
-    unk_00D8->SetHP(save->unk_0001, save->unk_0002);
+    unk_00D8->SetHP(save->m_energy, save->m_maxEnergy);
     unk_00D8->SetPartner(save->unk_0004 >> FX32_SHIFT, save->unk_0008);
     unk_00D8->SetZ(0x3FF);
 
@@ -285,21 +285,21 @@ void CFieldScene::func6()
     unk_004C->m_z = 0x424;
     unk_0050->m_z = 0x424;
 
-    unk_0054 = new UnkClass_02022404(m_game);
-    unk_0058 = new UnkClass_020233C8(m_game);
-    unk_005C = new UnkClass_0215994C();
+    unk_0054 = new FieldSubScreen(m_game);
+    unk_0058 = new SubScreenIconMenu(m_game);
+    unk_005C = new FieldCannons();
     unk_0010 = new CFieldMap();
 
     unk_0014 = new CFieldPlayer();
-    unk_0014->ov0_02132F14(save->unk_0000, (save->unk_0003 >> 4) & 0xF, mapInfo->unk_04);
+    unk_0014->ov0_02132F14(save->m_sex, (save->m_rangerClassGrade >> 4) & 0xF, mapInfo->unk_04);
     unk_0014->ov0_02132FA0(save->unk_8802);
     if (flag2) {
         unk_0014->sub_flag2();
     }
     unk_0014->SetPos(save->GetPos());
-    unk_0014->sub_020128EC_(save->unk_0024);
+    unk_0014->sub_020128EC_(save->m_dir);
     unk_0014->sub_0201287C_();
-    unk_0014->sub_0202E68C(save->unk_0026);
+    unk_0014->SetLayer(save->m_layer);
 
     unk_0078 = 0;
     unk_007C = 0;
@@ -335,7 +335,7 @@ void CFieldScene::func6()
     }
 
     for (int i = 0; i < 10; i++) {
-        UnkStruct_020155FC *data = sub_020155FC(save, i);
+        UnkStruct_020155FC *data = SaveData_GetEntry(save, i);
         if (data != NULL && (data->unk_08 & 1)) {
             u32 id = (data->unk_04 & 0xFFF) | ((6 << 24) | ((data->unk_02 & 0xFFF) << 12));
             if (id != 0) {
@@ -344,12 +344,12 @@ void CFieldScene::func6()
                     CFieldActor *actor = unk_001C->Get(idx);
                     if (actor != NULL) {
                         if (id == save->unk_7C38) {
-                            sub_02041C1C(actor);
+                            Actor_HideManpu(actor);
                             actor->unk_20 = 0;
                             actor->sub_0202D394();
                         } else {
                             actor->SetPos((Point2D) { data->unk_0C.x, data->unk_0C.y });
-                            actor->sub_0202E68C(data->unk_16);
+                            actor->SetLayer(data->unk_16);
                             actor->sub_020128EC_(data->unk_14);
                             actor->sub_0201287C_();
                         }
@@ -371,34 +371,34 @@ void CFieldScene::func6()
         }
     }
 
-    unk_003C = new UnkClass_0211E3FC[10];
-    unk_0060 = new UnkClass_02029800();
+    unk_003C = new DrawObjectList[10];
+    unk_0060 = new TitleBanner();
     unk_0028 = new CFieldEffectManage(&unk_0144);
     unk_013C.ov0_021518B8(unk_0028);
-    unk_002C = new UnkClass_0211D850();
-    unk_0048 = new UnkClass_020416AC(5);
+    unk_002C = new FieldScreenEffectManage();
+    unk_0048 = new FieldShadow(5);
 
-    unk_00DC = new UnkClass_021480E4();
+    unk_00DC = new TouchDotLine();
     if (unk_00DC != NULL) {
-        UnkClass_02008788 *cac = unk_0028->m_resident.GetCac(6);
+        CellAnimController *cac = unk_0028->m_resident.GetCac(6);
         CNCERFile *ncer = unk_0028->m_resident.GetNcer(6);
-        UnkClass_02007AA4 *palette = unk_0028->m_resident.GetPalette();
-        UnkClass_020074D4 *ncbr = unk_0028->m_resident.GetNcbr(0);
+        VramPalette *palette = unk_0028->m_resident.GetPalette();
+        VramImage *ncbr = unk_0028->m_resident.GetNcbr(0);
         ov0_0214816C(unk_00DC, ncbr, palette, ncer, cac);
     }
 
-    m_game->unk_14B8->sub_0200E0AC((UnkStruct_0200D3F8_Target *)unk_0008);
+    m_game->unk_14B8->SetTarget((UnkStruct_0200D3F8_Target *)unk_0008);
     unk_0040 = new CFieldPlayerInputControlManage();
     if (unk_00D8 != NULL) {
         unk_0064 = new UnkClass_0216D5F4();
         ov0_0216D5F4(unk_0064, unk_00D8->GetPart(1));
     }
     unk_00E4 = new UnkClass_0214B984();
-    unk_00E8 = new UnkClass_0214F9DC(m_game);
+    unk_00E8 = new FieldDebugMenu(m_game);
 
-    m_game->m_textboxData->sub_0200AD80(mapInfo->unk_00);
-    sub_0203401C(m_game->m_scriptManager, mapInfo->unk_00);
-    ov0_021220D0(save->unk_001A, fromTable);
+    m_game->m_textboxData->LoadAreaMessages(mapInfo->unk_00);
+    ScriptManager_LoadArea(m_game->m_scriptManager, mapInfo->unk_00);
+    ov0_021220D0(save->m_mapId, fromTable);
 
     if (sceneId != 5 && sceneId != 7) {
         BOOL handled = FALSE;
@@ -406,10 +406,10 @@ void CFieldScene::func6()
             handled = m_game->sub_02010378();
         }
         if (!handled) {
-            m_game->m_audioEngine->sub_020346CC(save->unk_001A, 0, 0);
+            m_game->m_audioEngine->PlayMapBgm(save->m_mapId, 0, 0);
             if (unk_00D0 & 0x40) {
-                m_game->m_audioEngine->sub_0203499C(0x2D);
-                m_game->m_audioEngine->sub_02034A40(5, 30);
+                m_game->m_audioEngine->LoadBgmGroup(0x2D);
+                m_game->m_audioEngine->PlayBgm(5, 30);
             }
         }
     }
@@ -447,7 +447,7 @@ void CFieldScene::func6()
             CFieldActor *actor = unk_0018->Get(i);
             if (actor != NULL && actor->IsActive()) {
                 actor->SetPos(save->GetEnemyPos(i));
-                actor->sub_020128EC_(save->unk_80EC[i]);
+                actor->sub_020128EC_(save->m_enemyDir[i]);
                 actor->sub_0201287C_();
             }
         }
@@ -455,7 +455,7 @@ void CFieldScene::func6()
             CFieldActor *actor = unk_0020->Get(i);
             if (actor != NULL) {
                 actor->SetPos(save->GetNpcPos(i));
-                actor->sub_020128EC_(save->unk_812C[i]);
+                actor->sub_020128EC_(save->m_npcDir[i]);
                 actor->sub_0201287C_();
                 ((CFieldNpc *)actor)->ov0_0213C5DC();
             }
@@ -464,7 +464,7 @@ void CFieldScene::func6()
             CFieldActor *actor = unk_0024->Get(i);
             if (actor != NULL) {
                 actor->SetPos(save->GetObjectPos(i));
-                actor->sub_020128EC_(save->unk_816C[i]);
+                actor->sub_020128EC_(save->m_objectDir[i]);
                 actor->sub_0201287C_();
             }
         }
@@ -504,7 +504,7 @@ void CFieldScene::func6()
             if (hide) {
                 CFieldActor *actor = unk_0024->Get(i);
                 actor->sub_020129F4_(0, 0);
-                actor->sub_0203C87C(NULL);
+                actor->Update(NULL);
             }
         }
     }
@@ -518,37 +518,37 @@ void CFieldScene::func6()
             }
             if (unk_0014 != NULL) {
                 unk_0014->sub_reset();
-                unk_0014->sub_0202DC54(0x80, 0);
+                unk_0014->PlayAnim(0x80, 0);
             }
         }
     }
 
     if (save->HasString()) {
-        unk_0034->ov0_0213FB0C(save->unk_8B44, 0, -1);
-        save->unk_8B44[0] = '\0';
+        unk_0034->ov0_0213FB0C(save->m_saveName, 0, -1);
+        save->m_saveName[0] = '\0';
     } else if (doorEventId > 0) {
         unk_0034->ov0_0213FB0C("sDokaRelease", doorEventId, -1);
     } else {
-        switch (m_game->unk_14BC->sub_0200E324()) {
+        switch (m_game->unk_14BC->GetMode()) {
         case 2:
-            m_game->unk_14BC->sub_0200E0E0(1, 10);
+            m_game->unk_14BC->Start(1, 10);
             break;
         case 4:
-            m_game->unk_14BC->sub_0200E0E0(3, 10);
+            m_game->unk_14BC->Start(3, 10);
             break;
         }
-        switch (m_game->unk_14C0->sub_0200E324()) {
+        switch (m_game->unk_14C0->GetMode()) {
         case 2:
-            m_game->unk_14C0->sub_0200E0E0(1, 10);
+            m_game->unk_14C0->Start(1, 10);
             break;
         case 4:
-            m_game->unk_14C0->sub_0200E0E0(3, 10);
+            m_game->unk_14C0->Start(3, 10);
             break;
         }
     }
 
-    sub_02007D68();
-    unk_0054->sub_0202293C(save->unk_001A, unk_0014->GetX() >> FX32_SHIFT, unk_0014->GetY() >> FX32_SHIFT);
+    SetupBGFonts();
+    unk_0054->ShowAreaMap(save->m_mapId, unk_0014->GetX() >> FX32_SHIFT, unk_0014->GetY() >> FX32_SHIFT);
     ov0_021248EC();
     if (sceneId == 6) {
         unk_0054->sub_02022C74();
@@ -560,13 +560,13 @@ void CFieldScene::func6()
 
 void CFieldScene::func7()
 {
-    sub_02034450(m_game->m_scriptManager);
-    m_game->m_textboxData->sub_0200AED0();
-    m_game->m_textboxData->sub_0200AC90();
-    m_game->m_textboxData->sub_0200B12C();
-    m_game->m_textboxData->sub_0200B36C();
-    m_game->m_textboxData->sub_020092D4();
-    m_game->unk_14B8->sub_0200E0AC(NULL);
+    ScriptManager_UnloadAll(m_game->m_scriptManager);
+    m_game->m_textboxData->FreeAreaMessages();
+    m_game->m_textboxData->FreeSystemMessages();
+    m_game->m_textboxData->FreeChapterMessages();
+    m_game->m_textboxData->FreeQuestMessages();
+    m_game->m_textboxData->Reset();
+    m_game->unk_14B8->SetTarget(NULL);
 
     SAFE_DELETE(unk_0040);
     SAFE_DELETE(unk_00DC);
@@ -599,8 +599,8 @@ void CFieldScene::func7()
     SAFE_DELETE(unk_0060);
     SAFE_DELETE(unk_0064);
 
-    CSoftwareSprite::sub_02005120();
-    sub_020180F4(&MAIN_BSS_020B26A0);
+    CSoftwareSprite::FreeSharedPalette();
+    SaveData_ReleasePartnerVram(&MAIN_BSS_020B26A0);
     NNS_GfdResetLnkTexVramState();
     NNS_GfdResetLnkPlttVramState();
 
@@ -608,7 +608,7 @@ void CFieldScene::func7()
     RTCDate date;
     RTC_GetTime(&time);
     RTC_GetDate(&date);
-    MAIN_BSS_020B26A0.sub_0201630C(&time, &date);
+    MAIN_BSS_020B26A0.CheckElapsedTime(&time, &date);
 
     if (m_game->unk_0010 == 0) {
         sub_02017E44(&MAIN_BSS_020B26A0);
@@ -631,29 +631,29 @@ struct UnkStruct_0201549C {
 };
 
 extern "C" {
-int sub_02016138(UnkClass_020B26A0 *save, int arg1);
-UnkStruct_0201549C *sub_0201549C(UnkClass_020B26A0 *save, u32 id);
-UnkStruct_020155FC *sub_02015520(UnkClass_020B26A0 *save, u32 id);
-void sub_02015A3C(UnkClass_020B26A0 *save, int idx, int mapId);
-void sub_02015E54(UnkClass_020B26A0 *save, u32 id);
-void sub_02016024(UnkClass_020B26A0 *save);
-int sub_02016268(UnkClass_020B26A0 *save, int arg1);
-int sub_0201621C(UnkClass_020B26A0 *save, int arg1);
+int sub_02016138(SaveData *save, int arg1);
+UnkStruct_0201549C *SaveData_FindPartner(SaveData *save, u32 id);
+UnkStruct_020155FC *SaveData_FindEntry(SaveData *save, u32 id);
+void sub_02015A3C(SaveData *save, int idx, int mapId);
+void sub_02015E54(SaveData *save, u32 id);
+void SaveData_ClearActorPositions(SaveData *save);
+int sub_02016268(SaveData *save, int arg1);
+int sub_0201621C(SaveData *save, int arg1);
 void ov0_02161F88(void);
 void sub_0201094C(void *obj, int arg1);
-void sub_02010954(void *obj, u8 arg1);
-void sub_0201095C(void *obj, u8 arg1);
+void BattleStartParam_SetEnergy(void *obj, u8 arg1);
+void BattleStartParam_SetStylerLevel(void *obj, u8 arg1);
 void sub_02010964(void *obj, int arg1);
 void sub_02010978(void *obj, u32 arg1);
 void sub_02010980(void *obj, int arg1);
-void sub_02010988(void *obj, u8 arg1);
-void sub_02010990(void *obj, u16 arg1, u32 arg2);
-void sub_02010A70(void *obj, int arg1);
-void sub_02010A84(void *obj, u8 arg1);
+void BattleStartParam_SetPartnerMood(void *obj, u8 arg1);
+void BattleStartParam_AddPartyMember(void *obj, u16 arg1, u32 arg2);
+void BattleStartParam_SetCaptureBg(void *obj, int arg1);
+void BattleStartParam_SetScreenEffect(void *obj, u8 arg1);
 void sub_02010AC4(void *obj, int arg1);
 void sub_02010B00(void *obj, u8 arg1);
-void sub_02010B10(void *obj, u16 arg1);
-u32 sub_02010C24(void *obj);
+void BattleStartParam_SetBannerType(void *obj, u16 arg1);
+u32 BattleStartParam_GetOverrideFlags(void *obj);
 }
 
 extern u8 DAT_0208aaf8;
@@ -662,13 +662,13 @@ u32 CFieldScene::func0()
 {
     if (unk_00D0 & 0x10) {
         ov0_02124210();
-        m_game->m_audioEngine->sub_02034B9C(0);
+        m_game->m_audioEngine->StopBgmReset(0);
         m_game->m_audioEngine->sub_02034C2C(0);
         RTCTime time;
         RTCDate date;
         RTC_GetTime(&time);
         RTC_GetDate(&date);
-        MAIN_BSS_020B26A0.sub_0201630C(&time, &date);
+        MAIN_BSS_020B26A0.CheckElapsedTime(&time, &date);
         return 0x22;
     }
 
@@ -678,17 +678,17 @@ u32 CFieldScene::func0()
     int i;
     void *record;
     u32 opts;
-    UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+    SaveData *save = &MAIN_BSS_020B26A0;
     Point2D playerPos = unk_0014->GetPos();
     BOOL doUpdate = TRUE;
     u16 fps = 30;
     if (unk_0034->ov0_0213FEEC() != 0 || (unk_00D0 & 0x48) || unk_0084 == 3 || unk_0084 == 4 || unk_0084 == 7 || unk_0084 == 5 || unk_0084 == 6 || unk_0084 == 8 || unk_0084 == 9 || unk_0084 == 0x14 || unk_0058->IsActive() != 0) {
         fps = 60;
     }
-    m_game->unk_146C.sub_02008DB4(fps);
+    m_game->unk_146C.SetFps(fps);
     DAT_0208d58c = fps;
 
-    UnkClass_02001C04 *pad = m_game->unk_0014;
+    PadInput *pad = m_game->unk_0014;
     CTouchPanel *touch = m_game->activeTouchPanel;
     CBattleResultParameter *stats;
     BOOL updateActors;
@@ -713,10 +713,10 @@ u32 CFieldScene::func0()
             switch (unk_0084) {
             case 0:
                 if (unk_0014->unk_110 == 0) {
-                    int level = save->unk_0003 & 0xF;
+                    int level = save->m_rangerClassGrade & 0xF;
                     if (sub_02016138(save, -1) > sub_02015658(save, level)) {
-                        m_game->unk_14BC->sub_0200E0E0(4, 8);
-                        m_game->unk_14C0->sub_0200E0E0(4, 8);
+                        m_game->unk_14BC->Start(4, 8);
+                        m_game->unk_14C0->Start(4, 8);
                         unk_0084 = 0x18;
                         break;
                     }
@@ -724,13 +724,13 @@ u32 CFieldScene::func0()
                         Point2D touchPos = { (touch->unk_0A.x - 0x80) << FX32_SHIFT, (touch->unk_0A.y - 0x60) << FX32_SHIFT };
                         if (touch->unk_04 != 0) {
                             if (save->IsButton1Enabled()) {
-                                if (sub_02006000(touchPos, unk_004C->m_rect->m_rectangle, 0)) {
+                                if (PointInRect(touchPos, unk_004C->m_rect->m_rectangle, 0)) {
                                     unk_004C->ov0_0214FD24();
                                     unk_00D0 |= 0x100;
                                 }
                             }
                             if (save->IsButton2Enabled()) {
-                                if (sub_02006000(touchPos, unk_0050->m_rect->m_rectangle, 0)) {
+                                if (PointInRect(touchPos, unk_0050->m_rect->m_rectangle, 0)) {
                                     unk_0050->ov0_0214FF44();
                                     unk_00D0 |= 0x200;
                                 }
@@ -740,37 +740,37 @@ u32 CFieldScene::func0()
                             held = TRUE;
                         }
                         if (touch->unk_06 != 0) {
-                            if (sub_02006000(touchPos, unk_004C->m_rect->m_rectangle, 0) && (unk_00D0 & 0x100)) {
+                            if (PointInRect(touchPos, unk_004C->m_rect->m_rectangle, 0) && (unk_00D0 & 0x100)) {
                                 unk_0054->sub_02022D88();
-                                m_game->m_audioEngine->sub_02034C44(0xFA);
+                                m_game->m_audioEngine->PlaySe(0xFA);
                             }
-                            if (sub_02006000(touchPos, unk_0050->m_rect->m_rectangle, 0) && (unk_00D0 & 0x200)) {
+                            if (PointInRect(touchPos, unk_0050->m_rect->m_rectangle, 0) && (unk_00D0 & 0x200)) {
                                 unk_0054->sub_02022C1C();
-                                unk_0058->sub_020234D4();
+                                unk_0058->Open();
                                 if (unk_0014->unk_08 != NULL && unk_0014->unk_08->unk_0C != NULL) {
                                     unk_0014->unk_08->unk_0C->m_motion.m_mode = 0;
                                 }
-                                m_game->m_audioEngine->sub_02034C44(0xFA);
+                                m_game->m_audioEngine->PlaySe(0xFA);
                                 ok = FALSE;
                                 int state = unk_0014->unk_08->unk_0C->unk_1A0;
-                                if ((state == 0x80000 || state == 0x800000) && m_game->m_audioEngine->sub_02034C84(0x10E)) {
-                                    m_game->m_audioEngine->sub_02034C5C(0x10E);
+                                if ((state == 0x80000 || state == 0x800000) && m_game->m_audioEngine->IsSePlaying(0x10E)) {
+                                    m_game->m_audioEngine->StopSe(0x10E);
                                 }
                             }
                             unk_00D0 &= ~0x300;
                         }
                     }
-                    if (unk_002C->sub_02035ECC(5)) {
+                    if (unk_002C->IsEffectActive(5)) {
                         if ((save->unk_8BC0 + 2) % 300 < 2) {
                             unk_0014->ov0_021333A0(0, 0, 0, 1, 0);
                         }
                     }
                 }
-                if (save->unk_0001 == 0) {
+                if (save->m_energy == 0) {
                     switch (unk_0014->unk_110) {
                     case 0:
                     case 7:
-                        if (save->unk_8B64 == 1) {
+                        if (save->m_areaType == 1) {
                             unk_0034->ov0_0213FB0C("sGameOverFS", 0, -2);
                         } else {
                             unk_0034->ov0_0213FB0C("sGameOverF", 0, -2);
@@ -780,11 +780,11 @@ u32 CFieldScene::func0()
                     case 1:
                     case 2:
                     case 3:
-                        if (!m_game->unk_14BC->sub_0200E310() && !m_game->unk_14C0->sub_0200E310()) {
+                        if (!m_game->unk_14BC->IsActive() && !m_game->unk_14C0->IsActive()) {
                             if (unk_0014->unk_08 != NULL && unk_0014->unk_08->unk_0C != NULL) {
                                 unk_0014->unk_08->unk_0C->unk_8C = 0;
                             }
-                            if (save->unk_8B64 == 1) {
+                            if (save->m_areaType == 1) {
                                 unk_0034->ov0_0213FB0C("sGameOverFS", 0, -2);
                             } else {
                                 unk_0034->ov0_0213FB0C("sGameOverF", 0, -2);
@@ -806,11 +806,11 @@ u32 CFieldScene::func0()
                 break;
             case 1: {
                 CFieldPartner *partner = unk_007C;
-                if (!m_game->m_textboxData->sub_02009ECC() && !m_game->m_textboxData->sub_0200B6A4(1)) {
+                if (!m_game->m_textboxData->IsActive() && !m_game->m_textboxData->sub_0200B6A4(1)) {
                     ov0_0212451C();
                     m_game->m_textboxData->sub_02009FB0(1, 1);
-                    m_game->m_textboxData->sub_0200AA14();
-                    if (m_game->m_textboxData->sub_0200B6D4() != 0) {
+                    m_game->m_textboxData->ResetTextSpeed();
+                    if (m_game->m_textboxData->GetYesNoResult() != 0) {
                         unk_0084 = 0;
                     } else {
                         ((CFieldTargetObject *)unk_0080)->ov0_0213CDB4(partner->unk_58);
@@ -818,36 +818,36 @@ u32 CFieldScene::func0()
                     }
                     unk_0054->sub_02022DD4();
                 } else {
-                    unk_0054->sub_02022B60(partner->unk_200, 0);
+                    unk_0054->SwitchToPokemonInfo(partner->unk_200, 0);
                 }
                 break;
             }
             case 10: {
                 CFieldPartner *partner = unk_007C;
-                if (!m_game->m_textboxData->sub_02009ECC() && !m_game->m_textboxData->sub_0200B6A4(1)) {
+                if (!m_game->m_textboxData->IsActive() && !m_game->m_textboxData->sub_0200B6A4(1)) {
                     ov0_0212451C();
                     m_game->m_textboxData->sub_02009FB0(1, 1);
-                    m_game->m_textboxData->sub_0200AA14();
+                    m_game->m_textboxData->ResetTextSpeed();
                     unk_0084 = 0;
-                    if (m_game->m_textboxData->sub_0200B6D4() == 0) {
-                        UnkStruct_020107A8 *info = sub_020107A8(m_game->unk_1434, partner->unk_200);
+                    if (m_game->m_textboxData->GetYesNoResult() == 0) {
+                        UnkStruct_020107A8 *info = PokeIdTable_Get(m_game->unk_1434, partner->unk_200);
                         if (info->unk_05 != 0 && info->unk_05 == unk_0090 && unk_0098[0] != '\0') {
                             unk_0034->ov0_0213FB0C(unk_0098, partner->unk_58, -1);
                         }
                     }
                     unk_0054->sub_02022DD4();
                 } else {
-                    unk_0054->sub_02022B60(partner->unk_200, 0);
+                    unk_0054->SwitchToPokemonInfo(partner->unk_200, 0);
                 }
                 break;
             }
             case 11: {
                 CFieldPartner *partner = unk_007C;
-                if (!m_game->m_textboxData->sub_02009ECC() && !m_game->m_textboxData->sub_0200B6A4(1)) {
+                if (!m_game->m_textboxData->IsActive() && !m_game->m_textboxData->sub_0200B6A4(1)) {
                     ov0_0212451C();
                     m_game->m_textboxData->sub_02009FB0(1, 1);
-                    m_game->m_textboxData->sub_0200AA14();
-                    if (m_game->m_textboxData->sub_0200B6D4() == 0) {
+                    m_game->m_textboxData->ResetTextSpeed();
+                    if (m_game->m_textboxData->GetYesNoResult() == 0) {
                         unk_0084 = 0;
                         unk_0034->ov0_0213FB0C("sCharge", partner->unk_58, -1);
                     } else {
@@ -855,84 +855,84 @@ u32 CFieldScene::func0()
                     }
                     unk_0054->sub_02022DD4();
                 } else {
-                    unk_0054->sub_02022B60(partner->unk_200, 0);
+                    unk_0054->SwitchToPokemonInfo(partner->unk_200, 0);
                 }
                 break;
             }
             case 12:
                 if (++unk_0088 >= 60) {
                     CFieldPartner *partner = unk_007C;
-                    if (!m_game->m_textboxData->sub_02009ECC()) {
+                    if (!m_game->m_textboxData->IsActive()) {
                         ov0_0212451C();
                         m_game->m_textboxData->sub_02009FB0(1, 1);
-                        m_game->m_textboxData->sub_0200AA14();
+                        m_game->m_textboxData->ResetTextSpeed();
                         unk_0084 = 0;
                         unk_0054->sub_02022DD4();
                     } else {
-                        unk_0054->sub_02022B60(partner->unk_200, 0);
+                        unk_0054->SwitchToPokemonInfo(partner->unk_200, 0);
                     }
                 }
                 break;
             case 15: {
                 CFieldPartner *partner = unk_007C;
-                if (!m_game->m_textboxData->sub_02009ECC() && !m_game->m_textboxData->sub_0200B6A4(1)) {
+                if (!m_game->m_textboxData->IsActive() && !m_game->m_textboxData->sub_0200B6A4(1)) {
                     ov0_0212451C();
                     m_game->m_textboxData->sub_02009FB0(1, 1);
-                    m_game->m_textboxData->sub_0200AA14();
+                    m_game->m_textboxData->ResetTextSpeed();
                     unk_0084 = 0;
-                    if (m_game->m_textboxData->sub_0200B6D4() == 0) {
+                    if (m_game->m_textboxData->GetYesNoResult() == 0) {
                         unk_0034->ov0_0213FB0C("sRideDodo", partner->unk_58, -1);
                     }
                     unk_0054->sub_02022DD4();
                 } else {
-                    unk_0054->sub_02022B60(partner->unk_200, 0);
+                    unk_0054->SwitchToPokemonInfo(partner->unk_200, 0);
                 }
                 break;
             }
             case 16:
-                if (!m_game->m_textboxData->sub_02009ECC() && !m_game->m_textboxData->sub_0200B6A4(1)) {
+                if (!m_game->m_textboxData->IsActive() && !m_game->m_textboxData->sub_0200B6A4(1)) {
                     m_game->m_textboxData->sub_02009FB0(1, 1);
-                    m_game->m_textboxData->sub_0200AA14();
+                    m_game->m_textboxData->ResetTextSpeed();
                     unk_0084 = 0;
-                    if (m_game->m_textboxData->sub_0200B6D4() == 0) {
+                    if (m_game->m_textboxData->GetYesNoResult() == 0) {
                         unk_0034->ov0_0213FB0C("sGtOfDodo", 0, -1);
                     }
                 }
                 break;
             case 21: {
                 CFieldPartner *partner = unk_007C;
-                if (!m_game->m_textboxData->sub_02009ECC() && !m_game->m_textboxData->sub_0200B6A4(1)) {
+                if (!m_game->m_textboxData->IsActive() && !m_game->m_textboxData->sub_0200B6A4(1)) {
                     ov0_0212451C();
                     m_game->m_textboxData->sub_02009FB0(1, 1);
-                    m_game->m_textboxData->sub_0200AA14();
+                    m_game->m_textboxData->ResetTextSpeed();
                     unk_0084 = 0;
-                    if (m_game->m_textboxData->sub_0200B6D4() == 0) {
+                    if (m_game->m_textboxData->GetYesNoResult() == 0) {
                         unk_0088 = 0;
                         unk_0084 = 0x16;
                         save->unk_8B80 = partner->unk_58;
-                        m_game->unk_14BC->sub_0200E0E0(4, 10);
-                        m_game->unk_14C0->sub_0200E0E0(4, 10);
+                        m_game->unk_14BC->Start(4, 10);
+                        m_game->unk_14C0->Start(4, 10);
                     } else {
                         unk_0054->sub_02022DD4();
                     }
                 } else {
-                    unk_0054->sub_02022B60(partner->unk_200, 0);
+                    unk_0054->SwitchToPokemonInfo(partner->unk_200, 0);
                 }
                 break;
             }
             case 22:
-                if (!m_game->unk_14BC->sub_0200E310() && !m_game->unk_14C0->sub_0200E310()) {
+                if (!m_game->unk_14BC->IsActive() && !m_game->unk_14C0->IsActive()) {
                     unk_0084 = 0;
                     return 0xB;
                 }
                 break;
             case 23: {
                 CFieldPartner *partner = unk_007C;
-                if (!m_game->m_textboxData->sub_02009ECC() && !m_game->m_textboxData->sub_0200B6A4(1)) {
+                if (!m_game->m_textboxData->IsActive() && !m_game->m_textboxData->sub_0200B6A4(1)) {
                     ov0_0212451C();
                     m_game->m_textboxData->sub_02009FB0(1, 1);
-                    m_game->m_textboxData->sub_0200AA14();
-                    if (m_game->m_textboxData->sub_0200B6D4() == 0) {
+                    m_game->m_textboxData->ResetTextSpeed();
+                    if (m_game->m_textboxData->GetYesNoResult() == 0) {
                         unk_0084 = 0;
                         ov0_02161F88();
                         unk_0034->ov0_0213FB0C("sTeleport", partner->unk_58, -1);
@@ -941,32 +941,32 @@ u32 CFieldScene::func0()
                     }
                     unk_0054->sub_02022DD4();
                 } else {
-                    unk_0054->sub_02022B60(partner->unk_200, 0);
+                    unk_0054->SwitchToPokemonInfo(partner->unk_200, 0);
                 }
                 break;
             }
             case 20:
-                if (!m_game->m_textboxData->sub_02009ECC()) {
+                if (!m_game->m_textboxData->IsActive()) {
                     m_game->m_textboxData->sub_02009FB0(1, 1);
-                    m_game->m_textboxData->sub_0200AA14();
+                    m_game->m_textboxData->ResetTextSpeed();
                     unk_0084 = 0;
                 }
                 break;
             case 24:
-                if (!m_game->unk_14BC->sub_0200E310() && !m_game->unk_14C0->sub_0200E310()) {
+                if (!m_game->unk_14BC->IsActive() && !m_game->unk_14C0->IsActive()) {
                     save->unk_8BA0 = ov0_02124604();
                     return 7;
                 }
                 break;
             case 25:
-                if (!m_game->m_textboxData->sub_02009ECC()) {
+                if (!m_game->m_textboxData->IsActive()) {
                     m_game->m_textboxData->sub_02009FB0(1, 1);
-                    m_game->m_textboxData->sub_0200AA14();
+                    m_game->m_textboxData->ResetTextSpeed();
                     unk_0084 = 0;
                     ov0_0212451C();
                     unk_0054->sub_02022DD4();
                 } else {
-                    unk_0054->sub_02022B60(unk_007C->unk_200, 0);
+                    unk_0054->SwitchToPokemonInfo(unk_007C->unk_200, 0);
                 }
                 break;
             }
@@ -1009,7 +1009,7 @@ u32 CFieldScene::func0()
                         unk_008C = 0xFFFFFFFF;
                         Point2D pos = unk_007C->GetPos();
                         ov0_02124C30(&pos);
-                        m_game->unk_14B8->sub_0200D490(1 - pos.x, 1 - pos.y, FX32_ONE);
+                        m_game->unk_14B8->MoveTo(1 - pos.x, 1 - pos.y, FX32_ONE);
                         unk_0014->unk_04 &= ~0x100;
                         unk_0020->sub_0203F7AC();
                         unk_0018->sub_0203F7AC();
@@ -1017,20 +1017,20 @@ u32 CFieldScene::func0()
                     }
                     break;
                 case 6:
-                    if (!m_game->unk_14B8->sub_0200E098()) {
+                    if (!m_game->unk_14B8->IsBusy()) {
                         unk_0084 = 7;
-                        m_game->m_textboxData->sub_020097FC(0, unk_007C->unk_268);
-                        m_game->m_textboxData->sub_0200AA04(1);
-                        m_game->m_textboxData->sub_0200AD34(0x18, 1, 1, 0);
+                        m_game->m_textboxData->SetParam(0, unk_007C->unk_268);
+                        m_game->m_textboxData->SetTextSpeed(1);
+                        m_game->m_textboxData->ShowSystemMessage(0x18, 1, 1, 0);
                     }
                     break;
                 case 7:
                     if (++unk_0088 >= 60) {
                         m_game->m_textboxData->sub_02009FB0(1, 1);
-                        m_game->m_textboxData->sub_0200AA14();
+                        m_game->m_textboxData->ResetTextSpeed();
                         unk_0084 = 8;
                         Point2D target = { -unk_0008->unk_1C, -unk_0008->unk_20 };
-                        unk_007C->sub_0203D404(target);
+                        unk_007C->StartMoveTo(target);
                     }
                     break;
                 case 8:
@@ -1038,7 +1038,7 @@ u32 CFieldScene::func0()
                         unk_001C->sub_0203F7AC();
                         u32 id = unk_007C->unk_58;
                         unk_001C->ov0_0213A050((id & 0xFFFFFF) | 0x1000000);
-                        UnkStruct_020155FC *data = sub_02015520(save, id);
+                        UnkStruct_020155FC *data = SaveData_FindEntry(save, id);
                         if (data != NULL) {
                             sub_02015A3C(save, data->unk_04, data->unk_02);
                             sub_02015E54(save, id);
@@ -1047,12 +1047,12 @@ u32 CFieldScene::func0()
                         unk_0014->sub_0201287C_();
                         Point2D pos = unk_0014->GetPos();
                         ov0_02124C30(&pos);
-                        m_game->unk_14B8->sub_0200D490(1 - pos.x, 1 - pos.y, FX32_ONE);
+                        m_game->unk_14B8->MoveTo(1 - pos.x, 1 - pos.y, FX32_ONE);
                         unk_0084 = 9;
                     }
                     break;
                 case 9:
-                    if (!m_game->unk_14B8->sub_0200E098()) {
+                    if (!m_game->unk_14B8->IsBusy()) {
                         unk_008C = 0;
                         unk_0084 = 0;
                     }
@@ -1077,7 +1077,7 @@ u32 CFieldScene::func0()
             unk_0014->unk_E8 = mask;
 
             if (doUpdate) {
-                u32 playerFlags = (updateActors ? 1 : 0) | (save->unk_8B64 == 1 ? 2 : 0);
+                u32 playerFlags = (updateActors ? 1 : 0) | (save->m_areaType == 1 ? 2 : 0);
                 if (unk_0078 == 0) {
                     unk_0014->ov0_021307B0(pad, held ? NULL : touch, unk_0008, unk_0010, playerFlags);
                 } else {
@@ -1087,9 +1087,9 @@ u32 CFieldScene::func0()
                 Point2D tile;
                 tile.x = (s16)(pos.x >> FX32_SHIFT) << FX32_SHIFT;
                 tile.y = (s16)(pos.y >> FX32_SHIFT) << FX32_SHIFT;
-                BOOL arg = (unk_0034->ov0_0213FEEC() == 0 && save->unk_0001 != 0 && ok) ? TRUE : FALSE;
+                BOOL arg = (unk_0034->ov0_0213FEEC() == 0 && save->m_energy != 0 && ok) ? TRUE : FALSE;
                 int hit = unk_0030->Update(&tile, unk_0014->unk_14, arg);
-                if (save->unk_0001 == 0 && unk_0014->unk_110 == 1 && hit != 0) {
+                if (save->m_energy == 0 && unk_0014->unk_110 == 1 && hit != 0) {
                     unk_0014->SetPos(playerPos);
                 }
                 if (unk_0034->ov0_0213FEEC() == 0 && (unk_00D0 & 0x1FE07B) == 0 && unk_0084 == 0 && ok && updateActors) {
@@ -1101,10 +1101,10 @@ u32 CFieldScene::func0()
                     if (updateActors) {
                         unk_005C->ov0_02159D7C();
                     }
-                    unk_0024->sub_0203F2B0(unk_0010, updateActors);
-                    unk_0018->sub_0203F2B0(unk_0010, updateActors);
-                    unk_001C->sub_0203F2B0(unk_0010, updateActors);
-                    unk_0020->sub_0203F2B0(unk_0010, updateActors);
+                    unk_0024->UpdateAll(unk_0010, updateActors);
+                    unk_0018->UpdateAll(unk_0010, updateActors);
+                    unk_001C->UpdateAll(unk_0010, updateActors);
+                    unk_0020->UpdateAll(unk_0010, updateActors);
                 }
                 if (updateActors) {
                     unk_008C = 0;
@@ -1120,9 +1120,9 @@ u32 CFieldScene::func0()
     int offset = unk_0014->GetUnk8C();
     if (!((unk_00D0 & 0x200000) ? TRUE : FALSE)) {
         save->SetPos(pos);
-        save->unk_0024 = unk_0014->GetDir();
-        save->unk_0026 = unk_0014->unk_14;
-        unk_0054->sub_02022A98(pos.x >> FX32_SHIFT, pos.y >> FX32_SHIFT);
+        save->m_dir = unk_0014->GetDir();
+        save->m_layer = unk_0014->unk_14;
+        unk_0054->SetMapPos(pos.x >> FX32_SHIFT, pos.y >> FX32_SHIFT);
         save->unk_7F60 |= 1;
         for (int i = 0; i < unk_0018->m_count; i++) {
             CFieldActor *actor = unk_0018->Get(i);
@@ -1147,7 +1147,7 @@ u32 CFieldScene::func0()
             if (actor != NULL) {
                 switch (((s32)actor->unk_58 >> 24) & 0xFF) {
                 case 5: {
-                    UnkStruct_0201549C *data = sub_0201549C(save, actor->unk_58);
+                    UnkStruct_0201549C *data = SaveData_FindPartner(save, actor->unk_58);
                     if (data != NULL) {
                         data->SetPos(actor->GetPos());
                         data->unk_34 = actor->unk_14;
@@ -1156,7 +1156,7 @@ u32 CFieldScene::func0()
                     break;
                 }
                 case 6: {
-                    UnkStruct_020155FC *data = sub_02015520(save, actor->unk_58);
+                    UnkStruct_020155FC *data = SaveData_FindEntry(save, actor->unk_58);
                     if (data != NULL) {
                         data->SetPos(actor->GetPos());
                         data->unk_16 = actor->unk_14;
@@ -1232,17 +1232,17 @@ u32 CFieldScene::func0()
             unk_0008->SetOrigin(camPos.x, camPos.y);
         }
     } else {
-        m_game->unk_14B8->sub_0200D9CC();
+        m_game->unk_14B8->Update();
     }
 
     if (unk_00D8 != NULL) {
         if (!(unk_00D0 & 1)) {
-            unk_00D8->SetCurrentHP(save->unk_0001);
+            unk_00D8->SetCurrentHP(save->m_energy);
         }
         unk_00D8->vfunc_08();
     }
     if (unk_0060 != NULL) {
-        unk_0060->sub_02029D4C();
+        unk_0060->Update();
     }
     if (unk_004C != NULL) {
         unk_004C->ov0_0214FCD0();
@@ -1253,33 +1253,33 @@ u32 CFieldScene::func0()
 
     if (doUpdate) {
         if (updateActors) {
-            switch (save->unk_87BF) {
+            switch (save->m_timerMode) {
             case 0:
                 break;
             case 1:
-                save->unk_87C0 -= 60 / fps;
-                if (save->unk_87C0 < 0) {
-                    save->unk_87C0 = 0;
+                save->m_timer -= 60 / fps;
+                if (save->m_timer < 0) {
+                    save->m_timer = 0;
                 }
-                if (save->unk_87C4 > 0 && save->unk_87C0 > save->unk_87C4) {
-                    save->unk_87C0 = save->unk_87C4;
+                if (save->m_timerLimit > 0 && save->m_timer > save->m_timerLimit) {
+                    save->m_timer = save->m_timerLimit;
                 }
-                if (save->unk_87C0 <= 0) {
-                    save->unk_87BF = 0;
+                if (save->m_timer <= 0) {
+                    save->m_timerMode = 0;
                 }
                 break;
             case 2:
-                save->unk_87C0 += 60 / fps;
-                if (save->unk_87C0 < 0) {
-                    save->unk_87C0 = 0;
+                save->m_timer += 60 / fps;
+                if (save->m_timer < 0) {
+                    save->m_timer = 0;
                 }
-                if (save->unk_87C4 > 0 && save->unk_87C0 > save->unk_87C4) {
-                    save->unk_87C0 = save->unk_87C4;
+                if (save->m_timerLimit > 0 && save->m_timer > save->m_timerLimit) {
+                    save->m_timer = save->m_timerLimit;
                 }
-                int timer = save->unk_87C0;
-                int limit = save->unk_87C4;
+                int timer = save->m_timer;
+                int limit = save->m_timerLimit;
                 if (limit > 0 && timer >= limit) {
-                    save->unk_87BF = 0;
+                    save->m_timerMode = 0;
                 }
                 break;
             }
@@ -1292,7 +1292,7 @@ u32 CFieldScene::func0()
             unk_0028->ov0_021428EC(fps, !updateActors);
         }
         if (unk_002C != NULL) {
-            unk_002C->sub_0203580C(fps);
+            unk_002C->Update(fps);
         }
         if (unk_0048 != NULL) {
             sub_02041920(unk_0048);
@@ -1324,7 +1324,7 @@ u32 CFieldScene::func0()
         return 3;
     }
     if (flags & 0x4000) {
-        if (save->unk_81AC > 0 || save->unk_8764 == 0) {
+        if (save->unk_81AC > 0 || save->m_saveCount == 0) {
             return 0x11;
         }
         return 0x19;
@@ -1351,7 +1351,7 @@ u32 CFieldScene::func0()
     if (flags & 1) {
         switch (unk_0084) {
         case 0xD:
-            if (m_game->unk_14C4->func0() || m_game->unk_14C8->func0() || m_game->unk_14BC->sub_0200E310() || m_game->unk_14C0->sub_0200E310()) {
+            if (m_game->unk_14C4->func0() || m_game->unk_14C8->func0() || m_game->unk_14BC->IsActive() || m_game->unk_14C0->IsActive()) {
                 break;
             }
             {
@@ -1359,16 +1359,16 @@ u32 CFieldScene::func0()
                 if (step < 2) {
                     if (unk_0088 & 1) {
                         if (step < 1) {
-                            m_game->unk_14BC->sub_0200E0E0(2, 8);
+                            m_game->unk_14BC->Start(2, 8);
                         } else {
-                            m_game->unk_14BC->sub_0200E0E0(2, 30);
-                            if (m_game->unk_14C0->sub_0200E324() != 4 && m_game->unk_14C0->sub_0200E324() != 2) {
-                                m_game->unk_14C0->sub_0200E0E0(4, 30);
+                            m_game->unk_14BC->Start(2, 30);
+                            if (m_game->unk_14C0->GetMode() != 4 && m_game->unk_14C0->GetMode() != 2) {
+                                m_game->unk_14C0->Start(4, 30);
                             }
                             m_game->m_audioEngine->sub_02034E38(60);
                         }
                     } else {
-                        m_game->unk_14BC->sub_0200E0E0(1, 8);
+                        m_game->unk_14BC->Start(1, 8);
                     }
                     unk_0088++;
                     break;
@@ -1380,70 +1380,70 @@ u32 CFieldScene::func0()
             record = m_game->unk_143C;
             stats = m_game->unk_1444;
             sub_0201094C(record, 5);
-            opts = sub_02010C24(record);
-            sub_02010954(record, save->unk_0001);
-            sub_0201095C(record, save->unk_87DB);
+            opts = BattleStartParam_GetOverrideFlags(record);
+            BattleStartParam_SetEnergy(record, save->m_energy);
+            BattleStartParam_SetStylerLevel(record, save->m_stylerLevel);
             sub_02010978(record, save->unk_0004);
             sub_02010980(record, save->unk_0008 << FX32_SHIFT);
-            sub_02010988(record, save->unk_0009[sub_02016268(save, -1)]);
+            BattleStartParam_SetPartnerMood(record, save->m_partnerMoods[sub_02016268(save, -1)]);
             sub_02010964(record, sub_0201621C(save, -1));
             sub_02010B00(record, save->unk_8803);
             count = 0;
             for (i = 0; i < 10; i++) {
-                UnkStruct_020155FC *data = sub_020155FC(save, i);
+                UnkStruct_020155FC *data = SaveData_GetEntry(save, i);
                 if (data != NULL && (data->unk_08 & 1)) {
-                    sub_02010990(record, data->unk_00, !(data->unk_08 & 4) | (data->unk_08 & 2));
+                    BattleStartParam_AddPartyMember(record, data->unk_00, !(data->unk_08 & 4) | (data->unk_08 & 2));
                     count++;
                 }
             }
             stats->unk_6C = count;
             if (!(opts & 8)) {
-                sub_02010B10(record, ((u8)((save->unk_0003 >> 4) & 0xF) << 1) | save->unk_0000);
+                BattleStartParam_SetBannerType(record, ((u8)((save->m_rangerClassGrade >> 4) & 0xF) << 1) | save->m_sex);
             }
             if (!(opts & 1)) {
-                sub_02010A70(record, ov0_02124604());
+                BattleStartParam_SetCaptureBg(record, ov0_02124604());
             }
             if (!(opts & 2)) {
-                if (unk_002C->sub_02035ECC(9)) {
-                    sub_02010A84(record, 9);
+                if (unk_002C->IsEffectActive(9)) {
+                    BattleStartParam_SetScreenEffect(record, 9);
                 } else {
                     for (int i = 1; i < 0x11; i++) {
-                        if (unk_002C->sub_02035ECC(i)) {
-                            sub_02010A84(record, i);
+                        if (unk_002C->IsEffectActive(i)) {
+                            BattleStartParam_SetScreenEffect(record, i);
                             break;
                         }
                     }
                 }
             }
-            if ((u8)((save->unk_0003 >> 4) & 0xF) == 0) {
+            if ((u8)((save->m_rangerClassGrade >> 4) & 0xF) == 0) {
                 sub_02010AC4(record, 0);
             }
             return 0;
         default:
-            if (m_game->m_missionQuestData->unk_08 == 0x10) {
+            if (m_game->m_missionQuestData->m_chapter == 0x10) {
                 unk_0084 = 0xE;
             } else {
                 unk_0084 = 0xD;
-                m_game->unk_14BC->sub_0200E0E0(2, 8);
+                m_game->unk_14BC->Start(2, 8);
             }
             m_game->m_audioEngine->sub_02034AA8();
             unk_0088 = 0;
             ov0_02123E58(-1);
-            unk_0054->sub_02023198(0);
+            unk_0054->SetIdleReturn(0);
             unk_0054->unk_60 = 1;
             break;
         }
     } else {
         if (flags & 2) {
             DAT_0208aaf8 = 0;
-            sub_02016024(save);
+            SaveData_ClearActorPositions(save);
             unk_0028->ov0_021433D0();
-            unk_0054->sub_02022924();
-            unk_0054->sub_02023200();
+            unk_0054->HideAreaMap();
+            unk_0054->ClearMapIcons();
             ov0_021220D0(unk_0068, TRUE);
             ov0_021248DC();
             save->unk_8BC0 = 0;
-            m_game->m_audioEngine->sub_020346CC(unk_0068, 0, 0);
+            m_game->m_audioEngine->PlayMapBgm(unk_0068, 0, 0);
             ov0_02122EF4();
             fx32 y, x;
             x = unk_006C << FX32_SHIFT;
@@ -1460,13 +1460,13 @@ u32 CFieldScene::func0()
             ov0_0212451C();
             unk_001C->ov0_02139F98(x, y, unk_0014->unk_14);
             if (save->HasString()) {
-                unk_0034->ov0_0213FB0C(save->unk_8B44, 0, -1);
-                save->unk_8B44[0] = '\0';
+                unk_0034->ov0_0213FB0C(save->m_saveName, 0, -1);
+                save->m_saveName[0] = '\0';
             }
-            unk_0054->sub_0202293C(unk_0068, unk_006C, unk_0070);
+            unk_0054->ShowAreaMap(unk_0068, unk_006C, unk_0070);
             ov0_021248EC();
         } else {
-            m_game->sub_020100E4(ov0_021220AC, NULL);
+            m_game->AddVBlankCallback(ov0_021220AC, NULL);
         }
     }
 
@@ -1506,24 +1506,24 @@ u32 CFieldScene::func0()
 }
 
 extern "C" {
-void sub_02041D58(UnkClass_02041C80 *obj, u32 arg1);
-void ov0_02148480(UnkClass_021480E4 *obj, Point2D *pos, Point2D *target);
-void ov0_021481EC(UnkClass_021480E4 *obj, int fps);
+void FieldData_GetEnemy(FieldData *obj, u32 arg1);
+void ov0_02148480(TouchDotLine *obj, Point2D *pos, Point2D *target);
+void ov0_021481EC(TouchDotLine *obj, int fps);
 void ov0_0216D62C(UnkClass_0216D5F4 *obj, int time, int arg2, Camera2D *camera);
-void ov0_02148288(UnkClass_021480E4 *obj, Camera2D *camera);
-void sub_0201668C(UnkClass_020B26A0 *save);
-void sub_020342A0(void *scriptManager);
-void sub_020171B8(UnkClass_020B26A0 *save);
-void sub_02017948(UnkClass_020B26A0 *save, int arg1);
-void sub_02015714(UnkClass_020B26A0 *save, int idx, int mapId);
-void sub_0201577C(UnkClass_020B26A0 *save, int idx, int mapId);
-BOOL sub_02015690(UnkClass_020B26A0 *save, int idx, int mapId);
-void sub_02015B98(UnkClass_020B26A0 *save, int idx, int mapId);
-void sub_02015C08(UnkClass_020B26A0 *save, int idx, int mapId);
-BOOL sub_02015B1C(UnkClass_020B26A0 *save, int idx, int mapId);
-void sub_02015AAC(UnkClass_020B26A0 *save, int idx, int mapId);
-BOOL sub_02015434(UnkClass_020B26A0 *save, int mapId, int idx);
-void sub_020109C0(void *record, u16 arg1, int arg2);
+void ov0_02148288(TouchDotLine *obj, Camera2D *camera);
+void SaveData_LotTimeCheck(SaveData *save);
+void ScriptManager_UnloadArea(void *scriptManager);
+void sub_020171B8(SaveData *save);
+void sub_02017948(SaveData *save, int arg1);
+void sub_02015714(SaveData *save, int idx, int mapId);
+void sub_0201577C(SaveData *save, int idx, int mapId);
+BOOL sub_02015690(SaveData *save, int idx, int mapId);
+void sub_02015B98(SaveData *save, int idx, int mapId);
+void sub_02015C08(SaveData *save, int idx, int mapId);
+BOOL sub_02015B1C(SaveData *save, int idx, int mapId);
+void sub_02015AAC(SaveData *save, int idx, int mapId);
+BOOL sub_02015434(SaveData *save, int mapId, int idx);
+void BattleStartParam_AddEnemy(void *record, u16 arg1, int arg2);
 }
 
 extern CFieldPlayer *MAIN_BSS_0210CA48;
@@ -1546,7 +1546,7 @@ extern UnkStruct_0210C228 MAIN_BSS_0210C228;
 extern "C" {
 void sub_0202A4A0(UnkStruct_0210C1C0 *obj);
 void sub_0202A4D8(UnkStruct_0210C228 *obj);
-void sub_020176BC(UnkClass_020B26A0 *save, int arg1);
+void SaveData_LoadPlayerActorData(SaveData *save, int arg1);
 }
 
 static inline void SetPoint(Point2D *dst, const Point2D *src)
@@ -1559,8 +1559,8 @@ void CFieldScene::ov0_02121758(int fps)
     switch (unk_0078) {
     case 2: {
         CFieldPartner *partner = unk_007C;
-        sub_02041D58(unk_0038, partner->unk_200);
-        UnkStruct_020107A8 *info = sub_020107A8(m_game->unk_1434, partner->unk_200);
+        FieldData_GetEnemy(unk_0038, partner->unk_200);
+        UnkStruct_020107A8 *info = PokeIdTable_Get(m_game->unk_1434, partner->unk_200);
         if (info->unk_05 != 0 && info->unk_06 != 0) {
             Point2D pos;
             Point2D touchPos;
@@ -1590,29 +1590,29 @@ void CFieldScene::ov0_02121758(int fps)
 
 void CFieldScene::func1()
 {
-    UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+    SaveData *save = &MAIN_BSS_020B26A0;
 
     if (!(unk_00D0 & 2)) {
         if (unk_00EC == 0) {
-            UnkClass_020023EC *printer = m_game->GetPrinter();
+            BGFontPrinter *printer = m_game->GetPrinter();
             printer->unk_24 = 0;
-            printer->sub_020028A4(0, 0, "");
+            printer->Printf(0, 0, "");
             if (unk_00E4->unk_00 & 1) {
                 s32 layerNo = unk_0014->unk_14;
                 CFieldMapLayerCollision *layer = unk_0010->GetLayer(layerNo);
                 CFieldMapLayerAttribute *attrLayer = unk_0010->GetAttributeLayer(layerNo);
                 int cell = layer != NULL ? layer->GetCellAtPos(unk_0014->GetX(), unk_0014->GetY()) : -1;
                 int attr = attrLayer != NULL ? attrLayer->GetCellAtPos(unk_0014->GetX(), unk_0014->GetY()) : -1;
-                printer->sub_020028A4(0, 0, "FIELD (%d,%d,%d) : (%d,%d)", unk_0014->GetX() >> FX32_SHIFT, unk_0014->GetY() >> FX32_SHIFT, layerNo, cell, attr);
+                printer->Printf(0, 0, "FIELD (%d,%d,%d) : (%d,%d)", unk_0014->GetX() >> FX32_SHIFT, unk_0014->GetY() >> FX32_SHIFT, layerNo, cell, attr);
                 if (unk_0084 == 4) {
-                    printer->sub_020028A4(0, 1, "InTargetClearEvent");
+                    printer->Printf(0, 1, "InTargetClearEvent");
                 } else if (unk_0084 == 8) {
-                    printer->sub_020028A4(0, 1, "InReleaseEventAfterTargetClear");
+                    printer->Printf(0, 1, "InReleaseEventAfterTargetClear");
                 } else if (unk_0034->ov0_0213FEEC()) {
-                    printer->sub_020028A4(0, 1, "InAuthoringEvent");
+                    printer->Printf(0, 1, "InAuthoringEvent");
                 }
                 if (unk_0090 >= 0) {
-                    printer->sub_020028A4(0, 2, "FieldWaza(%d):%s", unk_0090, unk_0098);
+                    printer->Printf(0, 2, "FieldWaza(%d):%s", unk_0090, unk_0098);
                 }
             }
             m_game->GetPrinter()->sub_020027E8();
@@ -1621,8 +1621,8 @@ void CFieldScene::func1()
         }
 
         Point2D camPos = unk_0008->GetOffset();
-        unk_000C->sub_020037B4();
-        unk_000C->sub_0200381C();
+        unk_000C->ApplyProjection();
+        unk_000C->ApplyView();
         G3_StoreMtx(0);
         if (!(unk_00D0 & 0x800)) {
             if (unk_00D8 != NULL) {
@@ -1639,23 +1639,23 @@ void CFieldScene::func1()
         if (!(unk_00D0 & 0x1000)) {
             G3_Identity();
             unk_0008->SetOffset(camPos);
-            unk_0008->sub_020037B4();
-            unk_0008->sub_0200381C();
+            unk_0008->ApplyProjection();
+            unk_0008->ApplyView();
             G3_StoreMtx(0);
             if (!(unk_00D4 & 1)) {
-                unk_0014->sub_0203C590(unk_003C, unk_0048);
+                unk_0014->Draw(unk_003C, unk_0048);
             }
             if (!(unk_00D0 & 0x400) && !(unk_00D4 & 4)) {
-                unk_0018->sub_0203F348(unk_003C, unk_0048);
+                unk_0018->DrawAll(unk_003C, unk_0048);
             }
             if (!(unk_00D4 & 2)) {
-                unk_001C->sub_0203F348(unk_003C, unk_0048);
+                unk_001C->DrawAll(unk_003C, unk_0048);
             }
             if (!(unk_00D4 & 8)) {
-                unk_0020->sub_0203F348(unk_003C, unk_0048);
+                unk_0020->DrawAll(unk_003C, unk_0048);
             }
             if (!(unk_00D4 & 0x10)) {
-                unk_0024->sub_0203F348(unk_003C, unk_0048);
+                unk_0024->DrawAll(unk_003C, unk_0048);
             }
             if (!(unk_00D0 & 0x40)) {
                 unk_005C->ov0_02159DB4(unk_003C, unk_0048);
@@ -1663,15 +1663,15 @@ void CFieldScene::func1()
             unk_0028->ov0_02143380(unk_003C);
             for (int i = 0; i < 4; i++) {
                 int budget = unk_0010->ov0_0212546C(i);
-                UnkClass_0211E3FC *list = &unk_003C[i];
-                int count = list->sub_02009188(unk_0008, budget);
-                list->sub_020091DC();
-                sub_02041924(unk_0048, unk_0008, i, budget - count);
+                DrawObjectList *list = &unk_003C[i];
+                int count = list->Draw(unk_0008, budget);
+                list->Clear();
+                FieldShadow_Render(unk_0048, unk_0008, i, budget - count);
                 int total = count + 1;
                 total += unk_0028->ov0_0214336C(i, budget - total);
                 list = &unk_003C[i + 5];
-                count = list->sub_02009188(unk_0008, budget - total);
-                list->sub_020091DC();
+                count = list->Draw(unk_0008, budget - total);
+                list->Clear();
                 total += count;
                 unk_0010->SetPolygonCount(i, total);
             }
@@ -1680,44 +1680,44 @@ void CFieldScene::func1()
 
             G3_Identity();
             unk_0008->SetOffset(0, 0);
-            unk_0008->sub_020037B4();
-            unk_0008->sub_0200381C();
+            unk_0008->ApplyProjection();
+            unk_0008->ApplyView();
             G3_StoreMtx(0);
             if (unk_002C != NULL) {
-                unk_002C->sub_020358AC(unk_0008);
+                unk_002C->Draw(unk_0008);
             }
             if (unk_00D0 & 0x80) {
                 unk_00FC.m_alpha = unk_00FA;
                 unk_00FC.Render(unk_0008);
             }
             if (unk_0064 != NULL) {
-                UnkClass_020B26A0 *saveData = m_game->unk_14A4;
+                SaveData *saveData = m_game->unk_14A4;
                 if (saveData->unk_7F60 & 2) {
-                    ov0_0216D62C(unk_0064, saveData->unk_87BF == 2 ? saveData->unk_87C0 : saveData->unk_87C0 + 59, 0x6A4, unk_0008);
+                    ov0_0216D62C(unk_0064, saveData->m_timerMode == 2 ? saveData->m_timer : saveData->m_timer + 59, 0x6A4, unk_0008);
                 }
             }
 
             G3_Identity();
             unk_0008->SetOffset(camPos);
-            unk_0008->sub_020037B4();
-            unk_0008->sub_0200381C();
+            unk_0008->ApplyProjection();
+            unk_0008->ApplyView();
             G3_StoreMtx(0);
-            UnkClass_0211E3FC *list = &unk_003C[4];
-            int count = list->sub_02009188(unk_0008, 0x618);
-            list->sub_020091DC();
-            sub_02041924(unk_0048, unk_0008, 4, 0x618 - count);
+            DrawObjectList *list = &unk_003C[4];
+            int count = list->Draw(unk_0008, 0x618);
+            list->Clear();
+            FieldShadow_Render(unk_0048, unk_0008, 4, 0x618 - count);
             int total = count + 1;
             list = &unk_003C[9];
-            list->sub_02009188(unk_0008, 0x618 - total);
-            list->sub_020091DC();
-            sub_020419AC(unk_0048);
+            list->Draw(unk_0008, 0x618 - total);
+            list->Clear();
+            FieldShadow_Clear(unk_0048);
             if (unk_00DC != NULL) {
                 ov0_02148288(unk_00DC, unk_0008);
             }
             unk_0030->Draw(unk_0008);
         }
         if (unk_0060 != NULL) {
-            unk_0060->sub_0202A0A4();
+            unk_0060->Render();
         }
     }
 
@@ -1739,7 +1739,7 @@ void CFieldScene::func2()
 void CFieldScene::func3()
 {
     unk_0054->sub_020227AC();
-    sub_02007D98();
+    LoadOam();
 }
 
 void CFieldScene::func4()
@@ -1768,21 +1768,21 @@ static inline int GetMapMode(u8 type)
 
 BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
 {
-    UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+    SaveData *save = &MAIN_BSS_020B26A0;
 
     if (unk_00CC >= 0) {
-        unk_0020->sub_0203F190();
-        unk_0018->sub_0203F190();
-        unk_0024->sub_0203F190();
-        UnkClass_0213DDCC *items = unk_0030;
+        unk_0020->Clear();
+        unk_0018->Clear();
+        unk_0024->Clear();
+        FieldEventRectManage *items = unk_0030;
         if (items->m_count > 0 && items->m_items != NULL) {
             for (int i = 0; i < items->m_count; i++) {
                 SAFE_DELETE(items->m_items[i]);
             }
         }
         unk_0028->ov0_02142F08();
-        unk_002C->sub_02035998();
-        unk_002C->sub_020359FC();
+        unk_002C->ClearSecondary();
+        unk_002C->ClearPrimary();
         unk_005C->ov0_02159D70();
     }
 
@@ -1794,20 +1794,20 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
     }
 
     unk_0010->ov0_02124EE4();
-    UnkStruct_02041D80 *newInfo = sub_02041D80(unk_0038, mapId);
+    UnkStruct_02041D80 *newInfo = FieldData_GetMap(unk_0038, mapId);
     if (unk_00CC >= 0) {
-        u8 oldMode = GetMapMode(save->unk_8B64);
-        UnkStruct_02041D80 *oldInfo = sub_02041D80(unk_0038, save->unk_001A);
+        u8 oldMode = GetMapMode(save->m_areaType);
+        UnkStruct_02041D80 *oldInfo = FieldData_GetMap(unk_0038, save->m_mapId);
         u8 newMode = GetMapMode(newInfo->unk_04);
-        save->unk_001A = unk_0068;
-        save->unk_8B64 = newInfo->unk_04;
-        sub_0201668C(save);
+        save->m_mapId = unk_0068;
+        save->m_areaType = newInfo->unk_04;
+        SaveData_LotTimeCheck(save);
         if (newInfo->unk_00 != oldInfo->unk_00) {
-            m_game->m_textboxData->sub_0200AED0();
-            sub_020342A0(m_game->m_scriptManager);
+            m_game->m_textboxData->FreeAreaMessages();
+            ScriptManager_UnloadArea(m_game->m_scriptManager);
         }
         if (oldMode != newMode) {
-            unk_001C->sub_0203F190();
+            unk_001C->Clear();
             sub_020171B8(save);
             sub_02017948(save, 1);
             if (newMode != 1) {
@@ -1828,7 +1828,7 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
                 }
             }
             for (int i = 0; i < 10; i++) {
-                UnkStruct_020155FC *data = sub_020155FC(save, i);
+                UnkStruct_020155FC *data = SaveData_GetEntry(save, i);
                 if (data != NULL && (data->unk_08 & 1)) {
                     u32 id = (data->unk_04 & 0xFFF) | ((6 << 24) | ((data->unk_02 & 0xFFF) << 12));
                     unk_001C->ov0_02139920(id, data->unk_00, 0xE, 0, 1);
@@ -1844,13 +1844,13 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
             }
         }
         if (newInfo->unk_00 != oldInfo->unk_00) {
-            m_game->m_textboxData->sub_0200AD80(newInfo->unk_00);
-            sub_0203401C(m_game->m_scriptManager, newInfo->unk_00);
+            m_game->m_textboxData->LoadAreaMessages(newInfo->unk_00);
+            ScriptManager_LoadArea(m_game->m_scriptManager, newInfo->unk_00);
         }
     }
 
     unk_00CC = mapId;
-    UnkStruct_02041D80 *info = sub_02041D80(MAIN_BSS_0210CA6C, mapId);
+    UnkStruct_02041D80 *info = FieldData_GetMap(MAIN_BSS_0210CA6C, mapId);
     int group = info->unk_00;
     if (group >= 0 && group < 64) {
         save->unk_7F64 |= (u64)1 << group;
@@ -1902,7 +1902,7 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
                 if (sub_02015B1C(save, i, -1)) {
                     npc->unk_20 = 2;
                 } else {
-                    sub_02041C1C(npc);
+                    Actor_HideManpu(npc);
                     npc->unk_20 = 0;
                     npc->sub_0202D394();
                 }
@@ -1938,7 +1938,7 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
                 }
                 break;
             case 3:
-                if (!sub_02015434(save, save->unk_001A, i)) {
+                if (!sub_02015434(save, save->m_mapId, i)) {
                     if (arg1 && enemy->unk_244 != 0) {
                         enemy->unk_20 = 0;
                         save->SetEnemyState(mapId, i, 1);
@@ -1976,7 +1976,7 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
                 break;
             case 4:
                 object->sub_reset();
-                object->sub_0202DC54(8, 0);
+                object->PlayAnim(8, 0);
                 break;
             }
         }
@@ -1984,7 +1984,7 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
 
     if (info->unk_03 != 0) {
         unk_002C->sub_02035D38(info->unk_03);
-        unk_002C->sub_02035DA0(info->unk_03, 0, -1, 0);
+        unk_002C->StartEffect(info->unk_03, 0, -1, 0);
     }
     unk_008C = 0;
     unk_00D0 |= 4;
@@ -2001,7 +2001,7 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
         OS_SPrintf(name, "m%03d/m%03d_%03d%c.fsb", info->unk_00, info->unk_00, info->unk_01, info->unk_02 + 'a');
     }
     unk_0010->ov0_02124D98(name);
-    sub_02041A60(unk_0048, info->unk_05);
+    FieldShadow_SetAlpha(unk_0048, info->unk_05);
     unk_0028->ov0_02143410();
     return TRUE;
 }
@@ -2023,17 +2023,17 @@ void CFieldScene::ov0_02122F08(CFieldEnemy *enemy)
         return;
     }
     CFieldPlayer *player = MAIN_BSS_0210CA48;
-    UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+    SaveData *save = &MAIN_BSS_020B26A0;
     if (enemy == NULL || player == NULL) {
         return;
     }
     if (player->unk_10C & 1) {
         return;
     }
-    if (!(player->unk_E8 & 2) || save->unk_0001 == 0) {
+    if (!(player->unk_E8 & 2) || save->m_energy == 0) {
         return;
     }
-    sub_02010868(m_game->unk_143C);
+    BattleStartParam_Reset(m_game->unk_143C);
     sub_02010D04(m_game->unk_1444);
     ov0_02122FEC(enemy->unk_E8, enemy->unk_E0, enemy->unk_58 & 0xFFF);
     CBattleResultParameter *stats = m_game->unk_1444;
@@ -2047,7 +2047,7 @@ void CFieldScene::ov0_02122F08(CFieldEnemy *enemy)
 
 void CFieldScene::ov0_02122FEC(u32 arg0, u32 arg1, u32 arg2)
 {
-    sub_020109C0(m_game->unk_143C, arg0, 0);
+    BattleStartParam_AddEnemy(m_game->unk_143C, arg0, 0);
     CBattleResultParameter *stats = m_game->unk_1444;
     int n = stats->unk_14++;
     stats->unk_18[n] = (arg2 & 0xFFF) | ((1 << 24) | ((arg1 & 0xFFF) << 12));
@@ -2135,11 +2135,11 @@ CFieldActor *CFieldScene::ov0_021232A8()
         }
     }
     if (hit == NULL) {
-        UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+        SaveData *save = &MAIN_BSS_020B26A0;
         for (int i = unk_001C->m_count - 1; i >= 0; i--) {
             CFieldPartner *partner = (CFieldPartner *)unk_001C->Get(i);
             if (partner != NULL && partner->IsActive() && !partner->IsUnk04Bit0() && partner->IsTouched(pos)) {
-                if (save->unk_8B64 != 4 || !partner->IsKind0() || (partner->unk_04 & 0x20)) {
+                if (save->m_areaType != 4 || !partner->IsKind0() || (partner->unk_04 & 0x20)) {
                     hit = partner;
                     break;
                 }
@@ -2178,53 +2178,53 @@ void CFieldScene::ov0_02123AEC(int state, int arg)
     unk_0084 = state;
     switch (state) {
     case 1:
-        m_game->m_textboxData->sub_0200AA04(0);
-        m_game->m_textboxData->sub_0200AD34(7, 1, 1, 0);
+        m_game->m_textboxData->SetTextSpeed(0);
+        m_game->m_textboxData->ShowSystemMessage(7, 1, 1, 0);
         ov0_02123E58(-1);
         break;
     case 10:
         switch (arg) {
         default:
         case 0:
-            m_game->m_textboxData->sub_0200AA04(0);
-            m_game->m_textboxData->sub_0200AD34(7, 1, 1, 0);
+            m_game->m_textboxData->SetTextSpeed(0);
+            m_game->m_textboxData->ShowSystemMessage(7, 1, 1, 0);
             break;
         case 1:
-            m_game->m_textboxData->sub_0200AA04(0);
-            m_game->m_textboxData->sub_0200AD34(5, 1, 1, 0);
+            m_game->m_textboxData->SetTextSpeed(0);
+            m_game->m_textboxData->ShowSystemMessage(5, 1, 1, 0);
             break;
         }
         ov0_02123E58(-1);
         break;
     case 11:
-        m_game->m_textboxData->sub_020097FC(1, unk_007C->unk_268);
-        m_game->m_textboxData->sub_0200AA04(0);
-        m_game->m_textboxData->sub_0200AD34(0x4B, 1, 1, 0);
+        m_game->m_textboxData->SetParam(1, unk_007C->unk_268);
+        m_game->m_textboxData->SetTextSpeed(0);
+        m_game->m_textboxData->ShowSystemMessage(0x4B, 1, 1, 0);
         ov0_02123E58(-1);
         break;
     case 12:
-        m_game->m_textboxData->sub_0200AA04(0);
-        m_game->m_textboxData->sub_0200AD34(0x4C, 1, 1, 0);
+        m_game->m_textboxData->SetTextSpeed(0);
+        m_game->m_textboxData->ShowSystemMessage(0x4C, 1, 1, 0);
         ov0_02123E58(-1);
         break;
     case 15:
-        m_game->m_textboxData->sub_0200AA04(0);
-        m_game->m_textboxData->sub_0200AD34(5, 1, 1, 0);
+        m_game->m_textboxData->SetTextSpeed(0);
+        m_game->m_textboxData->ShowSystemMessage(5, 1, 1, 0);
         ov0_02123E58(-1);
         break;
     case 21:
-        m_game->m_textboxData->sub_0200AA04(0);
-        m_game->m_textboxData->sub_0200AD34(5, 1, 1, 0);
+        m_game->m_textboxData->SetTextSpeed(0);
+        m_game->m_textboxData->ShowSystemMessage(5, 1, 1, 0);
         ov0_02123E58(-1);
         break;
     case 16:
-        m_game->m_textboxData->sub_0200AA04(0);
-        m_game->m_textboxData->sub_0200AD34(6, 1, 1, 0);
+        m_game->m_textboxData->SetTextSpeed(0);
+        m_game->m_textboxData->ShowSystemMessage(6, 1, 1, 0);
         ov0_02123E58(-1);
         break;
     case 23:
-        m_game->m_textboxData->sub_0200AA04(0);
-        m_game->m_textboxData->sub_0200AD34(7, 1, 1, 0);
+        m_game->m_textboxData->SetTextSpeed(0);
+        m_game->m_textboxData->ShowSystemMessage(7, 1, 1, 0);
         ov0_02123E58(-1);
         break;
     case 25:
@@ -2240,7 +2240,7 @@ void CFieldScene::ov0_02123E58(int flags)
 {
     if (unk_0014 != NULL && (flags & 1)) {
         if (!unk_0014->ov0_0213416C()) {
-            unk_0014->sub_0202D7E0();
+            unk_0014->StopMotion();
         }
         CFieldPlayer *player = unk_0014;
         player->unk_10C &= ~1;
@@ -2349,14 +2349,14 @@ void CFieldScene::ov0_021241B8()
     if (unk_00AC < 0) {
         return;
     }
-    m_game->m_textboxData->sub_0200AA84(unk_00B0, unk_00AC, 1, 1, 0);
+    m_game->m_textboxData->ShowMessage(unk_00B0, unk_00AC, 1, 1, 0);
     ov0_02123AEC(0x14, 0);
 }
 
 void CFieldScene::ov0_02124210()
 {
-    UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
-    int mapId = save->unk_001A;
+    SaveData *save = &MAIN_BSS_020B26A0;
+    int mapId = save->m_mapId;
 
     for (int i = 0; i < unk_0030->m_count; i++) {
         CFieldEventRect *item = unk_0030->Get(i);
@@ -2442,7 +2442,7 @@ void CFieldScene::ov0_021245C4(int arg0)
 
 int CFieldScene::ov0_02124604()
 {
-    UnkStruct_02041D80 *info = sub_02041D80(unk_0038, MAIN_BSS_020B26A0.unk_001A);
+    UnkStruct_02041D80 *info = FieldData_GetMap(unk_0038, MAIN_BSS_020B26A0.m_mapId);
     u8 value = info->unk_06;
     int attr = 0;
     if (unk_0010 != NULL && unk_0014 != NULL) {
@@ -2543,10 +2543,10 @@ void CFieldScene::ov0_021248EC()
             if (object != NULL && object->IsActive() && !object->IsUnk04Bit0()) {
                 switch (object->unk_E8) {
                 case 0x16E:
-                    unk_0054->sub_02023218(object->GetX() >> FX32_SHIFT, object->GetY() >> FX32_SHIFT, TRUE);
+                    unk_0054->AddMapIcon(object->GetX() >> FX32_SHIFT, object->GetY() >> FX32_SHIFT, TRUE);
                     break;
                 case 0x16F:
-                    unk_0054->sub_02023218(object->GetX() >> FX32_SHIFT, object->GetY() >> FX32_SHIFT, FALSE);
+                    unk_0054->AddMapIcon(object->GetX() >> FX32_SHIFT, object->GetY() >> FX32_SHIFT, FALSE);
                     break;
                 }
             }
@@ -2558,10 +2558,10 @@ void CFieldScene::ov0_021248EC()
             if (npc != NULL && npc->IsActive() && !npc->IsUnk04Bit0() && npc->unk_E8 == 0) {
                 switch (npc->unk_EC) {
                 case 0x5C:
-                    unk_0054->sub_02023218(npc->GetX() >> FX32_SHIFT, npc->GetY() >> FX32_SHIFT, TRUE);
+                    unk_0054->AddMapIcon(npc->GetX() >> FX32_SHIFT, npc->GetY() >> FX32_SHIFT, TRUE);
                     break;
                 case 0x90:
-                    unk_0054->sub_02023218(npc->GetX() >> FX32_SHIFT, npc->GetY() >> FX32_SHIFT, FALSE);
+                    unk_0054->AddMapIcon(npc->GetX() >> FX32_SHIFT, npc->GetY() >> FX32_SHIFT, FALSE);
                     break;
                 }
             }
@@ -2572,8 +2572,8 @@ void CFieldScene::ov0_021248EC()
 extern "C" void ov0_02124BD4(void)
 {
     // Through void * so the address stays in a register (a plain &MAIN_BSS_020B26A0 is reloaded per call).
-    UnkClass_020B26A0 *save = (UnkClass_020B26A0 *)(void *)&MAIN_BSS_020B26A0;
-    sub_020176BC(save, -1);
+    SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
+    SaveData_LoadPlayerActorData(save, -1);
     sub_02017948(save, 0);
 }
 

@@ -5,10 +5,10 @@
 
 #include "common.hpp"
 
-class UnkClass_020074D4;
-class UnkClass_02007AA4;
+class VramImage;
+class VramPalette;
 class CNCERFile;
-class UnkClass_02008788;
+class CellAnimController;
 
 // Defined in ov1
 class UnkClass_021274AC {
@@ -19,10 +19,10 @@ public:
     void ov1_02127654();
 
 public:
-    UnkClass_020074D4 *m_image;
-    UnkClass_02007AA4 *m_palette;
+    VramImage *m_image;
+    VramPalette *m_palette;
     CNCERFile *m_cells;
-    UnkClass_02008788 *m_anim;
+    CellAnimController *m_anim;
     NNSGfdTexKey m_texKey;
     NNSGfdPlttKey m_plttKey;
 };

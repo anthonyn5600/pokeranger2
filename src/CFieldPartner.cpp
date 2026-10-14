@@ -4,7 +4,7 @@
 #include <string.h>
 
 #include "CGame.hpp"
-#include "UnkClass_020B26A0.hpp"
+#include "SaveData.hpp"
 #include "field/CFieldMap.hpp"
 #include "field/CFieldPartnerManage.hpp"
 #include "field/CFieldPartnerPokemon.hpp"
@@ -13,7 +13,7 @@
 #include "scene/CFieldScene.hpp"
 
 extern CFieldScene *MAIN_BSS_0210CA40;
-extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
+extern SaveData MAIN_BSS_020B26A0;
 
 extern "C" {
 void ov0_0213EA6C(Point2D *out, Point2D cell, int floor, int arg3);
@@ -65,7 +65,7 @@ CFieldPartner::~CFieldPartner()
 void CFieldPartner::ov0_02136CFC(BOOL keep, Point2D pos, int arg)
 {
     if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-        unk_08->unk_0C->m_motion.sub_02011AB0(pos, arg);
+        unk_08->unk_0C->m_motion.MoveLinear(pos, arg);
     }
     if (!keep) {
         unk_04 &= ~1;
@@ -497,7 +497,7 @@ void CFieldPartner::ov0_0213905C()
 {
     unk_1E0 = MAIN_BSS_020B26A0.GetUnk0020();
     if (unk_EC.unk_40 != 0) {
-        sub_0202E68C(unk_E4->unk_14);
+        SetLayer(unk_E4->unk_14);
         ov0_02138A7C();
         return;
     }
@@ -567,11 +567,11 @@ void CFieldPartner::ov0_02139164()
     PushHistory(cell, partner);
 }
 
-void CFieldPartner::sub_0202D7E0()
+void CFieldPartner::StopMotion()
 {
     sub_02032A44(1);
     if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-        unk_08->unk_0C->sub_02012A3C(0, 0x1000, 0x1000);
+        unk_08->unk_0C->ScaleTo(0, 0x1000, 0x1000);
     }
     sub_show();
     sub_0201287C_();

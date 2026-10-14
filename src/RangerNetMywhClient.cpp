@@ -1,11 +1,11 @@
+#include "AudioEngine.hpp"
 #include "CGame.hpp"
+#include "RangerNetExchange.hpp"
+#include "RangerNetMenu.hpp"
 #include "RangerNetMywh.hpp"
-#include "UnkClass_02034478.hpp"
-#include "UnkClass_0211E05C.hpp"
-#include "UnkClass_0212D97C.hpp"
 #include "UnkClass_0212F3DC.hpp"
 
-// Clients of the mywh connection (0212EBCC..0212F648): UnkClass_0212D97C's download states and
+// Clients of the mywh connection (0212EBCC..0212F648): RangerNetExchange's download states and
 // UnkClass_0212F3DC, both driving the mywh connection through a state callback.
 
 // RangerNetSession.cpp
@@ -18,7 +18,7 @@ static int sDownloadState;
 static void ov11_0212F32C(int state);
 static void ov11_0212F5C8(int state);
 
-void UnkClass_0212D97C::ov11_0212EBCC()
+void RangerNetExchange::ov11_0212EBCC()
 {
     switch (unk_152) {
     case 0:
@@ -27,7 +27,7 @@ void UnkClass_0212D97C::ov11_0212EBCC()
         break;
     case 1:
         unk_194->unk_710 = 1;
-        CGame::GetInstance()->m_audioEngine->sub_02034C44(0xD1);
+        CGame::GetInstance()->m_audioEngine->PlaySe(0xD1);
         unk_194->ov11_02122B7C(2, 1, 0, 1);
         if (!ov11_0212FE30(unk_050, ov11_0212F32C, unk_04C)) {
             unk_194->ov11_02122B7C(3, 1, 0, 1);
@@ -50,8 +50,8 @@ void UnkClass_0212D97C::ov11_0212EBCC()
                 break;
             }
             ov11_0212E9B4(3);
-            CGame::GetInstance()->m_audioEngine->sub_02034C5C(0xD1);
-            CGame::GetInstance()->m_audioEngine->sub_02034C44(0xD2);
+            CGame::GetInstance()->m_audioEngine->StopSe(0xD1);
+            CGame::GetInstance()->m_audioEngine->PlaySe(0xD2);
         } else if (sDownloadState == 5 || --unk_144 == 0) {
             unk_194->ov11_02122B7C(3, 1, 0, 1);
             ov11_0212F3B0();
@@ -74,7 +74,7 @@ void UnkClass_0212D97C::ov11_0212EBCC()
     }
 }
 
-void UnkClass_0212D97C::ov11_0212EE24()
+void RangerNetExchange::ov11_0212EE24()
 {
     const char *name = (const char *)ov11_021301DC();
 
@@ -120,7 +120,7 @@ void UnkClass_0212D97C::ov11_0212EE24()
     }
 }
 
-void UnkClass_0212D97C::ov11_0212EF94()
+void RangerNetExchange::ov11_0212EF94()
 {
     if (unk_048 != 0) {
         unk_048--;
@@ -132,7 +132,7 @@ void UnkClass_0212D97C::ov11_0212EF94()
         unk_154 = 0;
         unk_144 = 15;
         unk_194->ov11_0211EF5C();
-        CGame::GetInstance()->m_audioEngine->sub_02034C44(0xD1);
+        CGame::GetInstance()->m_audioEngine->PlaySe(0xD1);
         break;
     case 3:
         unk_152 = 4;
@@ -174,7 +174,7 @@ void UnkClass_0212D97C::ov11_0212EF94()
     }
 }
 
-void UnkClass_0212D97C::ov11_0212F158()
+void RangerNetExchange::ov11_0212F158()
 {
     switch (unk_152) {
     case 0:
@@ -249,7 +249,7 @@ static void ov11_0212F32C(int state)
     }
 }
 
-void UnkClass_0212D97C::ov11_0212F3B0()
+void RangerNetExchange::ov11_0212F3B0()
 {
     ov11_0212FD74();
     unk_152 = 20;

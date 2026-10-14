@@ -3,9 +3,9 @@
 
 #include <nitro.h>
 
+#include "Collision.hpp"
 #include "common.hpp"
 #include "primitive/CSoftwareSprite.hpp"
-#include "sub_02006000.hpp"
 
 class UnkClass_02129B74;
 

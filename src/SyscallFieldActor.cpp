@@ -1,4 +1,4 @@
-#include "UnkClass_0213D624.hpp"
+#include "FieldSyscallSets.hpp"
 #include "UnkStruct_02044464.hpp"
 #include "field/CFieldActor.hpp"
 #include "field/CFieldPartner.hpp"
@@ -13,17 +13,17 @@ static ScriptSyscall sFieldActorSyscalls[] = {
     (ScriptSyscall)ov0_02149140,
 };
 
-UnkClass_02149118::UnkClass_02149118()
+FieldActorSyscalls::FieldActorSyscalls()
 {
 }
 
-UnkClass_02149118::~UnkClass_02149118()
+FieldActorSyscalls::~FieldActorSyscalls()
 {
 }
 
-void UnkClass_02149118::ov0_02149120()
+void FieldActorSyscalls::ov0_02149120()
 {
-    sub_02044B38(0xB, sFieldActorSyscalls);
+    Script_RegisterSyscalls(0xB, sFieldActorSyscalls);
 }
 
 static inline void SetHome(CFieldActor *actor, fx32 x, fx32 y)
@@ -105,7 +105,7 @@ int ov0_02149140(int *args)
                 flags |= 2;
             }
         }
-        return actor->sub_0203CF40(move, args[6], flags);
+        return actor->CheckSweepCollision(move, args[6], flags);
     }
     case 11:
         return actor->unk_64.x;
@@ -127,10 +127,10 @@ int ov0_02149140(int *args)
         actor->SetUnk19C(args[2]);
         return 0;
     case 18:
-        actor->sub_0202D7E0();
+        actor->StopMotion();
         return 0;
     case 19:
-        actor->sub_0202DC54(args[2], (u8)args[3]);
+        actor->PlayAnim(args[2], (u8)args[3]);
         return 0;
     case 20:
         actor->sub_show();
@@ -165,7 +165,7 @@ int ov0_02149140(int *args)
         return actor->GetUnk8C();
     case 31: {
         Point2D pos = { args[2], args[3] };
-        return actor->sub_0203D110(pos, args[4], 0);
+        return actor->CheckCircleCollision(pos, args[4], 0);
     }
     case 32:
         actor->sub_020129F4_(args[2], args[3]);

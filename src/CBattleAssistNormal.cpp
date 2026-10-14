@@ -1,9 +1,9 @@
-#include "UnkClass_020B26A0.hpp"
+#include "SaveData.hpp"
+#include "battle/BattleParamTable.hpp"
 #include "battle/CBattleAssist.hpp"
 #include "battle/CBattleDisk.hpp"
-#include "battle/UnkClass_0212EEB4.hpp"
 
-CBattleAssistNormal::CBattleAssistNormal(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3)
+CBattleAssistNormal::CBattleAssistNormal(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3)
     : CBattleAssist(effects, effectData, params, arg3)
 {
 }
@@ -14,7 +14,7 @@ CBattleAssistNormal::~CBattleAssistNormal()
 
 int CBattleAssistNormal::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies)
 {
-    disk->unk_19E = unk_10->ov1_0212F32C(vfunc_10(), MAIN_BSS_020B26A0.unk_87DB, 0);
+    disk->unk_19E = unk_10->ov1_0212F32C(vfunc_10(), MAIN_BSS_020B26A0.m_stylerLevel, 0);
     if (unk_04 == 0) {
         return 0;
     }

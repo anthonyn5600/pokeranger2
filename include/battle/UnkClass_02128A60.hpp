@@ -5,7 +5,7 @@
 
 #include "common.hpp"
 
-class UnkClass_0201AAE0;
+class GraphicsSet;
 
 // Defined in ov1
 class UnkClass_02128A60 {
@@ -16,7 +16,7 @@ public:
     void ov1_02128AF0();
 
 public:
-    UnkClass_0201AAE0 *m_res;
+    GraphicsSet *m_res;
 };
 
 STATIC_SIZE_ASSERT(UnkClass_02128A60, 0x4);

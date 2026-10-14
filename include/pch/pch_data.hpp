@@ -5,7 +5,7 @@
 // the .mch and emits them at the very end of each TU that uses them (after the TU-end vtable/typeinfo passes), so
 // they are the last-created objects in the TU's data size sort: defining them in a .cpp gives a different layout.
 
-#include "sub_02006000.hpp"
+#include "Collision.hpp"
 
 // CAC kinds of the water gun's nozzle and head sprites (CFieldEffectWaterGun).
 static const int sWaterGunCacKinds[2] = { 0, 2 };

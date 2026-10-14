@@ -17,11 +17,11 @@ Static main
     Object main.nef.p/src_main.cpp.o
     Object main.nef.p/src_heap_operators.cpp.o
     Object main.nef.p/src_overlay_manager.cpp.o
-    Object main.nef.p/src_UnkClass_02001C04.cpp.o
+    Object main.nef.p/src_PadInput.cpp.o
     Object main.nef.p/src_CTouchPanel.cpp.o
     Object main.nef.p/src_CTPEmulator.cpp.o
     Object main.nef.p/src_heap.cpp.o
-    Object main.nef.p/src_UnkClass_020023EC.cpp.o
+    Object main.nef.p/src_BGFontPrinter.cpp.o
     Object main.nef.p/src_file_CArchiveGuard.cpp.o
     Object main.nef.p/src_file_CBinaryFile.cpp.o
     Object main.nef.p/src_file_CNCERFile.cpp.o
@@ -38,77 +38,77 @@ Static main
     Object main.nef.p/src_primitive_CPrimitiveSPHERE.cpp.o
     Object main.nef.p/src_primitive_CPrimitiveTRIANGLE.cpp.o
     Object main.nef.p/src_primitive_CSoftwareSprite.cpp.o
-    Object main.nef.p/src_sub_02006000.cpp.o
+    Object main.nef.p/src_Collision.cpp.o
     Object main.nef.p/src_interpolation.cpp.o
-    Object main.nef.p/src_sub_02007254.cpp.o
-    Object main.nef.p/src_UnkClass_020074D4.cpp.o
+    Object main.nef.p/src_MathUtil.cpp.o
+    Object main.nef.p/src_VramImage.cpp.o
     Object main.nef.p/src_UnkClass_02007770.cpp.o
-    Object main.nef.p/src_UnkClass_02007AA4.cpp.o
+    Object main.nef.p/src_VramPalette.cpp.o
     Object main.nef.p/src_CScene.cpp.o
-    Object main.nef.p/src_sub_02007CF0.cpp.o
-    Object main.nef.p/src_UnkClass_02007F98.cpp.o
-    Object main.nef.p/src_UnkClass_02008788.cpp.o
-    Object main.nef.p/src_UnkClass_02008D50.cpp.o
-    Object main.nef.p/src_UnkClass_02008E88.cpp.o
-    Object main.nef.p/src_UnkClass_0211E3FC.cpp.o
-    Object main.nef.p/src_UnkClass_020091E8.cpp.o
+    Object main.nef.p/src_DisplayUtil.cpp.o
+    Object main.nef.p/src_CellAnimInstance.cpp.o
+    Object main.nef.p/src_CellAnimController.cpp.o
+    Object main.nef.p/src_FrameTimer.cpp.o
+    Object main.nef.p/src_DebugProcess.cpp.o
+    Object main.nef.p/src_DrawObjectList.cpp.o
+    Object main.nef.p/src_TextboxManager.cpp.o
     Object main.nef.p/src_UnkClass_0200BBC0.cpp.o
-    Object main.nef.p/src_UnkClass_0200BBC8.cpp.o
-    Object main.nef.p/src_UnkClass_0200C38C.cpp.o
-    Object main.nef.p/src_UnkClass_0200CAB4.cpp.o
-    Object main.nef.p/src_UnkClass_0200CFF4.cpp.o
-    Object main.nef.p/src_UnkClass_0200D114.cpp.o
-    Object main.nef.p/src_UnkClass_0200D3F8.cpp.o
-    Object main.nef.p/src_UnkClass_0200E0B4.cpp.o
-    Object main.nef.p/src_UnkClass_0200E330.cpp.o
-    Object main.nef.p/src_UnkClass_0200E960.cpp.o
-    Object main.nef.p/src_UnkClass_0200ECD0.cpp.o
+    Object main.nef.p/src_YesNoPrompt.cpp.o
+    Object main.nef.p/src_TextPrinter.cpp.o
+    Object main.nef.p/src_SubTextPrinter.cpp.o
+    Object main.nef.p/src_FontSet.cpp.o
+    Object main.nef.p/src_ParamTableFile.cpp.o
+    Object main.nef.p/src_CameraController.cpp.o
+    Object main.nef.p/src_BrightnessFade.cpp.o
+    Object main.nef.p/src_WindowWipe.cpp.o
+    Object main.nef.p/src_OamSprite.cpp.o
+    Object main.nef.p/src_OamSpriteSet.cpp.o
     Object main.nef.p/asm_arm9_0208A840.s.o
     Object main.nef.p/src_CPowerManage.cpp.o
     Object main.nef.p/src_UnkClass_0200FA5C.cpp.o
     Object main.nef.p/src_CGame.cpp.o
-    Object main.nef.p/src_UnkClass_02010470.cpp.o
-    Object main.nef.p/src_UnkClass_02010854.cpp.o
+    Object main.nef.p/src_PokeIdTable.cpp.o
+    Object main.nef.p/src_BattleStartParam.cpp.o
     Object main.nef.p/src_UnkClass_02010C3C.cpp.o
     Object main.nef.p/src_CBattleResultParameter.cpp.o
-    Object main.nef.p/src_UnkClass_02010D2C.cpp.o
+    Object main.nef.p/src_DiskHPTable.cpp.o
     Object main.nef.p/asm_arm9_02084288.s.o
-    Object main.nef.p/src_UnkClass_0201164C.cpp.o
+    Object main.nef.p/src_MissionQuestData.cpp.o
     Object main.nef.p/asm_arm9_0208AC1C.s.o
-    Object main.nef.p/src_UnkClass_0201179C.cpp.o
+    Object main.nef.p/src_ActorMotion.cpp.o
     Object main.nef.p/src_CActor.cpp.o
     Object main.nef.p/src_CActorData.cpp.o
-    Object main.nef.p/src_UnkClass_020B26A0.cpp.o
-    Object main.nef.p/src_UnkClass_02018208.cpp.o
-    Object main.nef.p/src_UnkClass_02018B9C.cpp.o
-    Object main.nef.p/src_UnkClass_02018DF4.cpp.o
+    Object main.nef.p/src_SaveData.cpp.o
+    Object main.nef.p/src_NameTables.cpp.o
+    Object main.nef.p/src_BattleShadow.cpp.o
+    Object main.nef.p/src_GlobalValues.cpp.o
     Object main.nef.p/src_CPlayerHPGauge.cpp.o
-    Object main.nef.p/src_UnkClass_0201AD60.cpp.o
-    Object main.nef.p/src_UnkClass_0201B724.cpp.o
-    Object main.nef.p/src_UnkClass_0201CA6C.cpp.o
-    Object main.nef.p/src_UnkClass_0201FC80.cpp.o
-    Object main.nef.p/src_UnkClass_02021404.cpp.o
-    Object main.nef.p/src_UnkClass_0202163C.cpp.o
-    Object main.nef.p/src_UnkClass_0202229C.cpp.o
-    Object main.nef.p/src_UnkClass_02022404.cpp.o
-    Object main.nef.p/src_UnkClass_020233C8.cpp.o
-    Object main.nef.p/src_UnkClass_020247CC.cpp.o
-    Object main.nef.p/src_UnkClass_02025648.cpp.o
-    Object main.nef.p/src_UnkClass_0202773C.cpp.o
+    Object main.nef.p/src_GridOverlay.cpp.o
+    Object main.nef.p/src_SubScreenTargetInfo.cpp.o
+    Object main.nef.p/src_SubScreenPokemonInfo.cpp.o
+    Object main.nef.p/src_BGLayer.cpp.o
+    Object main.nef.p/src_MessageTable.cpp.o
+    Object main.nef.p/src_SubScreenAreaMap.cpp.o
+    Object main.nef.p/src_SubScreenPicture.cpp.o
+    Object main.nef.p/src_FieldSubScreen.cpp.o
+    Object main.nef.p/src_SubScreenIconMenu.cpp.o
+    Object main.nef.p/src_SubScreenPartyPanel.cpp.o
+    Object main.nef.p/src_SubScreenRangerCard.cpp.o
+    Object main.nef.p/src_SaveDialog.cpp.o
     Object main.nef.p/src_CBackup.cpp.o
-    Object main.nef.p/src_UnkClass_02027FE8.cpp.o
+    Object main.nef.p/src_SaveManager.cpp.o
     Object main.nef.p/src_CEffectActorData.cpp.o
-    Object main.nef.p/src_UnkClass_02029800.cpp.o
-    Object main.nef.p/src_UnkClass_0202A2AC.cpp.o
+    Object main.nef.p/src_TitleBanner.cpp.o
+    Object main.nef.p/src_SubScreenButton.cpp.o
     Object main.nef.p/src_sub_0202A4A0.cpp.o
     Object main.nef.p/src_sub_0202A4D8.cpp.o
-    Object main.nef.p/src_UnkClass_0202A510.cpp.o
+    Object main.nef.p/src_RegionMap.cpp.o
     Object main.nef.p/src_CBackupBase.cpp.o
     Object main.nef.p/src_sub_0202B80C.cpp.o
     Object main.nef.p/src_CBackupSync.cpp.o
     Object main.nef.p/src_Syscall.cpp.o
-    Object main.nef.p/src_UnkClass_02033F04.cpp.o
-    Object main.nef.p/src_UnkClass_02034478.cpp.o
+    Object main.nef.p/src_ScriptManager.cpp.o
+    Object main.nef.p/src_AudioEngine.cpp.o
     Object main.nef.p/src_FieldPartnerIndex.cpp.o
     Object main.nef.p/asm_arm9_0210CA30.s.o
     Object main.nef.p/src_CFieldScreenEffect.cpp.o
@@ -132,7 +132,7 @@ Static main
     Object main.nef.p/src_FieldShadow.cpp.o
     Object main.nef.p/src_FieldData.cpp.o
     Object main.nef.p/src_SimpleSpriteNTF.cpp.o
-    Object main.nef.p/src_UnkClass_02042108.cpp.o
+    Object main.nef.p/src_CaptureBackground.cpp.o
     Object main.nef.p/src_CDownloadMissionStartScene.cpp.o
     Object main.nef.p/src_CDownloadMissionEndScene.cpp.o
     Object main.nef.p/src_CDownloadMissionRestartScene.cpp.o
@@ -210,9 +210,9 @@ Overlay overlay0
     Object main.nef.p/src_CFieldMapLayerMultiScroll.cpp.o
     Object main.nef.p/src_CFieldMapLayerUVScroll.cpp.o
     Object main.nef.p/src_CFieldMapLayerColorAnime.cpp.o
-    Object main.nef.p/src_UnkClass_0212F82C.cpp.o
-    Object main.nef.p/src_UnkClass_0212FEDC.cpp.o
-    Object main.nef.p/src_UnkClass_021302BC.cpp.o
+    Object main.nef.p/src_FieldMapAnimQuad.cpp.o
+    Object main.nef.p/src_FieldMapPaletteAnim.cpp.o
+    Object main.nef.p/src_FieldMapTextures.cpp.o
     Object main.nef.p/src_CFieldPlayer.cpp.o
     Object main.nef.p/src_CFieldEnemy.cpp.o
     Object main.nef.p/src_CFieldEnemyManage.cpp.o
@@ -223,13 +223,13 @@ Overlay overlay0
     Object main.nef.p/src_CFieldNpcManage.cpp.o
     Object main.nef.p/src_CFieldTargetObject.cpp.o
     Object main.nef.p/src_CFieldTargetObjectManage.cpp.o
-    Object main.nef.p/src_UnkClass_0213D624.cpp.o
+    Object main.nef.p/src_FieldSyscallSets.cpp.o
     Object main.nef.p/src_CFieldEventRect.cpp.o
-    Object main.nef.p/src_UnkClass_0213DDCC.cpp.o
+    Object main.nef.p/src_FieldEventRectManage.cpp.o
     Object main.nef.p/src_CFieldPartnerNpc.cpp.o
     Object main.nef.p/src_CFieldPartnerPokemon.cpp.o
     Object main.nef.p/src_FieldPartnerPath.cpp.o
-    Object main.nef.p/src_UnkClass_0213F918.cpp.o
+    Object main.nef.p/src_FieldScriptLauncher.cpp.o
     Object main.nef.p/src_FieldPlayerInputControlManage.cpp.o
     Object main.nef.p/src_FieldTargetObjectScript.cpp.o
     Object main.nef.p/src_CFieldEffect.cpp.o
@@ -242,7 +242,7 @@ Overlay overlay0
     Object main.nef.p/src_CFieldEffectFlash.cpp.o
     Object main.nef.p/src_CFieldEffectFogcut.cpp.o
     Object main.nef.p/src_CFieldEffectFlowerStorm.cpp.o
-    Object main.nef.p/src_UnkClass_021480E4.cpp.o
+    Object main.nef.p/src_TouchDotLine.cpp.o
     Object main.nef.p/src_SyscallFieldEnemy.cpp.o
     Object main.nef.p/src_SyscallFieldActor.cpp.o
     Object main.nef.p/src_SyscallFieldPlayer.cpp.o
@@ -298,7 +298,7 @@ Overlay overlay1
 {
     After main
     Object main.nef.p/src_CBattleScene.cpp.o
-    Object main.nef.p/src_UnkClass_0212306C.cpp.o
+    Object main.nef.p/src_StylerLine.cpp.o
     Object main.nef.p/src_CBattleEnemyData.cpp.o
     Object main.nef.p/src_CBattleEnemy.cpp.o
     Object main.nef.p/src_CBattleAttackEffectData.cpp.o
@@ -307,21 +307,21 @@ Overlay overlay1
     Object main.nef.p/src_UnkClass_021278E8.cpp.o
     Object main.nef.p/src_UnkClass_02127CD8.cpp.o
     Object main.nef.p/src_UnkClass_021281B4.cpp.o
-    Object main.nef.p/src_UnkClass_02128600.cpp.o
+    Object main.nef.p/src_BattleHPNumberGfx.cpp.o
     Object main.nef.p/src_UnkClass_02128A60.cpp.o
-    Object main.nef.p/src_UnkClass_02128E88.cpp.o
-    Object main.nef.p/src_UnkClass_021294BC.cpp.o
+    Object main.nef.p/src_BattleStatusIconGfx.cpp.o
+    Object main.nef.p/src_BattleStatusDebugGfx.cpp.o
     Object main.nef.p/src_UnkClass_021297C0.cpp.o
     Object main.nef.p/src_UnkClass_02129B74.cpp.o
     Object main.nef.p/src_BattleSyscall.cpp.o
     Object main.nef.p/src_CBattleDisk.cpp.o
-    Object main.nef.p/src_UnkClass_0212D2C4.cpp.o
-    Object main.nef.p/src_UnkClass_0212DC20.cpp.o
+    Object main.nef.p/src_BattleDiskRing.cpp.o
+    Object main.nef.p/src_BattlePokemonTable.cpp.o
     Object main.nef.p/src_CDiskCursor.cpp.o
     Object main.nef.p/src_CLineEffect.cpp.o
-    Object main.nef.p/src_UnkClass_0212E88C.cpp.o
+    Object main.nef.p/src_CaptureLineTrail.cpp.o
     Object main.nef.p/src_CBattleAssist.cpp.o
-    Object main.nef.p/src_UnkClass_0212EEB4.cpp.o
+    Object main.nef.p/src_BattleParamTable.cpp.o
     Object main.nef.p/src_CBattleAssistDragon.cpp.o
     Object main.nef.p/src_CBattleAssistElectric.cpp.o
     Object main.nef.p/src_CBattleAssistEsper.cpp.o
@@ -340,19 +340,19 @@ Overlay overlay1
     Object main.nef.p/src_CBattleAssistRock.cpp.o
     Object main.nef.p/src_CBattleAssistSteel.cpp.o
     Object main.nef.p/src_CBattleAssistWater.cpp.o
-    Object main.nef.p/src_UnkClass_02135BB4.cpp.o
+    Object main.nef.p/src_BattleDebugMenu.cpp.o
     Object main.nef.p/src_CBattleEnemyGauge.cpp.o
-    Object main.nef.p/src_UnkClass_02136730.cpp.o
+    Object main.nef.p/src_BattleParticle.cpp.o
     Object main.nef.p/src_CBattlePowerSave.cpp.o
-    Object main.nef.p/src_UnkClass_02137DA4.cpp.o
+    Object main.nef.p/src_YSortedActorList.cpp.o
     Object main.nef.p/src_UnkClass_021380AC.cpp.o
     Object main.nef.p/src_UnkClass_021382D0.cpp.o
-    Object main.nef.p/src_UnkClass_021384F8.cpp.o
+    Object main.nef.p/src_BattleResult.cpp.o
     Object main.nef.p/src_CBattleGameOver.cpp.o
-    Object main.nef.p/src_UnkClass_0213AE18.cpp.o
-    Object main.nef.p/src_UnkClass_0213CC28.cpp.o
-    Object main.nef.p/src_UnkClass_0213F028.cpp.o
-    Object main.nef.p/src_UnkClass_0213F9D0.cpp.o
+    Object main.nef.p/src_BattleAssistMenu.cpp.o
+    Object main.nef.p/src_BattleInfoPanel.cpp.o
+    Object main.nef.p/src_CaptureResultBanner.cpp.o
+    Object main.nef.p/src_NtfResource.cpp.o
 }
 
 Overlay overlay2
@@ -408,14 +408,14 @@ Overlay overlay8
 {
     After main
     Object main.nef.p/src_CMissionQuestScene.cpp.o
-    Object main.nef.p/src_UnkClass_0211D770.cpp.o
+    Object main.nef.p/src_MissionQuestInfo.cpp.o
 }
 
 Overlay overlay9
 {
     After main
     Object main.nef.p/src_CFlyingScene.cpp.o
-    Object main.nef.p/src_UnkClass_0211CCA0.cpp.o
+    Object main.nef.p/src_FlyingMap.cpp.o
 }
 
 Overlay overlay10
@@ -428,10 +428,10 @@ Overlay overlay11
 {
     After main
     Object main.nef.p/src_CRangerNetScene.cpp.o
-    Object main.nef.p/src_UnkClass_0211CD68.cpp.o
+    Object main.nef.p/src_RangerNetMissionList.cpp.o
     Object main.nef.p/src_CRangerNetAGBScene.cpp.o
     Object main.nef.p/src_RangerNetAgbCheck.cpp.o
-    Object main.nef.p/src_UnkClass_0211E05C.cpp.o
+    Object main.nef.p/src_RangerNetMenu.cpp.o
     Object main.nef.p/asm_overlay_11_02169B40.s.o
     Object main.nef.p/src_RangerNetWireless.cpp.o
     Object main.nef.p/src_RangerNetWh.cpp.o
@@ -446,8 +446,8 @@ Overlay overlay11
     Object main.nef.p/src_RangerNetCommCmd.cpp.o
     Object main.nef.p/src_RangerNetSessionCmd.cpp.o
     Object main.nef.p/src_RangerNetCommLocal.cpp.o
-    Object main.nef.p/src_UnkClass_0212CE58.cpp.o
-    Object main.nef.p/src_UnkClass_0212D97C.cpp.o
+    Object main.nef.p/src_RangerNetSendBin.cpp.o
+    Object main.nef.p/src_RangerNetExchange.cpp.o
     Object main.nef.p/src_RangerNetMywhClient.cpp.o
     Object main.nef.p/src_RangerNetMywh.cpp.o
     Object main.nef.p/src_RangerNetMissionDownload.cpp.o
@@ -513,12 +513,12 @@ Overlay overlay21
 {
     After main
     Object main.nef.p/src_CBrowserScene.cpp.o
-    Object main.nef.p/src_UnkClass_0211D330.cpp.o
+    Object main.nef.p/src_BrowserScreen.cpp.o
     Object main.nef.p/src_CBrowserMenuManager.cpp.o
     Object main.nef.p/src_CBrowserMenuPokemon.cpp.o
     Object main.nef.p/src_CBrowserMenuIcon.cpp.o
     Object main.nef.p/src_CBrowserMenuType.cpp.o
-    Object main.nef.p/src_UnkClass_0212208C.cpp.o
+    Object main.nef.p/src_BrowserSubScreen.cpp.o
     Object main.nef.p/src_UnkClass_021226C0.cpp.o
 }
 
@@ -528,7 +528,7 @@ Overlay overlay22
     Object main.nef.p/src_CEncyclopediaScene.cpp.o
     Object main.nef.p/src_CEncycItemListScreen.cpp.o
     Object main.nef.p/src_CEncycItemDescriptionScreen.cpp.o
-    Object main.nef.p/src_UnkClass_0211F134.cpp.o
+    Object main.nef.p/src_EncycPushButton.cpp.o
     Object main.nef.p/src_CEncycListBox.cpp.o
 }
 
@@ -561,10 +561,10 @@ Overlay overlay27
     After main
     Object main.nef.p/src_CQuestListScene.cpp.o
     Object main.nef.p/src_CQuestListScreen.cpp.o
-    Object main.nef.p/src_UnkClass_0211E2A4.cpp.o
+    Object main.nef.p/src_QLAnimLoader.cpp.o
     Object main.nef.p/src_CQLListBox.cpp.o
-    Object main.nef.p/src_UnkClass_0211FBA4.cpp.o
-    Object main.nef.p/src_UnkClass_021205AC.cpp.o
+    Object main.nef.p/src_QuestListMap.cpp.o
+    Object main.nef.p/src_QuestGiverInfo.cpp.o
     Object main.nef.p/src_CQuestListMapScreen.cpp.o
 }
 

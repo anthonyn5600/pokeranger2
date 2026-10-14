@@ -6,10 +6,10 @@
 
 class CPrimitiveRECT;
 class UnkClass_020091E8_004;
-class UnkClass_0200E960;
-class UnkClass_0200ECD0;
-class UnkClass_02034478;
-class UnkClass_020B26A0;
+class OamSprite;
+class OamSpriteSet;
+class AudioEngine;
+class SaveData;
 
 // Defined in ov23
 // Ranger records menu (two pages, switched with the arrow buttons)
@@ -54,13 +54,13 @@ public:
     int unk_1C; // right arrow sprite index
     int unk_20; // left arrow sprite index
     char unk_24[0x15]; // number text
-    UnkClass_02034478 *m_audioEngine;
-    UnkClass_0200E960 *unk_40;
-    UnkClass_0200E960 *unk_44;
-    UnkClass_0200E960 *unk_48;
-    UnkClass_0200ECD0 *unk_4C;
+    AudioEngine *m_audioEngine;
+    OamSprite *unk_40;
+    OamSprite *unk_44;
+    OamSprite *unk_48;
+    OamSpriteSet *unk_4C;
     CPrimitiveRECT *unk_50[3];
-    UnkClass_020B26A0 *m_save;
+    SaveData *m_save;
     UnkClass_020091E8_004 *m_recodeMes;
     UnkClass_020091E8_004 *m_menuMes;
 };

@@ -1,11 +1,11 @@
-#include "UnkClass_020B26A0.hpp"
-#include "UnkClass_0213D624.hpp"
+#include "SaveData.hpp"
+#include "FieldSyscallSets.hpp"
 #include "UnkStruct_02044464.hpp"
 #include "field/CFieldPartner.hpp"
 #include "field/CFieldPartnerManage.hpp"
 
 extern CFieldPartnerManage *MAIN_BSS_0210CA4C;
-extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
+extern SaveData MAIN_BSS_020B26A0;
 
 extern "C" {
 BOOL ov0_0213E668(Point2D pos, fx32 radius, int floor, int arg3);
@@ -22,12 +22,12 @@ static ScriptSyscall sFieldPartnerSyscalls[] = {
     (ScriptSyscall)ov0_02149E48,
 };
 
-UnkClass_02149A74::UnkClass_02149A74() {}
+FieldPartnerSyscalls::FieldPartnerSyscalls() {}
 
-UnkClass_02149A74::~UnkClass_02149A74() {}
+FieldPartnerSyscalls::~FieldPartnerSyscalls() {}
 
-void UnkClass_02149A74::ov0_02149A7C() {
-  sub_02044B38(0xD, sFieldPartnerSyscalls);
+void FieldPartnerSyscalls::ov0_02149A7C() {
+  Script_RegisterSyscalls(0xD, sFieldPartnerSyscalls);
 }
 
 static inline CFieldActor *FindById(CFieldPartnerManage *manage, int id) {

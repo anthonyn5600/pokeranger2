@@ -21,7 +21,7 @@ public:
     {
     }
 
-    virtual int sub_020332A4();
+    virtual int IsReady();
     virtual int ov0_02142264(int step);
 
 public:

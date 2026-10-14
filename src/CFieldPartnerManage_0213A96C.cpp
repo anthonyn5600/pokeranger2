@@ -92,7 +92,7 @@ void CFieldPartnerManage::ov0_0213A96C(BOOL keep, u32 id, BOOL warp)
                 } else {
                     partner->ov0_02136CFC(keep, npcPos[b++], 30);
                 }
-                partner->sub_0202E68C(player->unk_14);
+                partner->SetLayer(player->unk_14);
                 partner->sub_02032A44(1);
                 order[j] = NULL;
             }
@@ -142,7 +142,7 @@ void CFieldPartnerManage::ov0_0213AD8C(BOOL warp)
             } else {
                 partner->ov0_02136CFC(FALSE, npcPos[b++], 30);
             }
-            partner->sub_0202E68C(player->unk_14);
+            partner->SetLayer(player->unk_14);
             partner->sub_02032A44(1);
             order[j] = NULL;
         }

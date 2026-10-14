@@ -9,8 +9,8 @@
 class CBattleDisk;
 class CGame;
 class CPlayerHPGauge;
-class UnkClass_0201AAE0;
-class UnkClass_02034478;
+class GraphicsSet;
+class AudioEngine;
 
 // Defined in ov1
 class CBattleGameOver : public CActor {
@@ -43,7 +43,7 @@ public:
     void ov1_0213AD3C(Camera2D *camera);
 
 public:
-    UnkClass_02034478 *m_audio;
+    AudioEngine *m_audio;
     u16 m_flags;
     u16 m_state;
     u16 m_timer;
@@ -53,9 +53,9 @@ public:
     u16 m_animA;
     u16 m_animB;
     u16 m_animC;
-    UnkClass_0201AAE0 *m_resA;
-    UnkClass_0201AAE0 *m_resB;
-    UnkClass_0201AAE0 *m_resC;
+    GraphicsSet *m_resA;
+    GraphicsSet *m_resB;
+    GraphicsSet *m_resC;
     CGame *m_game;
     CBattleDisk *m_disk;
     CPlayerHPGauge *m_gauge;

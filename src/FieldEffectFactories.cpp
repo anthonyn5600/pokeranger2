@@ -1,4 +1,4 @@
-#include "UnkClass_021518AC.hpp"
+#include "FieldEffectFactorySet.hpp"
 #include "common.hpp"
 #include "field/CFieldEffectBlackStoneAura.hpp"
 #include "field/CFieldEffectBloom.hpp"
@@ -126,12 +126,12 @@ FieldEffectFactories::FieldEffectFactories(CFieldEffectManage *mgr)
     mgr->ov0_0214318C(30, &m_spaceCrevice);
 }
 
-UnkClass_021518AC::UnkClass_021518AC()
+FieldEffectFactorySet::FieldEffectFactorySet()
 {
     unk_00 = NULL;
 }
 
-void UnkClass_021518AC::ov0_021518B8(CFieldEffectManage *mgr)
+void FieldEffectFactorySet::ov0_021518B8(CFieldEffectManage *mgr)
 {
     ov0_021518F4();
     if (mgr != NULL) {
@@ -139,7 +139,7 @@ void UnkClass_021518AC::ov0_021518B8(CFieldEffectManage *mgr)
     }
 }
 
-void UnkClass_021518AC::ov0_021518F4()
+void FieldEffectFactorySet::ov0_021518F4()
 {
     SAFE_DELETE(unk_00);
 }

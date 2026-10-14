@@ -5,7 +5,7 @@
 
 #include "common.hpp"
 
-// Battle pokemon parameter record (UnkClass_0212DC20::ov1_0212DFEC)
+// Battle pokemon parameter record (BattlePokemonTable::ov1_0212DFEC)
 struct UnkStruct_0212DFEC {
     u16 unk_00;
     u16 unk_02;

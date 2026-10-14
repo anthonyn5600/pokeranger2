@@ -5,9 +5,9 @@
 #include <nnsys.h>
 #include <vector>
 
+#include "Collision.hpp"
 #include "UnkStruct_02044464.hpp"
 #include "common.hpp"
-#include "sub_02006000.hpp"
 
 // vector<T *> uses the vector<unsigned long> code, whose instances come from MSL_CPP (msl_thread.o, in main).
 // The original calls them as external symbols; instantiating them here would replace the library copies.
@@ -25,8 +25,8 @@ class CFieldMapLayerAttribute;
 class CFieldMapLayerBase;
 class CFieldMapLayerCollision;
 class Camera2D;
-class UnkClass_02007AA4;
-class UnkClass_020074D4;
+class VramPalette;
+class VramImage;
 
 // Map size in pixels.
 struct FieldMapSize {
@@ -42,16 +42,16 @@ struct FieldMapInfo {
 };
 
 // Textures of the map's MTX chunk (constructor ov0_021302BC): images and palettes with their VRAM keys.
-class UnkClass_021302BC {
+class FieldMapTextures {
 public:
-    UnkClass_021302BC();
-    ~UnkClass_021302BC();
-    BOOL AddImage(UnkClass_020074D4 *image, NNSGfdTexKey key);
-    BOOL AddPalette(UnkClass_02007AA4 *palette, NNSGfdPlttKey key, void *data);
+    FieldMapTextures();
+    ~FieldMapTextures();
+    BOOL AddImage(VramImage *image, NNSGfdTexKey key);
+    BOOL AddPalette(VramPalette *palette, NNSGfdPlttKey key, void *data);
     void Release();
 
-    std::vector<UnkClass_020074D4 *> m_images;
-    std::vector<UnkClass_02007AA4 *> m_palettes;
+    std::vector<VramImage *> m_images;
+    std::vector<VramPalette *> m_palettes;
     std::vector<NNSGfdTexKey> m_texKeys;
     std::vector<NNSGfdPlttKey> m_plttKeys;
     std::vector<void *> m_paletteData;
@@ -81,10 +81,10 @@ struct FieldMapCharaFrame {
 };
 
 // Entry of the map's MCT chunk (constructor ov0_0212F82C): an animated textured quad.
-class UnkClass_0212F82C {
+class FieldMapAnimQuad {
 public:
-    UnkClass_0212F82C();
-    ~UnkClass_0212F82C();
+    FieldMapAnimQuad();
+    ~FieldMapAnimQuad();
     BOOL Load(void *data);
     void Release();
     void Update(int fps);
@@ -97,7 +97,7 @@ public:
         return NULL;
     }
 
-    UnkClass_021302BC **m_textures;
+    FieldMapTextures **m_textures;
     FieldMapCharaFrame *m_frames;
     FieldMapCharaPiece *m_pieces;
     int m_width;
@@ -118,17 +118,17 @@ struct FieldMapPaletteFrame {
 
 // Entry of the map's MPA chunk (constructor ov0_0212FEDC): a palette animation. Mode 1 replaces one color,
 // mode 2 swaps whole 16-color palettes, mode 3 cycles a range of colors.
-class UnkClass_0212FEDC {
+class FieldMapPaletteAnim {
 public:
-    UnkClass_0212FEDC();
-    ~UnkClass_0212FEDC();
+    FieldMapPaletteAnim();
+    ~FieldMapPaletteAnim();
     void Reset();
     BOOL Load(void *data);
     void Release();
     void Update(int fps);
     void Apply();
 
-    UnkClass_021302BC **m_textures;
+    FieldMapTextures **m_textures;
     FieldMapPaletteFrame *m_frames;
     u8 m_texture;
     u8 m_mode;
@@ -154,10 +154,10 @@ public:
     void ov0_021251D8(BOOL runScript, int fps);
     void ov0_02125338(Camera2D *camera);
     int ov0_0212546C(int group);
-    UnkClass_021302BC *ov0_0212550C(void *data, int id);
+    FieldMapTextures *ov0_0212550C(void *data, int id);
     CFieldMapLayerBase *ov0_02125904(void *data, int group, int index);
-    UnkClass_0212F82C *ov0_02125CA8(void *data, int index);
-    UnkClass_0212FEDC *ov0_02125CE8(void *data, int index);
+    FieldMapAnimQuad *ov0_02125CA8(void *data, int index);
+    FieldMapPaletteAnim *ov0_02125CE8(void *data, int index);
     BOOL ov0_02125D28(u8 group, const char *name, u32 heapId);
     void ov0_02126658();
 
@@ -192,12 +192,12 @@ public:
 
 public:
     BOOL unk_00;
-    UnkClass_021302BC **unk_04;
+    FieldMapTextures **unk_04;
     int unk_08;
     int unk_0C;
-    UnkClass_0212F82C **unk_10;
+    FieldMapAnimQuad **unk_10;
     int unk_14;
-    UnkClass_0212FEDC **unk_18;
+    FieldMapPaletteAnim **unk_18;
     int unk_1C;
     CFieldMapLayerBase ***unk_20;
     int unk_24;
@@ -215,6 +215,6 @@ public:
 };
 
 STATIC_SIZE_ASSERT(CFieldMap, 0x80);
-STATIC_SIZE_ASSERT(UnkClass_021302BC, 0x40);
+STATIC_SIZE_ASSERT(FieldMapTextures, 0x40);
 
 #endif // POKERANGER2_FIELD_CFIELDMAP_HPP

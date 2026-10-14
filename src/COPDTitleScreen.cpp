@@ -1,17 +1,17 @@
 #include <nitro.h>
 #include <nnsys.h>
 
+#include "AudioEngine.hpp"
+#include "BrightnessFade.hpp"
 #include "CGame.hpp"
 #include "CTouchPanel.hpp"
 #include "Camera2D.hpp"
-#include "UnkClass_02001C04.hpp"
-#include "UnkClass_0200E0B4.hpp"
-#include "UnkClass_02034478.hpp"
+#include "Collision.hpp"
+#include "MathUtil.hpp"
+#include "PadInput.hpp"
 #include "common.hpp"
 #include "heap.hpp"
 #include "scene/COPDScreen.hpp"
-#include "sub_02006000.hpp"
-#include "sub_02007254.hpp"
 
 static inline u32 RandomInt(CGame *game, u32 max)
 {
@@ -131,12 +131,12 @@ void COPDTitleScreen::Start(COPDTexture *textures)
     unk_008 = 0;
     unk_004 = 0;
     if (unk_613) {
-        game->m_audioEngine->sub_02034A40(0x45, 0);
+        game->m_audioEngine->PlayBgm(0x45, 0);
     } else {
         game->m_audioEngine->sub_02034D54(0x200, 0x40);
     }
-    game->unk_14BC->sub_0200E0E0(1, 30);
-    game->unk_14C0->sub_0200E0E0(1, 30);
+    game->unk_14BC->Start(1, 30);
+    game->unk_14C0->Start(1, 30);
 }
 
 void COPDTitleScreen::CSparkEmitter::func2()
@@ -166,17 +166,17 @@ void COPDTitleScreen::Stop()
 int COPDTitleScreen::Update()
 {
     CGame *game = CGame::GetInstance();
-    UnkClass_02001C04 *pad = game->unk_0014;
+    PadInput *pad = game->unk_0014;
     CTouchPanel *tp = game->touchPanel;
     if (!unk_613 && unk_008 <= 1 && ((u16)(pad->unk_0002 & PAD_BUTTON_A) || tp->unk_04 != 0)) {
-        game->m_audioEngine->sub_02034C44(0xFA);
-        game->unk_14BC->sub_0200E0E0(2, 60);
-        game->unk_14C0->sub_0200E0E0(2, 60);
+        game->m_audioEngine->PlaySe(0xFA);
+        game->unk_14BC->Start(2, 60);
+        game->unk_14C0->Start(2, 60);
         unk_008 = 2;
     }
     switch (unk_008) {
     case 0:
-        if (!game->unk_14BC->sub_0200E310() && !game->unk_14C0->sub_0200E310()) {
+        if (!game->unk_14BC->IsActive() && !game->unk_14C0->IsActive()) {
             unk_008 = 1;
             unk_004 = unk_613 ? 600 : 3240;
             unk_612 = 0x40;
@@ -184,10 +184,10 @@ int COPDTitleScreen::Update()
         break;
     case 1:
         if (--unk_004 < 0) {
-            game->unk_14BC->sub_0200E0E0(4, 60);
-            game->unk_14C0->sub_0200E0E0(4, 60);
+            game->unk_14BC->Start(4, 60);
+            game->unk_14C0->Start(4, 60);
             if (unk_613) {
-                game->m_audioEngine->sub_02034B58(60);
+                game->m_audioEngine->StopBgm(60);
                 unk_008 = 2;
             } else {
                 game->m_audioEngine->sub_02034DC8(60);
@@ -196,7 +196,7 @@ int COPDTitleScreen::Update()
         }
         break;
     case 3:
-        if (!game->unk_14BC->sub_0200E310() && !game->unk_14C0->sub_0200E310()) {
+        if (!game->unk_14BC->IsActive() && !game->unk_14C0->IsActive()) {
             unk_004 = 60;
             unk_008 = 4;
         }
@@ -207,7 +207,7 @@ int COPDTitleScreen::Update()
         }
         break;
     case 2:
-        if (!game->unk_14BC->sub_0200E310() && !game->unk_14C0->sub_0200E310()) {
+        if (!game->unk_14BC->IsActive() && !game->unk_14C0->IsActive()) {
             return -1;
         }
         break;
@@ -299,7 +299,7 @@ void COPDTitleScreen::CSparkEmitter::Emit(TFieldParticle<CSimpleSpriteNTF> *p)
 
 void COPDTitleScreen::CSparkAnimator::Apply(TFieldParticle<CSimpleSpriteNTF> *p, int dt)
 {
-    fx32 dist = sub_02007254(p->pos.x, p->pos.y + 0x60000) - 0x32000;
+    fx32 dist = ApproxLength(p->pos.x, p->pos.y + 0x60000) - 0x32000;
     BOOL out;
     fx32 sx = FX32_MUL(dist, 0x41) + FX32_ONE;
     fx32 sy = FX32_MUL(dist, 0x10) + FX32_ONE;
@@ -366,7 +366,7 @@ void COPDTitleScreen::CStarEmitter::Emit(TFieldParticle<CSimpleSpriteNTF> *p)
 
 void COPDTitleScreen::CStarAnimator::Apply(TFieldParticle<CSimpleSpriteNTF> *p, int dt)
 {
-    fx32 dist = sub_02007254(p->pos.x, p->pos.y + 0x60000) - 0x32000;
+    fx32 dist = ApproxLength(p->pos.x, p->pos.y + 0x60000) - 0x32000;
     fx32 scale = FX32_MUL(dist, 0x18) + 0x800;
     p->sprite.m_scale[0] = scale;
     p->sprite.m_scale[1] = scale;

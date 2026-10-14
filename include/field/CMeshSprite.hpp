@@ -3,10 +3,10 @@
 
 #include <nitro.h>
 
-#include "UnkClass_020074D4.hpp"
-#include "UnkClass_02007AA4.hpp"
+#include "Collision.hpp"
+#include "VramImage.hpp"
+#include "VramPalette.hpp"
 #include "primitive/CPrimitive.hpp"
-#include "sub_02006000.hpp"
 
 class CNCERFile;
 
@@ -16,7 +16,7 @@ public:
     CMeshSprite(u8 rows); // ov0_02168F60
     virtual u32 Render(Camera2D *camera);
 
-    void SetRes(UnkClass_020074D4 *image, UnkClass_02007AA4 *palette, CNCERFile *ncer); // ov0_02168FE4
+    void SetRes(VramImage *image, VramPalette *palette, CNCERFile *ncer); // ov0_02168FE4
     BOOL SetCell(u16 cellIdx, u16 oamIdx); // ov0_02168FF4
 
 public:
@@ -38,8 +38,8 @@ public:
     fx32 m_s2;
     fx32 m_t2;
     s16 m_rowOffsets[5];
-    UnkClass_020074D4 *m_image;
-    UnkClass_02007AA4 *m_palette;
+    VramImage *m_image;
+    VramPalette *m_palette;
     CNCERFile *m_ncer;
     int m_cellIdx;
     u8 m_rows;

@@ -10,7 +10,7 @@
 // Manpu that bobs above the actor and cycles its tint through 3 colours (start set by the type).
 class CFieldEffectManpuDokarimo : public CFieldEffectManpuAnime {
 public:
-    CFieldEffectManpuDokarimo(CFieldEffectManage::CResidentResource *res, UnkClass_0216D420 *slots, int cac, int type);
+    CFieldEffectManpuDokarimo(CFieldEffectManage::CResidentResource *res, AnimSlotPool *slots, int cac, int type);
     virtual ~CFieldEffectManpuDokarimo();
     virtual void UpdatePos(int step);
 

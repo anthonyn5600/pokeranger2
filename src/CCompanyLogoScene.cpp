@@ -1,10 +1,10 @@
 #include "scene/CCompanyLogoScene.hpp"
 
+#include "BrightnessFade.hpp"
 #include "CGame.hpp"
-#include "UnkClass_020091E8.hpp"
-#include "UnkClass_0200E0B4.hpp"
+#include "DisplayUtil.hpp"
+#include "TextboxManager.hpp"
 #include "UnkClass_0212F3DC.hpp"
-#include "sub_02007CF0.hpp"
 
 static void ov11_0213251C(void *arg);
 
@@ -104,12 +104,12 @@ u32 CCompanyLogoScene::func0()
         break;
     }
     case 4:
-        s_game->unk_14BC->sub_0200E0E0(1, 10);
-        s_game->unk_14C0->sub_0200E0E0(1, 10);
+        s_game->unk_14BC->Start(1, 10);
+        s_game->unk_14C0->Start(1, 10);
         unk_08 = 5;
         break;
     case 5:
-        if (!s_game->unk_14BC->sub_0200E310() && !s_game->unk_14C0->sub_0200E310()) {
+        if (!s_game->unk_14BC->IsActive() && !s_game->unk_14C0->IsActive()) {
             unk_08 = 6;
             unk_04 = 0;
         }
@@ -133,7 +133,7 @@ u32 CCompanyLogoScene::func0()
             brightness = unk_04 * 31 / 10;
             brightness |= brightness << 16;
         }
-        s_game->sub_020100E4(ov11_0213251C, (void *)brightness);
+        s_game->AddVBlankCallback(ov11_0213251C, (void *)brightness);
         break;
     }
     case 8: {
@@ -145,18 +145,18 @@ u32 CCompanyLogoScene::func0()
         } else {
             brightness = 0x1F | (((10 - unk_04) * 31 / 10) << 16);
         }
-        s_game->sub_020100E4(ov11_0213251C, (void *)brightness);
+        s_game->AddVBlankCallback(ov11_0213251C, (void *)brightness);
         break;
     }
     case 9:
         if (++unk_04 > 60) {
             unk_08 = 10;
-            s_game->unk_14BC->sub_0200E0E0(4, 10);
-            s_game->unk_14C0->sub_0200E0E0(4, 10);
+            s_game->unk_14BC->Start(4, 10);
+            s_game->unk_14C0->Start(4, 10);
         }
         break;
     case 10:
-        if (!s_game->unk_14BC->sub_0200E310() && !s_game->unk_14C0->sub_0200E310()) {
+        if (!s_game->unk_14BC->IsActive() && !s_game->unk_14C0->IsActive()) {
             if (unk_24 == 3) {
                 unk_08 = 13;
             } else {
@@ -172,9 +172,9 @@ u32 CCompanyLogoScene::func0()
         }
         break;
     case 13:
-        s_game->unk_14BC->sub_0200E0E0(3, 0);
+        s_game->unk_14BC->Start(3, 0);
         GX_SetVisiblePlane(GX_PLANEMASK_NONE);
-        s_game->m_textboxData->sub_0200AA84(0, 0x45, 1, 1, 0);
+        s_game->m_textboxData->ShowMessage(0, 0x45, 1, 1, 0);
         unk_08 = 14;
         break;
     case 14:
@@ -232,17 +232,17 @@ void CCompanyLogoScene::func5()
 
 void CCompanyLogoScene::func6()
 {
-    s_game->unk_146C.sub_02008DB4(60);
+    s_game->unk_146C.SetFps(60);
     unk_08 = 0;
     unk_04 = 0;
     unk_24 = 0;
-    unk_0C = new UnkClass_02027FE8(1);
-    s_game->m_textboxData->sub_02009328(s_game->unk_0014, s_game->touchPanel, &s_game->unk_14AC->unk_0C, s_game->unk_14B0, s_game->unk_0024, s_game->m_audioEngine, 0x10, 0x4000, 0);
-    s_game->m_textboxData->sub_0200AB28(0);
+    unk_0C = new SaveManager(1);
+    s_game->m_textboxData->Init(s_game->unk_0014, s_game->touchPanel, &s_game->unk_14AC->unk_0C, s_game->unk_14B0, s_game->unk_0024, s_game->m_audioEngine, 0x10, 0x4000, 0);
+    s_game->m_textboxData->LoadSystemMessages(0);
 
-    unk_10[0] = new UnkClass_0201FC80((int)s_game);
-    unk_10[1] = new UnkClass_0201FC80((int)s_game);
-    unk_10[2] = new UnkClass_0201FC80((int)s_game);
+    unk_10[0] = new BGLayer((int)s_game);
+    unk_10[1] = new BGLayer((int)s_game);
+    unk_10[2] = new BGLayer((int)s_game);
     unk_10[0]->SetBG(4);
     unk_10[1]->SetBG(0);
     unk_10[2]->SetBG(4);
@@ -278,11 +278,11 @@ void CCompanyLogoScene::func6()
 void CCompanyLogoScene::func7()
 {
     SAFE_DELETE(unk_0C);
-    s_game->unk_146C.sub_02008DB4(30);
-    s_game->m_textboxData->sub_0200AC90();
+    s_game->unk_146C.SetFps(30);
+    s_game->m_textboxData->FreeSystemMessages();
     G2_SetBlendBrightness(GX_BLEND_PLANEMASK_BG0, 0);
     G2S_SetBlendBrightness(GX_BLEND_PLANEMASK_BG0, 0);
-    s_game->m_textboxData->sub_020092D4();
+    s_game->m_textboxData->Reset();
 }
 
 // VBlank callback: arg = main brightness | sub brightness << 16

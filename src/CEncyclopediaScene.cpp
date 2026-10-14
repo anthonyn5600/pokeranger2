@@ -1,11 +1,11 @@
 #include "scene/CEncyclopediaScene.hpp"
 
+#include "BrightnessFade.hpp"
 #include "CGame.hpp"
-#include "UnkClass_0200C38C.hpp"
-#include "UnkClass_0200CAB4.hpp"
-#include "UnkClass_0200E0B4.hpp"
-#include "UnkClass_0200ECD0.hpp"
-#include "sub_02007CF0.hpp"
+#include "DisplayUtil.hpp"
+#include "OamSpriteSet.hpp"
+#include "SubTextPrinter.hpp"
+#include "TextPrinter.hpp"
 
 CEncyclopediaScene::CEncyclopediaScene()
     : unk_008(0)
@@ -24,7 +24,7 @@ CEncyclopediaScene::~CEncyclopediaScene()
     for (int i = 0; i < 2; i++) {
         SAFE_DELETE(unk_00C[i]);
     }
-    CGame::GetInstance()->unk_146C.sub_02008DB4(30);
+    CGame::GetInstance()->unk_146C.SetFps(30);
 }
 
 u32 CEncyclopediaScene::func0()
@@ -47,8 +47,8 @@ u32 CEncyclopediaScene::func0()
                 }
                 unk_00C[unk_008]->func2();
                 unk_00C[unk_008]->func3(&unk_04C);
-                game->unk_14BC->sub_0200E0E0(3, 15);
-                game->unk_14C0->sub_0200E0E0(3, 15);
+                game->unk_14BC->Start(3, 15);
+                game->unk_14C0->Start(3, 15);
             }
         }
     }
@@ -61,7 +61,7 @@ void CEncyclopediaScene::func1()
     if (screen != NULL) {
         screen->func5();
     }
-    unk_028->sub_0200F71C();
+    unk_028->WriteOam();
 }
 
 void CEncyclopediaScene::func2()
@@ -114,7 +114,7 @@ void CEncyclopediaScene::func5()
     }
     GX_DispOn();
     GXS_DispOn();
-    CGame::GetInstance()->unk_146C.sub_02008DB4(60);
+    CGame::GetInstance()->unk_146C.SetFps(60);
 }
 
 void CEncyclopediaScene::func6()
@@ -126,15 +126,15 @@ void CEncyclopediaScene::func6()
         unk_00C[i]->func0(&unk_01C);
     }
     SAFE_DELETE(unk_3A4);
-    unk_3A4 = new UnkClass_0211CF54();
+    unk_3A4 = new EncycDictionary();
     if (unk_3A4 != NULL) {
         unk_3A4->Load("/data/message/etc/dictionary01_mes", "/data/message/etc/dictionary03_mes");
     }
     unk_018->unk_64 = unk_3A4;
     unk_00C[unk_008]->func3(&unk_04C);
     CGame *game = CGame::GetInstance();
-    game->unk_14BC->sub_0200E0E0(3, 15);
-    game->unk_14C0->sub_0200E0E0(3, 15);
+    game->unk_14BC->Start(3, 15);
+    game->unk_14C0->Start(3, 15);
 }
 
 void CEncyclopediaScene::func7()
@@ -147,7 +147,7 @@ void CEncyclopediaScene::func7()
         }
     }
     SAFE_DELETE(unk_028);
-    CGame::GetInstance()->unk_1494->sub_0200C3D0();
+    CGame::GetInstance()->unk_1494->FreeWindows();
     G2S_SetWnd0InsidePlane(unk_3AC.planeMask, unk_3AC.effect);
     G2S_SetWndOutsidePlane(unk_3AD.planeMask, unk_3AD.effect);
     GXS_SetVisibleWnd(unk_3A8);
@@ -155,7 +155,7 @@ void CEncyclopediaScene::func7()
 
 void CEncyclopediaScene::ov22_0211D1A4()
 {
-    CGame::GetInstance()->unk_1498->sub_0200CB14();
+    CGame::GetInstance()->unk_1498->SetupBG();
     G2S_SetBG0Control(GX_BG_SCRSIZE_TEXT_256x256, GX_BG_COLORMODE_16, GX_BG_SCRBASE_0x3000, GX_BG_CHARBASE_0x0c000, GX_BG_EXTPLTT_01);
     MI_CpuClearFast(G2S_GetBG0CharPtr(), 0x20);
     MI_CpuClearFast(G2S_GetBG0ScrPtr(), 0x800);
@@ -180,7 +180,7 @@ void CEncyclopediaScene::func3()
     if (screen != NULL) {
         screen->func7();
     }
-    sub_02007D98();
+    LoadOam();
 }
 
 void CEncyclopediaScene::OnPushButton(int id)

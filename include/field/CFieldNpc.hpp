@@ -22,7 +22,7 @@ public:
     {
     }
 
-    virtual BOOL sub_0203BE48(CFieldActor *actor, const char *func);
+    virtual BOOL Call(CFieldActor *actor, const char *func);
 };
 
 // FieldNpc.cpp (ov0)
@@ -30,10 +30,10 @@ class CFieldNpc : public CFieldActor {
 public:
     CFieldNpc();
     virtual ~CFieldNpc();
-    virtual void sub_0203DA40(CFieldMap *map);
-    virtual BOOL sub_0203D578(CFieldMap *map);
+    virtual void Process(CFieldMap *map);
+    virtual BOOL UpdateMove(CFieldMap *map);
     virtual BOOL sub_0203DA38();
-    virtual void sub_0202D7E0();
+    virtual void StopMotion();
     virtual void sub_02032A44(int sequence);
 
     void LoadScript(int npcId);

@@ -2,14 +2,14 @@
 
 #include "CPlayerHPGauge.hpp"
 #include "Camera2D.hpp"
-#include "UnkClass_02008788.hpp"
+#include "CellAnimController.hpp"
 #include "common.hpp"
 #include "primitive/CSoftwareSprite.hpp"
 #include "scene/COPDScreen.hpp"
 
 static void BindLineTexture(COPDCaptureLine *line);
 
-static inline void SetSpriteRes(CSoftwareSprite *sprite, UnkClass_020074D4 *image, UnkClass_02007AA4 *palette, CNCERFile *cells)
+static inline void SetSpriteRes(CSoftwareSprite *sprite, VramImage *image, VramPalette *palette, CNCERFile *cells)
 {
     sprite->SetImage((UnkClass_CPrimitive_ImageProxy *)image, NULL);
     sprite->unk_34 = (UnkClass_CPrimitive_ImagePaletteProxy *)palette;
@@ -31,12 +31,12 @@ void COPDCaptureLine::ov3_02129198(int count)
     if (unk_20 > 0) {
         unk_1C = new Point2D[unk_20];
     }
-    m_res = new UnkClass_0201AAE0("OPD", "data/interface/i001_LZ.bin", "OPD:i001_00.NCBR", "OPD:i001.NCLR", "OPD:i001_00.NCER", "OPD:i001_00.cac");
+    m_res = new GraphicsSet("OPD", "data/interface/i001_LZ.bin", "OPD:i001_00.NCBR", "OPD:i001.NCLR", "OPD:i001_00.NCER", "OPD:i001_00.cac");
     SetSpriteRes(&m_sprite, m_res->m_image, m_res->m_palette, m_res->m_cells);
     m_sprite.m_coords[0] = 0;
     m_sprite.m_coords[1] = 0;
     if (m_res->m_anim != NULL) {
-        m_cellId = m_res->m_anim->sub_02008A80(1, 0);
+        m_cellId = m_res->m_anim->Create(1, 0);
     }
     unk_24 = unk_28 = 0;
 }
@@ -44,7 +44,7 @@ void COPDCaptureLine::ov3_02129198(int count)
 void COPDCaptureLine::ov3_02129280()
 {
     if (m_res != NULL && m_cellId != 0 && m_res->m_anim != NULL) {
-        m_res->m_anim->sub_02008B80(m_cellId);
+        m_res->m_anim->Remove(m_cellId);
         m_cellId = 0;
     }
     SAFE_DELETE(m_res);
@@ -165,7 +165,7 @@ u32 COPDCaptureLine::Render(Camera2D *camera)
     }
     G3_PopMtx(0);
     if (m_cellId != 0 && m_res->m_anim != NULL) {
-        m_sprite.m_cellDataIdx = m_res->m_anim->sub_02008828(m_cellId);
+        m_sprite.m_cellDataIdx = m_res->m_anim->GetCell(m_cellId);
     }
     m_sprite.SetPos(head);
     m_sprite.m_z = m_z;
@@ -189,6 +189,6 @@ static void BindLineTexture(COPDCaptureLine *line)
 void COPDCaptureLine::ov3_02129A4C()
 {
     if (m_res->m_anim != NULL) {
-        m_res->m_anim->sub_020089EC();
+        m_res->m_anim->UpdateAll();
     }
 }

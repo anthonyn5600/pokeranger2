@@ -3,12 +3,12 @@
 #include <nitro.h>
 #include <nnsys.h>
 
+#include "AudioEngine.hpp"
+#include "BGLayer.hpp"
 #include "CGame.hpp"
 #include "Camera2D.hpp"
-#include "UnkClass_0200ECD0.hpp"
-#include "UnkClass_0201FC80.hpp"
-#include "UnkClass_02034478.hpp"
-#include "UnkClass_020B26A0.hpp"
+#include "OamSpriteSet.hpp"
+#include "SaveData.hpp"
 #include "common.hpp"
 #include "file/CArchiveGuard.hpp"
 #include "scene/CTitleScene.hpp"
@@ -76,15 +76,15 @@ static void ov3_02125140(void *arg);
 void COpeningDemoScene::func1()
 {
     G3_Identity();
-    m_camera->sub_020037B4();
-    m_camera->sub_0200381C();
+    m_camera->ApplyProjection();
+    m_camera->ApplyView();
     G3_StoreMtx(0);
     G3_PushMtx();
     if (m_screen != NULL) {
         m_screen->Render(m_camera, s_captureFlip);
     }
     G3_PopMtx(1);
-    s_game->sub_020100E4(ov3_02125140, NULL);
+    s_game->AddVBlankCallback(ov3_02125140, NULL);
     if (m_next < 0) {
         return;
     }
@@ -105,7 +105,7 @@ void COpeningDemoScene::func3()
 
 void COpeningDemoScene::func5()
 {
-    s_game->unk_146C.sub_02008DB4(60);
+    s_game->unk_146C.SetFps(60);
     m_visibleWnd = GX_GetVisibleWnd();
     m_wnd0Inside = G2_GetWnd0InsidePlane();
     m_wndOutside = G2_GetWndOutsidePlane();
@@ -152,11 +152,11 @@ void COpeningDemoScene::func5()
 void COpeningDemoScene::func6()
 {
     s_game->m_audioEngine->sub_02034DC8(0);
-    s_game->unk_146C.sub_02008DB4(60);
+    s_game->unk_146C.SetFps(60);
     m_camera = new Camera2D();
-    m_camera->sub_02003788(0, 0xC0000, 0, 0x100000, -0x800000, 0x800000, 0x10000);
+    m_camera->SetOrtho(0, 0xC0000, 0, 0x100000, -0x800000, 0x800000, 0x10000);
     m_camera->SetOffset(0, 0);
-    s_game->sub_020101F4(0x40000, 0, 0x18000);
+    s_game->InitVramManagers(0x40000, 0, 0x18000);
 
     {
         CArchiveGuard archive("OPD", "data/opening/opdm_LZ.bin", 1, 1, 0, NULL, 0);
@@ -173,12 +173,12 @@ void COpeningDemoScene::func6()
         }
     }
 
-    s_game->m_audioEngine->sub_02034B58(1);
+    s_game->m_audioEngine->StopBgm(1);
     s_game->m_audioEngine->sub_02034C2C(1);
     if (s_game->unk_0008 != 1) {
-        s_game->m_audioEngine->sub_0203499C(1);
+        s_game->m_audioEngine->LoadBgmGroup(1);
     } else {
-        s_game->m_audioEngine->sub_0203499C(2);
+        s_game->m_audioEngine->LoadBgmGroup(2);
     }
     s_game->m_audioEngine->sub_020345D4();
     s_game->m_audioEngine->sub_020347C4();
@@ -230,7 +230,7 @@ void COpeningDemoScene::func7()
         s_game->unk_14A4->unk_8BA0 = 0;
     }
     SAFE_DELETE(m_camera);
-    s_game->sub_020101F4(0x80000, 0, 0x4000);
+    s_game->InitVramManagers(0x80000, 0, 0x4000);
     G3X_SetClearColor(GX_RGB(0, 0, 0), 0, 0x7FFF, 0, FALSE);
     G2_SetWnd0InsidePlane(m_wnd0Inside.planeMask, m_wnd0Inside.effect);
     G2_SetWndOutsidePlane(m_wndOutside.planeMask, m_wndOutside.effect);

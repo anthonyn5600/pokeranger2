@@ -1,17 +1,17 @@
 #include <nitro.h>
 #include <string.h>
 
-#include "UnkClass_020B26A0.hpp"
+#include "SaveData.hpp"
 #include "field/CFieldEnemy.hpp"
 #include "field/CFieldEnemyManage.hpp"
 #include "field/CFieldMap.hpp"
 #include "field/CFieldMapLayer.hpp"
 #include "heap.hpp"
 
-extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
+extern SaveData MAIN_BSS_020B26A0;
 
 extern "C" {
-BOOL sub_02015434(UnkClass_020B26A0 *save, int mapId, int idx);
+BOOL sub_02015434(SaveData *save, int mapId, int idx);
 }
 
 BOOL CFieldMapLayerEnemy::Load(void *data)
@@ -39,12 +39,12 @@ BOOL CFieldMapLayerEnemy::Load(void *data)
                 y = m_entries[i].y << FX32_SHIFT;
                 enemy->unk_18 = x;
                 enemy->unk_1C = y;
-                enemy->unk_E0 = MAIN_BSS_020B26A0.unk_001A;
-                enemy->sub_0202E68C(unk_08);
-                if (!sub_02015434(&MAIN_BSS_020B26A0, MAIN_BSS_020B26A0.unk_001A, base + i) && m_entries[i].hidden == 1) {
+                enemy->unk_E0 = MAIN_BSS_020B26A0.m_mapId;
+                enemy->SetLayer(unk_08);
+                if (!sub_02015434(&MAIN_BSS_020B26A0, MAIN_BSS_020B26A0.m_mapId, base + i) && m_entries[i].hidden == 1) {
                     enemy->unk_20 = 2;
                 } else {
-                    sub_02041C1C(enemy);
+                    Actor_HideManpu(enemy);
                     enemy->unk_20 = 0;
                     enemy->sub_0202D394();
                 }

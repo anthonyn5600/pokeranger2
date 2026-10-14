@@ -2,10 +2,10 @@
 
 #include <nitro.h>
 
-#include "UnkClass_020B26A0.hpp"
+#include "SaveData.hpp"
 
 extern "C" {
-extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
+extern SaveData MAIN_BSS_020B26A0;
 }
 
 static CPowerManage sPowerManage;
@@ -16,7 +16,7 @@ void CPowerManage::Init()
     unk_8 = 0;
 }
 
-void CPowerManage::sub_0200F8BC()
+void CPowerManage::CheckFold()
 {
     if ((!unk_4) == FALSE) {
         return;
@@ -31,14 +31,14 @@ void CPowerManage::sub_0200F8BC()
             RTC_GetTime(&time);
             RTC_GetDate(&date);
 
-            MAIN_BSS_020B26A0.sub_0201630C(&time, &date);
+            MAIN_BSS_020B26A0.CheckElapsedTime(&time, &date);
             PM_GoSleepMode(PM_TRIGGER_COVER_OPEN | PM_TRIGGER_CARD, 0, 0);
 
             RTC_GetTime(&time);
             RTC_GetDate(&date);
 
-            MAIN_BSS_020B26A0.unk_8B94 = time;
-            MAIN_BSS_020B26A0.unk_8B84 = date;
+            MAIN_BSS_020B26A0.m_lastTime = time;
+            MAIN_BSS_020B26A0.m_lastDate = date;
 
             return;
         }
@@ -63,28 +63,28 @@ void CPowerManage::sub_0200F8BC()
     PM_SetLCDPower(PM_LCD_POWER_ON);
 }
 
-BOOL CPowerManage::sub_0200F9E0()
+BOOL CPowerManage::Initialize()
 {
     sPowerManage.Init();
     return TRUE;
 }
 
-void CPowerManage::sub_0200F9F8()
+void CPowerManage::Process()
 {
-    sPowerManage.sub_0200F8BC();
+    sPowerManage.CheckFold();
 }
 
-void CPowerManage::sub_0200FA0C(u32 bit)
+void CPowerManage::AllowSleep(u32 bit)
 {
     sPowerManage.unk_4 &= ~(1 << bit);
 }
 
-void CPowerManage::sub_0200FA2C(u32 bit)
+void CPowerManage::BlockSleep(u32 bit)
 {
     sPowerManage.unk_4 |= 1 << bit;
 }
 
-void CPowerManage::sub_0200FA48(u32 mode)
+void CPowerManage::SetMode(u32 mode)
 {
     sPowerManage.unk_8 = mode;
 }

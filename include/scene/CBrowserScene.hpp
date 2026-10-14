@@ -4,7 +4,7 @@
 #include "common.hpp"
 #include "scene/CScene.hpp"
 
-class UnkClass_0211D330;
+class BrowserScreen;
 
 // Defined in ov21
 class CBrowserScene : public CScene {
@@ -23,7 +23,7 @@ public:
 
 public:
     u32 unk_0004;
-    UnkClass_0211D330 *unk_0008;
+    BrowserScreen *unk_0008;
     u32 unk_000C;
     u32 unk_0010; // state
     u32 unk_0014; // saved visible windows

@@ -1,10 +1,10 @@
 #include "scene/CSuitePictureScene.hpp"
 
+#include "AudioEngine.hpp"
+#include "BGLayer.hpp"
+#include "BrightnessFade.hpp"
 #include "CGame.hpp"
-#include "UnkClass_0200E0B4.hpp"
-#include "UnkClass_0201FC80.hpp"
-#include "UnkClass_02034478.hpp"
-#include "sub_02007CF0.hpp"
+#include "DisplayUtil.hpp"
 
 extern int MAIN_BSS_0210CAB0;
 
@@ -130,15 +130,15 @@ u32 CSuitePictureScene::func0()
 {
     switch (unk_0008) {
     case 0:
-        if (s_game->unk_14BC->sub_0200E310()) {
+        if (s_game->unk_14BC->IsActive()) {
             break;
         }
-        if (s_game->unk_14C0->sub_0200E310()) {
+        if (s_game->unk_14C0->IsActive()) {
             break;
         }
         if (unk_0014 != NULL && unk_0014->unk_00 >= 0) {
-            s_game->m_textboxData->sub_0200AA14();
-            s_game->m_textboxData->sub_0200AA84(unk_0014->unk_00, unk_0014->unk_04, unk_0014->unk_08, 1, 0);
+            s_game->m_textboxData->ResetTextSpeed();
+            s_game->m_textboxData->ShowMessage(unk_0014->unk_00, unk_0014->unk_04, unk_0014->unk_08, 1, 0);
             unk_0014++;
             unk_0008 = 1;
         } else {
@@ -148,13 +148,13 @@ u32 CSuitePictureScene::func0()
         unk_0004 = 0;
         break;
     case 1:
-        if (s_game->m_textboxData->sub_02009ECC()) {
+        if (s_game->m_textboxData->IsActive()) {
             break;
         }
         s_game->m_textboxData->sub_02009FB0(1, 1);
         if (unk_0014 != NULL && unk_0014->unk_00 >= 0) {
-            s_game->m_textboxData->sub_0200AA14();
-            s_game->m_textboxData->sub_0200AA84(unk_0014->unk_00, unk_0014->unk_04, unk_0014->unk_08, 1, 0);
+            s_game->m_textboxData->ResetTextSpeed();
+            s_game->m_textboxData->ShowMessage(unk_0014->unk_00, unk_0014->unk_04, unk_0014->unk_08, 1, 0);
             unk_0014++;
             unk_0008 = 1;
         } else {
@@ -186,22 +186,22 @@ u32 CSuitePictureScene::func0()
             unk_0020 = unk_0018->unk_10;
         }
         if (unk_0020 == 0) {
-            s_game->unk_14BC->sub_0200E0E0(4, 20);
-            s_game->unk_14C0->sub_0200E0E0(4, 20);
+            s_game->unk_14BC->Start(4, 20);
+            s_game->unk_14C0->Start(4, 20);
         } else {
-            s_game->unk_14BC->sub_0200E0E0(2, 20);
-            s_game->unk_14C0->sub_0200E0E0(2, 20);
+            s_game->unk_14BC->Start(2, 20);
+            s_game->unk_14C0->Start(2, 20);
         }
         if (unk_0014 == NULL) {
-            s_game->m_audioEngine->sub_02034C44(3);
+            s_game->m_audioEngine->PlaySe(3);
         }
         unk_0008 = 5;
         break;
     case 5:
-        if (s_game->unk_14BC->sub_0200E310()) {
+        if (s_game->unk_14BC->IsActive()) {
             break;
         }
-        if (s_game->unk_14C0->sub_0200E310()) {
+        if (s_game->unk_14C0->IsActive()) {
             break;
         }
         if (unk_0018 != NULL && unk_0018->id >= 0) {
@@ -209,14 +209,14 @@ u32 CSuitePictureScene::func0()
             unk_001C = unk_0018->unk_0C;
             unk_0020 = unk_0018->unk_10;
             ov26_0211D3C0(unk_0018->id);
-            s_game->m_textboxData->sub_0200AFC0(unk_0018->unk_04);
+            s_game->m_textboxData->LoadChapterMessages(unk_0018->unk_04);
             unk_0018++;
             if (unk_0020 == 0) {
-                s_game->unk_14BC->sub_0200E0E0(3, 20);
-                s_game->unk_14C0->sub_0200E0E0(3, 20);
+                s_game->unk_14BC->Start(3, 20);
+                s_game->unk_14C0->Start(3, 20);
             } else {
-                s_game->unk_14BC->sub_0200E0E0(1, 20);
-                s_game->unk_14C0->sub_0200E0E0(1, 20);
+                s_game->unk_14BC->Start(1, 20);
+                s_game->unk_14C0->Start(1, 20);
             }
             unk_0008 = 0;
             unk_0004 = 0;
@@ -226,14 +226,14 @@ u32 CSuitePictureScene::func0()
         break;
     }
 
-    unk_000C->sub_0200F64C();
+    unk_000C->Update();
     return -1;
 }
 
 void CSuitePictureScene::func1()
 {
     if (unk_0008 == 3) {
-        unk_000C->sub_0200F71C();
+        unk_000C->WriteOam();
     }
 }
 
@@ -284,14 +284,14 @@ void CSuitePictureScene::func5()
 
 void CSuitePictureScene::func6()
 {
-    s_game->unk_146C.sub_02008DB4(60);
-    s_game->m_textboxData->sub_02009328(s_game->unk_0014, s_game->touchPanel, &s_game->unk_14AC->unk_0C, s_game->unk_14B0, s_game->unk_0024, s_game->m_audioEngine, 0x10, 0x4000, 0);
-    sub_02007D68();
-    s_game->m_textboxData->sub_0200AB28(0);
+    s_game->unk_146C.SetFps(60);
+    s_game->m_textboxData->Init(s_game->unk_0014, s_game->touchPanel, &s_game->unk_14AC->unk_0C, s_game->unk_14B0, s_game->unk_0024, s_game->m_audioEngine, 0x10, 0x4000, 0);
+    SetupBGFonts();
+    s_game->m_textboxData->LoadSystemMessages(0);
 
-    unk_000C = new UnkClass_0200ECD0((GXOamAttr *)s_game->unk_0024, s_game->unk_14A8, FALSE, 0x40);
-    unk_000C->sub_0200EE14("data/eventicon", "eventicon000", 0, 8);
-    unk_0010 = unk_000C->sub_0200F4FC(0, 0xF0, 0xB3, 0);
+    unk_000C = new OamSpriteSet((GXOamAttr *)s_game->unk_0024, s_game->unk_14A8, FALSE, 0x40);
+    unk_000C->Load("data/eventicon", "eventicon000", 0, 8);
+    unk_0010 = unk_000C->AddSprite(0, 0xF0, 0xB3, 0);
     unk_0010->unk_14 = 1;
     s_game->m_audioEngine->sub_020345D4();
 
@@ -310,7 +310,7 @@ void CSuitePictureScene::func6()
         unk_001C = unk_0018->unk_0C;
         unk_0020 = unk_0018->unk_10;
         ov26_0211D3C0(unk_0018->id);
-        s_game->m_textboxData->sub_0200AFC0(unk_0018->unk_04);
+        s_game->m_textboxData->LoadChapterMessages(unk_0018->unk_04);
         unk_0018++;
         break;
     }
@@ -318,20 +318,20 @@ void CSuitePictureScene::func6()
     unk_0008 = 0;
     unk_0004 = 0;
     if (unk_0020 == 0) {
-        s_game->unk_14BC->sub_0200E0E0(3, 30);
-        s_game->unk_14C0->sub_0200E0E0(3, 30);
+        s_game->unk_14BC->Start(3, 30);
+        s_game->unk_14C0->Start(3, 30);
     } else {
-        s_game->unk_14BC->sub_0200E0E0(1, 30);
-        s_game->unk_14C0->sub_0200E0E0(1, 30);
+        s_game->unk_14BC->Start(1, 30);
+        s_game->unk_14C0->Start(1, 30);
     }
 }
 
 void CSuitePictureScene::func7()
 {
-    s_game->m_textboxData->sub_0200AC90();
-    s_game->m_textboxData->sub_020092D4();
+    s_game->m_textboxData->FreeSystemMessages();
+    s_game->m_textboxData->Reset();
     SAFE_DELETE(unk_000C);
-    s_game->unk_146C.sub_02008DB4(30);
+    s_game->unk_146C.SetFps(30);
 }
 
 void CSuitePictureScene::ov26_0211D3C0(int id)
@@ -342,8 +342,8 @@ void CSuitePictureScene::ov26_0211D3C0(int id)
 
     OS_SPrintf(arc, "event%03d_00_", id);
     OS_SPrintf(name, "event%03d_00", id);
-    UnkClass_0201FC80 *bg1 = new UnkClass_0201FC80((int)s_game);
-    UnkClass_0201FC80 *bg2 = new UnkClass_0201FC80((int)s_game);
+    BGLayer *bg1 = new BGLayer((int)s_game);
+    BGLayer *bg2 = new BGLayer((int)s_game);
 
     bg1->SetBG(4);
     bg1->LoadArchive(dir, arc);

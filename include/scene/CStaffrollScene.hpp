@@ -6,17 +6,17 @@
 #include "common.hpp"
 #include "scene/CScene.hpp"
 
-class UnkClass_0200E960;
-class UnkClass_0200ECD0;
-class UnkClass_0201FC80;
-class UnkClass_02021404;
+class OamSprite;
+class OamSpriteSet;
+class BGLayer;
+class MessageTable;
 
 // Defined in ov25
 // Loads one ending picture into a BG and uploads it to VRAM over several frames
-class UnkClass_0211D4E4 {
+class StaffrollPicture {
 public:
-    UnkClass_0211D4E4();
-    ~UnkClass_0211D4E4();
+    StaffrollPicture();
+    ~StaffrollPicture();
 
     void ov25_0211D514();
     BOOL ov25_0211D548();
@@ -26,20 +26,20 @@ public:
 
 public:
     u16 unk_00; // state
-    UnkClass_0201FC80 *unk_04;
+    BGLayer *unk_04;
     int unk_08; // upload step
     int unk_0C; // upload steps
     int unk_10;
 };
 
-STATIC_SIZE_ASSERT(UnkClass_0211D4E4, 0x14);
+STATIC_SIZE_ASSERT(StaffrollPicture, 0x14);
 
 // Defined in ov25
 // Text BG drawn with an NNS char canvas, scrolled through a ring of 32 tile rows
-class UnkClass_0211D6D4 {
+class StaffrollText {
 public:
-    UnkClass_0211D6D4();
-    ~UnkClass_0211D6D4();
+    StaffrollText();
+    ~StaffrollText();
 
     void ov25_0211D6FC(NNSG2dFont *font);
     void ov25_0211D704();
@@ -61,14 +61,14 @@ public:
     int unk_24; // scroll y (tiles)
 };
 
-STATIC_SIZE_ASSERT(UnkClass_0211D6D4, 0x28);
+STATIC_SIZE_ASSERT(StaffrollText, 0x28);
 
 // Defined in ov25
 // Ending pictures on two BGs with fade/blend/wipe transitions between them
-class UnkClass_0211E0BC {
+class StaffrollPictures {
 public:
-    UnkClass_0211E0BC();
-    ~UnkClass_0211E0BC();
+    StaffrollPictures();
+    ~StaffrollPictures();
 
     void ov25_0211E108(int count, int bg0, int bg1);
     void ov25_0211E174();
@@ -82,7 +82,7 @@ public:
     void ov25_0211F5CC(int bg, int x, int y);
 
 public:
-    UnkClass_0211D4E4 *unk_00;
+    StaffrollPicture *unk_00;
     int unk_04; // picture count
     u32 unk_08; // state
     int unk_0C; // frame
@@ -92,17 +92,17 @@ public:
     int unk_1C; // duration out
     int unk_20[2]; // bgs
     int unk_28; // current bg index
-    UnkClass_0211D4E4 *unk_2C; // loading picture
+    StaffrollPicture *unk_2C; // loading picture
 };
 
-STATIC_SIZE_ASSERT(UnkClass_0211E0BC, 0x30);
+STATIC_SIZE_ASSERT(StaffrollPictures, 0x30);
 
 // Defined in ov25
 // "The End" sprites
-class UnkClass_0211F71C {
+class StaffrollTheEnd {
 public:
-    UnkClass_0211F71C();
-    ~UnkClass_0211F71C();
+    StaffrollTheEnd();
+    ~StaffrollTheEnd();
 
     BOOL ov25_0211F750();
     BOOL ov25_0211F840();
@@ -111,15 +111,15 @@ public:
     BOOL ov25_0211FA54();
 
 public:
-    UnkClass_0200ECD0 *unk_00;
-    UnkClass_0200E960 *unk_04;
-    UnkClass_0200E960 *unk_08;
-    UnkClass_0200E960 *unk_0C;
+    OamSpriteSet *unk_00;
+    OamSprite *unk_04;
+    OamSprite *unk_08;
+    OamSprite *unk_0C;
     int unk_10; // state
     int unk_14; // frame
 };
 
-STATIC_SIZE_ASSERT(UnkClass_0211F71C, 0x18);
+STATIC_SIZE_ASSERT(StaffrollTheEnd, 0x18);
 
 // Defined in ov25
 class CStaffrollScene : public CScene {
@@ -140,13 +140,13 @@ public:
     int unk_04; // state
     fx32 unk_08; // scroll
     fx32 unk_0C; // scroll speed
-    UnkClass_0211D6D4 *unk_10; // sub screen text
-    UnkClass_0211D6D4 *unk_14; // main screen text
-    UnkClass_02021404 *unk_18; // staff roll strings
+    StaffrollText *unk_10; // sub screen text
+    StaffrollText *unk_14; // main screen text
+    MessageTable *unk_18; // staff roll strings
     int unk_1C;
     int unk_20;
-    UnkClass_0211E0BC *unk_24;
-    UnkClass_0211F71C *unk_28;
+    StaffrollPictures *unk_24;
+    StaffrollTheEnd *unk_28;
     int unk_2C; // frame
     int unk_30;
 };

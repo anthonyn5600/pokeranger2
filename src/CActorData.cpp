@@ -3,9 +3,9 @@
 #include <nitro.h>
 #include <nnsys.h>
 
-#include "UnkClass_020074D4.hpp"
-#include "UnkClass_02007AA4.hpp"
-#include "UnkClass_02008788.hpp"
+#include "CellAnimController.hpp"
+#include "VramImage.hpp"
+#include "VramPalette.hpp"
 #include "common.hpp"
 #include "file/CArchiveGuard.hpp"
 #include "file/CBinaryFile.hpp"
@@ -20,13 +20,13 @@ CActorData::CActorData()
 CActorData::CActorData(int type, int id, int form, u16 mask, BOOL releaseArchive, const char *arcName)
 {
     Init();
-    sub_02013154(type, id, form, mask, releaseArchive, arcName, 0);
+    Load(type, id, form, mask, releaseArchive, arcName, 0);
 }
 
 CActorData::CActorData(const char *path, const char *name, int mask, BOOL releaseArchive, const char *arcName)
 {
     Init();
-    sub_020138E4(path, name, mask, releaseArchive, arcName);
+    LoadFromPath(path, name, mask, releaseArchive, arcName);
 }
 
 CActorData::~CActorData()
@@ -43,7 +43,7 @@ void CActorData::Init()
     unk_06 = 0;
 }
 
-void CActorData::sub_02013154(int type, int id, int form, u16 mask, BOOL releaseArchive, const char *arcName, u32 heapId)
+void CActorData::Load(int type, int id, int form, u16 mask, BOOL releaseArchive, const char *arcName, u32 heapId)
 {
     char name[0x60];
     char path[0x60];
@@ -133,15 +133,15 @@ void CActorData::sub_02013154(int type, int id, int form, u16 mask, BOOL release
     }
 
     OS_SPrintf(palettePath, "%s:%s.NCLR", arc, name);
-    m_palette = new UnkClass_02007AA4(palettePath, 0, 0);
-    UnkClass_020074D4 *image = NULL;
+    m_palette = new VramPalette(palettePath, 0, 0);
+    VramImage *image = NULL;
     OS_SPrintf(base, "%s:%s", arc, name);
 
     int index = 0;
 
     if (mask & 1) {
         OS_SPrintf(file, "%s:%s", arc, name);
-        sub_02013CD4(&m_anims[index], file, heapId);
+        LoadAnim(&m_anims[index], file, heapId);
         m_anims[index].id = 0;
         index++;
     }
@@ -149,13 +149,13 @@ void CActorData::sub_02013154(int type, int id, int form, u16 mask, BOOL release
     if (mask & 2) {
         OS_SPrintf(file, "%s:%s_s", arc, name);
         if (unk_06) {
-            if (!sub_02013E78(&m_anims[index], base, file, image, heapId)) {
-                sub_02013CD4(&m_anims[index], file, heapId);
+            if (!LoadAnimWithImage(&m_anims[index], base, file, image, heapId)) {
+                LoadAnim(&m_anims[index], file, heapId);
             } else {
                 image = m_anims[index].image;
             }
         } else {
-            sub_02013CD4(&m_anims[index], file, heapId);
+            LoadAnim(&m_anims[index], file, heapId);
         }
         m_anims[index].id = 1;
         index++;
@@ -164,13 +164,13 @@ void CActorData::sub_02013154(int type, int id, int form, u16 mask, BOOL release
     if (mask & 4) {
         OS_SPrintf(file, "%s:%s_w", arc, name);
         if (unk_06) {
-            if (!sub_02013E78(&m_anims[index], base, file, image, heapId)) {
-                sub_02013CD4(&m_anims[index], file, heapId);
+            if (!LoadAnimWithImage(&m_anims[index], base, file, image, heapId)) {
+                LoadAnim(&m_anims[index], file, heapId);
             } else {
                 image = m_anims[index].image;
             }
         } else {
-            sub_02013CD4(&m_anims[index], file, heapId);
+            LoadAnim(&m_anims[index], file, heapId);
         }
         m_anims[index].id = 2;
         index++;
@@ -179,11 +179,11 @@ void CActorData::sub_02013154(int type, int id, int form, u16 mask, BOOL release
     if (mask & 8) {
         OS_SPrintf(file, "%s:%s_t", arc, name);
         if (unk_06) {
-            if (!sub_02013E78(&m_anims[index], base, file, image, heapId)) {
-                sub_02013CD4(&m_anims[index], file, heapId);
+            if (!LoadAnimWithImage(&m_anims[index], base, file, image, heapId)) {
+                LoadAnim(&m_anims[index], file, heapId);
             }
         } else {
-            sub_02013CD4(&m_anims[index], file, heapId);
+            LoadAnim(&m_anims[index], file, heapId);
         }
         m_anims[index].id = 3;
         index++;
@@ -196,7 +196,7 @@ void CActorData::sub_02013154(int type, int id, int form, u16 mask, BOOL release
                     break;
                 }
                 OS_SPrintf(file, "%s:%s_p%02d", arc, name, i + 1);
-                if (!sub_02013CD4(&m_anims[index], file, heapId)) {
+                if (!LoadAnim(&m_anims[index], file, heapId)) {
                     break;
                 }
                 m_anims[index].id = i + 4;
@@ -204,7 +204,7 @@ void CActorData::sub_02013154(int type, int id, int form, u16 mask, BOOL release
             }
         } else {
             OS_SPrintf(file, "%s:%s_p", arc, name);
-            sub_02013CD4(&m_anims[index], file, heapId);
+            LoadAnim(&m_anims[index], file, heapId);
             m_anims[index].id = 4;
             index++;
         }
@@ -213,7 +213,7 @@ void CActorData::sub_02013154(int type, int id, int form, u16 mask, BOOL release
         for (int bit = 0x40; bit <= 0x100; bit <<= 1) {
             if (mask & bit) {
                 OS_SPrintf(file, "%s:%s_p%02d", arc, name, i + 1);
-                sub_02013CD4(&m_anims[index], file, heapId);
+                LoadAnim(&m_anims[index], file, heapId);
                 m_anims[index].id = i + 4;
                 index++;
             }
@@ -227,7 +227,7 @@ void CActorData::sub_02013154(int type, int id, int form, u16 mask, BOOL release
                 break;
             }
             OS_SPrintf(file, "%s:%s_a%02d", arc, name, i + 1);
-            if (!sub_02013CD4(&m_anims[index], file, heapId)) {
+            if (!LoadAnim(&m_anims[index], file, heapId)) {
                 break;
             }
             m_anims[index].id = i + 7;
@@ -238,7 +238,7 @@ void CActorData::sub_02013154(int type, int id, int form, u16 mask, BOOL release
         for (int bit = 0x200; bit <= 0x1000; bit <<= 1) {
             if (mask & bit) {
                 OS_SPrintf(file, "%s:%s_a%02d", arc, name, i + 1);
-                sub_02013CD4(&m_anims[index], file, heapId);
+                LoadAnim(&m_anims[index], file, heapId);
                 m_anims[index].id = i + 7;
                 index++;
             }
@@ -251,7 +251,7 @@ void CActorData::sub_02013154(int type, int id, int form, u16 mask, BOOL release
     }
 }
 
-void CActorData::sub_020138E4(const char *path, const char *name, int mask, BOOL releaseArchive, const char *arcName)
+void CActorData::LoadFromPath(const char *path, const char *name, int mask, BOOL releaseArchive, const char *arcName)
 {
     char nameBuf[0x60];
     char pathBuf[0x60];
@@ -300,34 +300,34 @@ void CActorData::sub_020138E4(const char *path, const char *name, int mask, BOOL
     }
 
     OS_SPrintf(palettePath, "%s:%s.NCLR", arc, nameBuf);
-    m_palette = new UnkClass_02007AA4(palettePath, 0, 0);
+    m_palette = new VramPalette(palettePath, 0, 0);
 
     int index = 0;
 
     if (mask & 1) {
         OS_SPrintf(file, "%s:%s", arc, nameBuf);
-        sub_02013CD4(&m_anims[index], file, 0);
+        LoadAnim(&m_anims[index], file, 0);
         m_anims[index].id = 0;
         index++;
     }
 
     if (mask & 2) {
         OS_SPrintf(file, "%s:%s_s", arc, nameBuf);
-        sub_02013CD4(&m_anims[index], file, 0);
+        LoadAnim(&m_anims[index], file, 0);
         m_anims[index].id = 1;
         index++;
     }
 
     if (mask & 4) {
         OS_SPrintf(file, "%s:%s_w", arc, nameBuf);
-        sub_02013CD4(&m_anims[index], file, 0);
+        LoadAnim(&m_anims[index], file, 0);
         m_anims[index].id = 2;
         index++;
     }
 
     if (mask & 8) {
         OS_SPrintf(file, "%s:%s_t", arc, nameBuf);
-        sub_02013CD4(&m_anims[index], file, 0);
+        LoadAnim(&m_anims[index], file, 0);
         m_anims[index].id = 3;
         index++;
     }
@@ -338,7 +338,7 @@ void CActorData::sub_020138E4(const char *path, const char *name, int mask, BOOL
                 break;
             }
             OS_SPrintf(file, "%s:%s_p%02d", arc, nameBuf, i + 1);
-            if (!sub_02013CD4(&m_anims[index], file, 0)) {
+            if (!LoadAnim(&m_anims[index], file, 0)) {
                 break;
             }
             m_anims[index].id = i + 4;
@@ -352,7 +352,7 @@ void CActorData::sub_020138E4(const char *path, const char *name, int mask, BOOL
                 break;
             }
             OS_SPrintf(file, "%s:%s_a%02d", arc, nameBuf, i + 1);
-            if (!sub_02013CD4(&m_anims[index], file, 0)) {
+            if (!LoadAnim(&m_anims[index], file, 0)) {
                 break;
             }
             m_anims[index].id = i + 7;
@@ -365,52 +365,52 @@ void CActorData::sub_020138E4(const char *path, const char *name, int mask, BOOL
     }
 }
 
-BOOL CActorData::sub_02013CD4(CActorAnim *anim, const char *base, u32 heapId)
+BOOL CActorData::LoadAnim(CActorAnim *anim, const char *base, u32 heapId)
 {
     char imagePath[0x60];
     char cellPath[0x60];
     char animPath[0x60];
 
     OS_SPrintf(imagePath, "%s.NCBR", base);
-    if (!CBinaryFile::sub_02003108(imagePath, 0)) {
+    if (!CBinaryFile::Exists(imagePath, 0)) {
         return FALSE;
     }
     OS_SPrintf(cellPath, "%s.NCER", base);
-    if (!CBinaryFile::sub_02003108(cellPath, 0)) {
+    if (!CBinaryFile::Exists(cellPath, 0)) {
         return FALSE;
     }
     OS_SPrintf(animPath, "%s.cac", base);
-    if (!CBinaryFile::sub_02003108(animPath, 0)) {
+    if (!CBinaryFile::Exists(animPath, 0)) {
         return FALSE;
     }
 
     SAFE_DELETE(anim->image);
-    anim->image = new UnkClass_020074D4(imagePath, 0, 0, heapId);
+    anim->image = new VramImage(imagePath, 0, 0, heapId);
     SAFE_DELETE(anim->cells);
     anim->cells = new CNCERFile(cellPath, heapId, 0, 0);
     SAFE_DELETE(anim->bank);
-    anim->bank = new UnkClass_02008788();
-    anim->bank->sub_0200887C(animPath, 0, heapId);
+    anim->bank = new CellAnimController();
+    anim->bank->Load(animPath, 0, heapId);
     anim->flags |= 1;
     return TRUE;
 }
 
-BOOL CActorData::sub_02013E78(CActorAnim *anim, const char *imageBase, const char *base, UnkClass_020074D4 *image, u32 heapId)
+BOOL CActorData::LoadAnimWithImage(CActorAnim *anim, const char *imageBase, const char *base, VramImage *image, u32 heapId)
 {
     char imagePath[0x60];
     char cellPath[0x60];
     char animPath[0x60];
 
     OS_SPrintf(imagePath, "%s.NCBR", imageBase);
-    if (!CBinaryFile::sub_02003108(imagePath, 0) && image == NULL) {
+    if (!CBinaryFile::Exists(imagePath, 0) && image == NULL) {
         return FALSE;
     }
     OS_SPrintf(cellPath, "%s.NCER", base);
-    if (!CBinaryFile::sub_02003108(cellPath, 0)) {
+    if (!CBinaryFile::Exists(cellPath, 0)) {
         return FALSE;
     }
     OS_SPrintf(animPath, "%s.cac", base);
-    if (!CBinaryFile::sub_02003108(animPath, 0)) {
+    if (!CBinaryFile::Exists(animPath, 0)) {
         return FALSE;
     }
 
@@ -418,13 +418,13 @@ BOOL CActorData::sub_02013E78(CActorAnim *anim, const char *imageBase, const cha
     if (image != NULL) {
         anim->image = image;
     } else {
-        anim->image = new UnkClass_020074D4(imagePath, 0, 0, heapId);
+        anim->image = new VramImage(imagePath, 0, 0, heapId);
     }
     SAFE_DELETE(anim->cells);
     anim->cells = new CNCERFile(cellPath, heapId, 0, 0);
     SAFE_DELETE(anim->bank);
-    anim->bank = new UnkClass_02008788();
-    anim->bank->sub_0200887C(animPath, 0, heapId);
+    anim->bank = new CellAnimController();
+    anim->bank->Load(animPath, 0, heapId);
     anim->flags |= 1;
     return TRUE;
 }
@@ -433,10 +433,10 @@ void CActorData::Release()
 {
     SAFE_DELETE(m_palette);
 
-    UnkClass_020074D4 *first = NULL;
+    VramImage *first = NULL;
     for (int i = 0; i < m_animCount; i++) {
         m_anims[i].flags &= ~1;
-        UnkClass_020074D4 *image = m_anims[i].image;
+        VramImage *image = m_anims[i].image;
         if (first != image) {
             if (first == NULL) {
                 first = image;
@@ -458,11 +458,11 @@ void CActorData::Release()
     unk_06 = 0;
 }
 
-void CActorData::sub_020141AC(u32 addr)
+void CActorData::LoadImagesToVram(u32 addr)
 {
     for (int i = 0; i < m_animCount; i++) {
         if (m_anims[i].image != NULL) {
-            m_anims[i].image->sub_020076E8(addr);
+            m_anims[i].image->LoadToVram(addr);
             addr += m_anims[i].image->unk_38;
             if (unk_06) {
                 return;
@@ -471,12 +471,12 @@ void CActorData::sub_020141AC(u32 addr)
     }
 }
 
-void CActorData::sub_02014218(NNSGfdTexKey *keys)
+void CActorData::AllocAndLoadImages(NNSGfdTexKey *keys)
 {
     for (int i = 0; i < m_animCount; i++) {
         if (m_anims[i].image != NULL) {
             keys[i] = NNS_GfdAllocLnkTexVram(m_anims[i].image->unk_38, FALSE, 0);
-            m_anims[i].image->sub_020076E8(NNS_GfdGetTexKeyAddr(keys[i]));
+            m_anims[i].image->LoadToVram(NNS_GfdGetTexKeyAddr(keys[i]));
             if (unk_06) {
                 return;
             }
@@ -484,30 +484,30 @@ void CActorData::sub_02014218(NNSGfdTexKey *keys)
     }
 }
 
-void CActorData::sub_0201429C(u32 addr)
+void CActorData::LoadPaletteToVram(u32 addr)
 {
     if (m_palette != NULL) {
-        m_palette->sub_02007BFC(addr);
+        m_palette->LoadToVram(addr);
     }
 }
 
-void CActorData::sub_020142B4()
+void CActorData::ReleaseImages()
 {
     for (int i = 0; i < m_animCount; i++) {
         if (m_anims[i].image != NULL) {
-            m_anims[i].image->sub_020076B0();
+            m_anims[i].image->Release();
         }
     }
 }
 
-void CActorData::sub_020142F8()
+void CActorData::ReleasePalette()
 {
     if (m_palette != NULL) {
-        m_palette->sub_02007BC4();
+        m_palette->Release();
     }
 }
 
-u32 CActorData::sub_02014310()
+u32 CActorData::GetImagesSize()
 {
     u32 size = 0;
     for (int i = 0; i < m_animCount; i++) {
@@ -521,7 +521,7 @@ u32 CActorData::sub_02014310()
     return size;
 }
 
-u32 CActorData::sub_02014364()
+u32 CActorData::GetPaletteSize()
 {
     return m_palette != NULL ? m_palette->unk_04->szByte : 0;
 }
@@ -536,7 +536,7 @@ CActorAnim *CActorData::GetAnim(u8 id)
     return NULL;
 }
 
-CActorAnim *CActorData::sub_020143B8(int action, u32 sub)
+CActorAnim *CActorData::FindAnim(int action, u32 sub)
 {
     u8 id = GetAnimId(action, sub);
     if (id == 0xFF) {
@@ -607,7 +607,7 @@ u8 CActorData::GetAnimId(int action, u32 sub)
     return id;
 }
 
-void CActorData::sub_02014514(int type, int id, int form, u16 mask, const char *arcName, u32 heapId, u32 archiveArg, BOOL fromArchive)
+void CActorData::LoadArchived(int type, int id, int form, u16 mask, const char *arcName, u32 heapId, u32 archiveArg, BOOL fromArchive)
 {
     char name[0x60];
     char path[0x60];
@@ -701,12 +701,12 @@ void CActorData::sub_02014514(int type, int id, int form, u16 mask, const char *
     if (fromArchive) {
         void *file = NNS_FndGetArchiveFileByName(palettePath);
         if (file != NULL && NNS_G2dGetUnpackedPaletteData(file, &paletteData)) {
-            m_palette = new UnkClass_02007AA4(paletteData);
+            m_palette = new VramPalette(paletteData);
         }
     } else {
-        m_palette = new UnkClass_02007AA4(palettePath, 0, 0);
+        m_palette = new VramPalette(palettePath, 0, 0);
     }
-    UnkClass_020074D4 *image = NULL;
+    VramImage *image = NULL;
     OS_SPrintf(base, "%s:%s", arc, name);
 
     int index = 0;
@@ -827,33 +827,33 @@ BOOL CActorData::sub_02014CEC(CActorAnim *anim, const char *base, u32 heapId, BO
     NNSG2dCharacterData *charData;
 
     OS_SPrintf(imagePath, "%s.NCBR", base);
-    if (!CBinaryFile::sub_02003108(imagePath, 0)) {
+    if (!CBinaryFile::Exists(imagePath, 0)) {
         return FALSE;
     }
     OS_SPrintf(cellPath, "%s.NCER", base);
-    if (!CBinaryFile::sub_02003108(cellPath, 0)) {
+    if (!CBinaryFile::Exists(cellPath, 0)) {
         return FALSE;
     }
     OS_SPrintf(animPath, "%s.cac", base);
-    if (!CBinaryFile::sub_02003108(animPath, 0)) {
+    if (!CBinaryFile::Exists(animPath, 0)) {
         return FALSE;
     }
 
     SAFE_DELETE(anim->image);
     void *file = NNS_FndGetArchiveFileByName(imagePath);
     if (file != NULL && NNS_G2dGetUnpackedCharacterData(file, &charData)) {
-        anim->image = new UnkClass_020074D4(charData);
+        anim->image = new VramImage(charData);
     }
     SAFE_DELETE(anim->cells);
     anim->cells = new CNCERFile(cellPath, heapId, 0, 0);
     SAFE_DELETE(anim->bank);
-    anim->bank = new UnkClass_02008788();
-    anim->bank->sub_0200887C(animPath, 0, heapId);
+    anim->bank = new CellAnimController();
+    anim->bank->Load(animPath, 0, heapId);
     anim->flags |= 1;
     return TRUE;
 }
 
-BOOL CActorData::sub_02014EA4(CActorAnim *anim, const char *imageBase, const char *base, UnkClass_020074D4 *image, u32 heapId, BOOL arg5)
+BOOL CActorData::sub_02014EA4(CActorAnim *anim, const char *imageBase, const char *base, VramImage *image, u32 heapId, BOOL arg5)
 {
     char imagePath[0x60];
     char cellPath[0x60];
@@ -861,15 +861,15 @@ BOOL CActorData::sub_02014EA4(CActorAnim *anim, const char *imageBase, const cha
     NNSG2dCharacterData *charData;
 
     OS_SPrintf(imagePath, "%s.NCBR", imageBase);
-    if (!CBinaryFile::sub_02003108(imagePath, 0) && image == NULL) {
+    if (!CBinaryFile::Exists(imagePath, 0) && image == NULL) {
         return FALSE;
     }
     OS_SPrintf(cellPath, "%s.NCER", base);
-    if (!CBinaryFile::sub_02003108(cellPath, 0)) {
+    if (!CBinaryFile::Exists(cellPath, 0)) {
         return FALSE;
     }
     OS_SPrintf(animPath, "%s.cac", base);
-    if (!CBinaryFile::sub_02003108(animPath, 0)) {
+    if (!CBinaryFile::Exists(animPath, 0)) {
         return FALSE;
     }
 
@@ -879,19 +879,19 @@ BOOL CActorData::sub_02014EA4(CActorAnim *anim, const char *imageBase, const cha
     } else {
         void *file = NNS_FndGetArchiveFileByName(imagePath);
         if (file != NULL && NNS_G2dGetUnpackedCharacterData(file, &charData)) {
-            anim->image = new UnkClass_020074D4(charData);
+            anim->image = new VramImage(charData);
         }
     }
     SAFE_DELETE(anim->cells);
     anim->cells = new CNCERFile(cellPath, heapId, 0, 0);
     SAFE_DELETE(anim->bank);
-    anim->bank = new UnkClass_02008788();
-    anim->bank->sub_0200887C(animPath, 0, heapId);
+    anim->bank = new CellAnimController();
+    anim->bank->Load(animPath, 0, heapId);
     anim->flags |= 1;
     return TRUE;
 }
 
-int CActorData::sub_02015070(u8 id)
+int CActorData::FindAnimIndex(u8 id)
 {
     for (int i = 0; i < m_animCount; i++) {
         if (id == m_anims[i].id) {

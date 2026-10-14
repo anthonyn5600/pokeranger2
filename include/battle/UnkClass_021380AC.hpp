@@ -8,7 +8,7 @@
 class Camera2D;
 class CPrimitiveRECT;
 class CSoftwareSprite;
-class UnkClass_0201AAE0;
+class GraphicsSet;
 
 // Defined in ov1
 // Battle icon i046 (BAS archive), animated for 16 frames after Start
@@ -28,7 +28,7 @@ public:
     u8 m_frame;
     CPrimitiveRECT *m_rect;
     CSoftwareSprite *m_sprite;
-    UnkClass_0201AAE0 *m_res;
+    GraphicsSet *m_res;
 };
 
 STATIC_SIZE_ASSERT(UnkClass_021380AC, 0x10);

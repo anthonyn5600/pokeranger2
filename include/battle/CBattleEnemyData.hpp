@@ -4,11 +4,11 @@
 #include <nitro.h>
 
 #include "CActorData.hpp"
+#include "Collision.hpp"
 #include "UnkStruct_020107A8.hpp"
 #include "battle/UnkStruct_0212DFEC.hpp"
 #include "common.hpp"
 #include "file/CBinaryFile.hpp"
-#include "sub_02006000.hpp"
 
 // Defined in ov1
 class CBattleEnemyData : public CActorData {

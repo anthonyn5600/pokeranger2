@@ -4,9 +4,9 @@
 #include <nitro.h>
 #include <nnsys.h>
 
-#include "UnkClass_020074D4.hpp"
-#include "UnkClass_02007AA4.hpp"
-#include "UnkClass_02008788.hpp"
+#include "CellAnimController.hpp"
+#include "VramImage.hpp"
+#include "VramPalette.hpp"
 #include "common.hpp"
 #include "file/CNCERFile.hpp"
 
@@ -28,11 +28,11 @@ public:
         void Release();
         void AllocTex(BOOL immediate);
         void FreeTex();
-        void sub_020294A8();
+        void ReleaseImage();
 
-        UnkClass_020074D4 *ncbr;
+        VramImage *ncbr;
         CNCERFile *ncer;
-        UnkClass_02008788 *cac;
+        CellAnimController *cac;
         NNSGfdTexKey texKey;
     };
 
@@ -43,10 +43,10 @@ public:
     }
 
     virtual ~CEffectActorData();
-    virtual UnkClass_020074D4 *GetNcbr(int i);
+    virtual VramImage *GetNcbr(int i);
     virtual CNCERFile *GetNcer(int i);
-    virtual UnkClass_02008788 *GetCac(int i);
-    virtual UnkClass_02007AA4 *GetPalette();
+    virtual CellAnimController *GetCac(int i);
+    virtual VramPalette *GetPalette();
     virtual void Update();
     virtual int GetCount();
     virtual BOOL IsLoaded();
@@ -57,12 +57,12 @@ public:
     }
 
     void Release();
-    void sub_020295B0(BOOL immediate);
+    void AllocPalette(BOOL immediate);
     void FreeVram();
-    void sub_020296B0();
+    void ReleaseAll();
 
 public:
-    UnkClass_02007AA4 m_palette;
+    VramPalette m_palette;
     NNSGfdPlttKey m_plttKey;
     Entry *m_entries;
     u32 m_count;

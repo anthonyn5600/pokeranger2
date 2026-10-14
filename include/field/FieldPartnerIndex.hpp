@@ -7,8 +7,8 @@ extern u16 DAT_0208d58c;
 
 extern "C" {
 BOOL sub_02034F9C(int kind);
-int sub_02035088(int kind);
-int sub_02035240(int index);
+int PartnerKindToIndex(int kind);
+int PartnerIndexToKind(int index);
 }
 
 #endif // POKERANGER2_FIELD_FIELDPARTNERINDEX_HPP

@@ -4,17 +4,17 @@
 #include <nitro.h>
 
 #include "CActor.hpp"
+#include "Collision.hpp"
 #include "common.hpp"
 #include "primitive/CPrimitiveQUAD.hpp"
 #include "primitive/CSoftwareSprite.hpp"
-#include "sub_02006000.hpp"
 
-class UnkClass_021364AC;
+class BattleEnemyGaugeGfx;
 
 // Defined in ov1
 class CBattleEnemyGauge : public CActor {
 public:
-    CBattleEnemyGauge(UnkClass_021364AC *arg0);
+    CBattleEnemyGauge(BattleEnemyGaugeGfx *arg0);
     virtual ~CBattleEnemyGauge();
     virtual void vfunc_08();
     virtual void vfunc_0C(Camera2D *camera);
@@ -37,7 +37,7 @@ public:
     u16 m_hp;
     u16 m_maxHP;
     u8 m_width;
-    UnkClass_021364AC *m_res;
+    BattleEnemyGaugeGfx *m_res;
     u16 m_cell;
     fx32 m_barLen;
     u8 m_dmgFrame;

@@ -2,7 +2,7 @@
 #define POKERANGER2_SCENE_CFLYINGSCENE_HPP
 
 #include "CGame.hpp"
-#include "UnkClass_0211CCA0.hpp"
+#include "FlyingMap.hpp"
 #include "common.hpp"
 #include "scene/CScene.hpp"
 
@@ -24,7 +24,7 @@ public:
 
 public:
     CGame *m_game;
-    UnkClass_0211CCA0 *unk_08;
+    FlyingMap *unk_08;
 };
 
 STATIC_SIZE_ASSERT(CFlyingScene, 0xC);

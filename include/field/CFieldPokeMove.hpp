@@ -3,13 +3,13 @@
 
 #include <nitro.h>
 
+#include "Collision.hpp"
 #include "common.hpp"
-#include "sub_02006000.hpp"
 
 class CFieldActor;
 class CFieldPlayer;
 
-// Enemy record from the table behind MAIN_BSS_0210CA6C (sub_02041D58).
+// Enemy record from the table behind MAIN_BSS_0210CA6C (FieldData_GetEnemy).
 struct FieldEnemyData {
     u16 unk_00;
     u16 unk_02;
@@ -194,7 +194,7 @@ inline BOOL CFieldPokeMove::IsBlocked(const PointPair2D &move, fx32 radius, u32 
     if (unk_BC == 0) {
         return FALSE;
     }
-    return unk_48->sub_0203CF40(move, radius, flags);
+    return unk_48->CheckSweepCollision(move, radius, flags);
 }
 
 inline Point2D CFieldPokeMove::GetPlayerPos()

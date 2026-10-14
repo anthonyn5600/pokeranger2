@@ -6,10 +6,10 @@
 #include "scene/CScene.hpp"
 
 class CPrimitiveRECT;
-class UnkClass_0200E960;
-class UnkClass_0200ECD0;
+class OamSprite;
+class OamSpriteSet;
 class UnkClass_020091E8_004;
-class UnkClass_02034478;
+class AudioEngine;
 
 // Defined in ov3
 class CNameInputScene : public CScene {
@@ -66,21 +66,21 @@ public:
     int unk_004C[7]; // UTF-8 bytes per character, big endian
     char unk_0068[22];
     CGame *m_game;
-    UnkClass_02034478 *m_audioEngine;
+    AudioEngine *m_audioEngine;
     u32 unk_0088;
-    UnkClass_0200E960 *unk_008C;
-    UnkClass_0200E960 *unk_0090;
-    UnkClass_0200E960 *unk_0094;
-    UnkClass_0200E960 *unk_0098;
-    UnkClass_0200E960 *unk_009C;
-    UnkClass_0200E960 *unk_00A0;
-    UnkClass_0200E960 *unk_00A4;
-    UnkClass_0200E960 *unk_00A8;
-    UnkClass_0200E960 *unk_00AC;
-    UnkClass_0200E960 *unk_00B0;
-    UnkClass_0200E960 *unk_00B4;
-    UnkClass_0200E960 *unk_00B8;
-    UnkClass_0200ECD0 *unk_00BC[4];
+    OamSprite *unk_008C;
+    OamSprite *unk_0090;
+    OamSprite *unk_0094;
+    OamSprite *unk_0098;
+    OamSprite *unk_009C;
+    OamSprite *unk_00A0;
+    OamSprite *unk_00A4;
+    OamSprite *unk_00A8;
+    OamSprite *unk_00AC;
+    OamSprite *unk_00B0;
+    OamSprite *unk_00B4;
+    OamSprite *unk_00B8;
+    OamSpriteSet *unk_00BC[4];
     CPrimitiveRECT *unk_00CC[0x44]; // 60 keys, then the buttons
     UnkClass_020091E8_004 *unk_01DC;
 };

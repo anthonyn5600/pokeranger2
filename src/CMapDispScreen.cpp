@@ -1,8 +1,8 @@
 #include "scene/CMapDispScreen.hpp"
 
-#include "UnkClass_0200C38C.hpp"
-#include "UnkClass_0200E0B4.hpp"
-#include "UnkClass_02034478.hpp"
+#include "AudioEngine.hpp"
+#include "BrightnessFade.hpp"
+#include "TextPrinter.hpp"
 
 CMapDispScreen::CMapDispScreen(CGame *game)
 {
@@ -25,7 +25,7 @@ void CMapDispScreen::ov28_0211D19C()
         unk_20[i] = NULL;
     }
     unk_04 = 0;
-    unk_0C = new UnkClass_0202A510(unk_3C);
+    unk_0C = new RegionMap(unk_3C);
     unk_08 = new CMapDispRscLoader();
     unk_08->m_pathBuilder = &unk_40;
 }
@@ -33,13 +33,13 @@ void CMapDispScreen::ov28_0211D19C()
 void CMapDispScreen::ov28_0211D218()
 {
     if (unk_18 != NULL) {
-        unk_18->sub_0200F64C();
+        unk_18->Update();
     }
     if (unk_08 != NULL) {
         unk_08->Update();
     }
     if (unk_0C != NULL) {
-        unk_0C->sub_0202A5A8();
+        unk_0C->Update();
     }
     switch (unk_00) {
     case 0:
@@ -70,7 +70,7 @@ void CMapDispScreen::ov28_0211D218()
 void CMapDispScreen::ov28_0211D2DC()
 {
     if (unk_0C != NULL) {
-        unk_0C->sub_0202A5EC();
+        unk_0C->Render();
     }
     switch (unk_00) {
     case 2:
@@ -97,13 +97,13 @@ void CMapDispScreen::ov28_0211D344()
 
 void CMapDispScreen::ov28_0211D368()
 {
-    unk_3C->unk_1494->sub_0200C588();
+    unk_3C->unk_1494->LoadPalette();
 }
 
 void CMapDispScreen::ov28_0211D380()
 {
-    unk_3C->unk_146C.sub_02008DB4(30);
-    unk_3C->unk_1494->sub_0200C3D0();
+    unk_3C->unk_146C.SetFps(30);
+    unk_3C->unk_1494->FreeWindows();
     SAFE_DELETE(unk_08);
     SAFE_DELETE(unk_14);
     SAFE_DELETE(unk_18);
@@ -113,7 +113,7 @@ void CMapDispScreen::ov28_0211D380()
 void CMapDispScreen::ov28_0211D450()
 {
     if (unk_18 != NULL) {
-        unk_18->sub_0200F71C();
+        unk_18->WriteOam();
     }
 }
 
@@ -134,25 +134,25 @@ void CMapDispScreen::ov28_0211D468()
     int charNo = 0;
     u8 oamIndex = 0x20;
     SAFE_DELETE(unk_18);
-    unk_18 = new UnkClass_0200ECD0((GXOamAttr *)&unk_3C->unk_0024[oamIndex], unk_3C->unk_14A8, FALSE, 0x40);
-    charNo += unk_18->sub_0200EE14("data/menu", "ma005_00", charNo / 32, 0);
-    unk_20[3] = unk_18->sub_0200F4FC(0, 0xF0, 0x10, 0);
-    unk_20[3]->sub_0200EBF4(0x20, 0x20, 0, 0);
+    unk_18 = new OamSpriteSet((GXOamAttr *)&unk_3C->unk_0024[oamIndex], unk_3C->unk_14A8, FALSE, 0x40);
+    charNo += unk_18->Load("data/menu", "ma005_00", charNo / 32, 0);
+    unk_20[3] = unk_18->AddSprite(0, 0xF0, 0x10, 0);
+    unk_20[3]->SetTouchRect(0x20, 0x20, 0, 0);
     oamIndex += unk_18->unk_30;
     int paletteSlot = 2;
-    unk_0C->sub_0202A724(2, &oamIndex, &charNo, &paletteSlot, FALSE);
+    unk_0C->Load(2, &oamIndex, &charNo, &paletteSlot, FALSE);
 
     SAFE_DELETE(unk_14);
-    unk_14 = new UnkClass_02021404("/data/message/etc/place_name");
+    unk_14 = new MessageTable("/data/message/etc/place_name");
 
     if (unk_08 != NULL) {
         unk_08->SetupBG();
     }
     ov28_0211D980();
-    unk_3C->unk_1494->sub_0200C3D0();
-    unk_3C->unk_1494->sub_0200C408(0, GX_BG_SCRBASE_0x6000, GX_BG_CHARBASE_0x00000);
-    unk_3C->unk_1494->sub_0200C680(1);
-    unk_3C->unk_1494->sub_0200C6C8(0, 0x10, 2, 1, 0, 0xD, 0, 2);
+    unk_3C->unk_1494->FreeWindows();
+    unk_3C->unk_1494->SetupBG(0, GX_BG_SCRBASE_0x6000, GX_BG_CHARBASE_0x00000);
+    unk_3C->unk_1494->AllocWindows(1);
+    unk_3C->unk_1494->InitWindow(0, 0x10, 2, 1, 0, 0xD, 0, 2);
 }
 
 BOOL CMapDispScreen::ov28_0211D700()
@@ -166,7 +166,7 @@ BOOL CMapDispScreen::ov28_0211D718()
 {
     ov28_0211D468();
     ov28_0211D368();
-    unk_3C->unk_146C.sub_02008DB4(60);
+    unk_3C->unk_146C.SetFps(60);
     return TRUE;
 }
 
@@ -236,21 +236,21 @@ void CMapDispScreen::ov28_0211D748(int id)
 void CMapDispScreen::ov28_0211D794()
 {
     u32 cancel = (u16)(unk_3C->unk_0014->unk_0002 & PAD_BUTTON_B);
-    BOOL touched = unk_20[3]->sub_0200EB84() ? TRUE : FALSE;
+    BOOL touched = unk_20[3]->GetTouchTrigger() ? TRUE : FALSE;
     if (touched | cancel) {
         ov28_0211D844();
         return;
     }
     s16 kind;
     u16 id;
-    unk_0C->sub_0202B5A8(&kind, &id);
+    unk_0C->GetSelection(&kind, &id);
     switch ((u16)kind) {
     case 1:
-        unk_3C->m_audioEngine->sub_02034C44(0xFA);
+        unk_3C->m_audioEngine->PlaySe(0xFA);
         ov28_0211D980();
         break;
     case 6:
-        unk_3C->m_audioEngine->sub_02034C44(0xFA);
+        unk_3C->m_audioEngine->PlaySe(0xFA);
         ov28_0211D9AC(id);
         break;
     }
@@ -258,7 +258,7 @@ void CMapDispScreen::ov28_0211D794()
 
 void CMapDispScreen::ov28_0211D844()
 {
-    unk_3C->m_audioEngine->sub_02034C44(0x103);
+    unk_3C->m_audioEngine->PlaySe(0x103);
     if (unk_08 != NULL) {
         unk_00 = 6;
         return;
@@ -289,9 +289,9 @@ void CMapDispScreen::ov28_0211D8AC()
     } else if (idx > 100) {
         idx %= 100;
     }
-    unk_3C->unk_1494->sub_0200C980(0);
-    UnkClass_0200C38C *text = unk_3C->unk_1494;
-    text->sub_0200C7A4(0, 0, 3, 3, (u8 *)unk_14->GetString(idx), TRUE, 0);
+    unk_3C->unk_1494->ClearWindow(0);
+    TextPrinter *text = unk_3C->unk_1494;
+    text->Print(0, 0, 3, 3, (u8 *)unk_14->GetString(idx), TRUE, 0);
 }
 
 void CMapDispScreen::ov28_0211D980()
@@ -315,22 +315,22 @@ void CMapDispScreen::ov28_0211D9D0(u16 id, int mode)
 void CMapDispScreen::ov28_0211D9E0()
 {
     if (unk_3C != NULL) {
-        unk_3C->unk_14C0->sub_0200E0E0(3, 15);
-        unk_3C->unk_14BC->sub_0200E0E0(3, 15);
+        unk_3C->unk_14C0->Start(3, 15);
+        unk_3C->unk_14BC->Start(3, 15);
     }
 }
 
 void CMapDispScreen::ov28_0211DA24()
 {
     if (unk_3C != NULL) {
-        unk_3C->unk_14C0->sub_0200E0E0(4, 15);
-        unk_3C->unk_14BC->sub_0200E0E0(4, 15);
+        unk_3C->unk_14C0->Start(4, 15);
+        unk_3C->unk_14BC->Start(4, 15);
     }
 }
 
 BOOL CMapDispScreen::ov28_0211DA68()
 {
-    if (unk_3C->unk_14C0->sub_0200E310() || unk_3C->unk_14C0->sub_0200E310()) {
+    if (unk_3C->unk_14C0->IsActive() || unk_3C->unk_14C0->IsActive()) {
         return TRUE;
     }
     return FALSE;

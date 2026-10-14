@@ -14,8 +14,8 @@ public:
     CFieldEnemy();
     virtual ~CFieldEnemy();
     virtual void sub_0202D394();
-    virtual void sub_0203DA40(CFieldMap *map);
-    virtual BOOL sub_0203D578(CFieldMap *map);
+    virtual void Process(CFieldMap *map);
+    virtual BOOL UpdateMove(CFieldMap *map);
     virtual void sub_02032A44(int arg0);
 
     int ov0_021343B8(int index);

@@ -11,24 +11,24 @@ CFieldEffectSteam::CFieldEffectSteam(int kind)
     m_animator.m_scaleStart = 0x800;
     m_animator.m_scaleEnd = 0x2000;
     if (kind == 1) {
-        sub_0203312C(0, 8);
-        sub_0203312C(6, 1);
-        sub_0203312C(7, 0x18);
-        sub_0203312C(5, 0x1E);
-        sub_0203312C(8, 0x1E);
-        sub_0203312C(3, 4);
-        sub_0203312C(4, 4);
+        SetParam(0, 8);
+        SetParam(6, 1);
+        SetParam(7, 0x18);
+        SetParam(5, 0x1E);
+        SetParam(8, 0x1E);
+        SetParam(3, 4);
+        SetParam(4, 4);
     }
 }
 
-int CFieldEffectSteam::sub_0203312C(int param, int value)
+int CFieldEffectSteam::SetParam(int param, int value)
 {
     switch (param) {
     case 7:
         m_animator.m_alpha = value;
         return 1;
     }
-    return TFieldEffectSmoke<CSoftwareSprite>::sub_0203312C(param, value);
+    return TFieldEffectSmoke<CSoftwareSprite>::SetParam(param, value);
 }
 
 CFieldEffect *CFieldEffectSteamFactory::Create(int arg)

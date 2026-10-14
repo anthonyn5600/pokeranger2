@@ -12,7 +12,7 @@ class CFieldEffectCharge : public CFieldEffectActor {
 public:
     CFieldEffectCharge();
     virtual ~CFieldEffectCharge();
-    virtual int sub_02033028()
+    virtual int GetEffectId()
     {
         return 0x22;
     }
@@ -21,7 +21,7 @@ public:
     virtual int ov0_02142264(int step);
     virtual int ov0_02142344(Camera2D *camera);
     virtual void ov0_0214234C(Point2D pos, int arg1, int arg2, int arg3, int arg4);
-    virtual int sub_0203312C(int param, int value);
+    virtual int SetParam(int param, int value);
 
     void InitSprites();
 

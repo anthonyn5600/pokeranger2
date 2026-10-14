@@ -10,12 +10,12 @@
 
 class Camera2D;
 class CBinaryFileMes;
-class UnkClass_0200E960;
-class UnkClass_0200ECD0;
+class OamSprite;
+class OamSpriteSet;
 class CEncycListBox;
-class UnkClass_02120668;
-class UnkClass_0211F3DC;
-class UnkClass_0211F4E0;
+class EncycRadioButtonGroup;
+class EncycAnimLoader;
+class EncycMainScreen;
 struct UnkStruct_02120F34;
 struct UnkStruct_0211D918;
 
@@ -30,10 +30,10 @@ public:
     {
     }
 
-    virtual void func0(UnkClass_0211F3DC *loader) = 0;
+    virtual void func0(EncycAnimLoader *loader) = 0;
     virtual void func1() = 0;
     virtual void func2() = 0;
-    virtual void func3(UnkClass_0211F4E0 *display) = 0;
+    virtual void func3(EncycMainScreen *display) = 0;
     virtual int func4() = 0;
     virtual void func5() = 0;
     virtual void func6() = 0;
@@ -66,9 +66,9 @@ public:
 
 // Defined in ov22
 // Push button made of two cell animations (normal, pressed); reports presses to a listener
-class UnkClass_0211F134 {
+class EncycPushButton {
 public:
-    UnkClass_0211F134()
+    EncycPushButton()
     {
         unk_00 = -1;
         unk_0C = NULL;
@@ -82,7 +82,7 @@ public:
         MI_CpuClear8(unk_04, sizeof(unk_04));
     }
 
-    BOOL ov22_0211F134(int id, UnkClass_0200ECD0 *anims, int animNormal, int animPressed, int x, int y, int arg6, int arg7, int priority);
+    BOOL ov22_0211F134(int id, OamSpriteSet *anims, int animNormal, int animPressed, int x, int y, int arg6, int arg7, int priority);
     void ov22_0211F1D0();
     void ov22_0211F2A4();
     void ov22_0211F344(BOOL arg0);
@@ -96,7 +96,7 @@ public:
 
 public:
     int unk_00; // id
-    UnkClass_0200E960 *unk_04[2]; // normal, pressed
+    OamSprite *unk_04[2]; // normal, pressed
     IEncycPushButtonListener *unk_0C;
     int unk_10; // repeat timer
     int unk_14; // touching
@@ -107,16 +107,16 @@ public:
     u8 unk_1F; // enabled
 };
 
-STATIC_SIZE_ASSERT(UnkClass_0211F134, 0x20);
+STATIC_SIZE_ASSERT(EncycPushButton, 0x20);
 
 // Defined in ov22
 // Loads cell animation sets into consecutive OBJ char/palette slots
-class UnkClass_0211F3DC {
+class EncycAnimLoader {
 public:
-    UnkClass_0211F3DC();
+    EncycAnimLoader();
 
-    UnkClass_0200ECD0 *ov22_0211F3F0(const char *dir, const char *name, int plttCount, int oamIdx);
-    void ov22_0211F4A4(UnkClass_0200ECD0 *anims, int oamIdx);
+    OamSpriteSet *ov22_0211F3F0(const char *dir, const char *name, int plttCount, int oamIdx);
+    void ov22_0211F4A4(OamSpriteSet *anims, int oamIdx);
 
 public:
     u32 unk_00; // char offset
@@ -124,11 +124,11 @@ public:
     int unk_08; // next oam index
 };
 
-STATIC_SIZE_ASSERT(UnkClass_0211F3DC, 0xC);
+STATIC_SIZE_ASSERT(EncycAnimLoader, 0xC);
 
 // Defined in ov22
 // Text canvas over a BG (NNS text canvas + char canvas)
-class UnkClass_02121024 {
+class EncycTextCanvas {
 public:
     void ov22_02121024(NNSG2dFont *font, void *scr, void *chr, int charNo, int x, int y, int w, int h, int hSpace, int vSpace);
     void ov22_021210B8();
@@ -139,28 +139,28 @@ public:
     NNSG2dCharCanvas unk_10;
 };
 
-STATIC_SIZE_ASSERT(UnkClass_02121024, 0x28);
+STATIC_SIZE_ASSERT(EncycTextCanvas, 0x28);
 
 // Defined in ov22
-class UnkClass_0211F4C4 {
+class EncycTextRenderer {
 public:
-    UnkClass_0211F4C4()
+    EncycTextRenderer()
     {
         unk_60 = 0;
     }
 
-    void ov22_0212112C(UnkClass_02121024 *canvas, int x, int y, int color, const char *label, int flags);
+    void ov22_0212112C(EncycTextCanvas *canvas, int x, int y, int color, const char *label, int flags);
     void ov22_021212A4(int x, int y, int w, int h, int flags);
-    void ov22_02121304(UnkClass_02121024 *canvas, const char *text, int x, int y, int color, int width, int flags);
+    void ov22_02121304(EncycTextCanvas *canvas, const char *text, int x, int y, int color, int width, int flags);
     void ov22_021213F0(Camera2D *camera);
-    void ov22_021215C8(UnkClass_02121024 *canvas, int hSpace, int x, int y, int color, u8 **str);
+    void ov22_021215C8(EncycTextCanvas *canvas, int hSpace, int x, int y, int color, u8 **str);
 
 public:
     CPrimitiveQUAD unk_00;
     int unk_60;
 };
 
-STATIC_SIZE_ASSERT(UnkClass_0211F4C4, 0x64);
+STATIC_SIZE_ASSERT(EncycTextRenderer, 0x64);
 
 // Owning pointer; nothing in ov22 sets it (pointee type unknown, only its virtual dtor is used)
 struct UnkStruct_0211F544 {
@@ -178,10 +178,10 @@ struct UnkStruct_0211F544 {
 
 // Defined in ov22
 // Main screen: 3D quads + text on BG1
-class UnkClass_0211F4E0 {
+class EncycMainScreen {
 public:
-    UnkClass_0211F4E0();
-    ~UnkClass_0211F4E0();
+    EncycMainScreen();
+    ~EncycMainScreen();
 
     void ov22_0211F594();
     void ov22_0211F6F8();
@@ -195,19 +195,19 @@ public:
     int unk_00;
     UnkStruct_0211F544 unk_04;
     Camera2D *unk_08;
-    UnkClass_02121024 unk_0C;
-    UnkClass_0211F4C4 unk_34[8];
+    EncycTextCanvas unk_0C;
+    EncycTextRenderer unk_34[8];
     int unk_354; // quad count
 };
 
-STATIC_SIZE_ASSERT(UnkClass_0211F4E0, 0x358);
+STATIC_SIZE_ASSERT(EncycMainScreen, 0x358);
 
 // Defined in ov22
 // Message file split into its strings
-class UnkClass_021209FC {
+class EncycMessageStrings {
 public:
-    UnkClass_021209FC();
-    ~UnkClass_021209FC();
+    EncycMessageStrings();
+    ~EncycMessageStrings();
 
     int ov22_02120A24(const char *path);
     int ov22_02120AD8();
@@ -220,34 +220,34 @@ public:
     const char **unk_08;
 };
 
-STATIC_SIZE_ASSERT(UnkClass_021209FC, 0xC);
+STATIC_SIZE_ASSERT(EncycMessageStrings, 0xC);
 
 // Defined in ov22
 // One radio button (cell animations + label)
-class UnkClass_02120644 {
+class EncycRadioButton {
 public:
-    UnkClass_02120644();
+    EncycRadioButton();
 
 public:
     int unk_00; // id (-1 = free)
-    UnkClass_0200E960 *unk_04; // selected
-    UnkClass_0200E960 *unk_08; // not selected
-    UnkClass_0200E960 *unk_0C; // "new" mark
+    OamSprite *unk_04; // selected
+    OamSprite *unk_08; // not selected
+    OamSprite *unk_0C; // "new" mark
     const char *unk_10; // label
     int unk_14;
 };
 
-STATIC_SIZE_ASSERT(UnkClass_02120644, 0x18);
+STATIC_SIZE_ASSERT(EncycRadioButton, 0x18);
 
 // Defined in ov22
 // Radio button group
-class UnkClass_02120668 {
+class EncycRadioButtonGroup {
 public:
-    UnkClass_02120668(int arg0, int count);
-    ~UnkClass_02120668();
+    EncycRadioButtonGroup(int arg0, int count);
+    ~EncycRadioButtonGroup();
 
-    void ov22_021206DC(int idx, UnkClass_0200ECD0 *anims, int animOn, int animOff, int x, int y, int w, int h, int arg8, const char *label);
-    void ov22_021207E8(int idx, UnkClass_0200ECD0 *anims, int anim, int x, int y, int arg5);
+    void ov22_021206DC(int idx, OamSpriteSet *anims, int animOn, int animOff, int x, int y, int w, int h, int arg8, const char *label);
+    void ov22_021207E8(int idx, OamSpriteSet *anims, int anim, int x, int y, int arg5);
     void ov22_0212086C(int idx, BOOL flag);
     void ov22_021208DC(int idx);
     void ov22_0212098C();
@@ -260,16 +260,16 @@ public:
 public:
     int unk_00;
     int unk_04; // count
-    UnkClass_02120644 *unk_08;
+    EncycRadioButton *unk_08;
     IEncycRadioButtonListener *unk_0C;
 };
 
-STATIC_SIZE_ASSERT(UnkClass_02120668, 0x10);
+STATIC_SIZE_ASSERT(EncycRadioButtonGroup, 0x10);
 
 // Defined in ov22
-class UnkClass_0211F9A4 {
+class EncycListBoxGroup {
 public:
-    UnkClass_0211F9A4();
+    EncycListBoxGroup();
 
 public:
     int unk_00; // line count
@@ -278,7 +278,7 @@ public:
     int unk_0C; // saved cursor line
 };
 
-STATIC_SIZE_ASSERT(UnkClass_0211F9A4, 0x10);
+STATIC_SIZE_ASSERT(EncycListBoxGroup, 0x10);
 
 // One picture marker of an encyclopedia page
 struct UnkStruct_02120FA8 {
@@ -338,13 +338,13 @@ STATIC_SIZE_ASSERT(UnkStruct_02120F34, 0x20);
 
 // Defined in ov22
 // Dictionary messages shared by the screens
-class UnkClass_0211CF54 {
+class EncycDictionary {
 public:
-    UnkClass_0211CF54()
+    EncycDictionary()
     {
         unk_18 = 0;
     }
-    ~UnkClass_0211CF54()
+    ~EncycDictionary()
     {
     }
 
@@ -397,12 +397,12 @@ public:
     }
 
 public:
-    UnkClass_021209FC unk_00;
-    UnkClass_021209FC unk_0C;
+    EncycMessageStrings unk_00;
+    EncycMessageStrings unk_0C;
     UnkStruct_02120F34 *unk_18;
 };
 
-STATIC_SIZE_ASSERT(UnkClass_0211CF54, 0x1C);
+STATIC_SIZE_ASSERT(EncycDictionary, 0x1C);
 
 // One list box line
 struct UnkStruct_0211D918 {
@@ -419,7 +419,7 @@ public:
     CEncycListBox(int count);
     virtual ~CEncycListBox();
 
-    BOOL ov22_0211FAD4(int arg0, UnkClass_0200ECD0 *anims, int arg2, int arg3, int arg4, int arg5, u32 arg6, int arg7, int arg8, int arg9, int argA);
+    BOOL ov22_0211FAD4(int arg0, OamSpriteSet *anims, int arg2, int arg3, int arg4, int arg5, u32 arg6, int arg7, int arg8, int arg9, int argA);
     void ov22_0211FBE4();
     void ov22_0211FC24(int group, UnkStruct_0211D918 *lines, int count);
     void ov22_0211FC58();
@@ -456,21 +456,21 @@ public:
     int unk_30; // target cursor y
     int unk_34; // BG scroll
     IEncycListBoxEventListener *unk_38;
-    UnkClass_0200E960 *unk_3C; // cursor
+    OamSprite *unk_3C; // cursor
     u8 unk_40; // blink timer
-    UnkClass_0200E960 *unk_44[9];
+    OamSprite *unk_44[9];
     int unk_68; // group count
-    UnkClass_0211F9A4 *unk_6C;
+    EncycListBoxGroup *unk_6C;
 };
 
 STATIC_SIZE_ASSERT(CEncycListBox, 0x70);
 
 // Defined in ov22
 // Encyclopedia entries by category
-class UnkClass_02120B4C {
+class EncycEntries {
 public:
-    UnkClass_02120B4C();
-    ~UnkClass_02120B4C();
+    EncycEntries();
+    ~EncycEntries();
 
     BOOL ov22_02120BB4(const char *path);
     void ov22_02120E80();
@@ -484,10 +484,10 @@ public:
     u16 *unk_14; // pictures
     UnkStruct_02120FA8 *unk_18; // markers
     s8 *unk_1C; // marker counts
-    UnkClass_021209FC unk_20;
+    EncycMessageStrings unk_20;
 };
 
-STATIC_SIZE_ASSERT(UnkClass_02120B4C, 0x2C);
+STATIC_SIZE_ASSERT(EncycEntries, 0x2C);
 
 // Defined in ov22
 class CEncycItemListScreen : public CEncycMenuScreen,
@@ -495,12 +495,12 @@ class CEncycItemListScreen : public CEncycMenuScreen,
                              public IEncycListBoxEventListener,
                              public IEncycRadioButtonListener {
 public:
-    CEncycItemListScreen(UnkClass_0211F134 *backButton);
+    CEncycItemListScreen(EncycPushButton *backButton);
 
-    virtual void func0(UnkClass_0211F3DC *loader);
+    virtual void func0(EncycAnimLoader *loader);
     virtual void func1();
     virtual void func2();
-    virtual void func3(UnkClass_0211F4E0 *display);
+    virtual void func3(EncycMainScreen *display);
     virtual int func4();
     virtual void func5();
     virtual void func6();
@@ -518,13 +518,13 @@ public:
     int unk_14; // result
     int unk_18; // category
     UnkStruct_02120F34 *unk_1C; // chosen entry
-    UnkClass_0200ECD0 *unk_20;
-    UnkClass_02120668 unk_24;
+    OamSpriteSet *unk_20;
+    EncycRadioButtonGroup unk_24;
     CEncycListBox unk_34;
-    UnkClass_0211F134 unk_A4[4];
-    UnkClass_0211F134 *unk_124; // back button
-    UnkClass_021209FC unk_128;
-    UnkClass_02120B4C unk_134;
+    EncycPushButton unk_A4[4];
+    EncycPushButton *unk_124; // back button
+    EncycMessageStrings unk_128;
+    EncycEntries unk_134;
     UnkStruct_0211D918 *unk_160;
     int unk_164[3]; // new entries per category
     u16 unk_170[3][16]; // category palettes
@@ -547,13 +547,13 @@ struct UnkStruct_0211E4AC {
 // Defined in ov22
 class CEncycItemDescriptionScreen : public CEncycMenuScreen, public IEncycPushButtonListener {
 public:
-    CEncycItemDescriptionScreen(UnkClass_0211F134 *backButton);
+    CEncycItemDescriptionScreen(EncycPushButton *backButton);
     virtual ~CEncycItemDescriptionScreen();
 
-    virtual void func0(UnkClass_0211F3DC *loader);
+    virtual void func0(EncycAnimLoader *loader);
     virtual void func1();
     virtual void func2();
-    virtual void func3(UnkClass_0211F4E0 *display);
+    virtual void func3(EncycMainScreen *display);
     virtual int func4();
     virtual void func5();
     virtual void func6();
@@ -570,11 +570,11 @@ public:
     int unk_0C; // fade state
     int unk_10; // page
     u8 unk_14; // page changed
-    UnkClass_0200ECD0 *unk_18;
-    UnkClass_0211F4E0 *unk_1C;
-    UnkClass_0211F134 unk_20[2]; // previous, next page
-    UnkClass_0211F134 *unk_60; // back button
-    UnkClass_0211CF54 *unk_64;
+    OamSpriteSet *unk_18;
+    EncycMainScreen *unk_1C;
+    EncycPushButton unk_20[2]; // previous, next page
+    EncycPushButton *unk_60; // back button
+    EncycDictionary *unk_64;
     u16 unk_68[3][16]; // category palettes
     int unk_C8; // category
     UnkStruct_0211E4AC *unk_CC;
@@ -607,11 +607,11 @@ public:
     CEncycMenuScreen *unk_00C[2];
     CEncycItemListScreen *unk_014;
     CEncycItemDescriptionScreen *unk_018;
-    UnkClass_0211F3DC unk_01C;
-    UnkClass_0200ECD0 *unk_028;
-    UnkClass_0211F134 unk_02C; // back button
-    UnkClass_0211F4E0 unk_04C;
-    UnkClass_0211CF54 *unk_3A4;
+    EncycAnimLoader unk_01C;
+    OamSpriteSet *unk_028;
+    EncycPushButton unk_02C; // back button
+    EncycMainScreen unk_04C;
+    EncycDictionary *unk_3A4;
     int unk_3A8; // saved sub visible windows
     GXWndPlane unk_3AC; // saved sub window 0 inside plane
     GXWndPlane unk_3AD; // saved sub outside plane

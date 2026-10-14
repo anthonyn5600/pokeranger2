@@ -14,19 +14,19 @@ CFieldEffectCharge::CFieldEffectCharge()
     unk_18 = data;
     m_pos.x = m_pos.y = 0;
     InitSprites();
-    UnkClass_02008788 *cac = unk_18->GetCac(0);
+    CellAnimController *cac = unk_18->GetCac(0);
     if (cac != NULL) {
-        m_cacIds[0] = cac->sub_02008A80(1, 0);
-        cac->sub_02008990(m_cacIds[0], 4);
-        m_cacIds[1] = cac->sub_02008A80(1, 0);
-        cac->sub_02008990(m_cacIds[1], 5);
+        m_cacIds[0] = cac->Create(1, 0);
+        cac->SetAnim(m_cacIds[0], 4);
+        m_cacIds[1] = cac->Create(1, 0);
+        cac->SetAnim(m_cacIds[1], 5);
     }
 }
 
 CFieldEffectCharge::~CFieldEffectCharge()
 {
     for (int i = 0; i < 2; i++) {
-        unk_18->GetCac(0)->sub_02008B80(m_cacIds[i]);
+        unk_18->GetCac(0)->Remove(m_cacIds[i]);
     }
     SAFE_DELETE(unk_18);
 }
@@ -42,10 +42,10 @@ int CFieldEffectCharge::ov0_02142264(int step)
 
 int CFieldEffectCharge::ov0_02142344(Camera2D *camera)
 {
-    UnkClass_02008788 *cac = unk_18->GetCac(0);
+    CellAnimController *cac = unk_18->GetCac(0);
     if (cac != NULL) {
         for (int i = 0; i < 2; i++) {
-            m_sprites[i].m_cellDataIdx = cac->sub_02008828(m_cacIds[i]);
+            m_sprites[i].m_cellDataIdx = cac->GetCell(m_cacIds[i]);
             m_sprites[i].Render(camera);
         }
     }
@@ -74,7 +74,7 @@ int CFieldEffectCharge::ov0_02142240(int outTime)
     return CFieldEffect::ov0_02142240(outTime);
 }
 
-int CFieldEffectCharge::sub_0203312C(int param, int value)
+int CFieldEffectCharge::SetParam(int param, int value)
 {
     switch (param) {
     case 1:

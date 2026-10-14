@@ -1,7 +1,7 @@
 #include "battle/UnkClass_02127CD8.hpp"
 
 #include "CPlayerHPGauge.hpp"
-#include "UnkClass_02008788.hpp"
+#include "CellAnimController.hpp"
 #include "battle/UnkClass_02127E14.hpp"
 #include "primitive/CSoftwareSprite.hpp"
 
@@ -17,8 +17,8 @@ UnkClass_02127CD8::~UnkClass_02127CD8()
 
 void UnkClass_02127CD8::ov1_02127D00()
 {
-    m_res0 = new UnkClass_0201AAE0("BHM", "data/interface/i027_LZ.bin", "BHM:i027_00.NCBR", "BHM:i027.NCLR", "BHM:i027_00.NCER", "BHM:i027_00.cac");
-    m_res1 = new UnkClass_0201AAE0("BHM", "data/interface/i068_LZ.bin", "BHM:i068_00.NCBR", "BHM:i068.NCLR", "BHM:i068_00.NCER", "BHM:i068_00.cac");
+    m_res0 = new GraphicsSet("BHM", "data/interface/i027_LZ.bin", "BHM:i027_00.NCBR", "BHM:i027.NCLR", "BHM:i027_00.NCER", "BHM:i027_00.cac");
+    m_res1 = new GraphicsSet("BHM", "data/interface/i068_LZ.bin", "BHM:i068_00.NCBR", "BHM:i068.NCLR", "BHM:i068_00.NCER", "BHM:i068_00.cac");
 }
 
 void UnkClass_02127CD8::ov1_02127DB8()
@@ -47,7 +47,7 @@ UnkClass_02127E14::~UnkClass_02127E14()
 
 void UnkClass_02127E14::ov1_02127EE4()
 {
-    UnkClass_02008788 *anim;
+    CellAnimController *anim;
     u16 id;
     BOOL done;
 
@@ -58,16 +58,16 @@ void UnkClass_02127E14::ov1_02127EE4()
     if (m_flags & 1) {
         anim = m_anim0;
         id = m_animId0;
-        anim->sub_020089EC();
-        m_cell0 = anim->sub_02008828(id);
-        done &= anim->sub_02008860(id) == 0;
+        anim->UpdateAll();
+        m_cell0 = anim->GetCell(id);
+        done &= anim->GetStatus(id) == 0;
     }
     if (m_flags & 2) {
         anim = m_anim1;
         id = m_animId1;
-        anim->sub_020089EC();
-        m_cell1 = anim->sub_02008828(id);
-        done &= anim->sub_02008860(id) == 0;
+        anim->UpdateAll();
+        m_cell1 = anim->GetCell(id);
+        done &= anim->GetStatus(id) == 0;
     }
     m_alpha = 31;
     m_scale = FX32_ONE;
@@ -103,11 +103,11 @@ void UnkClass_02127E14::ov1_0212807C(UnkClass_02127CD8 *data)
 {
     m_data = data;
     m_anim0 = data->m_res0->m_anim;
-    m_animId0 = m_anim0->sub_02008A80(1, 0);
+    m_animId0 = m_anim0->Create(1, 0);
     m_anim1 = data->m_res1->m_anim;
-    m_animId1 = m_anim1->sub_02008A80(1, 0);
+    m_animId1 = m_anim1->Create(1, 0);
 
-    UnkClass_0201AAE0 *res = m_data->m_res0;
+    GraphicsSet *res = m_data->m_res0;
     m_sprite0->SetImage((UnkClass_CPrimitive_ImageProxy *)res->m_image, NULL);
     m_sprite0->unk_34 = (UnkClass_CPrimitive_ImagePaletteProxy *)res->m_palette;
     m_sprite0->unk_38 = (UnkClass_CSoftwareSprite_38 *)res->m_cells;
@@ -127,11 +127,11 @@ void UnkClass_02127E14::ov1_0212812C(fx32 x, fx32 y, int flags)
     m_scale = FX32_ONE;
     m_flags = flags;
     if (m_flags & 1) {
-        m_anim0->sub_02008990(m_animId0, 0);
-        m_anim0->sub_020089B8(m_animId0);
+        m_anim0->SetAnim(m_animId0, 0);
+        m_anim0->Restart(m_animId0);
     }
     if (m_flags & 2) {
-        m_anim1->sub_02008990(m_animId1, 0);
-        m_anim1->sub_020089B8(m_animId1);
+        m_anim1->SetAnim(m_animId1, 0);
+        m_anim1->Restart(m_animId1);
     }
 }

@@ -27,9 +27,9 @@ public:
     };
 
     virtual ~CFieldEffectFuwanteWind();
-    virtual int sub_02033028();
+    virtual int GetEffectId();
     virtual int ov0_02142344(Camera2D *camera);
-    virtual int sub_0203312C(int param, int value);
+    virtual int SetParam(int param, int value);
     virtual TFieldParticleForceField<CSoftwareSprite> *GetForceField();
     virtual TFieldParticleEmitter<CSoftwareSprite> *GetEmitter();
 };

@@ -1,14 +1,14 @@
 #include <nitro.h>
 #include <string.h>
 
-#include "UnkClass_020B26A0.hpp"
+#include "SaveData.hpp"
 #include "field/CFieldMap.hpp"
 #include "field/CFieldMapLayer.hpp"
 #include "field/CFieldNpc.hpp"
 #include "field/CFieldNpcManage.hpp"
 #include "heap.hpp"
 
-extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
+extern SaveData MAIN_BSS_020B26A0;
 
 int CFieldMapLayerNpc::Draw(Camera2D *camera)
 {
@@ -68,13 +68,13 @@ BOOL CFieldMapLayerNpc::Load(void *data)
                 y = m_entries[i].y << FX32_SHIFT;
                 npc->unk_18 = x;
                 npc->unk_1C = y;
-                npc->unk_E0 = MAIN_BSS_020B26A0.unk_001A;
+                npc->unk_E0 = MAIN_BSS_020B26A0.m_mapId;
                 npc->unk_E4 = 0;
-                npc->sub_0202E68C(unk_08);
+                npc->SetLayer(unk_08);
                 if (m_entries[i].hidden) {
                     npc->unk_20 = 2;
                 } else {
-                    sub_02041C1C(npc);
+                    Actor_HideManpu(npc);
                     npc->unk_20 = 0;
                     npc->sub_0202D394();
                 }

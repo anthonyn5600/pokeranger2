@@ -17,11 +17,11 @@ public:
     virtual ~CFieldEffectSteam()
     {
     }
-    virtual int sub_02033028()
+    virtual int GetEffectId()
     {
         return 9;
     }
-    virtual int sub_0203312C(int param, int value);
+    virtual int SetParam(int param, int value);
     virtual TFieldParticleForceField<CSoftwareSprite> *GetForceField()
     {
         return &m_animator;

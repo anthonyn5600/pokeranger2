@@ -10,16 +10,16 @@
 class CFieldEffectFireworks : public CFieldEffect {
 public:
     CFieldEffectFireworks(int arg); // ov0_02169670
-    virtual int sub_02033028()
+    virtual int GetEffectId()
     {
         return 0x15;
     }
     virtual int ov0_02142264(int step);
     virtual int ov0_02142344(Camera2D *camera);
-    virtual int sub_0203312C(int param, int value);
-    virtual void sub_02033440(u16 color);
+    virtual int SetParam(int param, int value);
+    virtual void SetColor(u16 color);
 
-    void SetRes(UnkClass_020074D4 *image, UnkClass_02007AA4 *palette, CNCERFile *ncer); // ov0_0216974C
+    void SetRes(VramImage *image, VramPalette *palette, CNCERFile *ncer); // ov0_0216974C
 
 public:
     int m_arg;

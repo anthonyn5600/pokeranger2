@@ -1,7 +1,8 @@
 #include <nitro.h>
 
 #include "CGame.hpp"
-#include "UnkClass_0211D850.hpp"
+#include "FieldScreenEffectManage.hpp"
+#include "MathUtil.hpp"
 #include "field/CFieldActor.hpp"
 #include "field/CFieldEffect.hpp"
 #include "field/CFieldEffectManage.hpp"
@@ -13,7 +14,6 @@
 #include "field/CFieldPartner.hpp"
 #include "field/CFieldPlayer.hpp"
 #include "field/CFieldPokeMove.hpp"
-#include "sub_02007254.hpp"
 
 extern CFieldPlayer *MAIN_BSS_0210CA48;
 extern CFieldEffectManage *MAIN_BSS_0210CA60;

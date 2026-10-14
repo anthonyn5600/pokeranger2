@@ -2,19 +2,19 @@
 
 #include <nitro.h>
 
-#include "UnkClass_0200D3F8.hpp"
+#include "CameraController.hpp"
 #include "heap.hpp"
 
 extern "C" {
-void sub_0201135C(UnkClass_0201164C *obj);
-void sub_02011394(UnkClass_0201164C *obj, UnkClass_02033F04 *scriptManager, UnkClass_020091E8 *textboxData);
-void sub_02015198(UnkClass_020B26A0 *obj);
-void sub_02018E1C(void *obj);
-void sub_0201926C(void *obj, int index, s32 value);
-s32 sub_02019278(void *obj, int index);
-void sub_02034384(UnkClass_02033F04 *scriptManager);
+void MissionQuestData_Clear(MissionQuestData *obj);
+void MissionQuestData_Init(MissionQuestData *obj, ScriptManager *scriptManager, TextboxManager *textboxData);
+void SaveData_Init(SaveData *obj);
+void GlobalValues_Init(void *obj);
+void GlobalValues_Set(void *obj, int index, s32 value);
+s32 GlobalValues_Get(void *obj, int index);
+void ScriptManager_Update(ScriptManager *scriptManager);
 
-extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
+extern SaveData MAIN_BSS_020B26A0;
 extern u8 MAIN_BSS_0210C0B0[];
 }
 
@@ -29,22 +29,22 @@ static inline void ResetTimers()
     sub_0201128C(&MAIN_BSS_020AF598);
 }
 
-void CGame::sub_0200FA74()
+void CGame::ResetSaveState()
 {
-    sub_0201135C(m_missionQuestData);
-    sub_02018E1C(unk_14B4);
-    sub_02015198(unk_14A4);
+    MissionQuestData_Clear(m_missionQuestData);
+    GlobalValues_Init(unk_14B4);
+    SaveData_Init(unk_14A4);
 }
 
 void CGame::sub_0200FAA4()
 {
-    sub_0200FA74();
+    ResetSaveState();
     ResetTimers();
 }
 
 void CGame::sub_0200FAEC()
 {
-    sub_0200FA74();
+    ResetSaveState();
     for (int i = 0; i < 0x20; i++) {
         m_vblankCallbacks[i] = NULL;
     }
@@ -55,17 +55,17 @@ void CGame::sub_0200FB28()
 {
     sub_0200FAEC();
     unk_0008 = -1;
-    m_audioEngine->sub_02034B9C(0);
+    m_audioEngine->StopBgmReset(0);
 }
 
 CGame::CGame()
 {
     sInstance = this;
 
-    unk_0014 = new UnkClass_02001C04();
+    unk_0014 = new PadInput();
     touchPanel = new CTouchPanel();
     touchPanelEmulator = new CTPEmulator();
-    sub_02010178(0);
+    SetTouchPanelMode(0);
     unk_14A8 = 0;
 
     NNS_GfdInitVramTransferManager(m_vramTransferTasks, 0x80);
@@ -80,39 +80,39 @@ CGame::CGame()
         unk_0824[i].attr0 = 0x200;
     }
 
-    unk_0C24 = new UnkClass_020023EC();
-    unk_0C28 = new UnkClass_020023EC();
-    unk_1434 = new UnkClass_02010470(unk_14A8);
-    unk_1438 = new UnkClass_02010D2C(0);
-    unk_143C = new UnkClass_02010854();
+    unk_0C24 = new BGFontPrinter();
+    unk_0C28 = new BGFontPrinter();
+    unk_1434 = new PokeIdTable(unk_14A8);
+    unk_1438 = new DiskHPTable(0);
+    unk_143C = new BattleStartParam();
     unk_1440 = new UnkClass_02010C3C();
     unk_1444 = new CBattleResultParameter();
-    unk_14CC = new UnkClass_02041C80("data/field/fielddata.bin", 0);
+    unk_14CC = new FieldData("data/field/fielddata.bin", 0);
     MATHRandContext32 *ctx32 = &m_rand32;
     MATH_InitRand32(ctx32, 0x1234);
     MATHRandContext16 *ctx16 = &m_rand16;
     MATH_InitRand16(ctx16, 0x4321);
     unk_0000 = 0;
-    unk_146C.sub_02008DB4(30);
+    unk_146C.SetFps(30);
 
-    m_audioEngine = new UnkClass_02034478();
-    unk_14AC = new UnkClass_0200CFF4(1);
-    unk_14B0 = new UnkClass_02018208();
-    m_textboxData = new UnkClass_020091E8();
-    unk_1494 = new UnkClass_0200C38C(&unk_14AC->unk_14, unk_14B0);
-    unk_1498 = new UnkClass_0200CAB4(&unk_14AC->unk_14, unk_14B0);
-    m_scriptManager = new UnkClass_02033F04(unk_14A8);
+    m_audioEngine = new AudioEngine();
+    unk_14AC = new FontSet(1);
+    unk_14B0 = new NameTables();
+    m_textboxData = new TextboxManager();
+    unk_1494 = new TextPrinter(&unk_14AC->unk_14, unk_14B0);
+    unk_1498 = new SubTextPrinter(&unk_14AC->unk_14, unk_14B0);
+    m_scriptManager = new ScriptManager(unk_14A8);
     m_missionQuestData = &MAIN_BSS_020B2638;
-    sub_02011394(m_missionQuestData, m_scriptManager, m_textboxData);
+    MissionQuestData_Init(m_missionQuestData, m_scriptManager, m_textboxData);
     unk_14A4 = &MAIN_BSS_020B26A0;
     unk_14B4 = MAIN_BSS_0210C0B0;
-    sub_02018E1C(unk_14B4);
+    GlobalValues_Init(unk_14B4);
 
-    unk_14B8 = new UnkClass_0200D3F8(NULL);
-    unk_14BC = new UnkClass_0200E0B4(1, 0x10);
-    unk_14C0 = new UnkClass_0200E0B4(2, 0x10);
-    unk_14C4 = new UnkClass_0200E330(1);
-    unk_14C8 = new UnkClass_0200E330(2);
+    unk_14B8 = new CameraController(NULL);
+    unk_14BC = new BrightnessFade(1, 0x10);
+    unk_14C0 = new BrightnessFade(2, 0x10);
+    unk_14C4 = new WindowWipe(1);
+    unk_14C8 = new WindowWipe(2);
     unk_15D4 = 1;
     unk_15D0 = 0;
     unk_15D8 = new UnkClass_0200FA5C();
@@ -125,9 +125,9 @@ CGame *CGame::GetInstance()
     return sInstance;
 }
 
-void CGame::sub_0201002C()
+void CGame::OnVBlank()
 {
-    unk_146C.sub_02008E68();
+    unk_146C.SampleTick();
 
     if (unk_15E0) {
         for (int i = 0; i < 0x20; i++) {
@@ -137,19 +137,19 @@ void CGame::sub_0201002C()
             }
         }
         NNS_GfdDoVramTransfer();
-        sub_020102E8();
+        InitVramTransfer();
     }
 
-    unk_14BC->sub_0200E2D4();
-    unk_14C0->sub_0200E2D4();
+    unk_14BC->UpdateAndApply();
+    unk_14C0->UpdateAndApply();
     unk_14C4->sub_0200E4A8();
     unk_14C8->sub_0200E4A8();
     // VCOUNT is read and dropped (likely a debug print stripped from the final build)
     GX_GetVCount();
-    unk_146C.sub_02008E58();
+    unk_146C.CountVBlank();
 }
 
-BOOL CGame::sub_020100E4(CGame_020100E4_arg0 callback, void *arg)
+BOOL CGame::AddVBlankCallback(CGame_020100E4_arg0 callback, void *arg)
 {
     for (int i = 0; i < 0x20; i++) {
         if (m_vblankCallbacks[i] == NULL) {
@@ -161,17 +161,17 @@ BOOL CGame::sub_020100E4(CGame_020100E4_arg0 callback, void *arg)
     return FALSE;
 }
 
-void CGame::sub_02010124()
+void CGame::UpdateSystems()
 {
-    sub_02034384(m_scriptManager);
-    m_textboxData->sub_0200A118();
-    unk_14B8->sub_0200D9CC();
-    unk_14C4->sub_0200E44C();
-    unk_14C8->sub_0200E44C();
-    m_audioEngine->sub_0203459C();
+    ScriptManager_Update(m_scriptManager);
+    m_textboxData->Update();
+    unk_14B8->Update();
+    unk_14C4->Update();
+    unk_14C8->Update();
+    m_audioEngine->Main();
 }
 
-CTouchPanel *CGame::sub_02010178(int mode)
+CTouchPanel *CGame::SetTouchPanelMode(int mode)
 {
     CTouchPanel *prev = activeTouchPanel;
     switch (mode) {
@@ -191,7 +191,7 @@ void *CGame::operator new(size_t size)
     return Heap_AllocSecondary(size);
 }
 
-void CGame::sub_020101B4(char *label)
+void CGame::PrintHeapInfo(char *label)
 {
     NNSFndHeapHandle *heap = Heap_GetSecondaryHandle();
     NNS_FndGetTotalFreeSizeForExpHeap(*heap);
@@ -201,27 +201,27 @@ void CGame::sub_020101B4(char *label)
     NNS_FndGetAllocatableSizeForExpHeapEx(*heap, 4);
 }
 
-void CGame::sub_020101F4(u32 texSize, u32 texSize4x4, u32 plttSize)
+void CGame::InitVramManagers(u32 texSize, u32 texSize4x4, u32 plttSize)
 {
     NNS_GfdInitLnkTexVramManager(texSize, texSize4x4, m_texVramWork, NNS_GfdGetLnkTexVramManagerWorkSize(0x20), TRUE);
     NNS_GfdInitLnkPlttVramManager(plttSize, m_plttVramWork, NNS_GfdGetLnkPlttVramManagerWorkSize(0x20), TRUE);
 }
 
-void CGame::sub_0201024C()
+void CGame::ApplyTextSettings()
 {
-    m_textboxData->unk_070 = sub_02019278(unk_14B4, 1);
-    m_textboxData->unk_074 = sub_02019278(unk_14B4, 2);
+    m_textboxData->unk_070 = GlobalValues_Get(unk_14B4, 1);
+    m_textboxData->unk_074 = GlobalValues_Get(unk_14B4, 2);
 }
 
-void CGame::sub_0201028C()
+void CGame::UpdateBarScroll()
 {
-    unk_15D0 += 0x1E000 / unk_146C.sub_02008E50();
+    unk_15D0 += 0x1E000 / unk_146C.GetFps();
     if (unk_15D0 > 0xD0000 || unk_15D0 < -0x10000) {
         unk_15D0 = -0x10000;
     }
 }
 
-void CGame::sub_020102E8()
+void CGame::InitVramTransfer()
 {
     NNS_GfdInitVramTransferManager(m_vramTransferTasks, 0x80);
     for (int i = 0; i < 0x20; i++) {
@@ -231,42 +231,42 @@ void CGame::sub_020102E8()
 
 void CGame::sub_02010324()
 {
-    UnkClass_02034478 *audio = m_audioEngine;
+    AudioEngine *audio = m_audioEngine;
     s32 c4 = audio->unk_C4;
     s32 d0 = audio->unk_D0;
     s32 f0 = audio->unk_F0;
-    sub_0201926C(unk_14B4, 5, c4);
-    sub_0201926C(unk_14B4, 6, d0);
-    sub_0201926C(unk_14B4, 0x1A, f0);
+    GlobalValues_Set(unk_14B4, 5, c4);
+    GlobalValues_Set(unk_14B4, 6, d0);
+    GlobalValues_Set(unk_14B4, 0x1A, f0);
 }
 
 BOOL CGame::sub_02010378()
 {
-    s32 v5 = sub_02019278(unk_14B4, 5);
-    s32 v6 = sub_02019278(unk_14B4, 6);
-    s32 v1A = sub_02019278(unk_14B4, 0x1A);
+    s32 v5 = GlobalValues_Get(unk_14B4, 5);
+    s32 v6 = GlobalValues_Get(unk_14B4, 6);
+    s32 v1A = GlobalValues_Get(unk_14B4, 0x1A);
     if (v1A < 0) {
         return FALSE;
     }
-    m_audioEngine->sub_0203499C(v5);
-    m_audioEngine->sub_02034A40(v6, 0);
+    m_audioEngine->LoadBgmGroup(v5);
+    m_audioEngine->PlayBgm(v6, 0);
     m_audioEngine->sub_02034F4C(v1A);
     return TRUE;
 }
 
 void CGame::sub_02010400()
 {
-    sub_0201926C(unk_14B4, 5, 0);
-    sub_0201926C(unk_14B4, 6, 0);
-    sub_0201926C(unk_14B4, 0x1A, -1);
+    GlobalValues_Set(unk_14B4, 5, 0);
+    GlobalValues_Set(unk_14B4, 6, 0);
+    GlobalValues_Set(unk_14B4, 0x1A, -1);
 }
 
 void CGame::sub_02010448()
 {
 }
 
-void CGame::sub_0201044C()
+void CGame::FreeTextWindows()
 {
-    unk_1494->sub_0200C3D0();
-    unk_1498->sub_0200CAE0();
+    unk_1494->FreeWindows();
+    unk_1498->FreeWindows();
 }

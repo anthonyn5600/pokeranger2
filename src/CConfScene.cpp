@@ -3,21 +3,21 @@
 #include <nitro.h>
 #include <nnsys.h>
 
+#include "AudioEngine.hpp"
+#include "BGLayer.hpp"
 #include "CGame.hpp"
 #include "CTouchPanel.hpp"
-#include "UnkClass_02001C04.hpp"
-#include "UnkClass_020091E8.hpp"
-#include "UnkClass_0200CAB4.hpp"
-#include "UnkClass_0200E960.hpp"
-#include "UnkClass_0200ECD0.hpp"
-#include "UnkClass_0201FC80.hpp"
-#include "UnkClass_02034478.hpp"
+#include "Collision.hpp"
+#include "OamSprite.hpp"
+#include "OamSpriteSet.hpp"
+#include "PadInput.hpp"
+#include "SubTextPrinter.hpp"
+#include "TextboxManager.hpp"
 #include "common.hpp"
 #include "file/CBinaryFileMes.hpp"
 #include "primitive/CPrimitiveSPHERE.hpp"
-#include "sub_02006000.hpp"
 
-static inline UnkClass_0200CAB4 *GetPrinter(CGame *game)
+static inline SubTextPrinter *GetPrinter(CGame *game)
 {
     return game->unk_1498;
 }
@@ -100,18 +100,18 @@ void CConfScene::ov3_02121674()
 void CConfScene::ov3_021216A8()
 {
     TextWindow win = { 24, 4, 4, 19, 0, 4, 6 };
-    UnkClass_0200CAB4 *printer = GetPrinter(m_game);
-    printer->sub_0200CAE0();
-    printer->sub_0200CB14();
-    printer->sub_0200CC88(1);
-    printer->sub_0200CCD0(0, win.width, win.height, win.left, win.top, 0x20, 0, 2);
-    printer->sub_0200CDA0(0, win.x, win.y, win.color, unk_2C->unk_08[38].unk_04, FALSE, 0);
+    SubTextPrinter *printer = GetPrinter(m_game);
+    printer->FreeWindows();
+    printer->SetupBG();
+    printer->AllocWindows(1);
+    printer->InitWindow(0, win.width, win.height, win.left, win.top, 0x20, 0, 2);
+    printer->Print(0, win.x, win.y, win.color, unk_2C->unk_08[38].unk_04, FALSE, 0);
 }
 
 void CConfScene::func6()
 {
     ov3_02121674();
-    unk_1C = new UnkClass_0201FC80((int)m_game);
+    unk_1C = new BGLayer((int)m_game);
     unk_1C->SetBG(5);
     unk_1C->LoadArchive("menu/", "title004_bg_");
     unk_1C->LoadChar("title004", 0, 0, 0);
@@ -157,15 +157,15 @@ void CConfScene::func6()
 
 void CConfScene::ov3_021219BC()
 {
-    unk_28 = new UnkClass_0200ECD0((GXOamAttr *)&m_game->unk_0424[0x18], m_game->unk_14A8, TRUE, 0x40);
-    unk_28->sub_0200EE14("data/menu", "title003_00", 0, 0);
+    unk_28 = new OamSpriteSet((GXOamAttr *)&m_game->unk_0424[0x18], m_game->unk_14A8, TRUE, 0x40);
+    unk_28->Load("data/menu", "title003_00", 0, 0);
 }
 
 void CConfScene::ov3_02121A28()
 {
-    unk_20 = unk_28->sub_0200F4FC(0, 0x40, 0x60, 0);
+    unk_20 = unk_28->AddSprite(0, 0x40, 0x60, 0);
     unk_10 = unk_28->unk_24;
-    unk_24 = unk_28->sub_0200F4FC(1, 0xC0, 0x60, 0);
+    unk_24 = unk_28->AddSprite(1, 0xC0, 0x60, 0);
     unk_14 = unk_28->unk_24;
 }
 
@@ -192,7 +192,7 @@ u32 CConfScene::func0()
 {
     int ret = -1;
     ov3_02121B4C(unk_18);
-    unk_28->sub_0200F64C();
+    unk_28->Update();
 
     if ((u16)(m_game->unk_0014->unk_0002 & PAD_BUTTON_A)) {
         ret = 34;
@@ -213,19 +213,19 @@ u32 CConfScene::func0()
             unk_18 = FX32_ONE;
         }
     } else if (tp->unk_04 != 0) {
-        if (sub_02006100(touch, unk_30->m_circle)) {
+        if (PointInCircle(touch, unk_30->m_circle)) {
             unk_18 = 0x1400;
-            unk_20->sub_0200EB34(1, FALSE);
+            unk_20->SetAffine(1, FALSE);
             unk_24->unk_14 = 0;
             m_flags |= 1;
-            m_audioEngine->sub_02034C44(0xFF);
+            m_audioEngine->PlaySe(0xFF);
         }
-        if (sub_02006100(touch, unk_34->m_circle)) {
+        if (PointInCircle(touch, unk_34->m_circle)) {
             unk_18 = 0x1400;
-            unk_24->sub_0200EB34(1, FALSE);
+            unk_24->SetAffine(1, FALSE);
             unk_20->unk_14 = 0;
             m_flags |= 2;
-            m_audioEngine->sub_02034C44(0x100);
+            m_audioEngine->PlaySe(0x100);
         }
     }
     return ret;
@@ -237,7 +237,7 @@ void CConfScene::func1()
 
 void CConfScene::func2()
 {
-    unk_28->sub_0200F71C();
+    unk_28->WriteOam();
 }
 
 u32 CConfScene::getSceneId()

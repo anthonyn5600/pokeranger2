@@ -1,8 +1,8 @@
 #include "scene/CScene.hpp"
 
 #include "CGame.hpp"
+#include "DisplayUtil.hpp"
 #include "main.hpp"
-#include "sub_02007CF0.hpp"
 
 CScene::CScene()
 {
@@ -14,7 +14,7 @@ CScene::~CScene()
 
 void CScene::func4()
 {
-    CGame::GetInstance()->sub_02010124();
+    CGame::GetInstance()->UpdateSystems();
 }
 
 void CScene::func2()
@@ -25,5 +25,5 @@ void CScene::func2()
 void CScene::func3()
 {
     sub_02007D78();
-    sub_02007D98();
+    LoadOam();
 }

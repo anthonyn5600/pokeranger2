@@ -3,12 +3,12 @@
 
 #include <nitro.h>
 
+#include "ActorMotion.hpp"
 #include "CActorData.hpp"
-#include "UnkClass_02008788.hpp"
-#include "UnkClass_0201179C.hpp"
+#include "CellAnimController.hpp"
+#include "Collision.hpp"
 #include "common.hpp"
 #include "primitive/CSoftwareSprite.hpp"
-#include "sub_02006000.hpp"
 
 struct CActorGhost {
     u8 active;
@@ -52,51 +52,51 @@ public:
     virtual void vfunc_0C(Camera2D *camera) = 0;
     virtual void vfunc_10(Camera2D *camera) = 0;
 
-    void sub_02011FF4(CActorData *data);
-    void sub_020120B0();
-    void sub_02012114(int arg0, int arg1);
-    void sub_02012184(int arg0, int arg1, fx32 speed);
-    void sub_020121F4();
-    void sub_02012340();
+    void SetData(CActorData *data);
+    void ClearData();
+    void SetAnim(int arg0, int arg1);
+    void SetAnimWithSpeed(int arg0, int arg1, fx32 speed);
+    void Update();
+    void UpdateMotion();
     void sub_020123AC();
-    void sub_020123FC();
-    void sub_02012470();
-    void sub_020124BC();
+    void UpdateJump();
+    void UpdateBob();
+    void UpdateDirection();
     void sub_020125FC();
-    void sub_02012648();
-    void sub_0201267C(CActorTween8 *tween);
-    void sub_020126C8();
-    void sub_02012710(CActorTween32 *tween);
-    void sub_02012750();
-    void sub_02012784(CActorTween16 *tween);
+    void UpdateAlphaTween();
+    void StepTween8(CActorTween8 *tween);
+    void UpdateScaleTween();
+    void StepTween32(CActorTween32 *tween);
+    void UpdateTween16();
+    void StepTween16(CActorTween16 *tween);
     void sub_020127D0(fx32 value, int duration);
     void sub_02012808(fx32 value, fx32 speed);
-    void sub_02012860(fx32 height, int duration);
-    void sub_0201287C();
-    void sub_02012894(Point2D target);
-    void sub_020128C0(u16 speed);
-    void sub_020128D8();
-    void sub_020128EC(u16 dir);
-    void sub_02012948(Point2D target);
-    void sub_02012990(u16 dir, s16 speed);
-    void sub_020129F4(int duration, u8 alpha);
-    void sub_02012A3C(int duration, fx32 scaleX, fx32 scaleY);
+    void Jump(fx32 height, int duration);
+    void FaceMoveDir();
+    void LookAt(Point2D target);
+    void Spin(u16 speed);
+    void FixDir();
+    void SetDir(u16 dir);
+    void FaceToward(Point2D target);
+    void TurnTo(u16 dir, s16 speed);
+    void FadeAlpha(int duration, u8 alpha);
+    void ScaleTo(int duration, fx32 scaleX, fx32 scaleY);
     void sub_02012AA8(int duration, u16 value);
     int sub_02012AFC();
-    void sub_02012B48(CActorGhost *ghost);
-    void sub_02012B68(int interval, int life, BOOL fadeAlpha, int alphaStep, u8 fadeScale, fx32 scaleStep);
-    void sub_02012C00();
-    int sub_02012C10();
-    void sub_02012C4C();
-    BOOL sub_02012D88();
-    u8 sub_02012D9C(int index);
-    CSoftwareSprite *sub_02012DA8();
-    int sub_02012DB0(int index);
-    fx32 sub_02012DC0(int index);
+    void ResetGhost(CActorGhost *ghost);
+    void StartGhosts(int interval, int life, BOOL fadeAlpha, int alphaStep, u8 fadeScale, fx32 scaleStep);
+    void StopGhosts();
+    int AllocGhost();
+    void UpdateGhosts();
+    BOOL IsGhosting();
+    u8 IsGhostActive(int index);
+    CSoftwareSprite *GetSprites();
+    int GetGhostAlpha(int index);
+    fx32 GetGhostScale(int index);
     u16 sub_02012DD0();
     u8 sub_02012E1C();
     void sub_02012E68();
-    void sub_02012F5C(Point2D *end, Point2D *ctrl, int speed);
+    void MoveCurveAtSpeed(Point2D *end, Point2D *ctrl, int speed);
 
     inline BOOL HasData()
     {
@@ -108,7 +108,7 @@ public:
         if (m_data != NULL) {
             CActorAnim *anim = m_data->GetAnim(unk_C0);
             if (anim != NULL && anim->bank != NULL) {
-                return *(Point2D *)anim->bank->sub_02008844(unk_C8[unk_C0]);
+                return *(Point2D *)anim->bank->GetOffsets(unk_C8[unk_C0]);
             }
         }
         return (Point2D) { 0, 0 };
@@ -118,7 +118,7 @@ public:
     u16 m_flags;
     u8 unk_06[0x2];
     fx32 m_speed;
-    UnkClass_0201179C m_motion;
+    ActorMotion m_motion;
     u8 m_dirMode;
     u16 m_dir;
     BOOL m_turning;

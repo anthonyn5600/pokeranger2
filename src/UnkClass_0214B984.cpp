@@ -10,19 +10,19 @@
 #include <nitro.h>
 #include <string.h>
 
+#include "BrightnessFade.hpp"
 #include "CGame.hpp"
 #include "CPlayerHPGauge.hpp"
-#include "UnkClass_02008E88.hpp"
-#include "UnkClass_020091E8.hpp"
-#include "UnkClass_0200E0B4.hpp"
-#include "UnkClass_0201164C.hpp"
-#include "UnkClass_02018DF4.hpp"
-#include "UnkClass_02022404.hpp"
+#include "DebugProcess.hpp"
+#include "FieldDebugMenu.hpp"
+#include "FieldEventRectManage.hpp"
+#include "FieldScreenEffectManage.hpp"
+#include "FieldSubScreen.hpp"
+#include "GlobalValues.hpp"
+#include "MissionQuestData.hpp"
+#include "SaveData.hpp"
+#include "TextboxManager.hpp"
 #include "UnkClass_02041D80.hpp"
-#include "UnkClass_020B26A0.hpp"
-#include "UnkClass_0211D850.hpp"
-#include "UnkClass_0213DDCC.hpp"
-#include "UnkClass_0214F9DC.hpp"
 #include "UnkStruct_020107A8.hpp"
 #include "common.hpp"
 #include "field/CFieldEffect.hpp"
@@ -38,27 +38,27 @@
 #include "scene/CFieldScene.hpp"
 
 extern UnkClass_0214B984 *MAIN_BSS_0210CA68;
-extern UnkClass_0214F9DC *MAIN_BSS_0210CA80;
-extern UnkClass_02041C80 *MAIN_BSS_0210CA6C;
-extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
+extern FieldDebugMenu *MAIN_BSS_0210CA80;
+extern FieldData *MAIN_BSS_0210CA6C;
+extern SaveData MAIN_BSS_020B26A0;
 extern CFieldScene *MAIN_BSS_0210CA40;
 extern CFieldPlayer *MAIN_BSS_0210CA48;
 extern CFieldTargetObjectManage *MAIN_BSS_0210CA7C;
 extern CFieldPartnerManage *MAIN_BSS_0210CA4C;
-extern UnkClass_0213DDCC *MAIN_BSS_0210CA58;
+extern FieldEventRectManage *MAIN_BSS_0210CA58;
 extern CFieldEffectManage *MAIN_BSS_0210CA60;
-extern UnkClass_0211D850 *MAIN_BSS_0210CA78;
+extern FieldScreenEffectManage *MAIN_BSS_0210CA78;
 
 extern "C" {
-BOOL sub_02015434(UnkClass_020B26A0 *save, int mapId, int idx);
-BOOL sub_02015C78(UnkClass_020B26A0 *save, u32 id, int kind, int arg3);
-void sub_0201164C(UnkClass_0201164C *missionQuestData, u32 chapter);
+BOOL sub_02015434(SaveData *save, int mapId, int idx);
+BOOL sub_02015C78(SaveData *save, u32 id, int kind, int arg3);
+void MissionQuestData_SetChapter(MissionQuestData *missionQuestData, u32 chapter);
 void LogInfo(const char *fmt, ...);
-void sub_02011540(UnkClass_0201164C *obj, int quest);
-void sub_020115F8(UnkClass_0201164C *obj);
-void sub_02016C40(UnkClass_020B26A0 *save, int idx, int count);
-void sub_02016EF0(UnkClass_020B26A0 *save, int idx, u32 value);
-void sub_02018148(UnkClass_020B26A0 *save, u32 hours, u8 minutes, u8 seconds);
+void sub_02011540(MissionQuestData *obj, int quest);
+void sub_020115F8(MissionQuestData *obj);
+void SaveData_SetPartsLevel(SaveData *save, int idx, int count);
+void SaveData_SetPartnerCount(SaveData *save, int idx, u32 value);
+void SaveData_SetPlayTime(SaveData *save, u32 hours, u8 minutes, u8 seconds);
 }
 
 struct UnkStruct_0208AC1C {
@@ -85,22 +85,22 @@ UnkClass_0214B984::~UnkClass_0214B984()
     MAIN_BSS_0210CA68 = NULL;
 }
 
-static inline u32 GetPokemonState(UnkClass_020B26A0 *save, int i)
+static inline u32 GetPokemonState(SaveData *save, int i)
 {
     if (i >= 0 && i < 500) {
-        return (save->unk_7C3C[i >> 4] >> ((i & 0xF) * 2)) & 3;
+        return (save->m_pokemonStates[i >> 4] >> ((i & 0xF) * 2)) & 3;
     }
     return 0;
 }
 
-static inline void SetPokemonState(UnkClass_020B26A0 *save, int i, u32 state)
+static inline void SetPokemonState(SaveData *save, int i, u32 state)
 {
     int shift = (i & 0xF) * 2;
-    save->unk_7C3C[i >> 4] &= ~(3 << shift);
-    save->unk_7C3C[i >> 4] |= state << shift;
+    save->m_pokemonStates[i >> 4] &= ~(3 << shift);
+    save->m_pokemonStates[i >> 4] |= state << shift;
 }
 
-static inline void RaisePokemonState(UnkClass_020B26A0 *save, int i, u32 state)
+static inline void RaisePokemonState(SaveData *save, int i, u32 state)
 {
     if (i >= 0 && i < 500) {
         if (GetPokemonState(save, i) < state) {
@@ -109,18 +109,18 @@ static inline void RaisePokemonState(UnkClass_020B26A0 *save, int i, u32 state)
     }
 }
 
-static inline u32 GetCaptureState(UnkClass_020B26A0 *save, int group, int i)
+static inline u32 GetCaptureState(SaveData *save, int group, int i)
 {
     if (group >= 0 && group < 3 && i >= 0 && i < 64) {
-        return (save->unk_7F30[group][i / 16] >> ((i & 0xF) * 2)) & 3;
+        return (save->m_encyclopediaStates[group][i / 16] >> ((i & 0xF) * 2)) & 3;
     }
     return 0;
 }
 
-static inline u32 GetEncState(UnkClass_020B26A0 *save, int group, int i)
+static inline u32 GetEncState(SaveData *save, int group, int i)
 {
     if (i >= 0 && i < 64) {
-        return (save->unk_7F30[group][i / 16] >> ((i & 0xF) * 2)) & 3;
+        return (save->m_encyclopediaStates[group][i / 16] >> ((i & 0xF) * 2)) & 3;
     }
     return 0;
 }
@@ -136,19 +136,19 @@ static inline BOOL IsBrowserEntry(int i)
     return TRUE;
 }
 
-static inline void SetBrowserState(UnkClass_020B26A0 *save, int i, u8 state)
+static inline void SetBrowserState(SaveData *save, int i, u8 state)
 {
     if (i >= 0 && i < 500 && state <= 3) {
         int shift = (i & 0xF) * 2;
-        save->unk_7C3C[i >> 4] &= ~(3 << shift);
-        save->unk_7C3C[i >> 4] |= (state & 3) << shift;
+        save->m_pokemonStates[i >> 4] &= ~(3 << shift);
+        save->m_pokemonStates[i >> 4] |= (state & 3) << shift;
     }
 }
 
-static inline int GetQuestState(UnkClass_0201164C *quests, int quest)
+static inline int GetQuestState(MissionQuestData *quests, int quest)
 {
     int state = 0;
-    u8 flags = quests->unk_14[quest];
+    u8 flags = quests->m_questStates[quest];
     switch (flags & 0xF) {
     case 1:
         if (flags & 0x10) {
@@ -483,7 +483,7 @@ const char *ov0_0214B9B0(int id)
 {
     strcpy(sMapName, "error");
     if (MAIN_BSS_0210CA6C != NULL) {
-        UnkStruct_02041D80 *map = sub_02041D80(MAIN_BSS_0210CA6C, id);
+        UnkStruct_02041D80 *map = FieldData_GetMap(MAIN_BSS_0210CA6C, id);
         if (map != NULL) {
             if (id > 0) {
                 if (map->unk_02 == 0xFF) {
@@ -510,10 +510,10 @@ int ov0_0214BAAC()
 
 int ov0_0214BACC()
 {
-    return MAIN_BSS_020B26A0.unk_001A;
+    return MAIN_BSS_020B26A0.m_mapId;
 }
 
-void ov0_0214BADC(int mapId)
+void Debug_SetMapJump(int mapId)
 {
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (scene != NULL) {
@@ -525,12 +525,12 @@ void ov0_0214BADC(int mapId)
     }
 }
 
-int ov0_0214BB18()
+int Debug_GetTargetID()
 {
     return sTargetId;
 }
 
-void ov0_0214BB28(int id)
+void Debug_SetTargetID(int id)
 {
     sTargetId = id;
 }
@@ -539,7 +539,7 @@ const char *ov0_0214BB38(int id)
 {
     strcpy(sTargetName, "NONE");
     if (id > 0 && MAIN_BSS_0210CA6C != NULL) {
-        FieldTargetObjectData *data = sub_02041D6C(MAIN_BSS_0210CA6C, id);
+        FieldTargetObjectData *data = FieldData_GetTargetObject(MAIN_BSS_0210CA6C, id);
         if (data != NULL) {
             OS_SPrintf(sTargetName, "%03d)t%03d_%02d", id, data->unk_00, data->unk_02);
         }
@@ -556,7 +556,7 @@ int ov0_0214BBCC()
     return count;
 }
 
-void ov0_0214BBEC(int scriptId)
+void Debug_DoScriptID(int scriptId)
 {
     if (sTargetId == 0) {
         return;
@@ -583,11 +583,11 @@ void ov0_0214BBEC(int scriptId)
     target->SetHomePos(pos);
     target->unk_E0 = 0;
     target->unk_E4 = 0;
-    target->sub_0202E68C(player->unk_14);
+    target->SetLayer(player->unk_14);
     target->unk_20 = 2;
 }
 
-int ov0_0214BDD0()
+int Debug_GetPosx()
 {
     int x = 0;
     CFieldPlayer *player = MAIN_BSS_0210CA48;
@@ -597,7 +597,7 @@ int ov0_0214BDD0()
     return x;
 }
 
-void ov0_0214BE08(int x)
+void Debug_SetPosx(int x)
 {
     CFieldPlayer *player = MAIN_BSS_0210CA48;
     if (player == NULL) {
@@ -607,7 +607,7 @@ void ov0_0214BE08(int x)
     player->ov0_021307B0(NULL, NULL, NULL, NULL, 0);
 }
 
-int ov0_0214BEB0()
+int Debug_GetPosy()
 {
     int y = 0;
     CFieldPlayer *player = MAIN_BSS_0210CA48;
@@ -617,7 +617,7 @@ int ov0_0214BEB0()
     return y;
 }
 
-void ov0_0214BEE8(int y)
+void Debug_SetPosy(int y)
 {
     CFieldPlayer *player = MAIN_BSS_0210CA48;
     if (player == NULL) {
@@ -627,14 +627,14 @@ void ov0_0214BEE8(int y)
     player->ov0_021307B0(NULL, NULL, NULL, NULL, 0);
 }
 
-void ov0_0214BF94(int on)
+void Debug_DoGameend(int on)
 {
     if (on && MAIN_BSS_0210CA40 != NULL) {
         MAIN_BSS_0210CA40->unk_00D0 |= 0x10;
     }
 }
 
-int ov0_0214BFB8()
+int Debug_GetDebprim()
 {
     UnkClass_0214B984 *debug = MAIN_BSS_0210CA68;
     if (debug != NULL && (debug->unk_00 & 1)) {
@@ -644,7 +644,7 @@ int ov0_0214BFB8()
     return 0;
 }
 
-void ov0_0214BFE4(int on)
+void Debug_SetDebprim(int on)
 {
     UnkClass_0214B984 *debug = MAIN_BSS_0210CA68;
     if (debug != NULL) {
@@ -679,99 +679,99 @@ void ov0_0214C040(int on)
     }
 }
 
-int ov0_0214C070()
+int Debug_GetPlyrHP()
 {
-    UnkClass_020B26A0 *save = (UnkClass_020B26A0 *)(void *)&MAIN_BSS_020B26A0;
-    return save != NULL ? save->unk_0001 : 0;
+    SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
+    return save != NULL ? save->m_energy : 0;
 }
 
-void ov0_0214C088(int hp)
+void Debug_SetPlyrHP(int hp)
 {
-    UnkClass_020B26A0 *save = (UnkClass_020B26A0 *)(void *)&MAIN_BSS_020B26A0;
-    save->unk_0001 = hp;
+    SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
+    save->m_energy = hp;
     if (MAIN_BSS_0210CA40 != NULL) {
-        MAIN_BSS_0210CA40->unk_00D8->SetCurrentHP(save->unk_0001);
+        MAIN_BSS_0210CA40->unk_00D8->SetCurrentHP(save->m_energy);
     }
 }
 
-int ov0_0214C0C0()
+int Debug_GetPlyrLvl()
 {
-    UnkClass_020B26A0 *save = (UnkClass_020B26A0 *)(void *)&MAIN_BSS_020B26A0;
-    return save != NULL ? save->unk_87DB : 0;
+    SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
+    return save != NULL ? save->m_stylerLevel : 0;
 }
 
-void ov0_0214C0DC(int level)
+void Debug_SetPlyrLvl(int level)
 {
-    UnkClass_020B26A0 *save = (UnkClass_020B26A0 *)(void *)&MAIN_BSS_020B26A0;
-    sub_020160B8(save, (u8)level);
+    SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
+    SaveData_SetStylerLevel(save, (u8)level);
     if (MAIN_BSS_0210CA40 != NULL) {
-        MAIN_BSS_0210CA40->unk_00D8->SetHP(save->unk_0001, save->unk_0002);
+        MAIN_BSS_0210CA40->unk_00D8->SetHP(save->m_energy, save->m_maxEnergy);
     }
 }
 
-int ov0_0214C120()
+int Debug_GetRangCls()
 {
-    UnkClass_020B26A0 *save = (UnkClass_020B26A0 *)(void *)&MAIN_BSS_020B26A0;
-    return save != NULL ? save->unk_0003 & 0xF : 0;
+    SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
+    return save != NULL ? save->m_rangerClassGrade & 0xF : 0;
 }
 
-void ov0_0214C13C(int rank)
+void Debug_SetRangCls(int rank)
 {
-    UnkClass_020B26A0 *save = (UnkClass_020B26A0 *)(void *)&MAIN_BSS_020B26A0;
-    save->unk_0003 = (save->unk_0003 & 0xF0) | (u8)rank;
-    UnkClass_02022404 *obj = UnkClass_02022404::GetInstance();
+    SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
+    save->m_rangerClassGrade = (save->m_rangerClassGrade & 0xF0) | (u8)rank;
+    FieldSubScreen *obj = FieldSubScreen::GetInstance();
     if (obj != NULL) {
         obj->sub_02022B20();
     }
 }
 
-int ov0_0214C170()
+int Debug_GetRangGrd()
 {
-    UnkClass_020B26A0 *save = (UnkClass_020B26A0 *)(void *)&MAIN_BSS_020B26A0;
-    return save != NULL ? (save->unk_0003 >> 4) & 0xF : 0;
+    SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
+    return save != NULL ? (save->m_rangerClassGrade >> 4) & 0xF : 0;
 }
 
-void ov0_0214C194(int grade)
+void Debug_SetRangGrd(int grade)
 {
-    UnkClass_020B26A0 *save = (UnkClass_020B26A0 *)(void *)&MAIN_BSS_020B26A0;
-    if (((save->unk_0003 >> 4) & 0xF) == (u8)grade) {
+    SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
+    if (((save->m_rangerClassGrade >> 4) & 0xF) == (u8)grade) {
         return;
     }
-    save->unk_0003 = (save->unk_0003 & 0xF) | ((u8)grade << 4);
+    save->m_rangerClassGrade = (save->m_rangerClassGrade & 0xF) | ((u8)grade << 4);
     CFieldPlayer *player = MAIN_BSS_0210CA48;
     if (player == NULL) {
         return;
     }
     Point2D pos = player->GetPos();
-    player->ov0_02132F14(save->unk_0000, (u8)((save->unk_0003 >> 4) & 0xF), save->unk_8B64);
+    player->ov0_02132F14(save->m_sex, (u8)((save->m_rangerClassGrade >> 4) & 0xF), save->m_areaType);
     player->ov0_02132FA0(save->unk_8802);
     player->SetPos(pos);
 }
 
-int ov0_0214C2E8()
+int Debug_GetPlyrSex()
 {
-    UnkClass_020B26A0 *save = (UnkClass_020B26A0 *)(void *)&MAIN_BSS_020B26A0;
-    return save != NULL ? save->unk_0000 : 0;
+    SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
+    return save != NULL ? save->m_sex : 0;
 }
 
-void ov0_0214C300(int sex)
+void Debug_SetPlyrSex(int sex)
 {
-    UnkClass_020B26A0 *save = (UnkClass_020B26A0 *)(void *)&MAIN_BSS_020B26A0;
-    if (save->unk_0000 == (u8)sex) {
+    SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
+    if (save->m_sex == (u8)sex) {
         return;
     }
-    save->unk_0000 = (u8)sex & 1;
+    save->m_sex = (u8)sex & 1;
     CFieldPlayer *player = MAIN_BSS_0210CA48;
     if (player == NULL) {
         return;
     }
     Point2D pos = player->GetPos();
-    player->ov0_02132F14(save->unk_0000, (u8)((save->unk_0003 >> 4) & 0xF), save->unk_8B64);
+    player->ov0_02132F14(save->m_sex, (u8)((save->m_rangerClassGrade >> 4) & 0xF), save->m_areaType);
     player->ov0_02132FA0(save->unk_8802);
     player->SetPos(pos);
 }
 
-int ov0_0214C448()
+int Debug_GetCollFree()
 {
     UnkClass_0214B984 *debug = MAIN_BSS_0210CA68;
     if (debug != NULL && (debug->unk_00 & 2)) {
@@ -780,7 +780,7 @@ int ov0_0214C448()
     return 0;
 }
 
-void ov0_0214C474(int on)
+void Debug_SetCollFree(int on)
 {
     UnkClass_0214B984 *debug = MAIN_BSS_0210CA68;
     if (debug != NULL) {
@@ -797,7 +797,7 @@ void ov0_0214C474(int on)
 const char *ov0_0214C4A0(int kind)
 {
     strcpy(sPokeName, "error");
-    UnkStruct_020107A8 *info = sub_020107A8(s_game->unk_1434, kind);
+    UnkStruct_020107A8 *info = PokeIdTable_Get(s_game->unk_1434, kind);
     if (info != NULL) {
         OS_SPrintf(sPokeName, "%03d)p%03d_%02d", kind, info->unk_00, info->unk_02);
     }
@@ -813,14 +813,14 @@ int ov0_0214C540()
     return count;
 }
 
-int ov0_0214C560()
+int Debug_GetPokeAdd()
 {
     return 0;
 }
 
-void ov0_0214C568(int kind)
+void Debug_SetPokeAdd(int kind)
 {
-    UnkClass_020B26A0 *save = (UnkClass_020B26A0 *)(void *)&MAIN_BSS_020B26A0;
+    SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     u16 slot = 0xFFF;
     for (u16 i = 0; i < 0xFFF; i++) {
         if (!sub_02015434(save, 0xFFF, i)) {
@@ -834,7 +834,7 @@ void ov0_0214C568(int kind)
         partners->ov0_02139920(id, kind, 0xE, 0, 1);
         sub_0203F440(partners);
         if (sub_02034F9C((u16)kind)) {
-            UnkStruct_020155FC *entry = sub_02015520(save, id);
+            UnkStruct_020155FC *entry = SaveData_FindEntry(save, id);
             if (entry != NULL) {
                 entry->unk_08 |= 2;
             }
@@ -842,7 +842,7 @@ void ov0_0214C568(int kind)
     }
 }
 
-int ov0_0214C664()
+int Debug_GetEvArea()
 {
     UnkClass_0214B984 *debug = MAIN_BSS_0210CA68;
     if (debug != NULL && (debug->unk_00 & 4)) {
@@ -851,7 +851,7 @@ int ov0_0214C664()
     return 0;
 }
 
-void ov0_0214C690(int on)
+void Debug_SetEvArea(int on)
 {
     UnkClass_0214B984 *debug = MAIN_BSS_0210CA68;
     if (debug != NULL) {
@@ -862,14 +862,14 @@ void ov0_0214C690(int on)
             flags &= ~4;
         }
         debug->unk_00 = flags;
-        UnkClass_0213DDCC *rects = MAIN_BSS_0210CA58;
+        FieldEventRectManage *rects = MAIN_BSS_0210CA58;
         if (rects != NULL) {
             rects->m_draw = on ? TRUE : FALSE;
         }
     }
 }
 
-int ov0_0214C6E0()
+int Debug_GetEncFree()
 {
     UnkClass_0214B984 *debug = MAIN_BSS_0210CA68;
     if (debug != NULL && (debug->unk_00 & 8)) {
@@ -878,7 +878,7 @@ int ov0_0214C6E0()
     return 0;
 }
 
-void ov0_0214C70C(int on)
+void Debug_SetEncFree(int on)
 {
     UnkClass_0214B984 *debug = MAIN_BSS_0210CA68;
     if (debug != NULL) {
@@ -892,7 +892,7 @@ void ov0_0214C70C(int on)
     }
 }
 
-int ov0_0214C738()
+int Debug_GetProcLoad()
 {
     UnkClass_0214B984 *debug = MAIN_BSS_0210CA68;
     if (debug != NULL && (debug->unk_00 & 0x10)) {
@@ -901,7 +901,7 @@ int ov0_0214C738()
     return 0;
 }
 
-void ov0_0214C764(int on)
+void Debug_SetProcLoad(int on)
 {
     UnkClass_0214B984 *debug = MAIN_BSS_0210CA68;
     if (debug != NULL) {
@@ -917,13 +917,13 @@ void ov0_0214C764(int on)
 
 int ov0_0214C790()
 {
-    return s_game->m_missionQuestData->unk_08;
+    return s_game->m_missionQuestData->m_chapter;
 }
 
-void ov0_0214C7AC(int chapter)
+void Debug_SetChapJump(int chapter)
 {
     CFieldPartnerManage *partners = MAIN_BSS_0210CA4C;
-    UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+    SaveData *save = &MAIN_BSS_020B26A0;
     for (int i = 0; i < 2; i++) {
         UnkStruct_020B26A0_8AD4 *partner = MAIN_BSS_020B26A0.GetPartner(i);
         if (partner != NULL && partner->unk_00 != 0) {
@@ -935,9 +935,9 @@ void ov0_0214C7AC(int chapter)
     }
     const char *name = s_c000First_0208ac1c[chapter].name;
     if (name != NULL) {
-        strcpy(save->unk_8B44, name);
+        strcpy(save->m_saveName, name);
     } else {
-        save->unk_8B44[0] = 0;
+        save->m_saveName[0] = 0;
     }
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (scene != NULL) {
@@ -947,9 +947,9 @@ void ov0_0214C7AC(int chapter)
         scene->unk_0070 = s_c000First_0208ac1c[chapter].y;
         scene->unk_0074 = 0;
     }
-    sub_02018E30((UnkClass_02018DF4 *)s_game->unk_14B4);
-    sub_02018E94((UnkClass_02018DF4 *)s_game->unk_14B4, chapter);
-    sub_0201164C(s_game->m_missionQuestData, chapter);
+    GlobalValues_ClearChapterValues((GlobalValues *)s_game->unk_14B4);
+    GlobalValues_ApplyProgress((GlobalValues *)s_game->unk_14B4, chapter);
+    MissionQuestData_SetChapter(s_game->m_missionQuestData, chapter);
 }
 
 void ov0_0214C900()
@@ -957,20 +957,20 @@ void ov0_0214C900()
     NNS_GfdDumpLnkTexVramManager();
 }
 
-void ov0_0214C90C()
+void Debug_DoPlttVramInfo()
 {
     NNS_GfdDumpLnkPlttVramManager();
 }
 
-void ov0_0214C918()
+void Debug_DoUpperDbgInfo()
 {
-    UnkClass_02022404 *obj = UnkClass_02022404::GetInstance();
+    FieldSubScreen *obj = FieldSubScreen::GetInstance();
     if (obj != NULL) {
         obj->sub_02022D04();
     }
 }
 
-void ov0_0214C930()
+void Debug_DoViewParty()
 {
     LogInfo("****************************************");
     LogInfo("PartyInfo start");
@@ -978,7 +978,7 @@ void ov0_0214C930()
     LogInfo("----------");
     LogInfo("commondata");
     LogInfo("----------");
-    UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+    SaveData *save = &MAIN_BSS_020B26A0;
     LogInfo("----------");
     LogInfo("partnernpc");
     LogInfo("----------");
@@ -986,7 +986,7 @@ void ov0_0214C930()
     LogInfo("partnerpoke");
     LogInfo("----------");
     for (int i = 0; i < 10; i++) {
-        UnkStruct_020155FC *entry = sub_020155FC(save, i);
+        UnkStruct_020155FC *entry = SaveData_GetEntry(save, i);
         if (entry != NULL && (entry->unk_08 & 1)) {
             LogInfo("*******************************");
             LogInfo("arrryindex= %d", i);
@@ -1017,83 +1017,83 @@ void ov0_0214C930()
     LogInfo("****************************************");
 }
 
-int ov0_0214CB2C()
+int Debug_GetWeather()
 {
     return 0;
 }
 
-void ov0_0214CB34(int weather)
+void Debug_SetWeather(int weather)
 {
     LogInfo("****************************************");
     LogInfo("Weather Start");
     LogInfo("****************************************");
-    UnkClass_0211D850 *control = MAIN_BSS_0210CA78;
-    control->sub_020359FC();
+    FieldScreenEffectManage *control = MAIN_BSS_0210CA78;
+    control->ClearPrimary();
     control->sub_02035D38(weather);
-    control->sub_02035DA0(weather, 120, -1, 0);
+    control->StartEffect(weather, 120, -1, 0);
     if (weather != 0) {
         return;
     }
-    ov0_0214C13C(10);
-    ov0_0214C568(218);
-    ov0_0214C568(30);
-    ov0_0214C568(29);
-    ov0_0214C568(20);
-    ov0_0214C568(198);
-    ov0_0214C568(38);
-    ov0_0214C568(38);
+    Debug_SetRangCls(10);
+    Debug_SetPokeAdd(218);
+    Debug_SetPokeAdd(30);
+    Debug_SetPokeAdd(29);
+    Debug_SetPokeAdd(20);
+    Debug_SetPokeAdd(198);
+    Debug_SetPokeAdd(38);
+    Debug_SetPokeAdd(38);
     for (int i = 0; i < 500; i++) {
         RaisePokemonState(&MAIN_BSS_020B26A0, i, 1);
     }
 }
 
-int ov0_0214CC8C()
+int Debug_GetA()
 {
     return CFieldSEFFog::GetDensity();
 }
 
-void ov0_0214CC9C(int density)
+void Debug_SetA(int density)
 {
     CFieldSEFFog::SetDensity(density);
 }
 
-int ov0_0214CCBC()
+int Debug_GetR()
 {
     return CFieldSEFFog::GetColorR();
 }
 
-void ov0_0214CCCC(int r)
+void Debug_SetR(int r)
 {
     CFieldSEFFog::SetColorR(r);
 }
 
-int ov0_0214CCEC()
+int Debug_GetG()
 {
     return CFieldSEFFog::GetColorG();
 }
 
-void ov0_0214CCFC(int g)
+void Debug_SetG(int g)
 {
     CFieldSEFFog::SetColorG(g);
 }
 
-int ov0_0214CD1C()
+int Debug_GetB()
 {
     return CFieldSEFFog::GetColorB();
 }
 
-void ov0_0214CD2C(int b)
+void Debug_SetB(int b)
 {
     CFieldSEFFog::SetColorB(b);
 }
 
-int ov0_0214CD4C()
+int Debug_GetFootStep()
 {
     CFieldEffectManage *manage = MAIN_BSS_0210CA60;
     return manage != NULL ? manage->unk_77C : 0;
 }
 
-void ov0_0214CD68(int value)
+void Debug_SetFootStep(int value)
 {
     CFieldEffectManage *manage = MAIN_BSS_0210CA60;
     if (manage != NULL) {
@@ -1101,12 +1101,12 @@ void ov0_0214CD68(int value)
     }
 }
 
-int ov0_0214CD80()
+int Debug_GetManpu()
 {
     return 0;
 }
 
-void ov0_0214CD88(u32 type)
+void Debug_SetManpu(u32 type)
 {
     CFieldPlayer *player = MAIN_BSS_0210CA48;
     if (player == NULL) {
@@ -1115,16 +1115,16 @@ void ov0_0214CD88(u32 type)
     if (type >= sizeof(sManpuTypes)) {
         return;
     }
-    sub_02041C1C(player);
-    sub_02041A70(player, sManpuTypes[type], -1);
+    Actor_HideManpu(player);
+    Actor_ShowManpu(player, sManpuTypes[type], -1);
 }
 
-int ov0_0214CDD0()
+int Debug_GetTestEff()
 {
     return 0;
 }
 
-void ov0_0214CDD8(int type)
+void Debug_SetTestEff(int type)
 {
     CFieldEffectManage *manage = MAIN_BSS_0210CA60;
     CFieldPlayer *player = MAIN_BSS_0210CA48;
@@ -1204,34 +1204,34 @@ void ov0_0214CDD8(int type)
     }
     fx32 x = player->GetX();
     fx32 y = player->GetY();
-    effect->sub_0203312C(1, x >> FX32_SHIFT);
-    if (effect->sub_02033028() == 0x13) {
-        effect->sub_02033440(0x421F);
-        effect->sub_0203312C(2, y >> FX32_SHIFT);
+    effect->SetParam(1, x >> FX32_SHIFT);
+    if (effect->GetEffectId() == 0x13) {
+        effect->SetColor(0x421F);
+        effect->SetParam(2, y >> FX32_SHIFT);
         effect->ov0_021421F0(0, -1, 0);
         return;
     }
-    if (effect->sub_02033028() == 0x15) {
-        effect->sub_0203312C(2, (y >> FX32_SHIFT) - 0x40);
+    if (effect->GetEffectId() == 0x15) {
+        effect->SetParam(2, (y >> FX32_SHIFT) - 0x40);
         effect->ov0_021421F0(type == 9 ? 5 : 4, 0, 60);
         return;
     }
-    if (effect->sub_02033028() == 0x17) {
-        effect->sub_0203312C(2, y >> FX32_SHIFT);
+    if (effect->GetEffectId() == 0x17) {
+        effect->SetParam(2, y >> FX32_SHIFT);
         effect->ov0_021421F0(0, 30, 180);
         if (type == 11 || type == 13) {
-            CGame::GetInstance()->unk_14BC->sub_0200E0E0(3, 180);
+            CGame::GetInstance()->unk_14BC->Start(3, 180);
         }
         return;
     }
-    if (effect->sub_02033028() == 0x1B) {
-        effect->sub_0203312C(2, y >> FX32_SHIFT);
+    if (effect->GetEffectId() == 0x1B) {
+        effect->SetParam(2, y >> FX32_SHIFT);
         effect->ov0_021421F0(30, 0, 30);
         return;
     }
-    if (effect->sub_02033028() == 0x1E) {
-        effect->sub_0203312C(2, y >> FX32_SHIFT);
-        effect->sub_0203312C(0x1B, (y >> FX32_SHIFT) + 0x40);
+    if (effect->GetEffectId() == 0x1E) {
+        effect->SetParam(2, y >> FX32_SHIFT);
+        effect->SetParam(0x1B, (y >> FX32_SHIFT) + 0x40);
         if (type == 19) {
             effect->ov0_021421F0(60, 180, 150);
         } else {
@@ -1239,276 +1239,276 @@ void ov0_0214CDD8(int type)
         }
         return;
     }
-    effect->sub_0203312C(2, y >> FX32_SHIFT);
+    effect->SetParam(2, y >> FX32_SHIFT);
     effect->ov0_021421F0(0, -1, 0);
 }
 
-int ov0_0214D2CC()
+int Debug_GetNormalG()
 {
-    return sub_02016C14(&MAIN_BSS_020B26A0, 14);
+    return SaveData_GetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_NORMAL_G);
 }
 
-void ov0_0214D2E4(int count)
+void Debug_SetNormalG(int count)
 {
-    sub_02016C40(&MAIN_BSS_020B26A0, 14, count);
+    SaveData_SetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_NORMAL_G, count);
 }
 
-int ov0_0214D300()
+int Debug_GetLeafG()
 {
-    return sub_02016C14(&MAIN_BSS_020B26A0, 0);
+    return SaveData_GetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_LEAF_G);
 }
 
-void ov0_0214D318(int count)
+void Debug_SetLeafG(int count)
 {
-    sub_02016C40(&MAIN_BSS_020B26A0, 0, count);
+    SaveData_SetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_LEAF_G, count);
 }
 
-int ov0_0214D334()
+int Debug_GetAquaG()
 {
-    return sub_02016C14(&MAIN_BSS_020B26A0, 1);
+    return SaveData_GetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_AQUA_G);
 }
 
-void ov0_0214D34C(int count)
+void Debug_SetAquaG(int count)
 {
-    sub_02016C40(&MAIN_BSS_020B26A0, 1, count);
+    SaveData_SetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_AQUA_G, count);
 }
 
-int ov0_0214D368()
+int Debug_GetRockG()
 {
-    return sub_02016C14(&MAIN_BSS_020B26A0, 9);
+    return SaveData_GetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_ROCK_G);
 }
 
-void ov0_0214D380(int count)
+void Debug_SetRockG(int count)
 {
-    sub_02016C40(&MAIN_BSS_020B26A0, 9, count);
+    SaveData_SetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_ROCK_G, count);
 }
 
-int ov0_0214D39C()
+int Debug_GetInsectG()
 {
-    return sub_02016C14(&MAIN_BSS_020B26A0, 7);
+    return SaveData_GetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_INSECT_G);
 }
 
-void ov0_0214D3B4(int count)
+void Debug_SetInsectG(int count)
 {
-    sub_02016C40(&MAIN_BSS_020B26A0, 7, count);
+    SaveData_SetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_INSECT_G, count);
 }
 
-int ov0_0214D3D0()
+int Debug_GetAirG()
 {
-    return sub_02016C14(&MAIN_BSS_020B26A0, 10);
+    return SaveData_GetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_AIR_G);
 }
 
-void ov0_0214D3E8(int count)
+void Debug_SetAirG(int count)
 {
-    sub_02016C40(&MAIN_BSS_020B26A0, 10, count);
+    SaveData_SetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_AIR_G, count);
 }
 
-int ov0_0214D404()
+int Debug_GetFireG()
 {
-    return sub_02016C14(&MAIN_BSS_020B26A0, 3);
+    return SaveData_GetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_FIRE_G);
 }
 
-void ov0_0214D41C(int count)
+void Debug_SetFireG(int count)
 {
-    sub_02016C40(&MAIN_BSS_020B26A0, 3, count);
+    SaveData_SetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_FIRE_G, count);
 }
 
-int ov0_0214D438()
+int Debug_GetFightG()
 {
-    return sub_02016C14(&MAIN_BSS_020B26A0, 4);
+    return SaveData_GetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_FIGHT_G);
 }
 
-void ov0_0214D450(int count)
+void Debug_SetFightG(int count)
 {
-    sub_02016C40(&MAIN_BSS_020B26A0, 4, count);
+    SaveData_SetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_FIGHT_G, count);
 }
 
-int ov0_0214D46C()
+int Debug_GetLightG()
 {
-    return sub_02016C14(&MAIN_BSS_020B26A0, 2);
+    return SaveData_GetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_LIGHT_G);
 }
 
-void ov0_0214D484(int count)
+void Debug_SetLightG(int count)
 {
-    sub_02016C40(&MAIN_BSS_020B26A0, 2, count);
+    SaveData_SetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_LIGHT_G, count);
 }
 
-int ov0_0214D4A0()
+int Debug_GetCroundG()
 {
-    return sub_02016C14(&MAIN_BSS_020B26A0, 8);
+    return SaveData_GetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_GROUND_G);
 }
 
-void ov0_0214D4B8(int count)
+void Debug_SetCroundG(int count)
 {
-    sub_02016C40(&MAIN_BSS_020B26A0, 8, count);
+    SaveData_SetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_GROUND_G, count);
 }
 
-int ov0_0214D4D4()
+int Debug_GetMetalG()
 {
-    return sub_02016C14(&MAIN_BSS_020B26A0, 15);
+    return SaveData_GetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_METAL_G);
 }
 
-void ov0_0214D4EC(int count)
+void Debug_SetMetalG(int count)
 {
-    sub_02016C40(&MAIN_BSS_020B26A0, 15, count);
+    SaveData_SetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_METAL_G, count);
 }
 
-int ov0_0214D508()
+int Debug_GetPoisonG()
 {
-    return sub_02016C14(&MAIN_BSS_020B26A0, 5);
+    return SaveData_GetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_POISON_G);
 }
 
-void ov0_0214D520(int count)
+void Debug_SetPoisonG(int count)
 {
-    sub_02016C40(&MAIN_BSS_020B26A0, 5, count);
+    SaveData_SetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_POISON_G, count);
 }
 
-int ov0_0214D53C()
+int Debug_GetHorrorG()
 {
-    return sub_02016C14(&MAIN_BSS_020B26A0, 12);
+    return SaveData_GetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_HORROR_G);
 }
 
-void ov0_0214D554(int count)
+void Debug_SetHorrorG(int count)
 {
-    sub_02016C40(&MAIN_BSS_020B26A0, 12, count);
+    SaveData_SetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_HORROR_G, count);
 }
 
-int ov0_0214D570()
+int Debug_GetPsychoG()
 {
-    return sub_02016C14(&MAIN_BSS_020B26A0, 6);
+    return SaveData_GetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_PSYCHO_G);
 }
 
-void ov0_0214D588(int count)
+void Debug_SetPsychoG(int count)
 {
-    sub_02016C40(&MAIN_BSS_020B26A0, 6, count);
+    SaveData_SetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_PSYCHO_G, count);
 }
 
-int ov0_0214D5A4()
+int Debug_GetDarkG()
 {
-    return sub_02016C14(&MAIN_BSS_020B26A0, 11);
+    return SaveData_GetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_DARK_G);
 }
 
-void ov0_0214D5BC(int count)
+void Debug_SetDarkG(int count)
 {
-    sub_02016C40(&MAIN_BSS_020B26A0, 11, count);
+    SaveData_SetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_DARK_G, count);
 }
 
-int ov0_0214D5D8()
+int Debug_GetIceG()
 {
-    return sub_02016C14(&MAIN_BSS_020B26A0, 13);
+    return SaveData_GetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_ICE_G);
 }
 
-void ov0_0214D5F0(int count)
+void Debug_SetIceG(int count)
 {
-    sub_02016C40(&MAIN_BSS_020B26A0, 13, count);
+    SaveData_SetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_ICE_G, count);
 }
 
-int ov0_0214D60C()
+int Debug_GetDragonG()
 {
-    return sub_02016C14(&MAIN_BSS_020B26A0, 16);
+    return SaveData_GetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_DRAGON_G);
 }
 
-void ov0_0214D624(int count)
+void Debug_SetDragonG(int count)
 {
-    sub_02016C40(&MAIN_BSS_020B26A0, 16, count);
+    SaveData_SetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_DRAGON_G, count);
 }
 
-int ov0_0214D640()
+int Debug_GetLongLine()
 {
-    return sub_02016C14(&MAIN_BSS_020B26A0, 22);
+    return SaveData_GetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_LONGLINE);
 }
 
-void ov0_0214D658(int count)
+void Debug_SetLongLine(int count)
 {
-    sub_02016C40(&MAIN_BSS_020B26A0, 22, count);
+    SaveData_SetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_LONGLINE, count);
 }
 
-int ov0_0214D674()
+int Debug_GetChgspd()
 {
-    return sub_02016C14(&MAIN_BSS_020B26A0, 24);
+    return SaveData_GetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_CHGSPD);
 }
 
-void ov0_0214D68C(int count)
+void Debug_SetChgspd(int count)
 {
-    sub_02016C40(&MAIN_BSS_020B26A0, 24, count);
+    SaveData_SetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_CHGSPD, count);
 }
 
-int ov0_0214D6A8()
+int Debug_GetSuperchg()
 {
-    return sub_02016C14(&MAIN_BSS_020B26A0, 25);
+    return SaveData_GetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_SUPERCHG);
 }
 
-void ov0_0214D6C0(int count)
+void Debug_SetSuperchg(int count)
 {
-    sub_02016C40(&MAIN_BSS_020B26A0, 25, count);
+    SaveData_SetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_SUPERCHG, count);
 }
 
-int ov0_0214D6DC()
+int Debug_GetAssistt()
 {
-    return sub_02016C14(&MAIN_BSS_020B26A0, 17);
+    return SaveData_GetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_ASSISTT);
 }
 
-void ov0_0214D6F4(int count)
+void Debug_SetAssistt(int count)
 {
-    sub_02016C40(&MAIN_BSS_020B26A0, 17, count);
+    SaveData_SetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_ASSISTT, count);
 }
 
-int ov0_0214D710()
+int Debug_GetSoko()
 {
-    return sub_02016C14(&MAIN_BSS_020B26A0, 18);
+    return SaveData_GetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_SOKO);
 }
 
-void ov0_0214D728(int count)
+void Debug_SetSoko(int count)
 {
-    sub_02016C40(&MAIN_BSS_020B26A0, 18, count);
+    SaveData_SetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_SOKO, count);
 }
 
-int ov0_0214D744()
+int Debug_GetCombo()
 {
-    return sub_02016C14(&MAIN_BSS_020B26A0, 19);
+    return SaveData_GetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_COMBO);
 }
 
-void ov0_0214D75C(int count)
+void Debug_SetCombo(int count)
 {
-    sub_02016C40(&MAIN_BSS_020B26A0, 19, count);
+    SaveData_SetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_COMBO, count);
 }
 
-int ov0_0214D778()
+int Debug_GetRecover()
 {
-    return sub_02016C14(&MAIN_BSS_020B26A0, 20);
+    return SaveData_GetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_RECOVER);
 }
 
-void ov0_0214D790(int count)
+void Debug_SetRecover(int count)
 {
-    sub_02016C40(&MAIN_BSS_020B26A0, 20, count);
+    SaveData_SetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_RECOVER, count);
 }
 
-int ov0_0214D7AC()
+int Debug_GetPowpls()
 {
-    return sub_02016C14(&MAIN_BSS_020B26A0, 23);
+    return SaveData_GetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_POWPLS);
 }
 
-void ov0_0214D7C4(int count)
+void Debug_SetPowpls(int count)
 {
-    sub_02016C40(&MAIN_BSS_020B26A0, 23, count);
+    SaveData_SetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_POWPLS, count);
 }
 
-int ov0_0214D7E0()
+int Debug_GetEnepls()
 {
-    return sub_02016C14(&MAIN_BSS_020B26A0, 21);
+    return SaveData_GetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_ENEPLS);
 }
 
-void ov0_0214D7F8(int count)
+void Debug_SetEnepls(int count)
 {
-    sub_02016C40(&MAIN_BSS_020B26A0, 21, count);
+    SaveData_SetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_ENEPLS, count);
 }
 
-int ov0_0214D814()
+int Debug_GetGonbe()
 {
     return (MAIN_BSS_020B26A0.unk_87C8 & 1) ? 1 : 0;
 }
 
-void ov0_0214D830(int on)
+void Debug_SetGonbe(int on)
 {
     if (on) {
         MAIN_BSS_020B26A0.unk_87C8 |= 1;
@@ -1517,12 +1517,12 @@ void ov0_0214D830(int on)
     }
 }
 
-int ov0_0214D860()
+int Debug_GetHikozaru()
 {
     return (MAIN_BSS_020B26A0.unk_87C8 & 2) ? 1 : 0;
 }
 
-void ov0_0214D87C(int on)
+void Debug_SetHikozaru(int on)
 {
     if (on) {
         MAIN_BSS_020B26A0.unk_87C8 |= 2;
@@ -1531,12 +1531,12 @@ void ov0_0214D87C(int on)
     }
 }
 
-int ov0_0214D8AC()
+int Debug_GetPochama()
 {
     return (MAIN_BSS_020B26A0.unk_87C8 & 4) ? 1 : 0;
 }
 
-void ov0_0214D8C8(int on)
+void Debug_SetPochama(int on)
 {
     if (on) {
         MAIN_BSS_020B26A0.unk_87C8 |= 4;
@@ -1545,12 +1545,12 @@ void ov0_0214D8C8(int on)
     }
 }
 
-int ov0_0214D8F8()
+int Debug_GetNaetle()
 {
     return (MAIN_BSS_020B26A0.unk_87C8 & 8) ? 1 : 0;
 }
 
-void ov0_0214D914(int on)
+void Debug_SetNaetle(int on)
 {
     if (on) {
         MAIN_BSS_020B26A0.unk_87C8 |= 8;
@@ -1559,12 +1559,12 @@ void ov0_0214D914(int on)
     }
 }
 
-int ov0_0214D944()
+int Debug_GetPachirisu()
 {
     return (MAIN_BSS_020B26A0.unk_87C8 & 0x10) ? 1 : 0;
 }
 
-void ov0_0214D960(int on)
+void Debug_SetPachirisu(int on)
 {
     if (on) {
         MAIN_BSS_020B26A0.unk_87C8 |= 0x10;
@@ -1573,12 +1573,12 @@ void ov0_0214D960(int on)
     }
 }
 
-int ov0_0214D990()
+int Debug_GetYukikaburi()
 {
     return (MAIN_BSS_020B26A0.unk_87C8 & 0x20) ? 1 : 0;
 }
 
-void ov0_0214D9AC(int on)
+void Debug_SetYukikaburi(int on)
 {
     if (on) {
         MAIN_BSS_020B26A0.unk_87C8 |= 0x20;
@@ -1587,12 +1587,12 @@ void ov0_0214D9AC(int on)
     }
 }
 
-int ov0_0214D9DC()
+int Debug_GetWanriky()
 {
     return (MAIN_BSS_020B26A0.unk_87C8 & 0x40) ? 1 : 0;
 }
 
-void ov0_0214D9F8(int on)
+void Debug_SetWanriky(int on)
 {
     if (on) {
         MAIN_BSS_020B26A0.unk_87C8 |= 0x40;
@@ -1601,12 +1601,12 @@ void ov0_0214D9F8(int on)
     }
 }
 
-int ov0_0214DA28()
+int Debug_GetGureggru()
 {
     return (MAIN_BSS_020B26A0.unk_87C8 & 0x80) ? 1 : 0;
 }
 
-void ov0_0214DA44(int on)
+void Debug_SetGureggru(int on)
 {
     if (on) {
         MAIN_BSS_020B26A0.unk_87C8 |= 0x80;
@@ -1615,12 +1615,12 @@ void ov0_0214DA44(int on)
     }
 }
 
-int ov0_0214DA74()
+int Debug_GetHippopotas()
 {
     return (MAIN_BSS_020B26A0.unk_87C8 & 0x100) ? 1 : 0;
 }
 
-void ov0_0214DA90(int on)
+void Debug_SetHippopotas(int on)
 {
     if (on) {
         MAIN_BSS_020B26A0.unk_87C8 |= 0x100;
@@ -1629,12 +1629,12 @@ void ov0_0214DA90(int on)
     }
 }
 
-int ov0_0214DAC0()
+int Debug_GetMukkuru()
 {
     return (MAIN_BSS_020B26A0.unk_87C8 & 0x200) ? 1 : 0;
 }
 
-void ov0_0214DADC(int on)
+void Debug_SetMukkuru(int on)
 {
     if (on) {
         MAIN_BSS_020B26A0.unk_87C8 |= 0x200;
@@ -1643,12 +1643,12 @@ void ov0_0214DADC(int on)
     }
 }
 
-int ov0_0214DB0C()
+int Debug_GetManene()
 {
     return (MAIN_BSS_020B26A0.unk_87C8 & 0x400) ? 1 : 0;
 }
 
-void ov0_0214DB28(int on)
+void Debug_SetManene(int on)
 {
     if (on) {
         MAIN_BSS_020B26A0.unk_87C8 |= 0x400;
@@ -1657,12 +1657,12 @@ void ov0_0214DB28(int on)
     }
 }
 
-int ov0_0214DB58()
+int Debug_GetKorobohshi()
 {
     return (MAIN_BSS_020B26A0.unk_87C8 & 0x800) ? 1 : 0;
 }
 
-void ov0_0214DB74(int on)
+void Debug_SetKorobohshi(int on)
 {
     if (on) {
         MAIN_BSS_020B26A0.unk_87C8 |= 0x800;
@@ -1671,12 +1671,12 @@ void ov0_0214DB74(int on)
     }
 }
 
-int ov0_0214DBA4()
+int Debug_GetZugaidos()
 {
     return (MAIN_BSS_020B26A0.unk_87C8 & 0x1000) ? 1 : 0;
 }
 
-void ov0_0214DBC0(int on)
+void Debug_SetZugaidos(int on)
 {
     if (on) {
         MAIN_BSS_020B26A0.unk_87C8 |= 0x1000;
@@ -1685,12 +1685,12 @@ void ov0_0214DBC0(int on)
     }
 }
 
-int ov0_0214DBF0()
+int Debug_GetMuma()
 {
     return (MAIN_BSS_020B26A0.unk_87C8 & 0x2000) ? 1 : 0;
 }
 
-void ov0_0214DC0C(int on)
+void Debug_SetMuma(int on)
 {
     if (on) {
         MAIN_BSS_020B26A0.unk_87C8 |= 0x2000;
@@ -1699,12 +1699,12 @@ void ov0_0214DC0C(int on)
     }
 }
 
-int ov0_0214DC3C()
+int Debug_GetFukamaru()
 {
     return (MAIN_BSS_020B26A0.unk_87C8 & 0x4000) ? 1 : 0;
 }
 
-void ov0_0214DC58(int on)
+void Debug_SetFukamaru(int on)
 {
     if (on) {
         MAIN_BSS_020B26A0.unk_87C8 |= 0x4000;
@@ -1713,12 +1713,12 @@ void ov0_0214DC58(int on)
     }
 }
 
-int ov0_0214DC88()
+int Debug_GetNyula()
 {
     return (MAIN_BSS_020B26A0.unk_87C8 & 0x8000) ? 1 : 0;
 }
 
-void ov0_0214DCA4(int on)
+void Debug_SetNyula(int on)
 {
     // clears the wrong bit (original bug)
     if (on) {
@@ -1728,12 +1728,12 @@ void ov0_0214DCA4(int on)
     }
 }
 
-int ov0_0214DCD4()
+int Debug_GetTatetopsu()
 {
     return (MAIN_BSS_020B26A0.unk_87C8 & 0x10000) ? 1 : 0;
 }
 
-void ov0_0214DCF0(int on)
+void Debug_SetTatetopsu(int on)
 {
     if (on) {
         MAIN_BSS_020B26A0.unk_87C8 |= 0x10000;
@@ -1742,7 +1742,7 @@ void ov0_0214DCF0(int on)
     }
 }
 
-void ov0_0214DD20(int on)
+void Debug_DoVisitAll(int on)
 {
     if (!on) {
         return;
@@ -1759,37 +1759,37 @@ const char *ov0_0214DD8C()
     return ov0_0214B9B0(ov0_0214BACC());
 }
 
-int ov0_0214DD9C()
+int Debug_MAIN_GetQuest()
 {
     return MAIN_BSS_020B2638.unk_03;
 }
 
-int ov0_0214DDAC()
+int Debug_GetMission()
 {
     return MAIN_BSS_020B2638.unk_02;
 }
 
 const char *ov0_0214DDBC()
 {
-    UnkClass_020091E8 *textbox = s_game->m_textboxData;
+    TextboxManager *textbox = s_game->m_textboxData;
     const char *kinds[] = { "SYS", "AREA", "CHAP", "QUE", "BAT" };
     OS_SPrintf(sLastMessage, "%s - %d", kinds[textbox->unk_150], textbox->unk_154);
     return sLastMessage;
 }
 
-int ov0_0214DE24()
+int Debug_Quest_GetQuest()
 {
     return sQuestIdx;
 }
 
-void ov0_0214DE34(int quest)
+void Debug_SetQuest(int quest)
 {
     sQuestIdx = quest;
 }
 
 const char *ov0_0214DE44(int quest)
 {
-    UnkClass_0201164C *quests = (UnkClass_0201164C *)(void *)&MAIN_BSS_020B2638;
+    MissionQuestData *quests = (MissionQuestData *)(void *)&MAIN_BSS_020B2638;
     OS_SPrintf(sQuestListName, "%02d)%s", quest, sQuestStates[GetQuestState(quests, quest)]);
     return sQuestListName;
 }
@@ -1799,34 +1799,34 @@ int ov0_0214DEC8()
     return 0x3E;
 }
 
-int ov0_0214DED0()
+int Debug_GetQuestSta()
 {
-    UnkClass_0201164C *quests = (UnkClass_0201164C *)(void *)&MAIN_BSS_020B2638;
+    MissionQuestData *quests = (MissionQuestData *)(void *)&MAIN_BSS_020B2638;
     return GetQuestState(quests, sQuestIdx);
 }
 
-void ov0_0214DF34(int state)
+void Debug_SetQuestSta(int state)
 {
-    UnkClass_0201164C *quests = &MAIN_BSS_020B2638;
+    MissionQuestData *quests = &MAIN_BSS_020B2638;
     switch (state) {
     case 0:
-        quests->unk_14[sQuestIdx] = 0;
+        quests->m_questStates[sQuestIdx] = 0;
         break;
     case 1:
-        quests->unk_14[sQuestIdx] = 1;
+        quests->m_questStates[sQuestIdx] = 1;
         break;
     case 2:
-        quests->unk_14[sQuestIdx] = 0x11;
+        quests->m_questStates[sQuestIdx] = 0x11;
         break;
     case 3:
-        quests->unk_14[sQuestIdx] = 0x11;
+        quests->m_questStates[sQuestIdx] = 0x11;
         if (quests->unk_01 == 1) {
             sub_020115F8(quests);
         }
         sub_02011540(quests, sQuestIdx);
         break;
     case 4:
-        quests->unk_14[sQuestIdx] = 0x12;
+        quests->m_questStates[sQuestIdx] = 0x12;
         break;
     }
 }
@@ -1842,32 +1842,32 @@ int ov0_0214E038()
     return 5;
 }
 
-void ov0_0214E040()
+void Debug_DoQuestOpenAll()
 {
-    UnkClass_0201164C *quests = &MAIN_BSS_020B2638;
+    MissionQuestData *quests = &MAIN_BSS_020B2638;
     if (quests->unk_01 == 1) {
         sub_020115F8(quests);
     }
     for (int i = 0; i < 0x3E; i++) {
-        quests->unk_14[i] = 0x11;
+        quests->m_questStates[i] = 0x11;
     }
     sub_02011540(quests, MATH_Rand32(&CGame::GetInstance()->m_rand32, 0x3D));
 }
 
-void ov0_0214E0D0()
+void Debug_DoQuestCloseAll()
 {
-    UnkClass_0201164C *quests = &MAIN_BSS_020B2638;
+    MissionQuestData *quests = &MAIN_BSS_020B2638;
     if (quests->unk_01 == 1) {
         sub_020115F8(quests);
     }
     for (int i = 0; i < 0x3E; i++) {
-        quests->unk_14[i] = 0;
+        quests->m_questStates[i] = 0;
     }
 }
 
-void ov0_0214E110()
+void Debug_DoQuestRandom()
 {
-    UnkClass_0201164C *quests = &MAIN_BSS_020B2638;
+    MissionQuestData *quests = &MAIN_BSS_020B2638;
     if (quests->unk_01 == 1) {
         sub_020115F8(quests);
     }
@@ -1876,67 +1876,67 @@ void ov0_0214E110()
         if (i != current) {
             switch (MATH_Rand32(&CGame::GetInstance()->m_rand32, 4)) {
             case 0:
-                quests->unk_14[i] = 0;
+                quests->m_questStates[i] = 0;
                 break;
             case 1:
-                quests->unk_14[i] = 1;
+                quests->m_questStates[i] = 1;
                 break;
             case 2:
-                quests->unk_14[i] = 0x11;
+                quests->m_questStates[i] = 0x11;
                 break;
             default:
-                quests->unk_14[i] = 0x12;
+                quests->m_questStates[i] = 0x12;
                 break;
             }
         } else {
-            quests->unk_14[i] = 0x11;
+            quests->m_questStates[i] = 0x11;
         }
     }
     sub_02011540(quests, current);
 }
 
-void ov0_0214E24C()
+void Debug_DoEventFlags()
 {
-    OS_SPrintf(sChapterLine, "ChaptNo: %02d", MAIN_BSS_020B2638.unk_08);
+    OS_SPrintf(sChapterLine, "ChaptNo: %02d", MAIN_BSS_020B2638.m_chapter);
     OS_SPrintf(sMissionLine, "MissSta[%02d]: %d", MAIN_BSS_020B2638.unk_02, MAIN_BSS_020B2638.unk_00);
     OS_SPrintf(sQuestLine, "QueSta [%02d]: %d", MAIN_BSS_020B2638.unk_03, MAIN_BSS_020B2638.unk_01);
-    OS_SPrintf(sEventLine0, "e00-07:%02d %02d %02d %02d %02d %02d %02d %02d", sub_02018E54(&MAIN_BSS_0210C0B0, 0), sub_02018E54(&MAIN_BSS_0210C0B0, 1), sub_02018E54(&MAIN_BSS_0210C0B0, 2), sub_02018E54(&MAIN_BSS_0210C0B0, 3), sub_02018E54(&MAIN_BSS_0210C0B0, 4), sub_02018E54(&MAIN_BSS_0210C0B0, 5), sub_02018E54(&MAIN_BSS_0210C0B0, 6), sub_02018E54(&MAIN_BSS_0210C0B0, 7));
-    OS_SPrintf(sEventLine1, "e08-15:%02d %02d %02d %02d %02d %02d %02d %02d", sub_02018E54(&MAIN_BSS_0210C0B0, 8), sub_02018E54(&MAIN_BSS_0210C0B0, 9), sub_02018E54(&MAIN_BSS_0210C0B0, 10), sub_02018E54(&MAIN_BSS_0210C0B0, 11), sub_02018E54(&MAIN_BSS_0210C0B0, 12), sub_02018E54(&MAIN_BSS_0210C0B0, 13), sub_02018E54(&MAIN_BSS_0210C0B0, 14), sub_02018E54(&MAIN_BSS_0210C0B0, 15));
-    OS_SPrintf(sEventLine2, "e16-20:%02d %02d %02d %02d %02d", sub_02018E54(&MAIN_BSS_0210C0B0, 16), sub_02018E54(&MAIN_BSS_0210C0B0, 17), sub_02018E54(&MAIN_BSS_0210C0B0, 18), sub_02018E54(&MAIN_BSS_0210C0B0, 19), sub_02018E54(&MAIN_BSS_0210C0B0, 20));
-    OS_SPrintf(sStoryLine0, "s00-07:%02d %02d %02d %02d %02d %02d %02d %02d", sub_02019278(&MAIN_BSS_0210C0B0, 0), sub_02019278(&MAIN_BSS_0210C0B0, 1), sub_02019278(&MAIN_BSS_0210C0B0, 2), sub_02019278(&MAIN_BSS_0210C0B0, 3), sub_02019278(&MAIN_BSS_0210C0B0, 4), sub_02019278(&MAIN_BSS_0210C0B0, 5), sub_02019278(&MAIN_BSS_0210C0B0, 6), sub_02019278(&MAIN_BSS_0210C0B0, 7));
-    OS_SPrintf(sStoryLine1, "s08-15:%02d %02d %02d %02d %02d %02d %02d %02d", sub_02019278(&MAIN_BSS_0210C0B0, 8), sub_02019278(&MAIN_BSS_0210C0B0, 9), sub_02019278(&MAIN_BSS_0210C0B0, 10), sub_02019278(&MAIN_BSS_0210C0B0, 11), sub_02019278(&MAIN_BSS_0210C0B0, 12), sub_02019278(&MAIN_BSS_0210C0B0, 13), sub_02019278(&MAIN_BSS_0210C0B0, 14), sub_02019278(&MAIN_BSS_0210C0B0, 15));
-    OS_SPrintf(sStoryLine2, "s16-19:%02d %02d %02d %02d %02d %02d %02d %02d", sub_02019278(&MAIN_BSS_0210C0B0, 16), sub_02019278(&MAIN_BSS_0210C0B0, 17), sub_02019278(&MAIN_BSS_0210C0B0, 18), sub_02019278(&MAIN_BSS_0210C0B0, 19), sub_02019278(&MAIN_BSS_0210C0B0, 20), sub_02019278(&MAIN_BSS_0210C0B0, 21), sub_02019278(&MAIN_BSS_0210C0B0, 22), sub_02019278(&MAIN_BSS_0210C0B0, 23));
-    OS_SPrintf(sStoryLine3, "s20-27:%02d %02d %02d %02d %02d %02d %02d", sub_02019278(&MAIN_BSS_0210C0B0, 24), sub_02019278(&MAIN_BSS_0210C0B0, 25), sub_02019278(&MAIN_BSS_0210C0B0, 26), sub_02019278(&MAIN_BSS_0210C0B0, 27), sub_02019278(&MAIN_BSS_0210C0B0, 28), sub_02019278(&MAIN_BSS_0210C0B0, 29), sub_02019278(&MAIN_BSS_0210C0B0, 30));
-    OS_SPrintf(sQuestValueLine0, "q00-07:%02d %02d %02d %02d %02d %02d %02d %02d", sub_02018E88(&MAIN_BSS_0210C0B0, 0), sub_02018E88(&MAIN_BSS_0210C0B0, 1), sub_02018E88(&MAIN_BSS_0210C0B0, 2), sub_02018E88(&MAIN_BSS_0210C0B0, 3), sub_02018E88(&MAIN_BSS_0210C0B0, 4), sub_02018E88(&MAIN_BSS_0210C0B0, 5), sub_02018E88(&MAIN_BSS_0210C0B0, 6), sub_02018E88(&MAIN_BSS_0210C0B0, 7));
-    OS_SPrintf(sQuestValueLine1, "q08-15:%02d %02d %02d", sub_02018E88(&MAIN_BSS_0210C0B0, 8), sub_02018E88(&MAIN_BSS_0210C0B0, 9), sub_02018E88(&MAIN_BSS_0210C0B0, 10));
+    OS_SPrintf(sEventLine0, "e00-07:%02d %02d %02d %02d %02d %02d %02d %02d", GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 0), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 1), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 2), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 3), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 4), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 5), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 6), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 7));
+    OS_SPrintf(sEventLine1, "e08-15:%02d %02d %02d %02d %02d %02d %02d %02d", GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 8), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 9), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 10), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 11), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 12), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 13), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 14), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 15));
+    OS_SPrintf(sEventLine2, "e16-20:%02d %02d %02d %02d %02d", GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 16), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 17), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 18), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 19), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 20));
+    OS_SPrintf(sStoryLine0, "s00-07:%02d %02d %02d %02d %02d %02d %02d %02d", GlobalValues_Get(&MAIN_BSS_0210C0B0, 0), GlobalValues_Get(&MAIN_BSS_0210C0B0, 1), GlobalValues_Get(&MAIN_BSS_0210C0B0, 2), GlobalValues_Get(&MAIN_BSS_0210C0B0, 3), GlobalValues_Get(&MAIN_BSS_0210C0B0, 4), GlobalValues_Get(&MAIN_BSS_0210C0B0, 5), GlobalValues_Get(&MAIN_BSS_0210C0B0, 6), GlobalValues_Get(&MAIN_BSS_0210C0B0, 7));
+    OS_SPrintf(sStoryLine1, "s08-15:%02d %02d %02d %02d %02d %02d %02d %02d", GlobalValues_Get(&MAIN_BSS_0210C0B0, 8), GlobalValues_Get(&MAIN_BSS_0210C0B0, 9), GlobalValues_Get(&MAIN_BSS_0210C0B0, 10), GlobalValues_Get(&MAIN_BSS_0210C0B0, 11), GlobalValues_Get(&MAIN_BSS_0210C0B0, 12), GlobalValues_Get(&MAIN_BSS_0210C0B0, 13), GlobalValues_Get(&MAIN_BSS_0210C0B0, 14), GlobalValues_Get(&MAIN_BSS_0210C0B0, 15));
+    OS_SPrintf(sStoryLine2, "s16-19:%02d %02d %02d %02d %02d %02d %02d %02d", GlobalValues_Get(&MAIN_BSS_0210C0B0, 16), GlobalValues_Get(&MAIN_BSS_0210C0B0, 17), GlobalValues_Get(&MAIN_BSS_0210C0B0, 18), GlobalValues_Get(&MAIN_BSS_0210C0B0, 19), GlobalValues_Get(&MAIN_BSS_0210C0B0, 20), GlobalValues_Get(&MAIN_BSS_0210C0B0, 21), GlobalValues_Get(&MAIN_BSS_0210C0B0, 22), GlobalValues_Get(&MAIN_BSS_0210C0B0, 23));
+    OS_SPrintf(sStoryLine3, "s20-27:%02d %02d %02d %02d %02d %02d %02d", GlobalValues_Get(&MAIN_BSS_0210C0B0, 24), GlobalValues_Get(&MAIN_BSS_0210C0B0, 25), GlobalValues_Get(&MAIN_BSS_0210C0B0, 26), GlobalValues_Get(&MAIN_BSS_0210C0B0, 27), GlobalValues_Get(&MAIN_BSS_0210C0B0, 28), GlobalValues_Get(&MAIN_BSS_0210C0B0, 29), GlobalValues_Get(&MAIN_BSS_0210C0B0, 30));
+    OS_SPrintf(sQuestValueLine0, "q00-07:%02d %02d %02d %02d %02d %02d %02d %02d", GlobalValues_GetQuestValue(&MAIN_BSS_0210C0B0, 0), GlobalValues_GetQuestValue(&MAIN_BSS_0210C0B0, 1), GlobalValues_GetQuestValue(&MAIN_BSS_0210C0B0, 2), GlobalValues_GetQuestValue(&MAIN_BSS_0210C0B0, 3), GlobalValues_GetQuestValue(&MAIN_BSS_0210C0B0, 4), GlobalValues_GetQuestValue(&MAIN_BSS_0210C0B0, 5), GlobalValues_GetQuestValue(&MAIN_BSS_0210C0B0, 6), GlobalValues_GetQuestValue(&MAIN_BSS_0210C0B0, 7));
+    OS_SPrintf(sQuestValueLine1, "q08-15:%02d %02d %02d", GlobalValues_GetQuestValue(&MAIN_BSS_0210C0B0, 8), GlobalValues_GetQuestValue(&MAIN_BSS_0210C0B0, 9), GlobalValues_GetQuestValue(&MAIN_BSS_0210C0B0, 10));
 }
 
-int ov0_0214E83C()
+int Debug_Encyclopedia_GetEncMap()
 {
     return sEncMapIdx;
 }
 
-int ov0_0214E84C()
+int Debug_Encyclopedia_GetEncCapt()
 {
     return sEncCaptIdx;
 }
 
-int ov0_0214E85C()
+int Debug_Encyclopedia_GetEncWord()
 {
     return sEncWordIdx;
 }
 
-void ov0_0214E86C(int i)
+void Debug_Encyclopedia_SetEncMap(int i)
 {
     sEncMapIdx = i;
 }
 
-void ov0_0214E87C(int i)
+void Debug_Encyclopedia_SetEncCapt(int i)
 {
     sEncCaptIdx = i;
 }
 
-void ov0_0214E88C(int i)
+void Debug_Encyclopedia_SetEncWord(int i)
 {
     sEncWordIdx = i;
 }
@@ -1948,39 +1948,39 @@ int ov0_0214E89C()
 
 const char *ov0_0214E8A4(int i)
 {
-    UnkClass_020B26A0 *save = (UnkClass_020B26A0 *)(void *)&MAIN_BSS_020B26A0;
+    SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     OS_SPrintf(sEncMapName, "%02d)%s", i, sEncStates[GetEncState(save, 0, i)]);
     return sEncMapName;
 }
 
 const char *ov0_0214E918(int i)
 {
-    UnkClass_020B26A0 *save = (UnkClass_020B26A0 *)(void *)&MAIN_BSS_020B26A0;
+    SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     OS_SPrintf(sEncCaptName, "%02d)%s", i, sEncStates[GetEncState(save, 1, i)]);
     return sEncCaptName;
 }
 
 const char *ov0_0214E98C(int i)
 {
-    UnkClass_020B26A0 *save = (UnkClass_020B26A0 *)(void *)&MAIN_BSS_020B26A0;
+    SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     OS_SPrintf(sEncWordName, "%02d)%s", i, sEncStates[GetEncState(save, 2, i)]);
     return sEncWordName;
 }
 
-void ov0_0214EA00(int state)
+void Debug_EncyclopediaMap_SetEncMap(int state)
 {
-    UnkClass_020B26A0 *save = (UnkClass_020B26A0 *)(void *)&MAIN_BSS_020B26A0;
+    SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     int i = sEncMapIdx;
     if (i >= 0 && i < 64 && state >= 0 && state < 3) {
         int shift = (i & 0xF) * 2;
-        save->unk_7F30[0][i / 16] &= ~(3 << shift);
-        save->unk_7F30[0][i / 16] |= (state & 3) << shift;
+        save->m_encyclopediaStates[0][i / 16] &= ~(3 << shift);
+        save->m_encyclopediaStates[0][i / 16] |= (state & 3) << shift;
     }
 }
 
-int ov0_0214EA74()
+int Debug_EncyclopediaMap_GetEncMap()
 {
-    UnkClass_020B26A0 *save = (UnkClass_020B26A0 *)(void *)&MAIN_BSS_020B26A0;
+    SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     return GetEncState(save, 0, sEncMapIdx);
 }
 
@@ -1990,20 +1990,20 @@ const char *ov0_0214EACC(int state)
     return sEncMapStateName;
 }
 
-void ov0_0214EB04(int state)
+void Debug_EncyclopediaCapt_SetEncCapt(int state)
 {
-    UnkClass_020B26A0 *save = (UnkClass_020B26A0 *)(void *)&MAIN_BSS_020B26A0;
+    SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     int i = sEncCaptIdx;
     if (i >= 0 && i < 64 && state >= 0 && state < 3) {
         int shift = (i & 0xF) * 2;
-        save->unk_7F30[1][i / 16] &= ~(3 << shift);
-        save->unk_7F30[1][i / 16] |= (state & 3) << shift;
+        save->m_encyclopediaStates[1][i / 16] &= ~(3 << shift);
+        save->m_encyclopediaStates[1][i / 16] |= (state & 3) << shift;
     }
 }
 
-int ov0_0214EB78()
+int Debug_EncyclopediaCapt_GetEncCapt()
 {
-    UnkClass_020B26A0 *save = (UnkClass_020B26A0 *)(void *)&MAIN_BSS_020B26A0;
+    SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     return GetEncState(save, 1, sEncCaptIdx);
 }
 
@@ -2013,20 +2013,20 @@ const char *ov0_0214EBD0(int state)
     return sEncCaptStateName;
 }
 
-void ov0_0214EC08(int state)
+void Debug_EncyclopediaWord_SetEncWord(int state)
 {
-    UnkClass_020B26A0 *save = (UnkClass_020B26A0 *)(void *)&MAIN_BSS_020B26A0;
+    SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     int i = sEncWordIdx;
     if (i >= 0 && i < 64 && state >= 0 && state < 3) {
         int shift = (i & 0xF) * 2;
-        save->unk_7F30[2][i / 16] &= ~(3 << shift);
-        save->unk_7F30[2][i / 16] |= (state & 3) << shift;
+        save->m_encyclopediaStates[2][i / 16] &= ~(3 << shift);
+        save->m_encyclopediaStates[2][i / 16] |= (state & 3) << shift;
     }
 }
 
-int ov0_0214EC7C()
+int Debug_EncyclopediaWord_GetEncWord()
 {
-    UnkClass_020B26A0 *save = (UnkClass_020B26A0 *)(void *)&MAIN_BSS_020B26A0;
+    SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     return GetEncState(save, 2, sEncWordIdx);
 }
 
@@ -2041,52 +2041,52 @@ int ov0_0214ED0C()
     return 3;
 }
 
-void ov0_0214ED14()
+void Debug_DoDispAll()
 {
     int group;
     int i;
-    UnkClass_020B26A0 *save = CGame::GetInstance()->unk_14A4;
+    SaveData *save = CGame::GetInstance()->unk_14A4;
     for (group = 0; group < 3; group++) {
         for (i = 0; i < 64; i++) {
             if (GetCaptureState(save, group, i) == 0 && group >= 0 && group < 3 && i >= 0 && i < 64) {
                 int shift = (i & 0xF) * 2;
-                save->unk_7F30[group][i / 16] &= ~(3 << shift);
-                save->unk_7F30[group][i / 16] |= 1 << shift;
+                save->m_encyclopediaStates[group][i / 16] &= ~(3 << shift);
+                save->m_encyclopediaStates[group][i / 16] |= 1 << shift;
             }
         }
     }
 }
 
-void ov0_0214EE00()
+void Debug_DoHideAll()
 {
     int group;
     int i;
-    UnkClass_020B26A0 *save = CGame::GetInstance()->unk_14A4;
+    SaveData *save = CGame::GetInstance()->unk_14A4;
     for (group = 0; group < 3; group++) {
         for (i = 0; i < 64; i++) {
             if (group >= 0 && group < 3 && i >= 0 && i < 64) {
                 int shift = (i & 0xF) * 2;
-                save->unk_7F30[group][i / 16] &= ~(3 << shift);
+                save->m_encyclopediaStates[group][i / 16] &= ~(3 << shift);
             }
         }
     }
 }
 
-void ov0_0214EE8C(int mood)
+void Debug_DoPartnerMood(int mood)
 {
-    UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+    SaveData *save = &MAIN_BSS_020B26A0;
     switch (mood) {
     case 0:
     case 1:
     case 2:
         for (int i = 0; i < 17; i++) {
-            save->unk_0009[i] = mood;
+            save->m_partnerMoods[i] = mood;
         }
         break;
     }
 }
 
-int ov0_0214EEC4()
+int Debug_GetPlyrDisp()
 {
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (scene != NULL) {
@@ -2095,7 +2095,7 @@ int ov0_0214EEC4()
     return 1;
 }
 
-int ov0_0214EEF4()
+int Debug_GetPrtyDisp()
 {
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (scene != NULL) {
@@ -2104,7 +2104,7 @@ int ov0_0214EEF4()
     return 1;
 }
 
-int ov0_0214EF24()
+int Debug_GetEneDisp()
 {
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (scene != NULL) {
@@ -2113,7 +2113,7 @@ int ov0_0214EF24()
     return 1;
 }
 
-int ov0_0214EF54()
+int Debug_GetNpcDisp()
 {
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (scene != NULL) {
@@ -2122,7 +2122,7 @@ int ov0_0214EF54()
     return 1;
 }
 
-int ov0_0214EF84()
+int Debug_GetObjDisp()
 {
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (scene != NULL) {
@@ -2131,7 +2131,7 @@ int ov0_0214EF84()
     return 1;
 }
 
-void ov0_0214EFB4(int on)
+void Debug_SetPlyrDisp(int on)
 {
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (scene != NULL) {
@@ -2143,7 +2143,7 @@ void ov0_0214EFB4(int on)
     }
 }
 
-void ov0_0214EFE4(int on)
+void Debug_SetPrtyDisp(int on)
 {
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (scene != NULL) {
@@ -2155,7 +2155,7 @@ void ov0_0214EFE4(int on)
     }
 }
 
-void ov0_0214F014(int on)
+void Debug_SetEneDisp(int on)
 {
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (scene != NULL) {
@@ -2167,7 +2167,7 @@ void ov0_0214F014(int on)
     }
 }
 
-void ov0_0214F044(int on)
+void Debug_SetNpcDisp(int on)
 {
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (scene != NULL) {
@@ -2179,7 +2179,7 @@ void ov0_0214F044(int on)
     }
 }
 
-void ov0_0214F074(int on)
+void Debug_SetObjDisp(int on)
 {
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (scene != NULL) {
@@ -2196,9 +2196,9 @@ int ov0_0214F0A4()
     return 0;
 }
 
-void ov0_0214F0AC(int state)
+void Debug_SetSetWatchAll(int state)
 {
-    UnkClass_020B26A0 *save = (UnkClass_020B26A0 *)(void *)&MAIN_BSS_020B26A0;
+    SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     for (int i = 0; i < 0x1EE; i++) {
         if (IsBrowserEntry(i)) {
             SetBrowserState(save, i, state);
@@ -2209,17 +2209,17 @@ void ov0_0214F0AC(int state)
     }
 }
 
-void ov0_0214F184(int flags)
+void Debug_SetSPCapture(int flags)
 {
-    UnkClass_020B26A0 *save = (UnkClass_020B26A0 *)(void *)&MAIN_BSS_020B26A0;
+    SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     SetBrowserState(save, 492, (flags & 1) ? 2 : 0);
     SetBrowserState(save, 483, (flags & 2) ? 2 : 0);
     SetBrowserState(save, 484, (flags & 4) ? 2 : 0);
 }
 
-void ov0_0214F274()
+void Debug_SetRegigigas()
 {
-    UnkClass_020B26A0 *save = (UnkClass_020B26A0 *)(void *)&MAIN_BSS_020B26A0;
+    SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     for (int i = 0; i < 0x1EE; i++) {
         if (i != 486 && i != 492 && i != 483 && i != 484 && IsBrowserEntry(i)) {
             SetBrowserState(save, i, 2);
@@ -2229,72 +2229,72 @@ void ov0_0214F274()
     }
 }
 
-int ov0_0214F378()
+int Debug_GetTotalExp()
 {
-    return MAIN_BSS_020B26A0.unk_002C;
+    return MAIN_BSS_020B26A0.m_exp;
 }
 
-void ov0_0214F388(int value)
+void Debug_SetTotalExp(int value)
 {
-    sub_02016D4C(&MAIN_BSS_020B26A0, value);
+    SaveData_SetExp(&MAIN_BSS_020B26A0, value);
 }
 
-int ov0_0214F3A0()
+int Debug_GetWalkStep()
 {
-    return MAIN_BSS_020B26A0.unk_8758;
+    return MAIN_BSS_020B26A0.m_stepsWalked;
 }
 
-void ov0_0214F3B0(int value)
+void Debug_SetWalkStep(int value)
 {
-    sub_02016D88(&MAIN_BSS_020B26A0, value);
+    SaveData_SetStepsWalked(&MAIN_BSS_020B26A0, value);
 }
 
-int ov0_0214F3C8()
+int Debug_GetTalkCnt()
 {
-    return MAIN_BSS_020B26A0.unk_875C;
+    return MAIN_BSS_020B26A0.m_conversations;
 }
 
-void ov0_0214F3D8(int value)
+void Debug_SetTalkCnt(int value)
 {
-    sub_02016DD0(&MAIN_BSS_020B26A0, value);
+    SaveData_SetConversations(&MAIN_BSS_020B26A0, value);
 }
 
-int ov0_0214F3F0()
+int Debug_GetLookCnt()
 {
-    return MAIN_BSS_020B26A0.unk_8760;
+    return MAIN_BSS_020B26A0.m_targetsChecked;
 }
 
-void ov0_0214F400(int value)
+void Debug_SetLookCnt(int value)
 {
-    sub_02016E18(&MAIN_BSS_020B26A0, value);
+    SaveData_SetTargetsChecked(&MAIN_BSS_020B26A0, value);
 }
 
-int ov0_0214F418()
+int Debug_GetSaveCnt()
 {
-    return MAIN_BSS_020B26A0.unk_8764;
+    return MAIN_BSS_020B26A0.m_saveCount;
 }
 
-void ov0_0214F428(int value)
+void Debug_SetSaveCnt(int value)
 {
-    sub_02016E60(&MAIN_BSS_020B26A0, value);
+    SaveData_SetSaveCount(&MAIN_BSS_020B26A0, value);
 }
 
-int ov0_0214F440()
+int Debug_GetRideCnt()
 {
-    return MAIN_BSS_020B26A0.unk_8768;
+    return MAIN_BSS_020B26A0.m_pokemonRides;
 }
 
-void ov0_0214F450(int value)
+void Debug_SetRideCnt(int value)
 {
-    sub_02016EA8(&MAIN_BSS_020B26A0, value);
+    SaveData_SetPokemonRides(&MAIN_BSS_020B26A0, value);
 }
 
-int ov0_0214F468()
+int Debug_RangerRecord_GetPtAssCnt()
 {
     return sAssistIdx;
 }
 
-void ov0_0214F478(int index)
+void Debug_RangerRecord_SetPtAssCnt(int index)
 {
     sAssistIdx = index;
 }
@@ -2303,55 +2303,55 @@ const char *ov0_0214F488(int index)
 {
     switch (index) {
     case 0:
-        OS_SPrintf(sAssistName, "GONB:%d", MAIN_BSS_020B26A0.unk_876C[index]);
+        OS_SPrintf(sAssistName, "GONB:%d", MAIN_BSS_020B26A0.m_partnerCounts[index]);
         break;
     case 1:
-        OS_SPrintf(sAssistName, "HIKO:%d", MAIN_BSS_020B26A0.unk_876C[index]);
+        OS_SPrintf(sAssistName, "HIKO:%d", MAIN_BSS_020B26A0.m_partnerCounts[index]);
         break;
     case 2:
-        OS_SPrintf(sAssistName, "POCH:%d", MAIN_BSS_020B26A0.unk_876C[index]);
+        OS_SPrintf(sAssistName, "POCH:%d", MAIN_BSS_020B26A0.m_partnerCounts[index]);
         break;
     case 3:
-        OS_SPrintf(sAssistName, "NAET:%d", MAIN_BSS_020B26A0.unk_876C[index]);
+        OS_SPrintf(sAssistName, "NAET:%d", MAIN_BSS_020B26A0.m_partnerCounts[index]);
         break;
     case 4:
-        OS_SPrintf(sAssistName, "PACH:%d", MAIN_BSS_020B26A0.unk_876C[index]);
+        OS_SPrintf(sAssistName, "PACH:%d", MAIN_BSS_020B26A0.m_partnerCounts[index]);
         break;
     case 5:
-        OS_SPrintf(sAssistName, "YUKI:%d", MAIN_BSS_020B26A0.unk_876C[index]);
+        OS_SPrintf(sAssistName, "YUKI:%d", MAIN_BSS_020B26A0.m_partnerCounts[index]);
         break;
     case 6:
-        OS_SPrintf(sAssistName, "WANR:%d", MAIN_BSS_020B26A0.unk_876C[index]);
+        OS_SPrintf(sAssistName, "WANR:%d", MAIN_BSS_020B26A0.m_partnerCounts[index]);
         break;
     case 7:
-        OS_SPrintf(sAssistName, "GURE:%d", MAIN_BSS_020B26A0.unk_876C[index]);
+        OS_SPrintf(sAssistName, "GURE:%d", MAIN_BSS_020B26A0.m_partnerCounts[index]);
         break;
     case 8:
-        OS_SPrintf(sAssistName, "HIPP:%d", MAIN_BSS_020B26A0.unk_876C[index]);
+        OS_SPrintf(sAssistName, "HIPP:%d", MAIN_BSS_020B26A0.m_partnerCounts[index]);
         break;
     case 9:
-        OS_SPrintf(sAssistName, "MUKK:%d", MAIN_BSS_020B26A0.unk_876C[index]);
+        OS_SPrintf(sAssistName, "MUKK:%d", MAIN_BSS_020B26A0.m_partnerCounts[index]);
         break;
     case 10:
-        OS_SPrintf(sAssistName, "MANE:%d", MAIN_BSS_020B26A0.unk_876C[index]);
+        OS_SPrintf(sAssistName, "MANE:%d", MAIN_BSS_020B26A0.m_partnerCounts[index]);
         break;
     case 11:
-        OS_SPrintf(sAssistName, "KORO:%d", MAIN_BSS_020B26A0.unk_876C[index]);
+        OS_SPrintf(sAssistName, "KORO:%d", MAIN_BSS_020B26A0.m_partnerCounts[index]);
         break;
     case 12:
-        OS_SPrintf(sAssistName, "ZUGA:%d", MAIN_BSS_020B26A0.unk_876C[index]);
+        OS_SPrintf(sAssistName, "ZUGA:%d", MAIN_BSS_020B26A0.m_partnerCounts[index]);
         break;
     case 13:
-        OS_SPrintf(sAssistName, "MUMA:%d", MAIN_BSS_020B26A0.unk_876C[index]);
+        OS_SPrintf(sAssistName, "MUMA:%d", MAIN_BSS_020B26A0.m_partnerCounts[index]);
         break;
     case 14:
-        OS_SPrintf(sAssistName, "FUKA:%d", MAIN_BSS_020B26A0.unk_876C[index]);
+        OS_SPrintf(sAssistName, "FUKA:%d", MAIN_BSS_020B26A0.m_partnerCounts[index]);
         break;
     case 15:
-        OS_SPrintf(sAssistName, "NYUL:%d", MAIN_BSS_020B26A0.unk_876C[index]);
+        OS_SPrintf(sAssistName, "NYUL:%d", MAIN_BSS_020B26A0.m_partnerCounts[index]);
         break;
     case 16:
-        OS_SPrintf(sAssistName, "TATE:%d", MAIN_BSS_020B26A0.unk_876C[index]);
+        OS_SPrintf(sAssistName, "TATE:%d", MAIN_BSS_020B26A0.m_partnerCounts[index]);
         break;
     default:
         OS_SPrintf(sAssistName, "ERROR(%d)", index);
@@ -2365,74 +2365,74 @@ int ov0_0214F6DC()
     return 17;
 }
 
-u32 ov0_0214F6E4()
+u32 Debug_GetLineLeng()
 {
-    return MAIN_BSS_020B26A0.unk_87B0 * 33 / 480;
+    return MAIN_BSS_020B26A0.m_captureLineLength * 33 / 480;
 }
 
-void ov0_0214F708(int value)
+void Debug_SetLineLeng(int value)
 {
-    sub_02017020(&MAIN_BSS_020B26A0, value * 1584 / 10);
+    SaveData_SetCaptureLineLength(&MAIN_BSS_020B26A0, value * 1584 / 10);
 }
 
-int ov0_0214F738()
+int Debug_GetEnclsCnt()
 {
-    return MAIN_BSS_020B26A0.unk_87B4;
+    return MAIN_BSS_020B26A0.m_loopCount;
 }
 
-void ov0_0214F748(int value)
+void Debug_SetEnclsCnt(int value)
 {
-    sub_02017068(&MAIN_BSS_020B26A0, value);
+    SaveData_SetLoopCount(&MAIN_BSS_020B26A0, value);
 }
 
-int ov0_0214F760()
+int Debug_GetCaptCnt()
 {
-    return MAIN_BSS_020B26A0.unk_87B8;
+    return MAIN_BSS_020B26A0.m_totalCaptures;
 }
 
-void ov0_0214F770(int value)
+void Debug_SetCaptCnt(int value)
 {
-    sub_020170B0(&MAIN_BSS_020B26A0, value);
+    SaveData_SetTotalCaptures(&MAIN_BSS_020B26A0, value);
 }
 
-int ov0_0214F78C()
+int Debug_GetEscpCnt()
 {
-    return MAIN_BSS_020B26A0.unk_87BA;
+    return MAIN_BSS_020B26A0.m_fledCount;
 }
 
-void ov0_0214F79C(int value)
+void Debug_SetEscpCnt(int value)
 {
-    sub_02017100(&MAIN_BSS_020B26A0, value);
+    SaveData_SetFledCount(&MAIN_BSS_020B26A0, value);
 }
 
-int ov0_0214F7B8()
+int Debug_GetAssCnt()
 {
-    return MAIN_BSS_020B26A0.unk_87BC;
+    return MAIN_BSS_020B26A0.m_assistsUsed;
 }
 
-void ov0_0214F7C8(int value)
+void Debug_SetAssCnt(int value)
 {
-    sub_02017150(&MAIN_BSS_020B26A0, value);
+    SaveData_SetAssistsUsed(&MAIN_BSS_020B26A0, value);
 }
 
-int ov0_0214F7E4()
+int Debug_GetPlyTime()
 {
-    UnkClass_020B26A0 *save = (UnkClass_020B26A0 *)(void *)&MAIN_BSS_020B26A0;
+    SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     if (MAIN_BSS_020B26A0.unk_87DA != 0) {
         return 359999;
     }
-    return save->unk_87D4 * 3600 + save->unk_87D8 * 60 + save->unk_87D9;
+    return save->m_playHours * 3600 + save->m_playMinutes * 60 + save->m_playSeconds;
 }
 
-void ov0_0214F830(int seconds)
+void Debug_SetPlyTime(int seconds)
 {
-    sub_02018148(&MAIN_BSS_020B26A0, seconds / 3600, (seconds % 3600) / 60, seconds % 60);
+    SaveData_SetPlayTime(&MAIN_BSS_020B26A0, seconds / 3600, (seconds % 3600) / 60, seconds % 60);
     RTCTime time;
     RTCDate date;
     RTC_GetTime(&time);
     RTC_GetDate(&date);
-    MAIN_BSS_020B26A0.unk_8B94 = time;
-    MAIN_BSS_020B26A0.unk_8B84 = date;
+    MAIN_BSS_020B26A0.m_lastTime = time;
+    MAIN_BSS_020B26A0.m_lastDate = date;
 }
 
 const char *ov0_0214F904(int seconds)
@@ -2446,57 +2446,57 @@ int ov0_0214F990()
     return 359999;
 }
 
-int ov0_0214F99C()
+int Debug_PartnerAssistCount_GetPtAssCnt()
 {
-    return MAIN_BSS_020B26A0.unk_876C[sAssistIdx];
+    return MAIN_BSS_020B26A0.m_partnerCounts[sAssistIdx];
 }
 
-void ov0_0214F9B8(int value)
+void Debug_PartnerAssistCount_SetPtAssCnt(int value)
 {
-    sub_02016EF0(&MAIN_BSS_020B26A0, sAssistIdx, value);
+    SaveData_SetPartnerCount(&MAIN_BSS_020B26A0, sAssistIdx, value);
 }
 
 } // extern "C"
 
 DebugMenuItem sCustom2Items[] = {
-    { "CHGSPD", 1, 2, 4, 0, (void *)ov0_0214D674, (void *)ov0_0214D68C, (void *)3, 0 },
-    { "SUPERCHG", 1, 2, 4, 0, (void *)ov0_0214D6A8, (void *)ov0_0214D6C0, (void *)3, 0 },
-    { "ASSISTT", 1, 2, 4, 0, (void *)ov0_0214D6DC, (void *)ov0_0214D6F4, (void *)3, 0 },
-    { "SOKO", 1, 2, 4, 0, (void *)ov0_0214D710, (void *)ov0_0214D728, (void *)3, 0 },
-    { "COMBO", 1, 2, 4, 0, (void *)ov0_0214D744, (void *)ov0_0214D75C, (void *)3, 0 },
-    { "RECOVER", 1, 2, 4, 0, (void *)ov0_0214D778, (void *)ov0_0214D790, (void *)3, 0 },
-    { "POWPLS", 1, 2, 4, 0, (void *)ov0_0214D7AC, (void *)ov0_0214D7C4, (void *)3, 0 },
-    { "ENEPLS", 1, 2, 4, 0, (void *)ov0_0214D7E0, (void *)ov0_0214D7F8, (void *)3, 0 },
+    { "CHGSPD", 1, 2, 4, 0, (void *)Debug_GetChgspd, (void *)Debug_SetChgspd, (void *)3, 0 },
+    { "SUPERCHG", 1, 2, 4, 0, (void *)Debug_GetSuperchg, (void *)Debug_SetSuperchg, (void *)3, 0 },
+    { "ASSISTT", 1, 2, 4, 0, (void *)Debug_GetAssistt, (void *)Debug_SetAssistt, (void *)3, 0 },
+    { "SOKO", 1, 2, 4, 0, (void *)Debug_GetSoko, (void *)Debug_SetSoko, (void *)3, 0 },
+    { "COMBO", 1, 2, 4, 0, (void *)Debug_GetCombo, (void *)Debug_SetCombo, (void *)3, 0 },
+    { "RECOVER", 1, 2, 4, 0, (void *)Debug_GetRecover, (void *)Debug_SetRecover, (void *)3, 0 },
+    { "POWPLS", 1, 2, 4, 0, (void *)Debug_GetPowpls, (void *)Debug_SetPowpls, (void *)3, 0 },
+    { "ENEPLS", 1, 2, 4, 0, (void *)Debug_GetEnepls, (void *)Debug_SetEnepls, (void *)3, 0 },
 };
 
 const char *sManpuNames[] = { "HINT_A(R", "HINT_A(B", "HINT_A(G", "HINT_B", "BIKKURI", "HATENA", "IKARI", "ASE", "KIZUKI", "DOKARIMO", "MOBARIMO", "ARIENAI!", "DARKRIE", "GOKIGEN", "SGOKIGEN" };
 
 DebugMenuItem sEventChapterItems[] = {
-    { "ChapJump", 1, 2, 2, 0, (void *)ov0_0214C790, (void *)ov0_0214C7AC, (void *)76, 0 },
+    { "ChapJump", 1, 2, 2, 0, (void *)ov0_0214C790, (void *)Debug_SetChapJump, (void *)76, 0 },
 };
 
 DebugMenuItem sQuestStatusItems[] = {
-    { "QuestSta", 5, 1, 1, 0, (void *)ov0_0214DED0, (void *)ov0_0214DF34, (void *)ov0_0214E000, (void *)ov0_0214E038 },
+    { "QuestSta", 5, 1, 1, 0, (void *)Debug_GetQuestSta, (void *)Debug_SetQuestSta, (void *)ov0_0214E000, (void *)ov0_0214E038 },
 };
 
 DebugMenuItem sPartnerList0Items[] = {
-    { "Nyula", 3, 2, 4, 0, (void *)ov0_0214DC88, (void *)ov0_0214DCA4, 0, 0 },
-    { "Pachirisu", 3, 2, 4, 0, (void *)ov0_0214D944, (void *)ov0_0214D960, 0, 0 },
-    { "Mukkuru", 3, 2, 4, 0, (void *)ov0_0214DAC0, (void *)ov0_0214DADC, 0, 0 },
-    { "Zugaidos", 3, 2, 4, 0, (void *)ov0_0214DBA4, (void *)ov0_0214DBC0, 0, 0 },
-    { "Muma", 3, 2, 4, 0, (void *)ov0_0214DBF0, (void *)ov0_0214DC0C, 0, 0 },
-    { "Korobohshi", 3, 2, 4, 0, (void *)ov0_0214DB58, (void *)ov0_0214DB74, 0, 0 },
-    { "Tatetopsu", 3, 2, 4, 0, (void *)ov0_0214DCD4, (void *)ov0_0214DCF0, 0, 0 },
-    { "Gonbe", 3, 2, 4, 0, (void *)ov0_0214D814, (void *)ov0_0214D830, 0, 0 },
-    { "Wanriky", 3, 2, 4, 0, (void *)ov0_0214D9DC, (void *)ov0_0214D9F8, 0, 0 },
+    { "Nyula", 3, 2, 4, 0, (void *)Debug_GetNyula, (void *)Debug_SetNyula, 0, 0 },
+    { "Pachirisu", 3, 2, 4, 0, (void *)Debug_GetPachirisu, (void *)Debug_SetPachirisu, 0, 0 },
+    { "Mukkuru", 3, 2, 4, 0, (void *)Debug_GetMukkuru, (void *)Debug_SetMukkuru, 0, 0 },
+    { "Zugaidos", 3, 2, 4, 0, (void *)Debug_GetZugaidos, (void *)Debug_SetZugaidos, 0, 0 },
+    { "Muma", 3, 2, 4, 0, (void *)Debug_GetMuma, (void *)Debug_SetMuma, 0, 0 },
+    { "Korobohshi", 3, 2, 4, 0, (void *)Debug_GetKorobohshi, (void *)Debug_SetKorobohshi, 0, 0 },
+    { "Tatetopsu", 3, 2, 4, 0, (void *)Debug_GetTatetopsu, (void *)Debug_SetTatetopsu, 0, 0 },
+    { "Gonbe", 3, 2, 4, 0, (void *)Debug_GetGonbe, (void *)Debug_SetGonbe, 0, 0 },
+    { "Wanriky", 3, 2, 4, 0, (void *)Debug_GetWanriky, (void *)Debug_SetWanriky, 0, 0 },
 };
 
 DebugMenuItem sFieldEffectItems[] = {
     { "SetWeather", 0, 0, 1, 12, 0, 0, 0, 0 },
     { "FogParam", 0, 0, 1, 13, 0, 0, 0, 0 },
-    { "FootStep", 4, 2, 3, 0, (void *)ov0_0214CD4C, (void *)ov0_0214CD68, (void *)sFootStepNames, (void *)5 },
-    { "MANPU", 4, 2, 3, 0, (void *)ov0_0214CD80, (void *)ov0_0214CD88, (void *)sManpuNames, (void *)15 },
-    { "TestEff", 4, 1, 3, 0, (void *)ov0_0214CDD0, (void *)ov0_0214CDD8, (void *)sTestEffectNames, (void *)20 },
+    { "FootStep", 4, 2, 3, 0, (void *)Debug_GetFootStep, (void *)Debug_SetFootStep, (void *)sFootStepNames, (void *)5 },
+    { "MANPU", 4, 2, 3, 0, (void *)Debug_GetManpu, (void *)Debug_SetManpu, (void *)sManpuNames, (void *)15 },
+    { "TestEff", 4, 1, 3, 0, (void *)Debug_GetTestEff, (void *)Debug_SetTestEff, (void *)sTestEffectNames, (void *)20 },
 };
 
 const char *sFootStepNames[] = { "NONE", "MUDDY", "SNOW", "GRASS", "WATER" };
@@ -2504,29 +2504,29 @@ const char *sFootStepNames[] = { "NONE", "MUDDY", "SNOW", "GRASS", "WATER" };
 const char *sMoodNames[] = { "NORMAL", "GOOD", "VERYGOOD" };
 
 DebugMenuItem sRangerRecordItems[] = {
-    { "TotalExp", 8, 2, 4, 0, (void *)ov0_0214F378, (void *)ov0_0214F388, (void *)9999999, 0 },
-    { "WalkStep", 8, 2, 4, 0, (void *)ov0_0214F3A0, (void *)ov0_0214F3B0, (void *)9999999, 0 },
-    { "TalkCnt", 1, 2, 4, 0, (void *)ov0_0214F3C8, (void *)ov0_0214F3D8, (void *)99999, 0 },
-    { "LookCnt", 1, 2, 4, 0, (void *)ov0_0214F3F0, (void *)ov0_0214F400, (void *)99999, 0 },
-    { "SaveCnt", 1, 2, 4, 0, (void *)ov0_0214F418, (void *)ov0_0214F428, (void *)99999, 0 },
-    { "RideCnt", 1, 2, 4, 0, (void *)ov0_0214F440, (void *)ov0_0214F450, (void *)99999, 0 },
-    { "PtAssCnt", 5, 0, 1, 30, (void *)ov0_0214F468, (void *)ov0_0214F478, (void *)ov0_0214F488, (void *)ov0_0214F6DC },
-    { "LineLeng", 7, 2, 4, 0, (void *)ov0_0214F6E4, (void *)ov0_0214F708, (void *)14545440, 0 },
-    { "EnclsCnt", 7, 2, 4, 0, (void *)ov0_0214F738, (void *)ov0_0214F748, (void *)999999, 0 },
-    { "CaptCnt", 1, 2, 4, 0, (void *)ov0_0214F760, (void *)ov0_0214F770, (void *)9999, 0 },
-    { "EscpCnt", 1, 2, 4, 0, (void *)ov0_0214F78C, (void *)ov0_0214F79C, (void *)9999, 0 },
-    { "AssCnt", 1, 2, 4, 0, (void *)ov0_0214F7B8, (void *)ov0_0214F7C8, (void *)9999, 0 },
-    { "PlyTime", 5, 2, 4, 0, (void *)ov0_0214F7E4, (void *)ov0_0214F830, (void *)ov0_0214F904, (void *)ov0_0214F990 },
+    { "TotalExp", 8, 2, 4, 0, (void *)Debug_GetTotalExp, (void *)Debug_SetTotalExp, (void *)9999999, 0 },
+    { "WalkStep", 8, 2, 4, 0, (void *)Debug_GetWalkStep, (void *)Debug_SetWalkStep, (void *)9999999, 0 },
+    { "TalkCnt", 1, 2, 4, 0, (void *)Debug_GetTalkCnt, (void *)Debug_SetTalkCnt, (void *)99999, 0 },
+    { "LookCnt", 1, 2, 4, 0, (void *)Debug_GetLookCnt, (void *)Debug_SetLookCnt, (void *)99999, 0 },
+    { "SaveCnt", 1, 2, 4, 0, (void *)Debug_GetSaveCnt, (void *)Debug_SetSaveCnt, (void *)99999, 0 },
+    { "RideCnt", 1, 2, 4, 0, (void *)Debug_GetRideCnt, (void *)Debug_SetRideCnt, (void *)99999, 0 },
+    { "PtAssCnt", 5, 0, 1, 30, (void *)Debug_RangerRecord_GetPtAssCnt, (void *)Debug_RangerRecord_SetPtAssCnt, (void *)ov0_0214F488, (void *)ov0_0214F6DC },
+    { "LineLeng", 7, 2, 4, 0, (void *)Debug_GetLineLeng, (void *)Debug_SetLineLeng, (void *)14545440, 0 },
+    { "EnclsCnt", 7, 2, 4, 0, (void *)Debug_GetEnclsCnt, (void *)Debug_SetEnclsCnt, (void *)999999, 0 },
+    { "CaptCnt", 1, 2, 4, 0, (void *)Debug_GetCaptCnt, (void *)Debug_SetCaptCnt, (void *)9999, 0 },
+    { "EscpCnt", 1, 2, 4, 0, (void *)Debug_GetEscpCnt, (void *)Debug_SetEscpCnt, (void *)9999, 0 },
+    { "AssCnt", 1, 2, 4, 0, (void *)Debug_GetAssCnt, (void *)Debug_SetAssCnt, (void *)9999, 0 },
+    { "PlyTime", 5, 2, 4, 0, (void *)Debug_GetPlyTime, (void *)Debug_SetPlyTime, (void *)ov0_0214F904, (void *)ov0_0214F990 },
 };
 
 DebugMenuItem sMAINItems[] = {
     { "Map", 5, 0, 3, 1, 0, 0, (void *)ov0_0214DD8C, 0 },
     { "Event(Chap", 6, 0, 3, 5, (void *)ov0_0214C790, 0, 0, 0 },
-    { "Quest", 6, 0, 3, 32, (void *)ov0_0214DD9C, 0, 0, 0 },
-    { "Mission", 6, 0, 3, 32, (void *)ov0_0214DDAC, 0, 0, 0 },
+    { "Quest", 6, 0, 3, 32, (void *)Debug_MAIN_GetQuest, 0, 0, 0 },
+    { "Mission", 6, 0, 3, 32, (void *)Debug_GetMission, 0, 0, 0 },
     { "LastMes", 5, 2, 0, 0, 0, 0, (void *)ov0_0214DDBC, 0 },
     { "Player", 0, 0, 3, 3, 0, 0, 0, 0 },
-    { "DEBPRIM", 4, 2, 3, 0, (void *)ov0_0214BFB8, (void *)ov0_0214BFE4, (void *)sDebugPrimNames, (void *)3 },
+    { "DEBPRIM", 4, 2, 3, 0, (void *)Debug_GetDebprim, (void *)Debug_SetDebprim, (void *)sDebugPrimNames, (void *)3 },
     { "DbgInfo", 0, 0, 3, 9, 0, 0, 0, 0 },
     { "SetActor", 0, 0, 3, 10, 0, 0, 0, 0 },
     { "FieldEffect", 0, 0, 3, 11, 0, 0, 0, 0 },
@@ -2534,7 +2534,7 @@ DebugMenuItem sMAINItems[] = {
     { "ActorDisp", 0, 0, 3, 27, 0, 0, 0, 0 },
     { "Browser", 0, 0, 3, 28, 0, 0, 0, 0 },
     { "RangerRecord", 0, 0, 3, 29, 0, 0, 0, 0 },
-    { "GAMEEND", 2, 3, 3, 0, 0, (void *)ov0_0214BF94, 0, 0 },
+    { "GAMEEND", 2, 3, 3, 0, 0, (void *)Debug_DoGameend, 0, 0 },
 };
 
 int sManpuTypes[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 13, 14, 10, 11 };
@@ -2558,24 +2558,24 @@ DebugMenuItem sEventFlagsItems[] = {
 };
 
 DebugMenuItem sCustom0Items[] = {
-    { "NORMAL_G", 1, 2, 4, 0, (void *)ov0_0214D2CC, (void *)ov0_0214D2E4, (void *)3, 0 },
-    { "LEAF_G", 1, 2, 4, 0, (void *)ov0_0214D300, (void *)ov0_0214D318, (void *)3, 0 },
-    { "AQUA_G", 1, 2, 4, 0, (void *)ov0_0214D334, (void *)ov0_0214D34C, (void *)3, 0 },
-    { "ROCK_G", 1, 2, 4, 0, (void *)ov0_0214D368, (void *)ov0_0214D380, (void *)3, 0 },
-    { "INSECT_G", 1, 2, 4, 0, (void *)ov0_0214D39C, (void *)ov0_0214D3B4, (void *)3, 0 },
-    { "AIR_G", 1, 2, 4, 0, (void *)ov0_0214D3D0, (void *)ov0_0214D3E8, (void *)3, 0 },
-    { "FIRE_G", 1, 2, 4, 0, (void *)ov0_0214D404, (void *)ov0_0214D41C, (void *)3, 0 },
-    { "FIGHT_G", 1, 2, 4, 0, (void *)ov0_0214D438, (void *)ov0_0214D450, (void *)3, 0 },
-    { "LIGHT_G", 1, 2, 4, 0, (void *)ov0_0214D46C, (void *)ov0_0214D484, (void *)3, 0 },
+    { "NORMAL_G", 1, 2, 4, 0, (void *)Debug_GetNormalG, (void *)Debug_SetNormalG, (void *)3, 0 },
+    { "LEAF_G", 1, 2, 4, 0, (void *)Debug_GetLeafG, (void *)Debug_SetLeafG, (void *)3, 0 },
+    { "AQUA_G", 1, 2, 4, 0, (void *)Debug_GetAquaG, (void *)Debug_SetAquaG, (void *)3, 0 },
+    { "ROCK_G", 1, 2, 4, 0, (void *)Debug_GetRockG, (void *)Debug_SetRockG, (void *)3, 0 },
+    { "INSECT_G", 1, 2, 4, 0, (void *)Debug_GetInsectG, (void *)Debug_SetInsectG, (void *)3, 0 },
+    { "AIR_G", 1, 2, 4, 0, (void *)Debug_GetAirG, (void *)Debug_SetAirG, (void *)3, 0 },
+    { "FIRE_G", 1, 2, 4, 0, (void *)Debug_GetFireG, (void *)Debug_SetFireG, (void *)3, 0 },
+    { "FIGHT_G", 1, 2, 4, 0, (void *)Debug_GetFightG, (void *)Debug_SetFightG, (void *)3, 0 },
+    { "LIGHT_G", 1, 2, 4, 0, (void *)Debug_GetLightG, (void *)Debug_SetLightG, (void *)3, 0 },
 };
 
 DebugMenuItem sEventItems[] = {
     { "Chapter", 0, 0, 0, 6, 0, 0, 0, 0 },
-    { "EventFlags", 0, 0, 1, 31, 0, (void *)ov0_0214E24C, 0, 0 },
+    { "EventFlags", 0, 0, 1, 31, 0, (void *)Debug_DoEventFlags, 0, 0 },
 };
 
 DebugMenuItem sPartnerMoodItems[] = {
-    { "PartnerMood", 4, 2, 4, 0, 0, (void *)ov0_0214EE8C, (void *)sMoodNames, (void *)3 },
+    { "PartnerMood", 4, 2, 4, 0, 0, (void *)Debug_DoPartnerMood, (void *)sMoodNames, (void *)3 },
 };
 
 const char *sSexNames[] = { "MALE", "FEMALE" };
@@ -2583,23 +2583,23 @@ const char *sSexNames[] = { "MALE", "FEMALE" };
 const char *sWatchNames[] = { "NONE", "LOOK", "CAPTURE" };
 
 DebugMenuItem sBrowserItems[] = {
-    { "SetWatchAll", 4, 1, 3, 0, (void *)ov0_0214F0A4, (void *)ov0_0214F0AC, (void *)sWatchNames, (void *)3 },
-    { "SPCapture", 4, 1, 3, 0, (void *)ov0_0214F0A4, (void *)ov0_0214F184, (void *)sCaptureNames, (void *)8 },
-    { "Regigigas", 0, 0, 1, 0, (void *)ov0_0214F0A4, (void *)ov0_0214F274, 0, 0 },
+    { "SetWatchAll", 4, 1, 3, 0, (void *)ov0_0214F0A4, (void *)Debug_SetSetWatchAll, (void *)sWatchNames, (void *)3 },
+    { "SPCapture", 4, 1, 3, 0, (void *)ov0_0214F0A4, (void *)Debug_SetSPCapture, (void *)sCaptureNames, (void *)8 },
+    { "Regigigas", 0, 0, 1, 0, (void *)ov0_0214F0A4, (void *)Debug_SetRegigigas, 0, 0 },
 };
 
 const char *sEncStates[] = { "CLOSE", "NEW", "OPEN" };
 
 DebugMenuItem sQuestItems[] = {
-    { "Quest", 5, 0, 1, 7, (void *)ov0_0214DE24, (void *)ov0_0214DE34, (void *)ov0_0214DE44, (void *)ov0_0214DEC8 },
-    { "Quest OPEN ALL", 0, 2, 8, 0, 0, (void *)ov0_0214E040, 0, 0 },
-    { "Quest CLOSE ALL", 0, 2, 8, 0, 0, (void *)ov0_0214E0D0, 0, 0 },
-    { "Quest RANDOM", 0, 2, 8, 0, 0, (void *)ov0_0214E110, 0, 0 },
+    { "Quest", 5, 0, 1, 7, (void *)Debug_Quest_GetQuest, (void *)Debug_SetQuest, (void *)ov0_0214DE44, (void *)ov0_0214DEC8 },
+    { "Quest OPEN ALL", 0, 2, 8, 0, 0, (void *)Debug_DoQuestOpenAll, 0, 0 },
+    { "Quest CLOSE ALL", 0, 2, 8, 0, 0, (void *)Debug_DoQuestCloseAll, 0, 0 },
+    { "Quest RANDOM", 0, 2, 8, 0, 0, (void *)Debug_DoQuestRandom, 0, 0 },
 };
 
 DebugMenuItem sAddTargetItems[] = {
-    { "TargetID", 5, 2, 2, 0, (void *)ov0_0214BB18, (void *)ov0_0214BB28, (void *)ov0_0214BB38, (void *)ov0_0214BBCC },
-    { "ScriptID", 1, 2, 2, 0, 0, (void *)ov0_0214BBEC, (void *)1000, 0 },
+    { "TargetID", 5, 2, 2, 0, (void *)Debug_GetTargetID, (void *)Debug_SetTargetID, (void *)ov0_0214BB38, (void *)ov0_0214BBCC },
+    { "ScriptID", 1, 2, 2, 0, 0, (void *)Debug_DoScriptID, (void *)1000, 0 },
 };
 
 DebugMenuItem sCustomPartsItems[] = {
@@ -2645,54 +2645,54 @@ DebugMenu sMenus[] = {
 };
 
 DebugMenuItem sAddPartyItems[] = {
-    { "PokeAdd", 5, 2, 2, 0, (void *)ov0_0214C560, (void *)ov0_0214C568, (void *)ov0_0214C4A0, (void *)ov0_0214C540 },
+    { "PokeAdd", 5, 2, 2, 0, (void *)Debug_GetPokeAdd, (void *)Debug_SetPokeAdd, (void *)ov0_0214C4A0, (void *)ov0_0214C540 },
 };
 
 DebugMenuItem sPartnerList1Items[] = {
-    { "Naetle", 3, 2, 4, 0, (void *)ov0_0214D8F8, (void *)ov0_0214D914, 0, 0 },
-    { "Hikozaru", 3, 2, 4, 0, (void *)ov0_0214D860, (void *)ov0_0214D87C, 0, 0 },
-    { "Gureggru", 3, 2, 4, 0, (void *)ov0_0214DA28, (void *)ov0_0214DA44, 0, 0 },
-    { "Yukikaburi", 3, 2, 4, 0, (void *)ov0_0214D990, (void *)ov0_0214D9AC, 0, 0 },
-    { "Manene", 3, 2, 4, 0, (void *)ov0_0214DB0C, (void *)ov0_0214DB28, 0, 0 },
-    { "Hippopotas", 3, 2, 4, 0, (void *)ov0_0214DA74, (void *)ov0_0214DA90, 0, 0 },
-    { "Fukamaru", 3, 2, 4, 0, (void *)ov0_0214DC3C, (void *)ov0_0214DC58, 0, 0 },
-    { "Pochama", 3, 2, 4, 0, (void *)ov0_0214D8AC, (void *)ov0_0214D8C8, 0, 0 },
+    { "Naetle", 3, 2, 4, 0, (void *)Debug_GetNaetle, (void *)Debug_SetNaetle, 0, 0 },
+    { "Hikozaru", 3, 2, 4, 0, (void *)Debug_GetHikozaru, (void *)Debug_SetHikozaru, 0, 0 },
+    { "Gureggru", 3, 2, 4, 0, (void *)Debug_GetGureggru, (void *)Debug_SetGureggru, 0, 0 },
+    { "Yukikaburi", 3, 2, 4, 0, (void *)Debug_GetYukikaburi, (void *)Debug_SetYukikaburi, 0, 0 },
+    { "Manene", 3, 2, 4, 0, (void *)Debug_GetManene, (void *)Debug_SetManene, 0, 0 },
+    { "Hippopotas", 3, 2, 4, 0, (void *)Debug_GetHippopotas, (void *)Debug_SetHippopotas, 0, 0 },
+    { "Fukamaru", 3, 2, 4, 0, (void *)Debug_GetFukamaru, (void *)Debug_SetFukamaru, 0, 0 },
+    { "Pochama", 3, 2, 4, 0, (void *)Debug_GetPochama, (void *)Debug_SetPochama, 0, 0 },
 };
 
 DebugMenuItem sDebugInfoItems[] = {
     { "TexVramInfo", 0, 1, 1, 0, 0, (void *)ov0_0214C900, 0, 0 },
-    { "PlttVramInfo", 0, 1, 1, 0, 0, (void *)ov0_0214C90C, 0, 0 },
-    { "UpperDbgInfo", 0, 1, 1, 0, 0, (void *)ov0_0214C918, 0, 0 },
-    { "ProcLoad", 3, 2, 3, 0, (void *)ov0_0214C738, (void *)ov0_0214C764, 0, 0 },
+    { "PlttVramInfo", 0, 1, 1, 0, 0, (void *)Debug_DoPlttVramInfo, 0, 0 },
+    { "UpperDbgInfo", 0, 1, 1, 0, 0, (void *)Debug_DoUpperDbgInfo, 0, 0 },
+    { "ProcLoad", 3, 2, 3, 0, (void *)Debug_GetProcLoad, (void *)Debug_SetProcLoad, 0, 0 },
 };
 
 DebugMenuItem sEncyclopediaMapItems[] = {
-    { "EncMap", 5, 1, 4, 0, (void *)ov0_0214EA74, (void *)ov0_0214EA00, (void *)ov0_0214EACC, (void *)ov0_0214ED0C },
+    { "EncMap", 5, 1, 4, 0, (void *)Debug_EncyclopediaMap_GetEncMap, (void *)Debug_EncyclopediaMap_SetEncMap, (void *)ov0_0214EACC, (void *)ov0_0214ED0C },
 };
 
 DebugMenuItem sMapItems[] = {
     { "MapID", 5, 0, 0, 2, (void *)ov0_0214BACC, 0, (void *)ov0_0214B9B0, 0 },
-    { "CollFree", 3, 2, 2, 0, (void *)ov0_0214C448, (void *)ov0_0214C474, 0, 0 },
-    { "EncFree", 3, 2, 3, 0, (void *)ov0_0214C6E0, (void *)ov0_0214C70C, 0, 0 },
-    { "EvArea", 3, 2, 3, 0, (void *)ov0_0214C664, (void *)ov0_0214C690, 0, 0 },
+    { "CollFree", 3, 2, 2, 0, (void *)Debug_GetCollFree, (void *)Debug_SetCollFree, 0, 0 },
+    { "EncFree", 3, 2, 3, 0, (void *)Debug_GetEncFree, (void *)Debug_SetEncFree, 0, 0 },
+    { "EvArea", 3, 2, 3, 0, (void *)Debug_GetEvArea, (void *)Debug_SetEvArea, 0, 0 },
     { "AddTarget", 0, 0, 0, 14, 0, 0, 0, 0 },
-    { "VisitAll", 3, 2, 3, 0, 0, (void *)ov0_0214DD20, 0, 0 },
+    { "VisitAll", 3, 2, 3, 0, 0, (void *)Debug_DoVisitAll, 0, 0 },
 };
 
 DebugMenuItem sPlayerMoveItems[] = {
-    { "POSX", 1, 2, 4, 0, (void *)ov0_0214BDD0, (void *)ov0_0214BE08, (void *)2048, 0 },
-    { "POSY", 1, 2, 4, 0, (void *)ov0_0214BEB0, (void *)ov0_0214BEE8, (void *)2048, 0 },
+    { "POSX", 1, 2, 4, 0, (void *)Debug_GetPosx, (void *)Debug_SetPosx, (void *)2048, 0 },
+    { "POSY", 1, 2, 4, 0, (void *)Debug_GetPosy, (void *)Debug_SetPosy, (void *)2048, 0 },
 };
 
 DebugMenuItem sEncyclopediaCaptItems[] = {
-    { "EncCapt", 5, 1, 4, 0, (void *)ov0_0214EB78, (void *)ov0_0214EB04, (void *)ov0_0214EBD0, (void *)ov0_0214ED0C },
+    { "EncCapt", 5, 1, 4, 0, (void *)Debug_EncyclopediaCapt_GetEncCapt, (void *)Debug_EncyclopediaCapt_SetEncCapt, (void *)ov0_0214EBD0, (void *)ov0_0214ED0C },
 };
 
 DebugMenuItem sFogColorItems[] = {
-    { "R", 1, 1, 4, 0, (void *)ov0_0214CCBC, (void *)ov0_0214CCCC, (void *)31, 0 },
-    { "G", 1, 1, 4, 0, (void *)ov0_0214CCEC, (void *)ov0_0214CCFC, (void *)31, 0 },
-    { "B", 1, 1, 4, 0, (void *)ov0_0214CD1C, (void *)ov0_0214CD2C, (void *)31, 0 },
-    { "A", 1, 1, 4, 0, (void *)ov0_0214CC8C, (void *)ov0_0214CC9C, (void *)31, 0 },
+    { "R", 1, 1, 4, 0, (void *)Debug_GetR, (void *)Debug_SetR, (void *)31, 0 },
+    { "G", 1, 1, 4, 0, (void *)Debug_GetG, (void *)Debug_SetG, (void *)31, 0 },
+    { "B", 1, 1, 4, 0, (void *)Debug_GetB, (void *)Debug_SetB, (void *)31, 0 },
+    { "A", 1, 1, 4, 0, (void *)Debug_GetA, (void *)Debug_SetA, (void *)31, 0 },
 };
 
 const char *sCaptureNames[] = { "XXX", "1XX", "X2X", "12X", "XX3", "1X3", "X23", "123" };
@@ -2700,20 +2700,20 @@ const char *sCaptureNames[] = { "XXX", "1XX", "X2X", "12X", "XX3", "1X3", "X23",
 const char *sQuestStates[] = { "CLOSE", "NEW", "OPEN", "ACCEPT", "CLEAR" };
 
 DebugMenuItem sActorDispItems[] = {
-    { "PlyrDisp", 3, 2, 4, 0, (void *)ov0_0214EEC4, (void *)ov0_0214EFB4, 0, 0 },
-    { "PrtyDisp", 3, 2, 4, 0, (void *)ov0_0214EEF4, (void *)ov0_0214EFE4, 0, 0 },
-    { "EneDisp", 3, 2, 4, 0, (void *)ov0_0214EF24, (void *)ov0_0214F014, 0, 0 },
-    { "NpcDisp", 3, 2, 4, 0, (void *)ov0_0214EF54, (void *)ov0_0214F044, 0, 0 },
-    { "ObjDisp", 3, 2, 4, 0, (void *)ov0_0214EF84, (void *)ov0_0214F074, 0, 0 },
+    { "PlyrDisp", 3, 2, 4, 0, (void *)Debug_GetPlyrDisp, (void *)Debug_SetPlyrDisp, 0, 0 },
+    { "PrtyDisp", 3, 2, 4, 0, (void *)Debug_GetPrtyDisp, (void *)Debug_SetPrtyDisp, 0, 0 },
+    { "EneDisp", 3, 2, 4, 0, (void *)Debug_GetEneDisp, (void *)Debug_SetEneDisp, 0, 0 },
+    { "NpcDisp", 3, 2, 4, 0, (void *)Debug_GetNpcDisp, (void *)Debug_SetNpcDisp, 0, 0 },
+    { "ObjDisp", 3, 2, 4, 0, (void *)Debug_GetObjDisp, (void *)Debug_SetObjDisp, 0, 0 },
     { "HPDisp", 3, 2, 4, 0, (void *)ov0_0214C010, (void *)ov0_0214C040, 0, 0 },
 };
 
 DebugMenuItem sPlayerItems[] = {
-    { "PlyrHP", 1, 2, 4, 0, (void *)ov0_0214C070, (void *)ov0_0214C088, (void *)128, 0 },
-    { "PlyrLvl", 1, 2, 4, 0, (void *)ov0_0214C0C0, (void *)ov0_0214C0DC, (void *)128, 0 },
-    { "RangCls", 1, 2, 3, 0, (void *)ov0_0214C120, (void *)ov0_0214C13C, (void *)10, 0 },
-    { "RangGrd", 1, 2, 3, 0, (void *)ov0_0214C170, (void *)ov0_0214C194, (void *)2, 0 },
-    { "PlyrSex", 4, 2, 3, 0, (void *)ov0_0214C2E8, (void *)ov0_0214C300, (void *)sSexNames, (void *)2 },
+    { "PlyrHP", 1, 2, 4, 0, (void *)Debug_GetPlyrHP, (void *)Debug_SetPlyrHP, (void *)128, 0 },
+    { "PlyrLvl", 1, 2, 4, 0, (void *)Debug_GetPlyrLvl, (void *)Debug_SetPlyrLvl, (void *)128, 0 },
+    { "RangCls", 1, 2, 3, 0, (void *)Debug_GetRangCls, (void *)Debug_SetRangCls, (void *)10, 0 },
+    { "RangGrd", 1, 2, 3, 0, (void *)Debug_GetRangGrd, (void *)Debug_SetRangGrd, (void *)2, 0 },
+    { "PlyrSex", 4, 2, 3, 0, (void *)Debug_GetPlyrSex, (void *)Debug_SetPlyrSex, (void *)sSexNames, (void *)2 },
     { "PlyrMove", 0, 0, 3, 4, 0, 0, 0, 0 },
     { "PokeAdd", 0, 0, 3, 8, 0, 0, 0, 0 },
     { "Custom", 0, 0, 3, 15, 0, 0, 0, 0 },
@@ -2725,48 +2725,48 @@ DebugMenuItem sPlayerItems[] = {
 const char *sTestEffectNames[] = { "BLOOM1", "BLOOM2", "BLOOM3", "DARKFOG1", "DARKFOG2", "DARKFOG3", "SHADOW1", "SHADOW2", "HANABI1", "HANABI2", "CLEAR1", "CLEAR2", "CLEAR3", "CLEAR4", "GLITTER", "B-STONE", "B-STONE2", "FLOWER", "CREVICE1", "CREVICE2" };
 
 DebugMenuItem sSetWeatherItems[] = {
-    { "Weather", 1, 2, 2, 0, (void *)ov0_0214CB2C, (void *)ov0_0214CB34, (void *)16, 0 },
+    { "Weather", 1, 2, 2, 0, (void *)Debug_GetWeather, (void *)Debug_SetWeather, (void *)16, 0 },
 };
 
 DebugMenuItem sSetActorItems[] = {
     { "Poke:", 0, 2, 1, 0, 0, (void *)ov0_0214C900, 0, 0 },
     { "put field", 4, 2, 1, 0, 0, (void *)ov0_0214C900, (void *)sPutFieldNames, (void *)3 },
     { "put party", 0, 2, 1, 0, 0, (void *)ov0_0214C900, 0, 0 },
-    { "view party", 0, 2, 8, 0, 0, (void *)ov0_0214C930, 0, 0 },
+    { "view party", 0, 2, 8, 0, 0, (void *)Debug_DoViewParty, 0, 0 },
 };
 
 DebugMenuItem sEncyclopediaItems[] = {
-    { "EncMap", 5, 0, 1, 23, (void *)ov0_0214E83C, (void *)ov0_0214E86C, (void *)ov0_0214E8A4, (void *)ov0_0214E89C },
-    { "EncCapt", 5, 0, 1, 24, (void *)ov0_0214E84C, (void *)ov0_0214E87C, (void *)ov0_0214E918, (void *)ov0_0214E89C },
-    { "EncWord", 5, 0, 1, 25, (void *)ov0_0214E85C, (void *)ov0_0214E88C, (void *)ov0_0214E98C, (void *)ov0_0214E89C },
-    { "Disp ALL", 0, 2, 1, 0, 0, (void *)ov0_0214ED14, 0, 0 },
-    { "Hide ALL", 0, 2, 1, 0, 0, (void *)ov0_0214EE00, 0, 0 },
+    { "EncMap", 5, 0, 1, 23, (void *)Debug_Encyclopedia_GetEncMap, (void *)Debug_Encyclopedia_SetEncMap, (void *)ov0_0214E8A4, (void *)ov0_0214E89C },
+    { "EncCapt", 5, 0, 1, 24, (void *)Debug_Encyclopedia_GetEncCapt, (void *)Debug_Encyclopedia_SetEncCapt, (void *)ov0_0214E918, (void *)ov0_0214E89C },
+    { "EncWord", 5, 0, 1, 25, (void *)Debug_Encyclopedia_GetEncWord, (void *)Debug_Encyclopedia_SetEncWord, (void *)ov0_0214E98C, (void *)ov0_0214E89C },
+    { "Disp ALL", 0, 2, 1, 0, 0, (void *)Debug_DoDispAll, 0, 0 },
+    { "Hide ALL", 0, 2, 1, 0, 0, (void *)Debug_DoHideAll, 0, 0 },
 };
 
 DebugMenuItem sCustom1Items[] = {
-    { "CROUND_G", 1, 2, 4, 0, (void *)ov0_0214D4A0, (void *)ov0_0214D4B8, (void *)3, 0 },
-    { "METAL_G", 1, 2, 4, 0, (void *)ov0_0214D4D4, (void *)ov0_0214D4EC, (void *)3, 0 },
-    { "POISON_G", 1, 2, 4, 0, (void *)ov0_0214D508, (void *)ov0_0214D520, (void *)3, 0 },
-    { "HORROR_G", 1, 2, 4, 0, (void *)ov0_0214D53C, (void *)ov0_0214D554, (void *)3, 0 },
-    { "PSYCHO_G", 1, 2, 4, 0, (void *)ov0_0214D570, (void *)ov0_0214D588, (void *)3, 0 },
-    { "DARK_G", 1, 2, 4, 0, (void *)ov0_0214D5A4, (void *)ov0_0214D5BC, (void *)3, 0 },
-    { "ICE_G", 1, 2, 4, 0, (void *)ov0_0214D5D8, (void *)ov0_0214D5F0, (void *)3, 0 },
-    { "DRAGON_G", 1, 2, 4, 0, (void *)ov0_0214D60C, (void *)ov0_0214D624, (void *)3, 0 },
-    { "LongLine", 1, 2, 4, 0, (void *)ov0_0214D640, (void *)ov0_0214D658, (void *)3, 0 },
+    { "CROUND_G", 1, 2, 4, 0, (void *)Debug_GetCroundG, (void *)Debug_SetCroundG, (void *)3, 0 },
+    { "METAL_G", 1, 2, 4, 0, (void *)Debug_GetMetalG, (void *)Debug_SetMetalG, (void *)3, 0 },
+    { "POISON_G", 1, 2, 4, 0, (void *)Debug_GetPoisonG, (void *)Debug_SetPoisonG, (void *)3, 0 },
+    { "HORROR_G", 1, 2, 4, 0, (void *)Debug_GetHorrorG, (void *)Debug_SetHorrorG, (void *)3, 0 },
+    { "PSYCHO_G", 1, 2, 4, 0, (void *)Debug_GetPsychoG, (void *)Debug_SetPsychoG, (void *)3, 0 },
+    { "DARK_G", 1, 2, 4, 0, (void *)Debug_GetDarkG, (void *)Debug_SetDarkG, (void *)3, 0 },
+    { "ICE_G", 1, 2, 4, 0, (void *)Debug_GetIceG, (void *)Debug_SetIceG, (void *)3, 0 },
+    { "DRAGON_G", 1, 2, 4, 0, (void *)Debug_GetDragonG, (void *)Debug_SetDragonG, (void *)3, 0 },
+    { "LongLine", 1, 2, 4, 0, (void *)Debug_GetLongLine, (void *)Debug_SetLongLine, (void *)3, 0 },
 };
 
 DebugMenuItem sPartnerAssistCountItems[] = {
-    { "PtAssCnt", 8, 1, 4, 0, (void *)ov0_0214F99C, (void *)ov0_0214F9B8, (void *)9999999, 0 },
+    { "PtAssCnt", 8, 1, 4, 0, (void *)Debug_PartnerAssistCount_GetPtAssCnt, (void *)Debug_PartnerAssistCount_SetPtAssCnt, (void *)9999999, 0 },
 };
 
 const char *sPutFieldNames[] = { "(none)", "(hide)", "(fall)" };
 
 DebugMenuItem sEncyclopediaWordItems[] = {
-    { "EncWord", 5, 1, 4, 0, (void *)ov0_0214EC7C, (void *)ov0_0214EC08, (void *)ov0_0214ECD4, (void *)ov0_0214ED0C },
+    { "EncWord", 5, 1, 4, 0, (void *)Debug_EncyclopediaWord_GetEncWord, (void *)Debug_EncyclopediaWord_SetEncWord, (void *)ov0_0214ECD4, (void *)ov0_0214ED0C },
 };
 
 DebugMenuItem sMapJumpItems[] = {
-    { "MapJump", 5, 3, 3, 0, (void *)ov0_0214BACC, (void *)ov0_0214BADC, (void *)ov0_0214B9B0, (void *)ov0_0214BAAC },
+    { "MapJump", 5, 3, 3, 0, (void *)ov0_0214BACC, (void *)Debug_SetMapJump, (void *)ov0_0214B9B0, (void *)ov0_0214BAAC },
 };
 
 DebugMenuItem sPartnerGetFlagItems[] = {
@@ -2776,33 +2776,33 @@ DebugMenuItem sPartnerGetFlagItems[] = {
 
 const char *sDebugPrimNames[] = { "OFF", "Collision", "TouchRect" };
 
-UnkClass_0214F9DC::UnkClass_0214F9DC(CGame *game)
+FieldDebugMenu::FieldDebugMenu(CGame *game)
 {
     MAIN_BSS_0210CA80 = this;
     m_game = game;
-    unk_04 = new UnkClass_02008FA8(game->GetPrinter(), (u32)game->unk_0014);
+    unk_04 = new DebugProcessManager(game->GetPrinter(), (u32)game->unk_0014);
     unk_08 = NULL;
     unk_0C = NULL;
     unk_10 = 0;
     ov0_0214FA94(sMenus, sizeof(sMenus) / sizeof(sMenus[0]));
 }
 
-UnkClass_0214F9DC::~UnkClass_0214F9DC()
+FieldDebugMenu::~FieldDebugMenu()
 {
-    unk_04->sub_02009020();
+    unk_04->CloseAll();
     SAFE_DELETE(unk_04);
     MAIN_BSS_0210CA80 = NULL;
 }
 
-void UnkClass_0214F9DC::ov0_0214FA94(DebugMenu *menus, int count)
+void FieldDebugMenu::ov0_0214FA94(DebugMenu *menus, int count)
 {
     unk_0C = menus;
     unk_10 = count;
 }
 
-void UnkClass_0214F9DC::ov0_0214FAA0()
+void FieldDebugMenu::ov0_0214FAA0()
 {
-    unk_04->sub_020090E8(0, 0);
+    unk_04->SetValue(0, 0);
     unk_08 = unk_0C;
     for (int i = 0; i < unk_10; i++) {
         unk_0C[i].unk_10 = 0;
@@ -2810,12 +2810,12 @@ void UnkClass_0214F9DC::ov0_0214FAA0()
     }
 }
 
-void UnkClass_0214F9DC::ov0_0214FB08()
+void FieldDebugMenu::ov0_0214FB08()
 {
-    unk_04->sub_02009050();
+    unk_04->Update();
 }
 
-BOOL UnkClass_0214F9DC::ov0_0214FB18()
+BOOL FieldDebugMenu::ov0_0214FB18()
 {
-    return unk_04->sub_02009108();
+    return unk_04->IsActive();
 }

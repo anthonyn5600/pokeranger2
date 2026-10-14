@@ -46,7 +46,7 @@ static const fx32 sAssistTypeRates[19][19] = {
     { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 },
 };
 
-CBattleAssist::CBattleAssist(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, UnkClass_0212EEB4 *params, u16 arg3)
+CBattleAssist::CBattleAssist(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3)
 {
     unk_04 = arg3;
     unk_08 = effects;

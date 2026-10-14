@@ -4,10 +4,10 @@
 #include <nitro.h>
 
 #include "CGame.hpp"
-#include "UnkClass_0200E960.hpp"
-#include "UnkClass_0200ECD0.hpp"
-#include "UnkClass_02021404.hpp"
-#include "UnkClass_0202A510.hpp"
+#include "MessageTable.hpp"
+#include "OamSprite.hpp"
+#include "OamSpriteSet.hpp"
+#include "RegionMap.hpp"
 #include "common.hpp"
 #include "scene/CMapDispRscLoader.hpp"
 
@@ -50,12 +50,12 @@ public:
     u16 unk_00;
     int unk_04; // text needs redraw
     CMapDispRscLoader *unk_08;
-    UnkClass_0202A510 *unk_0C;
+    RegionMap *unk_0C;
     u32 unk_10;
-    UnkClass_02021404 *unk_14;
-    UnkClass_0200ECD0 *unk_18;
+    MessageTable *unk_14;
+    OamSpriteSet *unk_18;
     u32 unk_1C;
-    UnkClass_0200E960 *unk_20[6];
+    OamSprite *unk_20[6];
     u16 unk_38;
     CGame *unk_3C;
     CPathBuilder unk_40;

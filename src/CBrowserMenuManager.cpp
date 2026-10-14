@@ -1,23 +1,23 @@
+#include "BrowserScreen.hpp"
 #include "CGame.hpp"
-#include "UnkClass_0211D330.hpp"
 #include "UnkStruct_020107A8.hpp"
 #include "scene/CBrowserMenu.hpp"
 
-UnkClass_02120754::UnkClass_02120754()
+BrowserMenuSprite::BrowserMenuSprite()
 {
     unk_00 = NULL;
     unk_04 = NULL;
 }
 
-UnkClass_02120754::~UnkClass_02120754()
+BrowserMenuSprite::~BrowserMenuSprite()
 {
 }
 
-UnkClass_02120754 *UnkClass_02120754::Create(UnkClass_0200ECD0 *anim, int no, int x, int y, int priority)
+BrowserMenuSprite *BrowserMenuSprite::Create(OamSpriteSet *anim, int no, int x, int y, int priority)
 {
-    UnkClass_02120754 *sprite = new UnkClass_02120754();
+    BrowserMenuSprite *sprite = new BrowserMenuSprite();
     sprite->unk_04 = anim;
-    sprite->unk_00 = anim->sub_0200F4FC(no, x, y, priority);
+    sprite->unk_00 = anim->AddSprite(no, x, y, priority);
     sprite->unk_08 = anim->unk_24;
     return sprite;
 }

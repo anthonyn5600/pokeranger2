@@ -3,14 +3,14 @@
 #include <nitro.h>
 
 #include "CGame.hpp"
-#include "UnkClass_020B26A0.hpp"
+#include "SaveData.hpp"
 #include "heap.hpp"
 
 extern "C" {
 void LogError(const char *fmt, ...);
 }
 
-extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
+extern SaveData MAIN_BSS_020B26A0;
 
 static inline void SetArea(CFieldEventRect *er, int group, const Rectangle &rect, int enabled)
 {
@@ -46,7 +46,7 @@ CFieldEventRect::~CFieldEventRect()
 BOOL CFieldEventRect::Update(Point2D *pos, int group)
 {
     if (pos != NULL) {
-        if (sub_02006000(*pos, m_rect, 2) && group == m_group) {
+        if (PointInRect(*pos, m_rect, 2) && group == m_group) {
             switch (m_state) {
             case 0:
                 m_state = 1;
@@ -92,7 +92,7 @@ BOOL CFieldEventRect::Update(Point2D *pos, int group)
 
 BOOL CFieldEventRect::IsInside(Point2D *pos, int group)
 {
-    if (pos != NULL && sub_02006000(*pos, m_rect, 2) && group == m_group) {
+    if (pos != NULL && PointInRect(*pos, m_rect, 2) && group == m_group) {
         return TRUE;
     }
     return FALSE;
@@ -123,7 +123,7 @@ void CFieldEventRect::LoadScript(int id)
     OS_SPrintf(path, "data/Script/field/eventrect/er%03d/EventRect%06d.fsb", id / 1000, id);
     m_file = new CBinaryFile(path, 0, 0, heapId, NULL, 0);
     m_script = m_file->unk_4C;
-    sub_02044AC8(m_script);
+    Script_Link(m_script);
 }
 
 void CFieldEventRect::Release()
@@ -158,12 +158,12 @@ void CFieldEventRect::Draw(Camera2D *camera)
 BOOL CFieldEventRect::CallScript(const char *func, void *script)
 {
     if (script != NULL) {
-        sub_02044B48(&m_vm, m_stack, 0x40);
+        ScriptVM_Init(&m_vm, m_stack, 0x40);
         m_vm.unk_04 -= 2;
         u32 *args = m_vm.unk_04;
-        args[0] = MAIN_BSS_020B26A0.unk_001A;
+        args[0] = MAIN_BSS_020B26A0.m_mapId;
         args[1] = m_index;
-        if (sub_02045A18(&m_vm, script, func) == -1) {
+        if (ScriptVM_Start(&m_vm, script, func) == -1) {
             LogError("not found func FieldEventRect.cpp");
             return FALSE;
         }
@@ -177,5 +177,5 @@ BOOL CFieldEventRect::CallScript(const char *func, void *script)
 
 void CFieldEventRect::RunScript()
 {
-    m_scriptState = sub_02044C9C(&m_vm, 0xFFFFF);
+    m_scriptState = ScriptVM_Run(&m_vm, 0xFFFFF);
 }

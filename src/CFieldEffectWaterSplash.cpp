@@ -21,7 +21,7 @@ void CFieldEffectWaterSplash::ov0_021423A4()
     Deactivate();
 }
 
-void CFieldEffectWaterSplash::Setup(UnkClass_020074D4 *ncbr, UnkClass_02007AA4 *palette, CNCERFile *ncer, UnkClass_02008788 *cac)
+void CFieldEffectWaterSplash::Setup(VramImage *ncbr, VramPalette *palette, CNCERFile *ncer, CellAnimController *cac)
 {
     m_sprite.unk_2C = (UnkClass_CPrimitive_ImageProxy *)ncbr;
     m_sprite.unk_30 = NULL;
@@ -29,7 +29,7 @@ void CFieldEffectWaterSplash::Setup(UnkClass_020074D4 *ncbr, UnkClass_02007AA4 *
     m_sprite.unk_38 = (UnkClass_CSoftwareSprite_38 *)ncer;
     m_cac = cac;
     if (m_cac != NULL) {
-        m_anim = m_cac->sub_02008A80(1, 0);
+        m_anim = m_cac->Create(1, 0);
     }
 }
 
@@ -44,7 +44,7 @@ void CFieldEffectWaterSplash::Deactivate()
     m_active = FALSE;
 }
 
-int CFieldEffectWaterSplash::sub_0203312C(int param, int value)
+int CFieldEffectWaterSplash::SetParam(int param, int value)
 {
     int ret = 1;
     switch (param) {
@@ -64,7 +64,7 @@ int CFieldEffectWaterSplash::sub_0203312C(int param, int value)
 BOOL CFieldEffectWaterSplash::ov0_021421F0(int inTime, int holdTime, int outTime)
 {
     if (m_cac != NULL && m_anim != 0) {
-        m_cac->sub_020089B8(m_anim);
+        m_cac->Restart(m_anim);
     }
     return CFieldEffect::ov0_021421F0(inTime, holdTime, outTime);
 }
@@ -73,8 +73,8 @@ int CFieldEffectWaterSplash::ov0_02142264(int step)
 {
     int ret = CFieldEffect::ov0_02142264(step);
     if (ret != 0 && ret != 4 && m_cac != NULL && m_anim != 0) {
-        m_cac->sub_02008A38(m_anim);
-        if (m_cac->sub_02008860(m_anim) == 0) {
+        m_cac->Update(m_anim);
+        if (m_cac->GetStatus(m_anim) == 0) {
             ov0_02142240(0);
         }
     }
@@ -84,19 +84,19 @@ int CFieldEffectWaterSplash::ov0_02142264(int step)
 int CFieldEffectWaterSplash::ov0_02142344(Camera2D *camera)
 {
     if (m_cac != NULL && m_anim != 0) {
-        m_sprite.m_cellDataIdx = m_cac->sub_02008828(m_anim);
+        m_sprite.m_cellDataIdx = m_cac->GetCell(m_anim);
     }
     m_sprite.m_z = m_drawObj.m_depth;
     m_sprite.Render(camera);
     return 0;
 }
 
-void CFieldEffectWaterSplash::ov0_02142398(UnkClass_0211E3FC *renderLists)
+void CFieldEffectWaterSplash::ov0_02142398(DrawObjectList *renderLists)
 {
-    renderLists->sub_0200912C(&m_drawObj);
+    renderLists->Insert(&m_drawObj);
 }
 
-int CFieldEffectWaterSplash::CEffectDrawObject::sub_020091D4(Camera2D *camera, int budget)
+int CFieldEffectWaterSplash::CEffectDrawObject::Draw(Camera2D *camera, int budget)
 {
     m_depth = budget;
     return 10;
@@ -106,9 +106,9 @@ CFieldEffectWaterSplashFactory::CFieldEffectWaterSplashFactory(CFieldEffectManag
 {
     if (mgr != NULL) {
         for (int i = 0; i < 16; i++) {
-            UnkClass_02008788 *cac = mgr->m_resident.GetCac(8);
+            CellAnimController *cac = mgr->m_resident.GetCac(8);
             CNCERFile *ncer = mgr->m_resident.GetNcer(8);
-            UnkClass_02007AA4 *palette = mgr->m_resident.GetPalette();
+            VramPalette *palette = mgr->m_resident.GetPalette();
             m_splashes[i].Setup(mgr->m_resident.GetNcbr(0), palette, ncer, cac);
         }
     }
@@ -127,7 +127,7 @@ CFieldEffect *CFieldEffectWaterSplashFactory::Create(int arg)
     return splash;
 }
 
-int CFieldEffectWaterSplash::sub_02033028()
+int CFieldEffectWaterSplash::GetEffectId()
 {
     return 0x26;
 }

@@ -10,7 +10,7 @@ CFieldEffectSpark::CFieldEffectSpark(int kind)
     CFieldEffectNormalActorData *data = new CFieldEffectNormalActorData();
     if (data != NULL) {
         data->ov0_021503B8(kind, FALSE);
-        UnkClass_02007AA4 *palette = data->GetPalette();
+        VramPalette *palette = data->GetPalette();
         if (palette != NULL) {
             NNSG2dPaletteData *src = palette->GetData();
             u16 *raw = (u16 *)src->pRawData;
@@ -23,22 +23,22 @@ CFieldEffectSpark::CFieldEffectSpark(int kind)
                 m_plttData[i].szByte = src->szByte;
                 m_plttData[i].pRawData = m_plttRaw[i];
                 for (int j = 0; j < 2; j++) {
-                    m_palettes[i][j].sub_02007BAC(&m_plttData[i]);
+                    m_palettes[i][j].SetData(&m_plttData[i]);
                     m_plttKeys[i][j] = NNS_GfdAllocLnkPlttVram(m_palettes[i][j].unk_04->szByte, FALSE, 0);
                 }
-                m_palettes[i][1].sub_02007C34(NNS_GfdGetPlttKeyAddr(m_plttKeys[i][1]));
+                m_palettes[i][1].LoadToVramDeferred(NNS_GfdGetPlttKeyAddr(m_plttKeys[i][1]));
                 m_bank[i] = 0;
             }
         }
     }
     unk_18 = data;
-    UnkClass_02008788 *cac = unk_18->GetCac(0);
+    CellAnimController *cac = unk_18->GetCac(0);
     for (int i = 0; i < 3; i++) {
         if (cac != NULL) {
-            m_cacIds[i] = cac->sub_02008A80(1, 0);
+            m_cacIds[i] = cac->Create(1, 0);
             int n = 6;
             while (n--) {
-                cac->sub_020089EC();
+                cac->UpdateAll();
             }
         } else {
             m_cacIds[i] = 0xFFFF;
@@ -59,9 +59,9 @@ CFieldEffectSpark::~CFieldEffectSpark()
         }
     }
     if (unk_18 != NULL) {
-        UnkClass_02008788 *cac = unk_18->GetCac(0);
+        CellAnimController *cac = unk_18->GetCac(0);
         for (int i = 0; i < 3; i++) {
-            cac->sub_02008B80(m_cacIds[i]);
+            cac->Remove(m_cacIds[i]);
         }
     }
     SAFE_DELETE(unk_18);
@@ -104,10 +104,10 @@ int CFieldEffectSpark::ov0_02142264(int step)
                 m_glow[i].blendStep = -m_glow[i].blendStep;
             }
             if (swap) {
-                UnkClass_02007AA4 *palette = &m_palettes[i][back];
+                VramPalette *palette = &m_palettes[i][back];
                 MI_CpuCopy8(colors, (u16 *)palette->unk_04->pRawData + 2, 0xE);
                 if (m_plttKeys[i][back] != 0) {
-                    palette->sub_02007C34(NNS_GfdGetPlttKeyAddr(m_plttKeys[i][back]));
+                    palette->LoadToVramDeferred(NNS_GfdGetPlttKeyAddr(m_plttKeys[i][back]));
                 }
             }
         }
@@ -137,9 +137,9 @@ int CFieldEffectSpark::ov0_02142344(Camera2D *camera)
             Point2D pos = { m_pos.x, m_pos.y + m_glow[i].offset };
             Bob(this, m_glow[i]);
             m_sprites[i].SetPos(pos);
-            UnkClass_02008788 *cac = unk_18->GetCac(0);
+            CellAnimController *cac = unk_18->GetCac(0);
             if (cac != NULL) {
-                m_sprites[i].m_cellDataIdx = cac->sub_02008828(m_cacIds[i]);
+                m_sprites[i].m_cellDataIdx = cac->GetCell(m_cacIds[i]);
             }
             m_sprites[i].unk_34 = (UnkClass_CPrimitive_ImagePaletteProxy *)&m_palettes[i][m_bank[i]];
             if (m_palettes[i][m_bank[i]].unk_20 != 0) {
@@ -150,7 +150,7 @@ int CFieldEffectSpark::ov0_02142344(Camera2D *camera)
     return 0;
 }
 
-int CFieldEffectSpark::sub_0203312C(int param, int value)
+int CFieldEffectSpark::SetParam(int param, int value)
 {
     int ret = 1;
     switch (param) {
@@ -199,7 +199,7 @@ void CFieldEffectSpark::InitSprites()
     }
 }
 
-int CFieldEffectSpark::sub_020332A4()
+int CFieldEffectSpark::IsReady()
 {
     if (unk_18 == NULL) {
         return 1;
@@ -217,7 +217,7 @@ CFieldEffect *CFieldEffectSparkFactory::Create(int arg)
     return new CFieldEffectSpark(arg);
 }
 
-int CFieldEffectSpark::sub_02033028()
+int CFieldEffectSpark::GetEffectId()
 {
     return 0xF;
 }

@@ -8,24 +8,24 @@ extern Rectangle DAT_020842f8;
 
 Camera2D::Camera2D()
 {
-    sub_02003730();
+    Init();
 }
 
 Camera2D::~Camera2D()
 {
 }
 
-void Camera2D::sub_02003730()
+void Camera2D::Init()
 {
     unk_1C = FX32_CONST(0);
     unk_20 = FX32_CONST(0);
     unk_26 = 22;
     unk_28 = 2;
 
-    sub_02003788(FX32_CONST(0), FX32_CONST(GX_LCD_SIZE_Y), FX32_CONST(0), FX32_CONST(GX_LCD_SIZE_X), FX32_CONST(-1024), FX32_CONST(1024), FX32_CONST(16));
+    SetOrtho(FX32_CONST(0), FX32_CONST(GX_LCD_SIZE_Y), FX32_CONST(0), FX32_CONST(GX_LCD_SIZE_X), FX32_CONST(-1024), FX32_CONST(1024), FX32_CONST(16));
 }
 
-void Camera2D::sub_02003788(fx32 arg0, fx32 arg1, fx32 arg2, fx32 arg3, fx32 arg4, fx32 arg5, fx32 arg6)
+void Camera2D::SetOrtho(fx32 arg0, fx32 arg1, fx32 arg2, fx32 arg3, fx32 arg4, fx32 arg5, fx32 arg6)
 {
     unk_00 = arg0;
     unk_04 = arg1;
@@ -36,14 +36,14 @@ void Camera2D::sub_02003788(fx32 arg0, fx32 arg1, fx32 arg2, fx32 arg3, fx32 arg
     unk_18 = arg6;
 }
 
-void Camera2D::sub_020037B4()
+void Camera2D::ApplyProjection()
 {
     G3_ViewPort(0, 0, GX_LCD_SIZE_X - 1, GX_LCD_SIZE_Y - 1);
     G3_OrthoW(unk_00, unk_04, unk_08, unk_0C, unk_10, unk_14, unk_18, NULL);
     G3_MtxMode(GX_MTXMODE_POSITION);
 }
 
-void Camera2D::sub_0200381C()
+void Camera2D::ApplyView()
 {
     G3_Translate(unk_1C + FX32_CONST(GX_LCD_SIZE_X / 2), unk_20 + FX32_CONST(GX_LCD_SIZE_Y / 2), FX32_CONST(0));
 
@@ -55,7 +55,7 @@ void Camera2D::sub_0200381C()
     G3_MultMtx33(&mtx);
 }
 
-BOOL Camera2D::sub_020038A8(Rectangle *arg0, fx32 arg1)
+BOOL Camera2D::IsRectVisible(Rectangle *arg0, fx32 arg1)
 {
     Rectangle v0 = DAT_020842f8;
 

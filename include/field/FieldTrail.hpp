@@ -3,8 +3,8 @@
 
 #include <nitro.h>
 
+#include "Collision.hpp"
 #include "fx_utils.hpp"
-#include "sub_02006000.hpp"
 
 // Recent cells an actor walked through (newest first) and where its partner stood then.
 struct FieldTrail {

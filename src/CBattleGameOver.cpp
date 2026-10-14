@@ -1,10 +1,10 @@
 #include "battle/CBattleGameOver.hpp"
 
+#include "AudioEngine.hpp"
+#include "BrightnessFade.hpp"
 #include "CGame.hpp"
 #include "CPlayerHPGauge.hpp"
-#include "UnkClass_02008788.hpp"
-#include "UnkClass_0200E0B4.hpp"
-#include "UnkClass_02034478.hpp"
+#include "CellAnimController.hpp"
 #include "battle/CBattleDisk.hpp"
 #include "primitive/CSoftwareSprite.hpp"
 
@@ -47,8 +47,8 @@ void CBattleGameOver::ov1_0213A6A0()
     OS_SPrintf(nclr, "BOA:i%03d.NCLR", 19);
     OS_SPrintf(ncer, "BOA:i%03d_%02d.NCER", 19, 2);
     OS_SPrintf(cac, "BOA:i%03d_%02d.cac", 19, 2);
-    m_resA = new UnkClass_0201AAE0("BOA", path, ncbr, nclr, ncer, cac);
-    m_animA = m_resA->m_anim->sub_02008A80(1, 0);
+    m_resA = new GraphicsSet("BOA", path, ncbr, nclr, ncer, cac);
+    m_animA = m_resA->m_anim->Create(1, 0);
 }
 
 void CBattleGameOver::ov1_0213A77C()
@@ -64,8 +64,8 @@ void CBattleGameOver::ov1_0213A77C()
     OS_SPrintf(nclr, "BOB:i%03d.NCLR", 19);
     OS_SPrintf(ncer, "BOB:i%03d_%02d.NCER", 19, 3);
     OS_SPrintf(cac, "BOB:i%03d_%02d.cac", 19, 3);
-    m_resB = new UnkClass_0201AAE0("BOB", path, ncbr, nclr, ncer, cac);
-    m_animB = m_resB->m_anim->sub_02008A80(1, 0);
+    m_resB = new GraphicsSet("BOB", path, ncbr, nclr, ncer, cac);
+    m_animB = m_resB->m_anim->Create(1, 0);
 }
 
 void CBattleGameOver::ov1_0213A858()
@@ -81,8 +81,8 @@ void CBattleGameOver::ov1_0213A858()
     OS_SPrintf(nclr, "BOC:i019.NCLR");
     OS_SPrintf(ncer, "BOC:i019_03.NCER");
     OS_SPrintf(cac, "BOC:i019_03.cac");
-    m_resC = new UnkClass_0201AAE0("BOC", path, ncbr, nclr, ncer, cac);
-    m_animC = m_resC->m_anim->sub_02008A80(1, 0);
+    m_resC = new GraphicsSet("BOC", path, ncbr, nclr, ncer, cac);
+    m_animC = m_resC->m_anim->Create(1, 0);
 }
 
 void CBattleGameOver::ov1_0213A914()
@@ -94,12 +94,12 @@ void CBattleGameOver::ov1_0213A914()
 
 void CBattleGameOver::ov1_0213A948()
 {
-    m_game->unk_14BC->sub_0200E0E0(2, 20);
+    m_game->unk_14BC->Start(2, 20);
 }
 
 void CBattleGameOver::ov1_0213A968()
 {
-    m_game->unk_14BC->sub_0200E0E0(1, 8);
+    m_game->unk_14BC->Start(1, 8);
     m_flags &= ~0x1000;
     m_flags |= 0x2000;
 }
@@ -158,18 +158,18 @@ int CBattleGameOver::ov1_0213AA90(int z)
 
 void CBattleGameOver::ov1_0213AA9C()
 {
-    if (!m_game->unk_14BC->sub_0200E310()) {
+    if (!m_game->unk_14BC->IsActive()) {
         ov1_0213AC70();
     }
 }
 
 void CBattleGameOver::ov1_0213AAC8()
 {
-    UnkClass_0200E0B4 *fadeB = m_game->unk_14C0;
-    if (m_game->unk_14BC->sub_0200E310()) {
+    BrightnessFade *fadeB = m_game->unk_14C0;
+    if (m_game->unk_14BC->IsActive()) {
         return;
     }
-    if (fadeB->sub_0200E310()) {
+    if (fadeB->IsActive()) {
         return;
     }
     ov1_0213AC70();
@@ -212,14 +212,14 @@ void CBattleGameOver::vfunc_08()
     if (m_flags & 2) {
         ov1_0213A9BC();
     }
-    m_resA->m_anim->sub_020089EC();
-    m_resB->m_anim->sub_020089EC();
+    m_resA->m_anim->UpdateAll();
+    m_resB->m_anim->UpdateAll();
     if (m_flags & 0x2000) {
-        m_resC->m_anim->sub_020089EC();
+        m_resC->m_anim->UpdateAll();
     }
     if (m_flags & 0x2000) {
         if (m_frame == 80) {
-            m_audio->sub_02034C44(0x5D);
+            m_audio->PlaySe(0x5D);
         }
         if (m_frame <= 80) {
             m_frame++;
@@ -232,7 +232,7 @@ void CBattleGameOver::ov1_0213AC30()
     ov1_0213A914();
     m_state = 1;
     ov1_0213AA70(TRUE);
-    m_audio->sub_02034B58(30);
+    m_audio->StopBgm(30);
     m_flags |= 2;
 }
 
@@ -253,7 +253,7 @@ void CBattleGameOver::ov1_0213ACA4(Camera2D *camera)
     sprite->SetImage((UnkClass_CPrimitive_ImageProxy *)m_resA->m_image, NULL);
     sprite->unk_34 = (UnkClass_CPrimitive_ImagePaletteProxy *)m_resA->m_palette;
     sprite->unk_38 = (UnkClass_CSoftwareSprite_38 *)m_resA->m_cells;
-    sprite->m_cellDataIdx = m_resA->m_anim->sub_02008828(m_animA);
+    sprite->m_cellDataIdx = m_resA->m_anim->GetCell(m_animA);
     sprite->SetPos(m_disk->m_motion.GetPos());
     sprite->m_z = m_z;
     sprite->Render(camera);
@@ -265,7 +265,7 @@ void CBattleGameOver::ov1_0213AD3C(Camera2D *camera)
     sprite->SetImage((UnkClass_CPrimitive_ImageProxy *)m_resC->m_image, NULL);
     sprite->unk_34 = (UnkClass_CPrimitive_ImagePaletteProxy *)m_resC->m_palette;
     sprite->unk_38 = (UnkClass_CSoftwareSprite_38 *)m_resC->m_cells;
-    sprite->m_cellDataIdx = m_resC->m_anim->sub_02008828(m_animC);
+    sprite->m_cellDataIdx = m_resC->m_anim->GetCell(m_animC);
     sprite->SetPos(m_disk->m_motion.GetPos());
     sprite->m_z = m_z;
     sprite->Render(camera);

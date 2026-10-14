@@ -27,9 +27,9 @@ CFieldEffectSpray::CFieldEffectSpray(int kind)
         data->ov0_0214FFF0(kind, 1, 1);
     }
     unk_18 = data;
-    UnkClass_02008788 *cac = unk_18->GetCac(0);
+    CellAnimController *cac = unk_18->GetCac(0);
     if (cac != NULL) {
-        m_cacId = cac->sub_02008A80(1, 0);
+        m_cacId = cac->Create(1, 0);
     } else {
         LogError("effect anime data is null");
     }
@@ -47,9 +47,9 @@ CFieldEffectSpray::CFieldEffectSpray(int kind)
 CFieldEffectSpray::~CFieldEffectSpray()
 {
     if (unk_18 != NULL) {
-        UnkClass_02008788 *cac = unk_18->GetCac(0);
+        CellAnimController *cac = unk_18->GetCac(0);
         if (cac != NULL) {
-            cac->sub_02008B80(m_cacId);
+            cac->Remove(m_cacId);
         }
     }
     SAFE_DELETE(unk_18);
@@ -62,9 +62,9 @@ int CFieldEffectSpray::ov0_02142264(int step)
         if (unk_18 != NULL) {
             unk_18->Update();
         }
-        UnkClass_02008788 *cac = unk_18->GetCac(0);
+        CellAnimController *cac = unk_18->GetCac(0);
         if (cac != NULL) {
-            m_animator.m_cell = cac->sub_02008828(m_cacId);
+            m_animator.m_cell = cac->GetCell(m_cacId);
         }
         m_system.Update(step);
     }
@@ -82,7 +82,7 @@ int CFieldEffectSpray::ov0_02142344(Camera2D *camera)
     return 0;
 }
 
-int CFieldEffectSpray::sub_0203312C(int param, int value)
+int CFieldEffectSpray::SetParam(int param, int value)
 {
     BOOL ret = TRUE;
     switch (param) {
@@ -192,7 +192,7 @@ CFieldEffect *CFieldEffectSprayFactory::Create(int arg)
     return new CFieldEffectSpray(arg);
 }
 
-int CFieldEffectSpray::sub_02033028()
+int CFieldEffectSpray::GetEffectId()
 {
     return 7;
 }

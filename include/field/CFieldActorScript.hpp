@@ -13,10 +13,10 @@ class CFieldActorScript {
 public:
     CFieldActorScript(int stackSize);
     virtual ~CFieldActorScript();
-    virtual BOOL sub_0203BE48(CFieldActor *actor, const char *func);
-    virtual BOOL sub_0203BF00();
+    virtual BOOL Call(CFieldActor *actor, const char *func);
+    virtual BOOL Stop();
 
-    void sub_0203BF20();
+    void Step();
 
 public:
     int unk_04;

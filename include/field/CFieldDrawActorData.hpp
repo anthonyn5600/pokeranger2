@@ -16,14 +16,14 @@ public:
     }
 
     virtual void Release();
-    virtual void sub_02040E2C();
-    virtual void sub_02040E80();
+    virtual void AllocVram();
+    virtual void ReleaseVram();
 
-    void sub_02040830(int type, u16 id, int form, u16 mask, BOOL useTransfer, const char *arcName, BOOL alloc);
+    void LoadData(int type, u16 id, int form, u16 mask, BOOL useTransfer, const char *arcName, BOOL alloc);
     void sub_020409B4(u16 id, int form, u16 mask, u32 heapId, const char *arcName);
     void sub_02040DB8();
-    void sub_02040EBC();
-    void sub_02040EF8();
+    void LoadToVram();
+    void LoadPaletteDeferred();
 
 public:
     int unk_18;
@@ -46,10 +46,10 @@ public:
     virtual ~CActorDataPlayer();
     virtual void Release();
     virtual CActorAnim *GetAnim(u8 id);
-    virtual CActorAnim *sub_020143B8(int action, u32 sub);
+    virtual CActorAnim *FindAnim(int action, u32 sub);
     virtual u8 GetAnimId(int action, u32 sub);
 
-    void sub_02041344(u16 id, int form, u32 mask, const char *arcName, BOOL useTransfer, BOOL alloc);
+    void LoadPlayer(u16 id, int form, u32 mask, const char *arcName, BOOL useTransfer, BOOL alloc);
 
 public:
     u8 unk_34[0x50800];
@@ -63,8 +63,8 @@ public:
     CActorDataPartner();
     virtual ~CActorDataPartner();
     virtual void Release();
-    virtual void sub_02040E2C();
-    virtual void sub_02040E80();
+    virtual void AllocVram();
+    virtual void ReleaseVram();
 
     void sub_02041230(int type, u16 id, int form, u16 mask);
 

@@ -4,8 +4,8 @@
 #include <nitro.h>
 
 #include "CGame.hpp"
-#include "UnkClass_020091E8.hpp"
-#include "UnkClass_0202A2AC.hpp"
+#include "SubScreenButton.hpp"
+#include "TextboxManager.hpp"
 #include "common.hpp"
 
 // Styler menu data shared by the styler screens (ov5): styler level and the power-up levels from the save
@@ -26,7 +26,7 @@ public:
     CGame *m_game;
     UnkClass_020091E8_004 *m_menuMessages;
     UnkClass_020091E8_004 *m_assistMessages;
-    UnkClass_0202A2AC *unk_10;
+    SubScreenButton *unk_10;
     s32 m_powerLevels[26];
     s32 m_raised[26];
 };

@@ -1,7 +1,7 @@
 #include "Camera2D.hpp"
 #include "field/CSimpleSpriteNTF.hpp"
 
-void UnkClass_02041D98::Bind(GXTexPlttColor0 plttColor0, GXTexGen texGen)
+void NtfTextureParam::Bind(GXTexPlttColor0 plttColor0, GXTexGen texGen)
 {
     G3_TexImageParam(m_texFmt, texGen, m_sizeS, m_sizeT, GX_TEXREPEAT_NONE, GX_TEXFLIP_NONE, plttColor0, m_texAddr);
     G3_TexPlttBase(m_plttAddr, m_texFmt);
@@ -42,7 +42,7 @@ u32 CSimpleSpriteNTF::Render(Camera2D *camera)
 void CSimpleSpriteNTF::BindTexture()
 {
     if (unk_18 != NULL) {
-        ((UnkClass_02041D98 *)unk_18)->Bind(unk_58, GX_TEXGEN_NONE);
+        ((NtfTextureParam *)unk_18)->Bind(unk_58, GX_TEXGEN_NONE);
     }
 }
 

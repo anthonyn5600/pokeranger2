@@ -8,11 +8,11 @@ class CGame;
 class Camera2D;
 class CPrimitiveRECT;
 class CSoftwareSprite;
-class UnkClass_0200E960;
-class UnkClass_0200ECD0;
-class UnkClass_0201AAE0;
-class UnkClass_0201FC80;
-class UnkClass_02034478;
+class OamSprite;
+class OamSpriteSet;
+class GraphicsSet;
+class BGLayer;
+class AudioEngine;
 
 // Defined in ov19
 class CSexSelectScene : public CScene {
@@ -60,13 +60,13 @@ public:
     u16 unk_0E;
     int unk_10;
     int unk_14;
-    UnkClass_02034478 *m_audioEngine;
+    AudioEngine *m_audioEngine;
     CGame *m_game;
     Camera2D *unk_20;
-    UnkClass_0201FC80 *unk_24[2];
-    UnkClass_0201AAE0 *unk_2C[4];
-    UnkClass_0200ECD0 *unk_3C[5];
-    UnkClass_0200E960 *unk_50[6];
+    BGLayer *unk_24[2];
+    GraphicsSet *unk_2C[4];
+    OamSpriteSet *unk_3C[5];
+    OamSprite *unk_50[6];
     CSoftwareSprite *unk_68;
     CPrimitiveRECT *unk_6C;
     CPrimitiveRECT *unk_70[3];

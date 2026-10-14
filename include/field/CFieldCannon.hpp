@@ -3,13 +3,13 @@
 
 #include <nitro.h>
 
+#include "Collision.hpp"
 #include "common.hpp"
 #include "field/CFieldActor.hpp"
-#include "sub_02006000.hpp"
 
 class CFieldCannonUnit;
 class CFieldPlayer;
-class UnkClass_02034478;
+class AudioEngine;
 
 // Shot settings of a cannon (CFieldCannon::unk_EC); each shot copies them into a unit (ov0_0215AAA4).
 struct FieldCannonParam {
@@ -51,7 +51,7 @@ public:
     void ov0_02159F28();
     void ov0_02159F88();
     void ov0_0215A010();
-    void ov0_0215A25C(UnkClass_0211E3FC *renderLists, UnkClass_020416AC *hud);
+    void ov0_0215A25C(DrawObjectList *renderLists, FieldShadow *hud);
     BOOL ov0_0215A2BC();
     BOOL ov0_0215A33C(u16 *index);
     void ov0_0215A384(BOOL active);
@@ -64,7 +64,7 @@ public:
     u16 unk_E2;
     u16 unk_E4;
     u8 unk_E6[0x2];
-    UnkClass_02034478 *unk_E8;
+    AudioEngine *unk_E8;
     FieldCannonParam *unk_EC;
     CFieldCannonUnit *unk_F0[4];
 };

@@ -1,10 +1,10 @@
 #include <nitro.h>
 #include <string.h>
 
+#include "Collision.hpp"
+#include "MathUtil.hpp"
 #include "field/CFieldMap.hpp"
 #include "field/CFieldMapLayer.hpp"
-#include "sub_02006000.hpp"
-#include "sub_02007254.hpp"
 
 CFieldMapLayerCollision::CFieldMapLayerCollision()
 {
@@ -454,7 +454,7 @@ BOOL CFieldMapLayerCollision::Sweep(PointPair2D *move, fx32 radius, Point2D *out
     if (dy < 0) {
         dy = -dy;
     }
-    len = sub_02007254(dx, dy);
+    len = ApproxLength(dx, dy);
     step = 0;
     for (i = 0; i < 4; i++) {
         step += radius >> (i + 1);
@@ -508,13 +508,13 @@ static inline BOOL IsBlocking(int type, u32 kinds)
 
 // Pushes the circle out of `edge` if they overlap. Written out at each use in the original: the hit point
 // and the returned position get their own stack slots per use.
-#define PUSH_OUT()                                  \
-    {                                               \
-        Point2D h;                                  \
-        if (sub_02006764(edge, circle, &h, 4)) {    \
-            circle.pos = sub_0200732C(&circle, &h); \
-            hit = TRUE;                             \
-        }                                           \
+#define PUSH_OUT()                                   \
+    {                                                \
+        Point2D h;                                   \
+        if (SegmentHitCircle(edge, circle, &h, 4)) { \
+            circle.pos = sub_0200732C(&circle, &h);  \
+            hit = TRUE;                              \
+        }                                            \
     }
 
 BOOL CFieldMapLayerCollision::Collide(PointPair2D *move, fx32 radius, Point2D *out, u32 kinds)
@@ -1255,7 +1255,7 @@ BOOL CFieldMapLayerCollision::SweepFine(PointPair2D *move, fx32 radius, Point2D 
     if (dy < 0) {
         dy = -dy;
     }
-    len = sub_02007254(dx, dy);
+    len = ApproxLength(dx, dy);
     step = 0;
     for (i = 0; i < 4; i++) {
         step += radius >> (i + 1);
@@ -1292,15 +1292,15 @@ BOOL CFieldMapLayerCollision::SweepFine(PointPair2D *move, fx32 radius, Point2D 
 }
 
 // Pushes the circle out of each segment of an edge list it overlaps.
-#define PUSH_OUT_EDGES(count)                            \
-    {                                                    \
-        Point2D h;                                       \
-        for (int i = 0; i < (count); i++) {              \
-            if (sub_02006764(edges[i], circle, &h, 4)) { \
-                circle.pos = sub_0200732C(&circle, &h);  \
-                hit = TRUE;                              \
-            }                                            \
-        }                                                \
+#define PUSH_OUT_EDGES(count)                                \
+    {                                                        \
+        Point2D h;                                           \
+        for (int i = 0; i < (count); i++) {                  \
+            if (SegmentHitCircle(edges[i], circle, &h, 4)) { \
+                circle.pos = sub_0200732C(&circle, &h);      \
+                hit = TRUE;                                  \
+            }                                                \
+        }                                                    \
     }
 
 // Same, but a hit on a segment's end is retested against the segment stretched past both ends.
@@ -1309,7 +1309,7 @@ BOOL CFieldMapLayerCollision::SweepFine(PointPair2D *move, fx32 radius, Point2D 
     {                                                                    \
         Point2D h;                                                       \
         for (int i = 0; i < (count); i++) {                              \
-            if (sub_02006764(edges[i], circle, &h, 4)) {                 \
+            if (SegmentHitCircle(edges[i], circle, &h, 4)) {             \
                 if ((h.x == edges[i].p1.x && h.y == edges[i].p1.y)       \
                     || (h.x == edges[i].p2.x && h.y == edges[i].p2.y)) { \
                     PointPair2D seg = edges[i];                          \
@@ -1317,7 +1317,7 @@ BOOL CFieldMapLayerCollision::SweepFine(PointPair2D *move, fx32 radius, Point2D 
                     d *= FX32_CONST(4);                                  \
                     seg.p1 += d;                                         \
                     seg.p2 -= d;                                         \
-                    sub_02006764(seg, circle, &h, 4);                    \
+                    SegmentHitCircle(seg, circle, &h, 4);                \
                 }                                                        \
                 circle.pos = sub_0200732C(&circle, &h);                  \
                 hit = TRUE;                                              \
@@ -1369,9 +1369,9 @@ BOOL CFieldMapLayerCollision::CollideFine(PointPair2D *move, fx32 radius, Point2
             PUSH_OUT_EDGES_EXTENDED(count);
         }
         if (hit) {
-            fx32 moveLen = sub_02007254(mv.p2.x - mv.p1.x, mv.p2.y - y);
+            fx32 moveLen = ApproxLength(mv.p2.x - mv.p1.x, mv.p2.y - y);
             Point2D d = circle.pos - mv.p1;
-            fx32 pushLen = sub_02007254(d.x, d.y);
+            fx32 pushLen = ApproxLength(d.x, d.y);
             if (pushLen > moveLen) {
                 d *= moveLen;
                 d /= pushLen;
@@ -1842,7 +1842,7 @@ BOOL CFieldMapLayerCollision::IsCircleBlockedFine(Point2D pos, fx32 radius, u32 
                 }
                 for (int i = 0; i < count; i++) {
                     PointPair2D edge = { poly[i], poly[(i + 1) % count] };
-                    if (sub_02006764(edge, circle, NULL, 4)) {
+                    if (SegmentHitCircle(edge, circle, NULL, 4)) {
                         return TRUE;
                     }
                 }

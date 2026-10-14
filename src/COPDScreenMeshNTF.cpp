@@ -51,7 +51,7 @@ u32 COPDScreenMeshNTF::Render(Camera2D *camera)
     int i;
     u16 cs;
     if (unk_18 != NULL) {
-        ((UnkClass_02041D98 *)unk_18)->Bind(GX_TEXPLTTCOLOR0_USE, GX_TEXGEN_NONE);
+        ((NtfTextureParam *)unk_18)->Bind(GX_TEXPLTTCOLOR0_USE, GX_TEXGEN_NONE);
     }
     G3_RestoreMtx(0);
     cs = camera->unk_28;

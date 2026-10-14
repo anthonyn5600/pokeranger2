@@ -44,7 +44,7 @@ void CTPEmulator::func0()
     unk_36 = 0;
 }
 
-void CTPEmulator::sub_0200215C(fx32 arg0, fx32 arg1)
+void CTPEmulator::Press(fx32 arg0, fx32 arg1)
 {
     unk_38 = arg0;
     unk_3C = arg1;
@@ -53,7 +53,7 @@ void CTPEmulator::sub_0200215C(fx32 arg0, fx32 arg1)
     unk_30 = 1;
 }
 
-void CTPEmulator::sub_02002178()
+void CTPEmulator::Release()
 {
     unk_34 = 0;
     unk_35 = 0;
@@ -62,7 +62,7 @@ void CTPEmulator::sub_02002178()
     unk_30 = 0;
 }
 
-void CTPEmulator::sub_02002198(fx32 arg0, fx32 arg1, u16 arg2)
+void CTPEmulator::DragTo(fx32 arg0, fx32 arg1, u16 arg2)
 {
     unk_40 = 0;
     unk_42 = arg2;

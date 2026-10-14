@@ -1,11 +1,11 @@
 #include "battle/CBattlePowerSave.hpp"
 
+#include "AudioEngine.hpp"
 #include "CGame.hpp"
 #include "CPlayerHPGauge.hpp"
-#include "UnkClass_02008788.hpp"
-#include "UnkClass_02034478.hpp"
-#include "battle/UnkClass_02136730.hpp"
-#include "battle/UnkClass_02136AD4.hpp"
+#include "CellAnimController.hpp"
+#include "battle/BattleParticle.hpp"
+#include "battle/BattleParticlePool.hpp"
 #include "fx_utils.hpp"
 #include "interpolation.hpp"
 
@@ -69,7 +69,7 @@ static inline void AddRandomAngle(u16 *angle, s16 rnd)
     *angle += (s16)(rnd - 7000);
 }
 
-static inline void SetSpriteRes(CSoftwareSprite *sprite, UnkClass_020074D4 *image, UnkClass_02007AA4 *palette, CNCERFile *cells)
+static inline void SetSpriteRes(CSoftwareSprite *sprite, VramImage *image, VramPalette *palette, CNCERFile *cells)
 {
     sprite->SetImage((UnkClass_CPrimitive_ImageProxy *)image, NULL);
     sprite->unk_34 = (UnkClass_CPrimitive_ImagePaletteProxy *)palette;
@@ -82,9 +82,9 @@ CBattlePowerSave::CBattlePowerSave()
     ov1_021371C4();
     ov1_02136E08();
     for (int i = 0; i < 20; i++) {
-        m_particles[i] = new UnkClass_02136730();
+        m_particles[i] = new BattleParticle();
     }
-    m_pool = new UnkClass_02136AD4(m_particles, 20);
+    m_pool = new BattleParticlePool(m_particles, 20);
     m_pool->ov1_02136BD0(1);
     m_maxLevel = 2;
     m_chargeTimes[0] = 100;
@@ -115,17 +115,17 @@ void CBattlePowerSave::ov1_02136E08()
         OS_SPrintf(nclr, "%s:i025.NCLR", sResNames[i]);
         OS_SPrintf(ncer, "%s:i025_%s.NCER", sResNames[i], sResSuffixes[i]);
         OS_SPrintf(cac, "%s:i025_%s.cac", sResNames[i], sResSuffixes[i]);
-        UnkClass_0201AAE0 *res = new UnkClass_0201AAE0(sResNames[i], arcPath, ncbr, nclr, ncer, cac);
+        GraphicsSet *res = new GraphicsSet(sResNames[i], arcPath, ncbr, nclr, ncer, cac);
         m_res[i] = res;
-        m_anim[i] = res->m_anim->sub_02008A80(1, 0);
+        m_anim[i] = res->m_anim->Create(1, 0);
     }
-    m_burstRes = new UnkClass_0201AAE0("BLD", "data/interface/i066_LZ.bin", "BLD:i066_00.NCBR", "BLD:i066.NCLR", "BLD:i066_00.NCER", "BLD:i066_00.cac");
+    m_burstRes = new GraphicsSet("BLD", "data/interface/i066_LZ.bin", "BLD:i066_00.NCBR", "BLD:i066.NCLR", "BLD:i066_00.NCER", "BLD:i066_00.cac");
     SetSpriteRes(&m_burst, m_burstRes->m_image, m_burstRes->m_palette, m_burstRes->m_cells);
     m_burst.m_cellDataIdx = 1;
     m_burst.m_z = 0x3FF;
     SetSpriteRes(&m_burstFx, m_burstRes->m_image, m_burstRes->m_palette, m_burstRes->m_cells);
     m_burstFx.m_z = 0x3FF;
-    m_burstAnim = m_burstRes->m_anim->sub_02008A80(1, 0);
+    m_burstAnim = m_burstRes->m_anim->Create(1, 0);
 }
 
 void CBattlePowerSave::ov1_02136FB8()
@@ -151,10 +151,10 @@ void CBattlePowerSave::ov1_02137094(Point2D pos)
     } else {
         m_flags |= 1;
         m_touchStart = pos;
-        m_audio->sub_02034C5C(0x32);
+        m_audio->StopSe(0x32);
         m_flags &= ~0x10;
     }
-    m_motion.sub_02011D3C(pos);
+    m_motion.SetPos(pos);
     m_center = pos;
 }
 
@@ -163,14 +163,14 @@ void CBattlePowerSave::ov1_02137144()
     m_flags &= ~3;
     m_holdTimer = 0;
     ov1_021371F0();
-    m_audio->sub_02034C5C(0x32);
+    m_audio->StopSe(0x32);
     m_flags &= ~0x10;
     m_flags &= ~0x20;
 }
 
 void CBattlePowerSave::ov1_02137194()
 {
-    m_res[1]->m_anim->sub_020089B8(m_anim[1]);
+    m_res[1]->m_anim->Restart(m_anim[1]);
     m_flags |= 4;
 }
 
@@ -203,7 +203,7 @@ void CBattlePowerSave::ov1_0213720C()
     fx32 radius = MATH_Rand32(rand32, 0x10000) + 0x18000;
     fx32 dx = FX32_MUL(radius, FX_CosIdx(angle));
     fx32 dy = FX32_MUL(radius, FX_SinIdx(angle));
-    UnkClass_02136730 *particle = m_pool->ov1_02136B24(0x14, pos.x + dx, pos.y + dy, 0, 0x3000, 0x13FF);
+    BattleParticle *particle = m_pool->ov1_02136B24(0x14, pos.x + dx, pos.y + dy, 0, 0x3000, 0x13FF);
     particle->ov1_02136A40(FX32_MUL(FX_CosIdx(angle), -0x1333), 0x1000);
     particle->ov1_02136A58(FX32_MUL(FX_SinIdx(angle), -0x1333), 0x1000);
     particle->ov1_02136A88(0xC, 0x1F);
@@ -251,14 +251,14 @@ void CBattlePowerSave::vfunc_08()
                 m_level++;
                 m_chargeTimer = 0;
                 ov1_02137194();
-                m_audio->sub_02034C5C(0x32);
-                m_audio->sub_02034C44(0x33);
+                m_audio->StopSe(0x32);
+                m_audio->PlaySe(0x33);
                 m_flags &= ~0x10;
                 ov1_02137D44(m_level);
             } else {
                 m_chargeTimer++;
                 if (!(m_flags & 0x10)) {
-                    m_audio->sub_02034C44(0x32);
+                    m_audio->PlaySe(0x32);
                     m_flags |= 0x10;
                 }
             }
@@ -281,14 +281,14 @@ void CBattlePowerSave::vfunc_08()
         ov1_0213720C();
     }
     m_pool->ov1_02136AEC();
-    m_res[0]->m_anim->sub_020089EC();
+    m_res[0]->m_anim->UpdateAll();
     if (m_flags & 4) {
-        UnkClass_02008788 *anim = m_res[1]->m_anim;
-        if (!anim->sub_02008860(m_anim[1])) {
+        CellAnimController *anim = m_res[1]->m_anim;
+        if (!anim->GetStatus(m_anim[1])) {
             m_flags |= 8;
             m_flags &= ~4;
         } else {
-            anim->sub_020089EC();
+            anim->UpdateAll();
         }
     }
     if (m_flags & 0x20) {
@@ -299,7 +299,7 @@ void CBattlePowerSave::vfunc_08()
             m_burst.SetScale(scale, scale);
             m_burstFx.m_alpha = 1;
             if (m_burstFrame >= 8) {
-                m_burstRes->m_anim->sub_020089B8(m_burstAnim);
+                m_burstRes->m_anim->Restart(m_burstAnim);
                 m_burstState = 2;
                 m_burstFrame = 0;
             }
@@ -307,12 +307,12 @@ void CBattlePowerSave::vfunc_08()
         }
         case 2:
             m_burst.SetScale(0x1000, 0x1000);
-            m_burstRes->m_anim->sub_02008A38(m_burstAnim);
+            m_burstRes->m_anim->Update(m_burstAnim);
             m_burstFx.m_alpha = 0x1F;
-            if (!m_burstRes->m_anim->sub_02008860(m_burstAnim)) {
+            if (!m_burstRes->m_anim->GetStatus(m_burstAnim)) {
                 if (m_burstCount != 0) {
                     m_burstCount--;
-                    m_burstRes->m_anim->sub_020089B8(m_burstAnim);
+                    m_burstRes->m_anim->Restart(m_burstAnim);
                 } else {
                     m_burstState = 3;
                     m_burstFrame = 0;
@@ -405,7 +405,7 @@ void CBattlePowerSave::ov1_02137B98(Camera2D *camera)
     sprite->SetImage((UnkClass_CPrimitive_ImageProxy *)m_res[1]->m_image, NULL);
     sprite->unk_34 = (UnkClass_CPrimitive_ImagePaletteProxy *)m_res[1]->m_palette;
     sprite->unk_38 = (UnkClass_CSoftwareSprite_38 *)m_res[1]->m_cells;
-    sprite->m_cellDataIdx = m_res[1]->m_anim->sub_02008828(m_anim[1]);
+    sprite->m_cellDataIdx = m_res[1]->m_anim->GetCell(m_anim[1]);
     sprite->SetPos(m_motion.GetPos());
     sprite->SetScale(0x1800, 0x1000);
     sprite->m_alpha = 0x1F;
@@ -419,7 +419,7 @@ void CBattlePowerSave::ov1_02137C3C(Camera2D *camera)
     }
     Point2D pos = m_motion.GetPos();
     pos.y -= 0x20000;
-    m_burstFx.m_cellDataIdx = m_burstRes->m_anim->sub_02008828(m_burstAnim);
+    m_burstFx.m_cellDataIdx = m_burstRes->m_anim->GetCell(m_burstAnim);
     m_burstFx.SetPos(pos);
     m_burstFx.Render(camera);
     m_burst.SetPos(pos);

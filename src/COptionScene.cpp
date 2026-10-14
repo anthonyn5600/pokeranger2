@@ -3,33 +3,33 @@
 #include <nitro.h>
 #include <nnsys.h>
 
+#include "AudioEngine.hpp"
+#include "BrightnessFade.hpp"
 #include "CGame.hpp"
-#include "UnkClass_020091E8.hpp"
-#include "UnkClass_0200C38C.hpp"
-#include "UnkClass_0200E0B4.hpp"
-#include "UnkClass_0200E960.hpp"
-#include "UnkClass_0200ECD0.hpp"
-#include "UnkClass_02018DF4.hpp"
-#include "UnkClass_02025648.hpp"
-#include "UnkClass_02034478.hpp"
+#include "DisplayUtil.hpp"
+#include "GlobalValues.hpp"
+#include "OamSprite.hpp"
+#include "OamSpriteSet.hpp"
+#include "SubScreenRangerCard.hpp"
+#include "TextPrinter.hpp"
+#include "TextboxManager.hpp"
 #include "file/CArchiveGuard.hpp"
 #include "file/CBGNCGRFile.hpp"
 #include "file/CBinaryFileMes.hpp"
 #include "file/CNCLRFile.hpp"
 #include "file/CNSCRFile.hpp"
-#include "sub_02007CF0.hpp"
 
 COptionScene::COptionScene(CGame *game)
 {
     m_game = game;
-    game->unk_146C.sub_02008DB4(60);
+    game->unk_146C.SetFps(60);
     m_messages = NULL;
     m_fadeTimer = 0;
     m_sprites = NULL;
     m_backSprites = NULL;
     unk_84 = NULL;
-    if (sub_02019278((UnkClass_02018DF4 *)game->unk_14B4, 2) == 0) {
-        sub_0201926C((UnkClass_02018DF4 *)game->unk_14B4, 2, 4);
+    if (GlobalValues_Get((GlobalValues *)game->unk_14B4, 2) == 0) {
+        GlobalValues_Set((GlobalValues *)game->unk_14B4, 2, 4);
         game->m_textboxData->unk_074 = 4;
     }
 }
@@ -37,7 +37,7 @@ COptionScene::COptionScene(CGame *game)
 COptionScene::~COptionScene()
 {
     m_game->m_textboxData->sub_02009FB0(1, 1);
-    m_game->m_textboxData->sub_020092D4();
+    m_game->m_textboxData->Reset();
 
     if (m_messages != NULL) {
         for (u32 i = 0; i < m_messages->unk_04; ++i) {
@@ -63,7 +63,7 @@ COptionScene::~COptionScene()
     NNS_GfdResetLnkTexVramState();
     NNS_GfdResetLnkPlttVramState();
     SAFE_DELETE(unk_84);
-    m_game->unk_146C.sub_02008DB4(30);
+    m_game->unk_146C.SetFps(30);
 }
 
 void COptionScene::func5()
@@ -92,15 +92,15 @@ void COptionScene::func5()
     GX_DispOn();
     GXS_DispOn();
 
-    unk_84 = new UnkClass_02025648();
+    unk_84 = new SubScreenRangerCard();
     unk_84->LoadAll();
 }
 
 void COptionScene::func6()
 {
-    m_game->m_textboxData->sub_02009328(m_game->unk_0014, m_game->touchPanel, &m_game->unk_14AC->unk_0C, m_game->unk_14B0, m_game->unk_0024, NULL, 0x10, 0x4000, 0);
-    m_frame = sub_02019278((UnkClass_02018DF4 *)m_game->unk_14B4, 1);
-    m_textSpeed = sub_02019278((UnkClass_02018DF4 *)m_game->unk_14B4, 2);
+    m_game->m_textboxData->Init(m_game->unk_0014, m_game->touchPanel, &m_game->unk_14AC->unk_0C, m_game->unk_14B0, m_game->unk_0024, NULL, 0x10, 0x4000, 0);
+    m_frame = GlobalValues_Get((GlobalValues *)m_game->unk_14B4, 1);
+    m_textSpeed = GlobalValues_Get((GlobalValues *)m_game->unk_14B4, 2);
 
     CBinaryFileMes *file = new CBinaryFileMes("data/message/etc/menu_mes", 1);
 
@@ -123,72 +123,72 @@ void COptionScene::func6()
     delete file;
 
     int charSize = 0;
-    m_sprites = new UnkClass_0200ECD0((GXOamAttr *)m_game->unk_0024, m_game->unk_14A8, charSize, 0x40);
-    charSize += m_sprites->sub_0200EE14("data/menu", "mo000_00", 0, 0);
+    m_sprites = new OamSpriteSet((GXOamAttr *)m_game->unk_0024, m_game->unk_14A8, charSize, 0x40);
+    charSize += m_sprites->Load("data/menu", "mo000_00", 0, 0);
 
-    m_buttons[0] = m_sprites->sub_0200F4FC(0, 0x4C, 0x40, 1);
+    m_buttons[0] = m_sprites->AddSprite(0, 0x4C, 0x40, 1);
     m_buttonIds[0] = m_sprites->unk_24;
-    m_buttons[1] = m_sprites->sub_0200F4FC(0x11, 0x80, 0x40, 1);
+    m_buttons[1] = m_sprites->AddSprite(0x11, 0x80, 0x40, 1);
     m_buttonIds[1] = m_sprites->unk_24;
-    m_buttons[2] = m_sprites->sub_0200F4FC(0x14, 0xB4, 0x40, 1);
+    m_buttons[2] = m_sprites->AddSprite(0x14, 0xB4, 0x40, 1);
     m_buttonIds[2] = m_sprites->unk_24;
 
     switch (m_textSpeed) {
     case 3:
-        m_sprites->sub_0200F628(m_buttonIds[0], 0);
-        m_sprites->sub_0200F628(m_buttonIds[1], 0xD);
-        m_sprites->sub_0200F628(m_buttonIds[2], 0xF);
+        m_sprites->SetAnim(m_buttonIds[0], 0);
+        m_sprites->SetAnim(m_buttonIds[1], 0xD);
+        m_sprites->SetAnim(m_buttonIds[2], 0xF);
         break;
     case 2:
-        m_sprites->sub_0200F628(m_buttonIds[0], 1);
-        m_sprites->sub_0200F628(m_buttonIds[1], 0xC);
-        m_sprites->sub_0200F628(m_buttonIds[2], 0xF);
+        m_sprites->SetAnim(m_buttonIds[0], 1);
+        m_sprites->SetAnim(m_buttonIds[1], 0xC);
+        m_sprites->SetAnim(m_buttonIds[2], 0xF);
         break;
     case 1:
-        m_sprites->sub_0200F628(m_buttonIds[0], 1);
-        m_sprites->sub_0200F628(m_buttonIds[1], 0xD);
-        m_sprites->sub_0200F628(m_buttonIds[2], 0xE);
+        m_sprites->SetAnim(m_buttonIds[0], 1);
+        m_sprites->SetAnim(m_buttonIds[1], 0xD);
+        m_sprites->SetAnim(m_buttonIds[2], 0xE);
         break;
     }
 
-    m_buttons[3] = m_sprites->sub_0200F4FC(2, 0x38, 0x74, 1);
+    m_buttons[3] = m_sprites->AddSprite(2, 0x38, 0x74, 1);
     m_buttonIds[3] = m_sprites->unk_24;
-    m_buttons[4] = m_sprites->sub_0200F4FC(3, 0x68, 0x74, 1);
+    m_buttons[4] = m_sprites->AddSprite(3, 0x68, 0x74, 1);
     m_buttonIds[4] = m_sprites->unk_24;
-    m_buttons[5] = m_sprites->sub_0200F4FC(4, 0x98, 0x74, 1);
+    m_buttons[5] = m_sprites->AddSprite(4, 0x98, 0x74, 1);
     m_buttonIds[5] = m_sprites->unk_24;
-    m_buttons[6] = m_sprites->sub_0200F4FC(5, 0xC8, 0x74, 1);
+    m_buttons[6] = m_sprites->AddSprite(5, 0xC8, 0x74, 1);
     m_buttonIds[6] = m_sprites->unk_24;
-    m_buttons[7] = m_sprites->sub_0200F4FC(6, 0x38, 0x8C, 1);
+    m_buttons[7] = m_sprites->AddSprite(6, 0x38, 0x8C, 1);
     m_buttonIds[7] = m_sprites->unk_24;
-    m_buttons[8] = m_sprites->sub_0200F4FC(7, 0x68, 0x8C, 1);
+    m_buttons[8] = m_sprites->AddSprite(7, 0x68, 0x8C, 1);
     m_buttonIds[8] = m_sprites->unk_24;
-    m_buttons[9] = m_sprites->sub_0200F4FC(8, 0x98, 0x8C, 1);
+    m_buttons[9] = m_sprites->AddSprite(8, 0x98, 0x8C, 1);
     m_buttonIds[9] = m_sprites->unk_24;
-    m_buttons[10] = m_sprites->sub_0200F4FC(9, 0xC8, 0x8C, 1);
+    m_buttons[10] = m_sprites->AddSprite(9, 0xC8, 0x8C, 1);
     m_buttonIds[10] = m_sprites->unk_24;
-    m_sprites->sub_0200F4FC(0xA, 0x80, 0x10, 2);
-    m_buttons[11] = m_sprites->sub_0200F4FC(0xB, m_buttons[m_frame + 3]->unk_0C, m_buttons[m_frame + 3]->unk_0E, 1);
+    m_sprites->AddSprite(0xA, 0x80, 0x10, 2);
+    m_buttons[11] = m_sprites->AddSprite(0xB, m_buttons[m_frame + 3]->unk_0C, m_buttons[m_frame + 3]->unk_0E, 1);
     m_buttonIds[11] = m_sprites->unk_24;
 
-    m_backSprites = new UnkClass_0200ECD0((GXOamAttr *)&m_game->unk_0024[0x32], m_game->unk_14A8, FALSE, 0x40);
-    m_backSprites->sub_0200EE14("data/menu", "ma005_00", charSize / 32, 0xB);
-    m_backButton = m_backSprites->sub_0200F4FC(0, 0xF0, 0x10, 0);
-    m_backButton->sub_0200EBF4(0x20, 0x20, 0, 0);
+    m_backSprites = new OamSpriteSet((GXOamAttr *)&m_game->unk_0024[0x32], m_game->unk_14A8, FALSE, 0x40);
+    m_backSprites->Load("data/menu", "ma005_00", charSize / 32, 0xB);
+    m_backButton = m_backSprites->AddSprite(0, 0xF0, 0x10, 0);
+    m_backButton->SetTouchRect(0x20, 0x20, 0, 0);
 
     for (int i = 0; i < 3; i++) {
-        m_buttons[i]->sub_0200EBF4(0x28, 0x18, 0, 0);
+        m_buttons[i]->SetTouchRect(0x28, 0x18, 0, 0);
     }
     for (int i = 3; i < 11; i++) {
-        m_buttons[i]->sub_0200EBF4(0x2A, 0x10, 0, 0);
+        m_buttons[i]->SetTouchRect(0x2A, 0x10, 0, 0);
     }
 
     ov6_0211D460();
     ov6_0211D638();
     ov6_0211D6B4();
-    m_game->m_textboxData->sub_0200AB28(2);
-    m_game->m_textboxData->sub_0200AA04(m_textSpeed);
-    m_game->m_textboxData->sub_0200AD34(4, 1, 0, 0);
+    m_game->m_textboxData->LoadSystemMessages(2);
+    m_game->m_textboxData->SetTextSpeed(m_textSpeed);
+    m_game->m_textboxData->ShowSystemMessage(4, 1, 0, 0);
 }
 
 void COptionScene::ov6_0211D460()
@@ -226,89 +226,89 @@ void COptionScene::ov6_0211D6B4()
     };
     int charNo = 0x240;
 
-    m_game->unk_1494->sub_0200C3D0();
-    m_game->unk_1494->sub_0200C408(0, GX_BG_SCRBASE_0x6000, GX_BG_CHARBASE_0x00000);
-    m_game->unk_1494->sub_0200C680(3);
+    m_game->unk_1494->FreeWindows();
+    m_game->unk_1494->SetupBG(0, GX_BG_SCRBASE_0x6000, GX_BG_CHARBASE_0x00000);
+    m_game->unk_1494->AllocWindows(3);
 
     for (int i = 0; i < 3; i++) {
-        m_game->unk_1494->sub_0200C6C8(i, params[i][0], params[i][1], params[i][2], params[i][3], charNo, 0, 2);
+        m_game->unk_1494->InitWindow(i, params[i][0], params[i][1], params[i][2], params[i][3], charNo, 0, 2);
         charNo += params[i][0] * params[i][1];
     }
 
-    m_game->unk_1494->sub_0200C7A4(0, params[0][4], params[0][5], params[0][6], m_messages->unk_08[49].unk_04, TRUE, 0);
-    m_game->unk_1494->sub_0200C7A4(1, params[1][4], params[1][5], params[1][6], m_messages->unk_08[50].unk_04, TRUE, 0);
-    m_game->unk_1494->sub_0200C7A4(2, params[2][4], params[2][5], params[2][6], m_messages->unk_08[51].unk_04, TRUE, 0);
-    m_game->unk_14BC->sub_0200E0E0(3, 30);
-    m_game->unk_14C0->sub_0200E0E0(3, 30);
+    m_game->unk_1494->Print(0, params[0][4], params[0][5], params[0][6], m_messages->unk_08[49].unk_04, TRUE, 0);
+    m_game->unk_1494->Print(1, params[1][4], params[1][5], params[1][6], m_messages->unk_08[50].unk_04, TRUE, 0);
+    m_game->unk_1494->Print(2, params[2][4], params[2][5], params[2][6], m_messages->unk_08[51].unk_04, TRUE, 0);
+    m_game->unk_14BC->Start(3, 30);
+    m_game->unk_14C0->Start(3, 30);
 }
 
 void COptionScene::func7()
 {
-    m_game->m_textboxData->sub_020092D4();
+    m_game->m_textboxData->Reset();
 }
 
 u32 COptionScene::func0()
 {
-    unk_84->sub_02027640();
-    m_sprites->sub_0200F64C();
+    unk_84->Update();
+    m_sprites->Update();
 
     if (m_fadeTimer != 0) {
         if (--m_fadeTimer == 0) {
             return 6;
         }
     } else {
-        UnkClass_02001C04 *pad = m_game->unk_0014;
-        if (m_backButton->sub_0200EB84() || (u16)(pad->unk_0002 & 2)) {
-            m_game->unk_14BC->sub_0200E0E0(4, 30);
-            m_game->unk_14C0->sub_0200E0E0(4, 30);
+        PadInput *pad = m_game->unk_0014;
+        if (m_backButton->GetTouchTrigger() || (u16)(pad->unk_0002 & 2)) {
+            m_game->unk_14BC->Start(4, 30);
+            m_game->unk_14C0->Start(4, 30);
             m_fadeTimer = 30;
-            m_game->m_audioEngine->sub_02034C44(0x103);
+            m_game->m_audioEngine->PlaySe(0x103);
         } else {
             for (int i = 0; i < 3; i++) {
-                if (m_buttons[i]->sub_0200EB84()) {
+                if (m_buttons[i]->GetTouchTrigger()) {
                     switch (i) {
                     case 0:
-                        m_sprites->sub_0200F628(m_buttonIds[0], 0);
-                        m_sprites->sub_0200F628(m_buttonIds[1], 0xD);
-                        m_sprites->sub_0200F628(m_buttonIds[2], 0xF);
+                        m_sprites->SetAnim(m_buttonIds[0], 0);
+                        m_sprites->SetAnim(m_buttonIds[1], 0xD);
+                        m_sprites->SetAnim(m_buttonIds[2], 0xF);
                         m_textSpeed = 3;
-                        sub_0201926C((UnkClass_02018DF4 *)m_game->unk_14B4, 2, m_textSpeed);
+                        GlobalValues_Set((GlobalValues *)m_game->unk_14B4, 2, m_textSpeed);
                         m_game->m_textboxData->unk_074 = m_textSpeed;
                         break;
                     case 1:
-                        m_sprites->sub_0200F628(m_buttonIds[0], 1);
-                        m_sprites->sub_0200F628(m_buttonIds[1], 0xC);
-                        m_sprites->sub_0200F628(m_buttonIds[2], 0xF);
+                        m_sprites->SetAnim(m_buttonIds[0], 1);
+                        m_sprites->SetAnim(m_buttonIds[1], 0xC);
+                        m_sprites->SetAnim(m_buttonIds[2], 0xF);
                         m_textSpeed = 2;
-                        sub_0201926C((UnkClass_02018DF4 *)m_game->unk_14B4, 2, m_textSpeed);
+                        GlobalValues_Set((GlobalValues *)m_game->unk_14B4, 2, m_textSpeed);
                         m_game->m_textboxData->unk_074 = m_textSpeed;
                         break;
                     case 2:
-                        m_sprites->sub_0200F628(m_buttonIds[0], 1);
-                        m_sprites->sub_0200F628(m_buttonIds[1], 0xD);
-                        m_sprites->sub_0200F628(m_buttonIds[2], 0xE);
+                        m_sprites->SetAnim(m_buttonIds[0], 1);
+                        m_sprites->SetAnim(m_buttonIds[1], 0xD);
+                        m_sprites->SetAnim(m_buttonIds[2], 0xE);
                         m_textSpeed = 1;
-                        sub_0201926C((UnkClass_02018DF4 *)m_game->unk_14B4, 2, m_textSpeed);
+                        GlobalValues_Set((GlobalValues *)m_game->unk_14B4, 2, m_textSpeed);
                         m_game->m_textboxData->unk_074 = m_textSpeed;
                         break;
                     }
-                    m_game->m_audioEngine->sub_02034C44(0xFA);
-                    m_game->m_textboxData->sub_0200A088(1);
-                    m_game->m_textboxData->sub_0200AA04(m_textSpeed);
-                    m_game->m_textboxData->sub_0200AD34(4, 1, 0, 0);
+                    m_game->m_audioEngine->PlaySe(0xFA);
+                    m_game->m_textboxData->Clear(1);
+                    m_game->m_textboxData->SetTextSpeed(m_textSpeed);
+                    m_game->m_textboxData->ShowSystemMessage(4, 1, 0, 0);
                     return -1;
                 }
             }
 
             for (int i = 3; i < 11; i++) {
-                if (m_buttons[i]->sub_0200EB84()) {
+                if (m_buttons[i]->GetTouchTrigger()) {
                     if (m_frame != i - 3) {
                         m_frame = i - 3;
-                        m_buttons[11]->sub_0200EB28(m_buttons[i]->unk_0C, m_buttons[i]->unk_0E);
-                        sub_0201926C((UnkClass_02018DF4 *)m_game->unk_14B4, 1, m_frame);
+                        m_buttons[11]->SetPos(m_buttons[i]->unk_0C, m_buttons[i]->unk_0E);
+                        GlobalValues_Set((GlobalValues *)m_game->unk_14B4, 1, m_frame);
                         m_game->m_textboxData->unk_070 = m_frame;
                         m_game->m_textboxData->sub_0200978C(0);
-                        m_game->m_audioEngine->sub_02034C44(0xFA);
+                        m_game->m_audioEngine->PlaySe(0xFA);
                     }
                     return -1;
                 }
@@ -321,14 +321,14 @@ u32 COptionScene::func0()
 
 void COptionScene::func1()
 {
-    unk_84->sub_02027674();
-    m_sprites->sub_0200F71C();
-    m_backSprites->sub_0200F71C();
+    unk_84->Render();
+    m_sprites->WriteOam();
+    m_backSprites->WriteOam();
 }
 
 void COptionScene::func3()
 {
-    sub_02007D98();
+    LoadOam();
 }
 
 u32 COptionScene::getSceneId()

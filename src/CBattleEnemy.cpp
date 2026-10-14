@@ -1,25 +1,25 @@
 #include "battle/CBattleEnemy.hpp"
 
+#include "AudioEngine.hpp"
 #include "CGame.hpp"
-#include "UnkClass_02034478.hpp"
+#include "battle/BattleHPNumber.hpp"
+#include "battle/BattleParticle.hpp"
+#include "battle/BattleParticlePool.hpp"
+#include "battle/BattleStatusDebug.hpp"
+#include "battle/BattleStatusIcon.hpp"
 #include "battle/CBattleEnemyGauge.hpp"
 #include "battle/UnkClass_0212770C.hpp"
 #include "battle/UnkClass_02127B48.hpp"
 #include "battle/UnkClass_02128414.hpp"
-#include "battle/UnkClass_02128860.hpp"
-#include "battle/UnkClass_021291BC.hpp"
-#include "battle/UnkClass_021296C8.hpp"
 #include "battle/UnkClass_021299CC.hpp"
 #include "battle/UnkClass_02129DD4.hpp"
-#include "battle/UnkClass_02136730.hpp"
-#include "battle/UnkClass_02136AD4.hpp"
 #include "interpolation.hpp"
 
 CBattleEnemy::CBattleEnemy(u8 index, CBattleEnemyData *data)
 {
     m_index = index;
     unk_184 = data;
-    sub_02011FF4(data);
+    SetData(data);
     u32 size = 0;
     for (u8 i = 0; i < 0x1D; i++) {
         CActorAnim *anim = data->GetAnim(i);
@@ -37,9 +37,9 @@ CBattleEnemy::CBattleEnemy(u8 index, CBattleEnemyData *data)
     unk_1A0 = new UnkClass_02127B48();
     unk_1A4 = new UnkClass_0212770C();
     unk_1A8 = new UnkClass_02128414();
-    unk_1AC = new UnkClass_02128860();
-    unk_1B0 = new UnkClass_021291BC();
-    unk_1B4 = new UnkClass_021296C8();
+    unk_1AC = new BattleHPNumber();
+    unk_1B0 = new BattleStatusIcon();
+    unk_1B4 = new BattleStatusDebug();
     unk_1AC->m_hp = unk_188 = data->unk_1C->unk_00;
     unk_198->Stop();
     ov1_0212671C(TRUE);
@@ -97,7 +97,7 @@ void CBattleEnemy::ov1_0212580C()
     if (m_flags & 0x100) {
         return;
     }
-    sub_02044C9C(&m_vm, 0xFFFFF);
+    ScriptVM_Run(&m_vm, 0xFFFFF);
 }
 
 void CBattleEnemy::ov1_0212586C()
@@ -111,7 +111,7 @@ void CBattleEnemy::ov1_0212586C()
             }
             ov1_021263A4(0, 0);
             unk_1B0->ov1_021293D8(unk_18C);
-            sub_0201287C();
+            FaceMoveDir();
         } else {
             unk_190--;
         }
@@ -134,7 +134,7 @@ void CBattleEnemy::ov1_0212586C()
         }
     }
     if (unk_18C != 4) {
-        sub_020121F4();
+        Update();
         ov1_02125C94();
         CSoftwareSprite *sprite = m_sprite;
         sprite->SetPos(sprite->GetPos() + unk_484);
@@ -153,18 +153,18 @@ void CBattleEnemy::ov1_02125A80()
 {
     unk_198->ov1_02129ED4();
     unk_19C->ov1_02129A40();
-    sub_02012648();
-    sub_020126C8();
+    UpdateAlphaTween();
+    UpdateScaleTween();
     sub_020123AC();
     if (unk_192 == unk_194) {
-        CGame::GetInstance()->m_audioEngine->sub_02034C44(0xE);
+        CGame::GetInstance()->m_audioEngine->PlaySe(0xE);
     } else if (unk_192 == 0x30) {
         m_flags |= 0x401;
         m_flags |= 0x800;
         unk_198->Stop();
         ov1_02126434();
-        CGame::GetInstance()->m_audioEngine->sub_02034C5C(0xE);
-        CGame::GetInstance()->m_audioEngine->sub_02034C44(0x39);
+        CGame::GetInstance()->m_audioEngine->StopSe(0xE);
+        CGame::GetInstance()->m_audioEngine->PlaySe(0x39);
     } else if (unk_192 == 0) {
         ov1_021262AC();
     }
@@ -175,18 +175,18 @@ void CBattleEnemy::ov1_02125B74()
 {
     unk_198->ov1_02129ED4();
     unk_19C->ov1_02129A40();
-    sub_02012648();
-    sub_020126C8();
+    UpdateAlphaTween();
+    UpdateScaleTween();
     sub_020123AC();
     if (unk_192 == unk_194) {
-        CGame::GetInstance()->m_audioEngine->sub_02034C44(0xE);
+        CGame::GetInstance()->m_audioEngine->PlaySe(0xE);
     } else if (unk_192 == 0x30) {
         m_flags |= 0x401;
         m_flags |= 0x800;
         unk_198->Stop();
         ov1_02126434();
-        CGame::GetInstance()->m_audioEngine->sub_02034C5C(0xE);
-        CGame::GetInstance()->m_audioEngine->sub_02034C44(0x39);
+        CGame::GetInstance()->m_audioEngine->StopSe(0xE);
+        CGame::GetInstance()->m_audioEngine->PlaySe(0x39);
     } else if (unk_192 == 0) {
         ov1_021262AC();
     } else if (unk_192 > 0x70) {
@@ -218,7 +218,7 @@ void CBattleEnemy::vfunc_0C(Camera2D *camera)
     sprite->unk_30 = (UnkClass_CSoftwareSprite_30 *)pal;
     sprite->unk_2C = NULL;
     sprite->unk_38 = (UnkClass_CSoftwareSprite_38 *)anim->cells;
-    u16 cell = anim->bank->sub_02008828(unk_C8[unk_C0]);
+    u16 cell = anim->bank->GetCell(unk_C8[unk_C0]);
     sprite->m_cellDataIdx = cell;
     pal->sub_020078E4(cell);
     pal->sub_02007A94(NNS_GfdGetTexKeyAddr(m_texKey));
@@ -305,21 +305,21 @@ void CBattleEnemy::ov1_02126224()
     if (unk_184->m_script == NULL) {
         return;
     }
-    sub_02044B48(&m_vm, m_stack, 0x80);
+    ScriptVM_Init(&m_vm, m_stack, 0x80);
     *--m_vm.unk_04 = m_index;
-    sub_02046040(&m_vm, unk_184->m_script, "initialize", 1);
+    ScriptVM_CallFunction(&m_vm, unk_184->m_script, "initialize", 1);
     *--m_vm.unk_04 = m_index;
-    sub_02045A18(&m_vm, unk_184->m_script, "proc");
+    ScriptVM_Start(&m_vm, unk_184->m_script, "proc");
 }
 
 void CBattleEnemy::ov1_021262AC()
 {
     if (unk_184->m_script != NULL) {
-        sub_02044B84(&m_vm);
+        ScriptVM_Reset(&m_vm);
         *--m_vm.unk_04 = m_index;
-        sub_02046040(&m_vm, unk_184->m_script, "terminate", 1);
+        ScriptVM_CallFunction(&m_vm, unk_184->m_script, "terminate", 1);
     }
-    sub_020120B0();
+    ClearData();
     unk_184 = NULL;
 }
 
@@ -359,7 +359,7 @@ void CBattleEnemy::ov1_021263A4(int state, int duration)
         unk_1B0->ov1_021293D8(state);
     }
     if (state == 4) {
-        m_motion.sub_02011D3C(m_motion.m_pos);
+        m_motion.SetPos(m_motion.m_pos);
         m_flags &= ~8;
     } else {
         m_flags |= 8;
@@ -377,7 +377,7 @@ void CBattleEnemy::ov1_02126434()
     Point2D pos = m_motion.GetPos();
     for (int i = 0; i < 8; i++) {
         MATHRandContext32 *rand = &game->m_rand32;
-        UnkClass_02136730 *particle = unk_1BC->ov1_02136B24(0x40, pos.x, pos.y - MATH_Rand32(rand, 0x40000), 0, FX32_ONE, 0x7FFF);
+        BattleParticle *particle = unk_1BC->ov1_02136B24(0x40, pos.x, pos.y - MATH_Rand32(rand, 0x40000), 0, FX32_ONE, 0x7FFF);
         particle->ov1_02136A58(-MATH_Rand32(rand, 0x3000), FX32_ONE);
         particle->ov1_02136A88(0x1F, 0);
         particle->ov1_02136AA0(FX32_ONE, 0x28);
@@ -395,7 +395,7 @@ void CBattleEnemy::ov1_0212656C(u8 count)
         fx32 radius = MATH_Rand32(rand32, 0x30000) + 0x20000;
         fx32 dx = FX32_MUL(radius, FX_CosIdx(angle));
         fx32 dy = FX32_MUL(radius, FX_SinIdx(angle));
-        UnkClass_02136730 *particle = unk_1BC->ov1_02136B24(0x40, pos.x + dx, pos.y + dy, 0, FX32_ONE, 0x7FFF);
+        BattleParticle *particle = unk_1BC->ov1_02136B24(0x40, pos.x + dx, pos.y + dy, 0, FX32_ONE, 0x7FFF);
         particle->ov1_02136A40(-dx / 64, FX32_ONE);
         particle->ov1_02136A58(-dy / 64, FX32_ONE);
         particle->ov1_02136A88(1, 0x1F);

@@ -38,13 +38,13 @@ public:
 
     CFieldEffectDarknessClear(int kind);
     virtual ~CFieldEffectDarknessClear();
-    virtual int sub_02033028()
+    virtual int GetEffectId()
     {
         return 0x17;
     }
     virtual BOOL ov0_021421F0(int inTime, int holdTime, int outTime);
     virtual int ov0_02142344(Camera2D *camera);
-    virtual int sub_0203312C(int param, int value);
+    virtual int SetParam(int param, int value);
     virtual TFieldParticleForceField<CSimpleSpriteNTF> *GetForceField()
     {
         return &m_forceField;
@@ -58,7 +58,7 @@ public:
 
     CForceField m_forceField;
     CEmitter m_emitter;
-    UnkClass_02041D98 m_texture;
+    NtfTextureParam m_texture;
     int unk_A8;
 };
 STATIC_SIZE_ASSERT(CFieldEffectDarknessClear, 0xAC);
@@ -98,14 +98,14 @@ public:
 
     CFieldEffectDarknessClear2(int kind);
     virtual ~CFieldEffectDarknessClear2();
-    virtual int sub_02033028()
+    virtual int GetEffectId()
     {
         return 0x17;
     }
     virtual BOOL ov0_021421F0(int inTime, int holdTime, int outTime);
     virtual int ov0_02142264(int step);
     virtual int ov0_02142344(Camera2D *camera);
-    virtual int sub_0203312C(int param, int value);
+    virtual int SetParam(int param, int value);
     virtual TFieldParticleForceField<CSimpleSpriteNTF> *GetForceField()
     {
         return &m_forceField;
@@ -119,7 +119,7 @@ public:
 
     CForceField m_forceField;
     CEmitter m_emitter;
-    UnkClass_02041D98 m_texture;
+    NtfTextureParam m_texture;
     int unk_B4;
 };
 STATIC_SIZE_ASSERT(CFieldEffectDarknessClear2, 0xB8);

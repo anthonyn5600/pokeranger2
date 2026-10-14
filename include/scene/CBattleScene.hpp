@@ -2,10 +2,10 @@
 #define POKERANGER2_SCENE_CBATTLESCENE_HPP
 
 #include "CGame.hpp"
+#include "Collision.hpp"
 #include "UnkStruct_02044464.hpp"
 #include "common.hpp"
 #include "scene/CScene.hpp"
-#include "sub_02006000.hpp"
 
 class CActor;
 class CBattleAssist;
@@ -20,38 +20,38 @@ class CBinaryFile;
 class CPlayerHPGauge;
 class CTouchPanel;
 class Camera2D;
-class UnkClass_0200D3F8;
-class UnkClass_0200ECD0;
-class UnkClass_02010470;
-class UnkClass_02010854;
-class UnkClass_02018B9C;
-class UnkClass_0201AD60;
-class UnkClass_0201CA6C;
-class UnkClass_02042108;
-class UnkClass_0211D850;
+class CameraController;
+class OamSpriteSet;
+class PokeIdTable;
+class BattleStartParam;
+class BattleShadow;
+class GridOverlay;
+class SubScreenPokemonInfo;
+class CaptureBackground;
+class FieldScreenEffectManage;
 class UnkClass_021274AC;
 class UnkClass_021278E8;
 class UnkClass_021281B4;
-class UnkClass_02128600;
-class UnkClass_02128E88;
-class UnkClass_021294BC;
+class BattleHPNumberGfx;
+class BattleStatusIconGfx;
+class BattleStatusDebugGfx;
 class UnkClass_021297C0;
 class UnkClass_02129B74;
-class UnkClass_0212DC20;
-class UnkClass_0212E008;
-class UnkClass_0212E88C;
-class UnkClass_0212EEB4;
-class UnkClass_021364AC;
-class UnkClass_02136730;
-class UnkClass_02136AD4;
-class UnkClass_02137DA4;
+class BattlePokemonTable;
+class BattleEffectTable;
+class CaptureLineTrail;
+class BattleParamTable;
+class BattleEnemyGaugeGfx;
+class BattleParticle;
+class BattleParticlePool;
+class YSortedActorList;
 class UnkClass_021380AC;
 class UnkClass_021382D0;
-class UnkClass_021384F8;
-class UnkClass_0213AE18;
-class UnkClass_0213CC28;
-class UnkClass_0213F028;
-class UnkClass_02135BB4;
+class BattleResult;
+class BattleAssistMenu;
+class BattleInfoPanel;
+class CaptureResultBanner;
+class BattleDebugMenu;
 
 // A battle script: its file, the stack and the interpreter running it
 struct CBattleScript {
@@ -125,7 +125,7 @@ public:
     CBattleEnemy *ov1_02122760(u32 id);
     CBattleAttackEffect *ov1_02122788(u32 id);
     CBattleAttackEffectData *ov1_021227B0(u32 idx);
-    UnkClass_0200D3F8 *ov1_021227C4();
+    CameraController *ov1_021227C4();
     void ov1_02122DB4();
     void ov1_02122B90();
     int ov1_02122D3C(u8 arg0);
@@ -139,7 +139,7 @@ public:
     CTouchPanel *unk_0010;
     BOOL unk_0014;
     int unk_0018;
-    UnkClass_02010854 *unk_001C;
+    BattleStartParam *unk_001C;
     int unk_0020;
     int unk_0024;
     u32 unk_0028;
@@ -175,29 +175,29 @@ public:
     u8 *unk_00A4[8];
     Camera2D *unk_00C4;
     Camera2D *unk_00C8;
-    UnkClass_0200D3F8 *unk_00CC;
-    UnkClass_0201AD60 *unk_00D0;
-    UnkClass_02042108 *unk_00D4;
+    CameraController *unk_00CC;
+    GridOverlay *unk_00D0;
+    CaptureBackground *unk_00D4;
     CBattleDisk *unk_00D8;
     CBattleEnemy *unk_00DC[8];
     CBattleEnemyData *unk_00FC[4];
     CBattleEnemyGauge *unk_010C[8];
-    UnkClass_021364AC *unk_012C;
+    BattleEnemyGaugeGfx *unk_012C;
     CBattleAttackEffect *unk_0130[0x60];
     CBattleAttackEffectData *unk_02B0[0x12];
     CBattleAttackEffect *unk_02F8[0x20];
     CBattleAttackEffectData *unk_0378[3];
     CBattleAssist *unk_0384;
-    UnkClass_0200ECD0 *unk_0388[8];
-    UnkClass_02136730 *unk_03A8[0x200];
-    UnkClass_02136AD4 *unk_0BA8;
-    UnkClass_0212E88C *unk_0BAC;
+    OamSpriteSet *unk_0388[8];
+    BattleParticle *unk_03A8[0x200];
+    BattleParticlePool *unk_0BA8;
+    CaptureLineTrail *unk_0BAC;
     CPlayerHPGauge *unk_0BB0;
     CActor *unk_0BB4;
-    UnkClass_021384F8 *unk_0BB8;
+    BattleResult *unk_0BB8;
     CBattleGameOver *unk_0BBC;
-    UnkClass_0213AE18 *unk_0BC0;
-    UnkClass_02137DA4 *unk_0BC4[8];
+    BattleAssistMenu *unk_0BC0;
+    YSortedActorList *unk_0BC4[8];
     u8 unk_0BE4;
     u8 unk_0BE5[0x3];
     UnkClass_02129B74 *unk_0BE8;
@@ -205,25 +205,25 @@ public:
     UnkClass_021278E8 *unk_0BF0;
     UnkClass_021274AC *unk_0BF4;
     UnkClass_021281B4 *unk_0BF8;
-    UnkClass_02128600 *unk_0BFC;
-    UnkClass_02128E88 *unk_0C00;
-    UnkClass_021294BC *unk_0C04;
+    BattleHPNumberGfx *unk_0BFC;
+    BattleStatusIconGfx *unk_0C00;
+    BattleStatusDebugGfx *unk_0C04;
     UnkClass_021380AC *unk_0C08;
     UnkClass_021382D0 *unk_0C0C;
-    UnkClass_0213F028 *unk_0C10;
-    UnkClass_02010470 *unk_0C14;
-    UnkClass_0212DC20 *unk_0C18;
-    UnkClass_0212E008 *unk_0C1C;
-    UnkClass_0212EEB4 *unk_0C20;
-    UnkClass_0212EEB4 *unk_0C24;
-    UnkClass_02018B9C *unk_0C28;
-    UnkClass_0211D850 *unk_0C2C;
-    UnkClass_0213CC28 *unk_0C30;
-    UnkClass_0201CA6C *unk_0C34;
+    CaptureResultBanner *unk_0C10;
+    PokeIdTable *unk_0C14;
+    BattlePokemonTable *unk_0C18;
+    BattleEffectTable *unk_0C1C;
+    BattleParamTable *unk_0C20;
+    BattleParamTable *unk_0C24;
+    BattleShadow *unk_0C28;
+    FieldScreenEffectManage *unk_0C2C;
+    BattleInfoPanel *unk_0C30;
+    SubScreenPokemonInfo *unk_0C34;
     u32 unk_0C38;
     u8 unk_0C3C;
     u8 unk_0C3D[0x3];
-    UnkClass_02135BB4 *unk_0C40;
+    BattleDebugMenu *unk_0C40;
     CBattleScript unk_0C44[3];
     Rectangle unk_12C8[2];
 };

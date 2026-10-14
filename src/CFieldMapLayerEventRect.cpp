@@ -1,7 +1,7 @@
 #include <nitro.h>
 #include <string.h>
 
-#include "UnkClass_0213DDCC.hpp"
+#include "FieldEventRectManage.hpp"
 #include "field/CFieldEventRect.hpp"
 #include "field/CFieldMap.hpp"
 #include "field/CFieldMapLayer.hpp"
@@ -40,7 +40,7 @@ BOOL CFieldMapLayerEventRect::Load(void *data)
         memcpy(&m_entries[i].scriptId, p + 8, 2);
         p += 10;
     }
-    UnkClass_0213DDCC *manage = MAIN_BSS_0210CA58;
+    FieldEventRectManage *manage = MAIN_BSS_0210CA58;
     if (manage != NULL) {
         for (int i = 0; i < count; i++) {
             CFieldEventRect *rect = new CFieldEventRect();

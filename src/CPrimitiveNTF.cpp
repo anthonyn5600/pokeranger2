@@ -24,21 +24,21 @@ BOOL CFieldScreenEffectActorData::Load(int id)
     CArchiveGuard archive("MEF", path, 1, 1, 0, NULL, 0);
 
     OS_SPrintf(path, "MEF:ew%03d.NCLR", id);
-    m_palette.sub_02007B60(path, 0, 0);
+    m_palette.Load(path, 0, 0);
 
     m_count = 1;
     m_entries = new Entry[1];
 
     OS_SPrintf(path, "MEF:ew%03d.NCBR", id);
-    m_entries[0].ncbr = new UnkClass_020074D4(path, 0, 0, 0);
+    m_entries[0].ncbr = new VramImage(path, 0, 0, 0);
 
     OS_SPrintf(path, "MEF:ew%03d.NCER", id);
     m_entries[0].ncer = new CNCERFile(path, 0, 0, 0);
 
     OS_SPrintf(path, "MEF:ew%03d.cac", id);
-    m_entries[0].cac = new UnkClass_02008788(path);
+    m_entries[0].cac = new CellAnimController(path);
 
-    sub_020295B0((OS_GetIrqMask() & OS_IE_V_BLANK) == 0);
+    AllocPalette((OS_GetIrqMask() & OS_IE_V_BLANK) == 0);
     return TRUE;
 }
 

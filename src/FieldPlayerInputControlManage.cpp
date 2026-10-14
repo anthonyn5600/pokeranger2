@@ -1,20 +1,22 @@
+#include "AudioEngine.hpp"
+#include "BrightnessFade.hpp"
 #include "CGame.hpp"
 #include "CTouchPanel.hpp"
 #include "Camera2D.hpp"
-#include "UnkClass_02001C04.hpp"
-#include "UnkClass_020091E8.hpp"
-#include "UnkClass_0200D3F8.hpp"
-#include "UnkClass_0200E0B4.hpp"
-#include "UnkClass_0200E330.hpp"
-#include "UnkClass_02022404.hpp"
-#include "UnkClass_020233C8.hpp"
-#include "UnkClass_02034478.hpp"
-#include "UnkClass_02041C80.hpp"
-#include "UnkClass_020B26A0.hpp"
-#include "UnkClass_0211D850.hpp"
+#include "CameraController.hpp"
+#include "Collision.hpp"
+#include "FieldData.hpp"
+#include "FieldScreenEffectManage.hpp"
+#include "FieldSubScreen.hpp"
+#include "MathUtil.hpp"
+#include "PadInput.hpp"
+#include "SaveData.hpp"
+#include "SubScreenIconMenu.hpp"
+#include "TextboxManager.hpp"
 #include "UnkClass_0214FB28.hpp"
 #include "UnkClass_0214FD4C.hpp"
 #include "UnkStruct_020107A8.hpp"
+#include "WindowWipe.hpp"
 #include "field/CFieldActor.hpp"
 #include "field/CFieldEffect.hpp"
 #include "field/CFieldEffectManage.hpp"
@@ -30,38 +32,36 @@
 #include "field/CFieldTargetObject.hpp"
 #include "field/CFieldTargetObjectManage.hpp"
 #include "scene/CFieldScene.hpp"
-#include "sub_02006000.hpp"
-#include "sub_02007254.hpp"
 
 extern CFieldPlayer *MAIN_BSS_0210CA48;
 extern CFieldNpcManage *MAIN_BSS_0210CA50;
-extern UnkClass_02041C80 *MAIN_BSS_0210CA6C;
-extern UnkClass_0211D850 *MAIN_BSS_0210CA78;
+extern FieldData *MAIN_BSS_0210CA6C;
+extern FieldScreenEffectManage *MAIN_BSS_0210CA78;
 extern CFieldTargetObjectManage *MAIN_BSS_0210CA7C;
-extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
+extern SaveData MAIN_BSS_020B26A0;
 
 extern "C" {
-u32 sub_02016DEC(UnkClass_020B26A0 *save, u32 value);
-u32 sub_02016E34(UnkClass_020B26A0 *save, u32 value);
+u32 SaveData_AddConversations(SaveData *save, u32 value);
+u32 SaveData_AddTargetsChecked(SaveData *save, u32 value);
 int sub_020107C4(int arg0);
 }
 
-static inline u32 GetPokemonState(UnkClass_020B26A0 *save, int i)
+static inline u32 GetPokemonState(SaveData *save, int i)
 {
     if (i >= 0 && i < 500) {
-        return (save->unk_7C3C[i >> 4] >> ((i & 0xF) * 2)) & 3;
+        return (save->m_pokemonStates[i >> 4] >> ((i & 0xF) * 2)) & 3;
     }
     return 0;
 }
 
-static inline void SetPokemonState(UnkClass_020B26A0 *save, int i, u32 state)
+static inline void SetPokemonState(SaveData *save, int i, u32 state)
 {
     int shift = (i & 0xF) * 2;
-    save->unk_7C3C[i >> 4] &= ~(3 << shift);
-    save->unk_7C3C[i >> 4] |= state << shift;
+    save->m_pokemonStates[i >> 4] &= ~(3 << shift);
+    save->m_pokemonStates[i >> 4] |= state << shift;
 }
 
-static inline void RaisePokemonState(UnkClass_020B26A0 *save, int i, u32 state)
+static inline void RaisePokemonState(SaveData *save, int i, u32 state)
 {
     if (i >= 0 && i < 500) {
         if (GetPokemonState(save, i) < state) {
@@ -95,7 +95,7 @@ static inline void StartOutline(CFieldActor *actor, u16 color, int time)
     }
 }
 
-static inline u16 IsTrigger(UnkClass_02001C04 *pad, u16 mask)
+static inline u16 IsTrigger(PadInput *pad, u16 mask)
 {
     return pad->unk_0002 & mask;
 }
@@ -112,7 +112,7 @@ static inline Point2D GetHeadPos(CFieldActor *actor)
     return head;
 }
 
-static inline UnkClass_02041C80 *GetTargetTable()
+static inline FieldData *GetTargetTable()
 {
     return MAIN_BSS_0210CA6C;
 }
@@ -163,18 +163,18 @@ CFieldPlayerInputControlManage::~CFieldPlayerInputControlManage()
 }
 
 BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
-    UnkClass_02001C04 *pad,
+    PadInput *pad,
     CTouchPanel *touch)
 {
     if (scene != NULL) {
-        UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+        SaveData *save = &MAIN_BSS_020B26A0;
         // C89-style scratch, reused as the NPC loop counter, the effect icon hit and the button result (register order)
         int i;
-        UnkClass_02041C80 *table = GetTargetTable();
+        FieldData *table = GetTargetTable();
         // Used through casts per kind: typed alias locals would be coalesced with it and change its register
         CFieldActor *touched = scene->ov0_021232A8();
         BOOL busy = FALSE;
-        if (MAIN_BSS_0210CA78 != NULL && MAIN_BSS_0210CA78->sub_02035ECC(0xB)) {
+        if (MAIN_BSS_0210CA78 != NULL && MAIN_BSS_0210CA78->IsEffectActive(0xB)) {
             busy = TRUE;
         }
 
@@ -218,8 +218,8 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                                 } else {
                                     circle.r = CircleRadius(npc->unk_44);
                                 }
-                                if (sub_02006238(circle, area)) {
-                                    fx32 dist = sub_02007254(area.pos.x - circle.pos.x, area.pos.y - circle.pos.y);
+                                if (CircleInSector(circle, area)) {
+                                    fx32 dist = ApproxLength(area.pos.x - circle.pos.x, area.pos.y - circle.pos.y);
                                     if (dist < bestDist) {
                                         best = npc;
                                         bestDist = dist;
@@ -229,28 +229,28 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                         }
                         if (best != NULL) {
                             scene->unk_0078 = 5;
-                            s_game->m_audioEngine->sub_02034C44(5);
+                            s_game->m_audioEngine->PlaySe(5);
                             scene->unk_0054->sub_02022DD4();
                             scene->ov0_0212451C();
                             if (best->unk_E8 == 1) {
-                                UnkStruct_020107A8 *rec = sub_020107A8(s_game->unk_1434, best->unk_EC);
+                                UnkStruct_020107A8 *rec = PokeIdTable_Get(s_game->unk_1434, best->unk_EC);
                                 RaisePokemonState(save, rec->unk_00, 1);
                                 BOOL notCaught = FALSE;
                                 if (GetPokemonState(save, rec->unk_00) != 2) {
                                     notCaught = TRUE;
                                 }
-                                scene->unk_0054->sub_02022B60(best->unk_EC, notCaught);
-                                sub_02016DEC(save, 1);
+                                scene->unk_0054->SwitchToPokemonInfo(best->unk_EC, notCaught);
+                                SaveData_AddConversations(save, 1);
                             } else {
                                 switch (best->unk_EC) {
                                 case 0x5C:
                                 case 0x67:
                                 case 0x76:
                                 case 0x90:
-                                    sub_02016E34(save, 1);
+                                    SaveData_AddTargetsChecked(save, 1);
                                     break;
                                 default:
-                                    sub_02016DEC(save, 1);
+                                    SaveData_AddConversations(save, 1);
                                     break;
                                 }
                             }
@@ -272,8 +272,8 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                                 } else {
                                     circle.r = CircleRadius(obj->unk_44);
                                 }
-                                if (sub_02006238(circle, area)) {
-                                    fx32 dist = sub_02007254(area.pos.x - circle.pos.x, area.pos.y - circle.pos.y);
+                                if (CircleInSector(circle, area)) {
+                                    fx32 dist = ApproxLength(area.pos.x - circle.pos.x, area.pos.y - circle.pos.y);
                                     if (dist < bestDist) {
                                         best = obj;
                                         bestDist = dist;
@@ -284,9 +284,9 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                         if (best != NULL) {
                             scene->ov0_0212451C();
                             scene->unk_0054->sub_02022DD4();
-                            s_game->m_audioEngine->sub_02034C44(5);
+                            s_game->m_audioEngine->PlaySe(5);
                             best->sub_0203DA38();
-                            sub_02016E34(save, 1);
+                            SaveData_AddTargetsChecked(save, 1);
                             return FALSE;
                         }
                     }
@@ -305,7 +305,7 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                         rect.pos.y = pos.y - 0x8000;
                         rect.size.y = 0x10000;
                         rect.size.x = 0x10000;
-                        if (sub_02006000(touchPos, rect, 0)) {
+                        if (PointInRect(touchPos, rect, 0)) {
                             scene->ov0_021241B8();
                             i = TRUE;
                         }
@@ -321,11 +321,11 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                         switch (GetKind(touched)) {
                         case 0:
                             if (save->unk_8802 == 2) {
-                                UnkStruct_020107A8 *rec = sub_020107A8(s_game->unk_1434, 0x2B);
+                                UnkStruct_020107A8 *rec = PokeIdTable_Get(s_game->unk_1434, 0x2B);
                                 scene->unk_0078 = 0;
-                                s_game->m_textboxData->sub_020097FC(0, rec->unk_00);
+                                s_game->m_textboxData->SetParam(0, rec->unk_00);
                                 scene->ov0_02123AEC(0x10, 0);
-                                s_game->m_audioEngine->sub_02034C44(5);
+                                s_game->m_audioEngine->PlaySe(5);
                             } else {
                                 scene->unk_0078 = 1;
                             }
@@ -333,7 +333,7 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                             break;
                         case 1: {
                             scene->unk_0078 = 4;
-                            s_game->m_audioEngine->sub_02034C44(5);
+                            s_game->m_audioEngine->PlaySe(5);
                             scene->ov0_0212451C();
                             StartOutline((CFieldEnemy *)touched, 0x1F, 300);
                             RaisePokemonState(save, ((CFieldEnemy *)touched)->unk_E4, 1);
@@ -343,7 +343,7 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                             } else if (GetPokemonState(save, ((CFieldEnemy *)touched)->unk_E4) != 2) {
                                 mode = 1;
                             }
-                            scene->unk_0054->sub_02022B60(((CFieldEnemy *)touched)->unk_E8, mode);
+                            scene->unk_0054->SwitchToPokemonInfo(((CFieldEnemy *)touched)->unk_E8, mode);
                             break;
                         }
                         case 2: {
@@ -351,15 +351,15 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                             scene->ov0_0212451C();
                             if (((CFieldNpc *)touched)->unk_14 == player->unk_14) {
                                 scene->unk_0078 = 5;
-                                s_game->m_audioEngine->sub_02034C44(5);
+                                s_game->m_audioEngine->PlaySe(5);
                                 if (((CFieldNpc *)touched)->unk_E8 == 1) {
-                                    UnkStruct_020107A8 *rec = sub_020107A8(s_game->unk_1434, ((CFieldNpc *)touched)->unk_EC);
+                                    UnkStruct_020107A8 *rec = PokeIdTable_Get(s_game->unk_1434, ((CFieldNpc *)touched)->unk_EC);
                                     RaisePokemonState(save, rec->unk_00, 1);
                                     BOOL notCaught = FALSE;
                                     if (GetPokemonState(save, rec->unk_00) != 2) {
                                         notCaught = TRUE;
                                     }
-                                    scene->unk_0054->sub_02022B60(((CFieldNpc *)touched)->unk_EC, notCaught);
+                                    scene->unk_0054->SwitchToPokemonInfo(((CFieldNpc *)touched)->unk_EC, notCaught);
                                 }
                                 if (onScreen) {
                                     ((CFieldNpc *)touched)->sub_0203DA38();
@@ -369,17 +369,17 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                                         case 0x67:
                                         case 0x76:
                                         case 0x90:
-                                            sub_02016E34(save, 1);
+                                            SaveData_AddTargetsChecked(save, 1);
                                             break;
                                         default:
-                                            sub_02016DEC(save, 1);
+                                            SaveData_AddConversations(save, 1);
                                             break;
                                         }
                                     } else {
                                         if (((CFieldNpc *)touched)->unk_1D4 == 0) {
                                             StartOutline((CFieldNpc *)touched, 0x3F0, 300);
                                         }
-                                        sub_02016DEC(save, 1);
+                                        SaveData_AddConversations(save, 1);
                                     }
                                 } else {
                                     StartOutline((CFieldNpc *)touched, 0x3F0, 300);
@@ -393,28 +393,28 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                                 if (((CFieldTargetObject *)touched)->ov0_0213CFDC()) {
                                     if (onScreen && ((CFieldTargetObject *)touched)->unk_14 == player->unk_14) {
                                         ((CFieldTargetObject *)touched)->sub_0203DA38();
-                                        sub_02016E34(save, 1);
+                                        SaveData_AddTargetsChecked(save, 1);
                                         return FALSE;
                                     }
                                 } else {
                                     scene->unk_0078 = 3;
                                     scene->unk_007C = (CFieldPartnerPokemon *)touched;
-                                    s_game->m_audioEngine->sub_02034C44(5);
-                                    scene->unk_0054->sub_02022BC0(((CFieldTargetObject *)touched)->unk_E8);
+                                    s_game->m_audioEngine->PlaySe(5);
+                                    scene->unk_0054->SwitchToTargetInfo(((CFieldTargetObject *)touched)->unk_E8);
                                     StartOutline((CFieldTargetObject *)touched, 0x3F0, 300);
-                                    sub_02016E34(save, 1);
+                                    SaveData_AddTargetsChecked(save, 1);
                                 }
                             }
                             break;
                         }
                         case 6: {
-                            UnkClass_0200E0B4 *fade = s_game->unk_14BC;
-                            UnkClass_0200E330 *wipe = s_game->unk_14C4;
-                            if (!fade->sub_0200E310() && fade->sub_0200E324() != 2 && fade->sub_0200E324() != 4 && !wipe->func0() && !wipe->sub_0200E91C()) {
-                                UnkStruct_020107A8 *rec = sub_020107A8(s_game->unk_1434, ((CFieldPartnerPokemon *)touched)->unk_200);
+                            BrightnessFade *fade = s_game->unk_14BC;
+                            WindowWipe *wipe = s_game->unk_14C4;
+                            if (!fade->IsActive() && fade->GetMode() != 2 && fade->GetMode() != 4 && !wipe->func0() && !wipe->sub_0200E91C()) {
+                                UnkStruct_020107A8 *rec = PokeIdTable_Get(s_game->unk_1434, ((CFieldPartnerPokemon *)touched)->unk_200);
                                 scene->unk_007C = (CFieldPartnerPokemon *)touched;
-                                s_game->m_audioEngine->sub_02034C44(5);
-                                scene->unk_0054->sub_02022B60(((CFieldPartnerPokemon *)touched)->unk_200, 0);
+                                s_game->m_audioEngine->PlaySe(5);
+                                scene->unk_0054->SwitchToPokemonInfo(((CFieldPartnerPokemon *)touched)->unk_200, 0);
                                 scene->ov0_0212451C();
                                 StartOutline((CFieldPartnerPokemon *)touched, 0x7FE0, -1);
                                 u32 type = rec->unk_05;
@@ -429,73 +429,73 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                                     case 0xBE:
                                     case 0x129:
                                         arg = 1;
-                                        s_game->m_textboxData->sub_020097FC(0, rec->unk_00);
+                                        s_game->m_textboxData->SetParam(0, rec->unk_00);
                                         break;
                                     default:
-                                        s_game->m_textboxData->sub_020097FC(0, rec->unk_05);
+                                        s_game->m_textboxData->SetParam(0, rec->unk_05);
                                         break;
                                     }
                                     scene->ov0_02123AEC(10, arg);
                                 } else {
                                     if (type == 0xC) {
-                                        if (save->unk_8B64 == 2) {
+                                        if (save->m_areaType == 2) {
                                             scene->unk_0078 = 0;
-                                            s_game->m_textboxData->sub_020097FC(0, rec->unk_05);
+                                            s_game->m_textboxData->SetParam(0, rec->unk_05);
                                             scene->ov0_02123AEC(0x17, 0);
                                         } else {
-                                            s_game->m_textboxData->sub_0200AA04(0);
-                                            s_game->m_textboxData->sub_020097FC(0, rec->unk_05);
-                                            s_game->m_textboxData->sub_0200AA84(0, 0x53, 1, 1, 0);
+                                            s_game->m_textboxData->SetTextSpeed(0);
+                                            s_game->m_textboxData->SetParam(0, rec->unk_05);
+                                            s_game->m_textboxData->ShowMessage(0, 0x53, 1, 1, 0);
                                             scene->ov0_02123AEC(0x19, 0);
                                         }
                                         return FALSE;
                                     }
                                     if (type == 9) {
-                                        if (save->unk_0001 == save->unk_0002) {
+                                        if (save->m_energy == save->m_maxEnergy) {
                                             scene->unk_0078 = 0;
                                             scene->ov0_02123AEC(0xC, 0);
                                         } else {
                                             scene->unk_0078 = 0;
-                                            s_game->m_textboxData->sub_020097FC(0, rec->unk_05);
+                                            s_game->m_textboxData->SetParam(0, rec->unk_05);
                                             scene->ov0_02123AEC(0xB, 0);
                                         }
                                         return FALSE;
                                     }
                                     if (type == 10) {
-                                        if (save->unk_8B64 == 0) {
+                                        if (save->m_areaType == 0) {
                                             scene->unk_0078 = 0;
-                                            s_game->m_textboxData->sub_020097FC(0, rec->unk_00);
+                                            s_game->m_textboxData->SetParam(0, rec->unk_00);
                                             scene->ov0_02123AEC(0xF, 0);
                                         } else {
-                                            s_game->m_textboxData->sub_0200AA04(0);
-                                            s_game->m_textboxData->sub_020097FC(0, rec->unk_00);
-                                            s_game->m_textboxData->sub_0200AA84(0, 0x52, 1, 1, 0);
+                                            s_game->m_textboxData->SetTextSpeed(0);
+                                            s_game->m_textboxData->SetParam(0, rec->unk_00);
+                                            s_game->m_textboxData->ShowMessage(0, 0x52, 1, 1, 0);
                                             scene->ov0_02123AEC(0x19, 0);
                                         }
                                         return FALSE;
                                     }
                                     if (type == 11) {
-                                        if (save->unk_8B64 == 0) {
+                                        if (save->m_areaType == 0) {
                                             scene->unk_0078 = 0;
-                                            s_game->m_textboxData->sub_020097FC(0, rec->unk_00);
+                                            s_game->m_textboxData->SetParam(0, rec->unk_00);
                                             scene->ov0_02123AEC(0x15, 0);
                                         } else {
-                                            s_game->m_textboxData->sub_0200AA04(0);
-                                            s_game->m_textboxData->sub_020097FC(0, rec->unk_00);
-                                            s_game->m_textboxData->sub_0200AA84(0, 0x52, 1, 1, 0);
+                                            s_game->m_textboxData->SetTextSpeed(0);
+                                            s_game->m_textboxData->SetParam(0, rec->unk_00);
+                                            s_game->m_textboxData->ShowMessage(0, 0x52, 1, 1, 0);
                                             scene->ov0_02123AEC(0x19, 0);
                                         }
                                         return FALSE;
                                     }
                                     if (sub_020107C4(type) == 3) {
                                         if (scene->unk_0090 >= 0) {
-                                            s_game->m_textboxData->sub_0200AA04(0);
+                                            s_game->m_textboxData->SetTextSpeed(0);
                                             if (scene->unk_0090 == 0x15 && rec->unk_05 == 0x15 && rec->unk_06 < scene->unk_0094) {
-                                                s_game->m_textboxData->sub_020097FC(0, rec->unk_00);
-                                                s_game->m_textboxData->sub_0200AA84(0, 0x52, 1, 1, 0);
+                                                s_game->m_textboxData->SetParam(0, rec->unk_00);
+                                                s_game->m_textboxData->ShowMessage(0, 0x52, 1, 1, 0);
                                             } else {
-                                                s_game->m_textboxData->sub_020097FC(0, rec->unk_05);
-                                                s_game->m_textboxData->sub_0200AA84(0, 0x53, 1, 1, 0);
+                                                s_game->m_textboxData->SetParam(0, rec->unk_05);
+                                                s_game->m_textboxData->ShowMessage(0, 0x53, 1, 1, 0);
                                             }
                                             scene->ov0_02123AEC(0x19, 0);
                                         } else {
@@ -542,23 +542,23 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                             screen.size.x = 0xE0000;
                             screen.size.y = 0x80000;
                             BOOL onScreen = RectanglesOverlap(rect, screen);
-                            FieldTargetObjectData *data = sub_02041D6C(table, ((CFieldTargetObject *)touched)->unk_E8);
+                            FieldTargetObjectData *data = FieldData_GetTargetObject(table, ((CFieldTargetObject *)touched)->unk_E8);
                             Point2D partnerPos = partner->GetPos();
                             Point2D objPos = ((CFieldTargetObject *)touched)->GetPos();
                             BOOL started;
                             int layerId = MAIN_BSS_0210CA48->unk_14;
                             CFieldMapLayerCollision *layer = scene->unk_0010->GetLayer(layerId);
                             PointPair2D move = { partnerPos, objPos };
-                            UnkStruct_020107A8 *rec = sub_020107A8(s_game->unk_1434, partner->unk_200);
+                            UnkStruct_020107A8 *rec = PokeIdTable_Get(s_game->unk_1434, partner->unk_200);
                             started = FALSE;
                             Point2D hit;
                             if (!layer->Sweep(&move, 0x4000, &hit, 1) && layerId == ((CFieldTargetObject *)touched)->unk_14 && ((CFieldTargetObject *)touched)->unk_20 == 2) {
                                 if (rec->unk_05 != 0 && rec->unk_06 != 0 && data->unk_03 == 1 && rec->unk_05 == data->unk_04 && rec->unk_06 >= data->unk_05 && onScreen) {
                                     scene->unk_0078 = 0;
-                                    s_game->m_textboxData->sub_020097FC(0, rec->unk_05);
+                                    s_game->m_textboxData->SetParam(0, rec->unk_05);
                                     scene->ov0_02123AEC(1, 0);
                                     scene->unk_0080 = touched;
-                                    s_game->m_audioEngine->sub_02034C44(0);
+                                    s_game->m_audioEngine->PlaySe(0);
                                     scene->ov0_0212451C();
                                     StartOutline(partner, 0x21F, -1);
                                     StartOutline((CFieldTargetObject *)touched, 0x21F, -1);
@@ -566,7 +566,7 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                                 }
                             }
                             if (!started && !((CFieldTargetObject *)touched)->ov0_0213CFDC() && ((CFieldTargetObject *)touched)->unk_20 == 2) {
-                                scene->unk_0054->sub_02022BC0(((CFieldTargetObject *)touched)->unk_E8);
+                                scene->unk_0054->SwitchToTargetInfo(((CFieldTargetObject *)touched)->unk_E8);
                                 done = TRUE;
                             }
                             if (started) {
@@ -574,7 +574,7 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                             }
                         }
                         if (!done) {
-                            scene->unk_0054->sub_02022B60(partner->unk_200, 0);
+                            scene->unk_0054->SwitchToPokemonInfo(partner->unk_200, 0);
                         }
                         break;
                     }
@@ -632,30 +632,30 @@ released:;
                 i = FALSE;
                 if (!touchHandled && IsMenuAllowed(scene)) {
                     if (IsTrigger(pad, PAD_BUTTON_L) && save->IsButton1Enabled()) {
-                        UnkClass_02022404 *inst = UnkClass_02022404::GetInstance();
+                        FieldSubScreen *inst = FieldSubScreen::GetInstance();
                         if (inst != NULL) {
                             inst->sub_02022D88();
-                            s_game->m_audioEngine->sub_02034C44(0xFA);
+                            s_game->m_audioEngine->PlaySe(0xFA);
                             if (scene->unk_004C != NULL) {
                                 scene->unk_004C->ov0_0214FD24();
                             }
                         }
                         i = TRUE;
                     } else if (IsTrigger(pad, PAD_BUTTON_R) && save->IsButton2Enabled()) {
-                        UnkClass_02022404 *inst = UnkClass_02022404::GetInstance();
-                        UnkClass_020233C8 *menu = scene->unk_0058;
+                        FieldSubScreen *inst = FieldSubScreen::GetInstance();
+                        SubScreenIconMenu *menu = scene->unk_0058;
                         if (inst != NULL && menu != NULL) {
                             inst->sub_02022C1C();
-                            menu->sub_020234D4();
+                            menu->Open();
                             CFieldPlayer *p = MAIN_BSS_0210CA48;
                             if (p != NULL) {
                                 p->ResetUnk00C();
                                 int mask = p->unk_08->unk_0C->unk_1A0;
-                                if ((mask == 0x80000 || mask == 0x800000) && s_game->m_audioEngine->sub_02034C84(0x10E)) {
-                                    s_game->m_audioEngine->sub_02034C5C(0x10E);
+                                if ((mask == 0x80000 || mask == 0x800000) && s_game->m_audioEngine->IsSePlaying(0x10E)) {
+                                    s_game->m_audioEngine->StopSe(0x10E);
                                 }
                             }
-                            s_game->m_audioEngine->sub_02034C44(0xFA);
+                            s_game->m_audioEngine->PlaySe(0xFA);
                             if (scene->unk_0050 != NULL) {
                                 scene->unk_0050->ov0_0214FF44();
                             }
@@ -665,7 +665,7 @@ released:;
                 }
                 if (!i && IsTrigger(pad, PAD_BUTTON_X | PAD_BUTTON_Y)) {
                     scene->ov0_0212451C();
-                    scene->unk_001C->sub_0203F4B8(0x7FE0, 2, 300);
+                    scene->unk_001C->SetOutlineAll(0x7FE0, 2, 300);
                 }
                 if (i) {
                     return FALSE;

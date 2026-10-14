@@ -2,17 +2,17 @@
 
 #include <nitro.h>
 
+#include "AudioEngine.hpp"
+#include "BrightnessFade.hpp"
 #include "CGame.hpp"
-#include "UnkClass_02008D50.hpp"
-#include "UnkClass_020091E8.hpp"
-#include "UnkClass_0200E0B4.hpp"
-#include "UnkClass_02018DF4.hpp"
-#include "UnkClass_0202A2AC.hpp"
-#include "UnkClass_02034478.hpp"
-#include "UnkClass_020B26A0.hpp"
+#include "DisplayUtil.hpp"
+#include "FrameTimer.hpp"
+#include "GlobalValues.hpp"
+#include "SaveData.hpp"
+#include "SubScreenButton.hpp"
+#include "TextboxManager.hpp"
 #include "file/CBinaryFileMes.hpp"
 #include "scene/CStylerScreens.hpp"
-#include "sub_02007CF0.hpp"
 
 #define RELEASE_MESSAGES(table)                    \
     if (table != NULL) {                           \
@@ -87,7 +87,7 @@ void CStylerScene::func5()
 
 void CStylerScene::func6()
 {
-    m_game->unk_146C.sub_02008DB4(60);
+    m_game->unk_146C.SetFps(60);
 
     m_data = new CStylerData(m_game);
     m_data->Init();
@@ -104,8 +104,8 @@ void CStylerScene::func6()
         m_screens[0]->Load();
     }
 
-    m_game->unk_14BC->sub_0200E0E0(3, 20);
-    m_game->unk_14C0->sub_0200E0E0(3, 20);
+    m_game->unk_14BC->Start(3, 20);
+    m_game->unk_14C0->Start(3, 20);
 }
 
 void CStylerScene::func7()
@@ -117,7 +117,7 @@ void CStylerScene::func7()
     }
 
     SAFE_DELETE(m_data);
-    m_game->unk_146C.sub_02008DB4(30);
+    m_game->unk_146C.SetFps(30);
 }
 
 u32 CStylerScene::func0()
@@ -132,7 +132,7 @@ u32 CStylerScene::func0()
     if (result == 1) {
         m_screenIdx ^= 1;
         m_screens[m_screenIdx]->Reset();
-        m_game->unk_14BC->sub_0200E0E0(3, 20);
+        m_game->unk_14BC->Start(3, 20);
     }
 
     return -1;
@@ -150,7 +150,7 @@ void CStylerScene::func2()
 
 void CStylerScene::func3()
 {
-    sub_02007D98();
+    LoadOam();
     m_screens[m_screenIdx]->func8();
 }
 
@@ -178,8 +178,8 @@ void CStylerData::Init()
     LoadLevels();
     LoadMessages();
 
-    unk_10 = new UnkClass_0202A2AC();
-    unk_10->sub_0202A32C(0x3F0, 0, 15, 240, 16);
+    unk_10 = new SubScreenButton();
+    unk_10->Load(0x3F0, 0, 15, 240, 16);
 }
 
 void CStylerData::Release()
@@ -189,14 +189,14 @@ void CStylerData::Release()
     RELEASE_MESSAGES(m_assistMessages);
 
     m_game->m_textboxData->sub_02009FB0(1, 1);
-    m_game->m_textboxData->sub_020092D4();
+    m_game->m_textboxData->Reset();
 }
 
 void CStylerData::LoadLevels()
 {
-    UnkClass_02018DF4 *vars = (UnkClass_02018DF4 *)m_game->unk_14B4;
-    m_level = sub_02019278(vars, 3);
-    sub_0201926C((UnkClass_02018DF4 *)m_game->unk_14B4, 3, 0);
+    GlobalValues *vars = (GlobalValues *)m_game->unk_14B4;
+    m_level = GlobalValues_Get(vars, 3);
+    GlobalValues_Set((GlobalValues *)m_game->unk_14B4, 3, 0);
 
     switch (m_level) {
     case 0x1B:
@@ -216,28 +216,28 @@ void CStylerData::LoadLevels()
         break;
     }
 
-    s32 count = sub_02019278((UnkClass_02018DF4 *)m_game->unk_14B4, 4);
+    s32 count = GlobalValues_Get((GlobalValues *)m_game->unk_14B4, 4);
     if (m_level != 0) {
-        sub_0201926C((UnkClass_02018DF4 *)m_game->unk_14B4, 4, count + 1);
+        GlobalValues_Set((GlobalValues *)m_game->unk_14B4, 4, count + 1);
         m_game->m_audioEngine->sub_020349E8(0xAB);
     }
 
-    UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+    SaveData *save = &MAIN_BSS_020B26A0;
     for (int i = 0; i < 26; i++) {
-        m_powerLevels[i] = sub_02016C14(save, i);
+        m_powerLevels[i] = SaveData_GetPartsLevel(save, i);
     }
 
     m_powerLevels[24] = 0;
     m_powerLevels[25] = 0;
 
-    if (((save->unk_0003 >> 4) & 0xF) == 2) {
+    if (((save->m_rangerClassGrade >> 4) & 0xF) == 2) {
         m_powerLevels[24]++;
         m_powerLevels[25]++;
     }
-    if ((u32)(save->unk_0003 & 0xF) >= 6) {
+    if ((u32)(save->m_rangerClassGrade & 0xF) >= 6) {
         m_powerLevels[24]++;
     }
-    if ((u32)(save->unk_0003 & 0xF) >= 8) {
+    if ((u32)(save->m_rangerClassGrade & 0xF) >= 8) {
         m_powerLevels[25]++;
     }
 
@@ -248,7 +248,7 @@ static UnkClass_020091E8_004 *LoadMessageTable(const char *path);
 
 void CStylerData::LoadMessages()
 {
-    m_game->m_textboxData->sub_02009328(m_game->unk_0014, m_game->touchPanel, &m_game->unk_14AC->unk_0C, m_game->unk_14B0, m_game->unk_0024, NULL, 0x10, 0x4000, 0);
+    m_game->m_textboxData->Init(m_game->unk_0014, m_game->touchPanel, &m_game->unk_14AC->unk_0C, m_game->unk_14B0, m_game->unk_0024, NULL, 0x10, 0x4000, 0);
     m_menuMessages = LoadMessageTable("data/message/etc/menu_mes");
     m_assistMessages = LoadMessageTable("data/message/etc/assist_mes");
 }
@@ -261,7 +261,7 @@ void CStylerData::RaiseLevel(int idx, int max)
     } else {
         m_powerLevels[idx]++;
     }
-    sub_02016C40(&MAIN_BSS_020B26A0, idx, m_powerLevels[idx]);
+    SaveData_SetPartsLevel(&MAIN_BSS_020B26A0, idx, m_powerLevels[idx]);
 }
 
 void CStylerData::ApplyLevelUp()

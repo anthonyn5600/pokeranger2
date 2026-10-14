@@ -1,10 +1,10 @@
 #include <nitro.h>
 
-#include "UnkClass_02041C80.hpp"
+#include "FieldData.hpp"
+#include "SaveData.hpp"
 #include "UnkClass_02041D80.hpp"
-#include "UnkClass_020B26A0.hpp"
 
-extern UnkClass_02041C80 *MAIN_BSS_0210CA6C;
+extern FieldData *MAIN_BSS_0210CA6C;
 
 // Teleport destination per area (the map's area id), -1 terminated; unknown areas use the first entry.
 struct TeleportPoint {
@@ -29,7 +29,7 @@ static TeleportPoint sTeleportPoints[] = {
     { -1, 0x0000, 0x0000, 0x0000 },
 };
 
-static inline void SetTeleportPos(UnkClass_020B26A0 *save, u16 x, u16 y, u16 z)
+static inline void SetTeleportPos(SaveData *save, u16 x, u16 y, u16 z)
 {
     save->unk_8B78 = x;
     save->unk_8B7A = y;
@@ -50,7 +50,7 @@ TeleportPoint *ov0_02161F2C(int area)
 
 void ov0_02161F88(void)
 {
-    UnkStruct_02041D80 *map = sub_02041D80(MAIN_BSS_0210CA6C, MAIN_BSS_020B26A0.unk_001A);
+    UnkStruct_02041D80 *map = FieldData_GetMap(MAIN_BSS_0210CA6C, MAIN_BSS_020B26A0.m_mapId);
     TeleportPoint *point = ov0_02161F2C(map->unk_00);
     SetTeleportPos(&MAIN_BSS_020B26A0, point->x, point->y, point->z);
 }

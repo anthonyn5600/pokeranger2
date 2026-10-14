@@ -4,7 +4,7 @@
 #include "primitive/CPrimitiveRECT.hpp"
 #include "primitive/CSoftwareSprite.hpp"
 
-static inline void SetSpriteRes(CSoftwareSprite *sprite, UnkClass_020074D4 *image, UnkClass_02007AA4 *palette, CNCERFile *cells)
+static inline void SetSpriteRes(CSoftwareSprite *sprite, VramImage *image, VramPalette *palette, CNCERFile *cells)
 {
     sprite->SetImage((UnkClass_CPrimitive_ImageProxy *)image, NULL);
     sprite->unk_34 = (UnkClass_CPrimitive_ImagePaletteProxy *)palette;
@@ -27,7 +27,7 @@ void UnkClass_0214FD4C::Init()
     m_rect = new CPrimitiveRECT();
     m_rect->SetPos(0x70000, 0x50000);
     m_rect->SetSize(0x20000, 0x20000);
-    m_res = new UnkClass_0201AAE0("FMB", "/data/interface/i044_LZ.bin", "FMB:i044_00.NCBR", "FMB:i044.NCLR", "FMB:i044_00.NCER", "FMB:i044_00.cac");
+    m_res = new GraphicsSet("FMB", "/data/interface/i044_LZ.bin", "FMB:i044_00.NCBR", "FMB:i044.NCLR", "FMB:i044_00.NCER", "FMB:i044_00.cac");
     m_sprite = new CSoftwareSprite();
     SetSpriteRes(m_sprite, m_res->m_image, m_res->m_palette, m_res->m_cells);
     m_sprite->SetXY(0x70000, 0x50000);

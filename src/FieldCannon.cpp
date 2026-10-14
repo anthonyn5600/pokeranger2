@@ -1,18 +1,18 @@
+#include "AudioEngine.hpp"
 #include "CGame.hpp"
-#include "UnkClass_02034478.hpp"
-#include "UnkClass_020B26A0.hpp"
-#include "UnkClass_0213F918.hpp"
-#include "UnkClass_0215994C.hpp"
+#include "Collision.hpp"
+#include "FieldCannons.hpp"
+#include "FieldScriptLauncher.hpp"
+#include "MathUtil.hpp"
+#include "SaveData.hpp"
 #include "field/CFieldCannon.hpp"
 #include "field/CFieldPlayer.hpp"
 #include "scene/CFieldScene.hpp"
-#include "sub_02006000.hpp"
-#include "sub_02007254.hpp"
 
 extern CFieldScene *MAIN_BSS_0210CA40;
-extern UnkClass_0213F918 *MAIN_BSS_0210CA44;
+extern FieldScriptLauncher *MAIN_BSS_0210CA44;
 extern CFieldPlayer *MAIN_BSS_0210CA48;
-extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
+extern SaveData MAIN_BSS_020B26A0;
 
 static CFieldCannonUnit *sCannonUnit;
 
@@ -31,20 +31,20 @@ static inline void SetCannonShot(int i, Point2D pos, u16 angle, fx32 speed, u16 
     MAIN_BSS_020B26A0.unk_86B6[i] = data;
 }
 
-UnkClass_0215994C::UnkClass_0215994C()
+FieldCannons::FieldCannons()
 {
     unk_00 = 0;
     unk_02 = 0;
 }
 
-UnkClass_0215994C::~UnkClass_0215994C()
+FieldCannons::~FieldCannons()
 {
     ov0_02159D70();
 }
 
-void UnkClass_0215994C::ov0_02159970()
+void FieldCannons::ov0_02159970()
 {
-    UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+    SaveData *save = &MAIN_BSS_020B26A0;
     if (MAIN_BSS_020B26A0.unk_81B0 != 6) {
         return;
     }
@@ -82,7 +82,7 @@ void UnkClass_0215994C::ov0_02159970()
     }
 }
 
-int UnkClass_0215994C::ov0_02159B24()
+int FieldCannons::ov0_02159B24()
 {
     for (int i = 0; i < 10; i++) {
         if ((unk_00 & (1 << i)) && !(unk_02 & (1 << i))) {
@@ -92,7 +92,7 @@ int UnkClass_0215994C::ov0_02159B24()
     return -1;
 }
 
-int UnkClass_0215994C::ov0_02159B5C()
+int FieldCannons::ov0_02159B5C()
 {
     for (int i = 0; i < 10; i++) {
         if (!(unk_00 & (1 << i))) {
@@ -102,7 +102,7 @@ int UnkClass_0215994C::ov0_02159B5C()
     return -1;
 }
 
-int UnkClass_0215994C::ov0_02159B84(int type, int index, int mode)
+int FieldCannons::ov0_02159B84(int type, int index, int mode)
 {
     if (mode == 1) {
         MAIN_BSS_020B26A0.unk_8434 = type;
@@ -139,7 +139,7 @@ int UnkClass_0215994C::ov0_02159B84(int type, int index, int mode)
     return slot;
 }
 
-void UnkClass_0215994C::ov0_02159CA8()
+void FieldCannons::ov0_02159CA8()
 {
     unk_00 = 0;
     unk_02 = 0;
@@ -156,12 +156,12 @@ void ov0_02159D30(u16 type)
     }
 }
 
-void UnkClass_0215994C::ov0_02159D70()
+void FieldCannons::ov0_02159D70()
 {
     ov0_02159CA8();
 }
 
-void UnkClass_0215994C::ov0_02159D7C()
+void FieldCannons::ov0_02159D7C()
 {
     for (u16 i = 0; i < 10; i++) {
         if (unk_04[i] != NULL) {
@@ -170,7 +170,7 @@ void UnkClass_0215994C::ov0_02159D7C()
     }
 }
 
-void UnkClass_0215994C::ov0_02159DB4(UnkClass_0211E3FC *renderLists, UnkClass_020416AC *hud)
+void FieldCannons::ov0_02159DB4(DrawObjectList *renderLists, FieldShadow *hud)
 {
     for (u16 i = 0; i < 10; i++) {
         if (unk_04[i] != NULL) {
@@ -179,7 +179,7 @@ void UnkClass_0215994C::ov0_02159DB4(UnkClass_0211E3FC *renderLists, UnkClass_02
     }
 }
 
-CFieldCannon *UnkClass_0215994C::ov0_02159DFC(int index)
+CFieldCannon *FieldCannons::ov0_02159DFC(int index)
 {
     if (index >= 10) {
         return NULL;
@@ -262,7 +262,7 @@ void CFieldCannon::ov0_0215A010()
             unk_E0 = 0;
         }
     }
-    UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+    SaveData *save = &MAIN_BSS_020B26A0;
     for (u16 i = 0; i < 4; i++) {
         u16 id = unk_E4 * 4 + 0x20 + i;
         FieldCannonUnitParam *param = unk_F0[i]->ov0_0215ABF0();
@@ -288,14 +288,14 @@ void CFieldCannon::ov0_0215A010()
     }
 }
 
-void CFieldCannon::ov0_0215A25C(UnkClass_0211E3FC *renderLists, UnkClass_020416AC *hud)
+void CFieldCannon::ov0_0215A25C(DrawObjectList *renderLists, FieldShadow *hud)
 {
     if (!ov0_0215A3A4()) {
         return;
     }
     for (u16 i = 0; i < 4; i++) {
         if (unk_F0[i]->ov0_0215AA80()) {
-            unk_F0[i]->sub_0203C590(renderLists, hud);
+            unk_F0[i]->Draw(renderLists, hud);
         }
     }
 }
@@ -303,7 +303,7 @@ void CFieldCannon::ov0_0215A25C(UnkClass_0211E3FC *renderLists, UnkClass_020416A
 BOOL CFieldCannon::ov0_0215A2BC()
 {
     BOOL ret = FALSE;
-    UnkClass_0213F918 *runner = MAIN_BSS_0210CA44;
+    FieldScriptLauncher *runner = MAIN_BSS_0210CA44;
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (runner != NULL && runner->ov0_0213FEEC()) {
         ret = TRUE;
@@ -402,7 +402,7 @@ void CFieldCannonUnit::ov0_0215A5A4()
     if (unk_E2 == 1) {
         id = 0x174;
     }
-    sub_0203C418(2, id, 0, 6, 0);
+    CreateDrawObject(2, id, 0, 6, 0);
 }
 
 void CFieldCannonUnit::ov0_0215A604()
@@ -446,23 +446,23 @@ void CFieldCannonUnit::ov0_0215A698()
         Circle area;
         area.pos = unk_E4->GetPos();
         area.r = unk_E4->unk_E0;
-        if (!(unk_E4->unk_10C & 1) && sub_02006164(area, unk_E8->unk_14, NULL)) {
-            sub_0202DC54(4, 0);
+        if (!(unk_E4->unk_10C & 1) && CircleHitCircle(area, unk_E8->unk_14, NULL)) {
+            PlayAnim(4, 0);
             unk_E8->unk_0A |= 2;
             Point2D playerPos = unk_E4->GetPos();
-            sub_02007254(pos.x - playerPos.x, pos.y - playerPos.y);
+            ApproxLength(pos.x - playerPos.x, pos.y - playerPos.y);
             Point2D d = (const Point2D &)playerPos - pos;
             unk_E4->ov0_021333A0(d.x, d.y, unk_E8->unk_06, unk_E8->unk_02, -1);
         }
         if (!(unk_E8->unk_0A & 2)) {
             unk_E0++;
             if (unk_E0 == unk_E8->unk_08) {
-                sub_0202DC54(4, 0);
+                PlayAnim(4, 0);
                 unk_E8->unk_0A |= 2;
             }
         }
     }
-    sub_0203C87C(NULL);
+    Update(NULL);
 }
 
 void CFieldCannonUnit::ov0_0215AA60(BOOL active)
@@ -508,7 +508,7 @@ void CFieldCannonUnit::ov0_0215ABA4()
 {
     unk_E0 = 0;
     ov0_0215AA98(0);
-    sub_0202DC54(2, 0);
+    PlayAnim(2, 0);
     SetUnk004Bit8();
 }
 

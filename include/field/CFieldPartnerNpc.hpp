@@ -11,8 +11,8 @@ class CFieldPartnerNpc : public CFieldPartner {
 public:
     CFieldPartnerNpc();
     virtual ~CFieldPartnerNpc();
-    virtual void sub_0203DA40(CFieldMap *map);
-    virtual BOOL sub_0203D578(CFieldMap *map);
+    virtual void Process(CFieldMap *map);
+    virtual BOOL UpdateMove(CFieldMap *map);
     virtual BOOL sub_0203DA38();
 
     void SetName(const char *name);

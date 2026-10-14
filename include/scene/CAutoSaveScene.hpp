@@ -1,7 +1,7 @@
 #ifndef POKERANGER2_SCENE_CAUTOSAVESCENE_HPP
 #define POKERANGER2_SCENE_CAUTOSAVESCENE_HPP
 
-#include "UnkClass_02027FE8.hpp"
+#include "SaveManager.hpp"
 #include "common.hpp"
 #include "scene/CScene.hpp"
 
@@ -22,7 +22,7 @@ public:
 public:
     u32 unk_0004;
     u32 unk_0008;
-    UnkClass_02027FE8 *unk_000C;
+    SaveManager *unk_000C;
 };
 
 STATIC_SIZE_ASSERT(CAutoSaveScene, 0x10);

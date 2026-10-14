@@ -26,7 +26,7 @@ CMeshSprite::CMeshSprite(u8 rows)
     MI_CpuFill8(m_rowOffsets, 0, sizeof(m_rowOffsets));
 }
 
-void CMeshSprite::SetRes(UnkClass_020074D4 *image, UnkClass_02007AA4 *palette, CNCERFile *ncer)
+void CMeshSprite::SetRes(VramImage *image, VramPalette *palette, CNCERFile *ncer)
 {
     m_image = image;
     m_palette = palette;
@@ -154,13 +154,13 @@ CFieldEffectFireworks::CFieldEffectFireworks(int arg)
     m_mesh.m_rot = (MATH_Rand32(rand, 9) * 0xA0000) / 360;
 }
 
-void CFieldEffectFireworks::SetRes(UnkClass_020074D4 *image, UnkClass_02007AA4 *palette, CNCERFile *ncer)
+void CFieldEffectFireworks::SetRes(VramImage *image, VramPalette *palette, CNCERFile *ncer)
 {
     m_mesh.SetRes(image, palette, ncer);
     m_mesh.SetCell(6, 0);
 }
 
-int CFieldEffectFireworks::sub_0203312C(int param, int value)
+int CFieldEffectFireworks::SetParam(int param, int value)
 {
     int ret = 1;
     switch (param) {
@@ -219,7 +219,7 @@ int CFieldEffectFireworks::ov0_02142344(Camera2D *camera)
     return 0;
 }
 
-void CFieldEffectFireworks::sub_02033440(u16 color)
+void CFieldEffectFireworks::SetColor(u16 color)
 {
     m_mesh.m_color = color;
 }
@@ -230,7 +230,7 @@ CFieldEffect *CFieldEffectFireworksFactory::Create(int arg)
     if (effect != NULL) {
         CFieldEffectManage *mgr = MAIN_BSS_0210CA60;
         CNCERFile *ncer = mgr->m_resident.GetNcer(0);
-        UnkClass_02007AA4 *palette = mgr->m_resident.GetPalette();
+        VramPalette *palette = mgr->m_resident.GetPalette();
         effect->SetRes(mgr->m_resident.GetNcbr(0), palette, ncer);
     }
     return effect;

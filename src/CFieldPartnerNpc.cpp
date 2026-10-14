@@ -3,7 +3,7 @@
 #include <nitro.h>
 #include <string.h>
 
-#include "UnkClass_0213F918.hpp"
+#include "FieldScriptLauncher.hpp"
 
 CFieldPartnerNpc::CFieldPartnerNpc()
 {
@@ -19,20 +19,20 @@ CFieldPartnerNpc::~CFieldPartnerNpc()
 {
 }
 
-void CFieldPartnerNpc::sub_0203DA40(CFieldMap *map)
+void CFieldPartnerNpc::Process(CFieldMap *map)
 {
     unk_78 = 0;
-    sub_0202E68C(unk_E4->unk_14);
-    sub_0203C2B8();
-    sub_0203C87C(map);
+    SetLayer(unk_E4->unk_14);
+    UpdateScript();
+    Update(map);
 }
 
-BOOL CFieldPartnerNpc::sub_0203D578(CFieldMap *map)
+BOOL CFieldPartnerNpc::UpdateMove(CFieldMap *map)
 {
     unk_78 = 1;
     ov0_02138628();
-    sub_0202E68C(unk_E4->unk_14);
-    return CFieldActor::sub_0203D578(map);
+    SetLayer(unk_E4->unk_14);
+    return CFieldActor::UpdateMove(map);
 }
 
 BOOL CFieldPartnerNpc::sub_0203DA38()

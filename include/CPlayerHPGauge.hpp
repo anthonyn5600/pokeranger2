@@ -5,36 +5,36 @@
 #include <nnsys.h>
 
 #include "CActor.hpp"
-#include "UnkClass_020074D4.hpp"
-#include "UnkClass_02007AA4.hpp"
-#include "UnkClass_02008788.hpp"
+#include "CellAnimController.hpp"
+#include "VramImage.hpp"
+#include "VramPalette.hpp"
 #include "common.hpp"
 #include "file/CNCERFile.hpp"
 #include "primitive/CPrimitiveQUAD.hpp"
 #include "primitive/CPrimitiveRECT.hpp"
 
 class CGame;
-class UnkClass_02034478;
+class AudioEngine;
 
 // One graphics set of the gauge (image, palette, optional cells and animation), loaded from an archive
-class UnkClass_0201AAE0 {
+class GraphicsSet {
 public:
-    UnkClass_0201AAE0(const char *arcName, const char *arcPath, const char *ncbr, const char *nclr, const char *ncer, const char *cac);
-    ~UnkClass_0201AAE0();
+    GraphicsSet(const char *arcName, const char *arcPath, const char *ncbr, const char *nclr, const char *ncer, const char *cac);
+    ~GraphicsSet();
 
     void Load(const char *arcName, const char *arcPath, const char *ncbr, const char *nclr, const char *ncer, const char *cac);
     void Release();
 
 public:
-    UnkClass_020074D4 *m_image;
-    UnkClass_02007AA4 *m_palette;
+    VramImage *m_image;
+    VramPalette *m_palette;
     CNCERFile *m_cells;
-    UnkClass_02008788 *m_anim;
+    CellAnimController *m_anim;
     NNSGfdTexKey m_texKey;
     NNSGfdPlttKey m_plttKey;
 };
 
-STATIC_SIZE_ASSERT(UnkClass_0201AAE0, 0x18);
+STATIC_SIZE_ASSERT(GraphicsSet, 0x18);
 
 // The player's HP gauge (CFieldScene::unk_00D8)
 class CPlayerHPGauge : public CActor {
@@ -82,11 +82,11 @@ public:
     void DrawPartnerMiddle(Camera2D *camera);
     void DrawPartnerRight(Camera2D *camera);
     void DrawHealEffect(Camera2D *camera);
-    UnkClass_0201AAE0 *GetPart(int index);
+    GraphicsSet *GetPart(int index);
 
 public:
     CGame *m_game;
-    UnkClass_02034478 *m_audio;
+    AudioEngine *m_audio;
     CPrimitiveQUAD unk_18C;
     CPrimitiveQUAD unk_1EC;
     CPrimitiveQUAD unk_24C;
@@ -119,7 +119,7 @@ public:
     u16 unk_5BE;
     u16 unk_5C0;
     fx32 m_healRate;
-    UnkClass_0201AAE0 *m_parts[7];
+    GraphicsSet *m_parts[7];
 };
 
 STATIC_SIZE_ASSERT(CPlayerHPGauge, 0x5E4);

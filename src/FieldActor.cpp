@@ -2,10 +2,10 @@
 #include <string.h>
 
 #include "CGame.hpp"
-#include "UnkClass_020416AC.hpp"
+#include "DrawObjectList.hpp"
+#include "FieldShadow.hpp"
+#include "SaveData.hpp"
 #include "UnkClass_02041D80.hpp"
-#include "UnkClass_020B26A0.hpp"
-#include "UnkClass_0211E3FC.hpp"
 #include "common.hpp"
 #include "field/CFieldActor.hpp"
 #include "field/CFieldActorManage.hpp"
@@ -28,9 +28,9 @@ extern CFieldActorManage *MAIN_BSS_0210CA50;
 extern CFieldActorManage *MAIN_BSS_0210CA5C;
 extern CFieldActorManage *MAIN_BSS_0210CA7C;
 extern CFieldEffectManage *MAIN_BSS_0210CA60;
-extern UnkClass_02041C80 *MAIN_BSS_0210CA6C;
+extern FieldData *MAIN_BSS_0210CA6C;
 extern u32 MAIN_BSS_0210CA74;
-extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
+extern SaveData MAIN_BSS_020B26A0;
 extern u16 DAT_0208d58c;
 
 CFieldActorScript::CFieldActorScript(int stackSize)
@@ -50,15 +50,15 @@ CFieldActorScript::~CFieldActorScript()
     }
 }
 
-BOOL CFieldActorScript::sub_0203BE48(CFieldActor *actor, const char *func)
+BOOL CFieldActorScript::Call(CFieldActor *actor, const char *func)
 {
     if (unk_2C != NULL) {
-        sub_02044B48(&unk_08, unk_30, unk_34);
+        ScriptVM_Init(&unk_08, unk_30, unk_34);
         if (actor != NULL) {
             *--unk_08.unk_04 = (u32)actor;
         }
         if (func != NULL) {
-            if (sub_02045A18(&unk_08, unk_2C, func) == -1) {
+            if (ScriptVM_Start(&unk_08, unk_2C, func) == -1) {
                 LogError("not found func FieldActor.cpp");
                 return FALSE;
             }
@@ -74,16 +74,16 @@ BOOL CFieldActorScript::sub_0203BE48(CFieldActor *actor, const char *func)
     return TRUE;
 }
 
-BOOL CFieldActorScript::sub_0203BF00()
+BOOL CFieldActorScript::Stop()
 {
-    sub_02044B84(&unk_08);
+    ScriptVM_Reset(&unk_08);
     unk_04 = 2;
     return TRUE;
 }
 
-void CFieldActorScript::sub_0203BF20()
+void CFieldActorScript::Step()
 {
-    unk_04 = sub_02044C9C(&unk_08, 0xFFFFF);
+    unk_04 = ScriptVM_Run(&unk_08, 0xFFFFF);
 }
 
 CFieldActor::CFieldActor()
@@ -105,20 +105,20 @@ CFieldActor::CFieldActor()
     unk_54 = 0;
     unk_D0 = -1;
     unk_D8 = 0;
-    sub_0203C310();
+    Reset();
 }
 
 CFieldActor::~CFieldActor()
 {
-    sub_0203C560();
+    DeleteDrawObject();
     SAFE_DELETE(unk_DC);
     if (unk_D8 != 0 && MAIN_BSS_0210CA60 != NULL) {
         MAIN_BSS_0210CA60->ov0_021430D8(unk_D8);
     }
-    sub_02041C1C(this);
+    Actor_HideManpu(this);
 }
 
-BOOL CFieldActor::sub_0203C1B4(void *script)
+BOOL CFieldActor::SetScriptBlock(void *script)
 {
     if (unk_DC == NULL) {
         unk_DC = new CFieldActorScript(0x40);
@@ -129,7 +129,7 @@ BOOL CFieldActor::sub_0203C1B4(void *script)
     return TRUE;
 }
 
-BOOL CFieldActor::sub_0203C1FC(CFieldActorScript *script, void *block)
+BOOL CFieldActor::SetScript(CFieldActorScript *script, void *block)
 {
     if (unk_DC == NULL && script != NULL) {
         unk_DC = script;
@@ -141,10 +141,10 @@ BOOL CFieldActor::sub_0203C1FC(CFieldActorScript *script, void *block)
     return TRUE;
 }
 
-BOOL CFieldActor::sub_0203C22C(const char *label)
+BOOL CFieldActor::RunScriptLabel(const char *label)
 {
     if (unk_DC != NULL && label != NULL) {
-        if (unk_DC->sub_0203BE48(this, label)) {
+        if (unk_DC->Call(this, label)) {
             strcpy(unk_7F, label);
             return TRUE;
         }
@@ -153,33 +153,33 @@ BOOL CFieldActor::sub_0203C22C(const char *label)
     return FALSE;
 }
 
-BOOL CFieldActor::sub_0203C288()
+BOOL CFieldActor::StopScript()
 {
     BOOL result = FALSE;
     unk_7F[0] = '\0';
     if (unk_DC != NULL) {
-        result = unk_DC->sub_0203BF00();
+        result = unk_DC->Stop();
     }
     return result;
 }
 
-void CFieldActor::sub_0203C2B8()
+void CFieldActor::UpdateScript()
 {
     if (unk_0C && unk_DC != NULL) {
-        unk_DC->sub_0203BF20();
+        unk_DC->Step();
     }
 }
 
-BOOL CFieldActor::sub_0203C2D8()
+BOOL CFieldActor::RestartScriptLabel()
 {
     if (unk_DC == NULL || unk_7F[0] == '\0') {
         return FALSE;
     }
-    unk_DC->sub_0203BE48(this, unk_7F);
+    unk_DC->Call(this, unk_7F);
     return TRUE;
 }
 
-void CFieldActor::sub_0203C310()
+void CFieldActor::Reset()
 {
     unk_04 = 0;
     unk_08 = NULL;
@@ -187,7 +187,7 @@ void CFieldActor::sub_0203C310()
     unk_18 = 0;
     unk_1C = 0;
     unk_10 = 0;
-    sub_0202E68C(0);
+    SetLayer(0);
     unk_5C = 0;
     unk_60 = 0;
     unk_64.x = -FX32_ONE;
@@ -215,15 +215,15 @@ void CFieldActor::sub_0203C310()
     unk_D6 = -10;
 }
 
-BOOL CFieldActor::sub_0203C418(int arg0, u16 arg1, int arg2, u32 mask, int arg4)
+BOOL CFieldActor::CreateDrawObject(int arg0, u16 arg1, int arg2, u32 mask, int arg4)
 {
-    sub_0203C560();
+    DeleteDrawObject();
     unk_08 = new CFieldDrawObject();
-    BOOL result = unk_08->sub_02040530(arg0, arg1, arg2, mask, arg4);
+    BOOL result = unk_08->CreateActor(arg0, arg1, arg2, mask, arg4);
     if (result) {
         for (int i = 0; i < 0x1D; i++) {
             if (mask & (1 << i)) {
-                sub_0202DC54(1 << i, 0);
+                PlayAnim(1 << i, 0);
                 break;
             }
         }
@@ -233,13 +233,13 @@ BOOL CFieldActor::sub_0203C418(int arg0, u16 arg1, int arg2, u32 mask, int arg4)
 
 BOOL CFieldActor::sub_0203C4BC(int arg0, u16 arg1, int arg2, u32 mask, int arg4)
 {
-    sub_0203C560();
+    DeleteDrawObject();
     unk_08 = new CFieldDrawObject();
     BOOL result = unk_08->sub_020405B4(arg0, arg1, arg2, mask, arg4);
     if (result) {
         for (int i = 0; i < 0x1D; i++) {
             if (mask & (1 << i)) {
-                sub_0202DC54(1 << i, 0);
+                PlayAnim(1 << i, 0);
                 break;
             }
         }
@@ -247,12 +247,12 @@ BOOL CFieldActor::sub_0203C4BC(int arg0, u16 arg1, int arg2, u32 mask, int arg4)
     return result;
 }
 
-void CFieldActor::sub_0203C560()
+void CFieldActor::DeleteDrawObject()
 {
     SAFE_DELETE(unk_08);
 }
 
-void CFieldActor::sub_0203C590(UnkClass_0211E3FC *renderLists, UnkClass_020416AC *hud)
+void CFieldActor::Draw(DrawObjectList *renderLists, FieldShadow *hud)
 {
     if (unk_04 & 1) {
         return;
@@ -262,15 +262,15 @@ void CFieldActor::sub_0203C590(UnkClass_0211E3FC *renderLists, UnkClass_020416AC
         unk_08->unk_04 = unk_08->GetY();
         if (unk_04 & 0x100) {
             if (!IsUnk04Bit12()) {
-                renderLists[4].sub_0200912C(unk_08);
+                renderLists[4].Insert(unk_08);
             } else {
-                renderLists[9].sub_0200912C(unk_08);
+                renderLists[9].Insert(unk_08);
             }
         } else {
             if (!IsUnk04Bit12()) {
-                renderLists[unk_14].sub_0200912C(unk_08);
+                renderLists[unk_14].Insert(unk_08);
             } else {
-                renderLists[unk_14 + 5].sub_0200912C(unk_08);
+                renderLists[unk_14 + 5].Insert(unk_08);
             }
         }
     }
@@ -292,13 +292,13 @@ void CFieldActor::sub_0203C590(UnkClass_0211E3FC *renderLists, UnkClass_020416AC
         rect.size.y = FX32_MUL(rect.size.y, 0x60000 - height) / 0x60;
     }
     if (unk_04 & 0x100) {
-        sub_020419D8(hud, 4, rect);
+        FieldShadow_Add(hud, 4, rect);
     } else {
-        sub_020419D8(hud, unk_14, rect);
+        FieldShadow_Add(hud, unk_14, rect);
     }
 }
 
-void CFieldActor::sub_0203C87C(CFieldMap *map)
+void CFieldActor::Update(CFieldMap *map)
 {
     unk_6C = map;
     if (unk_08 == NULL) {
@@ -311,7 +311,7 @@ void CFieldActor::sub_0203C87C(CFieldMap *map)
     sub_0203CCD4();
     unk_08->sub_02040740();
     if (unk_54 != 0 && unk_08 != NULL && unk_08->unk_0C != NULL) {
-        unk_08->unk_0C->sub_02012C4C();
+        unk_08->unk_0C->UpdateGhosts();
     }
 
     int attr = 0;
@@ -339,7 +339,7 @@ void CFieldActor::sub_0203C87C(CFieldMap *map)
 
     UnkStruct_02041D80 *info = NULL;
     if (MAIN_BSS_0210CA6C != NULL) {
-        info = sub_02041D80(MAIN_BSS_0210CA6C, MAIN_BSS_020B26A0.unk_001A);
+        info = FieldData_GetMap(MAIN_BSS_0210CA6C, MAIN_BSS_020B26A0.m_mapId);
     }
     if (info == NULL) {
         return;
@@ -441,7 +441,7 @@ void CFieldActor::sub_0203C87C(CFieldMap *map)
     if (sound < 0) {
         return;
     }
-    s_game->m_audioEngine->sub_02034C44(sound);
+    s_game->m_audioEngine->PlaySe(sound);
 }
 
 void CFieldActor::sub_0203CCD4()
@@ -528,20 +528,20 @@ found:
     }
 }
 
-BOOL CFieldActor::sub_0203CF40(const PointPair2D &move, fx32 radius, u32 flags)
+BOOL CFieldActor::CheckSweepCollision(const PointPair2D &move, fx32 radius, u32 flags)
 {
     PointPair2D seg = move;
     Point2D hit;
     BOOL found = FALSE;
 
     if (!(flags & 0x10) && MAIN_BSS_0210CA7C != NULL) {
-        if (MAIN_BSS_0210CA7C->sub_0203F7F4(&seg, radius, unk_14, &hit)) {
+        if (MAIN_BSS_0210CA7C->SweepCollide(&seg, radius, unk_14, &hit)) {
             seg.p2 = hit;
             found = TRUE;
         }
     }
     if (!(flags & 8) && MAIN_BSS_0210CA50 != NULL) {
-        if (MAIN_BSS_0210CA50->sub_0203F7F4(&seg, radius, unk_14, &hit)) {
+        if (MAIN_BSS_0210CA50->SweepCollide(&seg, radius, unk_14, &hit)) {
             seg.p2 = hit;
             found = TRUE;
         }
@@ -578,15 +578,15 @@ BOOL CFieldActor::sub_0203CF40(const PointPair2D &move, fx32 radius, u32 flags)
     return found;
 }
 
-BOOL CFieldActor::sub_0203D110(Point2D pos, fx32 radius, u32 flags)
+BOOL CFieldActor::CheckCircleCollision(Point2D pos, fx32 radius, u32 flags)
 {
     if (!(flags & 0x10) && MAIN_BSS_0210CA7C != NULL) {
-        if (MAIN_BSS_0210CA7C->sub_02040158(pos, radius, unk_14)) {
+        if (MAIN_BSS_0210CA7C->CollideCircle(pos, radius, unk_14)) {
             return TRUE;
         }
     }
     if (!(flags & 8) && MAIN_BSS_0210CA50 != NULL) {
-        if (MAIN_BSS_0210CA50->sub_02040158(pos, radius, unk_14)) {
+        if (MAIN_BSS_0210CA50->CollideCircle(pos, radius, unk_14)) {
             return TRUE;
         }
     }
@@ -658,7 +658,7 @@ void CFieldActor::sub_0203D394()
     SetUnk8C(height);
 }
 
-BOOL CFieldActor::sub_0203D404(Point2D dest)
+BOOL CFieldActor::StartMoveTo(Point2D dest)
 {
     unk_C0 = dest;
     Point2D target = GetPos();
@@ -674,13 +674,13 @@ BOOL CFieldActor::sub_0203D404(Point2D dest)
     if (unk_08 != NULL) {
         unk_54 = 1;
         if (unk_08->unk_0C != NULL) {
-            unk_08->unk_0C->sub_02012B68(2, 8, 1, -2, 0, 0);
+            unk_08->unk_0C->StartGhosts(2, 8, 1, -2, 0, 0);
         }
     }
     return TRUE;
 }
 
-BOOL CFieldActor::sub_0203D578(CFieldMap *map)
+BOOL CFieldActor::UpdateMove(CFieldMap *map)
 {
     BOOL result = FALSE;
 
@@ -723,7 +723,7 @@ BOOL CFieldActor::sub_0203D578(CFieldMap *map)
         break;
     }
 
-    sub_0203C87C(map);
+    Update(map);
     return result;
 }
 
@@ -785,13 +785,13 @@ BOOL CFieldActor::sub_0203DA38()
     return TRUE;
 }
 
-void CFieldActor::sub_0203DA40(CFieldMap *map)
+void CFieldActor::Process(CFieldMap *map)
 {
-    sub_0203C2B8();
-    sub_0203C87C(map);
+    UpdateScript();
+    Update(map);
 }
 
-void CFieldActor::sub_0203DA60(u32 id)
+void CFieldActor::SetId(u32 id)
 {
     unk_58 = id;
 }

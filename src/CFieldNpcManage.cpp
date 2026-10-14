@@ -3,8 +3,8 @@
 #include <nitro.h>
 
 #include "CGame.hpp"
+#include "SaveData.hpp"
 #include "UnkClass_02041D80.hpp"
-#include "UnkClass_020B26A0.hpp"
 #include "UnkStruct_020107A8.hpp"
 #include "field/CFieldNpc.hpp"
 
@@ -14,23 +14,23 @@ struct FieldNpcData {
     s8 unk_03;
 };
 
-extern UnkClass_02041C80 *MAIN_BSS_0210CA6C;
-extern UnkClass_020B26A0 MAIN_BSS_020B26A0;
+extern FieldData *MAIN_BSS_0210CA6C;
+extern SaveData MAIN_BSS_020B26A0;
 extern MATHRandContext16 MAIN_BSS_0210CEC8;
 
 extern "C" {
-FieldNpcData *sub_02041D44(UnkClass_02041C80 *obj, int kind);
-FieldEnemyData *sub_02041D58(UnkClass_02041C80 *obj, int kind);
+FieldNpcData *FieldData_GetNpc(FieldData *obj, int kind);
+FieldEnemyData *FieldData_GetEnemy(FieldData *obj, int kind);
 }
 
-void CFieldNpcManage::sub_0203EFE4(int capacity)
+void CFieldNpcManage::Alloc(int capacity)
 {
-    CFieldActorManage::sub_0203EFE4(capacity);
+    CFieldActorManage::Alloc(capacity);
 }
 
-void CFieldNpcManage::sub_0203F034()
+void CFieldNpcManage::Free()
 {
-    CFieldActorManage::sub_0203F034();
+    CFieldActorManage::Free();
 }
 
 static inline void SetUnk70(CFieldActor *actor, fx32 x, fx32 y)
@@ -48,16 +48,16 @@ static inline void SetCircle(CFieldActor *actor, Circle v)
 int CFieldNpcManage::ov0_0213C66C(int slot, int type, u16 kind, u16 script, int arg5)
 {
     if (m_actors != NULL) {
-        UnkClass_02041C80 *table = MAIN_BSS_0210CA6C;
-        UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+        FieldData *table = MAIN_BSS_0210CA6C;
+        SaveData *save = &MAIN_BSS_020B26A0;
         for (int i = 0; i < m_count; i++) {
             if (Get(i) != NULL) {
                 continue;
             }
             CFieldNpc *npc = new CFieldNpc();
             u32 id = slot & 0xFFF;
-            id |= ((save->unk_001A & 0xFFF) << 12) | 0x2000000;
-            npc->sub_0203DA60(id);
+            id |= ((save->m_mapId & 0xFFF) << 12) | 0x2000000;
+            npc->SetId(id);
             // u8: its spill store gets the catch-all alias, which orders the loads around it like the original.
             u8 arg3 = 0;
             fx32 radius = 0x8000;
@@ -65,16 +65,16 @@ int CFieldNpcManage::ov0_0213C66C(int slot, int type, u16 kind, u16 script, int 
             u16 model;
             if (type == 0) {
                 flags = 0x1E16;
-                FieldNpcData *data = sub_02041D44(table, kind);
+                FieldNpcData *data = FieldData_GetNpc(table, kind);
                 model = data->unk_00;
                 npc->unk_78 = 0;
                 SetUnk70(npc, data->unk_02 << FX32_SHIFT, data->unk_03 << FX32_SHIFT);
             } else {
                 flags = 6;
-                UnkStruct_020107A8 *info = sub_020107A8(s_game->unk_1434, kind);
+                UnkStruct_020107A8 *info = PokeIdTable_Get(s_game->unk_1434, kind);
                 model = info->unk_00;
                 arg3 = info->unk_02;
-                FieldEnemyData *data = sub_02041D58(MAIN_BSS_0210CA6C, kind);
+                FieldEnemyData *data = FieldData_GetEnemy(MAIN_BSS_0210CA6C, kind);
                 radius = data->unk_1C;
                 npc->unk_F4.unk_6C = *data;
                 npc->unk_F4.unk_68 = npc->unk_F4.unk_6C.unk_30;
@@ -93,9 +93,9 @@ int CFieldNpcManage::ov0_0213C66C(int slot, int type, u16 kind, u16 script, int 
                 npc->SetUnkBC(info->unk_0A, info->unk_0B);
             }
             if (type == 0) {
-                npc->sub_0203C418(1, model, arg3, flags, arg5);
+                npc->CreateDrawObject(1, model, arg3, flags, arg5);
             } else {
-                npc->sub_0203C418(0, model, arg3, flags, arg5);
+                npc->CreateDrawObject(0, model, arg3, flags, arg5);
             }
             npc->LoadScript(script);
             npc->unk_E8 = type;

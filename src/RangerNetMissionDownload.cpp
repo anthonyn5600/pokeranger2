@@ -1,16 +1,16 @@
 #include <dwc.h>
 
+#include "AudioEngine.hpp"
 #include "CGame.hpp"
-#include "UnkClass_02010D2C.hpp"
-#include "UnkClass_02034478.hpp"
-#include "UnkClass_0211E05C.hpp"
-#include "UnkClass_021302D8.hpp"
-#include "UnkClass_021304DC.hpp"
+#include "DiskHPTable.hpp"
+#include "DwcConnection.hpp"
+#include "MissionDownload.hpp"
+#include "RangerNetMenu.hpp"
 #include "heap.hpp"
 #include "main.hpp"
 
-// Ranger Net mission download over Nintendo WFC (021302D8..021319EC): the DWC connection (UnkClass_021302D8) and
-// the download state machine (UnkClass_021304DC), built on the DWC_Nd download sample.
+// Ranger Net mission download over Nintendo WFC (021302D8..021319EC): the DWC connection (DwcConnection) and
+// the download state machine (MissionDownload), built on the DWC_Nd download sample.
 
 extern "C" void sub_020110E8(UnkClass_0201100C *obj);
 extern "C" int sub_020110F8(UnkClass_0201100C *obj, int list);
@@ -27,25 +27,25 @@ static void ov11_021316A8(DWCNdCallbackReason reason, DWCNdError error, int serv
 static void ov11_021316C4();
 static int ov11_021316D8();
 
-UnkClass_021302D8::UnkClass_021302D8(CGame *game)
+DwcConnection::DwcConnection(CGame *game)
 {
     unk_10 = game;
     ov11_02130310();
 }
 
-UnkClass_021302D8::~UnkClass_021302D8()
+DwcConnection::~DwcConnection()
 {
     if (unk_14 != NULL) {
         Heap_Free(unk_14);
     }
 }
 
-void UnkClass_021302D8::ov11_02130310()
+void DwcConnection::ov11_02130310()
 {
     unk_14 = NULL;
 }
 
-int UnkClass_021302D8::ov11_0213031C()
+int DwcConnection::ov11_0213031C()
 {
     if (unk_14 != NULL) {
         Heap_Free(unk_14);
@@ -62,12 +62,12 @@ int UnkClass_021302D8::ov11_0213031C()
     return ret;
 }
 
-void UnkClass_021302D8::ov11_0213038C()
+void DwcConnection::ov11_0213038C()
 {
     unk_00 = 0;
 }
 
-int UnkClass_021302D8::ov11_02130398()
+int DwcConnection::ov11_02130398()
 {
     DWCApInfo apInfo;
 
@@ -117,14 +117,14 @@ static void ov11_021304A4(DWCAllocType name, void *ptr, u32 size)
     Heap_Free(ptr);
 }
 
-void UnkClass_021302D8::ov11_021304B4()
+void DwcConnection::ov11_021304B4()
 {
     void *work = Heap_Alloc(DWC_UTILITY_WORK_SIZE);
     DWC_StartUtility(work, DWC_LANGUAGE_ENGLISH, DWC_UTILITY_TOP_MENU_FOR_USA);
     Heap_Free(work);
 }
 
-UnkClass_021304DC::UnkClass_021304DC(CGame *game, UnkClass_021302D8 *dwc, UnkClass_0211E05C *menu)
+MissionDownload::MissionDownload(CGame *game, DwcConnection *dwc, RangerNetMenu *menu)
 {
     unk_4DC = game;
     unk_4D8 = dwc;
@@ -132,14 +132,14 @@ UnkClass_021304DC::UnkClass_021304DC(CGame *game, UnkClass_021302D8 *dwc, UnkCla
     ov11_02130B14();
 }
 
-UnkClass_021304DC::~UnkClass_021304DC()
+MissionDownload::~MissionDownload()
 {
     if (unk_4C0 != NULL) {
         Heap_Free(unk_4C0);
     }
 }
 
-int UnkClass_021304DC::ov11_0213051C()
+int MissionDownload::ov11_0213051C()
 {
     switch (unk_02C) {
     case 0:
@@ -147,7 +147,7 @@ int UnkClass_021304DC::ov11_0213051C()
     case 8:
         break;
     case 1:
-        CGame::GetInstance()->m_audioEngine->sub_02034C44(0xD1);
+        CGame::GetInstance()->m_audioEngine->PlaySe(0xD1);
         unk_4D8->ov11_0213038C();
         unk_02C = 2;
         unk_4B8 = 0;
@@ -346,20 +346,20 @@ int UnkClass_021304DC::ov11_0213051C()
     return 2;
 }
 
-void UnkClass_021304DC::ov11_02130B14()
+void MissionDownload::ov11_02130B14()
 {
     unk_4C0 = NULL;
     unk_02C = 0;
     unk_4B4 = 24;
 }
 
-void UnkClass_021304DC::ov11_02130B30()
+void MissionDownload::ov11_02130B30()
 {
     unk_02C = 1;
     unk_4B4 = 24;
 }
 
-int UnkClass_021304DC::ov11_02130B48()
+int MissionDownload::ov11_02130B48()
 {
     char name[40];
     u32 received;
@@ -504,8 +504,8 @@ int UnkClass_021304DC::ov11_02130B48()
         if (!found) {
             return 1;
         }
-        CGame::GetInstance()->m_audioEngine->sub_02034C5C(0xD1);
-        CGame::GetInstance()->m_audioEngine->sub_02034C44(0xD2);
+        CGame::GetInstance()->m_audioEngine->StopSe(0xD1);
+        CGame::GetInstance()->m_audioEngine->PlaySe(0xD2);
     }
     case 8:
         unk_4E0->ov11_021217D4(unk_458, TRUE, 6);
@@ -554,7 +554,7 @@ int UnkClass_021304DC::ov11_02130B48()
         if (!DWC_NdGetFileAsync(&unk_038[unk_4BC], unk_4C0, unk_038[unk_4BC].size)) {
             return 8;
         }
-        CGame::GetInstance()->m_audioEngine->sub_02034C44(0xD1);
+        CGame::GetInstance()->m_audioEngine->PlaySe(0xD1);
         unk_034 = 0;
         unk_4D0 = 0;
         unk_4D4 = 0;
@@ -640,8 +640,8 @@ int UnkClass_021304DC::ov11_02130B48()
             unk_4B4 = 14;
             unk_4C4 = 0;
             unk_4E0->ov11_0211F0BC();
-            CGame::GetInstance()->m_audioEngine->sub_02034C5C(0xD1);
-            CGame::GetInstance()->m_audioEngine->sub_02034C44(0xF0);
+            CGame::GetInstance()->m_audioEngine->StopSe(0xD1);
+            CGame::GetInstance()->m_audioEngine->PlaySe(0xF0);
         }
         break;
     case 22: {
@@ -727,14 +727,14 @@ static int ov11_021316D8()
     return sNdDone;
 }
 
-void UnkClass_021304DC::ov11_021316E8()
+void MissionDownload::ov11_021316E8()
 {
     if (!DWC_NdSetAttr("", "", "")) {
         OS_Terminate();
     }
 }
 
-void UnkClass_021304DC::ov11_02131710()
+void MissionDownload::ov11_02131710()
 {
     char buf[64];
     int code;
@@ -798,7 +798,7 @@ void UnkClass_021304DC::ov11_02131710()
     unk_4E0->ov11_02122B7C(msg, 0, 0, 1);
 }
 
-BOOL UnkClass_021304DC::ov11_02131980()
+BOOL MissionDownload::ov11_02131980()
 {
     int code;
     DWCErrorType type;

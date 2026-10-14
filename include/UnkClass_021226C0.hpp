@@ -8,7 +8,7 @@
 // Encyclopedia entry
 struct UnkStruct_02123618 {
     u16 no; // >= 1000: special entries
-    u16 id; // record id for sub_020107A8
+    u16 id; // record id for PokeIdTable_Get
     u64 unk_04;
 };
 

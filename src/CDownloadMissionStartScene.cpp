@@ -1,15 +1,15 @@
 #include "scene/CDownloadMissionStartScene.hpp"
 
-#include "UnkClass_02010D2C.hpp"
-#include "UnkClass_0201164C.hpp"
-#include "UnkClass_02018DF4.hpp"
-#include "UnkClass_02033F04.hpp"
-#include "UnkClass_02041C80.hpp"
+#include "DiskHPTable.hpp"
+#include "DisplayUtil.hpp"
+#include "FieldData.hpp"
+#include "GlobalValues.hpp"
+#include "MissionQuestData.hpp"
+#include "SaveData.hpp"
+#include "ScriptManager.hpp"
 #include "UnkClass_02041D80.hpp"
-#include "UnkClass_020B26A0.hpp"
 #include "UnkStruct_02044464.hpp"
 #include "scene/DownloadMission.hpp"
-#include "sub_02007CF0.hpp"
 
 struct UnkStruct_0210C1C0 {
     u8 unk_00[0x60];
@@ -23,7 +23,7 @@ struct UnkStruct_0210C228 {
     void *unk_804;
 };
 
-extern UnkClass_02041C80 *MAIN_BSS_0210CA6C;
+extern FieldData *MAIN_BSS_0210CA6C;
 extern UnkStruct_0210C1C0 MAIN_BSS_0210C1C0;
 extern UnkStruct_0210C228 MAIN_BSS_0210C228;
 
@@ -32,12 +32,12 @@ u8 g_downloadMissionKey[16] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 
 void CDownloadMissionStartScene::func6()
 {
     unk_0010 = MAIN_BSS_020B26A0.unk_81AC;
-    unk_000C = new UnkClass_02027FE8(1);
+    unk_000C = new SaveManager(1);
     unk_0008 = 0;
-    game->m_textboxData->sub_02009328(game->unk_0014, game->touchPanel, &game->unk_14AC->unk_0C, game->unk_14B0, game->unk_0024, game->m_audioEngine, 0x10, 0x4000, 0);
-    sub_02007D68();
-    game->m_textboxData->sub_0200AB28(0);
-    game->unk_146C.sub_02008DB4(60);
+    game->m_textboxData->Init(game->unk_0014, game->touchPanel, &game->unk_14AC->unk_0C, game->unk_14B0, game->unk_0024, game->m_audioEngine, 0x10, 0x4000, 0);
+    SetupBGFonts();
+    game->m_textboxData->LoadSystemMessages(0);
+    game->unk_146C.SetFps(60);
 }
 
 void CDownloadMissionStartScene::func7()
@@ -46,8 +46,8 @@ void CDownloadMissionStartScene::func7()
         delete unk_000C;
         unk_000C = NULL;
     }
-    game->m_textboxData->sub_0200AC90();
-    game->m_textboxData->sub_020092D4();
+    game->m_textboxData->FreeSystemMessages();
+    game->m_textboxData->Reset();
 }
 
 u32 CDownloadMissionStartScene::func0()
@@ -85,7 +85,7 @@ u32 CDownloadMissionStartScene::func0()
         break;
     }
     case 2: {
-        UnkClass_02033F04 *script = game->m_scriptManager;
+        ScriptManager *script = game->m_scriptManager;
         u32 *data = (u32 *)MAIN_BSS_020AF620.unk_00.unk_04;
         CRYPTORC4FastContext ctx;
         CRYPTO_RC4FastInit(&ctx, g_downloadMissionKey, 0x10);
@@ -104,10 +104,10 @@ u32 CDownloadMissionStartScene::func0()
             MI_UnfilterDiff8(data, script->m_chapterBuffer);
             break;
         }
-        sub_02044AC8(script->m_chapterBuffer);
+        Script_Link(script->m_chapterBuffer);
         unk_0008 = 5;
-        game->sub_0201024C();
-        MAIN_BSS_020B26A0.unk_8B64 = sub_02041D80(MAIN_BSS_0210CA6C, MAIN_BSS_020B26A0.unk_001A)->unk_04;
+        game->ApplyTextSettings();
+        MAIN_BSS_020B26A0.m_areaType = FieldData_GetMap(MAIN_BSS_0210CA6C, MAIN_BSS_020B26A0.m_mapId)->unk_04;
         break;
     }
     case 3:
@@ -138,13 +138,13 @@ u32 CDownloadMissionStartScene::func0()
             }
         } else {
             unk_0008 = 5;
-            game->sub_0201024C();
-            MAIN_BSS_020B26A0.unk_8B64 = sub_02041D80(MAIN_BSS_0210CA6C, MAIN_BSS_020B26A0.unk_001A)->unk_04;
+            game->ApplyTextSettings();
+            MAIN_BSS_020B26A0.m_areaType = FieldData_GetMap(MAIN_BSS_0210CA6C, MAIN_BSS_020B26A0.m_mapId)->unk_04;
         }
         break;
     }
     case 5: {
-        UnkClass_020B26A0 *save = &MAIN_BSS_020B26A0;
+        SaveData *save = &MAIN_BSS_020B26A0;
         int progress = unk_0010 + 0x45;
         sub_020162BC(save, 0);
         save->unk_8802 = 0;
@@ -152,7 +152,7 @@ u32 CDownloadMissionStartScene::func0()
         save->unk_8B68 = 1;
         save->unk_8B6C = progress;
         for (int i = 0; i < 2; i++) {
-            save->unk_8AD4[i].unk_00 = 0;
+            save->m_partners[i].unk_00 = 0;
         }
 
         UnkStruct_020155FC *found = NULL;
@@ -163,7 +163,7 @@ u32 CDownloadMissionStartScene::func0()
                     found = &save->unk_8804[i][j];
                     foundIdx = j;
                 } else {
-                    sub_020150B8(&save->unk_8804[i][j]);
+                    SaveEntry_Clear(&save->unk_8804[i][j]);
                 }
             }
         }
@@ -171,71 +171,71 @@ u32 CDownloadMissionStartScene::func0()
             *(UnkStruct_020155FC_Data *)&save->unk_8804[0][0] = *(UnkStruct_020155FC_Data *)found;
             save->unk_8804[0][0].unk_08 = 0;
             save->unk_8804[0][0].unk_08 |= found->unk_08;
-            sub_020150B8(found);
+            SaveEntry_Clear(found);
         }
 
-        sub_02016024(save);
+        SaveData_ClearActorPositions(save);
         MIi_CpuClearFast(0, save->unk_81B4, sizeof(save->unk_81B4));
         save->unk_8434 = 0;
-        save->unk_8AD4[0].unk_00 = 0;
-        save->unk_8AD4[1].unk_00 = 0;
+        save->m_partners[0].unk_00 = 0;
+        save->m_partners[1].unk_00 = 0;
 
-        s32 v1 = sub_02019278(&MAIN_BSS_0210C0B0, 1);
-        s32 v2 = sub_02019278(&MAIN_BSS_0210C0B0, 2);
-        s32 v1B = sub_02019278(&MAIN_BSS_0210C0B0, 0x1B);
-        s32 v1C = sub_02019278(&MAIN_BSS_0210C0B0, 0x1C);
-        s32 v1D = sub_02019278(&MAIN_BSS_0210C0B0, 0x1D);
-        s32 v1E = sub_02019278(&MAIN_BSS_0210C0B0, 0x1E);
-        s32 v4 = sub_02019278(&MAIN_BSS_0210C0B0, 4);
-        sub_0201135C(&MAIN_BSS_020B2638);
-        sub_02018E1C(&MAIN_BSS_0210C0B0);
-        sub_02018E30(&MAIN_BSS_0210C0B0);
-        sub_02018E94(&MAIN_BSS_0210C0B0, 0);
-        sub_02018E94(&MAIN_BSS_0210C0B0, progress);
+        s32 v1 = GlobalValues_Get(&MAIN_BSS_0210C0B0, 1);
+        s32 v2 = GlobalValues_Get(&MAIN_BSS_0210C0B0, 2);
+        s32 v1B = GlobalValues_Get(&MAIN_BSS_0210C0B0, 0x1B);
+        s32 v1C = GlobalValues_Get(&MAIN_BSS_0210C0B0, 0x1C);
+        s32 v1D = GlobalValues_Get(&MAIN_BSS_0210C0B0, 0x1D);
+        s32 v1E = GlobalValues_Get(&MAIN_BSS_0210C0B0, 0x1E);
+        s32 v4 = GlobalValues_Get(&MAIN_BSS_0210C0B0, 4);
+        MissionQuestData_Clear(&MAIN_BSS_020B2638);
+        GlobalValues_Init(&MAIN_BSS_0210C0B0);
+        GlobalValues_ClearChapterValues(&MAIN_BSS_0210C0B0);
+        GlobalValues_ApplyProgress(&MAIN_BSS_0210C0B0, 0);
+        GlobalValues_ApplyProgress(&MAIN_BSS_0210C0B0, progress);
         sub_020116C0(&MAIN_BSS_020B2638, 0);
-        sub_0201926C(&MAIN_BSS_0210C0B0, 1, v1);
-        sub_0201926C(&MAIN_BSS_0210C0B0, 2, v2);
-        sub_0201926C(&MAIN_BSS_0210C0B0, 0x1B, v1B);
-        sub_0201926C(&MAIN_BSS_0210C0B0, 0x1C, v1C);
-        sub_0201926C(&MAIN_BSS_0210C0B0, 0x1D, v1D);
-        sub_0201926C(&MAIN_BSS_0210C0B0, 0x1E, v1E);
-        sub_0201926C(&MAIN_BSS_0210C0B0, 4, v4);
+        GlobalValues_Set(&MAIN_BSS_0210C0B0, 1, v1);
+        GlobalValues_Set(&MAIN_BSS_0210C0B0, 2, v2);
+        GlobalValues_Set(&MAIN_BSS_0210C0B0, 0x1B, v1B);
+        GlobalValues_Set(&MAIN_BSS_0210C0B0, 0x1C, v1C);
+        GlobalValues_Set(&MAIN_BSS_0210C0B0, 0x1D, v1D);
+        GlobalValues_Set(&MAIN_BSS_0210C0B0, 0x1E, v1E);
+        GlobalValues_Set(&MAIN_BSS_0210C0B0, 4, v4);
         MI_CpuFill8(&MAIN_BSS_0210C1C0, 0, 0x60);
         MI_CpuFill8(&MAIN_BSS_0210C228, 0, 0x800);
-        save->unk_0001 = save->unk_0002;
+        save->m_energy = save->m_maxEnergy;
         save->unk_0004 = 0;
 
         RTCTime time;
         RTCDate date;
         RTC_GetTime(&time);
         RTC_GetDate(&date);
-        MAIN_BSS_020B26A0.unk_8B94 = time;
-        MAIN_BSS_020B26A0.unk_8B84 = date;
+        MAIN_BSS_020B26A0.m_lastTime = time;
+        MAIN_BSS_020B26A0.m_lastDate = date;
         return 1;
     }
     case 6:
-        game->m_textboxData->sub_0200AA14();
-        game->m_textboxData->sub_0200AA84(0, 0x48, 1, 1, 0);
-        game->unk_14BC->sub_0200E0E0(3, 5);
-        game->unk_14C0->sub_0200E0E0(3, 5);
+        game->m_textboxData->ResetTextSpeed();
+        game->m_textboxData->ShowMessage(0, 0x48, 1, 1, 0);
+        game->unk_14BC->Start(3, 5);
+        game->unk_14C0->Start(3, 5);
         unk_0008 = 7;
         break;
     case 7:
-        if (game->m_textboxData->sub_02009ECC()) {
+        if (game->m_textboxData->IsActive()) {
             break;
         }
         game->m_textboxData->sub_02009FB0(1, 1);
         unk_0008 = 0x12;
         break;
     case 8:
-        game->m_textboxData->sub_0200AA14();
-        game->m_textboxData->sub_0200AA84(0, 0x50, 1, 1, 0);
-        game->unk_14BC->sub_0200E0E0(3, 5);
-        game->unk_14C0->sub_0200E0E0(3, 5);
+        game->m_textboxData->ResetTextSpeed();
+        game->m_textboxData->ShowMessage(0, 0x50, 1, 1, 0);
+        game->unk_14BC->Start(3, 5);
+        game->unk_14C0->Start(3, 5);
         unk_0008 = 9;
         break;
     case 9:
-        if (game->m_textboxData->sub_02009ECC()) {
+        if (game->m_textboxData->IsActive()) {
             break;
         }
         game->m_textboxData->sub_02009FB0(1, 1);
@@ -249,60 +249,60 @@ u32 CDownloadMissionStartScene::func0()
         if (unk_000C->sub_0202841C() == 0) {
             break;
         }
-        game->unk_14BC->sub_0200E0E0(3, 5);
-        game->unk_14C0->sub_0200E0E0(3, 5);
-        game->m_textboxData->sub_0200AA14();
-        game->m_textboxData->sub_0200AA84(0, 0x73, 1, 1, 0);
+        game->unk_14BC->Start(3, 5);
+        game->unk_14C0->Start(3, 5);
+        game->m_textboxData->ResetTextSpeed();
+        game->m_textboxData->ShowMessage(0, 0x73, 1, 1, 0);
         unk_0008 = 12;
         break;
     case 12:
-        if (game->m_textboxData->sub_02009ECC()) {
+        if (game->m_textboxData->IsActive()) {
             break;
         }
-        game->m_textboxData->sub_0200AA14();
-        game->m_textboxData->sub_0200AA84(0, 0x74, 1, 1, 0);
+        game->m_textboxData->ResetTextSpeed();
+        game->m_textboxData->ShowMessage(0, 0x74, 1, 1, 0);
         unk_0008 = 13;
         break;
     case 13:
-        if (game->m_textboxData->sub_02009ECC()) {
+        if (game->m_textboxData->IsActive()) {
             break;
         }
         game->m_textboxData->sub_02009FB0(1, 1);
         unk_0008 = 0x12;
         break;
     case 14:
-        game->m_textboxData->sub_0200AA14();
-        game->m_textboxData->sub_0200AA84(0, 0x50, 1, 1, 0);
-        game->unk_14BC->sub_0200E0E0(3, 5);
-        game->unk_14C0->sub_0200E0E0(3, 5);
+        game->m_textboxData->ResetTextSpeed();
+        game->m_textboxData->ShowMessage(0, 0x50, 1, 1, 0);
+        game->unk_14BC->Start(3, 5);
+        game->unk_14C0->Start(3, 5);
         unk_0008 = 15;
         break;
     case 15:
-        if (game->m_textboxData->sub_02009ECC()) {
+        if (game->m_textboxData->IsActive()) {
             break;
         }
         game->m_textboxData->sub_02009FB0(1, 1);
         unk_0008 = 0x12;
         break;
     case 16:
-        game->m_textboxData->sub_0200AA14();
-        game->m_textboxData->sub_0200AA84(0, 0x45, 1, 1, 0);
-        game->unk_14BC->sub_0200E0E0(3, 5);
-        game->unk_14C0->sub_0200E0E0(3, 5);
+        game->m_textboxData->ResetTextSpeed();
+        game->m_textboxData->ShowMessage(0, 0x45, 1, 1, 0);
+        game->unk_14BC->Start(3, 5);
+        game->unk_14C0->Start(3, 5);
         unk_0008 = 0x11;
         break;
     case 17:
         break;
     case 18:
-        game->unk_14BC->sub_0200E0E0(2, 30);
-        game->unk_14C0->sub_0200E0E0(2, 30);
+        game->unk_14BC->Start(2, 30);
+        game->unk_14C0->Start(2, 30);
         unk_0008 = 0x13;
         break;
     case 19:
-        if (game->unk_14BC->sub_0200E310()) {
+        if (game->unk_14BC->IsActive()) {
             break;
         }
-        if (game->unk_14C0->sub_0200E310()) {
+        if (game->unk_14C0->IsActive()) {
             break;
         }
         return 0x11;
