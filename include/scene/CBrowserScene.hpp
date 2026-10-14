@@ -4,6 +4,8 @@
 #include "common.hpp"
 #include "scene/CScene.hpp"
 
+class UnkClass_0211D330;
+
 // Defined in ov21
 class CBrowserScene : public CScene {
 public:
@@ -20,7 +22,14 @@ public:
     virtual u32 getSceneId();
 
 public:
-    u8 unk_0004[0x1C];
+    u32 unk_0004;
+    UnkClass_0211D330 *unk_0008;
+    u32 unk_000C;
+    u32 unk_0010; // state
+    u32 unk_0014; // saved visible windows
+    GXWndPlane unk_0018; // saved window 0 inside plane
+    GXWndPlane unk_0019; // saved outside plane
+    OSIrqFunction unk_001C; // saved H-blank handler
 };
 
 STATIC_SIZE_ASSERT(CBrowserScene, 0x20);

@@ -1,8 +1,24 @@
 #ifndef POKERANGER2_SCENE_CSUITEPICTURESCENE_HPP
 #define POKERANGER2_SCENE_CSUITEPICTURESCENE_HPP
 
+#include "UnkClass_0200E960.hpp"
+#include "UnkClass_0200ECD0.hpp"
 #include "common.hpp"
 #include "scene/CScene.hpp"
+
+struct SuitePictureMsg {
+    s32 unk_00;
+    s32 unk_04;
+    s32 unk_08;
+};
+
+struct SuitePicture {
+    s32 id;
+    s32 unk_04;
+    const SuitePictureMsg *msgs;
+    s32 unk_0C;
+    s32 unk_10;
+};
 
 // Defined in ov26
 class CSuitePictureScene : public CScene {
@@ -18,8 +34,17 @@ public:
     virtual void func7();
     virtual u32 getSceneId();
 
+    void ov26_0211D3C0(int id);
+
 public:
-    u8 unk_0004[0x20];
+    int unk_0004; // frame counter
+    u32 unk_0008; // state
+    UnkClass_0200ECD0 *unk_000C;
+    UnkClass_0200E960 *unk_0010;
+    const SuitePictureMsg *unk_0014;
+    const SuitePicture *unk_0018;
+    int unk_001C; // frames to show (< 0: skip the wait for input)
+    int unk_0020;
 };
 
 STATIC_SIZE_ASSERT(CSuitePictureScene, 0x24);
