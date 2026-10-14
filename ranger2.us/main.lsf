@@ -272,7 +272,11 @@ Overlay overlay0
     Object main.nef.p/src_CFieldEffectWaveBullet.cpp.o
     Object main.nef.p/src_CFieldEffectCellAnime.cpp.o
     Object main.nef.p/src_CFieldEffectParabolaBullet.cpp.o
-    Object main.nef.p/asm_overlay_00_0215EA9C.s.o
+    Object main.nef.p/src_CFieldEffectPoisonGas.cpp.o
+    Object main.nef.p/src_CFieldEffectSpray.cpp.o
+    Object main.nef.p/src_CFieldEffectFire.cpp.o
+    Object main.nef.p/src_CFieldEffectSpark.cpp.o
+    Object main.nef.p/asm_overlay_00_021618C0.s.o
 }
 
 Overlay overlay1

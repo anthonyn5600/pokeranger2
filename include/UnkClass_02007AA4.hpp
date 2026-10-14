@@ -24,6 +24,11 @@ public:
 
     static void sub_02007C64(void *data);
 
+    NNSG2dPaletteData *GetData()
+    {
+        return unk_04;
+    }
+
 public:
     CNCLRFile *unk_00;
     NNSG2dPaletteData *unk_04;

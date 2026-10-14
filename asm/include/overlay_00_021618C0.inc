@@ -5,7 +5,6 @@
 .public FX_Sqrt
 .public G3_LoadTexMtxTexCoord
 .public G3_MultMtx33
-.public LogError
 .public LogInfo
 .public MAIN_BSS_020B26A0
 .public MAIN_BSS_0210CA40
@@ -24,8 +23,6 @@
 .public NNS_G2dGetCellDataByIdx
 .public NNS_G2dGetImageLocation
 .public NNS_G2dGetImagePaletteLocation
-.public NNS_GfdAllocLnkPlttVram
-.public NNS_GfdFreeLnkPlttVram
 .public NNSi_objSizeHTbl
 .public NNSi_objSizeWTbl
 .public OS_SPrintf
@@ -80,10 +77,7 @@
 .public _ZN17CFieldEffectManpu9IsVisibleEv
 .public _ZN17CFieldEffectManpuD2Ev
 .public _ZN17CFieldEffectManpudlEPv
-.public _ZN17UnkClass_02007AA412sub_02007BACEP17NNSG2dPaletteData
-.public _ZN17UnkClass_02007AA412sub_02007C34Em
 .public _ZN17UnkClass_02007AA4C1Ev
-.public _ZN17UnkClass_02007AA4D1Ev
 .public _ZN17UnkClass_0200878812sub_02008828Et
 .public _ZN17UnkClass_0200878812sub_02008860Et
 .public _ZN17UnkClass_0200878812sub_020089B8Et
@@ -109,12 +103,9 @@
 .public _ZN22CFieldEffectManpuAnimeC2EP16CEffectActorDataP17UnkClass_0216D420i
 .public _ZN22CFieldEffectManpuAnimeD2Ev
 .public _ZN23CFieldEffectBushFactoryD1Ev
-.public _ZN23CFieldEffectFireFactoryD1Ev
 .public _ZN23CFieldEffectManpuSimple8SetDepthEl
 .public _ZN24CFieldEffectJumonFactoryD1Ev
 .public _ZN24CFieldEffectLaserFactoryD1Ev
-.public _ZN24CFieldEffectSparkFactoryD1Ev
-.public _ZN24CFieldEffectSprayFactoryD1Ev
 .public _ZN27CFieldEffectAttackActorData12ov0_0214FFF0Eiii
 .public _ZN27CFieldEffectAttackActorDataD1Ev
 .public _ZN27CFieldEffectNormalActorData12ov0_021503B8Eii
@@ -153,7 +144,6 @@
 .public _ZTV21TFieldParticleEmitterI15CSoftwareSpriteE
 .public _ZTV25TFieldParticleRectEmitterI15CSoftwareSpriteE
 .public _ZTV27CFieldEffectAttackActorData
-.public _ZTV27CFieldEffectNormalActorData
 .public _ZTV30TFieldParticleSmokeRectEmitterI15CSoftwareSpriteE
 .public _ZTVN10__cxxabiv117__class_type_infoE
 .public _ZTVN10__cxxabiv120__si_class_type_infoE
