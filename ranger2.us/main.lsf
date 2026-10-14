@@ -514,7 +514,11 @@ Overlay overlay21
 Overlay overlay22
 {
     After main
-    Object main.nef.p/asm_overlay_22_0211C9E0.s.o
+    Object main.nef.p/src_CEncyclopediaScene.cpp.o
+    Object main.nef.p/src_CEncycItemListScreen.cpp.o
+    Object main.nef.p/src_CEncycItemDescriptionScreen.cpp.o
+    Object main.nef.p/src_UnkClass_0211F134.cpp.o
+    Object main.nef.p/src_CEncycListBox.cpp.o
 }
 
 Overlay overlay23

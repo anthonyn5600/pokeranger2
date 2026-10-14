@@ -274,10 +274,6 @@ CBinaryFileMes::CBinaryFileMes(const char *path, u32 arg1)
     }
 }
 
-CBinaryFileMes::~CBinaryFileMes()
-{
-}
-
 // NOTE: The following are junk classes that generate vtables/RTTI to
 // have the correct ordering for the symbols in the `.data` section
 // of this TU. They are dead-stripped by the linker, but still have an

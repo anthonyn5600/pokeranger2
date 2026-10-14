@@ -9,7 +9,6 @@
 class CBinaryFileMes : public CBinaryFile {
 public:
     CBinaryFileMes(const char *path, u32 arg1);
-    virtual ~CBinaryFileMes();
 
     static const char *sub_02003124();
 };
