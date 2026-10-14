@@ -417,7 +417,18 @@ Overlay overlay11
     Object main.nef.p/src_RangerNetSession.cpp.o
     Object main.nef.p/src_RangerNetWhUser.cpp.o
     Object main.nef.p/src_RangerNetShared.cpp.o
-    Object main.nef.p/asm_overlay_11_02129B60.s.o
+    Object main.nef.p/src_RangerNetCommSystem.cpp.o
+    Object main.nef.p/src_RangerNetCommQueue.cpp.o
+    Object main.nef.p/src_RangerNetCommRing.cpp.o
+    Object main.nef.p/src_RangerNetCommCmd.cpp.o
+    Object main.nef.p/src_RangerNetSessionCmd.cpp.o
+    Object main.nef.p/src_RangerNetCommLocal.cpp.o
+    Object main.nef.p/src_UnkClass_0212CE58.cpp.o
+    Object main.nef.p/src_UnkClass_0212D97C.cpp.o
+    Object main.nef.p/src_RangerNetMywhClient.cpp.o
+    Object main.nef.p/src_RangerNetMywh.cpp.o
+    Object main.nef.p/src_RangerNetMissionDownload.cpp.o
+    Object main.nef.p/src_CCompanyLogoScene.cpp.o
     Library libdwcac_ranger2.a
     Library libdwcauth_ranger2.a
     Library libdwcbm_ranger2.a

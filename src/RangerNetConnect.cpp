@@ -1,3 +1,5 @@
+#include <nitro/math.h>
+
 #include "common.hpp"
 #include "heap.hpp"
 
@@ -5,7 +7,7 @@
 
 struct D2Work {
     int unk_00;
-    u8 unk_04[0x18];
+    MATHRandContext32 unk_04;
     void (*unk_1C)();
     u16 unk_20;
     u8 unk_22;
@@ -22,12 +24,12 @@ void ov11_021287A8(); // D3 (RangerNetPlayerInfo.cpp)
 void *ov11_02128A30(u16 aid); // D3 (RangerNetPlayerInfo.cpp)
 void ov11_02128B9C(u8 arg); // D4
 void ov11_02128BDC(); // D4
-extern "C" int ov11_0212B9CC(u8 cmd, void *data, u8 size);
-extern "C" BOOL ov11_0212BEA0(u16 aid);
-extern "C" BOOL ov11_0212BF7C();
-extern "C" u8 ov11_0212C154();
-extern "C" void ov11_0212C21C(void *p);
-extern "C" void ov11_0212CDF4(int arg);
+int ov11_0212B9CC(u8 cmd, u8 *data, u16 size);
+BOOL ov11_0212BEA0(u16 aid);
+BOOL ov11_0212BF7C();
+u8 ov11_0212C154();
+void ov11_0212C21C(MATHRandContext32 *ctx);
+void ov11_0212CDF4(int arg);
 
 void ov11_021284DC(void (*func)(), u16 n);
 void ov11_0212854C();
@@ -92,9 +94,9 @@ void ov11_021285E0(int arg, u8 arg2)
     ov11_021284DC(ov11_021284F8, 0);
 }
 
-void ov11_0212861C(void *data, u8 size)
+void ov11_0212861C(void *data, u16 size)
 {
-    ov11_0212B9CC(0x16, data, size);
+    ov11_0212B9CC(0x16, (u8 *)data, size);
 }
 
 void ov11_02128634(u8 v)

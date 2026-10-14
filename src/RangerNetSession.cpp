@@ -1,3 +1,5 @@
+#include <nitro/math.h>
+
 #include "common.hpp"
 #include "heap.hpp"
 
@@ -14,7 +16,7 @@ extern RangerNetSessionParam gRangerNetSessionParam;
 
 struct D4Work {
     u8 unk_00[0x8];
-    u8 unk_08[0x18];
+    MATHRandContext32 unk_08;
     void (*unk_20)();
     RangerNetSessionParam *unk_24;
     u8 unk_28[0x6];
@@ -40,16 +42,17 @@ void ov11_021286BC(); // D3 (RangerNetPlayerInfo.cpp)
 void ov11_02128F1C(RangerNetSessionParam *param); // D5
 BOOL ov11_02129024(); // D5
 BOOL ov11_021291DC(); // D5
-extern "C" BOOL ov11_0212A524(u8 a, u8 b, int c, int d);
-extern "C" void ov11_0212A630();
-extern "C" void ov11_0212A668();
-extern "C" void ov11_0212BB6C(u8 cmd, u8 *data);
-extern "C" BOOL ov11_0212BEA0(u16 aid);
-extern "C" BOOL ov11_0212BF7C();
-extern "C" u16 ov11_0212C154();
-extern "C" void ov11_0212C21C(void *p);
-extern "C" void ov11_0212CA60(void *a, int b, int c);
-extern "C" void ov11_0212CAE0();
+BOOL ov11_0212A524(int arg, int flag3, int size, int flag5);
+void ov11_0212A630();
+void ov11_0212A668();
+void ov11_0212BB6C(u8 cmd, u8 *data);
+BOOL ov11_0212BEA0(u16 aid);
+BOOL ov11_0212BF7C();
+u16 ov11_0212C154();
+void ov11_0212C21C(MATHRandContext32 *ctx);
+struct CommCmdTable;
+void ov11_0212CA60(const CommCmdTable *cmdTable, int count, void *arg);
+void ov11_0212CAE0();
 
 void ov11_02128C3C(void (*func)(), u16 n);
 void ov11_02128C58();
@@ -72,7 +75,7 @@ void ov11_02128A94(u8 arg)
     sWork->unk_31 = 0;
     sWork->unk_3C = 0;
     sWork->unk_33 = arg;
-    ov11_0212C21C(sWork->unk_08);
+    ov11_0212C21C(&sWork->unk_08);
     ov11_0212CA60(NULL, 0, 0);
 }
 

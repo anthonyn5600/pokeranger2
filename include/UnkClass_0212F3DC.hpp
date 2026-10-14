@@ -14,6 +14,7 @@ public:
     u8 *unk_0;
     u8 *unk_4;
     u8 unk_8;
+    u16 unk_A;
 };
 
 STATIC_SIZE_ASSERT(UnkClass_0212F3DC, 0xC);

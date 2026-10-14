@@ -15,12 +15,12 @@ struct D6Work {
 
 static D6Work *sWork;
 
-extern "C" void ov11_0212BB6C(u8 cmd, u8 *data);
-extern "C" BOOL ov11_0212BEA0(u16 aid);
-extern "C" u16 ov11_0212C154();
-extern "C" BOOL ov11_0212C198(u8 cmd, u8 *data);
+void ov11_0212BB6C(u8 cmd, u8 *data);
+BOOL ov11_0212BEA0(u16 aid);
+u16 ov11_0212C154();
+BOOL ov11_0212C198(u8 cmd, u8 *data);
 
-void ov11_021298C4()
+void ov11_021298C4(int arg)
 {
     if (sWork == NULL) {
         sWork = (D6Work *)Heap_Alloc(sizeof(D6Work));
