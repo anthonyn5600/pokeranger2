@@ -386,7 +386,7 @@ Overlay overlay6
 Overlay overlay7
 {
     After main
-    Object main.nef.p/asm_overlay_07_0211C9E0.s.o
+    Object main.nef.p/src_CReleaseScene.cpp.o
 }
 
 Overlay overlay8

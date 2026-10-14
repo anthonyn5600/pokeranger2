@@ -300,6 +300,7 @@ pokeranger2_cxx = files(
     'UnkClass_0211CCA0.cpp',
     'UnkClass_0211CD68.cpp',
     'CRangerNetAGBScene.cpp',
+    'CReleaseScene.cpp',
     'CMissionQuestScene.cpp',
     'CFlyingScene.cpp',
     'CFieldToMenuScene.cpp',
