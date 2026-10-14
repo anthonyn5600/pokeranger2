@@ -1,3363 +1,7 @@
     .include "macros.inc"
-    .include "include/overlay_11_021272F8.inc"
+    .include "include/overlay_11_02129B60.inc"
 
     .text
-
-	arm_func_start ov11_021272F8
-ov11_021272F8: ; 0x021272F8
-	ldr r1, _0212730C ; =OVERLAY11_BSS_02169C44
-	ldr r1, [r1]
-	add r1, r1, #0x1000
-	str r0, [r1, #0x330]
-	bx lr
-	.align 2, 0
-_0212730C: .word OVERLAY11_BSS_02169C44
-	arm_func_end ov11_021272F8
-
-	arm_func_start ov11_02127310
-ov11_02127310: ; 0x02127310
-	ldr r1, _02127330 ; =OVERLAY11_BSS_02169C44
-	ldr r1, [r1]
-	add r1, r1, #0x1000
-	ldr r2, [r1, #0x330]
-	sub r2, r2, #9
-	cmp r2, #1
-	strhi r0, [r1, #0x34c]
-	bx lr
-	.align 2, 0
-_02127330: .word OVERLAY11_BSS_02169C44
-	arm_func_end ov11_02127310
-
-	arm_func_start ov11_02127334
-ov11_02127334: ; 0x02127334
-	stmdb sp!, {r3, lr}
-	mov r0, #3
-	bl ov11_021272F8
-	ldr r1, _02127374 ; =OVERLAY11_BSS_02169C44
-	ldr r0, _02127378 ; =ov11_0212737C
-	ldr r1, [r1]
-	add r1, r1, #0xf20
-	bl WM_SetParentParameter
-	cmp r0, #2
-	moveq r0, #1
-	ldmeqia sp!, {r3, pc}
-	bl ov11_02127310
-	mov r0, #9
-	bl ov11_021272F8
-	mov r0, #0
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02127374: .word OVERLAY11_BSS_02169C44
-_02127378: .word ov11_0212737C
-	arm_func_end ov11_02127334
-
-	arm_func_start ov11_0212737C
-ov11_0212737C: ; 0x0212737C
-	stmdb sp!, {r3, lr}
-	ldrh r0, [r0, #2]
-	cmp r0, #0
-	beq _0212739C
-	bl ov11_02127310
-	mov r0, #9
-	bl ov11_021272F8
-	ldmia sp!, {r3, pc}
-	arm_func_end ov11_0212737C
-_0212739C:
-	bl ov11_021273B4
-	cmp r0, #0
-	ldmneia sp!, {r3, pc}
-	mov r0, #9
-	bl ov11_021272F8
-	ldmia sp!, {r3, pc}
-
-	arm_func_start ov11_021273B4
-ov11_021273B4: ; 0x021273B4
-	stmdb sp!, {r4, lr}
-	ldr r0, _02127444 ; =OVERLAY11_BSS_02169C44
-	ldr r0, [r0]
-	add r0, r0, #0x1000
-	ldr r0, [r0, #0x330]
-	sub r0, r0, #4
-	cmp r0, #2
-	movls r0, #1
-	ldmlsia sp!, {r4, pc}
-	bl WMi_GetStatusAddress
-	mov r4, r0
-	add r0, r4, #0x198
-	mov r1, #4
-	bl DC_InvalidateRange
-	mov r2, #0
-	add r0, r4, #0x198
-	mov r1, #4
-	str r2, [r4, #0x198]
-	bl DC_FlushRange
-	ldr r0, _02127448 ; =ov11_0212744C
-	bl WM_StartParent
-	cmp r0, #2
-	beq _0212741C
-	bl ov11_02127310
-	mov r0, #0
-	ldmia sp!, {r4, pc}
-	arm_func_end ov11_021273B4
-_0212741C:
-	ldr r2, _02127444 ; =OVERLAY11_BSS_02169C44
-	mov r3, #0
-	ldr r1, [r2]
-	mov r0, #1
-	add r1, r1, #0x1300
-	strh r3, [r1, #0x48]
-	ldr r1, [r2]
-	add r1, r1, #0x1300
-	strh r0, [r1, #0x4a]
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02127444: .word OVERLAY11_BSS_02169C44
-_02127448: .word ov11_0212744C
-
-	arm_func_start ov11_0212744C
-ov11_0212744C: ; 0x0212744C
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r4, r0
-	ldrh r1, [r4, #0x10]
-	ldrh r0, [r4, #2]
-	mov r2, #1
-	mov r1, r2, lsl r1
-	cmp r0, #0
-	mov r5, r1, lsl #0x10
-	beq _02127480
-	bl ov11_02127310
-	mov r0, #9
-	bl ov11_021272F8
-	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ov11_0212744C
-_02127480:
-	ldrh r0, [r4, #8]
-	cmp r0, #7
-	bgt _021274B0
-	bge _021274E4
-	cmp r0, #2
-	ldmgtia sp!, {r3, r4, r5, pc}
-	cmp r0, #0
-	ldmltia sp!, {r3, r4, r5, pc}
-	beq _021275C4
-	cmp r0, #2
-	beq _021274C8
-	ldmia sp!, {r3, r4, r5, pc}
-_021274B0:
-	cmp r0, #9
-	bgt _021274C0
-	beq _02127588
-	ldmia sp!, {r3, r4, r5, pc}
-_021274C0:
-	cmp r0, #0x1a
-	ldmia sp!, {r3, r4, r5, pc}
-_021274C8:
-	ldr r0, _021275DC ; =OVERLAY11_BSS_02169C44
-	ldr r0, [r0]
-	add r0, r0, #0x1000
-	ldrb r1, [r0, #0x361]
-	add r1, r1, #1
-	strb r1, [r0, #0x361]
-	ldmia sp!, {r3, r4, r5, pc}
-_021274E4:
-	ldr r0, _021275DC ; =OVERLAY11_BSS_02169C44
-	ldr r0, [r0]
-	add r0, r0, #0x1000
-	ldrb r1, [r0, #0x35f]
-	cmp r1, #1
-	ldrneb r0, [r0, #0x35e]
-	cmpne r0, #1
-	beq _02127548
-	bl ov11_02127ABC
-	ldr r1, _021275DC ; =OVERLAY11_BSS_02169C44
-	ldr r1, [r1]
-	add r1, r1, #0x1000
-	ldrb r1, [r1, #0x350]
-	cmp r0, r1
-	bge _02127548
-	bl ov11_02128EE0
-	ldrb r1, [r4, #0x14]
-	cmp r1, r0
-	bne _02127548
-	ldr r0, _021275E0 ; =s_DP_overlay_11_02166460
-	add r1, r4, #0x15
-	mov r2, #3
-	bl memcmp
-	cmp r0, #0
-	beq _0212756C
-_02127548:
-	ldrh r1, [r4, #0x10]
-	mov r0, #0
-	bl WM_Disconnect
-	cmp r0, #2
-	ldmeqia sp!, {r3, r4, r5, pc}
-	bl ov11_02127310
-	mov r0, #9
-	bl ov11_021272F8
-	ldmia sp!, {r3, r4, r5, pc}
-_0212756C:
-	ldr r0, _021275DC ; =OVERLAY11_BSS_02169C44
-	ldr r0, [r0]
-	add r0, r0, #0x1300
-	ldrh r1, [r0, #0x4a]
-	orr r1, r1, r5, lsr #16
-	strh r1, [r0, #0x4a]
-	ldmia sp!, {r3, r4, r5, pc}
-_02127588:
-	ldr r1, _021275DC ; =OVERLAY11_BSS_02169C44
-	mvn r2, r5, lsr #16
-	ldr r0, [r1]
-	add r0, r0, #0x1300
-	ldrh r3, [r0, #0x4a]
-	and r2, r3, r2
-	strh r2, [r0, #0x4a]
-	ldr r0, [r1]
-	add r0, r0, #0x1000
-	ldr r1, [r0, #0x344]
-	cmp r1, #0
-	ldmeqia sp!, {r3, r4, r5, pc}
-	ldrh r0, [r4, #0x10]
-	blx r1
-	ldmia sp!, {r3, r4, r5, pc}
-_021275C4:
-	bl ov11_021275E4
-	cmp r0, #0
-	ldmneia sp!, {r3, r4, r5, pc}
-	mov r0, #9
-	bl ov11_021272F8
-	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_021275DC: .word OVERLAY11_BSS_02169C44
-_021275E0: .word s_DP_overlay_11_02166460
-
-	arm_func_start ov11_021275E4
-ov11_021275E4: ; 0x021275E4
-	stmdb sp!, {r3, lr}
-	sub sp, sp, #8
-	ldr r0, _02127674 ; =OVERLAY11_BSS_02169C44
-	ldr r0, [r0]
-	add r0, r0, #0x1000
-	ldr r0, [r0, #0x330]
-	sub r0, r0, #4
-	cmp r0, #2
-	addls sp, sp, #8
-	movls r0, #1
-	ldmlsia sp!, {r3, pc}
-	mov r0, #4
-	bl ov11_021272F8
-	ldr r0, _02127674 ; =OVERLAY11_BSS_02169C44
-	mov ip, #1
-	ldr lr, [r0]
-	ldr r0, _02127678 ; =ov11_0212767C
-	add r3, lr, #0x1000
-	ldr r2, [r3, #0x324]
-	add r1, lr, #0x1040
-	mov r2, r2, lsl #0x10
-	mov r2, r2, lsr #0x10
-	stmia sp, {r2, ip}
-	ldr r2, [r3, #0x328]
-	add r3, lr, #0xf60
-	mov r2, r2, lsl #0x10
-	mov r2, r2, lsr #0x10
-	bl WM_StartMP
-	cmp r0, #2
-	addeq sp, sp, #8
-	moveq r0, #1
-	ldmeqia sp!, {r3, pc}
-	bl ov11_02127310
-	mov r0, #0
-	add sp, sp, #8
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02127674: .word OVERLAY11_BSS_02169C44
-_02127678: .word ov11_0212767C
-	arm_func_end ov11_021275E4
-
-	arm_func_start ov11_0212767C
-ov11_0212767C: ; 0x0212767C
-	stmdb sp!, {r3, lr}
-	ldrh r1, [r0, #2]
-	cmp r1, #0
-	beq _021276A0
-	mov r0, r1
-	bl ov11_02127310
-	mov r0, #9
-	bl ov11_021272F8
-	ldmia sp!, {r3, pc}
-	arm_func_end ov11_0212767C
-_021276A0:
-	ldrh r0, [r0, #4]
-	sub r0, r0, #0xa
-	cmp r0, #3
-	addls pc, pc, r0, lsl #2
-	ldmia sp!, {r3, pc}
-_021276B4: ; jump table
-	b _021276C4 ; case 0
-	ldmia sp!, {r3, pc} ; case 1
-	ldmia sp!, {r3, pc} ; case 2
-	ldmia sp!, {r3, pc} ; case 3
-_021276C4:
-	ldr r0, _021276FC ; =OVERLAY11_BSS_02169C44
-	ldr r0, [r0]
-	add r0, r0, #0x1000
-	ldr r1, [r0, #0x334]
-	cmp r1, #2
-	bne _021276F0
-	ldr r0, [r0, #0x330]
-	cmp r0, #4
-	beq _021276F0
-	cmp r0, #6
-	ldmeqia sp!, {r3, pc}
-_021276F0:
-	mov r0, #4
-	bl ov11_021272F8
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_021276FC: .word OVERLAY11_BSS_02169C44
-
-	arm_func_start ov11_02127700
-ov11_02127700: ; 0x02127700
-	stmdb sp!, {r3, lr}
-	mov r0, #3
-	bl ov11_021272F8
-	ldr r0, _0212772C ; =ov11_02127730
-	bl WM_EndMP
-	cmp r0, #2
-	moveq r0, #1
-	ldmeqia sp!, {r3, pc}
-	bl ov11_02127310
-	mov r0, #0
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0212772C: .word ov11_02127730
-	arm_func_end ov11_02127700
-
-	arm_func_start ov11_02127730
-ov11_02127730: ; 0x02127730
-	stmdb sp!, {r3, lr}
-	ldrh r0, [r0, #2]
-	cmp r0, #0
-	beq _0212774C
-	bl ov11_02127310
-	bl ov11_02128220
-	ldmia sp!, {r3, pc}
-	arm_func_end ov11_02127730
-_0212774C:
-	bl ov11_02127760
-	cmp r0, #0
-	ldmneia sp!, {r3, pc}
-	bl ov11_02128220
-	ldmia sp!, {r3, pc}
-
-	arm_func_start ov11_02127760
-ov11_02127760: ; 0x02127760
-	stmdb sp!, {r3, lr}
-	ldr r0, _02127784 ; =ov11_02127788
-	bl WM_EndParent
-	cmp r0, #2
-	moveq r0, #1
-	ldmeqia sp!, {r3, pc}
-	bl ov11_02127310
-	mov r0, #0
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02127784: .word ov11_02127788
-	arm_func_end ov11_02127760
-
-	arm_func_start ov11_02127788
-ov11_02127788: ; 0x02127788
-	stmdb sp!, {r3, lr}
-	ldrh r0, [r0, #2]
-	cmp r0, #0
-	beq _021277A0
-	bl ov11_02127310
-	ldmia sp!, {r3, pc}
-	arm_func_end ov11_02127788
-_021277A0:
-	mov r0, #1
-	bl ov11_021272F8
-	ldmia sp!, {r3, pc}
-
-	arm_func_start ov11_021277AC
-ov11_021277AC: ; 0x021277AC
-	stmdb sp!, {r3, lr}
-	ldr r0, _021277DC ; =OVERLAY11_BSS_02169C44
-	ldr r0, [r0]
-	add r0, r0, #0x1000
-	ldr r0, [r0, #0x330]
-	cmp r0, #2
-	movne r0, #0
-	ldmneia sp!, {r3, pc}
-	mov r0, #3
-	bl ov11_021272F8
-	mov r0, #1
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_021277DC: .word OVERLAY11_BSS_02169C44
-	arm_func_end ov11_021277AC
-
-	arm_func_start ov11_021277E0
-ov11_021277E0: ; 0x021277E0
-	stmdb sp!, {r3, lr}
-	mov r0, #3
-	bl ov11_021272F8
-	ldr r0, _0212780C ; =ov11_02127810
-	bl WM_EndMP
-	cmp r0, #2
-	moveq r0, #1
-	ldmeqia sp!, {r3, pc}
-	bl ov11_02127310
-	mov r0, #0
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0212780C: .word ov11_02127810
-	arm_func_end ov11_021277E0
-
-	arm_func_start ov11_02127810
-ov11_02127810: ; 0x02127810
-	stmdb sp!, {r3, lr}
-	ldrh r0, [r0, #2]
-	cmp r0, #0
-	beq _0212782C
-	bl ov11_02127310
-	bl ov11_0212825C
-	ldmia sp!, {r3, pc}
-	arm_func_end ov11_02127810
-_0212782C:
-	bl ov11_02127844
-	cmp r0, #0
-	ldmneia sp!, {r3, pc}
-	mov r0, #9
-	bl ov11_021272F8
-	ldmia sp!, {r3, pc}
-
-	arm_func_start ov11_02127844
-ov11_02127844: ; 0x02127844
-	stmdb sp!, {r3, lr}
-	mov r0, #3
-	bl ov11_021272F8
-	ldr r0, _02127878 ; =ov11_0212787C
-	mov r1, #0
-	bl WM_Disconnect
-	cmp r0, #2
-	moveq r0, #1
-	ldmeqia sp!, {r3, pc}
-	bl ov11_02127310
-	bl ov11_02128220
-	mov r0, #0
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02127878: .word ov11_0212787C
-	arm_func_end ov11_02127844
-
-	arm_func_start ov11_0212787C
-ov11_0212787C: ; 0x0212787C
-	stmdb sp!, {r3, lr}
-	ldrh r0, [r0, #2]
-	cmp r0, #0
-	beq _02127894
-	bl ov11_02127310
-	ldmia sp!, {r3, pc}
-	arm_func_end ov11_0212787C
-_02127894:
-	mov r0, #1
-	bl ov11_021272F8
-	ldmia sp!, {r3, pc}
-
-	arm_func_start ov11_021278A0
-ov11_021278A0: ; 0x021278A0
-	stmdb sp!, {r3, lr}
-	mov r0, #3
-	bl ov11_021272F8
-	ldr r0, _021278CC ; =ov11_021278D0
-	bl WM_Reset
-	cmp r0, #2
-	moveq r0, #1
-	ldmeqia sp!, {r3, pc}
-	bl ov11_02127310
-	mov r0, #0
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_021278CC: .word ov11_021278D0
-	arm_func_end ov11_021278A0
-
-	arm_func_start ov11_021278D0
-ov11_021278D0: ; 0x021278D0
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldrh r0, [r4, #2]
-	cmp r0, #0
-	beq _021278F8
-	mov r0, #9
-	bl ov11_021272F8
-	ldrh r0, [r4, #2]
-	bl ov11_02127310
-	ldmia sp!, {r4, pc}
-	arm_func_end ov11_021278D0
-_021278F8:
-	mov r0, #1
-	bl ov11_021272F8
-	ldmia sp!, {r4, pc}
-
-	arm_func_start ov11_02127904
-ov11_02127904: ; 0x02127904
-	stmdb sp!, {r4, r5, r6, r7, lr}
-	sub sp, sp, #0xc
-	ldr r5, _02127978 ; =OVERLAY11_BSS_02169C44
-	mov r4, r1
-	ldr ip, [r5]
-	mov r5, r0
-	add r0, ip, #0x1000
-	ldr r1, [r0, #0x324]
-	add r0, ip, #0xf60
-	mov r7, r2
-	mov r6, r3
-	bl DC_FlushRange
-	ldr r1, _0212797C ; =0x0000FFFF
-	mov r0, r7, lsl #0x10
-	str r1, [sp]
-	mov ip, r0, lsr #0x10
-	mov r3, r4
-	ldr r0, _02127980 ; =ov11_02127984
-	mov r1, r6
-	mov r2, r5
-	str ip, [sp, #4]
-	mov r4, #2
-	str r4, [sp, #8]
-	bl WM_SetMPDataToPortEx
-	cmp r0, #2
-	moveq r0, #1
-	movne r0, #0
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_02127978: .word OVERLAY11_BSS_02169C44
-_0212797C: .word 0x0000FFFF
-_02127980: .word ov11_02127984
-	arm_func_end ov11_02127904
-
-	arm_func_start ov11_02127984
-ov11_02127984: ; 0x02127984
-	stmdb sp!, {r3, lr}
-	ldrh r1, [r0, #2]
-	cmp r1, #0
-	cmpne r1, #0xf
-	beq _021279A4
-	mov r0, r1
-	bl ov11_02127310
-	ldmia sp!, {r3, pc}
-	arm_func_end ov11_02127984
-_021279A4:
-	ldr r2, [r0, #0x20]
-	cmp r2, #0
-	ldmeqia sp!, {r3, pc}
-	cmp r1, #0
-	moveq r0, #1
-	movne r0, #0
-	blx r2
-	ldmia sp!, {r3, pc}
-
-	arm_func_start ov11_021279C4
-ov11_021279C4: ; 0x021279C4
-	stmdb sp!, {r3, lr}
-	mov r1, r0
-	ldrh r0, [r1, #2]
-	cmp r0, #0
-	beq _021279E0
-	bl ov11_02127310
-	ldmia sp!, {r3, pc}
-	arm_func_end ov11_021279C4
-_021279E0:
-	ldr r0, _02127A38 ; =OVERLAY11_BSS_02169C44
-	ldr r0, [r0]
-	add r0, r0, #0x1000
-	ldr r3, [r0, #0x338]
-	cmp r3, #0
-	ldrneh r0, [r1, #4]
-	cmpne r0, #0x19
-	ldmeqia sp!, {r3, pc}
-	cmp r0, #0x15
-	bne _02127A1C
-	ldrh r0, [r1, #0x12]
-	ldrh r2, [r1, #0x10]
-	ldr r1, [r1, #0xc]
-	blx r3
-	ldmia sp!, {r3, pc}
-_02127A1C:
-	cmp r0, #9
-	ldmneia sp!, {r3, pc}
-	ldrh r0, [r1, #0x12]
-	mov r1, #0
-	mov r2, r1
-	blx r3
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02127A38: .word OVERLAY11_BSS_02169C44
-
-	arm_func_start ov11_02127A3C
-ov11_02127A3C: ; 0x02127A3C
-	stmdb sp!, {r3, lr}
-	ldrh r0, [r0, #2]
-	cmp r0, #0
-	beq _02127A58
-	mov r0, #0xa
-	bl ov11_021272F8
-	ldmia sp!, {r3, pc}
-	arm_func_end ov11_02127A3C
-_02127A58:
-	mov r0, #0
-	mov r1, r0
-	bl WVR_TerminateAsync
-	mov r0, #0
-	bl ov11_021272F8
-	ldmia sp!, {r3, pc}
-
-	arm_func_start ov11_02127A70
-ov11_02127A70: ; 0x02127A70
-	ldr r1, _02127A80 ; =OVERLAY11_BSS_02169C44
-	ldr r1, [r1]
-	str r0, [r1, #0xf28]
-	bx lr
-	.align 2, 0
-_02127A80: .word OVERLAY11_BSS_02169C44
-	arm_func_end ov11_02127A70
-
-	arm_func_start ov11_02127A84
-ov11_02127A84: ; 0x02127A84
-	ldr r2, _02127AA0 ; =OVERLAY11_BSS_02169C44
-	ldr r3, [r2]
-	str r0, [r3, #0xf20]
-	ldr r0, [r2]
-	add r0, r0, #0xf00
-	strh r1, [r0, #0x24]
-	bx lr
-	.align 2, 0
-_02127AA0: .word OVERLAY11_BSS_02169C44
-	arm_func_end ov11_02127A84
-
-	arm_func_start ov11_02127AA4
-ov11_02127AA4: ; 0x02127AA4
-	ldr r0, _02127AB8 ; =OVERLAY11_BSS_02169C44
-	ldr r0, [r0]
-	add r0, r0, #0x1300
-	ldrh r0, [r0, #0x4a]
-	bx lr
-	.align 2, 0
-_02127AB8: .word OVERLAY11_BSS_02169C44
-	arm_func_end ov11_02127AA4
-
-	arm_func_start ov11_02127ABC
-ov11_02127ABC: ; 0x02127ABC
-	ldr r1, _02127B04 ; =OVERLAY11_BSS_02169C44
-	mov r0, #0
-	ldr r1, [r1]
-	mov r2, r0
-	add r1, r1, #0x1300
-	ldrh r3, [r1, #0x4a]
-	arm_func_end ov11_02127ABC
-_02127AD4:
-	add r1, r2, #1
-	mov r2, r1, lsl #0x10
-	tst r3, #1
-	addne r0, r0, #1
-	movne r0, r0, lsl #0x10
-	mov r1, r3, lsl #0xf
-	mov r2, r2, lsr #0x10
-	movne r0, r0, lsr #0x10
-	cmp r2, #0x10
-	mov r3, r1, lsr #0x10
-	blo _02127AD4
-	bx lr
-	.align 2, 0
-_02127B04: .word OVERLAY11_BSS_02169C44
-
-	arm_func_start ov11_02127B08
-ov11_02127B08: ; 0x02127B08
-	ldr r0, _02127B1C ; =OVERLAY11_BSS_02169C44
-	ldr r0, [r0]
-	add r0, r0, #0x1000
-	ldr r0, [r0, #0x330]
-	bx lr
-	.align 2, 0
-_02127B1C: .word OVERLAY11_BSS_02169C44
-	arm_func_end ov11_02127B08
-
-	arm_func_start ov11_02127B20
-ov11_02127B20: ; 0x02127B20
-	ldr r0, _02127B34 ; =OVERLAY11_BSS_02169C44
-	ldr r0, [r0]
-	add r0, r0, #0x1000
-	ldr r0, [r0, #0x34c]
-	bx lr
-	.align 2, 0
-_02127B34: .word OVERLAY11_BSS_02169C44
-	arm_func_end ov11_02127B20
-
-	arm_func_start ov11_02127B38
-ov11_02127B38: ; 0x02127B38
-	stmdb sp!, {r3, lr}
-	sub sp, sp, #8
-	add r0, sp, #0
-	bl OS_GetMacAddress
-	ldr r0, _02127C14 ; =0x027FFC3C
-	ldrh r1, [sp]
-	ldr ip, [r0]
-	ldr r2, _02127C18 ; =OVERLAY11_BSS_02169C44
-	add r1, r1, ip
-	ldrh r3, [sp, #2]
-	ldr r0, [r2]
-	ldrh ip, [sp, #4]
-	add r1, r3, r1
-	add r0, r0, #0x1000
-	add r1, ip, r1
-	str r1, [r0, #0x354]
-	ldr r1, [r2]
-	ldr r0, _02127C1C ; =0x00010DCD
-	add r1, r1, #0x1000
-	ldr r3, [r1, #0x354]
-	mov ip, #0
-	mul r0, r3, r0
-	add r0, r0, #0x39
-	add r0, r0, #0x3000
-	str r0, [r1, #0x354]
-	ldr r0, [r2]
-	mov r3, #0x65
-	add r0, r0, #0x1300
-	strh ip, [r0, #0x58]
-	ldr r1, [r2]
-	mov r0, #3
-	add r1, r1, #0x1300
-	strh r3, [r1, #0x5a]
-	bl ov11_021272F8
-	mov r0, #1
-	bl ov11_02127C20
-	cmp r0, #0x18
-	bne _02127BEC
-	mov r0, #0x18
-	bl ov11_02127310
-	mov r0, #9
-	bl ov11_021272F8
-	add sp, sp, #8
-	mov r0, #0
-	ldmia sp!, {r3, pc}
-	arm_func_end ov11_02127B38
-_02127BEC:
-	cmp r0, #2
-	addeq sp, sp, #8
-	moveq r0, #1
-	ldmeqia sp!, {r3, pc}
-	bl ov11_02127310
-	mov r0, #9
-	bl ov11_021272F8
-	mov r0, #0
-	add sp, sp, #8
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02127C14: .word 0x027FFC3C
-_02127C18: .word OVERLAY11_BSS_02169C44
-_02127C1C: .word 0x00010DCD
-
-	arm_func_start ov11_02127C20
-ov11_02127C20: ; 0x02127C20
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	bl WM_GetAllowedChannel
-	cmp r0, #0x8000
-	bne _02127C4C
-	mov r0, #3
-	bl ov11_02127310
-	mov r0, #9
-	bl ov11_021272F8
-	mov r0, #3
-	ldmia sp!, {r4, pc}
-	arm_func_end ov11_02127C20
-_02127C4C:
-	cmp r0, #0
-	bne _02127C6C
-	mov r0, #0x16
-	bl ov11_02127310
-	mov r0, #9
-	bl ov11_021272F8
-	mov r0, #0x18
-	ldmia sp!, {r4, pc}
-_02127C6C:
-	sub r1, r4, #1
-	mov r2, #1
-	tst r0, r2, lsl r1
-	bne _02127CA0
-_02127C7C:
-	add r1, r4, #1
-	mov r1, r1, lsl #0x10
-	mov r4, r1, lsr #0x10
-	cmp r4, #0x10
-	movhi r0, #0x18
-	ldmhiia sp!, {r4, pc}
-	sub r1, r4, #1
-	tst r0, r2, lsl r1
-	beq _02127C7C
-_02127CA0:
-	ldr r0, _02127CB8 ; =ov11_02127CBC
-	mov r1, r4
-	bl ov11_02127D7C
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02127CB8: .word ov11_02127CBC
-
-	arm_func_start ov11_02127CBC
-ov11_02127CBC: ; 0x02127CBC
-	stmdb sp!, {r3, lr}
-	ldrh r1, [r0, #2]
-	cmp r1, #0
-	beq _02127CE0
-	mov r0, r1
-	bl ov11_02127310
-	mov r0, #9
-	bl ov11_021272F8
-	ldmia sp!, {r3, pc}
-	arm_func_end ov11_02127CBC
-_02127CE0:
-	ldr r3, _02127D78 ; =OVERLAY11_BSS_02169C44
-	ldrh lr, [r0, #0xa]
-	ldr r1, [r3]
-	ldrh r0, [r0, #8]
-	add r2, r1, #0x1300
-	ldrh ip, [r2, #0x5a]
-	add r1, r1, #0x5a
-	add r1, r1, #0x1300
-	cmp ip, lr
-	bls _02127D28
-	strh lr, [r1]
-	ldr r1, [r3]
-	sub r2, r0, #1
-	mov r3, #1
-	mov r2, r3, lsl r2
-	add r1, r1, #0x1300
-	strh r2, [r1, #0x5c]
-	b _02127D40
-_02127D28:
-	bne _02127D40
-	ldrh ip, [r2, #0x5c]
-	sub r1, r0, #1
-	mov r3, #1
-	orr r1, ip, r3, lsl r1
-	strh r1, [r2, #0x5c]
-_02127D40:
-	add r0, r0, #1
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	bl ov11_02127C20
-	cmp r0, #0x18
-	bne _02127D64
-	mov r0, #7
-	bl ov11_021272F8
-	ldmia sp!, {r3, pc}
-_02127D64:
-	cmp r0, #2
-	ldmeqia sp!, {r3, pc}
-	mov r0, #9
-	bl ov11_021272F8
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02127D78: .word OVERLAY11_BSS_02169C44
-
-	arm_func_start ov11_02127D7C
-ov11_02127D7C: ; 0x02127D7C
-	stmdb sp!, {r3, lr}
-	mov r3, r1
-	mov ip, #0x1e
-	mov r1, #3
-	mov r2, #0x11
-	str ip, [sp]
-	bl WM_MeasureChannel
-	ldmia sp!, {r3, pc}
-	arm_func_end ov11_02127D7C
-
-	arm_func_start ov11_02127D9C
-ov11_02127D9C: ; 0x02127D9C
-	stmdb sp!, {r3, lr}
-	mov r0, #1
-	bl ov11_021272F8
-	ldr r0, _02127DDC ; =OVERLAY11_BSS_02169C44
-	ldr r0, [r0]
-	add r0, r0, #0x1300
-	ldrh r0, [r0, #0x5c]
-	bl ov11_02127DE0
-	ldr r2, _02127DDC ; =OVERLAY11_BSS_02169C44
-	ldr r1, [r2]
-	add r1, r1, #0x1300
-	strh r0, [r1, #0x58]
-	ldr r0, [r2]
-	add r0, r0, #0x1300
-	ldrh r0, [r0, #0x58]
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02127DDC: .word OVERLAY11_BSS_02169C44
-	arm_func_end ov11_02127D9C
-
-	arm_func_start ov11_02127DE0
-ov11_02127DE0: ; 0x02127DE0
-	stmdb sp!, {r4, lr}
-	mov r3, #0
-	mov r1, r3
-	mov ip, r3
-	mov r4, #1
-	arm_func_end ov11_02127DE0
-_02127DF4:
-	tst r0, r4, lsl ip
-	beq _02127E14
-	add r3, ip, #1
-	add r2, r1, #1
-	mov r1, r3, lsl #0x10
-	mov r2, r2, lsl #0x10
-	mov r3, r1, asr #0x10
-	mov r1, r2, lsr #0x10
-_02127E14:
-	add r2, ip, #1
-	mov r2, r2, lsl #0x10
-	mov ip, r2, asr #0x10
-	cmp ip, #0x10
-	blt _02127DF4
-	cmp r1, #1
-	movls r0, r3
-	ldmlsia sp!, {r4, pc}
-	ldr lr, _02127EC8 ; =OVERLAY11_BSS_02169C44
-	ldr r3, _02127ECC ; =0x00010DCD
-	ldr r4, [lr]
-	mov r2, #0
-	add ip, r4, #0x1000
-	ldr r4, [ip, #0x354]
-	mul r3, r4, r3
-	add r3, r3, #0x39
-	add r3, r3, #0x3000
-	str r3, [ip, #0x354]
-	ldr r3, [lr]
-	add r3, r3, #0x1000
-	ldr r3, [r3, #0x354]
-	and r3, r3, #0xff
-	mul r3, r1, r3
-	mov r1, r3, lsl #8
-	mov r3, r1, lsr #0x10
-_02127E78:
-	tst r0, #1
-	beq _02127EA4
-	cmp r3, #0
-	bne _02127E98
-	add r0, r2, #1
-	mov r0, r0, lsl #0x10
-	mov r0, r0, asr #0x10
-	ldmia sp!, {r4, pc}
-_02127E98:
-	sub r1, r3, #1
-	mov r1, r1, lsl #0x10
-	mov r3, r1, lsr #0x10
-_02127EA4:
-	add r1, r2, #1
-	mov r1, r1, lsl #0x10
-	mov r0, r0, lsl #0xf
-	mov r2, r1, asr #0x10
-	cmp r2, #0x10
-	mov r0, r0, lsr #0x10
-	blt _02127E78
-	mov r0, #0
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02127EC8: .word OVERLAY11_BSS_02169C44
-_02127ECC: .word 0x00010DCD
-
-	arm_func_start ov11_02127ED0
-ov11_02127ED0: ; 0x02127ED0
-	stmdb sp!, {r3, lr}
-	ldr r0, _02127F9C ; =0x00001364
-	mov r1, #0x20
-	bl _Z23Heap_AllocWithAlignmentmm
-	ldr r1, _02127FA0 ; =OVERLAY11_BSS_02169C44
-	add r2, r0, #0x1000
-	str r0, [r1]
-	mov r0, #0
-	str r0, [r2, #0x328]
-	ldr r2, [r1]
-	mov ip, #1
-	add r2, r2, #0x1000
-	str r0, [r2, #0x324]
-	ldr r2, [r1]
-	mov r3, #8
-	add r2, r2, #0x1000
-	str r0, [r2, #0x338]
-	ldr r2, [r1]
-	add r2, r2, #0x1300
-	strh r0, [r2, #0x48]
-	ldr r2, [r1]
-	add r2, r2, #0x1300
-	strh ip, [r2, #0x4a]
-	ldr r2, [r1]
-	add r2, r2, #0x1000
-	str r0, [r2, #0x34c]
-	ldr r2, [r1]
-	add r2, r2, #0x1000
-	str r0, [r2, #0x330]
-	ldr r2, [r1]
-	str r0, [r2, #0xf20]
-	ldr r2, [r1]
-	add r2, r2, #0xf00
-	strh r0, [r2, #0x24]
-	ldr r2, [r1]
-	add r2, r2, #0x1000
-	str r0, [r2, #0x33c]
-	ldr r2, [r1]
-	add r2, r2, #0x1000
-	strb r3, [r2, #0x350]
-	ldr r2, [r1]
-	add r2, r2, #0x1000
-	strb r0, [r2, #0x351]
-	ldr r1, [r1]
-	add r1, r1, #0x1000
-	strb r0, [r1, #0x35e]
-	bl ov11_02127FD4
-	cmp r0, #0
-	movne r0, #1
-	moveq r0, #0
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02127F9C: .word 0x00001364
-_02127FA0: .word OVERLAY11_BSS_02169C44
-	arm_func_end ov11_02127ED0
-
-	arm_func_start ov11_02127FA4
-ov11_02127FA4: ; 0x02127FA4
-	ldr r0, _02127FAC ; =0x00001384
-	bx lr
-	.align 2, 0
-_02127FAC: .word 0x00001384
-	arm_func_end ov11_02127FA4
-
-	arm_func_start ov11_02127FB0
-ov11_02127FB0: ; 0x02127FB0
-	stmdb sp!, {r3, lr}
-	ldrh r0, [r0, #2]
-	cmp r0, #8
-	ldmneia sp!, {r3, pc}
-	mov r0, #9
-	bl ov11_021272F8
-	mov r0, #0x19
-	bl ov11_02127310
-	ldmia sp!, {r3, pc}
-	arm_func_end ov11_02127FB0
-
-	arm_func_start ov11_02127FD4
-ov11_02127FD4: ; 0x02127FD4
-	stmdb sp!, {r3, lr}
-	mov r0, #3
-	bl ov11_021272F8
-	ldr r0, _02128014 ; =OVERLAY11_BSS_02169C44
-	ldr r1, _02128018 ; =ov11_0212801C
-	ldr r0, [r0]
-	mov r2, #2
-	bl WM_Initialize
-	cmp r0, #2
-	moveq r0, #1
-	ldmeqia sp!, {r3, pc}
-	bl ov11_02127310
-	mov r0, #0xa
-	bl ov11_021272F8
-	mov r0, #0
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02128014: .word OVERLAY11_BSS_02169C44
-_02128018: .word ov11_0212801C
-	arm_func_end ov11_02127FD4
-
-	arm_func_start ov11_0212801C
-ov11_0212801C: ; 0x0212801C
-	stmdb sp!, {r3, lr}
-	ldrh r0, [r0, #2]
-	cmp r0, #0
-	beq _0212803C
-	bl ov11_02127310
-	mov r0, #0xa
-	bl ov11_021272F8
-	ldmia sp!, {r3, pc}
-	arm_func_end ov11_0212801C
-_0212803C:
-	ldr r0, _02128068 ; =ov11_02127FB0
-	bl WM_SetIndCallback
-	cmp r0, #0
-	beq _0212805C
-	bl ov11_02127310
-	mov r0, #0xa
-	bl ov11_021272F8
-	ldmia sp!, {r3, pc}
-_0212805C:
-	mov r0, #1
-	bl ov11_021272F8
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02128068: .word ov11_02127FB0
-
-	arm_func_start ov11_0212806C
-ov11_0212806C: ; 0x0212806C
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	ldr r4, _021281C8 ; =OVERLAY11_BSS_02169C44
-	mov r7, r0
-	ldr r0, [r4]
-	mov r5, #0x1c0
-	add r0, r0, #0x1000
-	str r5, [r0, #0x328]
-	ldr r0, [r4]
-	mov r5, #0xe0
-	add r0, r0, #0x1000
-	str r5, [r0, #0x324]
-	ldr r4, [r4]
-	mov r0, #3
-	add ip, r4, #0x1000
-	mov r6, r1
-	mov r5, r2
-	mov r4, r3
-	str r7, [ip, #0x334]
-	bl ov11_021272F8
-	ldr r1, _021281C8 ; =OVERLAY11_BSS_02169C44
-	ldrh r2, [sp, #0x18]
-	ldr r0, [r1]
-	cmp r7, #0
-	add r0, r0, #0xf00
-	strh r6, [r0, #0x2c]
-	ldr r0, [r1]
-	add r0, r0, #0xf00
-	strh r5, [r0, #0x52]
-	ldr r0, [r1]
-	add r0, r0, #0xf00
-	strh r2, [r0, #0x38]
-	beq _021280F8
-	cmp r7, #4
-	beq _02128134
-	b _02128154
-	arm_func_end ov11_0212806C
-_021280F8:
-	ldr r0, [r1]
-	mov r2, #0xc0
-	add r0, r0, #0xf00
-	strh r2, [r0, #0x54]
-	cmp r4, #5
-	ldr r0, [r1]
-	blo _02128124
-	mov r1, #0xc
-	add r0, r0, #0xf00
-	strh r1, [r0, #0x56]
-	b _02128154
-_02128124:
-	mov r1, #0x26
-	add r0, r0, #0xf00
-	strh r1, [r0, #0x56]
-	b _02128154
-_02128134:
-	ldr r0, [r1]
-	mov r2, #0x64
-	add r0, r0, #0xf00
-	strh r2, [r0, #0x54]
-	ldr r0, [r1]
-	mov r1, #0xc
-	add r0, r0, #0xf00
-	strh r1, [r0, #0x56]
-_02128154:
-	ldr r2, _021281C8 ; =OVERLAY11_BSS_02169C44
-	mov r0, #0
-	ldr r1, [r2]
-	ldr r3, [sp, #0x1c]
-	add r1, r1, #0xf00
-	strh r4, [r1, #0x30]
-	ldr r1, [r2]
-	cmp r7, #2
-	add r1, r1, #0xf00
-	strh r0, [r1, #0x36]
-	ldr r1, [r2]
-	add r1, r1, #0xf00
-	strh r0, [r1, #0x32]
-	ldr r1, [r2]
-	moveq r0, #1
-	add r1, r1, #0xf00
-	strh r3, [r1, #0x2e]
-	ldr r1, _021281C8 ; =OVERLAY11_BSS_02169C44
-	cmp r7, #0
-	ldr r1, [r1]
-	cmpne r7, #2
-	add r1, r1, #0xf00
-	strh r0, [r1, #0x34]
-	cmpne r7, #4
-	bne _021281C0
-	bl ov11_02127334
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-_021281C0:
-	mov r0, #0
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	.align 2, 0
-_021281C8: .word OVERLAY11_BSS_02169C44
-
-	arm_func_start ov11_021281CC
-ov11_021281CC: ; 0x021281CC
-	stmdb sp!, {r3, lr}
-	ldr r2, _0212820C ; =OVERLAY11_BSS_02169C44
-	mov r3, r1, lsl #0x10
-	ldr r2, [r2]
-	ldr r1, _02128210 ; =ov11_021279C4
-	add r2, r2, #0x1000
-	str r0, [r2, #0x338]
-	mov r0, r3, lsr #0x10
-	mov r2, #0
-	bl WM_SetPortCallback
-	cmp r0, #0
-	ldmeqia sp!, {r3, pc}
-	mov r0, #9
-	bl ov11_021272F8
-	arm_func_end ov11_021281CC
-_02128204:
-	b _02128204
-_02128208:
-	.byte 0x08, 0x80, 0xBD, 0xE8
-_0212820C: .word OVERLAY11_BSS_02169C44
-_02128210: .word ov11_021279C4
-
-	arm_func_start thunk_FUN_overlay_11__02127904
-thunk_FUN_overlay_11__02127904: ; 0x02128214
-	ldr ip, _0212821C ; =ov11_02127904
-	bx ip
-	.align 2, 0
-_0212821C: .word ov11_02127904
-	arm_func_end thunk_FUN_overlay_11__02127904
-
-	arm_func_start ov11_02128220
-ov11_02128220: ; 0x02128220
-	stmdb sp!, {r3, lr}
-	ldr r0, _02128258 ; =OVERLAY11_BSS_02169C44
-	ldr r0, [r0]
-	add r0, r0, #0x1000
-	ldr r0, [r0, #0x330]
-	cmp r0, #2
-	bne _02128240
-	arm_func_end ov11_02128220
-_0212823C:
-	b _0212823C
-_02128240:
-	bl ov11_021278A0
-	cmp r0, #0
-	ldmneia sp!, {r3, pc}
-	mov r0, #0xa
-	bl ov11_021272F8
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02128258: .word OVERLAY11_BSS_02169C44
-
-	arm_func_start ov11_0212825C
-ov11_0212825C: ; 0x0212825C
-	stmdb sp!, {r3, lr}
-	ldr r0, _021282F8 ; =OVERLAY11_BSS_02169C44
-	ldr r0, [r0]
-	add r0, r0, #0x1000
-	ldr r0, [r0, #0x330]
-	cmp r0, #1
-	ldmeqia sp!, {r3, pc}
-	cmp r0, #6
-	cmpne r0, #5
-	cmpne r0, #4
-	mov r0, #3
-	beq _02128298
-	bl ov11_021272F8
-	bl ov11_02128220
-	ldmia sp!, {r3, pc}
-	arm_func_end ov11_0212825C
-_02128298:
-	bl ov11_021272F8
-	ldr r0, _021282F8 ; =OVERLAY11_BSS_02169C44
-	ldr r0, [r0]
-	add r0, r0, #0x1000
-	ldr r0, [r0, #0x334]
-	cmp r0, #5
-	addls pc, pc, r0, lsl #2
-	ldmia sp!, {r3, pc}
-_021282B8: ; jump table
-	b _021282E4 ; case 0
-	b _021282D0 ; case 1
-	ldmia sp!, {r3, pc} ; case 2
-	ldmia sp!, {r3, pc} ; case 3
-	b _021282E4 ; case 4
-	b _021282D0 ; case 5
-_021282D0:
-	bl ov11_021277E0
-	cmp r0, #0
-	ldmneia sp!, {r3, pc}
-	bl ov11_02128220
-	ldmia sp!, {r3, pc}
-_021282E4:
-	bl ov11_02127700
-	cmp r0, #0
-	ldmneia sp!, {r3, pc}
-	bl ov11_02128220
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_021282F8: .word OVERLAY11_BSS_02169C44
-
-	arm_func_start ov11_021282FC
-ov11_021282FC: ; 0x021282FC
-	stmdb sp!, {r3, lr}
-	mov r0, #3
-	bl ov11_021272F8
-	ldr r0, _0212832C ; =ov11_02127A3C
-	bl WM_End
-	cmp r0, #2
-	moveq r0, #1
-	ldmeqia sp!, {r3, pc}
-	mov r0, #9
-	bl ov11_021272F8
-	mov r0, #0
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0212832C: .word ov11_02127A3C
-	arm_func_end ov11_021282FC
-
-	arm_func_start ov11_02128330
-ov11_02128330: ; 0x02128330
-	ldr r0, _02128344 ; =OVERLAY11_BSS_02169C44
-	ldr r0, [r0]
-	add r0, r0, #0x1300
-	ldrh r0, [r0, #0x48]
-	bx lr
-	.align 2, 0
-_02128344: .word OVERLAY11_BSS_02169C44
-	arm_func_end ov11_02128330
-
-	arm_func_start ov11_02128348
-ov11_02128348: ; 0x02128348
-	ldr r0, _02128368 ; =OVERLAY11_BSS_02169C44
-	ldr r0, [r0]
-	add r0, r0, #0x1000
-	ldr r0, [r0, #0x330]
-	cmp r0, #1
-	moveq r0, #1
-	movne r0, #0
-	bx lr
-	.align 2, 0
-_02128368: .word OVERLAY11_BSS_02169C44
-	arm_func_end ov11_02128348
-
-	arm_func_start ov11_0212836C
-ov11_0212836C: ; 0x0212836C
-	ldr r0, _0212838C ; =OVERLAY11_BSS_02169C44
-	ldr r0, [r0]
-	add r0, r0, #0x1000
-	ldr r0, [r0, #0x330]
-	cmp r0, #3
-	moveq r0, #1
-	movne r0, #0
-	bx lr
-	.align 2, 0
-_0212838C: .word OVERLAY11_BSS_02169C44
-	arm_func_end ov11_0212836C
-
-	arm_func_start ov11_02128390
-ov11_02128390: ; 0x02128390
-	ldr r0, _021283B0 ; =OVERLAY11_BSS_02169C44
-	ldr r0, [r0]
-	add r0, r0, #0x1000
-	ldr r0, [r0, #0x330]
-	cmp r0, #9
-	moveq r0, #1
-	movne r0, #0
-	bx lr
-	.align 2, 0
-_021283B0: .word OVERLAY11_BSS_02169C44
-	arm_func_end ov11_02128390
-
-	arm_func_start ov11_021283B4
-ov11_021283B4: ; 0x021283B4
-	ldr r0, _021283E4 ; =OVERLAY11_BSS_02169C44
-	ldr r0, [r0]
-	cmp r0, #0
-	beq _021283DC
-	add r0, r0, #0x1000
-	ldr r0, [r0, #0x330]
-	cmp r0, #2
-	moveq r0, #1
-	movne r0, #0
-	bx lr
-	arm_func_end ov11_021283B4
-_021283DC:
-	mov r0, #0
-	bx lr
-	.align 2, 0
-_021283E4: .word OVERLAY11_BSS_02169C44
-
-	arm_func_start ov11_021283E8
-ov11_021283E8: ; 0x021283E8
-	stmdb sp!, {r3, lr}
-	sub sp, sp, #8
-	ldr ip, _02128440 ; =OVERLAY11_BSS_02169C44
-	ldr ip, [ip]
-	add ip, ip, #0x1000
-	ldr ip, [ip, #0x330]
-	cmp ip, #4
-	addne sp, sp, #8
-	ldmneia sp!, {r3, pc}
-	mov r3, r3, lsl #0x10
-	mov lr, r3, lsr #0x10
-	mov ip, r1, lsl #0x10
-	mov r1, r0
-	mov r3, r2
-	str lr, [sp]
-	mov lr, #1
-	mov r2, ip, lsr #0x10
-	mov r0, #0
-	str lr, [sp, #4]
-	bl WM_SetGameInfo
-	add sp, sp, #8
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02128440: .word OVERLAY11_BSS_02169C44
-	arm_func_end ov11_021283E8
-
-	arm_func_start ov11_02128444
-ov11_02128444: ; 0x02128444
-	ldr r0, _0212845C ; =OVERLAY11_BSS_02169C44
-	mov r1, #0
-	ldr r0, [r0]
-	add r0, r0, #0x1000
-	strb r1, [r0, #0x361]
-	bx lr
-	.align 2, 0
-_0212845C: .word OVERLAY11_BSS_02169C44
-	arm_func_end ov11_02128444
-
-	arm_func_start ov11_02128460
-ov11_02128460: ; 0x02128460
-	ldr r0, _02128474 ; =OVERLAY11_BSS_02169C44
-	ldr r0, [r0]
-	add r0, r0, #0x1000
-	ldrb r0, [r0, #0x35e]
-	bx lr
-	.align 2, 0
-_02128474: .word OVERLAY11_BSS_02169C44
-	arm_func_end ov11_02128460
-
-	arm_func_start ov11_02128478
-ov11_02128478: ; 0x02128478
-	stmdb sp!, {r4, lr}
-	ldr r1, _021284D8 ; =OVERLAY11_BSS_02169C4C
-	mov r4, r0
-	ldr r1, [r1]
-	cmp r1, #0
-	ldmneia sp!, {r4, pc}
-	bl ov11_0212CDF4
-	mov r0, #0x3d0
-	bl _Z10Heap_Allocm
-	ldr r3, _021284D8 ; =OVERLAY11_BSS_02169C4C
-	mov r1, #0
-	mov r2, #0x3d0
-	str r0, [r3]
-	bl MI_CpuFill8
-	ldr r0, _021284D8 ; =OVERLAY11_BSS_02169C4C
-	mov r2, #0x32
-	ldr r1, [r0]
-	strh r2, [r1, #0x20]
-	ldr r1, [r0]
-	str r4, [r1]
-	ldr r0, [r0]
-	add r0, r0, #4
-	bl ov11_0212C21C
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_021284D8: .word OVERLAY11_BSS_02169C4C
-	arm_func_end ov11_02128478
-
-	arm_func_start ov11_021284DC
-ov11_021284DC: ; 0x021284DC
-	ldr r2, _021284F4 ; =OVERLAY11_BSS_02169C4C
-	ldr r3, [r2]
-	str r0, [r3, #0x1c]
-	ldr r0, [r2]
-	strh r1, [r0, #0x20]
-	bx lr
-	.align 2, 0
-_021284F4: .word OVERLAY11_BSS_02169C4C
-	arm_func_end ov11_021284DC
-
-	arm_func_start ov11_021284F8
-ov11_021284F8: ; 0x021284F8
-	stmdb sp!, {r3, lr}
-	bl ov11_0212C154
-	bl ov11_0212BEA0
-	cmp r0, #0
-	ldmeqia sp!, {r3, pc}
-	mov r3, #0
-	ldr r0, _02128544 ; =OVERLAY11_BSS_02169C4C
-	mov r2, r3
-	arm_func_end ov11_021284F8
-_02128518:
-	ldr r1, [r0]
-	add r1, r1, r3
-	add r3, r3, #1
-	strb r2, [r1, #0x3bd]
-	cmp r3, #0x10
-	blt _02128518
-	bl ov11_021287A8
-	ldr r0, _02128548 ; =ov11_0212854C
-	mov r1, #0
-	bl ov11_021284DC
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02128544: .word OVERLAY11_BSS_02169C4C
-_02128548: .word ov11_0212854C
-
-	arm_func_start ov11_0212854C
-ov11_0212854C: ; 0x0212854C
-	stmdb sp!, {r3, r4, r5, lr}
-	ldr r4, _021285A8 ; =OVERLAY11_BSS_02169C4C
-	mov r5, #0
-	arm_func_end ov11_0212854C
-_02128558:
-	ldr r0, [r4]
-	add r0, r0, r5, lsl #2
-	ldr r0, [r0, #0x24]
-	cmp r0, #0
-	bne _02128590
-	mov r0, r5
-	bl ov11_0212BEA0
-	cmp r0, #1
-	bne _02128590
-	mov r0, r5
-	bl ov11_02128A30
-	ldr r1, [r4]
-	add r1, r1, r5, lsl #2
-	str r0, [r1, #0x24]
-_02128590:
-	add r0, r5, #1
-	mov r0, r0, lsl #0x10
-	mov r5, r0, lsr #0x10
-	cmp r5, #0x10
-	blo _02128558
-	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_021285A8: .word OVERLAY11_BSS_02169C4C
-
-	arm_func_start ov11_021285AC
-ov11_021285AC: ; 0x021285AC
-	stmdb sp!, {r3, lr}
-	ldr r0, _021285DC ; =OVERLAY11_BSS_02169C4C
-	ldr r0, [r0]
-	cmp r0, #0
-	ldrne r1, [r0, #0x1c]
-	cmpne r1, #0
-	ldmeqia sp!, {r3, pc}
-	ldrb r0, [r0, #0x22]
-	cmp r0, #0
-	ldmneia sp!, {r3, pc}
-	blx r1
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_021285DC: .word OVERLAY11_BSS_02169C4C
-	arm_func_end ov11_021285AC
-
-	arm_func_start ov11_021285E0
-ov11_021285E0: ; 0x021285E0
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	mov r4, r1
-	bl ov11_0212BF7C
-	cmp r0, #0
-	ldmneia sp!, {r3, r4, r5, pc}
-	mov r0, r4
-	bl ov11_02128B9C
-	mov r0, r5
-	bl ov11_02128478
-	ldr r0, _02128618 ; =ov11_021284F8
-	mov r1, #0
-	bl ov11_021284DC
-	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02128618: .word ov11_021284F8
-	arm_func_end ov11_021285E0
-
-	arm_func_start ov11_0212861C
-ov11_0212861C: ; 0x0212861C
-	ldr ip, _02128630 ; =ov11_0212B9CC
-	mov r2, r1
-	mov r1, r0
-	mov r0, #0x16
-	bx ip
-	.align 2, 0
-_02128630: .word ov11_0212B9CC
-	arm_func_end ov11_0212861C
-
-	arm_func_start ov11_02128634
-ov11_02128634: ; 0x02128634
-	ldr r1, _02128650 ; =OVERLAY11_BSS_02169C4C
-	ldr r2, [r1]
-	ldrb r1, [r2, #0x23]
-	cmp r1, r0
-	moveq r0, #1
-	streqb r0, [r2, #0x3bc]
-	bx lr
-	.align 2, 0
-_02128650: .word OVERLAY11_BSS_02169C4C
-	arm_func_end ov11_02128634
-
-	arm_func_start ov11_02128654
-ov11_02128654: ; 0x02128654
-	mov r0, #0x358
-	bx lr
-	arm_func_end ov11_02128654
-
-	arm_func_start ov11_0212865C
-ov11_0212865C: ; 0x0212865C
-	ldr r0, _0212866C ; =OVERLAY11_BSS_02169C4C
-	ldr r0, [r0]
-	add r0, r0, #0x64
-	bx lr
-	.align 2, 0
-_0212866C: .word OVERLAY11_BSS_02169C4C
-	arm_func_end ov11_0212865C
-
-	arm_func_start ov11_02128670
-ov11_02128670: ; 0x02128670
-	ldr r1, _02128688 ; =OVERLAY11_BSS_02169C4C
-	mov r2, #1
-	ldr r1, [r1]
-	add r0, r1, r0
-	strb r2, [r0, #0x3bd]
-	bx lr
-	.align 2, 0
-_02128688: .word OVERLAY11_BSS_02169C4C
-	arm_func_end ov11_02128670
-
-	arm_func_start ov11_0212868C
-ov11_0212868C: ; 0x0212868C
-	stmdb sp!, {r3, lr}
-	ldr r0, _021286B8 ; =OVERLAY11_BSS_02169C4C
-	ldr r0, [r0]
-	cmp r0, #0
-	beq _021286A4
-	bl _Z9Heap_FreePv
-	arm_func_end ov11_0212868C
-_021286A4:
-	ldr r0, _021286B8 ; =OVERLAY11_BSS_02169C4C
-	mov r1, #0
-	str r1, [r0]
-	bl ov11_02128BDC
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_021286B8: .word OVERLAY11_BSS_02169C4C
-
-	arm_func_start ov11_021286BC
-ov11_021286BC: ; 0x021286BC
-	stmdb sp!, {r4, r5, r6, lr}
-	ldr r0, _02128748 ; =OVERLAY11_BSS_02169C50
-	ldr r0, [r0]
-	cmp r0, #0
-	ldmneia sp!, {r4, r5, r6, pc}
-	mov r0, #0x39c
-	bl _Z10Heap_Allocm
-	ldr r3, _02128748 ; =OVERLAY11_BSS_02169C50
-	mov r1, #0
-	mov r2, #0x39c
-	str r0, [r3]
-	bl MI_CpuFill8
-	mov r5, #0
-	ldr r4, _02128748 ; =OVERLAY11_BSS_02169C50
-	mov r6, r5
-	arm_func_end ov11_021286BC
-_021286F8:
-	ldr r3, [r4]
-	mov r0, r5
-	add r1, r3, r6
-	add r2, r1, #0x20
-	add r1, r3, r5, lsl #2
-	str r2, [r1, #0x340]
-	bl ov11_02128974
-	add r5, r5, #1
-	cmp r5, #8
-	add r6, r6, #0x68
-	blt _021286F8
-	ldr r0, _02128748 ; =OVERLAY11_BSS_02169C50
-	mov r2, #0
-	ldr r1, [r0]
-	strb r2, [r1, #0x398]
-	ldr r1, [r0]
-	strb r2, [r1, #0x399]
-	ldr r0, [r0]
-	strb r2, [r0, #0x39a]
-	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_02128748: .word OVERLAY11_BSS_02169C50
-
-	arm_func_start ov11_0212874C
-ov11_0212874C: ; 0x0212874C
-	stmdb sp!, {r3, lr}
-	ldr r0, _021287A4 ; =OVERLAY11_BSS_02169C50
-	ldr r1, [r0]
-	cmp r1, #0
-	ldmeqia sp!, {r3, pc}
-	mov r3, #0
-	mov r2, r3
-	arm_func_end ov11_0212874C
-_02128768:
-	ldr r1, [r0]
-	add r1, r1, r3, lsl #2
-	add r3, r3, #1
-	str r2, [r1, #0x340]
-	cmp r3, #8
-	blt _02128768
-	ldr r0, _021287A4 ; =OVERLAY11_BSS_02169C50
-	ldr r0, [r0]
-	cmp r0, #0
-	beq _02128794
-	bl _Z9Heap_FreePv
-_02128794:
-	ldr r0, _021287A4 ; =OVERLAY11_BSS_02169C50
-	mov r1, #0
-	str r1, [r0]
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_021287A4: .word OVERLAY11_BSS_02169C50
-
-	arm_func_start ov11_021287A8
-ov11_021287A8: ; 0x021287A8
-	stmdb sp!, {r4, lr}
-	bl ov11_0212C154
-	mov r1, #0x68
-	ldr r2, _021287E8 ; =OVERLAY11_BSS_02169C50
-	mul r4, r0, r1
-	ldr r0, [r2]
-	add r0, r0, r4
-	add r0, r0, #0x5c
-	bl OS_GetMacAddress
-	ldr r1, _021287E8 ; =OVERLAY11_BSS_02169C50
-	mov r0, #3
-	ldr r1, [r1]
-	mov r2, #0x68
-	add r1, r1, r4
-	bl ov11_0212B938
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_021287E8: .word OVERLAY11_BSS_02169C50
-	arm_func_end ov11_021287A8
-
-	arm_func_start ov11_021287EC
-ov11_021287EC: ; 0x021287EC
-	mov r0, #0x68
-	bx lr
-	arm_func_end ov11_021287EC
-
-	arm_func_start ov11_021287F4
-ov11_021287F4: ; 0x021287F4
-	ldr r0, _0212880C ; =0x02169C50
-	ldr r1, [r0]
-	cmp r1, #0
-	movne r0, #1
-	strneb r0, [r1, #0x398]
-	bx lr
-	.align 2, 0
-	arm_func_end ov11_021287F4
-_0212880C: .word OVERLAY11_BSS_02169C50
-
-	arm_func_start ov11_02128810
-ov11_02128810: ; 0x02128810
-	stmdb sp!, {r4, lr}
-	ldr r1, _021288B8 ; =0x02169C50
-	mov r4, r2
-	ldr ip, [r1]
-	cmp ip, #0
-	ldmeqia sp!, {r4, pc}
-	ldrb r1, [r4, #0x39]
-	cmp r1, #2
-	beq _02128848
-    mov r0, r0, lsl #0x10
-    mov r1, r0, lsr #0x10
-	mov r0, #0
-	bl WM_Disconnect
-	ldmia sp!, {r4, pc}
-	arm_func_end ov11_02128810
-_02128848:
-	ldrb r3, [r4, #0x62]
-	mov r2, #0x68
-	mov r0, r4
-	mla r1, r3, r2, ip
-	bl MI_CpuCopy8
-	ldr r0, _021288B8 ; =0x02169C50
-	ldrb r2, [r4, #0x62]
-	ldr r1, [r0]
-	strb r2, [r1, #0x39a]
-	ldr r1, [r0]
-	ldrb r2, [r1, #0x39a]
-	add r3, r1, #0x390
-	ldrb r1, [r3, r2]
-	cmp r1, #2
-	ldmhsia sp!, {r4, pc}
-	mov r1, #1
-	strb r1, [r3, r2]
-	ldr r0, [r0]
-	ldrb r4, [r0, #0x39a]
-	bl ov11_0212C154
-	cmp r4, r0
-	ldmneia sp!, {r4, pc}
-	ldr r0, _021288B8 ; =0x02169C50
-	mov r1, #3
-	ldr r0, [r0]
-	add r0, r0, r4
-	strb r1, [r0, #0x390]
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_021288B8: .word OVERLAY11_BSS_02169C50
-
-	arm_func_start ov11_021288BC
-ov11_021288BC: ; 0x021288BC
-	stmdb sp!, {r3, r4, r5, lr}
-	ldr r1, _02128970 ; =0x02169C50
-	mov r4, r0
-	ldr r3, [r1]
-	cmp r3, #0
-	ldmeqia sp!, {r3, r4, r5, pc}
-	ldrb r0, [r2, #0x39]
-	cmp r0, #2
-	beq _021288F4
-    mov r0, r4, lsl #0x10
-    mov r1, r0, lsr #0x10
-	mov r0, #0
-	bl WM_Disconnect
-	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ov11_021288BC
-_021288F4:
-	mov r1, #0x68
-	mul r5, r4, r1
-	mov r0, r2
-	mov r2, r1
-	add r1, r3, r5
-	bl MI_CpuCopy8
-	ldr r0, _02128970 ; =0x02169C50
-	mov r1, r4
-	ldr r0, [r0]
-	add r0, r0, r5
-	add r0, r0, #0x5c
-	bl ov11_02129800
-	ldr r0, _02128970 ; =0x02169C50
-	mov r1, #1
-	ldr r0, [r0]
-	add r0, r0, r4
-	strb r1, [r0, #0x390]
-	bl ov11_0212C154
-	cmp r4, r0
-	bne _0212895C
-	ldr r0, _02128970 ; =0x02169C50
-	mov r1, #3
-	ldr r0, [r0]
-	add r0, r0, r4
-	strb r1, [r0, #0x390]
-	ldmia sp!, {r3, r4, r5, pc}
-_0212895C:
-	ldr r0, _02128970 ; =0x02169C50
-	mov r1, #1
-	ldr r0, [r0]
-	strb r1, [r0, #0x399]
-	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02128970: .word OVERLAY11_BSS_02169C50
-
-	arm_func_start ov11_02128974
-ov11_02128974: ; 0x02128974
-	stmdb sp!, {r4, lr}
-	ldr r1, _021289A8 ; =OVERLAY11_BSS_02169C50
-	mov r4, r0
-	ldr r0, [r1]
-	add r0, r0, r4, lsl #2
-	ldr r0, [r0, #0x340]
-	bl ov11_02128A74
-	ldr r0, _021289A8 ; =OVERLAY11_BSS_02169C50
-	mov r1, #0
-	ldr r0, [r0]
-	add r0, r0, r4
-	strb r1, [r0, #0x390]
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_021289A8: .word OVERLAY11_BSS_02169C50
-	arm_func_end ov11_02128974
-
-	arm_func_start ov11_021289AC
-ov11_021289AC: ; 0x021289AC
-	stmdb sp!, {r3, r4, r5, lr}
-	ldr r0, _02128A2C ; =OVERLAY11_BSS_02169C50
-	ldr r0, [r0]
-	cmp r0, #0
-	ldmeqia sp!, {r3, r4, r5, pc}
-	bl ov11_0212BF48
-	cmp r0, #0
-	ldmeqia sp!, {r3, r4, r5, pc}
-	ldr r4, _02128A2C ; =OVERLAY11_BSS_02169C50
-	mov r5, #0
-	arm_func_end ov11_021289AC
-_021289D4:
-	mov r0, r5
-	bl ov11_0212BEA0
-	cmp r0, #0
-	bne _02128A14
-	cmp r5, #0
-	bne _021289F8
-	bl ov11_0212C1D0
-	cmp r0, #0
-	bne _02128A14
-_021289F8:
-	ldr r0, [r4]
-	add r0, r0, r5
-	ldrb r0, [r0, #0x390]
-	cmp r0, #0
-	beq _02128A14
-	mov r0, r5
-	bl ov11_02128974
-_02128A14:
-	add r0, r5, #1
-	mov r0, r0, lsl #0x10
-	mov r5, r0, lsr #0x10
-	cmp r5, #8
-	blo _021289D4
-	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02128A2C: .word OVERLAY11_BSS_02169C50
-
-	arm_func_start ov11_02128A30
-ov11_02128A30: ; 0x02128A30
-	ldr r1, _02128A70 ; =OVERLAY11_BSS_02169C50
-	ldr r2, [r1]
-	cmp r2, #0
-	moveq r0, #0
-	bxeq lr
-	add r1, r2, r0
-	ldrb r1, [r1, #0x390]
-	cmp r1, #1
-	cmpne r1, #2
-	cmpne r1, #3
-	bne _02128A68
-	add r0, r2, r0, lsl #2
-	ldr r0, [r0, #0x340]
-	bx lr
-	arm_func_end ov11_02128A30
-_02128A68:
-	mov r0, #0
-	bx lr
-	.align 2, 0
-_02128A70: .word OVERLAY11_BSS_02169C50
-
-	arm_func_start ov11_02128A74
-ov11_02128A74: ; 0x02128A74
-	stmdb sp!, {r4, lr}
-	mov r1, #0
-	mov r2, #0x20
-	mov r4, r0
-	bl memset
-	mov r0, #2
-	strb r0, [r4, #0x19]
-	ldmia sp!, {r4, pc}
-	arm_func_end ov11_02128A74
-
-	arm_func_start ov11_02128A94
-ov11_02128A94: ; 0x02128A94
-	stmdb sp!, {r4, lr}
-	ldr r1, _02128B38 ; =OVERLAY11_BSS_02169C54
-	mov r4, r0
-	ldr r0, [r1]
-	cmp r0, #0
-	ldmneia sp!, {r4, pc}
-	mov r0, #0x44
-	bl _Z10Heap_Allocm
-	ldr r3, _02128B38 ; =OVERLAY11_BSS_02169C54
-	mov r1, #0
-	mov r2, #0x44
-	str r0, [r3]
-	bl MI_CpuFill8
-	ldr r0, _02128B38 ; =OVERLAY11_BSS_02169C54
-	mov r2, #0x32
-	ldr r1, [r0]
-	mov r3, #1
-	strh r2, [r1, #0x2e]
-	ldr r1, [r0]
-	ldr r2, _02128B3C ; =DAT_overlay_11_02166464
-	strb r3, [r1, #0x37]
-	ldr r1, [r0]
-	mov r3, #2
-	str r2, [r1, #0x24]
-	ldr r1, [r0]
-	mov r2, #0
-	strb r3, [r1, #0x30]
-	ldr r1, [r0]
-	strb r2, [r1, #0x31]
-	ldr r1, [r0]
-	strb r2, [r1, #0x3c]
-	ldr r1, [r0]
-	strb r4, [r1, #0x33]
-	ldr r0, [r0]
-	add r0, r0, #8
-	bl ov11_0212C21C
-	mov r0, #0
-	mov r1, r0
-	mov r2, r0
-	bl ov11_0212CA60
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02128B38: .word OVERLAY11_BSS_02169C54
-_02128B3C: .word DAT_overlay_11_02166464
-	arm_func_end ov11_02128A94
-
-	arm_func_start ov11_02128B40
-ov11_02128B40: ; 0x02128B40
-	stmdb sp!, {r3, lr}
-	ldr r0, _02128B7C ; =OVERLAY11_BSS_02169C54
-	ldr r0, [r0]
-	cmp r0, #0
-	ldmeqia sp!, {r3, pc}
-	bl ov11_0212CAE0
-	ldr r0, _02128B7C ; =OVERLAY11_BSS_02169C54
-	ldr r0, [r0]
-	cmp r0, #0
-	beq _02128B6C
-	bl _Z9Heap_FreePv
-	arm_func_end ov11_02128B40
-_02128B6C:
-	ldr r0, _02128B7C ; =OVERLAY11_BSS_02169C54
-	mov r1, #0
-	str r1, [r0]
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02128B7C: .word OVERLAY11_BSS_02169C54
-
-	arm_func_start ov11_02128B80
-ov11_02128B80: ; 0x02128B80
-	ldr r0, _02128B98 ; =OVERLAY11_BSS_02169C54
-	ldr r0, [r0]
-	cmp r0, #0
-	movne r0, #1
-	moveq r0, #0
-	bx lr
-	.align 2, 0
-_02128B98: .word OVERLAY11_BSS_02169C54
-	arm_func_end ov11_02128B80
-
-	arm_func_start ov11_02128B9C
-ov11_02128B9C: ; 0x02128B9C
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	bl ov11_0212BF7C
-	cmp r0, #0
-	ldmneia sp!, {r4, pc}
-	mov r0, r4
-	bl ov11_02128A94
-	ldr r1, _02128BD4 ; =OVERLAY11_BSS_02169C54
-	ldr r0, _02128BD8 ; =ov11_02128E84
-	ldr r2, [r1]
-	mov r1, #0
-	strb r4, [r2, #0x33]
-	bl ov11_02128C3C
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02128BD4: .word OVERLAY11_BSS_02169C54
-_02128BD8: .word ov11_02128E84
-	arm_func_end ov11_02128B9C
-
-	arm_func_start ov11_02128BDC
-ov11_02128BDC: ; 0x02128BDC
-	stmdb sp!, {r3, lr}
-	ldr r0, _02128C00 ; =OVERLAY11_BSS_02169C54
-	ldr r0, [r0]
-	cmp r0, #0
-	ldmeqia sp!, {r3, pc}
-	ldr r0, _02128C04 ; =ov11_02128C70
-	mov r1, #5
-	bl ov11_02128C3C
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02128C00: .word OVERLAY11_BSS_02169C54
-_02128C04: .word ov11_02128C70
-	arm_func_end ov11_02128BDC
-
-	arm_func_start thunk_FUN_overlay_11__02128b40
-thunk_FUN_overlay_11__02128b40: ; 0x02128C08
-	ldr ip, _02128C10 ; =ov11_02128B40
-	bx ip
-	.align 2, 0
-_02128C10: .word ov11_02128B40
-	arm_func_end thunk_FUN_overlay_11__02128b40
-
-	arm_func_start ov11_02128C14
-ov11_02128C14: ; 0x02128C14
-	stmdb sp!, {r3, lr}
-	ldr r0, _02128C38 ; =OVERLAY11_BSS_02169C54
-	ldr r0, [r0]
-	cmp r0, #0
-	ldrne r0, [r0, #0x20]
-	cmpne r0, #0
-	ldmeqia sp!, {r3, pc}
-	blx r0
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02128C38: .word OVERLAY11_BSS_02169C54
-	arm_func_end ov11_02128C14
-
-	arm_func_start ov11_02128C3C
-ov11_02128C3C: ; 0x02128C3C
-	ldr r2, _02128C54 ; =OVERLAY11_BSS_02169C54
-	ldr r3, [r2]
-	str r0, [r3, #0x20]
-	ldr r0, [r2]
-	strh r1, [r0, #0x2e]
-	bx lr
-	.align 2, 0
-_02128C54: .word OVERLAY11_BSS_02169C54
-	arm_func_end ov11_02128C3C
-
-	arm_func_start ov11_02128C58
-ov11_02128C58: ; 0x02128C58
-	stmdb sp!, {r3, lr}
-	bl ov11_0212BF7C
-	cmp r0, #0
-	ldmneia sp!, {r3, pc}
-	bl ov11_02128B40
-	ldmia sp!, {r3, pc}
-	arm_func_end ov11_02128C58
-
-	arm_func_start ov11_02128C70
-ov11_02128C70: ; 0x02128C70
-	stmdb sp!, {r3, lr}
-	ldr r0, _02128CC0 ; =OVERLAY11_BSS_02169C54
-	ldr r1, [r0]
-	ldrh r0, [r1, #0x2e]
-	cmp r0, #0
-	subne r0, r0, #1
-	strneh r0, [r1, #0x2e]
-	bl ov11_021291DC
-	cmp r0, #0
-	ldmeqia sp!, {r3, pc}
-	ldr r0, _02128CC0 ; =OVERLAY11_BSS_02169C54
-	ldr r0, [r0]
-	ldrh r0, [r0, #0x2e]
-	cmp r0, #0
-	ldmneia sp!, {r3, pc}
-	bl ov11_0212A668
-	ldr r0, _02128CC4 ; =ov11_02128C58
-	mov r1, #0
-	bl ov11_02128C3C
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02128CC0: .word OVERLAY11_BSS_02169C54
-_02128CC4: .word ov11_02128C58
-	arm_func_end ov11_02128C70
-
-	arm_func_start ov11_02128CC8
-ov11_02128CC8: ; 0x02128CC8
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r4, r0
-	mov r5, r2
-	bl ov11_0212C154
-	cmp r0, #0
-	ldmneia sp!, {r3, r4, r5, pc}
-	ldr ip, _02128D54 ; =s_FREAK_overlay_11_02166484
-	mov r3, #1
-	mov r2, #0
-	arm_func_end ov11_02128CC8
-_02128CEC:
-	ldrb r1, [ip]
-	ldrb r0, [r5, r2]
-	cmp r1, r0
-	movne r3, #0
-	bne _02128D10
-	add r2, r2, #1
-	cmp r2, #6
-	add ip, ip, #1
-	blo _02128CEC
-_02128D10:
-	cmp r3, #0
-	beq _02128D40
-	ldr r0, _02128D58 ; =OVERLAY11_BSS_02169C54
-	ldr r0, [r0]
-	ldrb r0, [r0, #0x3c]
-	cmp r0, #0
-	bne _02128D40
-	ldr r1, _02128D5C ; =s_GAME_overlay_11_0216648c
-	mov r0, #7
-	strb r4, [r1]
-	bl ov11_0212BB6C
-	ldmia sp!, {r3, r4, r5, pc}
-_02128D40:
-	ldr r1, _02128D60 ; =s_FULL_overlay_11_02166494
-	mov r0, #7
-	strb r4, [r1]
-	bl ov11_0212BB6C
-	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02128D54: .word s_FREAK_overlay_11_02166484
-_02128D58: .word OVERLAY11_BSS_02169C54
-_02128D5C: .word s_GAME_overlay_11_0216648c
-_02128D60: .word s_FULL_overlay_11_02166494
-
-	arm_func_start ov11_02128D64
-ov11_02128D64: ; 0x02128D64
-	stmdb sp!, {r4, lr}
-	mov r4, #1
-	ldr ip, _02128E24 ; =0x0216648D
-	mov r3, r4
-	arm_func_end ov11_02128D64
-_02128D74:
-	ldrb r1, [ip]
-	ldrb r0, [r2, r3]
-	cmp r1, r0
-	movne r4, #0
-	bne _02128D98
-	add r3, r3, #1
-	cmp r3, #6
-	add ip, ip, #1
-	blo _02128D74
-_02128D98:
-	cmp r4, #0
-	beq _02128DC4
-	ldrb r4, [r2]
-	bl ov11_0212C154
-	cmp r4, r0
-	ldmneia sp!, {r4, pc}
-	ldr r0, _02128E28 ; =OVERLAY11_BSS_02169C54
-	mov r1, #1
-	ldr r0, [r0]
-	strb r1, [r0, #0x31]
-	ldmia sp!, {r4, pc}
-_02128DC4:
-	mov r4, #1
-	ldr r3, _02128E2C ; =0x02166495
-	mov ip, r4
-_02128DD0:
-	ldrb r1, [r3]
-	ldrb r0, [r2, ip]
-	cmp r1, r0
-	movne r4, #0
-	bne _02128DF4
-	add ip, ip, #1
-	cmp ip, #6
-	add r3, r3, #1
-	blo _02128DD0
-_02128DF4:
-	cmp r4, #0
-	ldmeqia sp!, {r4, pc}
-	ldrb r4, [r2]
-	bl ov11_0212C154
-	and r0, r0, #0xff
-	cmp r4, r0
-	ldmneia sp!, {r4, pc}
-	ldr r0, _02128E28 ; =OVERLAY11_BSS_02169C54
-	mov r1, #2
-	ldr r0, [r0]
-	strb r1, [r0, #0x31]
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02128E24: .word s_GAME_overlay_11_0216648c+1
-_02128E28: .word OVERLAY11_BSS_02169C54
-_02128E2C: .word s_FULL_overlay_11_02166494+1
-
-    arm_func_start ov11_02128E30
-ov11_02128E30: ; 0x02128E30
-    mov r0, #6
-    bx lr
-    arm_func_end ov11_02128E30
-
-	arm_func_start ov11_02128E38
-ov11_02128E38: ; 0x02128E38
-	stmdb sp!, {r3, lr}
-	bl ov11_0212C154
-	bl ov11_0212BEA0
-	cmp r0, #0
-	ldmeqia sp!, {r3, pc}
-	ldr r0, _02128E5C ; =ov11_02128E60
-	mov r1, #0
-	bl ov11_02128C3C
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02128E5C: .word ov11_02128E60
-	arm_func_end ov11_02128E38
-
-	arm_func_start ov11_02128E60
-ov11_02128E60: ; 0x02128E60
-	stmdb sp!, {r3, lr}
-	bl ov11_0212BF7C
-	cmp r0, #0
-	ldmneia sp!, {r3, pc}
-	ldr r0, _02128E80 ; =ov11_02128C58
-	mov r1, #0
-	bl ov11_02128C3C
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02128E80: .word ov11_02128C58
-	arm_func_end ov11_02128E60
-
-	arm_func_start ov11_02128E84
-ov11_02128E84: ; 0x02128E84
-	stmdb sp!, {r3, lr}
-	bl ov11_02129024
-	cmp r0, #0
-	ldmeqia sp!, {r3, pc}
-	ldr r0, _02128ED8 ; =OVERLAY11_BSS_02169C54
-	ldr r0, [r0]
-	ldr r0, [r0, #0x24]
-	bl ov11_02128F1C
-	bl ov11_021286BC
-	mov r0, #1
-	mov r1, r0
-	mov r3, r0
-	mov r2, #0x200
-	bl ov11_0212A524
-	cmp r0, #0
-	ldmeqia sp!, {r3, pc}
-	bl ov11_0212A630
-	ldr r0, _02128EDC ; =ov11_02128E38
-	mov r1, #0
-	bl ov11_02128C3C
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02128ED8: .word OVERLAY11_BSS_02169C54
-_02128EDC: .word ov11_02128E38
-	arm_func_end ov11_02128E84
-
-	arm_func_start ov11_02128EE0
-ov11_02128EE0: ; 0x02128EE0
-	ldr r0, _02128EF8 ; =OVERLAY11_BSS_02169C54
-	ldr r0, [r0]
-	cmp r0, #0
-	ldrneb r0, [r0, #0x33]
-	moveq r0, #1
-	bx lr
-	.align 2, 0
-_02128EF8: .word OVERLAY11_BSS_02169C54
-	arm_func_end ov11_02128EE0
-
-	arm_func_start ov11_02128EFC
-ov11_02128EFC: ; 0x02128EFC
-	ldr r0, _02128F14 ; =OVERLAY11_BSS_02169C54
-	ldr r0, [r0]
-	cmp r0, #0
-	ldrneb r0, [r0, #0x34]
-	moveq r0, #0
-	bx lr
-	.align 2, 0
-_02128F14: .word OVERLAY11_BSS_02169C54
-	arm_func_end ov11_02128EFC
-_02128F18:
-	b _02128F18
-
-	arm_func_start ov11_02128F1C
-ov11_02128F1C: ; 0x02128F1C
-	stmdb sp!, {r4, lr}
-	ldr r1, _02128FA8 ; =OVERLAY11_BSS_02169C58
-	mov r4, r0
-	ldr r0, [r1, #8]
-	cmp r0, #0
-	ldmneia sp!, {r4, pc}
-	ldr r0, _02128FAC ; =0x00000DA4
-	mov r1, #0x20
-	bl _Z23Heap_AllocWithAlignmentmm
-	ldr r3, _02128FA8 ; =OVERLAY11_BSS_02169C58
-	ldr r2, _02128FAC ; =0x00000DA4
-	mov r1, #0
-	str r0, [r3, #8]
-	bl MI_CpuFill8
-	bl ov11_02127FA4
-	mov r1, #0x20
-	bl _Z23Heap_AllocWithAlignmentmm
-	ldr r1, _02128FA8 ; =OVERLAY11_BSS_02169C58
-	ldr r1, [r1, #8]
-	str r0, [r1, #0xd84]
-	bl ov11_02127FA4
-	mov r2, r0
-	ldr r0, _02128FA8 ; =OVERLAY11_BSS_02169C58
-	mov r1, #0
-	ldr r0, [r0, #8]
-	ldr r0, [r0, #0xd84]
-	bl MI_CpuFill8
-	ldr r2, _02128FB0 ; =0x00000333
-	ldr r0, _02128FA8 ; =OVERLAY11_BSS_02169C58
-	ldr r1, [r0, #8]
-	str r2, [r1, #0xd94]
-	ldr r0, [r0, #8]
-	str r4, [r0, #0xd90]
-	bl ov11_02129080
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02128FA8: .word OVERLAY11_BSS_02169C58
-_02128FAC: .word 0x00000DA4
-_02128FB0: .word 0x00000333
-	arm_func_end ov11_02128F1C
-
-	arm_func_start ov11_02128FB4
-ov11_02128FB4: ; 0x02128FB4
-	stmdb sp!, {r3, lr}
-	cmp r1, #0
-	beq _02128FC4
-	bl OS_Terminate
-	arm_func_end ov11_02128FB4
-_02128FC4:
-	ldr r0, _02128FD4 ; =OVERLAY11_BSS_02169C58
-	mov r1, #2
-	str r1, [r0, #4]
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02128FD4: .word OVERLAY11_BSS_02169C58
-
-    arm_func_start ov11_02128FD8
-ov11_02128FD8: ; 0x02128FD8
-	ldr r0, _02128FE8 ; =0x02169C58
-	mov r1, #0
-	str r1, [r0, #4]
-	bx lr
-	.align 2, 0
-	arm_func_end ov11_02128FD8
-_02128FE8: .word OVERLAY11_BSS_02169C58
-
-	arm_func_start ov11_02128FEC
-ov11_02128FEC: ; 0x02128FEC
-	stmdb sp!, {r3, lr}
-	ldr r3, _0212901C ; =OVERLAY11_BSS_02169C58
-	mov ip, #1
-	ldr r1, _02129020 ; =ov11_02128FB4
-	mov r0, #4
-	mov r2, #0
-	str ip, [r3, #4]
-	bl WVR_StartUpAsync
-	cmp r0, #1
-	ldmeqia sp!, {r3, pc}
-	bl OS_Terminate
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0212901C: .word OVERLAY11_BSS_02169C58
-_02129020: .word ov11_02128FB4
-	arm_func_end ov11_02128FEC
-
-	arm_func_start ov11_02129024
-ov11_02129024: ; 0x02129024
-	ldr r0, _0212903C ; =OVERLAY11_BSS_02169C58
-	ldr r0, [r0, #4]
-	cmp r0, #2
-	moveq r0, #1
-	movne r0, #0
-	bx lr
-	.align 2, 0
-_0212903C: .word OVERLAY11_BSS_02169C58
-	arm_func_end ov11_02129024
-
-	arm_func_start ov11_02129040
-ov11_02129040: ; 0x02129040
-	ldr ip, _02129050 ; =FUN_02046B84
-	ldr r0, _02129054 ; =0x02128FD8
-	mov r1, #0
-	bx ip
-	.align 2, 0
-_02129050: .word WVR_TerminateAsync
-_02129054: .word ov11_02128FD8
-	arm_func_end ov11_02129040
-
-	arm_func_start ov11_02129058
-ov11_02129058: ; 0x02129058
-	ldrh r0, [r0, #4]
-	cmp r0, #0x10
-	bxne lr
-	ldr r0, _0212907C ; =OVERLAY11_BSS_02169C58
-	ldr r1, [r0, #8]
-	cmp r1, #0
-	movne r0, #2
-	strne r0, [r1, #0xd88]
-	bx lr
-	.align 2, 0
-_0212907C: .word OVERLAY11_BSS_02169C58
-	arm_func_end ov11_02129058
-
-	arm_func_start ov11_02129080
-ov11_02129080: ; 0x02129080
-	stmdb sp!, {r3, lr}
-	ldr r0, _021290B4 ; =OVERLAY11_BSS_02169C58
-	mov r1, #0
-	ldr r0, [r0, #8]
-	str r1, [r0, #0xd88]
-	bl ov11_02127ED0
-	ldr r0, _021290B8 ; =ov11_02129058
-	bl WM_SetIndCallback
-	ldr r0, _021290B4 ; =OVERLAY11_BSS_02169C58
-	ldr r0, [r0, #8]
-	ldr r0, [r0, #0xd94]
-	bl ov11_02127A70
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_021290B4: .word OVERLAY11_BSS_02169C58
-_021290B8: .word ov11_02129058
-	arm_func_end ov11_02129080
-
-	arm_func_start ov11_021290BC
-ov11_021290BC: ; 0x021290BC
-	ldr r1, _021290E0 ; =OVERLAY11_BSS_02169C58
-	and r0, r0, #0xff
-	ldr r2, [r1, #8]
-	mov r0, r0, lsl #0x1f
-	ldrb r1, [r2, #0xda1]
-	bic r1, r1, #8
-	orr r0, r1, r0, lsr #28
-	strb r0, [r2, #0xda1]
-	bx lr
-	.align 2, 0
-_021290E0: .word OVERLAY11_BSS_02169C58
-	arm_func_end ov11_021290BC
-
-	arm_func_start ov11_021290E4
-ov11_021290E4: ; 0x021290E4
-	ldr r1, _02129140 ; =OVERLAY11_BSS_02169C58
-	mov r0, #0
-	ldr r2, [r1, #8]
-	strb r0, [r2, #0xd8c]
-	ldr r3, [r1, #8]
-	ldrb r2, [r3, #0xda1]
-	bic r2, r2, #1
-	strb r2, [r3, #0xda1]
-	ldr r3, [r1, #8]
-	ldrb r2, [r3, #0xda1]
-	bic r2, r2, #4
-	strb r2, [r3, #0xda1]
-	ldr r2, [r1, #8]
-	strb r0, [r2, #0xd9e]
-	ldr r3, [r1, #8]
-	ldrb r2, [r3, #0xda1]
-	bic r2, r2, #0x10
-	strb r2, [r3, #0xda1]
-	ldr r2, [r1, #8]
-	strb r0, [r2, #0xda0]
-	ldr r1, [r1, #8]
-	strb r0, [r1, #0xd9f]
-	bx lr
-	.align 2, 0
-_02129140: .word OVERLAY11_BSS_02169C58
-	arm_func_end ov11_021290E4
-
-	arm_func_start ov11_02129144
-ov11_02129144: ; 0x02129144
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r1
-	mov r4, r2
-	bl ov11_021290E4
-	mov r0, r5
-	bl ov11_021290BC
-	bl ov11_02128444
-	ldr r0, _021291D4 ; =OVERLAY11_BSS_02169C58
-	ldr r0, [r0, #8]
-	ldrb r0, [r0, #0xd9f]
-	cmp r0, #0
-	bne _02129190
-	ldr r0, _021291D8 ; =ov11_0212B0C0
-	mov r1, #0xe
-	bl ov11_021281CC
-	ldr r0, _021291D4 ; =OVERLAY11_BSS_02169C58
-	mov r1, #1
-	ldr r0, [r0, #8]
-	strb r1, [r0, #0xd9f]
-	arm_func_end ov11_02129144
-_02129190:
-	ldr r0, _021291D4 ; =OVERLAY11_BSS_02169C58
-	and r1, r4, #0xff
-	ldr r2, [r0, #8]
-	mov r0, r1, lsl #0x1f
-	ldrb r1, [r2, #0xda1]
-	bic r1, r1, #0x20
-	orr r0, r1, r0, lsr #26
-	strb r0, [r2, #0xda1]
-	bl ov11_02127B08
-	cmp r0, #1
-	bne _021291CC
-	bl ov11_02127B38
-	cmp r0, #0
-	movne r0, #1
-	ldmneia sp!, {r3, r4, r5, pc}
-_021291CC:
-	mov r0, #0
-	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_021291D4: .word OVERLAY11_BSS_02169C58
-_021291D8: .word ov11_0212B0C0
-
-	arm_func_start ov11_021291DC
-ov11_021291DC: ; 0x021291DC
-	stmdb sp!, {r3, lr}
-	ldr r0, _021292B4 ; =OVERLAY11_BSS_02169C58
-	ldr r0, [r0, #8]
-	cmp r0, #0
-	moveq r0, #1
-	ldmeqia sp!, {r3, pc}
-	ldrb r0, [r0, #0xda0]
-	cmp r0, #0
-	beq _02129214
-	cmp r0, #1
-	beq _0212925C
-	cmp r0, #2
-	beq _02129280
-	b _021292AC
-	arm_func_end ov11_021291DC
-_02129214:
-	bl ov11_021283B4
-	cmp r0, #0
-	beq _02129238
-	bl ov11_021277AC
-	ldr r0, _021292B4 ; =OVERLAY11_BSS_02169C58
-	mov r1, #1
-	ldr r0, [r0, #8]
-	strb r1, [r0, #0xda0]
-	b _021292AC
-_02129238:
-	bl ov11_0212836C
-	cmp r0, #0
-	bne _021292AC
-	bl ov11_0212825C
-	ldr r0, _021292B4 ; =OVERLAY11_BSS_02169C58
-	mov r1, #2
-	ldr r0, [r0, #8]
-	strb r1, [r0, #0xda0]
-	b _021292AC
-_0212925C:
-	bl ov11_0212836C
-	cmp r0, #0
-	bne _021292AC
-	bl ov11_0212825C
-	ldr r0, _021292B4 ; =OVERLAY11_BSS_02169C58
-	mov r1, #2
-	ldr r0, [r0, #8]
-	strb r1, [r0, #0xda0]
-	b _021292AC
-_02129280:
-	bl ov11_02128348
-	cmp r0, #0
-	movne r0, #1
-	ldmneia sp!, {r3, pc}
-	bl ov11_02128390
-	cmp r0, #0
-	beq _021292AC
-	ldr r0, _021292B4 ; =OVERLAY11_BSS_02169C58
-	mov r1, #1
-	ldr r0, [r0, #8]
-	strb r1, [r0, #0xda0]
-_021292AC:
-	mov r0, #0
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_021292B4: .word OVERLAY11_BSS_02169C58
-
-	arm_func_start ov11_021292B8
-ov11_021292B8: ; 0x021292B8
-	stmdb sp!, {r3, lr}
-	ldr r0, _021292F4 ; =OVERLAY11_BSS_02169C58
-	ldr r1, [r0, #8]
-	cmp r1, #0
-	beq _021292EC
-	ldrb r0, [r1, #0xd9e]
-	cmp r0, #0
-	bne _021292EC
-	mov r0, #1
-	strb r0, [r1, #0xd9e]
-	bl ov11_0212825C
-	mov r0, #1
-	ldmia sp!, {r3, pc}
-	arm_func_end ov11_021292B8
-_021292EC:
-	mov r0, #0
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_021292F4: .word OVERLAY11_BSS_02169C58
-
-	arm_func_start ov11_021292F8
-ov11_021292F8: ; 0x021292F8
-	stmdb sp!, {r3, lr}
-	ldr r0, _02129348 ; =OVERLAY11_BSS_02169C58
-	ldr r0, [r0, #8]
-	ldr r0, [r0, #0xd84]
-	cmp r0, #0
-	beq _02129324
-	bl _Z9Heap_FreePv
-	ldr r0, _02129348 ; =OVERLAY11_BSS_02169C58
-	mov r1, #0
-	ldr r0, [r0, #8]
-	str r1, [r0, #0xd84]
-	arm_func_end ov11_021292F8
-_02129324:
-	ldr r0, _02129348 ; =OVERLAY11_BSS_02169C58
-	ldr r0, [r0, #8]
-	cmp r0, #0
-	beq _02129338
-	bl _Z9Heap_FreePv
-_02129338:
-	ldr r0, _02129348 ; =OVERLAY11_BSS_02169C58
-	mov r1, #0
-	str r1, [r0, #8]
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02129348: .word OVERLAY11_BSS_02169C58
-
-	arm_func_start ov11_0212934C
-ov11_0212934C: ; 0x0212934C
-	stmdb sp!, {r3, r4, r5, lr}
-	bl ov11_02128EE0
-	mov r5, r0
-	bl ov11_021297EC
-	mov r4, r0
-	cmp r5, #0xf
-	beq _021293A0
-	ldr r0, _021293FC ; =OVERLAY11_BSS_02169C58
-	ldr r5, [r0, #8]
-	bl ov11_0212C2FC
-	mov r2, r0
-	mov r0, r4
-	add r1, r5, #0x10
-	bl MI_CpuCopy8
-	ldr r0, [r4, #0x10]
-	str r0, [r5]
-	bl ov11_02128EE0
-	strb r0, [r5, #4]
-	bl ov11_02128460
-	strb r0, [r5, #0x54]
-	b _021293D8
-	arm_func_end ov11_0212934C
-_021293A0:
-	ldr r0, _021293FC ; =OVERLAY11_BSS_02169C58
-	ldr r1, [r4, #0x10]
-	ldr r4, [r0, #8]
-	str r1, [r4]
-	bl ov11_02128EE0
-	strb r0, [r4, #4]
-	bl ov11_02128EFC
-	ldr r1, _021293FC ; =OVERLAY11_BSS_02169C58
-	strb r0, [r4, #5]
-	ldr r0, [r1, #8]
-	add r1, r4, #8
-	add r0, r0, #0xe0
-	mov r2, #0x54
-	bl MI_CpuCopy8
-_021293D8:
-	ldr r0, _021293FC ; =OVERLAY11_BSS_02169C58
-	mov r1, #0x5c
-	ldr r0, [r0, #8]
-	bl DC_FlushRange
-	ldr r0, _021293FC ; =OVERLAY11_BSS_02169C58
-	mov r1, #0x5c
-	ldr r0, [r0, #8]
-	bl ov11_02127A84
-	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_021293FC: .word OVERLAY11_BSS_02169C58
-
-	arm_func_start ov11_02129400
-ov11_02129400: ; 0x02129400
-	stmdb sp!, {r4, lr}
-	ldr r0, _02129460 ; =OVERLAY11_BSS_02169C58
-	ldr r4, [r0, #8]
-	bl ov11_02129730
-	ldrb r1, [r4, #6]
-	cmp r1, r0
-	ldmeqia sp!, {r4, pc}
-	bl ov11_02129730
-	ldr r1, _02129460 ; =OVERLAY11_BSS_02169C58
-	strb r0, [r4, #6]
-	ldr r0, [r1, #8]
-	mov r1, #0x5c
-	bl DC_FlushRange
-	ldr r0, _02129460 ; =OVERLAY11_BSS_02169C58
-	mov r1, #0x5c
-	ldr r0, [r0, #8]
-	bl ov11_02127A84
-	ldr r2, _02129460 ; =OVERLAY11_BSS_02169C58
-	mov r1, #0x5c
-	ldr r0, [r2, #8]
-	ldrh r3, [r2]
-	ldr r2, [r0, #0xd94]
-	bl ov11_021283E8
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02129460: .word OVERLAY11_BSS_02169C58
-	arm_func_end ov11_02129400
-
-	arm_func_start ov11_02129464
-ov11_02129464: ; 0x02129464
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #8
-	mov r5, r0
-	bl ov11_02127B08
-	mov r4, r0
-	bl ov11_021289AC
-	bl ov11_02129400
-	bl ov11_02128330
-	cmp r0, #0
-	bne _021294B8
-	bl ov11_0212978C
-	cmp r0, #0
-	bne _021294B8
-	ldr r0, _021296C0 ; =OVERLAY11_BSS_02169C58
-	ldr r2, [r0, #8]
-	ldrb r0, [r2, #0xda1]
-	mov r1, r0, lsl #0x1d
-	movs r1, r1, lsr #0x1f
-	bicne r0, r0, #1
-	orrne r0, r0, #1
-	strneb r0, [r2, #0xda1]
-	arm_func_end ov11_02129464
-_021294B8:
-	ldr r0, _021296C0 ; =OVERLAY11_BSS_02169C58
-	ldr r1, _021296C4 ; =0x0000FFFF
-	ldr r0, [r0, #8]
-	add r0, r0, #0xd00
-	ldrh r2, [r0, #0x9a]
-	cmp r2, r1
-	streqh r5, [r0, #0x9a]
-	ldr r0, _021296C0 ; =OVERLAY11_BSS_02169C58
-	ldr r2, [r0, #8]
-	ldrb r1, [r2, #0xda1]
-	mov r0, r1, lsl #0x1e
-	movs r0, r0, lsr #0x1f
-	beq _02129504
-	add r0, r2, #0xd00
-	ldrh r0, [r0, #0x9a]
-	cmp r0, r5
-	bichi r0, r1, #1
-	orrhi r0, r0, #1
-	strhib r0, [r2, #0xda1]
-_02129504:
-	bl ov11_02127B20
-	cmp r0, #0x19
-	bne _02129518
-	mov r0, #0
-	bl _02128F18
-_02129518:
-	cmp r4, #9
-	addls pc, pc, r4, lsl #2
-	b _021296B8
-_02129524: ; jump table
-	b _0212954C ; case 0
-	b _02129580 ; case 1
-	b _021296B8 ; case 2
-	b _021296B8 ; case 3
-	b _021296B8 ; case 4
-	b _021296B8 ; case 5
-	b _021296B8 ; case 6
-	b _021295F8 ; case 7
-	b _021295CC ; case 8
-	b _021295CC ; case 9
-_0212954C:
-	ldr r0, _021296C0 ; =OVERLAY11_BSS_02169C58
-	ldr r1, [r0, #8]
-	ldrb r0, [r1, #0xd9e]
-	cmp r0, #1
-	bne _0212956C
-	bl ov11_021292F8
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, pc}
-_0212956C:
-	cmp r0, #2
-	moveq r0, #3
-	streqb r0, [r1, #0xd9e]
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, pc}
-_02129580:
-	ldr r0, _021296C0 ; =OVERLAY11_BSS_02169C58
-	ldr r0, [r0, #8]
-	ldrb r0, [r0, #0xd9e]
-	cmp r0, #1
-	bne _021295A4
-	bl ov11_021282FC
-	cmp r0, #0
-	addne sp, sp, #8
-	ldmneia sp!, {r3, r4, r5, pc}
-_021295A4:
-	ldr r0, _021296C0 ; =OVERLAY11_BSS_02169C58
-	ldr r0, [r0, #8]
-	ldrb r0, [r0, #0xd9e]
-	cmp r0, #2
-	addne sp, sp, #8
-	ldmneia sp!, {r3, r4, r5, pc}
-	bl ov11_021282FC
-	add sp, sp, #8
-	cmp r0, #0
-	ldmia sp!, {r3, r4, r5, pc}
-_021295CC:
-	ldr r0, _021296C0 ; =OVERLAY11_BSS_02169C58
-	ldr r1, [r0, #8]
-	cmp r1, #0
-	addeq sp, sp, #8
-	ldmeqia sp!, {r3, r4, r5, pc}
-	ldrb r0, [r1, #0xda1]
-	add sp, sp, #8
-	bic r0, r0, #1
-	orr r0, r0, #1
-	strb r0, [r1, #0xda1]
-	ldmia sp!, {r3, r4, r5, pc}
-_021295F8:
-	bl ov11_02127D9C
-	ldr r2, _021296C0 ; =OVERLAY11_BSS_02169C58
-	ldr r3, [r2, #8]
-	ldrb r1, [r3, #0xd9d]
-	cmp r1, #0
-	subne r0, r1, #1
-	strneb r0, [r3, #0xd9d]
-	bne _0212962C
-	add r1, r3, #0xd00
-	strh r0, [r1, #0x98]
-	ldr r0, [r2, #8]
-	mov r1, #5
-	strb r1, [r0, #0xd9d]
-_0212962C:
-	ldr r1, _021296C0 ; =OVERLAY11_BSS_02169C58
-	ldr r0, [r1, #8]
-	ldrb r2, [r0, #0xda1]
-	add r0, r0, #0xd00
-	ldrh r4, [r0, #0x98]
-	mov r0, r2, lsl #0x1c
-	movs r0, r0, lsr #0x1f
-	ldrneh r0, [r1]
-	addne r0, r0, #1
-	strneh r0, [r1]
-	bl ov11_0212934C
-	bl ov11_02128EE0
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	bl ov11_0212CE10
-	mov r5, r0
-	bl ov11_02128EE0
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	bl ov11_021297BC
-	str r0, [sp]
-	ldr r1, _021296C0 ; =OVERLAY11_BSS_02169C58
-	mov r3, r5
-	ldr r5, [r1, #8]
-	mov r0, #0
-	ldrb r5, [r5, #0xda1]
-	mov r2, r4
-	mov r5, r5, lsl #0x1a
-	mov r5, r5, lsr #0x1f
-	str r5, [sp, #4]
-	ldrh r1, [r1]
-	bl ov11_0212806C
-	ldr r0, _021296C0 ; =OVERLAY11_BSS_02169C58
-	ldr r0, [r0, #8]
-	strb r4, [r0, #0xd9c]
-_021296B8:
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_021296C0: .word OVERLAY11_BSS_02169C58
-_021296C4: .word 0x0000FFFF
-
-	arm_func_start ov11_021296C8
-ov11_021296C8: ; 0x021296C8
-	stmdb sp!, {r3, lr}
-	ldr r1, _021296E4 ; =OVERLAY11_BSS_02169C58
-	ldr r1, [r1, #8]
-	cmp r1, #0
-	ldmeqia sp!, {r3, pc}
-	bl ov11_02129464
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_021296E4: .word OVERLAY11_BSS_02169C58
-	arm_func_end ov11_021296C8
-
-	arm_func_start ov11_021296E8
-ov11_021296E8: ; 0x021296E8
-	stmdb sp!, {r4, lr}
-	ldr r1, _0212972C ; =OVERLAY11_BSS_02169C58
-	mov r4, r0
-	ldr r0, [r1, #8]
-	cmp r0, #0
-	moveq r0, #0
-	ldmeqia sp!, {r4, pc}
-	bl ov11_02127B08
-	cmp r0, #4
-	movne r0, #0
-	ldmneia sp!, {r4, pc}
-	bl ov11_02127AA4
-	mov r1, #1
-	tst r0, r1, lsl r4
-	moveq r1, #0
-	mov r0, r1
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0212972C: .word OVERLAY11_BSS_02169C58
-	arm_func_end ov11_021296E8
-
-	arm_func_start ov11_02129730
-ov11_02129730: ; 0x02129730
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r4, #0
-	mov r5, r4
-	arm_func_end ov11_02129730
-_0212973C:
-	mov r0, r5
-	bl ov11_021296E8
-	cmp r0, #0
-	addne r0, r4, #1
-	movne r0, r0, lsl #0x10
-	movne r4, r0, lsr #0x10
-	add r0, r5, #1
-	mov r0, r0, lsl #0x10
-	mov r5, r0, lsr #0x10
-	cmp r5, #8
-	blo _0212973C
-	mov r0, r4
-	ldmia sp!, {r3, r4, r5, pc}
-
-	arm_func_start ov11_02129770
-ov11_02129770: ; 0x02129770
-	ldr r0, _02129788 ; =OVERLAY11_BSS_02169C58
-	ldr r0, [r0, #8]
-	cmp r0, #0
-	movne r0, #1
-	moveq r0, #0
-	bx lr
-	.align 2, 0
-_02129788: .word OVERLAY11_BSS_02169C58
-	arm_func_end ov11_02129770
-
-	arm_func_start ov11_0212978C
-ov11_0212978C: ; 0x0212978C
-	stmdb sp!, {r3, lr}
-	ldr r0, _021297B4 ; =OVERLAY11_BSS_02169C58
-	ldr r0, [r0, #8]
-	cmp r0, #0
-	moveq r0, #0
-	ldmeqia sp!, {r3, pc}
-	bl ov11_02127AA4
-	ldr r1, _021297B8 ; =0x0000FFFE
-	and r0, r0, r1
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_021297B4: .word OVERLAY11_BSS_02169C58
-_021297B8: .word 0x0000FFFE
-	arm_func_end ov11_0212978C
-
-	arm_func_start ov11_021297BC
-ov11_021297BC: ; 0x021297BC
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	bl WM_GetDispersionBeaconPeriod
-	cmp r4, #0xa
-	moveq r0, r0, lsl #0xe
-	moveq r0, r0, lsr #0x10
-	ldmeqia sp!, {r4, pc}
-	cmp r4, #9
-	cmpne r4, #0xd
-	moveq r0, r0, lsl #0xe
-	moveq r0, r0, lsr #0x10
-	ldmia sp!, {r4, pc}
-	arm_func_end ov11_021297BC
-
-	arm_func_start ov11_021297EC
-ov11_021297EC: ; 0x021297EC
-	ldr r0, _021297FC ; =OVERLAY11_BSS_02169C58
-	ldr r0, [r0, #8]
-	ldr r0, [r0, #0xd90]
-	bx lr
-	.align 2, 0
-_021297FC: .word OVERLAY11_BSS_02169C58
-	arm_func_end ov11_021297EC
-
-	arm_func_start ov11_02129800
-ov11_02129800: ; 0x02129800
-	stmdb sp!, {r3, lr}
-	ldr r2, _0212982C ; =OVERLAY11_BSS_02169C58
-	ldr r2, [r2, #8]
-	cmp r2, #0
-	ldmeqia sp!, {r3, pc}
-	add r2, r2, #0x134
-	add r3, r2, #0xc00
-	mov r2, #6
-	mla r1, r2, r1, r3
-	bl MI_CpuCopy8
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0212982C: .word OVERLAY11_BSS_02169C58
-	arm_func_end ov11_02129800
-
-	arm_func_start ov11_02129830
-ov11_02129830: ; 0x02129830
-	ldr r0, _02129854 ; =OVERLAY11_BSS_02169C58
-	ldr r0, [r0, #8]
-	cmp r0, #0
-	moveq r0, #0
-	bxeq lr
-	ldrb r0, [r0, #0xda1]
-	mov r0, r0, lsl #0x1b
-	mov r0, r0, lsr #0x1f
-	bx lr
-	.align 2, 0
-_02129854: .word OVERLAY11_BSS_02169C58
-	arm_func_end ov11_02129830
-
-	arm_func_start ov11_02129858
-ov11_02129858: ; 0x02129858
-	ldr r0, _02129874 ; =OVERLAY11_BSS_02169C58
-	ldr r1, [r0, #8]
-	cmp r1, #0
-	ldrneb r0, [r1, #0xda1]
-	orrne r0, r0, #0x10
-	strneb r0, [r1, #0xda1]
-	bx lr
-	.align 2, 0
-_02129874: .word OVERLAY11_BSS_02169C58
-	arm_func_end ov11_02129858
-
-	arm_func_start ov11_02129878
-ov11_02129878: ; 0x02129878
-	stmdb sp!, {r3, lr}
-	bl ov11_0212934C
-	ldr r2, _0212989C ; =OVERLAY11_BSS_02169C58
-	mov r1, #0x5c
-	ldr r0, [r2, #8]
-	ldrh r3, [r2]
-	ldr r2, [r0, #0xd94]
-	bl ov11_021283E8
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0212989C: .word OVERLAY11_BSS_02169C58
-	arm_func_end ov11_02129878
-
-	arm_func_start ov11_021298A0
-ov11_021298A0: ; 0x021298A0
-	stmdb sp!, {r3, lr}
-	ldr r1, _021298C0 ; =OVERLAY11_BSS_02169C58
-	mov r2, #0x54
-	ldr r1, [r1, #8]
-	add r1, r1, #0xe0
-	bl MI_CpuCopy8
-	bl ov11_02129878
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_021298C0: .word OVERLAY11_BSS_02169C58
-	arm_func_end ov11_021298A0
-
-	arm_func_start ov11_021298C4
-ov11_021298C4: ; 0x021298C4
-	stmdb sp!, {r3, lr}
-	ldr r0, _0212993C ; =OVERLAY11_BSS_02169C64
-	ldr r0, [r0]
-	cmp r0, #0
-	bne _021298F4
-	ldr r0, _02129940 ; =0x00000253
-	bl _Z10Heap_Allocm
-	ldr r3, _0212993C ; =OVERLAY11_BSS_02169C64
-	ldr r2, _02129940 ; =0x00000253
-	mov r1, #0
-	str r0, [r3]
-	bl MI_CpuFill8
-	arm_func_end ov11_021298C4
-_021298F4:
-	ldr r0, _0212993C ; =OVERLAY11_BSS_02169C64
-	mov r2, #0
-	mov r3, #0xff
-_02129900:
-	ldr r1, [r0]
-	add r1, r1, r2
-	add r2, r2, #1
-	strb r3, [r1, #0x10]
-	cmp r2, #8
-	blt _02129900
-	ldr r0, _0212993C ; =OVERLAY11_BSS_02169C64
-	mov r1, #0
-	ldr r2, [r0]
-	strb r3, [r2, #0x250]
-	ldr r2, [r0]
-	strb r3, [r2, #0x251]
-	ldr r0, [r0]
-	strb r1, [r0, #0x252]
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0212993C: .word OVERLAY11_BSS_02169C64
-_02129940: .word 0x00000253
-
-	arm_func_start ov11_02129944
-ov11_02129944: ; 0x02129944
-	stmdb sp!, {r3, lr}
-	ldr r0, _0212996C ; =OVERLAY11_BSS_02169C64
-	ldr r0, [r0]
-	cmp r0, #0
-	beq _0212995C
-	bl _Z9Heap_FreePv
-	arm_func_end ov11_02129944
-_0212995C:
-	ldr r0, _0212996C ; =OVERLAY11_BSS_02169C64
-	mov r1, #0
-	str r1, [r0]
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0212996C: .word OVERLAY11_BSS_02169C64
-
-	arm_func_start ov11_02129970
-ov11_02129970: ; 0x02129970
-	stmdb sp!, {r3, r4, r5, r6, lr}
-	sub sp, sp, #4
-	ldrb r1, [r2]
-	mov r6, r0
-	strb r1, [sp]
-	bl ov11_0212C154
-	cmp r0, #0
-	addne sp, sp, #4
-	ldmneia sp!, {r3, r4, r5, r6, pc}
-	ldrb r2, [sp]
-	add r1, sp, #1
-	mov r0, #0x12
-	strb r6, [sp, #1]
-	strb r2, [sp, #2]
-	bl ov11_0212BB6C
-	ldr r5, _02129A18 ; =OVERLAY11_BSS_02169C64
-	ldrb r1, [sp]
-	ldr r0, [r5]
-	mov r4, #0
-	add r0, r0, r6
-	strb r1, [r0, #0x10]
-	arm_func_end ov11_02129970
-_021299C4:
-	mov r0, r4
-	bl ov11_0212BEA0
-	cmp r0, #0
-	beq _021299F0
-	ldr r0, [r5]
-	ldrb r1, [sp]
-	add r0, r0, r4
-	ldrb r0, [r0, #0x10]
-	cmp r1, r0
-	addne sp, sp, #4
-	ldmneia sp!, {r3, r4, r5, r6, pc}
-_021299F0:
-	add r0, r4, #1
-	mov r0, r0, lsl #0x10
-	mov r4, r0, lsr #0x10
-	cmp r4, #8
-	blo _021299C4
-	add r1, sp, #0
-	mov r0, #0x11
-	bl ov11_0212BB6C
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, r5, r6, pc}
-	.align 2, 0
-_02129A18: .word OVERLAY11_BSS_02169C64
-
-	arm_func_start ov11_02129A1C
-ov11_02129A1C: ; 0x02129A1C
-	ldr r0, _02129A38 ; =0x02169C64
-	ldrb r1, [r2]
-	ldr r0, [r0]
-	ldrb r2, [r2, #1]
-	add r0, r0, r1
-	strb r2, [r0, #0x10]
-	bx lr
-	.align 2, 0
-	arm_func_end ov11_02129A1C
-_02129A38: .word OVERLAY11_BSS_02169C64
-
-	arm_func_start ov11_02129A3C
-ov11_02129A3C: ; 0x02129A3C
-	ldr r0, _02129A50 ; =0x02169C64
-	ldrb r1, [r2]
-	ldr r0, [r0]
-	strb r1, [r0, #0x250]
-	bx lr
-	.align 2, 0
-	arm_func_end ov11_02129A3C
-_02129A50: .word OVERLAY11_BSS_02169C64
-
-	arm_func_start ov11_02129A54
-ov11_02129A54: ; 0x02129A54
-	ldr r1, _02129A70 ; =OVERLAY11_BSS_02169C64
-	mov r2, #1
-	ldr r3, [r1]
-	strb r0, [r3, #0x251]
-	ldr r0, [r1]
-	strb r2, [r0, #0x252]
-	bx lr
-	.align 2, 0
-_02129A70: .word OVERLAY11_BSS_02169C64
-	arm_func_end ov11_02129A54
-
-	arm_func_start ov11_02129A74
-ov11_02129A74: ; 0x02129A74
-	stmdb sp!, {r3, lr}
-	ldr r0, _02129ABC ; =OVERLAY11_BSS_02169C64
-	ldr r1, [r0]
-	cmp r1, #0
-	ldrneb r0, [r1, #0x252]
-	cmpne r0, #0
-	ldmeqia sp!, {r3, pc}
-	add r0, r1, #0x51
-	add r1, r0, #0x200
-	mov r0, #0x10
-	bl ov11_0212C198
-	cmp r0, #0
-	ldmeqia sp!, {r3, pc}
-	ldr r0, _02129ABC ; =OVERLAY11_BSS_02169C64
-	mov r1, #0
-	ldr r0, [r0]
-	strb r1, [r0, #0x252]
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02129ABC: .word OVERLAY11_BSS_02169C64
-	arm_func_end ov11_02129A74
-
-	arm_func_start ov11_02129AC0
-ov11_02129AC0: ; 0x02129AC0
-	ldr r1, _02129AE8 ; =OVERLAY11_BSS_02169C64
-	ldr r1, [r1]
-	cmp r1, #0
-	moveq r0, #1
-	bxeq lr
-	ldrb r1, [r1, #0x250]
-	cmp r1, r0
-	moveq r0, #1
-	movne r0, #0
-	bx lr
-	.align 2, 0
-_02129AE8: .word OVERLAY11_BSS_02169C64
-	arm_func_end ov11_02129AC0
-
-	arm_func_start ov11_02129AEC
-ov11_02129AEC: ; 0x02129AEC
-	ldr r1, _02129B10 ; =0x02169C64
-	ldrb ip, [r2]
-	ldr r3, [r1]
-	strb ip, [r3, r0, lsl #1]
-	ldr r1, [r1]
-	ldrb r2, [r2, #1]
-	add r0, r1, r0, lsl #1
-	strb r2, [r0, #1]
-	bx lr
-	.align 2, 0
-	arm_func_end ov11_02129AEC
-_02129B10: .word OVERLAY11_BSS_02169C64
-
-	arm_func_start ov11_02129B14
-ov11_02129B14: ; 0x02129B14
-	mov r0, #2
-	bx lr
-	arm_func_end ov11_02129B14
-
-	arm_func_start ov11_02129B1C
-ov11_02129B1C: ; 0x02129B1C
-	stmdb sp!, {r3, lr}
-	ldr r1, _02129B54 ; =OVERLAY11_BSS_02169C64
-	mov ip, r0
-	ldr r3, [r1]
-	mov r0, r2
-	add r2, r3, ip
-	mov r3, #1
-	strb r3, [r2, #0x248]
-	ldr r1, [r1]
-	mov r2, #0x46
-	add r1, r1, #0x18
-	mla r1, ip, r2, r1
-	bl MI_CpuCopy8
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02129B54: .word OVERLAY11_BSS_02169C64
-	arm_func_end ov11_02129B1C
-
-    arm_func_start ov11_02129B58
-ov11_02129B58: ; 0x02129B58
-    mov r0, #0x46
-    bx lr
-    arm_func_end ov11_02129B58
 
 	arm_func_start ov11_02129B60
 ov11_02129B60: ; 0x02129B60
@@ -3368,7 +12,7 @@ ov11_02129B60: ; 0x02129B60
 	strb r4, [r2]
 	cmp r0, #0
 	beq _02129CF0
-	bl ov11_02128EE0
+	bl _Z13ov11_02128EE0v
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl ov11_0212CE10
@@ -3379,7 +23,7 @@ ov11_02129B60: ; 0x02129B60
 	movne r0, #1
 	ldmneia sp!, {r4, r5, r6, pc}
 	mov r0, r4
-	bl ov11_021298C4
+	bl _Z13ov11_021298C4v
 	ldr r0, _02129D60 ; =0x00000688
 	bl _Z10Heap_Allocm
 	ldr r3, _02129D5C ; =OVERLAY11_BSS_02169C68
@@ -3424,7 +68,7 @@ ov11_02129B60: ; 0x02129B60
 	ldr r1, _02129D5C ; =OVERLAY11_BSS_02169C68
 	ldr r1, [r1, #4]
 	str r0, [r1, #0x454]
-	bl ov11_02128EE0
+	bl _Z13ov11_02128EE0v
 	cmp r0, #0xa
 	bne _02129CAC
 	ldr r0, _02129D5C ; =OVERLAY11_BSS_02169C68
@@ -3511,7 +155,7 @@ ov11_02129D64: ; 0x02129D64
 	strb r2, [r1, #0x67b]
 	ldr r0, [r0, #4]
 	strb r2, [r0, #0x67c]
-	bl ov11_02128EE0
+	bl _Z13ov11_02128EE0v
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl ov11_0212CE10
@@ -3734,7 +378,7 @@ ov11_0212A0C0: ; 0x0212A0C0
 	strb r2, [r1, #0x628]
 	ldr r0, [r0, #4]
 	strb r2, [r0, #0x629]
-	bl ov11_02128EE0
+	bl _Z13ov11_02128EE0v
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl ov11_0212CE10
@@ -4038,13 +682,13 @@ ov11_0212A524: ; 0x0212A524
 	mov r6, r2
 	mov r5, r3
 	mov r4, #1
-	bl ov11_02128EE0
+	bl _Z13ov11_02128EE0v
 	cmp r0, #0x13
 	bge _0212A55C
 	mov r0, r8
 	mov r1, r7
 	mov r2, r5
-	bl ov11_02129144
+	bl _Z13ov11_02129144iii
 	mov r4, r0
 	arm_func_end ov11_0212A524
 _0212A55C:
@@ -4147,19 +791,19 @@ ov11_0212A668: ; 0x0212A668
 	ldr r0, [r0, #4]
 	cmp r0, #0
 	beq _0212A69C
-	bl ov11_02128EE0
+	bl _Z13ov11_02128EE0v
 	cmp r0, #0x13
 	movge r4, #1
 	bge _0212A69C
-	bl ov11_021292B8
+	bl _Z13ov11_021292B8v
 	cmp r0, #0
 	movne r4, #1
 	arm_func_end ov11_0212A668
 _0212A69C:
 	cmp r4, #0
 	ldmeqia sp!, {r4, pc}
-	bl ov11_02129944
-	bl ov11_0212874C
+	bl _Z13ov11_02129944v
+	bl _Z13ov11_0212874Cv
 	ldr r0, _0212A7A0 ; =OVERLAY11_BSS_02169C68
 	mov r1, #0
 	strb r1, [r0]
@@ -4264,13 +908,13 @@ _0212A800: .word OVERLAY11_BSS_02169C68
 	arm_func_start ov11_0212A804
 ov11_0212A804: ; 0x0212A804
 	stmdb sp!, {r3, lr}
-	bl ov11_02129830
+	bl _Z13ov11_02129830v
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl ov11_0212C154
 	cmp r0, #0
 	bne _0212A834
-	bl ov11_0212978C
+	bl _Z13ov11_0212978Cv
 	cmp r0, #0
 	ldmneia sp!, {r3, pc}
 	bl ov11_0212A668
@@ -4283,8 +927,8 @@ _0212A834:
 	arm_func_start ov11_0212A83C
 ov11_0212A83C: ; 0x0212A83C
 	stmdb sp!, {r3, lr}
-	bl ov11_021285AC
-	bl ov11_02128C14
+	bl _Z13ov11_021285ACv
+	bl _Z13ov11_02128C14v
 	ldr r0, _0212A940 ; =OVERLAY11_BSS_02169C68
 	ldr r1, [r0, #4]
 	cmp r1, #0
@@ -4342,7 +986,7 @@ _0212A8FC:
 	ldr r0, [r0, #4]
 	add r0, r0, #0x600
 	ldrh r0, [r0, #0x58]
-	bl ov11_021296C8
+	bl _Z13ov11_021296C8t
 	bl ov11_0212C154
 	cmp r0, #0
 	bne _0212A920
@@ -4352,9 +996,9 @@ _0212A920:
 	b _0212A930
 _0212A928:
 	mov r0, #0
-	bl ov11_021296C8
+	bl _Z13ov11_021296C8t
 _0212A930:
-	bl ov11_02129A74
+	bl _Z13ov11_02129A74v
 	bl ov11_0212A7A4
 	mov r0, #1
 	ldmia sp!, {r3, pc}
@@ -4369,10 +1013,10 @@ ov11_0212A944: ; 0x0212A944
 	ldrb r0, [r0, #0x67f]
 	cmp r0, #0
 	beq _0212A9C4
-	bl ov11_02128EE0
+	bl _Z13ov11_02128EE0v
 	cmp r0, #0x13
 	ldmgeia sp!, {r3, pc}
-	bl ov11_02127B08
+	bl _Z13ov11_02127B08v
 	cmp r0, #4
 	bne _0212A984
 	bl ov11_0212C154
@@ -4399,10 +1043,10 @@ _0212A990:
 	strb r1, [r0, #0x67f]
 	ldmia sp!, {r3, pc}
 _0212A9C4:
-	bl ov11_02128EE0
+	bl _Z13ov11_02128EE0v
 	cmp r0, #0x13
 	ldmgeia sp!, {r3, pc}
-	bl ov11_02127B08
+	bl _Z13ov11_02127B08v
 	cmp r0, #4
 	bne _0212A9EC
 	bl ov11_0212C154
@@ -4448,12 +1092,12 @@ ov11_0212AA64: ; 0x0212AA64
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	mov r4, r0
 	mov r7, #0
-	bl ov11_02128EE0
+	bl _Z13ov11_02128EE0v
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl ov11_0212C1A8
 	mov r5, r0
-	bl ov11_02128EE0
+	bl _Z13ov11_02128EE0v
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl ov11_0212CE10
@@ -4519,15 +1163,15 @@ ov11_0212AB58: ; 0x0212AB58
 	ldr r0, [r0, #4]
 	cmp r0, #0
 	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
-	bl ov11_02128EE0
+	bl _Z13ov11_02128EE0v
 	cmp r0, #0x13
 	ldmgeia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
-	bl ov11_02128EE0
+	bl _Z13ov11_02128EE0v
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl ov11_0212C1A8
 	mov r6, r0
-	bl ov11_02128EE0
+	bl _Z13ov11_02128EE0v
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl ov11_0212CE10
@@ -4551,7 +1195,7 @@ ov11_0212AB58: ; 0x0212AB58
 	bl ov11_0212AA64
 	arm_func_end ov11_0212AB58
 _0212ABE4:
-	bl ov11_02127B08
+	bl _Z13ov11_02127B08v
 	cmp r0, #4
 	bne _0212AC38
 	bl ov11_0212C1D0
@@ -4652,7 +1296,7 @@ _0212AD44:
 	add r8, r8, r6
 	blt _0212AD10
 _0212AD54:
-	bl ov11_02127B08
+	bl _Z13ov11_02127B08v
 	cmp r0, #4
 	bne _0212AD6C
 	bl ov11_0212C1D0
@@ -4677,7 +1321,7 @@ ov11_0212AD8C: ; 0x0212AD8C
 	ldrb r0, [r0, #0x67f]
 	cmp r0, #0
 	beq _0212ADE4
-	bl ov11_02127B08
+	bl _Z13ov11_02127B08v
 	cmp r0, #4
 	beq _0212ADBC
 	bl ov11_0212C1D0
@@ -4696,7 +1340,7 @@ _0212ADBC:
 	strb r1, [r0, #0x67f]
 	ldmia sp!, {r3, r4, r5, pc}
 _0212ADE4:
-	bl ov11_02127B08
+	bl _Z13ov11_02127B08v
 	cmp r0, #4
 	beq _0212ADFC
 	bl ov11_0212C1D0
@@ -4801,12 +1445,12 @@ _0212AF40:
 	bl ov11_0212A640
 	cmp r0, #1
 	bne _0212B058
-	bl ov11_02128EE0
+	bl _Z13ov11_02128EE0v
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl ov11_0212C1A8
 	mov r7, r0
-	bl ov11_02128EE0
+	bl _Z13ov11_02128EE0v
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl ov11_0212CE10
@@ -4955,12 +1599,12 @@ _0212B160:
 	bl ov11_0212A640
 	cmp r0, #1
 	bne _0212B1EC
-	bl ov11_02128EE0
+	bl _Z13ov11_02128EE0v
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl ov11_0212C1A8
 	mov r4, r0
-	bl ov11_02128EE0
+	bl _Z13ov11_02128EE0v
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl ov11_0212CE10
@@ -5051,15 +1695,15 @@ ov11_0212B2A0: ; 0x0212B2A0
 	ldr r0, [r0, #4]
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
-	bl ov11_02128EE0
+	bl _Z13ov11_02128EE0v
 	cmp r0, #0x13
 	ldmgeia sp!, {r4, pc}
-	bl ov11_02128EE0
+	bl _Z13ov11_02128EE0v
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl ov11_0212C1A8
 	mov r4, r0
-	bl ov11_02128EE0
+	bl _Z13ov11_02128EE0v
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl ov11_0212CE10
@@ -5099,7 +1743,7 @@ ov11_0212B2A0: ; 0x0212B2A0
 	ldmia sp!, {r4, pc}
 	arm_func_end ov11_0212B2A0
 _0212B36C:
-	bl ov11_02127B08
+	bl _Z13ov11_02127B08v
 	cmp r0, #4
 	ldmneia sp!, {r4, pc}
 	bl ov11_0212C154
@@ -5151,7 +1795,7 @@ _0212B408:
 	str r0, [r1, #0x630]
 	ldmia sp!, {r4, pc}
 _0212B430:
-	bl ov11_02127AA4
+	bl _Z13ov11_02127AA4v
 	ldr r1, _0212B4B0 ; =0x0000FFFE
 	tst r0, r1
 	ldmeqia sp!, {r4, pc}
@@ -5336,12 +1980,12 @@ ov11_0212B6AC: ; 0x0212B6AC
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r5, r0
-	bl ov11_02128EE0
+	bl _Z13ov11_02128EE0v
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl ov11_0212C1A8
 	mov r4, r0
-	bl ov11_02128EE0
+	bl _Z13ov11_02128EE0v
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl ov11_0212CE10
@@ -5432,7 +2076,7 @@ ov11_0212B7E4: ; 0x0212B7E4
 	moveq r0, #0
 	movne r0, #1
 	strb r0, [r4, #1]
-	bl ov11_02127AA4
+	bl _Z13ov11_02127AA4v
 	mov r1, r0, asr #8
 	strb r1, [r4, #2]
 	ldr r1, _0212B89C ; =OVERLAY11_BSS_02169C68
@@ -5505,7 +2149,7 @@ _0212B8D8:
 	addne sp, sp, #8
 	movne r0, #1
 	ldmneia sp!, {r4, r5, r6, pc}
-	bl ov11_02128EE0
+	bl _Z13ov11_02128EE0v
 	cmp r0, #0xa
 	bne _0212B928
 	bl ov11_0212C2E4
@@ -5549,7 +2193,7 @@ _0212B970:
 	addne sp, sp, #8
 	movne r0, #1
 	ldmneia sp!, {r4, r5, r6, pc}
-	bl ov11_02128EE0
+	bl _Z13ov11_02128EE0v
 	cmp r0, #0xa
 	bne _0212B9BC
 	bl ov11_0212C2E4
@@ -5608,7 +2252,7 @@ _0212BA38:
 	addne sp, sp, #8
 	movne r0, #1
 	ldmneia sp!, {r4, r5, r6, pc}
-	bl ov11_02128EE0
+	bl _Z13ov11_02128EE0v
 	cmp r0, #0xa
 	bne _0212BA88
 	bl ov11_0212C2E4
@@ -5670,7 +2314,7 @@ _0212BB10:
 	addne sp, sp, #8
 	movne r0, #1
 	ldmneia sp!, {r4, r5, r6, pc}
-	bl ov11_02128EE0
+	bl _Z13ov11_02128EE0v
 	cmp r0, #0xa
 	bne _0212BB5C
 	bl ov11_0212C2E4
@@ -5874,7 +2518,7 @@ ov11_0212BDC8: ; 0x0212BDC8
 	cmp r0, #0
 	addne sp, sp, #4
 	ldmneia sp!, {r3, r4, r5, r6, r7, r8, pc}
-	bl ov11_02128EE0
+	bl _Z13ov11_02128EE0v
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl ov11_0212CE10
@@ -5931,7 +2575,7 @@ ov11_0212BEA0: ; 0x0212BEA0
 	cmp r0, #0
 	moveq r0, #0
 	ldmeqia sp!, {r4, pc}
-	bl ov11_02128EE0
+	bl _Z13ov11_02128EE0v
 	cmp r0, #0x13
 	movge r0, #0
 	ldmgeia sp!, {r4, pc}
@@ -5939,7 +2583,7 @@ ov11_0212BEA0: ; 0x0212BEA0
 	cmp r0, #0
 	moveq r0, #0
 	ldmeqia sp!, {r4, pc}
-	bl ov11_02127B08
+	bl _Z13ov11_02127B08v
 	cmp r0, #4
 	movne r0, #0
 	ldmneia sp!, {r4, pc}
@@ -5950,7 +2594,7 @@ ov11_0212BEA0: ; 0x0212BEA0
 	bl ov11_0212C154
 	cmp r0, #0
 	bne _0212BF20
-	bl ov11_02127AA4
+	bl _Z13ov11_02127AA4v
 	mov r1, #1
 	tst r0, r1, lsl r4
 	beq _0212BF3C
@@ -5996,13 +2640,13 @@ ov11_0212BF7C: ; 0x0212BF7C
 	ldr r0, [r0, #4]
 	cmp r0, #0
 	beq _0212BFA0
-	bl ov11_02128EE0
+	bl _Z13ov11_02128EE0v
 	cmp r0, #0x13
 	movge r0, #1
 	ldmgeia sp!, {r3, pc}
 	arm_func_end ov11_0212BF7C
 _0212BFA0:
-	bl ov11_02129770
+	bl _Z13ov11_02129770v
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0212BFA8: .word OVERLAY11_BSS_02169C68
@@ -6149,14 +2793,14 @@ ov11_0212C154: ; 0x0212C154
 	ldr r0, [r0, #4]
 	cmp r0, #0
 	beq _0212C18C
-	bl ov11_02128EE0
+	bl _Z13ov11_02128EE0v
 	cmp r0, #0x13
 	bge _0212C18C
 	bl ov11_0212C1D0
 	cmp r0, #0
 	movne r0, #0
 	ldmneia sp!, {r3, pc}
-	bl ov11_02128330
+	bl _Z13ov11_02128330v
 	ldmia sp!, {r3, pc}
 	arm_func_end ov11_0212C154
 _0212C18C:
@@ -6203,7 +2847,7 @@ _0212C1E8: .word OVERLAY11_BSS_02169C68
 	arm_func_start ov11_0212C1EC
 ov11_0212C1EC: ; 0x0212C1EC
 	stmdb sp!, {r3, lr}
-	bl ov11_02129830
+	bl _Z13ov11_02129830v
 	cmp r0, #0
 	bne _0212C214
 	bl ov11_0212C154
@@ -6214,7 +2858,7 @@ ov11_0212C1EC: ; 0x0212C1EC
 	bl ov11_0212BB6C
 	arm_func_end ov11_0212C1EC
 _0212C214:
-	bl ov11_02129858
+	bl _Z13ov11_02129858v
 	ldmia sp!, {r3, pc}
 
 	arm_func_start ov11_0212C21C
@@ -7441,14 +4085,14 @@ _0212D130:
 	cmp r0, #0
 	beq _0212D218
 	add r0, r5, #4
-	bl ov11_021298A0
+	bl _Z13ov11_021298A0PKv
 	mov r0, r5
 	mov r1, r4
 	bl ov11_0212D880
 	cmp r0, #0
 	ble _0212D218
 	mov r0, #1
-	bl ov11_02128A30
+	bl _Z13ov11_02128A30t
 	str r0, [r5, #0x3b8]
 	ldr r0, [r5]
 	mov r1, #7
@@ -7511,7 +4155,7 @@ _0212D240:
 	cmp r0, #0
 	beq _0212D35C
 	add r0, r5, #4
-	bl ov11_021298A0
+	bl _Z13ov11_021298A0PKv
 	mov r0, r5
 	mov r1, r4
 	bl ov11_0212D880
@@ -7533,7 +4177,7 @@ _0212D2A8:
 	cmp r0, #0x12
 	bne _0212D348
 	mov r0, #1
-	bl ov11_02128A30
+	bl _Z13ov11_02128A30t
 	str r0, [r5, #0x3b8]
 	ldr r0, [r5]
 	mov r1, #7
@@ -7588,7 +4232,7 @@ _0212D370:
 	cmp r0, #0
 	beq _0212D4C4
 	add r0, r5, #4
-	bl ov11_021298A0
+	bl _Z13ov11_021298A0PKv
 	mov r0, r5
 	mov r1, r4
 	bl ov11_0212D880
@@ -7601,7 +4245,7 @@ _0212D370:
 	cmp r0, #0xe
 	bne _0212D4B0
 	mov r0, #0xab
-	bl ov11_02129A54
+	bl _Z13ov11_02129A54h
 	add r0, r4, #0x1000
 	mov r1, #1
 	str r1, [r0, #0xabc]
@@ -7680,14 +4324,14 @@ _0212D4C4:
 	str r1, [r0, #0xac4]
 	b _0212D83C
 _0212D4D8:
-	bl ov11_02128B80
+	bl _Z13ov11_02128B80v
 	cmp r0, #0
 	bne _0212D83C
 	mov r0, #0
 	ldmia sp!, {r3, r4, r5, pc}
 _0212D4EC:
 	mov r0, #0xab
-	bl ov11_02129AC0
+	bl _Z13ov11_02129AC0h
 	cmp r0, #1
 	bne _0212D83C
 	ldr r0, [r5]
@@ -7722,7 +4366,7 @@ _0212D534:
 	add r0, r4, #0x2c8
 	add r0, r0, #0x1800
 	mov r1, #0x358
-	bl ov11_0212861C
+	bl _Z13ov11_0212861CPvh
 	ldr r0, [r5]
 	mov r1, #0xb
 	add r0, r0, #0x1000
@@ -7745,7 +4389,7 @@ _0212D59C:
 	cmp r0, #2
 	bne _0212D5E4
 	mov r0, #0x93
-	bl ov11_02129A54
+	bl _Z13ov11_02129A54h
 	ldr r0, [r5]
 	mov r1, #0xc
 	add r0, r0, #0x1000
@@ -7774,7 +4418,7 @@ _0212D600:
 	b _0212D83C
 _0212D630:
 	mov r0, #0x93
-	bl ov11_02129AC0
+	bl _Z13ov11_02129AC0h
 	cmp r0, #1
 	bne _0212D83C
 	ldr r0, [r5]
@@ -7829,7 +4473,7 @@ _0212D698:
 	mov r1, #0
 	sub r2, r1, #1
 	bl _ZN17UnkClass_0211E05C13ov11_0211FB08Eii
-	bl ov11_0212868C
+	bl _Z13ov11_0212868Cv
 	b _0212D83C
 _0212D710:
 	ldr r0, [r5, #0x3b4]
@@ -7850,7 +4494,7 @@ _0212D728:
 	bl _ZN17UnkClass_0211E05C13ov11_02122B7CEiiii
 	ldr r0, [r5, #0x3b4]
 	bl _ZN17UnkClass_0211E05C13ov11_02124520Ev
-	bl ov11_0212868C
+	bl _Z13ov11_0212868Cv
 	b _0212D83C
 _0212D75C:
 	mov r0, #0x14
@@ -7864,7 +4508,7 @@ _0212D75C:
 	bl _ZN17UnkClass_0211E05C13ov11_02122B7CEiiii
 	ldr r0, [r5, #0x3b4]
 	bl _ZN17UnkClass_0211E05C13ov11_02124520Ev
-	bl ov11_0212868C
+	bl _Z13ov11_0212868Cv
 	b _0212D83C
 _0212D790:
 	mov r0, #0x14
@@ -7878,7 +4522,7 @@ _0212D790:
 	bl _ZN17UnkClass_0211E05C13ov11_02122B7CEiiii
 	ldr r0, [r5, #0x3b4]
 	bl _ZN17UnkClass_0211E05C13ov11_02124520Ev
-	bl ov11_0212868C
+	bl _Z13ov11_0212868Cv
 	b _0212D83C
 _0212D7C4:
 	mov r0, #0x15
@@ -7892,7 +4536,7 @@ _0212D7C4:
 	bl _ZN17UnkClass_0211E05C13ov11_02122B7CEiiii
 	ldr r0, [r5, #0x3b4]
 	bl _ZN17UnkClass_0211E05C13ov11_02124520Ev
-	bl ov11_0212868C
+	bl _Z13ov11_0212868Cv
 	b _0212D83C
 _0212D7F8:
 	mov r0, #0x14
@@ -7905,7 +4549,7 @@ _0212D7F8:
 	bl _ZN17UnkClass_0211E05C13ov11_02122B7CEiiii
 	ldr r0, [r5, #0x3b4]
 	bl _ZN17UnkClass_0211E05C13ov11_02124520Ev
-	bl ov11_0212868C
+	bl _Z13ov11_0212868Cv
 	b _0212D83C
 _0212D828:
 	ldr r0, [r5, #0x3b4]
@@ -7931,7 +4575,7 @@ ov11_0212D854: ; 0x0212D854
 	bl ov11_0212CEE8
 	add r0, r4, #4
 	mov r1, #0xf
-	bl ov11_021285E0
+	bl _Z13ov11_021285E0ih
 	mov r0, #0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
@@ -7943,7 +4587,7 @@ ov11_0212D880: ; 0x0212D880
 	stmdb sp!, {r4, lr}
 	mov r0, #1
 	mov r4, #0
-	bl ov11_02128A30
+	bl _Z13ov11_02128A30t
 	cmp r0, #0
 	addne r4, r4, #1
 	mov r0, r4
@@ -10000,7 +6644,7 @@ _0212F4B4:
 _0212F4C0:
 	mov r0, #1
 	strb r0, [r4, #8]
-	bl ov11_02128FEC
+	bl _Z13ov11_02128FECv
 	b _0212F5B8
 _0212F4D0:
 	ldr r0, [r4, #4]
@@ -10061,7 +6705,7 @@ _0212F588:
 	cmpne r0, #5
 	cmpne r0, #6
 	bne _0212F5B8
-	bl ov11_02129040
+	bl _Z13ov11_02129040v
 	mov r0, #0x1a
 	strb r0, [r4, #8]
 	b _0212F5B8
@@ -13650,35 +10294,35 @@ ptr_FUN_overlay_11_0212c1ec_overlay_11_021629cc: ; 0x021629CC
 
     .global ptr_FUN_overlay_11_021288bc_overlay_11_021629d8
 ptr_FUN_overlay_11_021288bc_overlay_11_021629d8: ; 0x021629D8
-	.word ov11_021288BC
-	.word ov11_021287EC
+	.word _Z13ov11_021288BCiiP7D3Entry
+	.word _Z13ov11_021287ECv
 	.byte 0x00, 0x00, 0x00, 0x00
 
     .global ptr_FUN_overlay_11_02128810_overlay_11_021629e4
 ptr_FUN_overlay_11_02128810_overlay_11_021629e4: ; 0x021629E4
-	.word ov11_02128810
-	.word ov11_021287EC
+	.word _Z13ov11_02128810iiP7D3Entry
+	.word _Z13ov11_021287ECv
 	.byte 0x00, 0x00, 0x00, 0x00
-	.word ov11_021287F4
+	.word _Z13ov11_021287F4v
 	.word ov11_0212CCF0
 	.byte 0x00, 0x00, 0x00, 0x00
 
     .global ptr_FUN_overlay_11_02128cc8_overlay_11_021629fc
 ptr_FUN_overlay_11_02128cc8_overlay_11_021629fc: ; 0x021629FC
-	.word ov11_02128CC8
+	.word _Z13ov11_02128CC8hiPh
 
     .global ptr_FUN_overlay_3_02128e30_overlay_11_02162a00
 ptr_FUN_overlay_3_02128e30_overlay_11_02162a00: ; 0x02162A00
-	.word ov11_02128E30
+	.word _Z13ov11_02128E30v
 	.byte 0x00, 0x00, 0x00, 0x00
 
     .global ptr_FUN_overlay_11_02128d64_overlay_11_02162a08
 ptr_FUN_overlay_11_02128d64_overlay_11_02162a08: ; 0x02162A08
-	.word ov11_02128D64
+	.word _Z13ov11_02128D64iiPh
 
     .global ptr_FUN_overlay_3_02128e30_overlay_11_02162a0c
 ptr_FUN_overlay_3_02128e30_overlay_11_02162a0c: ; 0x02162A0C
-	.word ov11_02128E30
+	.word _Z13ov11_02128E30v
 	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 
@@ -13720,31 +10364,31 @@ ptr_FUN_overlay_11_0212cdc4_overlay_11_02162a68: ; 0x02162A68
 
     .global ptr_FUN_overlay_11_02129970_overlay_11_02162a74
 ptr_FUN_overlay_11_02129970_overlay_11_02162a74: ; 0x02162A74
-	.word ov11_02129970
+	.word _Z13ov11_02129970hiPh
 	.word ov11_0212CCF8
 	.byte 0x00, 0x00, 0x00, 0x00
-	.word ov11_02129A3C
+	.word _Z13ov11_02129A3CiiPKh
 	.word ov11_0212CCF8
 	.byte 0x00, 0x00, 0x00, 0x00
-	.word ov11_02129A1C
+	.word _Z13ov11_02129A1CiiPKh
 	.word ov11_0212CD00
 	.byte 0x00, 0x00, 0x00, 0x00
-	.word ov11_02129AEC
-	.word ov11_02129B14
+	.word _Z13ov11_02129AECiiPKh
+	.word _Z13ov11_02129B14v
 	.byte 0x00, 0x00, 0x00, 0x00
 
     .global ptr_FUN_overlay_11_02129b1c_overlay_11_02162aa4
 ptr_FUN_overlay_11_02129b1c_overlay_11_02162aa4: ; 0x02162AA4
-	.word ov11_02129B1C
-	.word ov11_02129B58
+	.word _Z13ov11_02129B1CiiPKv
+	.word _Z13ov11_02129B58v
 	.byte 0x00, 0x00, 0x00, 0x00
 
     .global PTR_LAB_overlay_11_02128634_overlay_11_02162ab0
 PTR_LAB_overlay_11_02128634_overlay_11_02162ab0: ; 0x02162AB0
-	.word ov11_02128634
-	.word ov11_02128654
-	.word ov11_0212865C
-	.word ov11_02128670
+	.word _Z13ov11_02128634h
+	.word _Z13ov11_02128654v
+	.word _Z13ov11_0212865Cv
+	.word _Z13ov11_02128670i
 	.word ov11_0212CCF0
 	.byte 0x00, 0x00, 0x00, 0x00
 
@@ -13799,44 +10443,6 @@ DAT_overlay_11_02162b14: ; 0x02162B14
     .section .sinit,4 ; 0x021660AC
 
     .data
-
-    .global s_DP_overlay_11_02166460
-s_DP_overlay_11_02166460: ; 0x02166460
-	.asciz "DP"
-
-    .global DAT_overlay_11_02166463
-DAT_overlay_11_02166463:
-	.byte 0x00
-
-    .global DAT_overlay_11_02166464
-DAT_overlay_11_02166464: ; 0x02166464
-	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00
-	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-	.byte 0x00, 0x00, 0x00, 0x00
-
-    .global s_FREAK_overlay_11_02166484
-s_FREAK_overlay_11_02166484: ; 0x02166484
-	.asciz "FREAK"
-
-    .global DAT_overlay_11_0216648A
-DAT_overlay_11_0216648A:
-	.byte 0x00, 0x00
-
-    .global s_GAME_overlay_11_0216648c
-s_GAME_overlay_11_0216648c: ; 0x0216648C
-	.asciz " GAME"
-
-    .global DAT_overlay_11_02166492
-DAT_overlay_11_02166492:
-	.byte 0x00, 0x00
-
-    .global s_FULL_overlay_11_02166494
-s_FULL_overlay_11_02166494: ; 0x02166494
-	.asciz " FULL"
-
-    .global DAT_overlay_11_0216649A
-DAT_overlay_11_0216649A:
-	.byte 0x00, 0x00
 
     .global DAT_overlay_11_0216649c
 DAT_overlay_11_0216649c: ; 0x0216649C
@@ -14124,30 +10730,6 @@ s_copyright002_overlay_11_02166728: ; 0x02166728
 	.asciz "copyright002"
 
     .bss
-
-    .global OVERLAY11_BSS_02169C44
-OVERLAY11_BSS_02169C44: ; 0x02169C44
-    .space 0x8
-
-    .global OVERLAY11_BSS_02169C4C
-OVERLAY11_BSS_02169C4C: ; 0x02169C4C
-    .space 0x4
-
-    .global OVERLAY11_BSS_02169C50
-OVERLAY11_BSS_02169C50: ; 0x02169C50
-    .space 0x4
-
-    .global OVERLAY11_BSS_02169C54
-OVERLAY11_BSS_02169C54: ; 0x02169C54
-    .space 0x4
-
-    .global OVERLAY11_BSS_02169C58
-OVERLAY11_BSS_02169C58: ; 0x02169C58
-    .space 0xC
-
-    .global OVERLAY11_BSS_02169C64
-OVERLAY11_BSS_02169C64: ; 0x02169C64
-    .space 0x4
 
     .global OVERLAY11_BSS_02169C68
 OVERLAY11_BSS_02169C68: ; 0x02169C68

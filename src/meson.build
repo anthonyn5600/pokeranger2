@@ -283,4 +283,10 @@ pokeranger2_cxx = files(
     'RangerNetAgbCheck.cpp',
     'UnkClass_0211E05C.cpp',
     'RangerNetWireless.cpp',
+    'RangerNetWh.cpp',
+    'RangerNetConnect.cpp',
+    'RangerNetPlayerInfo.cpp',
+    'RangerNetSession.cpp',
+    'RangerNetWhUser.cpp',
+    'RangerNetShared.cpp',
     'debug.cpp', )
