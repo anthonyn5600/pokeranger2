@@ -271,6 +271,7 @@ pokeranger2_cxx = files(
     'CLetterScene.cpp',
     'CTitleScene.cpp',
     'COpeningDemoScene.cpp',
+    'COPDTitleScreen.cpp',
     'CTitleBG.cpp',
     'CContinueScene.cpp',
     'CConfScene.cpp',

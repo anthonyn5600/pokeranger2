@@ -3,7 +3,6 @@
 .public FX_InvSqrt
 .public FX_SinCosTable_
 .public G3X_SetClearColor
-.public G3X_SetToonTable
 .public G3_MultMtx33
 .public GX_BeginLoadTexPltt
 .public GX_EndLoadTexPltt
@@ -11,7 +10,6 @@
 .public MI_CpuFill8
 .public MTX_RotZ33_
 .public OS_GetTick
-.public _Z12sub_02007254ll
 .public _Z23Heap_AllocWithAlignmentmm
 .public _Z9Heap_FreePv
 .public _ZN10CPrimitiveC2Ev
@@ -27,6 +25,7 @@
 .public _ZN14CPrimitiveRECTD1Ev
 .public _ZN15CSoftwareSpriteC1Ev
 .public _ZN15CSoftwareSpriteD1Ev
+.public _ZN16CSimpleSpriteNTFC1Ev
 .public _ZN16CSimpleSpriteNTFD1Ev
 .public _ZN17UnkClass_0200878812sub_02008828Et
 .public _ZN17UnkClass_0200878812sub_020089ECEv
@@ -36,22 +35,17 @@
 .public _ZN17UnkClass_0200E0B412sub_0200E310Ev
 .public _ZN17UnkClass_0201AAE0C1EPKcS1_S1_S1_S1_S1_
 .public _ZN17UnkClass_0201AAE0D1Ev
-.public _ZN17UnkClass_0203447812sub_02034A40Eii
-.public _ZN17UnkClass_0203447812sub_02034B58Ei
 .public _ZN17UnkClass_0203447812sub_02034C44Ei
 .public _ZN17UnkClass_0203447812sub_02034C5CEi
-.public _ZN17UnkClass_0203447812sub_02034D54Eii
-.public _ZN17UnkClass_0203447812sub_02034DC8Ei
 .public _ZN17UnkClass_0203447812sub_02034E48Ei
 .public _ZN17UnkClass_0203447812sub_02034ED8Ei
 .public _ZN17UnkClass_02041D984BindE15GXTexPlttColor08GXTexGen
 .public _ZN23CSimplePrimitiveQuadNTFD1Ev
 .public _ZN5CGame11GetInstanceEv
+.public _ZTI10COPDScreen
 .public _ZTI10CPrimitive
 .public _ZTI14CPrimitiveLINE
 .public _ZTI14CPrimitiveQUAD
-.public _ZTV16CSimpleSpriteNTF
-.public _ZTV17CPrimitiveRectNTF
 .public _ZTV23CSimplePrimitiveQuadNTF
 .public _ZTVN10__cxxabiv117__class_type_infoE
 .public _ZTVN10__cxxabiv120__si_class_type_infoE

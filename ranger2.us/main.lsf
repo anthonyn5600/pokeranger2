@@ -350,7 +350,8 @@ Overlay overlay3
     Object main.nef.p/src_CConfScene.cpp.o
     Object main.nef.p/src_CNameInputScene.cpp.o
     Object main.nef.p/src_COpeningDemoScene.cpp.o
-    Object main.nef.p/asm_overlay_03_0212518C.s.o
+    Object main.nef.p/src_COPDTitleScreen.cpp.o
+    Object main.nef.p/asm_overlay_03_02126E9C.s.o
 }
 
 Overlay overlay4

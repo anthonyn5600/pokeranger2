@@ -57,6 +57,12 @@ public:
 
 class CSimplePrimitiveQuadNTF : public CPrimitive {
 public:
+    CSimplePrimitiveQuadNTF()
+    {
+        unk_18 = NULL;
+        unk_20 = 0;
+        unk_1C = 0;
+    }
     virtual u32 Render(Camera2D *camera);
 
 public:
@@ -66,8 +72,6 @@ public:
     Point2D m_vtx[4];
     Point2D m_tex[4];
 };
-
-
 
 STATIC_SIZE_ASSERT(UnkClass_02041D98, 0x28);
 STATIC_SIZE_ASSERT(CSimpleSpriteNTF, 0x5C);
