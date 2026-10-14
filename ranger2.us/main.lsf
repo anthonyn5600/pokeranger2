@@ -404,7 +404,9 @@ Overlay overlay11
     Object main.nef.p/src_CRangerNetAGBScene.cpp.o
     Object main.nef.p/src_RangerNetAgbCheck.cpp.o
     Object main.nef.p/src_UnkClass_0211E05C.cpp.o
-    Object main.nef.p/asm_overlay_11_02124F00.s.o
+    Object main.nef.p/asm_overlay_11_02169B40.s.o
+    Object main.nef.p/src_RangerNetWireless.cpp.o
+    Object main.nef.p/asm_overlay_11_021272F8.s.o
     Library libdwcac_ranger2.a
     Library libdwcauth_ranger2.a
     Library libdwcbm_ranger2.a
