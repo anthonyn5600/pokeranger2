@@ -393,7 +393,7 @@ Overlay overlay9
 Overlay overlay10
 {
     After main
-    Object main.nef.p/asm_overlay_10_0211C9E0.s.o
+    Object main.nef.p/src_CFieldToMenuScene.cpp.o
 }
 
 Overlay overlay11
@@ -467,7 +467,14 @@ Overlay overlay20
 Overlay overlay21
 {
     After main
-    Object main.nef.p/asm_overlay_21_0211C9E0.s.o
+    Object main.nef.p/src_CBrowserScene.cpp.o
+    Object main.nef.p/src_UnkClass_0211D330.cpp.o
+    Object main.nef.p/src_CBrowserMenuManager.cpp.o
+    Object main.nef.p/src_CBrowserMenuPokemon.cpp.o
+    Object main.nef.p/src_CBrowserMenuIcon.cpp.o
+    Object main.nef.p/src_CBrowserMenuType.cpp.o
+    Object main.nef.p/src_UnkClass_0212208C.cpp.o
+    Object main.nef.p/src_UnkClass_021226C0.cpp.o
 }
 
 Overlay overlay22
@@ -485,7 +492,7 @@ Overlay overlay23
 Overlay overlay24
 {
     After main
-    Object main.nef.p/asm_overlay_24_0211C9E0.s.o
+    Object main.nef.p/src_CRetryScene.cpp.o
 }
 
 Overlay overlay25
@@ -497,7 +504,7 @@ Overlay overlay25
 Overlay overlay26
 {
     After main
-    Object main.nef.p/asm_overlay_26_0211C9E0.s.o
+    Object main.nef.p/src_CSuitePictureScene.cpp.o
 }
 
 Overlay overlay27
@@ -515,5 +522,5 @@ Overlay overlay28
 Overlay overlay29
 {
     After main
-    Object main.nef.p/asm_overlay_29_0211C9E0.s.o
+    Object main.nef.p/src_CCardAccessErrorScene.cpp.o
 }
