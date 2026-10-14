@@ -264,8 +264,7 @@ struct TFieldParticleSystem {
             m_emitters = NULL;
             m_emitCounts = NULL;
         }
-        m_offset.y = 0;
-        m_offset.x = 0;
+        m_offset.x = m_offset.y = 0;
     }
 
     ~TFieldParticleSystem()

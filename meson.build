@@ -189,6 +189,29 @@ pokeranger2_crypto = static_library('pokeranger2_crypto',
     native: false
 )
 
+# Fake (linker): overlay 0 has its own copy of CSimpleSpriteNTF's inline ctor (the effects' sprite-array ctor,
+# ov0_02166794), but mwld keeps one copy of a weak function for the whole link and ov3's COPDTitleScreen emits it
+# first. The array also needs CSimpleSpriteNTF's real dtor, so a layout-twin class (as in ov7) can't stand in:
+# the ov0 objects that emit the ctor are renamed to the ov0 name after compiling instead (in place: objcopy would
+# turn every weak copy into a local symbol).
+pokeranger2_ov0_sprite = static_library('pokeranger2_ov0_sprite',
+    files('src/CFieldEffectBloom.cpp'),
+    cpp_args: pokeranger2_args,
+    cpp_pch: 'include/pch/global_pch.hpp',
+    include_directories: public_includes,
+    dependencies: [
+        nitrosdk_dep,
+        nitrosystem_dep,
+    ],
+    pic: false,
+    native: false
+)
+pokeranger2_ov0_sprite_objs = custom_target('ov0_sprite_objs',
+    input: pokeranger2_ov0_sprite.extract_all_objects(recursive: false),
+    output: ['src_CFieldEffectBloom.cpp.o'],
+    command: [elfrename_py, '@INPUT@', '@OUTPUT@', '_ZN16CSimpleSpriteNTFC1Ev=ov0_02166794'],
+)
+
 main = executable('main',
     sources: [
         pokeranger2_cxx,
@@ -213,9 +236,11 @@ main = executable('main',
     ],
     link_args: [
         link_args,
-        'ranger2.us/main.lcf'
+        'ranger2.us/main.lcf',
+        # Loaded after every other object, so its weak copies never win over the ones the other TUs provide.
+        pokeranger2_ov0_sprite_objs.full_path(),
     ],
-    link_depends: main_lcf,
+    link_depends: [main_lcf, pokeranger2_ov0_sprite_objs],
     native: false
 )
 
