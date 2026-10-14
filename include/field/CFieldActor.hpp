@@ -227,6 +227,14 @@ public:
         return 0;
     }
 
+    inline fx32 GetScale()
+    {
+        if (unk_0C != NULL) {
+            return unk_0C->unk_11C.value;
+        }
+        return FX32_ONE;
+    }
+
     inline int GetHeight()
     {
         if (unk_0C != NULL) {
@@ -681,6 +689,14 @@ public:
             return unk_08->GetHeight();
         }
         return 0;
+    }
+
+    inline fx32 GetScale()
+    {
+        if (unk_08 != NULL) {
+            return unk_08->GetScale();
+        }
+        return FX32_ONE;
     }
 
     inline void SetPosXY(fx32 x, fx32 y)

@@ -437,7 +437,7 @@ void CFieldScene::func6()
                 actor->SetPos(positions[i]);
                 actor->sub_020128EC_(directions[i]);
                 actor->sub_0201287C_();
-                ov0_02158F38(&static_cast<CFieldPartner *>(actor)->unk_EC);
+                static_cast<CFieldPartner *>(actor)->unk_EC.ov0_02158F38();
             }
         }
     }
