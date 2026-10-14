@@ -511,7 +511,7 @@ Overlay overlay22
 Overlay overlay23
 {
     After main
-    Object main.nef.p/asm_overlay_23_0211C9E0.s.o
+    Object main.nef.p/src_CRecordScene.cpp.o
 }
 
 Overlay overlay24
@@ -523,7 +523,7 @@ Overlay overlay24
 Overlay overlay25
 {
     After main
-    Object main.nef.p/asm_overlay_25_0211C9E0.s.o
+    Object main.nef.p/src_CStaffrollScene.cpp.o
 }
 
 Overlay overlay26
