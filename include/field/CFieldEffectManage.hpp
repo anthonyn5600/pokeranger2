@@ -36,9 +36,6 @@ public:
 
 class CFieldEffectAttackActorData : public CEffectActorData {
 public:
-    CFieldEffectAttackActorData()
-    {
-    }
     virtual void Update();
 
     // Loads data/effect/e<id>_LZ.bin: count entries a<first>, a<first + 1>...
