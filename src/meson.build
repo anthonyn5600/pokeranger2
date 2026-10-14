@@ -238,6 +238,7 @@ pokeranger2_cxx = files(
     'FieldData.cpp',
     'SimpleSpriteNTF.cpp',
     'CFieldEffectFireworks.cpp',
+    'CFieldEffectDarkShadow.cpp',
     'UnkClass_02042108.cpp',
     'CDownloadMissionStartScene.cpp',
     'CDownloadMissionEndScene.cpp',
