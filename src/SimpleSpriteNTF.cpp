@@ -13,23 +13,23 @@ u32 CSimpleSpriteNTF::Render(Camera2D *camera)
         return 0;
     }
 
-    SetRect(unk_3C, unk_40, unk_4C, unk_50);
+    SetRect(m_coords[0], m_coords[1], unk_4C, unk_50);
     BindTexture();
 
     u16 shift = camera->unk_28;
-    fx32 x = FX_Whole(unk_3C) << shift;
-    fx32 y = FX_Whole(unk_40) << shift;
+    fx32 x = FX_Whole(m_coords[0]) << shift;
+    fx32 y = FX_Whole(m_coords[1]) << shift;
 
     G3_RestoreMtx(0);
-    if (unk_54 != 0 || unk_44 != FX32_ONE || unk_48 != FX32_ONE) {
+    if (m_rotAngle != 0 || m_scale[0] != FX32_ONE || m_scale[1] != FX32_ONE) {
         G3_Translate(x, y, 0);
-        if (unk_54 != 0) {
+        if (m_rotAngle != 0) {
             MtxFx33 mtx;
-            MTX_RotZ33(&mtx, FX_SinIdx(unk_54), FX_CosIdx(unk_54));
+            MTX_RotZ33(&mtx, FX_SinIdx(m_rotAngle), FX_CosIdx(m_rotAngle));
             G3_MultMtx33(&mtx);
         }
-        if (unk_44 != FX32_ONE || unk_48 != FX32_ONE) {
-            G3_Scale(unk_44, unk_48, FX32_ONE);
+        if (m_scale[0] != FX32_ONE || m_scale[1] != FX32_ONE) {
+            G3_Scale(m_scale[0], m_scale[1], FX32_ONE);
         }
         G3_Translate(-x, -y, 0);
     }

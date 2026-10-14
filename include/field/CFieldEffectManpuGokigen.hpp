@@ -7,9 +7,10 @@
 #include "field/TFieldParticle.hpp"
 #include "primitive/CSoftwareSprite.hpp"
 
-// size 0xA0, ctor ov0_02165C34
+// size 0xA0
 class CFieldEffectManpuGokigen : public CFieldEffectManpu {
 public:
+    CFieldEffectManpuGokigen(CEffectActorData *data);
     class CEmitter : public TFieldParticleEmitter<CSoftwareSprite> {
     public:
         virtual ~CEmitter();
@@ -30,6 +31,10 @@ public:
     virtual void SetType(int type);
     virtual int Draw(Camera2D *camera);
     virtual void SetDepth(fx32 z);
+
+    u8 unk_2C[0x74];
 };
+
+STATIC_SIZE_ASSERT(CFieldEffectManpuGokigen, 0xA0);
 
 #endif // POKERANGER2_FIELD_CFIELDEFFECTMANPUGOKIGEN_HPP

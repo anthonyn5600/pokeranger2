@@ -13,6 +13,10 @@ public:
     {
         unk_18 = NULL;
     }
+    CFieldEffectActor(CEffectActorData *data)
+    {
+        unk_18 = data;
+    }
     virtual ~CFieldEffectActor()
     {
     }

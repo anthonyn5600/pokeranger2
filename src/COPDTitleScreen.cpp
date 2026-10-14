@@ -67,8 +67,8 @@ void COPDTitleScreen::Start(COPDTexture *textures)
             m_sprites[i].unk_18 = &textures[def->tex];
         }
         m_sprites[i].SetTexCoords(def->s1, def->t1, def->s2, def->t2);
-        m_sprites[i].unk_3C = def->x;
-        m_sprites[i].unk_40 = def->y;
+        m_sprites[i].m_coords[0] = def->x;
+        m_sprites[i].m_coords[1] = def->y;
         m_sprites[i].unk_4C = def->width;
         m_sprites[i].unk_50 = def->height;
         m_sprites[i].m_z = def->z;
@@ -303,8 +303,8 @@ void COPDTitleScreen::CSparkAnimator::Apply(TFieldParticle<CSimpleSpriteNTF> *p,
     BOOL out;
     fx32 sx = FX32_MUL(dist, 0x41) + FX32_ONE;
     fx32 sy = FX32_MUL(dist, 0x10) + FX32_ONE;
-    p->sprite.unk_44 = sx;
-    p->sprite.unk_48 = sy;
+    p->sprite.m_scale[0] = sx;
+    p->sprite.m_scale[1] = sy;
     fx32 half = FX32_MUL(sy, p->sprite.unk_50 >> 1);
     out = FALSE;
     if (p->vel.x < 0) {
@@ -360,16 +360,16 @@ void COPDTitleScreen::CStarEmitter::Emit(TFieldParticle<CSimpleSpriteNTF> *p)
     p->sprite.SetTexCoords(0, 0, 0x20000, 0x20000);
     p->sprite.unk_4C = 0x20000;
     p->sprite.unk_50 = 0x20000;
-    p->sprite.unk_44 = 0x800;
-    p->sprite.unk_48 = 0x800;
+    p->sprite.m_scale[0] = 0x800;
+    p->sprite.m_scale[1] = 0x800;
 }
 
 void COPDTitleScreen::CStarAnimator::Apply(TFieldParticle<CSimpleSpriteNTF> *p, int dt)
 {
     fx32 dist = sub_02007254(p->pos.x, p->pos.y + 0x60000) - 0x32000;
     fx32 scale = FX32_MUL(dist, 0x18) + 0x800;
-    p->sprite.unk_44 = scale;
-    p->sprite.unk_48 = scale;
+    p->sprite.m_scale[0] = scale;
+    p->sprite.m_scale[1] = scale;
     fx32 half = p->sprite.unk_50 >> 1;
     BOOL out = FALSE;
     if (p->vel.x < 0) {

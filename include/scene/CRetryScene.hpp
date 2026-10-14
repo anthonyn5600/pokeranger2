@@ -1,6 +1,7 @@
 #ifndef POKERANGER2_SCENE_CRETRYSCENE_HPP
 #define POKERANGER2_SCENE_CRETRYSCENE_HPP
 
+#include "UnkClass_02027FE8.hpp"
 #include "common.hpp"
 #include "scene/CScene.hpp"
 
@@ -19,7 +20,10 @@ public:
     virtual u32 getSceneId();
 
 public:
-    u8 unk_0004[0x10];
+    u32 unk_0004;
+    u32 unk_0008;
+    u32 unk_000C;
+    UnkClass_02027FE8 *unk_0010;
 };
 
 STATIC_SIZE_ASSERT(CRetryScene, 0x14);

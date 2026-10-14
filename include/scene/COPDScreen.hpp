@@ -140,9 +140,9 @@ struct TOPDParticleSystem {
             if (m_depth < 0) {
                 p->sprite.m_z = m_depth;
             }
-            p->sprite.unk_3C = p->pos.x + m_offset.x;
-            p->sprite.unk_40 = p->pos.y + m_offset.y;
-            p->sprite.unk_54 = p->rot;
+            p->sprite.m_coords[0] = p->pos.x + m_offset.x;
+            p->sprite.m_coords[1] = p->pos.y + m_offset.y;
+            p->sprite.m_rotAngle = p->rot;
             p->sprite.Render(camera);
         }
     }

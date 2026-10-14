@@ -7,6 +7,8 @@
 #include "field/CFieldEffectActor.hpp"
 #include "field/CFieldEffectFactory.hpp"
 
+class CFieldActor;
+
 class CFieldEffectSlime : public CFieldEffectActor {
 public:
     virtual ~CFieldEffectSlime();
@@ -19,6 +21,15 @@ public:
     virtual int sub_0203312C(int param, int value);
     virtual int ov0_02142390(void *buf, void *end);
     virtual BOOL ov0_02142388(const void *data);
+
+    void ov0_021633B8();
+    void ov0_021633CC();
+
+public:
+    u8 unk_1C[0x1D0];
+    CFieldActor *unk_1EC;
+    u8 unk_1F0[0xC];
+    u16 unk_1FC;
 };
 
 class CFieldEffectSlimeFactory : public CFieldEffectFactory {

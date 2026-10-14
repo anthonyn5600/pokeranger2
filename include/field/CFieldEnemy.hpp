@@ -75,7 +75,6 @@ public:
     int unk_160;
     int unk_164;
     CFieldPokeMove unk_168;
-    u8 unk_240[0x4];
     int unk_244;
     u8 unk_248[0x8];
     int unk_250;

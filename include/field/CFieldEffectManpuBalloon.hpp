@@ -5,12 +5,21 @@
 
 #include "field/CFieldEffectManpu.hpp"
 
+// Balloon that pops up, sways and shrinks away (factory kinds 0x24, 0x25).
 class CFieldEffectManpuBalloon : public CFieldEffectManpuSimple {
 public:
+    CFieldEffectManpuBalloon(CEffectActorData *data)
+        : CFieldEffectManpuSimple(data)
+    {
+        m_frames = 0;
+        unk_28 = 0;
+    }
     virtual ~CFieldEffectManpuBalloon();
     virtual int ov0_02142264(int step);
     virtual void SetType(int type);
     virtual int Draw(Camera2D *camera);
+
+    int m_frames;
 };
 
 #endif // POKERANGER2_FIELD_CFIELDEFFECTMANPUBALLOON_HPP
