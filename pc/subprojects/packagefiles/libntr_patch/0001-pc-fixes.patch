@@ -1,3 +1,525 @@
+diff --git a/include/nitro/gx/g2.h b/include/nitro/gx/g2.h
+index 65bdc0f..e7c963b 100644
+--- a/include/nitro/gx/g2.h
++++ b/include/nitro/gx/g2.h
+@@ -181,7 +181,12 @@ static inline void G2_SetWnd0InsidePlane (int wnd, BOOL effect)
+ static inline GXWndPlane G2_GetWnd0InsidePlane (void)
+ {
+ 	#if(defined(SDK_PORT) && defined(__cplusplus))
++	// C++ cannot copy the struct from a volatile register: copy its bytes
+ 	GXWndPlane a;
++	const volatile u8 *src = (const volatile u8 *)(REG_WININ_ADDR);
++	for (unsigned i = 0; i < sizeof(a); i++) {
++	    ((u8 *)&a)[i] = src[i];
++	}
+ 	return a;
+ 	#else
+ 	return *(volatile GXWndPlane *)(REG_WININ_ADDR);
+@@ -205,10 +210,15 @@ static inline void G2_SetWnd1InsidePlane (int wnd, BOOL effect)
+ static inline GXWndPlane G2_GetWnd1InsidePlane (void)
+ {
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes (upper byte of the register)
+     GXWndPlane a;
++    const volatile u8 *src = (const volatile u8 *)(REG_WININ_ADDR) + 1;
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+-	return *(volatile GXWndPlane *)(REG_WININ_ADDR + 1);
++	return *(volatile GXWndPlane *)((volatile u8 *)(REG_WININ_ADDR) + 1);
+     #endif
+ }
+ 
+@@ -229,7 +239,12 @@ static inline void G2_SetWndOutsidePlane (int wnd, BOOL effect)
+ static inline GXWndPlane G2_GetWndOutsidePlane (void)
+ {
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes
+     GXWndPlane a;
++    const volatile u8 *src = (const volatile u8 *)(REG_WINOUT_ADDR);
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+ 	return *(volatile GXWndPlane *)(REG_WINOUT_ADDR);
+@@ -254,10 +269,15 @@ static inline void G2_SetWndOBJInsidePlane (int wnd, BOOL effect)
+ static inline GXWndPlane G2_GetWndOBJInsidePlane (void)
+ {
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes (upper byte of the register)
+     GXWndPlane a;
++    const volatile u8 *src = (const volatile u8 *)(REG_WINOUT_ADDR) + 1;
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+-	return *(volatile GXWndPlane *)(REG_WINOUT_ADDR + 1);
++	return *(volatile GXWndPlane *)((volatile u8 *)(REG_WINOUT_ADDR) + 1);
+     #endif
+ }
+ 
+@@ -438,7 +458,12 @@ static inline void G2S_SetWnd0InsidePlane (int wnd, BOOL effect)
+ static inline GXWndPlane G2S_GetWnd0InsidePlane (void)
+ {
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes
+     GXWndPlane a;
++    const volatile u8 *src = (const volatile u8 *)(REG_DB_WININ_ADDR);
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+ 	return *(volatile GXWndPlane *)(REG_DB_WININ_ADDR);
+@@ -463,10 +488,15 @@ static inline void G2S_SetWnd1InsidePlane (int wnd, BOOL effect)
+ static inline GXWndPlane G2S_GetWnd1InsidePlane (void)
+ {
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes (upper byte of the register)
+     GXWndPlane a;
++    const volatile u8 *src = (const volatile u8 *)(REG_DB_WININ_ADDR) + 1;
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+-	return *(volatile GXWndPlane *)(REG_DB_WININ_ADDR + 1);
++	return *(volatile GXWndPlane *)((volatile u8 *)(REG_DB_WININ_ADDR) + 1);
+     #endif
+ }
+ 
+@@ -488,7 +518,12 @@ static inline void G2S_SetWndOutsidePlane (int wnd, BOOL effect)
+ static inline GXWndPlane G2S_GetWndOutsidePlane (void)
+ {
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes
+     GXWndPlane a;
++    const volatile u8 *src = (const volatile u8 *)(REG_DB_WINOUT_ADDR);
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+ 	return *(volatile GXWndPlane *)(REG_DB_WINOUT_ADDR);
+@@ -513,10 +548,15 @@ static inline void G2S_SetWndOBJInsidePlane (int wnd, BOOL effect)
+ static inline GXWndPlane G2S_GetWndOBJInsidePlane (void)
+ {
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes (upper byte of the register)
+     GXWndPlane a;
++    const volatile u8 *src = (const volatile u8 *)(REG_DB_WINOUT_ADDR) + 1;
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+-	return *(volatile GXWndPlane *)(REG_DB_WINOUT_ADDR + 1);
++	return *(volatile GXWndPlane *)((volatile u8 *)(REG_DB_WINOUT_ADDR) + 1);
+     #endif
+ }
+ 
+diff --git a/include/nitro/gx/gx.h b/include/nitro/gx/gx.h
+index 79efa3b..91b2f3a 100644
+--- a/include/nitro/gx/gx.h
++++ b/include/nitro/gx/gx.h
+@@ -296,7 +296,12 @@ int GXx_GetMasterBrightness_(vu16 * reg);
+ static inline GXDispCnt GX_GetDispCnt (void)
+ {
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes
+     GXDispCnt a;
++    const volatile u8 *src = (const volatile u8 *)(REG_DISPCNT_ADDR);
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+ 	return *(volatile GXDispCnt *)REG_DISPCNT_ADDR;
+@@ -306,7 +311,12 @@ static inline GXDispCnt GX_GetDispCnt (void)
+ static inline GXSDispCnt GXS_GetDispCnt (void)
+ {
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes
+     GXSDispCnt a;
++    const volatile u8 *src = (const volatile u8 *)(REG_DB_DISPCNT_ADDR);
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+ 	return *(volatile GXSDispCnt *)REG_DB_DISPCNT_ADDR;
+diff --git a/include/nitro/gx/gx_bgcnt.h b/include/nitro/gx/gx_bgcnt.h
+index 93f3b66..7a04d41 100644
+--- a/include/nitro/gx/gx_bgcnt.h
++++ b/include/nitro/gx/gx_bgcnt.h
+@@ -521,7 +521,12 @@ static inline void G2_SetBG0Control (GXBGScrSizeText screenSize,
+ static inline GXBg01Control G2_GetBG0Control (void)
+ {
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes
+     GXBg01Control a;
++    const volatile u8 *src = (const volatile u8 *)(REG_BG0CNT_ADDR);
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+ 	GX_BG0_2D_CHECK_WARNING;
+@@ -553,7 +558,12 @@ static inline void G2S_SetBG0Control (GXBGScrSizeText screenSize,
+ static inline GXBg01Control G2S_GetBG0Control (void)
+ {
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes
+     GXBg01Control a;
++    const volatile u8 *src = (const volatile u8 *)(REG_DB_BG0CNT_ADDR);
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+ 	return *(volatile GXBg01Control *)REG_DB_BG0CNT_ADDR;
+@@ -613,7 +623,12 @@ static inline void G2S_SetBG1Control (GXBGScrSizeText screenSize,
+ static inline GXBg01Control G2S_GetBG1Control (void)
+ {
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes
+     GXBg01Control a;
++    const volatile u8 *src = (const volatile u8 *)(REG_DB_BG1CNT_ADDR);
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+ 	return *(volatile GXBg01Control *)REG_DB_BG1CNT_ADDR;
+@@ -660,7 +675,12 @@ static inline GXBg23ControlText G2_GetBG2ControlText (void)
+ {
+ 	GX_BGMODE_WARNING3(G2_GetBG2ControlText, 0, 1, 3);
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes
+     GXBg23ControlText a;
++    const volatile u8 *src = (const volatile u8 *)(REG_BG2CNT_ADDR);
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+ 	return *(volatile GXBg23ControlText *)REG_BG2CNT_ADDR;
+@@ -690,7 +710,12 @@ static inline GXBg23ControlText G2S_GetBG2ControlText (void)
+ {
+ 	GXS_BGMODE_WARNING3(G2S_GetBG2ControlText, 0, 1, 3);
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes
+     GXBg23ControlText a;
++    const volatile u8 *src = (const volatile u8 *)(REG_DB_BG2CNT_ADDR);
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+ 	return *(volatile GXBg23ControlText *)REG_DB_BG2CNT_ADDR;
+@@ -719,7 +744,12 @@ static inline GXBg23ControlAffine G2_GetBG2ControlAffine (void)
+ {
+ 	GX_BGMODE_WARNING2(G2_GetBG2ControlAffine, 2, 4);
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes
+     GXBg23ControlAffine a;
++    const volatile u8 *src = (const volatile u8 *)(REG_BG2CNT_ADDR);
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+ 	return *(volatile GXBg23ControlAffine *)REG_BG2CNT_ADDR;
+@@ -749,7 +779,12 @@ static inline GXBg23ControlAffine G2S_GetBG2ControlAffine (void)
+ {
+ 	GXS_BGMODE_WARNING2(G2S_GetBG2ControlAffine, 2, 4);
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes
+     GXBg23ControlAffine a;
++    const volatile u8 *src = (const volatile u8 *)(REG_DB_BG2CNT_ADDR);
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+ 	return *(volatile GXBg23ControlAffine *)REG_DB_BG2CNT_ADDR;
+@@ -779,7 +814,12 @@ static inline GXBg23Control256x16Pltt G2_GetBG2Control256x16Pltt (void)
+ {
+ 	GX_BGMODE_WARNING1(G2_GetBG2Control256x16Pltt, 5);
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes
+     GXBg23Control256x16Pltt a;
++    const volatile u8 *src = (const volatile u8 *)(REG_BG2CNT_ADDR);
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+ 	return *(volatile GXBg23Control256x16Pltt *)REG_BG2CNT_ADDR;
+@@ -790,7 +830,12 @@ static inline GXBg23Control256x16Affine G2_GetBG2Control256x16Affine (void)
+ {
+ 	GX_BGMODE_WARNING1(G2_GetBG2Control256x16Affine, 5);
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes
+     GXBg23Control256x16Affine a;
++    const volatile u8 *src = (const volatile u8 *)(REG_BG2CNT_ADDR);
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+ 	return *(volatile GXBg23Control256x16Affine *)REG_BG2CNT_ADDR;
+@@ -820,7 +865,12 @@ static inline GXBg23Control256x16Pltt G2S_GetBG2Control256x16Pltt (void)
+ {
+ 	GXS_BGMODE_WARNING1(G2S_GetBG2Control256x16Pltt, 5);
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes
+     GXBg23Control256x16Pltt a;
++    const volatile u8 *src = (const volatile u8 *)(REG_DB_BG2CNT_ADDR);
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+ 	return *(volatile GXBg23Control256x16Pltt *)REG_DB_BG2CNT_ADDR;
+@@ -831,7 +881,12 @@ static inline GXBg23Control256x16Affine G2S_GetBG2Control256x16Affine (void)
+ {
+ 	GXS_BGMODE_WARNING1(G2S_GetBG2Control256x16Affine, 5);
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes
+     GXBg23Control256x16Affine a;
++    const volatile u8 *src = (const volatile u8 *)(REG_DB_BG2CNT_ADDR);
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+ 	return *(volatile GXBg23Control256x16Affine *)REG_DB_BG2CNT_ADDR;
+@@ -858,7 +913,12 @@ static inline GXBg23Control256Bmp G2_GetBG2Control256Bmp (void)
+ {
+ 	GX_BGMODE_WARNING1(G2_GetBG2Control256Bmp, 5);
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes
+     GXBg23Control256Bmp a;
++    const volatile u8 *src = (const volatile u8 *)(REG_BG2CNT_ADDR);
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+ 	return *(volatile GXBg23Control256Bmp *)REG_BG2CNT_ADDR;
+@@ -887,7 +947,12 @@ static inline GXBg23Control256Bmp G2S_GetBG2Control256Bmp (void)
+ {
+ 	GXS_BGMODE_WARNING1(G2S_GetBG2Control256Bmp, 5);
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes
+     GXBg23Control256Bmp a;
++    const volatile u8 *src = (const volatile u8 *)(REG_DB_BG2CNT_ADDR);
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+ 	return *(volatile GXBg23Control256Bmp *)REG_DB_BG2CNT_ADDR;
+@@ -914,7 +979,12 @@ static inline GXBg23ControlDCBmp G2_GetBG2ControlDCBmp (void)
+ {
+ 	GX_BGMODE_WARNING1(G2_SetBG2ControlDCBmp, 5);
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes
+     GXBg23ControlDCBmp a;
++    const volatile u8 *src = (const volatile u8 *)(REG_BG2CNT_ADDR);
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+ 	return *(volatile GXBg23ControlDCBmp *)REG_BG2CNT_ADDR;
+@@ -945,7 +1015,12 @@ static inline GXBg23ControlDCBmp G2S_GetBG2ControlDCBmp (void)
+ {
+ 	GXS_BGMODE_WARNING1(G2S_GetBG2ControlDCBmp, 5);
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes
+     GXBg23ControlDCBmp a;
++    const volatile u8 *src = (const volatile u8 *)(REG_DB_BG2CNT_ADDR);
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+ 	return *(volatile GXBg23ControlDCBmp *)REG_DB_BG2CNT_ADDR;
+@@ -968,7 +1043,12 @@ static inline GXBg2ControlLargeBmp G2_GetBG2ControlLargeBmp (void)
+ {
+ 	GX_BGMODE_WARNING1(G2_GetBG2ControlLargeBmp, 6);
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes
+     GXBg2ControlLargeBmp a;
++    const volatile u8 *src = (const volatile u8 *)(REG_BG2CNT_ADDR);
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+ 	return *(volatile GXBg2ControlLargeBmp *)REG_BG2CNT_ADDR;
+@@ -1014,7 +1094,12 @@ static inline void G2_SetBG3ControlText (GXBGScrSizeText screenSize,
+ static inline GXBg23ControlText G2_GetBG3ControlText (void)
+ {
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes
+     GXBg23ControlText a;
++    const volatile u8 *src = (const volatile u8 *)(REG_BG3CNT_ADDR);
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+ 	return *(volatile GXBg23ControlText *)REG_BG3CNT_ADDR;
+@@ -1043,7 +1128,12 @@ static inline void G2S_SetBG3ControlText (GXBGScrSizeText screenSize,
+ static inline GXBg23ControlText G2S_GetBG3ControlText (void)
+ {
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes
+     GXBg23ControlText a;
++    const volatile u8 *src = (const volatile u8 *)(REG_DB_BG3CNT_ADDR);
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+ 	return *(volatile GXBg23ControlText *)REG_DB_BG3CNT_ADDR;
+@@ -1071,7 +1161,12 @@ static inline void G2_SetBG3ControlAffine (GXBGScrSizeAffine screenSize,
+ static inline GXBg23ControlAffine G2_GetBG3ControlAffine (void)
+ {
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes
+     GXBg23ControlAffine a;
++    const volatile u8 *src = (const volatile u8 *)(REG_BG3CNT_ADDR);
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+ 	return *(volatile GXBg23ControlAffine *)REG_BG3CNT_ADDR;
+@@ -1100,7 +1195,12 @@ static inline void G2S_SetBG3ControlAffine (GXBGScrSizeAffine screenSize,
+ static inline GXBg23ControlAffine G2S_GetBG3ControlAffine (void)
+ {
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes
+     GXBg23ControlAffine a;
++    const volatile u8 *src = (const volatile u8 *)(REG_DB_BG3CNT_ADDR);
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+ 	return *(volatile GXBg23ControlAffine *)REG_DB_BG3CNT_ADDR;
+@@ -1129,7 +1229,12 @@ static inline void G2_SetBG3Control256x16Affine (GXBGScrSize256x16Pltt screenSiz
+ static inline GXBg23Control256x16Pltt G2_GetBG3Control256x16Pltt (void)
+ {
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes
+     GXBg23Control256x16Pltt a;
++    const volatile u8 *src = (const volatile u8 *)(REG_BG3CNT_ADDR);
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+ 	return *(volatile GXBg23Control256x16Pltt *)REG_BG3CNT_ADDR;
+@@ -1139,7 +1244,12 @@ static inline GXBg23Control256x16Pltt G2_GetBG3Control256x16Pltt (void)
+ static inline GXBg23Control256x16Affine G2_GetBG3Control256x16Affine (void)
+ {
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes
+     GXBg23Control256x16Affine a;
++    const volatile u8 *src = (const volatile u8 *)(REG_BG3CNT_ADDR);
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+ 	return *(volatile GXBg23Control256x16Affine *)REG_BG3CNT_ADDR;
+@@ -1168,7 +1278,12 @@ static inline void G2S_SetBG3Control256x16Affine (GXBGScrSize256x16Pltt screenSi
+ static inline GXBg23Control256x16Pltt G2S_GetBG3Control256x16Pltt (void)
+ {
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes
+     GXBg23Control256x16Pltt a;
++    const volatile u8 *src = (const volatile u8 *)(REG_DB_BG3CNT_ADDR);
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+ 	return *(volatile GXBg23Control256x16Pltt *)REG_DB_BG3CNT_ADDR;
+@@ -1178,7 +1293,12 @@ static inline GXBg23Control256x16Pltt G2S_GetBG3Control256x16Pltt (void)
+ static inline GXBg23Control256x16Affine G2S_GetBG3Control256x16Affine (void)
+ {
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes
+     GXBg23Control256x16Affine a;
++    const volatile u8 *src = (const volatile u8 *)(REG_DB_BG3CNT_ADDR);
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+ 	return *(volatile GXBg23Control256x16Affine *)REG_DB_BG3CNT_ADDR;
+@@ -1204,7 +1324,12 @@ static inline void G2_SetBG3Control256Bmp (GXBGScrSize256Bmp screenSize,
+ static inline GXBg23Control256Bmp G2_GetBG3Control256Bmp (void)
+ {
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes
+     GXBg23Control256Bmp a;
++    const volatile u8 *src = (const volatile u8 *)(REG_BG3CNT_ADDR);
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+ 	return *(volatile GXBg23Control256Bmp *)REG_BG3CNT_ADDR;
+@@ -1232,7 +1357,12 @@ static inline void G2S_SetBG3Control256Bmp (GXBGScrSize256Bmp screenSize,
+ static inline GXBg23Control256Bmp G2S_GetBG3Control256Bmp (void)
+ {
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes
+     GXBg23Control256Bmp a;
++    const volatile u8 *src = (const volatile u8 *)(REG_DB_BG3CNT_ADDR);
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+ 	return *(volatile GXBg23Control256Bmp *)REG_DB_BG3CNT_ADDR;
+@@ -1258,7 +1388,12 @@ static inline void G2_SetBG3ControlDCBmp (GXBGScrSizeDcBmp screenSize,
+ static inline GXBg23ControlDCBmp G2_GetBG3ControlDCBmp (void)
+ {
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes
+     GXBg23ControlDCBmp a;
++    const volatile u8 *src = (const volatile u8 *)(REG_BG3CNT_ADDR);
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+ 	return *(volatile GXBg23ControlDCBmp *)REG_BG3CNT_ADDR;
+@@ -1284,7 +1419,12 @@ static inline void G2S_SetBG3ControlDCBmp (GXBGScrSizeDcBmp screenSize,
+ static inline GXBg23ControlDCBmp G2S_GetBG3ControlDCBmp (void)
+ {
+     #if(defined(SDK_PORT) && defined(__cplusplus))
++    // C++ cannot copy the struct from a volatile register: copy its bytes
+     GXBg23ControlDCBmp a;
++    const volatile u8 *src = (const volatile u8 *)(REG_DB_BG3CNT_ADDR);
++    for (unsigned i = 0; i < sizeof(a); i++) {
++        ((u8 *)&a)[i] = src[i];
++    }
+     return a;
+     #else
+ 	return *(volatile GXBg23ControlDCBmp *)REG_DB_BG3CNT_ADDR;
 diff --git a/libraries/fs/src/fs_file.c b/libraries/fs/src/fs_file.c
 index b5b6523..8bca63d 100644
 --- a/libraries/fs/src/fs_file.c
@@ -108,6 +630,46 @@ index b8cf1f4..7419675 100644
  	reg_G3X_GXFIFO = (u32)trans->z;
 +    #endif
  }
+diff --git a/libraries/gx/src/gx_bgcnt.c b/libraries/gx/src/gx_bgcnt.c
+index 3f6d01d..89dcee3 100644
+--- a/libraries/gx/src/gx_bgcnt.c
++++ b/libraries/gx/src/gx_bgcnt.c
+@@ -179,13 +179,12 @@ void *G2S_GetBG3ScrPtr (void)
+ 	}
+ }
+ 
++// PC: no wrap to 128 KB here (libntr had one): engine A BG VRAM is up to 512 KB (s_HW_BG_VRAM is 512 KB), and the
++// title screen uses char bases above 128 KB
+ void * G2_GetBG0CharPtr (void)
+ {
+ 	int baseBlock = 0x4000 * ((reg_G2_BG0CNT & REG_G2_BG0CNT_CHARBASE_MASK) >> REG_G2_BG0CNT_CHARBASE_SHIFT);
+ 
+-	#ifndef SDK_BUILD_ARM
+-    baseBlock = baseBlock & 131071;
+-    #endif
+ 	return (void *)(HW_BG_VRAM + getBGCharOffset_() + baseBlock);
+ }
+ 
+@@ -198,9 +197,6 @@ void * G2S_GetBG0CharPtr (void)
+ void * G2_GetBG1CharPtr (void)
+ {
+ 	int baseBlock = 0x4000 * ((reg_G2_BG1CNT & REG_G2_BG1CNT_CHARBASE_MASK) >> REG_G2_BG1CNT_CHARBASE_SHIFT);
+-    #ifndef SDK_BUILD_ARM
+-    baseBlock = baseBlock & 131071;
+-    #endif
+ 	return (void *)(HW_BG_VRAM + getBGCharOffset_() + baseBlock);
+ }
+ 
+@@ -218,9 +214,6 @@ void * G2_GetBG2CharPtr (void)
+ 	if (bgMode < 5 || !(bg & REG_G2_BG2CNT_COLORMODE_MASK)) {
+ 		int offset = getBGCharOffset_();
+ 		u32 blockID = (bg & REG_G2_BG2CNT_CHARBASE_MASK) >> REG_G2_BG2CNT_CHARBASE_SHIFT;
+-        #ifndef SDK_BUILD_ARM
+-        blockID = blockID % 8;
+-        #endif
+ 		return (void *)(HW_BG_VRAM + offset + 0x4000 * blockID);
+ 	} else {
+ 		return NULL;
 diff --git a/libraries/gx/src/gx_vramcnt.c b/libraries/gx/src/gx_vramcnt.c
 index 24eb1e9..68d2a9f 100644
 --- a/libraries/gx/src/gx_vramcnt.c
@@ -249,7 +811,7 @@ index 86cd85e..e86f72a 100644
              }
            }
 diff --git a/libraries/sim/src/sim_main.cpp b/libraries/sim/src/sim_main.cpp
-index d968038..db86ad5 100644
+index d968038..077c1ed 100644
 --- a/libraries/sim/src/sim_main.cpp
 +++ b/libraries/sim/src/sim_main.cpp
 @@ -705,7 +705,11 @@ static void DrawEngine(BOOL isSub) {
@@ -265,7 +827,7 @@ index d968038..db86ad5 100644
            u8 colorIdx = OBJLine[isSub][j] & 0xFF;
            if (colorIdx) {
              u16 *objPltt =
-@@ -941,6 +945,59 @@ static void HandleJoystickKeyUp(int aKey) {
+@@ -941,6 +945,113 @@ static void HandleJoystickKeyUp(int aKey) {
    }
  }
  
@@ -322,10 +884,64 @@ index d968038..db86ad5 100644
 +  s_reg_GX_DISPCAPCNT = cap & ~0x80000000;
 +}
 +
++
++// The PC port's own renderer (ntrgfx, pc/glue/ntrgfx_libntr.cpp): returns 1 when it drew both screens into rgba
++// (256x384 RGBA, top screen first).
++extern "C" int SIM_ExtRenderFrame(u8 *rgba) __attribute__((weak));
++
++// Shows a 256x384 RGBA picture in the current viewport (vertical screen layout)
++static void SIM_PresentExtFrame(const u8 *rgba) {
++  static GLuint tex, program, vao;
++  if (program == 0) {
++    const char *vs = "#version 330 core\n"
++                     "out vec2 uv;\n"
++                     "void main() {\n"
++                     "  vec2 p = vec2((gl_VertexID & 1) * 2.0 - 1.0, (gl_VertexID >> 1) * 2.0 - 1.0);\n"
++                     "  uv = vec2(p.x * 0.5 + 0.5, 0.5 - p.y * 0.5);\n"
++                     "  gl_Position = vec4(p, 0.0, 1.0);\n"
++                     "}\n";
++    const char *fs = "#version 330 core\n"
++                     "in vec2 uv;\n"
++                     "out vec4 color;\n"
++                     "uniform sampler2D frame;\n"
++                     "void main() { color = texture(frame, uv); }\n";
++    GLuint v = glCreateShader(GL_VERTEX_SHADER);
++    glShaderSource(v, 1, &vs, NULL);
++    glCompileShader(v);
++    GLuint f = glCreateShader(GL_FRAGMENT_SHADER);
++    glShaderSource(f, 1, &fs, NULL);
++    glCompileShader(f);
++    program = glCreateProgram();
++    glAttachShader(program, v);
++    glAttachShader(program, f);
++    glLinkProgram(program);
++    glDeleteShader(v);
++    glDeleteShader(f);
++    glGenVertexArrays(1, &vao);
++    glGenTextures(1, &tex);
++    glBindTexture(GL_TEXTURE_2D, tex);
++    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
++    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
++    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
++    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
++  }
++  glActiveTexture(GL_TEXTURE0);
++  glBindTexture(GL_TEXTURE_2D, tex);
++  glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
++  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, SIM_NDS_SCREEN_WIDTH, SIM_NDS_SCREEN_HEIGHT * 2, 0, GL_RGBA,
++               GL_UNSIGNED_BYTE, rgba);
++  glUseProgram(program);
++  glUniform1i(glGetUniformLocation(program, "frame"), 0);
++  glDisable(GL_BLEND);
++  glBindVertexArray(vao);
++  glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
++  glBindVertexArray(0);
++}
++
  void *SIM_Render(void *arg) {
  
    SDL_Event Event;
-@@ -958,6 +1015,8 @@ void *SIM_Render(void *arg) {
+@@ -958,6 +1069,8 @@ void *SIM_Render(void *arg) {
    // Draw the translucent 3D stuff
    G3SIM_DrawItems();
  
@@ -334,7 +950,68 @@ index d968038..db86ad5 100644
    do {
  #ifdef SDK_TRACY_ENABLE
      TracyCZone(SimRenderZone, 1);
-@@ -1357,6 +1416,7 @@ void *SIM_Render(void *arg) {
+@@ -1266,30 +1379,36 @@ void *SIM_Render(void *arg) {
+     SIM::GUI::NewFrame();
+     SIM::GUI::Main();
+ 
+-    memset(bgtex, 0,
+-           sizeof(u8) * 4 * SIM_NDS_SCREEN_WIDTH * SIM_NDS_SCREEN_HEIGHT * 2);
+-    memset(bg0tex, 0,
+-           sizeof(u8) * 4 * SIM_NDS_SCREEN_WIDTH * SIM_NDS_SCREEN_HEIGHT * 2);
+-    memset(bg1tex, 0,
+-           sizeof(u8) * 4 * SIM_NDS_SCREEN_WIDTH * SIM_NDS_SCREEN_HEIGHT * 2);
+-    memset(bg2tex, 0,
+-           sizeof(u8) * 4 * SIM_NDS_SCREEN_WIDTH * SIM_NDS_SCREEN_HEIGHT * 2);
+-    memset(bg3tex, 0,
+-           sizeof(u8) * 4 * SIM_NDS_SCREEN_WIDTH * SIM_NDS_SCREEN_HEIGHT * 2);
+-    memset(bg0stex, 0,
+-           sizeof(u8) * 4 * SIM_NDS_SCREEN_WIDTH * SIM_NDS_SCREEN_HEIGHT * 2);
+-    memset(bg1stex, 0,
+-           sizeof(u8) * 4 * SIM_NDS_SCREEN_WIDTH * SIM_NDS_SCREEN_HEIGHT * 2);
+-    memset(bg2stex, 0,
+-           sizeof(u8) * 4 * SIM_NDS_SCREEN_WIDTH * SIM_NDS_SCREEN_HEIGHT * 2);
+-    memset(bg3stex, 0,
+-           sizeof(u8) * 4 * SIM_NDS_SCREEN_WIDTH * SIM_NDS_SCREEN_HEIGHT * 2);
+-
+-    // Draw MAIN engine
+-    DrawEngine(FALSE);
+-
+-    // SUB engine
+-    DrawEngine(TRUE);
++    static u8 s_extFrame[SIM_NDS_SCREEN_WIDTH * SIM_NDS_SCREEN_HEIGHT * 2 * 4];
++    if (SIM_ExtRenderFrame != NULL && SIM_ExtRenderFrame(s_extFrame)) {
++      // The PC port's own renderer (ntrgfx) drew both screens
++      SIM_PresentExtFrame(s_extFrame);
++    } else {
++      memset(bgtex, 0,
++             sizeof(u8) * 4 * SIM_NDS_SCREEN_WIDTH * SIM_NDS_SCREEN_HEIGHT * 2);
++      memset(bg0tex, 0,
++             sizeof(u8) * 4 * SIM_NDS_SCREEN_WIDTH * SIM_NDS_SCREEN_HEIGHT * 2);
++      memset(bg1tex, 0,
++             sizeof(u8) * 4 * SIM_NDS_SCREEN_WIDTH * SIM_NDS_SCREEN_HEIGHT * 2);
++      memset(bg2tex, 0,
++             sizeof(u8) * 4 * SIM_NDS_SCREEN_WIDTH * SIM_NDS_SCREEN_HEIGHT * 2);
++      memset(bg3tex, 0,
++             sizeof(u8) * 4 * SIM_NDS_SCREEN_WIDTH * SIM_NDS_SCREEN_HEIGHT * 2);
++      memset(bg0stex, 0,
++             sizeof(u8) * 4 * SIM_NDS_SCREEN_WIDTH * SIM_NDS_SCREEN_HEIGHT * 2);
++      memset(bg1stex, 0,
++             sizeof(u8) * 4 * SIM_NDS_SCREEN_WIDTH * SIM_NDS_SCREEN_HEIGHT * 2);
++      memset(bg2stex, 0,
++             sizeof(u8) * 4 * SIM_NDS_SCREEN_WIDTH * SIM_NDS_SCREEN_HEIGHT * 2);
++      memset(bg3stex, 0,
++             sizeof(u8) * 4 * SIM_NDS_SCREEN_WIDTH * SIM_NDS_SCREEN_HEIGHT * 2);
++
++      // Draw MAIN engine
++      DrawEngine(FALSE);
++
++      // SUB engine
++      DrawEngine(TRUE);
++    }
+ 
+     // Run HBlank Interrupt
+     OS_IRQTable[OS_IE_H_BLANK - 1]();
+@@ -1357,6 +1476,7 @@ void *SIM_Render(void *arg) {
    glBindRenderbuffer(GL_RENDERBUFFER, g3RenderBufferId);
  
    // Setup 3D Viewport

@@ -53,6 +53,7 @@ nitrodwc_dep = dependency('NitroDWC')
 ###                       SOURCES                        ###
 ############################################################
 subdir('src') # pokeranger2_cxx
+subdir('ntrgfx') # ntrgfx_dep
 
 pokeranger2_pc_cxx = [
     pokeranger2_cxx,
@@ -74,6 +75,8 @@ pokeranger2_pc_cxx = [
         'src/pc/PtrCast.cpp',
         'src/pc/SdkCompat.cpp',
         'src/pc/LayoutChecks.cpp',
+        # Stage 1 of replacing libntr: our renderer inside libntr's window
+        'glue/ntrgfx_libntr.cpp',
     ),
 ]
 
@@ -82,6 +85,7 @@ main = executable('pokeranger2',
     cpp_args: pokeranger2_args,
     include_directories: public_includes,
     dependencies: [
+        ntrgfx_dep,
         nitrosdk_dep,
         nitrosystem_dep,
         nitrowifi_dep,
