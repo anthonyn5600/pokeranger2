@@ -28,10 +28,13 @@
 #include "field/CFieldActor.hpp"
 #include "field/CFieldActorManage.hpp"
 #include "field/CFieldEffectExplosion.hpp"
+#include "field/CFieldEffectFuwanteWind.hpp"
 #include "field/CFieldEffectManage.hpp"
 #include "field/CFieldEffectManpu.hpp"
 #include "field/CFieldEffectPoisonGas.hpp"
 #include "field/CFieldEffectSlime.hpp"
+#include "field/CFieldEffectSpaceCrevice.hpp"
+#include "field/CFieldEffectVolcanicSteam.hpp"
 #include "field/CFieldEnemy.hpp"
 #include "field/CFieldEnemyManage.hpp"
 #include "field/CFieldEventRect.hpp"
@@ -91,9 +94,6 @@ extern "C" {
 void LogError(const char *fmt, ...);
 u32 SaveData_AddPokemonRides(SaveData *save, u32 value);
 void BattleStartParam_SetPartnerMood(void *obj, int arg1);
-void ov0_0216EE1C(void *obj);
-void ov0_0216FEA4(void *obj);
-void ov0_0217248C(void *obj);
 int SaveData_CountParty(SaveData *save, int group);
 void SavePartner_SetName(PartnerSlot *partner, const char *name);
 int MissionQuestData_IsQuestCleared(MissionQuestData *obj, int arg1);
@@ -3948,17 +3948,17 @@ int sub_02032A74(int *args)
             break;
         case 0x10:
             if (manage->m_factories[25] != NULL) {
-                ov0_0216EE1C(manage->m_factories[25]);
+                ((CFieldEffectVolcanicSteamFactory *)manage->m_factories[25])->Load();
             }
             break;
         case 0x11:
             if (manage->m_factories[26] != NULL) {
-                ov0_0216FEA4(manage->m_factories[26]);
+                ((CFieldEffectFuwanteWindFactory *)manage->m_factories[26])->Load();
             }
             break;
         case 0x16:
             if (manage->m_factories[30] != NULL) {
-                ov0_0217248C(manage->m_factories[30]);
+                ((CFieldEffectSpaceCreviceFactory *)manage->m_factories[30])->Preload();
             }
             break;
         }

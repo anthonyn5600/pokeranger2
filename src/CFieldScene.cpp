@@ -391,7 +391,7 @@ void CFieldScene::func6()
     m_inputControl = new CFieldPlayerInputControlManage();
     if (m_hpGauge != NULL) {
         unk_0064 = new UnkClass_0216D5F4();
-        ov0_0216D5F4(unk_0064, m_hpGauge->GetPart(1));
+        unk_0064->Init(m_hpGauge->GetPart(1));
     }
     unk_00E4 = new UnkClass_0214B984();
     m_debugMenu = new FieldDebugMenu(m_game);
@@ -1509,7 +1509,6 @@ extern "C" {
 void FieldData_GetEnemy(FieldData *obj, u32 arg1);
 void ov0_02148480(TouchDotLine *obj, Point2D *pos, Point2D *target);
 void ov0_021481EC(TouchDotLine *obj, int fps);
-void ov0_0216D62C(UnkClass_0216D5F4 *obj, int time, int arg2, Camera2D *camera);
 void ov0_02148288(TouchDotLine *obj, Camera2D *camera);
 void SaveData_LotTimeCheck(SaveData *save);
 void ScriptManager_UnloadArea(void *scriptManager);
@@ -1693,7 +1692,7 @@ void CFieldScene::func1()
             if (unk_0064 != NULL) {
                 SaveData *saveData = m_game->unk_14A4;
                 if (saveData->unk_7F60 & 2) {
-                    ov0_0216D62C(unk_0064, saveData->m_timerMode == 2 ? saveData->m_timer : saveData->m_timer + 59, 0x6A4, m_camera);
+                    unk_0064->Draw(saveData->m_timerMode == 2 ? saveData->m_timer : saveData->m_timer + 59, 0x6A4, m_camera);
                 }
             }
 

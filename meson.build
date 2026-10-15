@@ -192,10 +192,10 @@ pokeranger2_crypto = static_library('pokeranger2_crypto',
 # Fake (linker): overlay 0 has its own copy of CSimpleSpriteNTF's inline ctor (the effects' sprite-array ctor,
 # ov0_02166794), but mwld keeps one copy of a weak function for the whole link and ov3's COPDTitleScreen emits it
 # first. The array also needs CSimpleSpriteNTF's real dtor, so a layout-twin class (as in ov7) can't stand in:
-# the ov0 objects that emit the ctor are renamed to the ov0 name after compiling instead (in place: objcopy would
-# turn every weak copy into a local symbol).
+# the ov0 objects that emit the ctor (Bloom, RisingPhoton, BlackStoneAura) are renamed to the ov0 name after compiling instead
+# (in place: objcopy would turn every weak copy into a local symbol).
 pokeranger2_ov0_sprite = static_library('pokeranger2_ov0_sprite',
-    files('src/CFieldEffectBloom.cpp'),
+    files('src/CFieldEffectBloom.cpp', 'src/CFieldEffectRisingPhoton.cpp', 'src/CFieldEffectBlackStoneAura.cpp'),
     cpp_args: pokeranger2_args,
     cpp_pch: 'include/pch/global_pch.hpp',
     include_directories: public_includes,
@@ -207,8 +207,18 @@ pokeranger2_ov0_sprite = static_library('pokeranger2_ov0_sprite',
     native: false
 )
 pokeranger2_ov0_sprite_objs = custom_target('ov0_sprite_objs',
-    input: pokeranger2_ov0_sprite.extract_all_objects(recursive: false),
+    input: pokeranger2_ov0_sprite.extract_objects('src/CFieldEffectBloom.cpp'),
     output: ['src_CFieldEffectBloom.cpp.o'],
+    command: [elfrename_py, '@INPUT@', '@OUTPUT@', '_ZN16CSimpleSpriteNTFC1Ev=ov0_02166794'],
+)
+pokeranger2_ov0_sprite_objs2 = custom_target('ov0_sprite_objs2',
+    input: pokeranger2_ov0_sprite.extract_objects('src/CFieldEffectRisingPhoton.cpp'),
+    output: ['src_CFieldEffectRisingPhoton.cpp.o'],
+    command: [elfrename_py, '@INPUT@', '@OUTPUT@', '_ZN16CSimpleSpriteNTFC1Ev=ov0_02166794'],
+)
+pokeranger2_ov0_sprite_objs3 = custom_target('ov0_sprite_objs3',
+    input: pokeranger2_ov0_sprite.extract_objects('src/CFieldEffectBlackStoneAura.cpp'),
+    output: ['src_CFieldEffectBlackStoneAura.cpp.o'],
     command: [elfrename_py, '@INPUT@', '@OUTPUT@', '_ZN16CSimpleSpriteNTFC1Ev=ov0_02166794'],
 )
 
@@ -252,6 +262,60 @@ pokeranger2_ov0_darkness_objs = custom_target('ov0_darkness_objs',
     ],
 )
 
+# CFieldEffectVolcanicSteam emits the same TFieldEffectParticle<CSimpleSpriteNTF> (and emitter/particle) weak copies as
+# CFieldEffectDarknessClear, whose copies the original kept (its TU links first). Loaded after DC so DC's copies win,
+# with the copies DC renames to their ov0 names renamed the same way (its references then reach DC's copies).
+pokeranger2_ov0_steam = static_library('pokeranger2_ov0_steam',
+    files('src/CFieldEffectVolcanicSteam.cpp'),
+    cpp_args: pokeranger2_args,
+    cpp_pch: 'include/pch/global_pch.hpp',
+    include_directories: public_includes,
+    dependencies: [
+        nitrosdk_dep,
+        nitrosystem_dep,
+    ],
+    pic: false,
+    native: false
+)
+pokeranger2_ov0_steam_objs = custom_target('ov0_steam_objs',
+    input: pokeranger2_ov0_steam.extract_all_objects(recursive: false),
+    output: ['src_CFieldEffectVolcanicSteam.cpp.o'],
+    command: [elfrename_py, '@INPUT@', '@OUTPUT@',
+        '_ZN14TFieldParticleI16CSimpleSpriteNTFED1Ev=ov0_0216AD48',
+        '_ZN14TFieldParticleI16CSimpleSpriteNTFEC1Ev=ov0_0216AD5C',
+        '_ZN21TFieldParticleEmitterI16CSimpleSpriteNTFE5func2Ev=ov0_0216AE74',
+        '_ZN21TFieldParticleEmitterI16CSimpleSpriteNTFE6UpdateEi=ov0_0216BFFC',
+        '_ZN21TFieldParticleEmitterI16CSimpleSpriteNTFED0Ev=ov0_0216C6BC',
+        '_ZN21TFieldParticleEmitterI16CSimpleSpriteNTFED1Ev=ov0_0216CB50',
+        '_ZTI24TFieldParticleForceFieldI16CSimpleSpriteNTFE=ov0_02179EB4',
+        '_ZTI21TFieldParticleEmitterI16CSimpleSpriteNTFE=ov0_02179EBC',
+        '_ZTV21TFieldParticleEmitterI16CSimpleSpriteNTFE=ov0_02179F64',
+        '_ZTS21TFieldParticleEmitterI16CSimpleSpriteNTFE=ov0_0217A150',
+        '_ZTS24TFieldParticleForceFieldI16CSimpleSpriteNTFE=ov0_0217A17C',
+    ],
+)
+
+# Fake (compiler): CFieldEffectFuwanteWind's .data, like CFieldEffectDarknessClear's: the original TU's size sort held
+# objects the linker later dropped, so its equal-size typeinfos/vtables are put in the original order after compiling.
+# Loaded last like the objects above, so its <CSoftwareSprite> template copies never win over the earlier TUs' ones.
+pokeranger2_ov0_wind = static_library('pokeranger2_ov0_wind',
+    files('src/CFieldEffectFuwanteWind.cpp'),
+    cpp_args: pokeranger2_args,
+    cpp_pch: 'include/pch/global_pch.hpp',
+    include_directories: public_includes,
+    dependencies: [
+        nitrosdk_dep,
+        nitrosystem_dep,
+    ],
+    pic: false,
+    native: false
+)
+pokeranger2_ov0_wind_objs = custom_target('ov0_wind_objs',
+    input: pokeranger2_ov0_wind.extract_all_objects(recursive: false),
+    output: ['src_CFieldEffectFuwanteWind.cpp.o'],
+    command: [elfdataorder_py, '@INPUT@', '@OUTPUT@', files('tools/elfdataorder/CFieldEffectFuwanteWind.txt')],
+)
+
 main = executable('main',
     sources: [
         pokeranger2_cxx,
@@ -279,9 +343,13 @@ main = executable('main',
         'ranger2.us/main.lcf',
         # Loaded after every other object, so its weak copies never win over the ones the other TUs provide.
         pokeranger2_ov0_sprite_objs.full_path(),
+        pokeranger2_ov0_sprite_objs2.full_path(),
+        pokeranger2_ov0_sprite_objs3.full_path(),
         pokeranger2_ov0_darkness_objs.full_path(),
+        pokeranger2_ov0_steam_objs.full_path(),
+        pokeranger2_ov0_wind_objs.full_path(),
     ],
-    link_depends: [main_lcf, pokeranger2_ov0_sprite_objs, pokeranger2_ov0_darkness_objs],
+    link_depends: [main_lcf, pokeranger2_ov0_sprite_objs, pokeranger2_ov0_sprite_objs2, pokeranger2_ov0_sprite_objs3, pokeranger2_ov0_darkness_objs, pokeranger2_ov0_steam_objs, pokeranger2_ov0_wind_objs],
     native: false
 )
 

@@ -250,7 +250,6 @@ Overlay overlay0
     Object main.nef.p/src_SyscallField.cpp.o
     Object main.nef.p/src_SyscallFieldNpc.cpp.o
     Object main.nef.p/src_UnkClass_0214B93C.cpp.o
-    Object main.nef.p/asm_overlay_00_0217B0E0.s.o
     Object main.nef.p/src_UnkClass_0214B984.cpp.o
     Object main.nef.p/src_UnkClass_0214FB28.cpp.o
     Object main.nef.p/src_UnkClass_0214FD4C.cpp.o
@@ -293,7 +292,17 @@ Overlay overlay0
     Object main.nef.p/src_CFieldEffectFireworks.cpp.o
     Object main.nef.p/src_CFieldEffectDarkShadow.cpp.o
     Object src_CFieldEffectDarknessClear.cpp.o
-    Object main.nef.p/asm_overlay_00_0216CB84.s.o
+    Object main.nef.p/src_CFieldEffectAirBubbles.cpp.o
+    Object main.nef.p/src_ManpuBlockHeap.cpp.o
+    Object main.nef.p/src_UnkClass_0216D5F4.cpp.o
+    Object main.nef.p/src_CFieldEffectLaser.cpp.o
+    Object src_CFieldEffectRisingPhoton.cpp.o
+    Object src_CFieldEffectVolcanicSteam.cpp.o
+    Object src_CFieldEffectFuwanteWind.cpp.o
+    Object main.nef.p/src_CFieldEffectManpuDarkrie.cpp.o
+    Object main.nef.p/src_CFieldEffectGlitter.cpp.o
+    Object src_CFieldEffectBlackStoneAura.cpp.o
+    Object main.nef.p/src_CFieldEffectSpaceCrevice.cpp.o
 }
 
 Overlay overlay1

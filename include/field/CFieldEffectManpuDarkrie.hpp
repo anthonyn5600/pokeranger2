@@ -6,8 +6,9 @@
 #include "field/AnimSlotPool.hpp"
 #include "field/CFieldEffectManage.hpp"
 #include "field/CFieldEffectManpu.hpp"
+#include "primitive/CSoftwareSprite.hpp"
 
-// size 0x1D4
+// Five sprites bobbing around the actor's balloon, each fading through its own color cycle.
 class CFieldEffectManpuDarkrie : public CFieldEffectManpu {
 public:
     CFieldEffectManpuDarkrie(CFieldEffectManage::CResidentResource *res, AnimSlotPool *slots, int cac, int type);
@@ -16,7 +17,20 @@ public:
     virtual int Draw(Camera2D *camera);
     virtual void SetDepth(fx32 z);
 
-    u8 unk_2C[0x1A8];
+    void UpdatePos(int step);
+    void UpdateColors(int step);
+    void Init(int cac);
+
+    CSoftwareSprite m_sprites[5];
+    u16 m_anims[5];
+    AnimSlotPool *m_slots;
+    int m_cac;
+    Point2D m_offset;
+    fx32 m_bobSpeed;
+    u8 m_fade[5];
+    u8 m_colorIdx[5];
+    u8 m_colorBase;
+    u8 m_fadeLen;
 };
 
 STATIC_SIZE_ASSERT(CFieldEffectManpuDarkrie, 0x1D4);
