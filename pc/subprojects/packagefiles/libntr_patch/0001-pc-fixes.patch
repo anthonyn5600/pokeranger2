@@ -122,6 +122,372 @@ index 65bdc0f..e7c963b 100644
      #endif
  }
  
+diff --git a/include/nitro/gx/g3imm.h b/include/nitro/gx/g3imm.h
+index 0f07fc3..22500f9 100644
+--- a/include/nitro/gx/g3imm.h
++++ b/include/nitro/gx/g3imm.h
+@@ -18,6 +18,12 @@ extern "C" {
+ #include <simulator/drawmsg.h>
+ #include <simulator/queue.h>
+ extern SIM_queue_t * drawQueuePtr;
++// PC port: every geometry command as the hardware would receive it (command + parameter words), for an external
++// renderer (weak no-op in sim_main.cpp)
++void SIM_ExtG3Command(u32 op, const u32 * params);
++void SIM_ExtG3Fifo(const void * words, u32 bytes);
++#define SIMi_EXT_G3(op, ...) do { const u32 simi_params_[] = { __VA_ARGS__ }; SIM_ExtG3Command((u32)(op), simi_params_); } while (0)
++#define SIMi_EXT_G3_0(op) SIM_ExtG3Command((u32)(op), NULL)
+ #endif
+ 
+ static void G3_Direct0(int op);
+@@ -84,6 +90,9 @@ static inline void G3_Direct0 (int op)
+     #else
+ 	*(REGType32v *)(REG_MTX_MODE_ADDR + ((op - G3OP_MTX_MODE) * 4)) = 0;
+     #endif
++    #ifdef SDK_PORT
++    SIMi_EXT_G3_0(op);
++    #endif
+ }
+ 
+ static inline void G3_Direct1 (int op, u32 param0)
+@@ -100,19 +109,32 @@ static inline void G3_Direct1 (int op, u32 param0)
+     #else
+ 	*(REGType32v *)(REG_MTX_MODE_ADDR + ((op - G3OP_MTX_MODE) * 4)) = param0;
+     #endif
++    #ifdef SDK_PORT
++    SIMi_EXT_G3(op, param0);
++    #endif
+ }
+ 
+ static inline void G3_Direct2 (int op, u32 param0, u32 param1)
+ {
++    #ifndef SDK_PORT
+ 	*(REGType32v *)(REG_MTX_MODE_ADDR + ((op - G3OP_MTX_MODE) * 4)) = param0;
+ 	*(REGType32v *)(REG_MTX_MODE_ADDR + ((op - G3OP_MTX_MODE) * 4)) = param1;
++    #endif
++    #ifdef SDK_PORT
++    SIMi_EXT_G3(op, param0, param1);
++    #endif
+ }
+ 
+ static inline void G3_Direct3 (int op, u32 param0, u32 param1, u32 param2)
+ {
++    #ifndef SDK_PORT
+ 	*(REGType32v *)(REG_MTX_MODE_ADDR + ((op - G3OP_MTX_MODE) * 4)) = param0;
+ 	*(REGType32v *)(REG_MTX_MODE_ADDR + ((op - G3OP_MTX_MODE) * 4)) = param1;
+ 	*(REGType32v *)(REG_MTX_MODE_ADDR + ((op - G3OP_MTX_MODE) * 4)) = param2;
++    #endif
++    #ifdef SDK_PORT
++    SIMi_EXT_G3(op, param0, param1, param2);
++    #endif
+ }
+ 
+ static inline void G3_MtxMode (GXMtxMode mode)
+@@ -129,6 +151,9 @@ static inline void G3_MtxMode (GXMtxMode mode)
+     #else
+ 	reg_G3_MTX_MODE = GX_PACK_MTXMODE_PARAM(mode);
+     #endif
++    #ifdef SDK_PORT
++    SIMi_EXT_G3(G3OP_MTX_MODE, GX_PACK_MTXMODE_PARAM(mode));
++    #endif
+ }
+ 
+ static inline void G3_PushMtx ()
+@@ -143,6 +168,9 @@ static inline void G3_PushMtx ()
+     #else
+ 	reg_G3_MTX_PUSH = 0;
+     #endif
++    #ifdef SDK_PORT
++    SIMi_EXT_G3_0(G3OP_MTX_PUSH);
++    #endif
+ }
+ 
+ static inline void G3_PopMtx (int num)
+@@ -159,6 +187,9 @@ static inline void G3_PopMtx (int num)
+     #else
+ 	reg_G3_MTX_POP = GX_PACK_POPMTX_PARAM(num);
+     #endif
++    #ifdef SDK_PORT
++    SIMi_EXT_G3(G3OP_MTX_POP, GX_PACK_POPMTX_PARAM(num));
++    #endif
+ }
+ 
+ static inline void G3_StoreMtx (int num)
+@@ -175,6 +206,9 @@ static inline void G3_StoreMtx (int num)
+     #else
+ 	reg_G3_MTX_STORE = GX_PACK_STOREMTX_PARAM(num);
+     #endif
++    #ifdef SDK_PORT
++    SIMi_EXT_G3(G3OP_MTX_STORE, GX_PACK_STOREMTX_PARAM(num));
++    #endif
+ }
+ 
+ static inline void G3_RestoreMtx (int num)
+@@ -191,6 +225,9 @@ static inline void G3_RestoreMtx (int num)
+     #else
+ 	reg_G3_MTX_RESTORE = GX_PACK_RESTOREMTX_PARAM(num);
+     #endif
++    #ifdef SDK_PORT
++    SIMi_EXT_G3(G3OP_MTX_RESTORE, GX_PACK_RESTOREMTX_PARAM(num));
++    #endif
+ }
+ 
+ static inline void G3_Identity ()
+@@ -205,6 +242,9 @@ static inline void G3_Identity ()
+     #else
+ 	reg_G3_MTX_IDENTITY = 0;
+     #endif
++    #ifdef SDK_PORT
++    SIMi_EXT_G3_0(G3OP_MTX_IDENTITY);
++    #endif
+ }
+ 
+ static inline void G3_Scale (fx32 x, fx32 y, fx32 z)
+@@ -224,6 +264,9 @@ static inline void G3_Scale (fx32 x, fx32 y, fx32 z)
+ 	reg_G3_MTX_SCALE = (u32)y;
+ 	reg_G3_MTX_SCALE = (u32)z;
+     #endif
++    #ifdef SDK_PORT
++    SIMi_EXT_G3(G3OP_MTX_SCALE, (u32)x, (u32)y, (u32)z);
++    #endif
+ }
+ 
+ static inline void G3_Translate (fx32 x, fx32 y, fx32 z)
+@@ -243,6 +286,9 @@ static inline void G3_Translate (fx32 x, fx32 y, fx32 z)
+ 	reg_G3_MTX_TRANS = (u32)y;
+ 	reg_G3_MTX_TRANS = (u32)z;
+     #endif
++    #ifdef SDK_PORT
++    SIMi_EXT_G3(G3OP_MTX_TRANS, (u32)x, (u32)y, (u32)z);
++    #endif
+ }
+ 
+ static inline void G3_Color (GXRgb rgb)
+@@ -260,6 +306,9 @@ static inline void G3_Color (GXRgb rgb)
+     #else
+ 	reg_G3_COLOR = GX_PACK_COLOR_PARAM(rgb);
+     #endif
++    #ifdef SDK_PORT
++    SIMi_EXT_G3(G3OP_COLOR, GX_PACK_COLOR_PARAM(rgb));
++    #endif
+ }
+ 
+ static inline void G3_Normal (fx16 x, fx16 y, fx16 z)
+@@ -269,6 +318,9 @@ static inline void G3_Normal (fx16 x, fx16 y, fx16 z)
+ 	SDK_MINMAX_ASSERT(z, -FX16_ONE, FX16_ONE - 1);
+ 
+ 	reg_G3_NORMAL = GX_PACK_NORMAL_PARAM(x, y, z);
++    #ifdef SDK_PORT
++    SIMi_EXT_G3(G3OP_NORMAL, GX_PACK_NORMAL_PARAM(x, y, z));
++    #endif
+ }
+ 
+ static inline void G3_TexCoord (fx32 s, fx32 t)
+@@ -288,6 +340,9 @@ static inline void G3_TexCoord (fx32 s, fx32 t)
+     #else
+ 	reg_G3_TEXCOORD = GX_PACK_TEXCOORD_PARAM(s, t);
+     #endif
++    #ifdef SDK_PORT
++    SIMi_EXT_G3(G3OP_TEXCOORD, GX_PACK_TEXCOORD_PARAM(s, t));
++    #endif
+ }
+ 
+ static inline void G3_Vtx (fx16 x, fx16 y, fx16 z)
+@@ -307,6 +362,9 @@ static inline void G3_Vtx (fx16 x, fx16 y, fx16 z)
+ 	reg_G3_VTX_16 = GX_FX16PAIR(x, y);
+ 	reg_G3_VTX_16 = (u32)(u16)z;
+     #endif
++    #ifdef SDK_PORT
++    SIMi_EXT_G3(G3OP_VTX_16, GX_FX16PAIR(x, y), (u32)(u16)z);
++    #endif
+ }
+ 
+ static inline void G3_Vtx10 (fx16 x, fx16 y, fx16 z)
+@@ -323,6 +381,9 @@ static inline void G3_Vtx10 (fx16 x, fx16 y, fx16 z)
+     #else
+ 	reg_G3_VTX_10 = GX_PACK_VTX10_PARAM(x, y, z);
+     #endif
++    #ifdef SDK_PORT
++    SIMi_EXT_G3(G3OP_VTX_10, GX_PACK_VTX10_PARAM(x, y, z));
++    #endif
+ }
+ 
+ static inline void G3_VtxXY (fx16 x, fx16 y)
+@@ -338,6 +399,9 @@ static inline void G3_VtxXY (fx16 x, fx16 y)
+     free( msg );
+     #endif
+ 	reg_G3_VTX_XY = GX_PACK_VTXXY_PARAM(x, y);
++    #ifdef SDK_PORT
++    SIMi_EXT_G3(G3OP_VTX_XY, GX_PACK_VTXXY_PARAM(x, y));
++    #endif
+ }
+ 
+ static inline void G3_VtxXZ (fx16 x, fx16 z)
+@@ -353,6 +417,9 @@ static inline void G3_VtxXZ (fx16 x, fx16 z)
+     free( msg );
+     #endif
+ 	reg_G3_VTX_XZ = GX_PACK_VTXXZ_PARAM(x, z);
++    #ifdef SDK_PORT
++    SIMi_EXT_G3(G3OP_VTX_XZ, GX_PACK_VTXXZ_PARAM(x, z));
++    #endif
+ }
+ 
+ static inline void G3_VtxYZ (fx16 y, fx16 z)
+@@ -368,6 +435,9 @@ static inline void G3_VtxYZ (fx16 y, fx16 z)
+     free( msg );
+     #endif
+ 	reg_G3_VTX_YZ = GX_PACK_VTXYZ_PARAM(y, z);
++    #ifdef SDK_PORT
++    SIMi_EXT_G3(G3OP_VTX_YZ, GX_PACK_VTXYZ_PARAM(y, z));
++    #endif
+ }
+ 
+ static inline void G3_VtxDiff (fx16 x, fx16 y, fx16 z)
+@@ -387,6 +457,9 @@ static inline void G3_VtxDiff (fx16 x, fx16 y, fx16 z)
+     free( msg );
+     #endif
+ 	reg_G3_VTX_DIFF = GX_PACK_VTXDIFF_PARAM(x, y, z);
++    #ifdef SDK_PORT
++    SIMi_EXT_G3(G3OP_VTX_DIFF, GX_PACK_VTXDIFF_PARAM(x, y, z));
++    #endif
+ }
+ 
+ static inline void G3_PolygonAttr (int light, GXPolygonMode polyMode, GXCull cullMode, int polygonID, int alpha, int misc
+@@ -414,6 +487,9 @@ static inline void G3_PolygonAttr (int light, GXPolygonMode polyMode, GXCull cul
+ 	reg_G3_POLYGON_ATTR = GX_PACK_POLYGONATTR_PARAM(light,
+ 	                                                polyMode, cullMode, polygonID, alpha, misc);
+     #endif
++    #ifdef SDK_PORT
++    SIMi_EXT_G3(G3OP_POLYGON_ATTR, GX_PACK_POLYGONATTR_PARAM(light, polyMode, cullMode, polygonID, alpha, misc));
++    #endif
+ }
+ 
+ static inline void G3_TexImageParam (GXTexFmt texFmt,
+@@ -444,6 +520,9 @@ static inline void G3_TexImageParam (GXTexFmt texFmt,
+     #else
+ 	reg_G3_TEXIMAGE_PARAM = GX_PACK_TEXIMAGE_PARAM(texFmt, texGen, s, t, repeat, flip, pltt0, addr);
+     #endif
++    #ifdef SDK_PORT
++    SIMi_EXT_G3(G3OP_TEXIMAGE_PARAM, GX_PACK_TEXIMAGE_PARAM(texFmt, texGen, s, t, repeat, flip, pltt0, addr));
++    #endif
+ }
+ 
+ static inline void G3_TexPlttBase (u32 addr, GXTexFmt texfmt)
+@@ -463,6 +542,9 @@ static inline void G3_TexPlttBase (u32 addr, GXTexFmt texfmt)
+     #else
+ 	reg_G3_TEXPLTT_BASE = param;
+     #endif
++    #ifdef SDK_PORT
++    SIMi_EXT_G3(G3OP_TEXPLTT_BASE, param);
++    #endif
+ }
+ 
+ static inline void G3_MaterialColorDiffAmb (GXRgb diffuse, GXRgb ambient, BOOL IsSetVtxColor)
+@@ -482,6 +564,9 @@ static inline void G3_MaterialColorDiffAmb (GXRgb diffuse, GXRgb ambient, BOOL I
+     #else
+ 	reg_G3_DIF_AMB = GX_PACK_DIFFAMB_PARAM(diffuse, ambient, IsSetVtxColor);
+     #endif
++    #ifdef SDK_PORT
++    SIMi_EXT_G3(G3OP_DIF_AMB, GX_PACK_DIFFAMB_PARAM(diffuse, ambient, IsSetVtxColor));
++    #endif
+ }
+ 
+ static inline void G3_MaterialColorSpecEmi (GXRgb specular, GXRgb emission, BOOL IsShininess)
+@@ -501,6 +586,9 @@ static inline void G3_MaterialColorSpecEmi (GXRgb specular, GXRgb emission, BOOL
+     #else
+ 	reg_G3_SPE_EMI = GX_PACK_SPECEMI_PARAM(specular, emission, IsShininess);
+     #endif
++    #ifdef SDK_PORT
++    SIMi_EXT_G3(G3OP_SPE_EMI, GX_PACK_SPECEMI_PARAM(specular, emission, IsShininess));
++    #endif
+ }
+ 
+ static inline void G3_LightVector (GXLightId lightID, fx16 x, fx16 y, fx16 z)
+@@ -511,6 +599,9 @@ static inline void G3_LightVector (GXLightId lightID, fx16 x, fx16 y, fx16 z)
+ 	SDK_MINMAX_ASSERT(z, -FX16_ONE, FX16_ONE - 1);
+ 
+ 	reg_G3_LIGHT_VECTOR = GX_PACK_LIGHTVECTOR_PARAM(lightID, x, y, z);
++    #ifdef SDK_PORT
++    SIMi_EXT_G3(G3OP_LIGHT_VECTOR, GX_PACK_LIGHTVECTOR_PARAM(lightID, x, y, z));
++    #endif
+ }
+ 
+ static inline void G3_LightColor (GXLightId lightID, GXRgb rgb)
+@@ -519,6 +610,9 @@ static inline void G3_LightColor (GXLightId lightID, GXRgb rgb)
+ 	GXRGB_ASSERT(rgb);
+ 
+ 	reg_G3_LIGHT_COLOR = GX_PACK_LIGHTCOLOR_PARAM(lightID, rgb);
++    #ifdef SDK_PORT
++    SIMi_EXT_G3(G3OP_LIGHT_COLOR, GX_PACK_LIGHTCOLOR_PARAM(lightID, rgb));
++    #endif
+ }
+ 
+ static inline void G3_Begin (GXBegin primitive)
+@@ -536,11 +630,17 @@ static inline void G3_Begin (GXBegin primitive)
+     #else
+ 	reg_G3_BEGIN_VTXS = GX_PACK_BEGIN_PARAM(primitive);
+     #endif
++    #ifdef SDK_PORT
++    SIMi_EXT_G3(G3OP_BEGIN, GX_PACK_BEGIN_PARAM(primitive));
++    #endif
+ }
+ 
+ static inline void G3_End (void)
+ {
+ 	reg_G3_END_VTXS = 0;
++    #ifdef SDK_PORT
++    SIMi_EXT_G3_0(G3OP_END);
++    #endif
+ }
+ 
+ static inline void G3_SwapBuffers (GXSortMode am, GXBufferMode zw)
+@@ -560,12 +660,18 @@ static inline void G3_SwapBuffers (GXSortMode am, GXBufferMode zw)
+     #else
+ 	reg_G3_SWAP_BUFFERS = GX_PACK_SWAPBUFFERS_PARAM(am, zw);
+     #endif
++    #ifdef SDK_PORT
++    SIMi_EXT_G3(G3OP_SWAP_BUFFERS, GX_PACK_SWAPBUFFERS_PARAM(am, zw));
++    #endif
+ }
+ 
+ static inline void G3_ViewPort (int x1, int y1, int x2, int y2)
+ {
+ 	GX_VIEWPORT_ASSERT(x1, y1, x2, y2);
+ 	reg_G3_VIEWPORT = GX_PACK_VIEWPORT_PARAM(x1, y1, x2, y2);
++    #ifdef SDK_PORT
++    SIMi_EXT_G3(G3OP_VIEWPORT, GX_PACK_VIEWPORT_PARAM(x1, y1, x2, y2));
++    #endif
+ }
+ 
+ static inline void G3_BoxTest (const GXBoxTestParam * box)
+@@ -573,12 +679,18 @@ static inline void G3_BoxTest (const GXBoxTestParam * box)
+ 	reg_G3_BOX_TEST = box->val[0];
+ 	reg_G3_BOX_TEST = box->val[1];
+ 	reg_G3_BOX_TEST = box->val[2];
++    #ifdef SDK_PORT
++    SIMi_EXT_G3(G3OP_BOX_TEST, box->val[0], box->val[1], box->val[2]);
++    #endif
+ }
+ 
+ static inline void G3_PositionTest (fx16 x, fx16 y, fx16 z)
+ {
+ 	reg_G3_POS_TEST = GX_FX16PAIR(x, y);
+ 	reg_G3_POS_TEST = (u32)(u16)z;
++    #ifdef SDK_PORT
++    SIMi_EXT_G3(G3OP_POS_TEST, GX_FX16PAIR(x, y), (u32)(u16)z);
++    #endif
+ }
+ 
+ static inline void G3_VectorTest (fx16 x, fx16 y, fx16 z)
+@@ -588,6 +700,9 @@ static inline void G3_VectorTest (fx16 x, fx16 y, fx16 z)
+ 	SDK_MINMAX_ASSERT(z, -FX16_ONE, FX16_ONE - 1);
+ 
+ 	reg_G3_VEC_TEST = GX_PACK_VECTORTEST_PARAM(x, y, z);
++    #ifdef SDK_PORT
++    SIMi_EXT_G3(G3OP_VEC_TEST, GX_PACK_VECTORTEST_PARAM(x, y, z));
++    #endif
+ }
+ 
+ #ifdef __cplusplus
 diff --git a/include/nitro/gx/gx.h b/include/nitro/gx/gx.h
 index 79efa3b..91b2f3a 100644
 --- a/include/nitro/gx/gx.h
@@ -552,11 +918,84 @@ index b5b6523..8bca63d 100644
  	if(path[0] == 'r'
  		&& path[1] == 'o'
  	&& path[2] == 'm'
+diff --git a/libraries/gx/src/g3_util.c b/libraries/gx/src/g3_util.c
+index 5cf84ea..5f35d54 100644
+--- a/libraries/gx/src/g3_util.c
++++ b/libraries/gx/src/g3_util.c
+@@ -112,6 +112,9 @@ void G3_RotX (fx32 s, fx32 c)
+ 	*p = -s;
+ 	*p = c;
+     #endif
++    #ifdef SDK_PORT
++    { const u32 simi_m_[9] = { FX32_ONE, 0, 0, 0, c, s, 0, (u32)-s, c }; SIM_ExtG3Command(G3OP_MTX_MULT_3x3, simi_m_); };
++    #endif
+ }
+ 
+ void G3_RotY (fx32 s, fx32 c)
+@@ -149,6 +152,9 @@ void G3_RotY (fx32 s, fx32 c)
+ 	*p = 0;
+ 	*p = c;
+     #endif
++    #ifdef SDK_PORT
++    { const u32 simi_m_[9] = { c, 0, (u32)-s, 0, FX32_ONE, 0, s, 0, c }; SIM_ExtG3Command(G3OP_MTX_MULT_3x3, simi_m_); };
++    #endif
+ }
+ 
+ void G3_RotZ (fx32 s, fx32 c)
+@@ -186,6 +192,9 @@ void G3_RotZ (fx32 s, fx32 c)
+ 	*p = 0;
+ 	*p = FX32_ONE;
+     #endif
++    #ifdef SDK_PORT
++    { const u32 simi_m_[9] = { c, s, 0, (u32)-s, c, 0, 0, 0, FX32_ONE }; SIM_ExtG3Command(G3OP_MTX_MULT_3x3, simi_m_); };
++    #endif
+ }
+ 
+ void G3_LoadTexMtxTexCoord (const MtxFx44 *mtx)
+@@ -210,6 +219,9 @@ void G3_LoadTexMtxTexCoord (const MtxFx44 *mtx)
+ 	*p = mtx->_31 << 4;
+ 	*p = mtx->_32 << 4;
+ 	*p = mtx->_33 << 4;
++    #ifdef SDK_PORT
++    { u32 simi_m_[16]; const fx32 *simi_e_ = &mtx->_00; for (int i = 0; i < 16; i++) { simi_m_[i] = (u32)(i < 8 ? simi_e_[i] : simi_e_[i] << 4); } SIM_ExtG3Command(G3OP_MTX_LOAD_4x4, simi_m_); };
++    #endif
+ }
+ 
+ static void G3xx_LoadTexMtxTexCoord_ (u32 *param, const MtxFx44 *mtx)
+@@ -288,6 +300,9 @@ void G3_LoadTexMtxEnv (const MtxFx44 *mtx)
+ 	*p = mtx->_31;
+ 	*p = mtx->_32;
+ 	*p = mtx->_33;
++    #ifdef SDK_PORT
++    { u32 simi_m_[16]; const fx32 *simi_e_ = &mtx->_00; for (int i = 0; i < 16; i++) { simi_m_[i] = (u32)(i < 12 ? simi_e_[i] << 4 : simi_e_[i]); } SIM_ExtG3Command(G3OP_MTX_LOAD_4x4, simi_m_); };
++    #endif
+ }
+ 
+ void G3BS_LoadTexMtxEnv (GXDLInfo *info, const MtxFx44 *mtx)
 diff --git a/libraries/gx/src/g3imm.c b/libraries/gx/src/g3imm.c
-index b8cf1f4..7419675 100644
+index b8cf1f4..2360a75 100644
 --- a/libraries/gx/src/g3imm.c
 +++ b/libraries/gx/src/g3imm.c
-@@ -44,8 +44,18 @@ void G3_MultMtx44 (const MtxFx44 *m)
+@@ -19,6 +19,9 @@ void G3_LoadMtx44 (const MtxFx44 *m)
+ 	reg_G3X_GXFIFO = G3OP_MTX_LOAD_4x4;
+ 	GX_SendFifo64B(&m->_00, (void *)&reg_G3X_GXFIFO);
+     #endif
++    #ifdef SDK_PORT
++    SIM_ExtG3Command(G3OP_MTX_LOAD_4x4, (const u32 *)&m->_00);
++    #endif
+ }
+ 
+ void G3_LoadMtx43 (const MtxFx43 *m)
+@@ -38,14 +41,30 @@ void G3_LoadMtx43 (const MtxFx43 *m)
+ 	reg_G3X_GXFIFO = G3OP_MTX_LOAD_4x3;
+ 	GX_SendFifo48B(&m->_00, (void *)&reg_G3X_GXFIFO);
+     #endif
++    #ifdef SDK_PORT
++    SIM_ExtG3Command(G3OP_MTX_LOAD_4x3, (const u32 *)&m->_00);
++    #endif
+ }
+ 
+ void G3_MultMtx44 (const MtxFx44 *m)
  {
  	SDK_NULL_ASSERT(m);
  
@@ -572,10 +1011,22 @@ index b8cf1f4..7419675 100644
  	reg_G3X_GXFIFO = G3OP_MTX_MULT_4x4;
  	GX_SendFifo64B(&m->_00, (void *)&reg_G3X_GXFIFO);
 +    #endif
++    #ifdef SDK_PORT
++    SIM_ExtG3Command(G3OP_MTX_MULT_4x4, (const u32 *)&m->_00);
++    #endif
  }
  
  void G3_MultMtx43 (const MtxFx43 *m)
-@@ -71,16 +81,29 @@ void G3_MultMtx33 (const MtxFx33 *m)
+@@ -65,22 +84,44 @@ void G3_MultMtx43 (const MtxFx43 *m)
+ 	reg_G3X_GXFIFO = G3OP_MTX_MULT_4x3;
+ 	GX_SendFifo48B(&m->_00, (void *)&reg_G3X_GXFIFO);
+     #endif
++    #ifdef SDK_PORT
++    SIM_ExtG3Command(G3OP_MTX_MULT_4x3, (const u32 *)&m->_00);
++    #endif
+ }
+ 
+ void G3_MultMtx33 (const MtxFx33 *m)
  {
  	SDK_NULL_ASSERT(m);
  
@@ -590,6 +1041,9 @@ index b8cf1f4..7419675 100644
  	reg_G3X_GXFIFO = G3OP_MTX_MULT_3x3;
  	GX_SendFifo36B(&m->_00, (void *)&reg_G3X_GXFIFO);
 +    #endif
++    #ifdef SDK_PORT
++    SIM_ExtG3Command(G3OP_MTX_MULT_3x3, (const u32 *)&m->_00);
++    #endif
  }
  
  void G3_Shininess (const u32 *table)
@@ -602,10 +1056,13 @@ index b8cf1f4..7419675 100644
  	reg_G3X_GXFIFO = G3OP_SHININESS;
  	GX_SendFifo128B(&table[0], (void *)&reg_G3X_GXFIFO);
 +    #endif
++    #ifdef SDK_PORT
++    SIM_ExtG3Command(G3OP_SHININESS, table);
++    #endif
  }
  
  void G3_MultTransMtx33 (const MtxFx33 *mtx, const VecFx32 *trans)
-@@ -88,10 +111,24 @@ void G3_MultTransMtx33 (const MtxFx33 *mtx, const VecFx32 *trans)
+@@ -88,10 +129,27 @@ void G3_MultTransMtx33 (const MtxFx33 *mtx, const VecFx32 *trans)
  	SDK_NULL_ASSERT(mtx);
  	SDK_NULL_ASSERT(trans);
  
@@ -628,6 +1085,9 @@ index b8cf1f4..7419675 100644
  	reg_G3X_GXFIFO = (u32)trans->x;
  	reg_G3X_GXFIFO = (u32)trans->y;
  	reg_G3X_GXFIFO = (u32)trans->z;
++    #endif
++    #ifdef SDK_PORT
++    SIM_ExtG3Command(G3OP_MTX_MULT_4x3, (const u32 *)&m43._00);
 +    #endif
  }
 diff --git a/libraries/gx/src/gx_bgcnt.c b/libraries/gx/src/gx_bgcnt.c
@@ -767,6 +1227,50 @@ index 165e004..8868466 100644
      }
  }
  
+diff --git a/libraries/mi/src/mi_dma_gxcommand.c b/libraries/mi/src/mi_dma_gxcommand.c
+index 4aa90f9..d4624dc 100644
+--- a/libraries/mi/src/mi_dma_gxcommand.c
++++ b/libraries/mi/src/mi_dma_gxcommand.c
+@@ -37,6 +37,9 @@ void MI_SendGXCommand (u32 dmaNo, const void * src, u32 commandLength)
+ 	MIi_ASSERT_DMANO(dmaNo);
+ 	MIi_ASSERT_SRC_ALIGN4(src);
+ 	MIi_WARNING_ADDRINTCM(src, commandLength);
++#ifdef SDK_PORT
++	SIM_ExtG3Fifo(src, commandLength);
++#endif
+ 
+ 	if (leftLength == 0) {
+ 		return;
+@@ -81,6 +84,9 @@ void MI_SendGXCommandAsync (u32 dmaNo, const void * src, u32 commandLength, MIDm
+ 	MIi_ASSERT_DMANO(dmaNo);
+ 	MIi_ASSERT_SRC_ALIGN4(src);
+ 	MIi_WARNING_ADDRINTCM(src, commandLength);
++#ifdef SDK_PORT
++	SIM_ExtG3Fifo(src, commandLength);
++#endif
+ 
+ 	if (commandLength == 0) {
+ 		MIi_CallCallback(callback, arg);
+@@ -179,6 +185,9 @@ void MI_SendGXCommandFast (u32 dmaNo, const void * src, u32 commandLength)
+ 	MIi_ASSERT_DMANO(dmaNo);
+ 	MIi_ASSERT_SRC_ALIGN4(src);
+ 	MIi_WARNING_ADDRINTCM(src, commandLength);
++#ifdef SDK_PORT
++	SIM_ExtG3Fifo(src, commandLength);
++#endif
+ 
+ 	if (commandLength == 0) {
+ 		return;
+@@ -196,6 +205,9 @@ void MI_SendGXCommandAsyncFast (u32 dmaNo, const void * src, u32 commandLength,
+ 	MIi_ASSERT_DMANO(dmaNo);
+ 	MIi_ASSERT_SRC_ALIGN4(src);
+ 	MIi_WARNING_ADDRINTCM(src, commandLength);
++#ifdef SDK_PORT
++	SIM_ExtG3Fifo(src, commandLength);
++#endif
+ 
+ 	if (commandLength == 0) {
+ 		MIi_CallCallback(callback, arg);
 diff --git a/libraries/sim/src/g3_handler.cpp b/libraries/sim/src/g3_handler.cpp
 index 1ded67d..a5de24f 100644
 --- a/libraries/sim/src/g3_handler.cpp
@@ -811,10 +1315,18 @@ index 86cd85e..e86f72a 100644
              }
            }
 diff --git a/libraries/sim/src/sim_main.cpp b/libraries/sim/src/sim_main.cpp
-index d968038..077c1ed 100644
+index d968038..30974b6 100644
 --- a/libraries/sim/src/sim_main.cpp
 +++ b/libraries/sim/src/sim_main.cpp
-@@ -705,7 +705,11 @@ static void DrawEngine(BOOL isSub) {
+@@ -3,6 +3,7 @@ extern "C" int NitroSpMain(void *arg);
+ #define SDL_MAIN_HANDLED
+ #define _POSIX_C_SOURCE 199309L
+ 
++#include <vector>
+ #include <string>
+ #include <pthread.h>
+ #include <SDL2/SDL.h>
+@@ -705,7 +706,11 @@ static void DrawEngine(BOOL isSub) {
        u8 b;
        u8 a;
        for (int j = 0; j < 256; j++) {
@@ -827,7 +1339,7 @@ index d968038..077c1ed 100644
            u8 colorIdx = OBJLine[isSub][j] & 0xFF;
            if (colorIdx) {
              u16 *objPltt =
-@@ -941,6 +945,113 @@ static void HandleJoystickKeyUp(int aKey) {
+@@ -941,6 +946,181 @@ static void HandleJoystickKeyUp(int aKey) {
    }
  }
  
@@ -839,19 +1351,12 @@ index d968038..077c1ed 100644
 +static GLuint s_captureFrameBuffer;
 +static GLuint s_captureRenderBuffer;
 +
-+static void SIM_DisplayCapture() {
-+  u32 cap = s_reg_GX_DISPCAPCNT;
-+  if (!(cap & 0x80000000) || ((cap >> 29) & 3) != 0 || !((cap >> 24) & 1)) {
-+    return;
-+  }
-+  static const int sizes[4][2] = {{128, 128}, {256, 64}, {256, 128}, {256, 192}};
-+  int w = sizes[(cap >> 20) & 3][0];
-+  int h = sizes[(cap >> 20) & 3][1];
++// The 3D picture scaled down to 256x192 RGBA (GL order: bottom row first)
++static void SIM_Read3DPixels(u8 *pixels) {
 +  int scale = s_SIM_config.internalResolutionScale;
-+  u8 *bank = &s_HW_LCDC_VRAM[((cap >> 16) & 3) * 0x20000];
-+  u32 offset = ((cap >> 18) & 3) * 0x8000;
-+  static u8 pixels[SIM_NDS_SCREEN_WIDTH * SIM_NDS_SCREEN_HEIGHT * 4];
-+
++  GLint drawBinding, readBinding;
++  glGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING, &drawBinding);
++  glGetIntegerv(GL_READ_FRAMEBUFFER_BINDING, &readBinding);
 +  if (s_captureFrameBuffer == 0) {
 +    glGenFramebuffers(1, &s_captureFrameBuffer);
 +    glGenRenderbuffers(1, &s_captureRenderBuffer);
@@ -869,8 +1374,26 @@ index d968038..077c1ed 100644
 +  glBindFramebuffer(GL_READ_FRAMEBUFFER, s_captureFrameBuffer);
 +  glPixelStorei(GL_PACK_ALIGNMENT, 1);
 +  glReadPixels(0, 0, SIM_NDS_SCREEN_WIDTH, SIM_NDS_SCREEN_HEIGHT, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
-+  // Back to the 3D framebuffer (what was bound before)
-+  glBindFramebuffer(GL_FRAMEBUFFER, g3FrameBuffer);
++  // Back to what was bound before
++  glBindFramebuffer(GL_DRAW_FRAMEBUFFER, drawBinding);
++  glBindFramebuffer(GL_READ_FRAMEBUFFER, readBinding);
++}
++
++// Set once the PC port's own renderer (ntrgfx) draws the screens: it does display capture itself
++static bool s_extRendererActive;
++
++static void SIM_DisplayCapture() {
++  u32 cap = s_reg_GX_DISPCAPCNT;
++  if (s_extRendererActive || !(cap & 0x80000000) || ((cap >> 29) & 3) != 0 || !((cap >> 24) & 1)) {
++    return;
++  }
++  static const int sizes[4][2] = {{128, 128}, {256, 64}, {256, 128}, {256, 192}};
++  int w = sizes[(cap >> 20) & 3][0];
++  int h = sizes[(cap >> 20) & 3][1];
++  u8 *bank = &s_HW_LCDC_VRAM[((cap >> 16) & 3) * 0x20000];
++  u32 offset = ((cap >> 18) & 3) * 0x8000;
++  static u8 pixels[SIM_NDS_SCREEN_WIDTH * SIM_NDS_SCREEN_HEIGHT * 4];
++  SIM_Read3DPixels(pixels);
 +
 +  for (int y = 0; y < h; y++) {
 +    // GL rows go bottom to top
@@ -882,6 +1405,46 @@ index d968038..077c1ed 100644
 +    }
 +  }
 +  s_reg_GX_DISPCAPCNT = cap & ~0x80000000;
++}
++
++// For comparing the PC port's own renderer with libntr's: the finished window picture (both screens, as presented),
++// scaled to 256x384 RGBA, top row first. Call before the buffer swap.
++extern "C" void SIM_ReadPresentedScreens(u8 *rgba) {
++  int w, h;
++  SDL_GL_GetDrawableSize(window, &w, &h);
++  static std::vector<u8> pixels;
++  pixels.resize((size_t)w * h * 4);
++  GLint readBinding;
++  glGetIntegerv(GL_READ_FRAMEBUFFER_BINDING, &readBinding);
++  glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
++  glReadBuffer(GL_BACK);
++  glPixelStorei(GL_PACK_ALIGNMENT, 1);
++  glReadPixels(0, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, pixels.data());
++  glBindFramebuffer(GL_READ_FRAMEBUFFER, readBinding);
++  for (int y = 0; y < SIM_NDS_SCREEN_HEIGHT * 2; y++) {
++    int sy = h - 1 - (y * h / (SIM_NDS_SCREEN_HEIGHT * 2));
++    for (int x = 0; x < SIM_NDS_SCREEN_WIDTH; x++) {
++      int sx = x * w / SIM_NDS_SCREEN_WIDTH;
++      memcpy(&rgba[(y * SIM_NDS_SCREEN_WIDTH + x) * 4], &pixels[((size_t)sy * w + sx) * 4], 4);
++    }
++  }
++}
++
++// Called just before each buffer swap (the PC port's renderer comparison mode, pc/glue/ntrgfx_libntr.cpp)
++// External renderer: geometry commands (g3imm.h) and display lists (MI_SendGXCommand*); no-ops unless overridden
++extern "C" __attribute__((weak)) void SIM_ExtG3Command(u32, const u32 *) {}
++extern "C" __attribute__((weak)) void SIM_ExtG3Fifo(const void *, u32) {}
++extern "C" void SIM_ExtBeforeSwap(void) __attribute__((weak));
++
++// For the PC port's own renderer (ntrgfx), until it has its own 3D: this frame's 3D picture, 256x192 RGBA, top row
++// first
++extern "C" void SIM_Read3DImage(u8 *rgba) {
++  static u8 pixels[SIM_NDS_SCREEN_WIDTH * SIM_NDS_SCREEN_HEIGHT * 4];
++  SIM_Read3DPixels(pixels);
++  for (int y = 0; y < SIM_NDS_SCREEN_HEIGHT; y++) {
++    memcpy(&rgba[y * SIM_NDS_SCREEN_WIDTH * 4], &pixels[(SIM_NDS_SCREEN_HEIGHT - 1 - y) * SIM_NDS_SCREEN_WIDTH * 4],
++           SIM_NDS_SCREEN_WIDTH * 4);
++  }
 +}
 +
 +
@@ -925,7 +1488,16 @@ index d968038..077c1ed 100644
 +    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 +    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 +  }
++  // libntr's own drawing (the 3D renderer too) relies on the GL state it left: restore all that is changed here
++  GLint activeTexture, texture0, currentProgram, vertexArray, unpackAlignment;
++  GLboolean blend = glIsEnabled(GL_BLEND);
++  glGetIntegerv(GL_ACTIVE_TEXTURE, &activeTexture);
 +  glActiveTexture(GL_TEXTURE0);
++  glGetIntegerv(GL_TEXTURE_BINDING_2D, &texture0);
++  glGetIntegerv(GL_CURRENT_PROGRAM, &currentProgram);
++  glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &vertexArray);
++  glGetIntegerv(GL_UNPACK_ALIGNMENT, &unpackAlignment);
++
 +  glBindTexture(GL_TEXTURE_2D, tex);
 +  glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 +  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, SIM_NDS_SCREEN_WIDTH, SIM_NDS_SCREEN_HEIGHT * 2, 0, GL_RGBA,
@@ -935,13 +1507,21 @@ index d968038..077c1ed 100644
 +  glDisable(GL_BLEND);
 +  glBindVertexArray(vao);
 +  glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-+  glBindVertexArray(0);
++
++  glBindVertexArray(vertexArray);
++  glUseProgram(currentProgram);
++  glBindTexture(GL_TEXTURE_2D, texture0);
++  glActiveTexture(activeTexture);
++  glPixelStorei(GL_UNPACK_ALIGNMENT, unpackAlignment);
++  if (blend) {
++    glEnable(GL_BLEND);
++  }
 +}
 +
  void *SIM_Render(void *arg) {
  
    SDL_Event Event;
-@@ -958,6 +1069,8 @@ void *SIM_Render(void *arg) {
+@@ -958,6 +1138,8 @@ void *SIM_Render(void *arg) {
    // Draw the translucent 3D stuff
    G3SIM_DrawItems();
  
@@ -950,7 +1530,7 @@ index d968038..077c1ed 100644
    do {
  #ifdef SDK_TRACY_ENABLE
      TracyCZone(SimRenderZone, 1);
-@@ -1266,30 +1379,36 @@ void *SIM_Render(void *arg) {
+@@ -1266,30 +1448,37 @@ void *SIM_Render(void *arg) {
      SIM::GUI::NewFrame();
      SIM::GUI::Main();
  
@@ -981,6 +1561,7 @@ index d968038..077c1ed 100644
 +    static u8 s_extFrame[SIM_NDS_SCREEN_WIDTH * SIM_NDS_SCREEN_HEIGHT * 2 * 4];
 +    if (SIM_ExtRenderFrame != NULL && SIM_ExtRenderFrame(s_extFrame)) {
 +      // The PC port's own renderer (ntrgfx) drew both screens
++      s_extRendererActive = true;
 +      SIM_PresentExtFrame(s_extFrame);
 +    } else {
 +      memset(bgtex, 0,
@@ -1011,7 +1592,17 @@ index d968038..077c1ed 100644
  
      // Run HBlank Interrupt
      OS_IRQTable[OS_IE_H_BLANK - 1]();
-@@ -1357,6 +1476,7 @@ void *SIM_Render(void *arg) {
+@@ -1325,6 +1514,9 @@ void *SIM_Render(void *arg) {
+       }
+     }
+ 
++    if (SIM_ExtBeforeSwap != NULL) {
++      SIM_ExtBeforeSwap();
++    }
+     SDL_GL_SwapWindow(window);
+ 
+     if(sChangeInternalResAfterRender) {
+@@ -1357,6 +1549,7 @@ void *SIM_Render(void *arg) {
    glBindRenderbuffer(GL_RENDERBUFFER, g3RenderBufferId);
  
    // Setup 3D Viewport
