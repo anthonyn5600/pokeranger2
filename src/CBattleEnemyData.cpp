@@ -1,8 +1,8 @@
 #include "battle/CBattleEnemyData.hpp"
 
-#include "UnkStruct_02044464.hpp"
+#include "ScriptVM.hpp"
 
-CBattleEnemyData::CBattleEnemyData(u16 id, UnkStruct_020107A8 *info, UnkStruct_0212DFEC *param, u32 heapId)
+CBattleEnemyData::CBattleEnemyData(u16 id, PokeIdTableEntry *info, BattlePokemonParam *param, u32 heapId)
     : CActorData(0, info->unk_00, info->unk_02, 0x26, TRUE, NULL)
 {
     unk_16 = id;

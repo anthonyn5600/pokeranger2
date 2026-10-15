@@ -32,25 +32,25 @@ public:
     virtual void vfunc_0C(Camera2D *camera);
     virtual void vfunc_10(Camera2D *camera);
 
-    void ov1_02136E08();
-    void ov1_02136FB8();
-    void ov1_02137094(Point2D pos);
-    void ov1_02137144();
-    void ov1_02137194();
-    void ov1_021371C4();
-    void ov1_021371F0();
-    void ov1_0213720C();
-    void ov1_021373FC();
-    BOOL ov1_021374FC(Point2D pos);
-    BOOL ov1_02137ABC();
-    u16 ov1_02137AD4();
-    fx32 ov1_02137ADC();
+    void Load();
+    void Release();
+    void Hold(Point2D pos);
+    void StopHold();
+    void PlayLevelUpAnim();
+    void Init();
+    void ResetCharge();
+    void SpawnChargeParticle();
+    void SpawnStreak();
+    BOOL IsNearTouchStart(Point2D pos);
+    BOOL IsCharging();
+    u16 GetLevel();
+    fx32 GetLevelScale();
     void ov1_02137B94(Camera2D *camera);
-    void ov1_02137B98(Camera2D *camera);
-    void ov1_02137C3C(Camera2D *camera);
-    void ov1_02137CF0(Camera2D *camera);
-    void ov1_02137D44(u8 level);
-    int ov1_02137D7C(int z);
+    void DrawLevelUp(Camera2D *camera);
+    void DrawBurst(Camera2D *camera);
+    void DrawStreaks(Camera2D *camera);
+    void StartBurst(u8 level);
+    int SetZ(int z);
 
     inline void SetChargeTimes(u16 a, u16 b)
     {

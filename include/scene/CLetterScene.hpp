@@ -20,9 +20,9 @@ public:
     virtual void func7();
     virtual u32 getSceneId();
 
-    void ov4_0211D060();
-    void ov4_0211D394();
-    void ov4_0211D440();
+    void LoadBG();
+    void SetupBG();
+    void SetupText();
 
 public:
     CGame *m_game;

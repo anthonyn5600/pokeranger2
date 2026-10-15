@@ -15,15 +15,15 @@ class BattleDiskRing {
 public:
     BattleDiskRing();
     ~BattleDiskRing();
-    void ov1_0212D5DC();
-    void ov1_0212D774();
-    void ov1_0212D870();
-    void ov1_0212D880();
-    void ov1_0212D974(Camera2D *camera);
-    void ov1_0212DAF0();
-    void ov1_0212DB04();
-    int ov1_0212DB18(int z);
-    void ov1_0212DBB0(u8 alpha);
+    void Update();
+    void UpdateOpen();
+    void UpdateShown();
+    void UpdateClose();
+    void Render(Camera2D *camera);
+    void Open();
+    void Close();
+    int SetZ(int z);
+    void SetLineAlpha(u8 alpha);
 
     inline void SetPos(Point2D pos)
     {

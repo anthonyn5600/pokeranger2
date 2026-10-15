@@ -187,46 +187,46 @@ void BattleResult::Release()
     NNS_GfdFreeLnkPlttVram(m_plttKey);
 }
 
-void BattleResult::ov1_02138FEC()
+void BattleResult::Update()
 {
     m_frame++;
     switch (m_state) {
     case 0:
         break;
     case 1:
-        ov1_02139088();
+        UpdateStart();
         break;
     case 2:
-        ov1_021390A8();
+        UpdateExpSlideIn();
         break;
     case 3:
-        ov1_02139154();
+        UpdateNextBonus();
         break;
     case 4:
-        ov1_02139280();
+        UpdateBonusSlideIn();
         break;
     case 5:
-        ov1_021392F8();
+        UpdateRankSlideIn();
         break;
     case 6:
-        ov1_02139364();
+        UpdateExpTally();
         break;
     case 7:
-        ov1_021396C0();
+        UpdateExpTallyNoLevel();
         break;
     case 9:
-        ov1_0213985C();
+        UpdateLevelUpSlideIn();
         break;
     case 8:
-        ov1_021397FC();
+        UpdateLevelUpFlash();
         break;
     case 10:
-        ov1_021398F4();
+        UpdateWaitInput();
         break;
     }
 }
 
-void BattleResult::ov1_02139088()
+void BattleResult::UpdateStart()
 {
     if (m_frame >= 16) {
         m_frame = 0;
@@ -234,7 +234,7 @@ void BattleResult::ov1_02139088()
     }
 }
 
-void BattleResult::ov1_021390A8()
+void BattleResult::UpdateExpSlideIn()
 {
     SetExpDigits(m_exp);
     SetExpBar(m_save->m_levelExp << FX32_SHIFT, m_nextExp << FX32_SHIFT);
@@ -248,11 +248,11 @@ void BattleResult::ov1_021390A8()
     }
 }
 
-void BattleResult::ov1_02139154()
+void BattleResult::UpdateNextBonus()
 {
     for (;;) {
         if (m_bonusIdx >= 17) {
-            u8 rank = ov1_0213A4A0(m_score);
+            u8 rank = GetRank(m_score);
             m_panel1.m_cellDataIdx = rank + 2;
             if (rank == 0) {
                 m_audio->PlaySe(20);
@@ -280,7 +280,7 @@ void BattleResult::ov1_02139154()
     }
 }
 
-void BattleResult::ov1_02139280()
+void BattleResult::UpdateBonusSlideIn()
 {
     SetBonusPos(LinearInterpolate(0x100000, 0, m_frame, 8), -0x48000);
     if (m_frame == 8) {
@@ -293,7 +293,7 @@ void BattleResult::ov1_02139280()
     }
 }
 
-void BattleResult::ov1_021392F8()
+void BattleResult::UpdateRankSlideIn()
 {
     SetPanelPos(LinearInterpolate(-0x100000, -0x80000, m_frame, 8), -0x28000);
     if (m_frame >= 40) {
@@ -304,7 +304,7 @@ void BattleResult::ov1_021392F8()
     }
 }
 
-void BattleResult::ov1_02139364()
+void BattleResult::UpdateExpTally()
 {
     if (m_baseExp == 0) {
         m_audio->StopSe(54);
@@ -389,7 +389,7 @@ void BattleResult::ov1_02139364()
     MoveExpBar(0, 0x18000);
 }
 
-void BattleResult::ov1_021396C0()
+void BattleResult::UpdateExpTallyNoLevel()
 {
     if (m_tally >= 64) {
         SaveData *save = m_save;
@@ -428,7 +428,7 @@ void BattleResult::ov1_021396C0()
     SetExpLabelPos(0, 0x18000);
 }
 
-void BattleResult::ov1_021397FC()
+void BattleResult::UpdateLevelUpFlash()
 {
     m_expBar.m_alpha = (u8)LinearInterpolate(31, 4, m_frame, 32);
     m_expBar.m_color = GX_RGB(31, 31, 31);
@@ -439,7 +439,7 @@ void BattleResult::ov1_021397FC()
     }
 }
 
-void BattleResult::ov1_0213985C()
+void BattleResult::UpdateLevelUpSlideIn()
 {
     SetLevelPos(LinearInterpolate(-0x100000, -0x80000, m_frame, 8), 0x28000);
     SetStat1Pos(LinearInterpolate(0x140000, 0x80000, m_frame, 8), 0x28000);
@@ -450,7 +450,7 @@ void BattleResult::ov1_0213985C()
     }
 }
 
-void BattleResult::ov1_021398F4()
+void BattleResult::UpdateWaitInput()
 {
     SetPromptPos(0, -0x2C000);
     m_angle += 0x400;
@@ -469,7 +469,7 @@ void BattleResult::ov1_021398F4()
     }
 }
 
-void BattleResult::ov1_021399A8(Camera2D *camera)
+void BattleResult::Render(Camera2D *camera)
 {
     m_panel0.Render(camera);
     m_panel1.Render(camera);
@@ -508,7 +508,7 @@ void BattleResult::ov1_021399A8(Camera2D *camera)
     m_prompt1.Render(camera);
 }
 
-void BattleResult::ov1_02139C30(CBattleDisk *disk, CPlayerHPGauge *gauge)
+void BattleResult::Start(CBattleDisk *disk, CPlayerHPGauge *gauge)
 {
     m_exp = (m_bonusFlags & 0x20000) ? 0 : m_baseExp;
     m_tally = 0;
@@ -526,7 +526,7 @@ void BattleResult::ov1_02139C30(CBattleDisk *disk, CPlayerHPGauge *gauge)
     m_state = 1;
 }
 
-int BattleResult::ov1_02139CE4(int z)
+int BattleResult::SetZ(int z)
 {
     int front = z + 0x40;
     int back = z + 0x20;
@@ -793,7 +793,7 @@ void BattleResult::SetStat2Digits(u8 value)
     }
 }
 
-u8 BattleResult::ov1_0213A4A0(u16 score)
+u8 BattleResult::GetRank(u16 score)
 {
     for (u8 i = 0; i < 4; i++) {
         if (score >= sRankScores[i]) {

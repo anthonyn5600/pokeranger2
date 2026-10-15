@@ -177,9 +177,9 @@ int CFieldEffectFireworks::SetParam(int param, int value)
     return ret;
 }
 
-int CFieldEffectFireworks::ov0_02142264(int step)
+int CFieldEffectFireworks::Update(int step)
 {
-    int state = CFieldEffect::ov0_02142264(step);
+    int state = CFieldEffect::Update(step);
     switch (state) {
     case 1: {
         fx32 scale;
@@ -211,7 +211,7 @@ int CFieldEffectFireworks::ov0_02142264(int step)
     return state;
 }
 
-int CFieldEffectFireworks::ov0_02142344(Camera2D *camera)
+int CFieldEffectFireworks::Render(Camera2D *camera)
 {
     if (m_state != 4 && m_state != 0 && m_mesh.m_alpha > 0) {
         m_mesh.Render(camera);

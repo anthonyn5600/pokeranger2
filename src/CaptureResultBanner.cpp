@@ -18,7 +18,7 @@ static inline void SetSpriteRes(CSoftwareSprite *sprite, VramImage *image, VramP
 CaptureResultBanner::CaptureResultBanner(u16 type)
 {
     m_type = type;
-    ov1_0213F0C8(type);
+    Load(type);
     Point2D pos;
     pos.x = 0;
     pos.y = 0x18000;
@@ -27,10 +27,10 @@ CaptureResultBanner::CaptureResultBanner(u16 type)
 
 CaptureResultBanner::~CaptureResultBanner()
 {
-    ov1_0213F2B4();
+    Release();
 }
 
-void CaptureResultBanner::ov1_0213F0C8(u16 type)
+void CaptureResultBanner::Load(u16 type)
 {
     char path[96];
     char ncbr[96];
@@ -61,86 +61,86 @@ void CaptureResultBanner::ov1_0213F0C8(u16 type)
     SetSpriteRes(&m_ring, m_ringRes->m_image, m_ringRes->m_palette, m_ringRes->m_cells);
 }
 
-void CaptureResultBanner::ov1_0213F2B4()
+void CaptureResultBanner::Release()
 {
     SAFE_DELETE(m_bannerRes);
     SAFE_DELETE(m_flashRes);
     SAFE_DELETE(m_ringRes);
 }
 
-void CaptureResultBanner::ov1_0213F338()
+void CaptureResultBanner::Update()
 {
     switch (m_state) {
     case 0:
         break;
     case 1:
-        ov1_0213F3D4();
+        UpdateStart();
         break;
     case 2:
-        ov1_0213F41C();
+        UpdateRingOpenX();
         break;
     case 3:
-        ov1_0213F490();
+        UpdateRingOpenY();
         break;
     case 4:
-        ov1_0213F504();
+        UpdateSlideIn();
         break;
     case 5:
-        ov1_0213F578();
+        UpdateWait();
         break;
     case 6:
-        ov1_0213F5A0();
+        UpdateBannerAnim();
         break;
     case 7:
-        ov1_0213F608();
+        UpdateFlash();
         break;
     case 8:
-        ov1_0213F688();
+        UpdateCloseTextbox();
         break;
     case 9:
-        ov1_0213F6D0();
+        UpdateSlideOut();
         break;
     case 10:
-        ov1_0213F794();
+        UpdateRingCloseY();
         break;
     case 11:
-        ov1_0213F7E4();
+        UpdateRingCloseX();
         break;
     }
 }
 
-void CaptureResultBanner::ov1_0213F3D4()
+void CaptureResultBanner::UpdateStart()
 {
     m_frame++;
     if (m_frame >= 1) {
         ScriptManager_Run(CGame::GetInstance()->m_scriptManager, "system_000");
-        ov1_0213F960(2);
+        SetState(2);
     }
 }
 
-void CaptureResultBanner::ov1_0213F41C()
+void CaptureResultBanner::UpdateRingOpenX()
 {
     m_ring.m_scale[0] = LinearInterpolate(0x28, 0x1000, m_frame, 6);
     m_ring.SetPos(m_pos);
     m_frame++;
     if (m_frame > 6) {
         m_ring.m_scale[0] = 0x1000;
-        ov1_0213F960(3);
+        SetState(3);
     }
 }
 
-void CaptureResultBanner::ov1_0213F490()
+void CaptureResultBanner::UpdateRingOpenY()
 {
     m_ring.m_scale[1] = LinearInterpolate(0x28, 0x1000, m_frame, 10);
     m_ring.SetPos(m_pos);
     m_frame++;
     if (m_frame >= 10) {
         m_ring.m_scale[1] = 0x1000;
-        ov1_0213F960(4);
+        SetState(4);
     }
 }
 
-void CaptureResultBanner::ov1_0213F504()
+void CaptureResultBanner::UpdateSlideIn()
 {
     fx32 dx = LinearInterpolate(0x100000, -0x60000, m_frame, 8);
     Point2D pos = m_pos;
@@ -148,30 +148,30 @@ void CaptureResultBanner::ov1_0213F504()
     m_banner.SetPos(pos);
     m_frame++;
     if (m_frame > 8) {
-        ov1_0213F960(5);
+        SetState(5);
     }
 }
 
-void CaptureResultBanner::ov1_0213F578()
+void CaptureResultBanner::UpdateWait()
 {
     m_frame++;
     if (m_frame > 0x30) {
-        ov1_0213F960(6);
+        SetState(6);
     }
 }
 
-void CaptureResultBanner::ov1_0213F5A0()
+void CaptureResultBanner::UpdateBannerAnim()
 {
     m_anim->Update(m_animId);
     m_banner.m_cellDataIdx = m_anim->GetCell(m_animId);
     m_frame++;
     if (m_frame > 0x20) {
         CGame::GetInstance()->m_audioEngine->PlaySe(0x3B);
-        ov1_0213F960(7);
+        SetState(7);
     }
 }
 
-void CaptureResultBanner::ov1_0213F608()
+void CaptureResultBanner::UpdateFlash()
 {
     if (m_frame <= 8) {
         m_flash2.m_alpha = (u8)LinearInterpolate(31, 0, m_frame, 8);
@@ -181,20 +181,20 @@ void CaptureResultBanner::ov1_0213F608()
     m_banner.m_cellDataIdx = m_anim->GetCell(m_animId);
     m_frame++;
     if (m_frame >= 8) {
-        ov1_0213F960(8);
+        SetState(8);
     }
 }
 
-void CaptureResultBanner::ov1_0213F688()
+void CaptureResultBanner::UpdateCloseTextbox()
 {
     m_frame++;
     if (m_frame > 0x18) {
         CGame::GetInstance()->m_textboxData->CloseAndClear(1, 1);
-        ov1_0213F960(9);
+        SetState(9);
     }
 }
 
-void CaptureResultBanner::ov1_0213F6D0()
+void CaptureResultBanner::UpdateSlideOut()
 {
     fx32 dx = LinearInterpolate(-0x60000, -0x180000, m_frame, 8);
     Point2D pos = m_pos;
@@ -207,47 +207,47 @@ void CaptureResultBanner::ov1_0213F6D0()
     m_flash2.SetPos(pos);
     m_frame++;
     if (m_frame > 8) {
-        ov1_0213F960(10);
+        SetState(10);
     }
 }
 
-void CaptureResultBanner::ov1_0213F794()
+void CaptureResultBanner::UpdateRingCloseY()
 {
     m_ring.m_scale[1] = LinearInterpolate(0x1000, 0x28, m_frame, 10);
     m_frame++;
     if (m_frame > 10) {
         m_ring.m_scale[1] = 0x28;
-        ov1_0213F960(11);
+        SetState(11);
     }
 }
 
-void CaptureResultBanner::ov1_0213F7E4()
+void CaptureResultBanner::UpdateRingCloseX()
 {
     m_ring.m_scale[0] = LinearInterpolate(0x1000, 0x28, m_frame, 6);
     m_frame++;
     if (m_frame > 6) {
-        ov1_0213F960(0);
+        SetState(0);
     }
 }
 
-void CaptureResultBanner::ov1_0213F82C(Camera2D *camera)
+void CaptureResultBanner::Render(Camera2D *camera)
 {
     if (!IsActive()) {
         return;
     }
-    ov1_0213F970(0x406);
+    SetZ(0x406);
     m_banner.Render(camera);
     m_flash.Render(camera);
     m_flash2.Render(camera);
     m_ring.Render(camera);
 }
 
-void CaptureResultBanner::ov1_0213F8B4()
+void CaptureResultBanner::Start()
 {
     if (m_type == 7) {
         return;
     }
-    ov1_0213F960(1);
+    SetState(1);
     m_ring.SetScale(0x28, 0x28);
     m_ring.SetPos(m_pos);
     m_flash.m_cellDataIdx = 0;
@@ -259,13 +259,13 @@ void CaptureResultBanner::ov1_0213F8B4()
     m_banner.SetXY(m_pos.x + 0x100000, m_pos.y);
 }
 
-void CaptureResultBanner::ov1_0213F960(int state)
+void CaptureResultBanner::SetState(int state)
 {
     m_frame = 0;
     m_state = state;
 }
 
-int CaptureResultBanner::ov1_0213F970(int z)
+int CaptureResultBanner::SetZ(int z)
 {
     z += m_ring.GetCellNumOAMAttrs(m_ring.m_cellDataIdx);
     m_ring.m_z = z;

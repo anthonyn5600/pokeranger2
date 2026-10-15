@@ -58,7 +58,7 @@ void YesNoPrompt::Init(CGame_0024 *arg0, PadInput *arg1, CTouchPanel *arg2, void
     LoadGraphics();
 
     for (int i = 0; i < 0x80; ++i) {
-        m_icons[i].sub_0200B714(&unk_0000[i]);
+        m_icons[i].Init(&unk_0000[i]);
     }
 }
 
@@ -89,7 +89,7 @@ void YesNoPrompt::AddIcon(u32 arg0, u32 arg1, u32 arg2, u32 arg3)
 
     for (int i = 0; i < 0x80; ++i) {
         if (m_icons[i].unk_10 == 0) {
-            m_icons[i].sub_0200B818(arg0, arg1, arg2, arg3, unk_1630, unk_1634, unk_1638);
+            m_icons[i].Setup(arg0, arg1, arg2, arg3, unk_1630, unk_1634, unk_1638);
             return;
         }
     }
@@ -113,7 +113,7 @@ void YesNoPrompt::Update()
 
     for (int i = 0; i < 0x80; ++i) {
         if (m_icons[i].unk_10 == 1) {
-            m_icons[i].sub_0200B744();
+            m_icons[i].Update();
         }
     }
 }
@@ -121,7 +121,7 @@ void YesNoPrompt::Update()
 void YesNoPrompt::Reset()
 {
     for (int i = 0; i < 0x80; ++i) {
-        m_icons[i].sub_0200B714(&unk_0000[i]);
+        m_icons[i].Init(&unk_0000[i]);
     }
 
     for (int i = 0; i < 4; ++i) {
@@ -137,14 +137,14 @@ void YesNoPrompt::ScrollIcons()
         case 1:
         case 15:
         case 16:
-            m_icons[i].sub_0200B714(&unk_0000[i]);
+            m_icons[i].Init(&unk_0000[i]);
             break;
 
         default:
             if (m_icons[i].unk_0C == 0x18 || m_icons[i].unk_0C == 0xA8) {
                 m_icons[i].unk_0C -= 0x10;
             } else {
-                m_icons[i].sub_0200B714(&unk_0000[i]);
+                m_icons[i].Init(&unk_0000[i]);
             }
 
             break;
@@ -239,13 +239,13 @@ void YesNoPrompt::ShowAnswer()
             if (m_result == 0) {
                 m_icons[i].unk_24 = 1;
             } else {
-                m_icons[i].sub_0200B714(&unk_0000[i]);
+                m_icons[i].Init(&unk_0000[i]);
             }
         } else if (m_icons[i].unk_10 == 1 && m_icons[i].unk_04 == 0x10) {
             if (m_result == 1) {
                 m_icons[i].unk_24 = 1;
             } else {
-                m_icons[i].sub_0200B714(&unk_0000[i]);
+                m_icons[i].Init(&unk_0000[i]);
             }
         }
     }

@@ -62,21 +62,21 @@ static MywhWork *sWork;
 static void (*sPrintf)(const char *fmt, ...);
 static int sInitialized;
 
-static BOOL ov11_0212F7C0();
-static void ov11_0212F938(void *arg);
-static BOOL ov11_0212FB40();
-static void ov11_0212FB68(void *arg);
-static void ov11_0212FB8C(void *arg);
-static void ov11_0212FC0C(void *arg);
-static BOOL ov11_0212FC50();
-static void ov11_0212FC98(void *arg);
-static BOOL ov11_0212FCFC();
-static BOOL ov11_0212FDA4();
-static void ov11_0212FDD4(void *arg);
-static void ov11_0212FEC8(const MywhBeacon *beacon);
-static BOOL ov11_0212FF98(const MywhBeacon *beacon);
+static BOOL Mywh_StateInStartScan();
+static void Mywh_StateOutStartScan(void *arg);
+static BOOL Mywh_StateInEndScan();
+static void Mywh_StateOutEndScan(void *arg);
+static void Mywh_StateOutEnd(void *arg);
+static void Mywh_IndicateHandler(void *arg);
+static BOOL Mywh_StateInInitialize();
+static void Mywh_StateOutInitialize(void *arg);
+static BOOL Mywh_End();
+static BOOL Mywh_StateInReset();
+static void Mywh_StateOutReset(void *arg);
+static void Mywh_BeginDownload(const MywhBeacon *beacon);
+static BOOL Mywh_ReceiveChunk(const MywhBeacon *beacon);
 
-static void ov11_0212F64C(int state)
+static void Mywh_ChangeSysState(int state)
 {
     static const char *sStateNames[] = {
         "mywh_SYSSTATE_STOP",
@@ -100,7 +100,7 @@ static void ov11_0212F64C(int state)
     }
 }
 
-static void ov11_0212F6CC(int code)
+static void Mywh_SetError(int code)
 {
     if (sWork->sysState == MYWH_SYSSTATE_ERROR || sWork->sysState == MYWH_SYSSTATE_FATAL) {
         return;
@@ -108,17 +108,17 @@ static void ov11_0212F6CC(int code)
     sWork->errCode = code;
 }
 
-static BOOL ov11_0212F6F0()
+static BOOL Mywh_StartScan()
 {
     if (sWork->sysState == MYWH_SYSSTATE_CONNECTED) {
         OS_Terminate();
     }
-    ov11_0212F64C(MYWH_SYSSTATE_SCANNING);
+    Mywh_ChangeSysState(MYWH_SYSSTATE_SCANNING);
     *(u16 *)&sWork->scanParam.bssid[4] = 0xFFFF;
     *(u16 *)&sWork->scanParam.bssid[2] = 0xFFFF;
     *(u16 *)&sWork->scanParam.bssid[0] = 0xFFFF;
-    if (!ov11_0212F7C0()) {
-        ov11_0212F64C(MYWH_SYSSTATE_ERROR);
+    if (!Mywh_StateInStartScan()) {
+        Mywh_ChangeSysState(MYWH_SYSSTATE_ERROR);
         if (sWork->callback != NULL) {
             sWork->callback(4);
         }
@@ -131,16 +131,16 @@ static BOOL ov11_0212F6F0()
     return TRUE;
 }
 
-static BOOL ov11_0212F7C0()
+static BOOL Mywh_StateInStartScan()
 {
     MYWH_ASSERT(sWork->sysState == MYWH_SYSSTATE_SCANNING);
     u16 chanpat = WM_GetAllowedChannel();
     if (chanpat == 0x8000) {
-        ov11_0212F6CC(WM_ERRCODE_ILLEGAL_STATE);
+        Mywh_SetError(WM_ERRCODE_ILLEGAL_STATE);
         return FALSE;
     }
     if (chanpat == 0) {
-        ov11_0212F6CC(0x16);
+        Mywh_SetError(0x16);
         return FALSE;
     }
     if (sWork->channel >= 16) {
@@ -163,29 +163,29 @@ static BOOL ov11_0212F7C0()
             sWork->scanParam.bssid[i] = sWork->parentMac[i];
         }
     }
-    WMErrCode result = WM_StartScan(ov11_0212F938, &sWork->scanParam);
+    WMErrCode result = WM_StartScan(Mywh_StateOutStartScan, &sWork->scanParam);
     if (result == WM_ERRCODE_OPERATING) {
         return TRUE;
     }
-    ov11_0212F6CC(result);
+    Mywh_SetError(result);
     return FALSE;
 }
 
-static void ov11_0212F938(void *arg)
+static void Mywh_StateOutStartScan(void *arg)
 {
     WMStartScanCallback *cb = (WMStartScanCallback *)arg;
 
     if (cb->errcode != WM_ERRCODE_SUCCESS) {
-        ov11_0212F6CC(cb->errcode);
-        ov11_0212F64C(MYWH_SYSSTATE_ERROR);
+        Mywh_SetError(cb->errcode);
+        Mywh_ChangeSysState(MYWH_SYSSTATE_ERROR);
         if (sWork->callback != NULL) {
             sWork->callback(4);
         }
         return;
     }
     if (sWork->sysState != MYWH_SYSSTATE_SCANNING) {
-        if (!ov11_0212FB40()) {
-            ov11_0212F64C(MYWH_SYSSTATE_ERROR);
+        if (!Mywh_StateInEndScan()) {
+            Mywh_ChangeSysState(MYWH_SYSSTATE_ERROR);
             if (sWork->callback != NULL) {
                 sWork->callback(4);
             }
@@ -208,7 +208,7 @@ static void ov11_0212F938(void *arg)
         }
         sWork->linkLevel = cb->linkLevel;
         if (sWork->mode == 2) {
-            ov11_0212FEC8((const MywhBeacon *)cb->gameInfo.userGameInfo);
+            Mywh_BeginDownload((const MywhBeacon *)cb->gameInfo.userGameInfo);
             for (int i = 0; i < WM_SIZE_MACADDR; i++) {
                 sWork->parentMac[i] = cb->macAddress[i];
             }
@@ -217,71 +217,71 @@ static void ov11_0212F938(void *arg)
                 sWork->callback(1);
             }
         }
-        if (ov11_0212FF98((const MywhBeacon *)cb->gameInfo.userGameInfo)) {
+        if (Mywh_ReceiveChunk((const MywhBeacon *)cb->gameInfo.userGameInfo)) {
             sWork->mode = 4;
             return;
         }
         break;
     }
-    if (!ov11_0212F7C0()) {
-        ov11_0212F64C(MYWH_SYSSTATE_ERROR);
+    if (!Mywh_StateInStartScan()) {
+        Mywh_ChangeSysState(MYWH_SYSSTATE_ERROR);
         if (sWork->callback != NULL) {
             sWork->callback(4);
         }
     }
 }
 
-static BOOL ov11_0212FB40()
+static BOOL Mywh_StateInEndScan()
 {
-    WMErrCode result = WM_EndScan(ov11_0212FB68);
+    WMErrCode result = WM_EndScan(Mywh_StateOutEndScan);
     if (result == WM_ERRCODE_OPERATING) {
         return TRUE;
     }
-    ov11_0212F6CC(result);
+    Mywh_SetError(result);
     return FALSE;
 }
 
-static void ov11_0212FB68(void *arg)
+static void Mywh_StateOutEndScan(void *arg)
 {
     WMCallback *cb = (WMCallback *)arg;
 
     if (cb->errcode != WM_ERRCODE_SUCCESS) {
-        ov11_0212F6CC(cb->errcode);
+        Mywh_SetError(cb->errcode);
         return;
     }
-    ov11_0212F64C(MYWH_SYSSTATE_IDLE);
+    Mywh_ChangeSysState(MYWH_SYSSTATE_IDLE);
 }
 
-static void ov11_0212FB8C(void *arg)
+static void Mywh_StateOutEnd(void *arg)
 {
     WMCallback *cb = (WMCallback *)arg;
 
     if (cb->errcode != WM_ERRCODE_SUCCESS) {
-        ov11_0212F64C(MYWH_SYSSTATE_FATAL);
+        Mywh_ChangeSysState(MYWH_SYSSTATE_FATAL);
         return;
     }
-    ov11_0212F64C(MYWH_SYSSTATE_STOP);
+    Mywh_ChangeSysState(MYWH_SYSSTATE_STOP);
     if (sWork->callback != NULL) {
         sWork->callback(3);
     }
 }
 
-static BOOL ov11_0212FBD8()
+static BOOL Mywh_Initialize()
 {
     sWork->errCode = 0;
     sInitialized = FALSE;
-    if (ov11_0212FC50()) {
+    if (Mywh_StateInInitialize()) {
         return TRUE;
     }
     return FALSE;
 }
 
-static void ov11_0212FC0C(void *arg)
+static void Mywh_IndicateHandler(void *arg)
 {
     WMIndCallback *cb = (WMIndCallback *)arg;
 
     if (cb->errcode == WM_ERRCODE_FIFO_ERROR) {
-        ov11_0212F64C(MYWH_SYSSTATE_ERROR);
+        Mywh_ChangeSysState(MYWH_SYSSTATE_ERROR);
         if (sWork->callback != NULL) {
             sWork->callback(4);
         }
@@ -289,46 +289,46 @@ static void ov11_0212FC0C(void *arg)
     }
 }
 
-static BOOL ov11_0212FC50()
+static BOOL Mywh_StateInInitialize()
 {
-    ov11_0212F64C(MYWH_SYSSTATE_BUSY);
-    WMErrCode result = WM_Initialize(sWork, ov11_0212FC98, 2);
+    Mywh_ChangeSysState(MYWH_SYSSTATE_BUSY);
+    WMErrCode result = WM_Initialize(sWork, Mywh_StateOutInitialize, 2);
     if (result == WM_ERRCODE_OPERATING) {
         return TRUE;
     }
-    ov11_0212F6CC(result);
-    ov11_0212F64C(MYWH_SYSSTATE_FATAL);
+    Mywh_SetError(result);
+    Mywh_ChangeSysState(MYWH_SYSSTATE_FATAL);
     return FALSE;
 }
 
-static void ov11_0212FC98(void *arg)
+static void Mywh_StateOutInitialize(void *arg)
 {
     WMCallback *cb = (WMCallback *)arg;
 
     if (cb->errcode != WM_ERRCODE_SUCCESS) {
-        ov11_0212F6CC(cb->errcode);
-        ov11_0212F64C(MYWH_SYSSTATE_FATAL);
+        Mywh_SetError(cb->errcode);
+        Mywh_ChangeSysState(MYWH_SYSSTATE_FATAL);
         return;
     }
-    WMErrCode result = WM_SetIndCallback(ov11_0212FC0C);
+    WMErrCode result = WM_SetIndCallback(Mywh_IndicateHandler);
     if (result != WM_ERRCODE_SUCCESS) {
-        ov11_0212F6CC(result);
-        ov11_0212F64C(MYWH_SYSSTATE_FATAL);
+        Mywh_SetError(result);
+        Mywh_ChangeSysState(MYWH_SYSSTATE_FATAL);
         return;
     }
-    ov11_0212F64C(MYWH_SYSSTATE_IDLE);
+    Mywh_ChangeSysState(MYWH_SYSSTATE_IDLE);
     sInitialized = TRUE;
-    ov11_0212F6F0();
+    Mywh_StartScan();
 }
 
-static BOOL ov11_0212FCFC()
+static BOOL Mywh_End()
 {
     if (sWork->sysState != MYWH_SYSSTATE_IDLE) {
         OS_Terminate();
     }
-    ov11_0212F64C(MYWH_SYSSTATE_BUSY);
-    if (WM_End(ov11_0212FB8C) != WM_ERRCODE_OPERATING) {
-        ov11_0212F64C(MYWH_SYSSTATE_ERROR);
+    Mywh_ChangeSysState(MYWH_SYSSTATE_BUSY);
+    if (WM_End(Mywh_StateOutEnd) != WM_ERRCODE_OPERATING) {
+        Mywh_ChangeSysState(MYWH_SYSSTATE_ERROR);
         if (sWork->callback != NULL) {
             sWork->callback(4);
         }
@@ -337,43 +337,43 @@ static BOOL ov11_0212FCFC()
     return TRUE;
 }
 
-void ov11_0212FD74()
+void Mywh_Finalize()
 {
     if (sWork->sysState == MYWH_SYSSTATE_IDLE) {
-        ov11_0212FCFC();
+        Mywh_End();
     } else {
-        ov11_0212FDA4();
+        Mywh_StateInReset();
     }
 }
 
-static BOOL ov11_0212FDA4()
+static BOOL Mywh_StateInReset()
 {
-    ov11_0212F64C(MYWH_SYSSTATE_BUSY);
-    WMErrCode result = WM_Reset(ov11_0212FDD4);
+    Mywh_ChangeSysState(MYWH_SYSSTATE_BUSY);
+    WMErrCode result = WM_Reset(Mywh_StateOutReset);
     if (result == WM_ERRCODE_OPERATING) {
         return TRUE;
     }
-    ov11_0212F6CC(result);
+    Mywh_SetError(result);
     return FALSE;
 }
 
-static void ov11_0212FDD4(void *arg)
+static void Mywh_StateOutReset(void *arg)
 {
     WMCallback *cb = (WMCallback *)arg;
 
     if (cb->errcode != WM_ERRCODE_SUCCESS) {
-        ov11_0212F64C(MYWH_SYSSTATE_ERROR);
-        ov11_0212F6CC(cb->errcode);
+        Mywh_ChangeSysState(MYWH_SYSSTATE_ERROR);
+        Mywh_SetError(cb->errcode);
         if (sWork->callback != NULL) {
             sWork->callback(4);
         }
         return;
     }
-    ov11_0212F64C(MYWH_SYSSTATE_IDLE);
-    ov11_0212FCFC();
+    Mywh_ChangeSysState(MYWH_SYSSTATE_IDLE);
+    Mywh_End();
 }
 
-BOOL ov11_0212FE30(u8 *dest, void (*callback)(int state), u8 *buf)
+BOOL Mywh_StartDownload(u8 *dest, void (*callback)(int state), u8 *buf)
 {
     sWork = (MywhWork *)(((u32)buf + 31) & ~31);
     sWork->sysState = MYWH_SYSSTATE_STOP;
@@ -385,10 +385,10 @@ BOOL ov11_0212FE30(u8 *dest, void (*callback)(int state), u8 *buf)
     sWork->channel = 16;
     sWork->hasHeader = 0;
     sWork->linkLevel = -1;
-    return ov11_0212FBD8();
+    return Mywh_Initialize();
 }
 
-static void ov11_0212FEC8(const MywhBeacon *beacon)
+static void Mywh_BeginDownload(const MywhBeacon *beacon)
 {
     sWork->hasHeader = 0;
     sWork->mode = 3;
@@ -402,11 +402,11 @@ static void ov11_0212FEC8(const MywhBeacon *beacon)
     }
 }
 
-static BOOL ov11_0212FF98(const MywhBeacon *beacon)
+static BOOL Mywh_ReceiveChunk(const MywhBeacon *beacon)
 {
     if (sWork->id != beacon->id || sWork->size != beacon->size) {
         if (sWork->retry++ >= 16) {
-            ov11_0212FEC8(beacon);
+            Mywh_BeginDownload(beacon);
             if (sWork->callback != NULL) {
                 sWork->callback(5);
             }
@@ -423,7 +423,7 @@ static BOOL ov11_0212FF98(const MywhBeacon *beacon)
             if (sWork->callback != NULL) {
                 sWork->callback(4);
             }
-            ov11_0212F64C(MYWH_SYSSTATE_ERROR);
+            Mywh_ChangeSysState(MYWH_SYSSTATE_ERROR);
         }
         if (sWork->received[beacon->chunk] == 0) {
             sWork->received[beacon->chunk] = 1;
@@ -444,27 +444,27 @@ static BOOL ov11_0212FF98(const MywhBeacon *beacon)
     return FALSE;
 }
 
-u16 ov11_0213018C()
+u16 Mywh_GetChunksReceived()
 {
     return sWork->chunksReceived;
 }
 
-u16 ov11_021301A4()
+u16 Mywh_GetChunkCount()
 {
     return sWork->chunkCount;
 }
 
-int ov11_021301BC()
+int Mywh_GetLinkLevel()
 {
     return sWork->linkLevel;
 }
 
-u32 ov11_021301D4()
+u32 Mywh_GetWorkSize()
 {
     return 0x1400;
 }
 
-void *ov11_021301DC()
+void *Mywh_GetHeader()
 {
     if (sWork->hasHeader != 0) {
         return sWork->header;
@@ -472,7 +472,7 @@ void *ov11_021301DC()
     return NULL;
 }
 
-BOOL ov11_02130200()
+BOOL Mywh_IsInitialized()
 {
     return sInitialized;
 }
@@ -486,7 +486,7 @@ static inline void MixKey(u16 *key)
     }
 }
 
-void ov11_02130210(const u8 *in, u8 *out)
+void Mywh_Decrypt(const u8 *in, u8 *out)
 {
     u16 key[4];
     u8 *p = (u8 *)key;

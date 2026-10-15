@@ -25,7 +25,7 @@ public:
     virtual void vfunc_0C() = 0;
     virtual int vfunc_10() = 0;
 
-    CBattleAttackEffect *ov1_0212EE3C();
+    CBattleAttackEffect *GetFreeEffect();
 
 public:
     u16 unk_04;
@@ -79,11 +79,11 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
-    void ov1_021355B0(CBattleEnemy **enemies);
-    BOOL ov1_02135738(u8 *idx);
-    void ov1_02135794(u8 idx);
-    BOOL ov1_02135848(u8 *outIdx);
-    BOOL ov1_02135938(CBattleAttackEffect *effect, CBattleEnemy **enemies, u8 level);
+    void UpdateEffects(CBattleEnemy **enemies);
+    BOOL FindFreeSlot(u8 *idx);
+    void UpdateGrowth(u8 idx);
+    BOOL CreateEffect(u8 *outIdx);
+    BOOL HitEnemies(CBattleAttackEffect *effect, CBattleEnemy **enemies, u8 level);
 
 public:
     u8 m_flags;
@@ -114,8 +114,8 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
-    ElectricBolt *ov1_02130038();
-    void ov1_02130074(ElectricBolt *bolt, fx32 x, fx32 y);
+    ElectricBolt *FindFreeBolt();
+    void StartBolt(ElectricBolt *bolt, fx32 x, fx32 y);
 
 public:
     ElectricBolt m_bolts[1];
@@ -140,7 +140,7 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
-    GrassSlot *ov1_02131FE4(fx32 x, fx32 y);
+    GrassSlot *SpawnGrass(fx32 x, fx32 y);
 
 public:
     u8 m_next;
@@ -180,13 +180,13 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
-    void ov1_021329C8(CBattleEnemy **enemies);
-    BOOL ov1_02132B78(u8 *idx);
-    BOOL ov1_02132BD4(u8 *outIdx);
-    BOOL ov1_02132CAC(CBattleAttackEffect *effect, CBattleEnemy **enemies, u8 level);
+    void UpdateEffects(CBattleEnemy **enemies);
+    BOOL FindFreeSlot(u8 *idx);
+    BOOL CreateEffect(u8 *outIdx);
+    BOOL HitEnemies(CBattleAttackEffect *effect, CBattleEnemy **enemies, u8 level);
     u8 ov1_02132EC4(Point2D pos);
-    void ov1_02132FD4(IceFreeze *freeze, CBattleEnemy *enemy);
-    u8 ov1_021330DC(u32 value);
+    void StartFreeze(IceFreeze *freeze, CBattleEnemy *enemy);
+    u8 GetLevelFromLength(u32 value);
 
 public:
     u8 m_flags;
@@ -230,9 +230,9 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
-    void ov1_02133F9C(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
-    void ov1_02134120(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
-    PoisonSlot *ov1_021341FC();
+    void UpdateWait(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
+    void UpdateHold(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
+    PoisonSlot *FindFreeSlot();
 
 public:
     int m_state;
@@ -251,7 +251,7 @@ public:
     virtual int vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
     virtual void vfunc_0C();
     virtual int vfunc_10();
-    void ov1_0213219C(CameraController *quake);
+    void SetQuake(CameraController *quake);
 
 public:
     u16 m_shakes;
@@ -270,10 +270,10 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
-    void ov1_021311E4(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
-    void ov1_021311F8(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
-    void ov1_02131410(fx32 x, fx32 y);
-    void ov1_021314A0(fx32 x, fx32 y, u16 angle);
+    void UpdateWait(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
+    void UpdateHold(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
+    void SpawnBird(fx32 x, fx32 y);
+    void SpawnProjectile(fx32 x, fx32 y, u16 angle);
 
 public:
     int m_state;
@@ -302,12 +302,12 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
-    void ov1_021304F0(CBattleEnemy **enemies);
-    void ov1_02130628(u8 i);
-    BOOL ov1_021306C0(u8 *idx);
-    BOOL ov1_0213071C(u8 *outIdx);
-    BOOL ov1_021307E8(CBattleAttackEffect *effect, CBattleEnemy **enemies);
-    BOOL ov1_021309F4(Point2D pos, Rectangle rect);
+    void UpdateEffects(CBattleEnemy **enemies);
+    void UpdateSlotAnim(u8 i);
+    BOOL FindFreeSlot(u8 *idx);
+    BOOL CreateEffect(u8 *outIdx);
+    BOOL HitEnemies(CBattleAttackEffect *effect, CBattleEnemy **enemies);
+    BOOL IsInRect(Point2D pos, Rectangle rect);
 
 public:
     u8 m_flags;
@@ -343,12 +343,12 @@ public:
     virtual int vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
     virtual void vfunc_0C();
     virtual int vfunc_10();
-    void ov1_021335A4(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
-    void ov1_021336CC(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
-    u8 ov1_02133AAC(fx32 dist);
-    BOOL ov1_02133AD4(u8 *idx);
-    BOOL ov1_02133B08(u8 *idx);
-    void ov1_02133B3C(CBattleAttackEffect **effects);
+    void UpdateWait(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
+    void UpdateHold(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
+    u8 GetLevelFromLength(fx32 dist);
+    BOOL FindFreeSlot(u8 *idx);
+    BOOL FindFreeBug(u8 *idx);
+    void SetTargets(CBattleAttackEffect **effects);
 
 public:
     int m_state;
@@ -384,10 +384,10 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
-    void ov1_02134600(CBattleEnemy **enemies);
-    BOOL ov1_02134714(u8 *idx);
-    BOOL ov1_02134770(u8 *outIdx);
-    BOOL ov1_02134820(CBattleAttackEffect *effect, CBattleEnemy **enemies);
+    void UpdateEffects(CBattleEnemy **enemies);
+    BOOL FindFreeSlot(u8 *idx);
+    BOOL CreateEffect(u8 *outIdx);
+    BOOL HitEnemies(CBattleAttackEffect *effect, CBattleEnemy **enemies);
 
 public:
     u8 m_flags;
@@ -419,7 +419,7 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
-    GhostSlot *ov1_02131A48();
+    GhostSlot *FindFreeGhost();
 
 public:
     GhostSlot m_ghosts[5];
@@ -435,12 +435,12 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
-    void ov1_0212F56C(CTouchPanel *touch);
-    void ov1_0212F620(CTouchPanel *touch);
-    void ov1_0212F700(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
-    void ov1_0212F9D4();
-    BOOL ov1_0212FA80(fx32 x, fx32 y, u8 level, u8 frame);
-    CBattleAttackEffect *ov1_0212FBD0(fx32 x, fx32 y);
+    void UpdateWait(CTouchPanel *touch);
+    void UpdateCharge(CTouchPanel *touch);
+    void UpdateAttack(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies);
+    void UpdateBurst();
+    BOOL SpawnBursts(fx32 x, fx32 y, u8 level, u8 frame);
+    CBattleAttackEffect *SpawnBurst(fx32 x, fx32 y);
 
 public:
     int m_state;
@@ -488,11 +488,11 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
-    void ov1_02134E04(CBattleEnemy **enemies);
-    BOOL ov1_02134F0C(u8 *idx);
-    BOOL ov1_02134F68(u8 *outIdx);
-    BOOL ov1_0213502C(CBattleAttackEffect *effect, CBattleEnemy **enemies, u8 level);
-    u8 ov1_021352B0(fx32 scale);
+    void UpdateEffects(CBattleEnemy **enemies);
+    BOOL FindFreeSlot(u8 *idx);
+    BOOL CreateEffect(u8 *outIdx);
+    BOOL HitEnemies(CBattleAttackEffect *effect, CBattleEnemy **enemies, u8 level);
+    u8 GetLevelFromScale(fx32 scale);
 
 public:
     u8 m_flags;
@@ -514,7 +514,7 @@ public:
     virtual void vfunc_0C();
     virtual int vfunc_10();
 
-    u8 ov1_02134354(u8 amount);
+    u8 GetHealAnim(u8 amount);
 
 public:
     u8 m_flags;

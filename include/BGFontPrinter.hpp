@@ -11,7 +11,7 @@ public:
     BGFontPrinter();
 
     void Init(u32 arg0, u32 arg1, u32 arg2, u32 arg3);
-    void sub_020027E8();
+    void FlushArea();
     int Printf(s32 arg0, u32 arg1, char *arg2, ...);
     void PutChar(s32 arg0, u32 arg1, char arg2);
     u16 GetCharTile(s32 arg0);

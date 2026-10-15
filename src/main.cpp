@@ -19,8 +19,8 @@ extern u32 DAT_04000454;
 extern u8 DAT_0208aaf8;
 }
 
-static CScene *sub_020010F8(void);
-static void sub_02001184(void);
+static CScene *RestartGame(void);
+static void PrepareSceneDisplay(void);
 static void sub_0200120C(u64 arg0);
 static void InitSystem(void);
 static void VBlankIntr(void);
@@ -63,7 +63,7 @@ void NitroMain(void)
     handle = Heap_GetMainHandle();
     NNS_FndGetAllocatableSizeForExpHeapEx(*handle, 4);
 
-    sub_02001184();
+    PrepareSceneDisplay();
     v3 = Scene_LoadByID(SCENE_RANGER_NET_AGB, s_game);
     v4 = SCENE_NONE;
     CPowerManage::Initialize();
@@ -106,7 +106,7 @@ void NitroMain(void)
         G3_Identity();
 
         if (MAIN_BSS_0208F300 != 0) {
-            v3 = sub_020010F8();
+            v3 = RestartGame();
             MAIN_BSS_0208F300 = 0;
         }
 
@@ -135,7 +135,7 @@ void NitroMain(void)
             NNS_FndGetAllocatableSizeForExpHeapEx(*handle, 4);
 
             s_game->PrintHeapInfo("Create Scene");
-            sub_02001184();
+            PrepareSceneDisplay();
 
             v3 = Scene_LoadByID(v4, s_game);
             OS_GetTick();
@@ -182,12 +182,12 @@ void NitroMain(void)
     }
 }
 
-void sub_020010E4(void)
+void RequestRangerNetAGB(void)
 {
     MAIN_BSS_0208F300 = 1;
 }
 
-CScene *sub_020010F8(void)
+CScene *RestartGame(void)
 {
     CScene *currentScene = s_game->currentScene;
     if (currentScene != NULL) {
@@ -195,17 +195,17 @@ CScene *sub_020010F8(void)
         delete currentScene;
     }
 
-    s_game->sub_0200FB28();
+    s_game->ResetForRestart();
 
     SaveData *game_unk_14A4 = s_game->unk_14A4;
     game_unk_14A4->unk_8B68 = 1;
     game_unk_14A4->unk_8B6C = 0;
 
-    sub_02001184();
+    PrepareSceneDisplay();
     Scene_LoadByID(SCENE_RANGER_NET_AGB, s_game);
 }
 
-void sub_02001184(void)
+void PrepareSceneDisplay(void)
 {
     GX_SetOBJVRamModeChar(GX_OBJVRAMMODE_CHAR_1D_32K);
     GXS_SetOBJVRamModeChar(GX_OBJVRAMMODE_CHAR_1D_32K);
@@ -220,7 +220,7 @@ void sub_0200120C(u64 arg0)
 {
 }
 
-void sub_02001210(void)
+void ReportFrameTime(void)
 {
     sub_0200120C(OS_TicksToMicroSeconds(MAIN_BSS_0208F308));
 }

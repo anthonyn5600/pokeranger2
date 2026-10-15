@@ -6,7 +6,7 @@
 #include "common.hpp"
 #include "scene/CScene.hpp"
 
-class UnkClass_0212F3DC; // ov11, ctor not identified yet
+class DownloadStationScan; // ov11, ctor not identified yet
 
 // Defined in ov11
 class CCompanyLogoScene : public CScene {
@@ -27,7 +27,7 @@ public:
     int unk_08;
     SaveManager *unk_0C;
     BGLayer *unk_10[3];
-    UnkClass_0212F3DC *unk_1C;
+    DownloadStationScan *unk_1C;
     int unk_20;
     int unk_24;
 };

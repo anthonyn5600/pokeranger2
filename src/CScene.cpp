@@ -19,11 +19,11 @@ void CScene::func4()
 
 void CScene::func2()
 {
-    sub_02001210();
+    ReportFrameTime();
 }
 
 void CScene::func3()
 {
-    sub_02007D78();
+    FlushBGFonts();
     LoadOam();
 }

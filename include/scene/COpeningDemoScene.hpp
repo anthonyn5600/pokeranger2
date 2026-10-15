@@ -22,8 +22,8 @@ public:
     virtual void func7();
     virtual u32 getSceneId();
 
-    void ov3_02124CAC(int screen);
-    void ov3_02124F18();
+    void SetScreen(int screen);
+    void SetupSubOam();
 
 public:
     COPDScreen *m_screen;

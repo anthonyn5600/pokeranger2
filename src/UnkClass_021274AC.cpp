@@ -11,15 +11,15 @@
 
 UnkClass_021274AC::UnkClass_021274AC()
 {
-    ov1_021274D4();
+    Load();
 }
 
 UnkClass_021274AC::~UnkClass_021274AC()
 {
-    ov1_02127654();
+    Release();
 }
 
-void UnkClass_021274AC::ov1_021274D4()
+void UnkClass_021274AC::Load()
 {
     CArchiveGuard *guard = new CArchiveGuard("BEX", "data/interface/i034_LZ.bin", 1, 1, 0, NULL, 0);
 
@@ -40,7 +40,7 @@ void UnkClass_021274AC::ov1_021274D4()
     SAFE_DELETE(guard);
 }
 
-void UnkClass_021274AC::ov1_02127654()
+void UnkClass_021274AC::Release()
 {
     SAFE_DELETE(m_image);
     SAFE_DELETE(m_palette);
@@ -63,7 +63,7 @@ UnkClass_0212770C::~UnkClass_0212770C()
     SAFE_DELETE(m_sprite);
 }
 
-void UnkClass_0212770C::ov1_02127780()
+void UnkClass_0212770C::Update()
 {
     if (!unk_08) {
         return;
@@ -79,7 +79,7 @@ void UnkClass_0212770C::ov1_02127780()
     }
 }
 
-void UnkClass_0212770C::ov1_02127810(Camera2D *camera)
+void UnkClass_0212770C::Render(Camera2D *camera)
 {
     if (!unk_08) {
         return;
@@ -89,7 +89,7 @@ void UnkClass_0212770C::ov1_02127810(Camera2D *camera)
     m_sprite->Render(camera);
 }
 
-void UnkClass_0212770C::ov1_02127854(UnkClass_021274AC *data)
+void UnkClass_0212770C::SetData(UnkClass_021274AC *data)
 {
     m_data = data;
     m_sprite->SetImage((UnkClass_CPrimitive_ImageProxy *)data->m_image, NULL);
@@ -97,7 +97,7 @@ void UnkClass_0212770C::ov1_02127854(UnkClass_021274AC *data)
     m_sprite->unk_38 = (UnkClass_CSoftwareSprite_38 *)data->m_cells;
 }
 
-void UnkClass_0212770C::ov1_02127888(int cell, u16 duration)
+void UnkClass_0212770C::Show(int cell, u16 duration)
 {
     if (m_data == NULL || duration == 0) {
         return;
@@ -109,7 +109,7 @@ void UnkClass_0212770C::ov1_02127888(int cell, u16 duration)
     m_sprite->m_cellDataIdx = cell;
 }
 
-int UnkClass_0212770C::ov1_021278BC(int z)
+int UnkClass_0212770C::SetZ(int z)
 {
     z += m_sprite->GetCellNumOAMAttrs(m_sprite->m_cellDataIdx);
     m_sprite->m_z = z;

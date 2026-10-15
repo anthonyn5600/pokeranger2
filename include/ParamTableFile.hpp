@@ -22,7 +22,7 @@ public:
     void Load(const char *path);
     void Release();
     void Parse();
-    s32 sub_0200D390();
+    s32 GetRowCount();
     BOOL GetIndex(int row, int column, u32 *index);
     BOOL GetValue(int row, int column, u32 *value);
 

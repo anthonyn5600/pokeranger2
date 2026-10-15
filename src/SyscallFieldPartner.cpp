@@ -1,6 +1,6 @@
 #include "SaveData.hpp"
 #include "FieldSyscallSets.hpp"
-#include "UnkStruct_02044464.hpp"
+#include "ScriptVM.hpp"
 #include "field/CFieldPartner.hpp"
 #include "field/CFieldPartnerManage.hpp"
 
@@ -8,25 +8,25 @@ extern CFieldPartnerManage *MAIN_BSS_0210CA4C;
 extern SaveData MAIN_BSS_020B26A0;
 
 extern "C" {
-BOOL ov0_0213E668(Point2D pos, fx32 radius, int floor, int arg3);
+BOOL PartnerPath_IsBlocked(Point2D pos, fx32 radius, int floor, int arg3);
 int ov0_02149A94(int *args);
-int ov0_02149A9C(int *args);
-int ov0_02149BAC(int *args);
-int ov0_02149E48(int *args);
+int Sys_PartnerManageCommand(int *args);
+int Sys_PartnerCommand(int *args);
+int Sys_GetPartnerManage(int *args);
 }
 
 static ScriptSyscall sFieldPartnerSyscalls[] = {
     (ScriptSyscall)ov0_02149A94,
-    (ScriptSyscall)ov0_02149A9C,
-    (ScriptSyscall)ov0_02149BAC,
-    (ScriptSyscall)ov0_02149E48,
+    (ScriptSyscall)Sys_PartnerManageCommand,
+    (ScriptSyscall)Sys_PartnerCommand,
+    (ScriptSyscall)Sys_GetPartnerManage,
 };
 
 FieldPartnerSyscalls::FieldPartnerSyscalls() {}
 
 FieldPartnerSyscalls::~FieldPartnerSyscalls() {}
 
-void FieldPartnerSyscalls::ov0_02149A7C() {
+void FieldPartnerSyscalls::Register() {
   Script_RegisterSyscalls(0xD, sFieldPartnerSyscalls);
 }
 
@@ -68,7 +68,7 @@ extern "C" {
 
 int ov0_02149A94(int *args) { return 0; }
 
-int ov0_02149A9C(int *args) {
+int Sys_PartnerManageCommand(int *args) {
   int cmd = args[0];
   CFieldPartnerManage *manage = (CFieldPartnerManage *)args[1];
   if (manage == NULL) {
@@ -92,7 +92,7 @@ int ov0_02149A9C(int *args) {
   return -1;
 }
 
-int ov0_02149BAC(int *args) {
+int Sys_PartnerCommand(int *args) {
   int cmd = args[0];
   CFieldPartner *partner = (CFieldPartner *)args[1];
   if (partner == NULL) {
@@ -111,7 +111,7 @@ int ov0_02149BAC(int *args) {
   case 4: {
     Point2D pos = {args[2], args[3]};
     if (args[4] != 0) {
-      partner->unk_EC.ov0_02152AD0(partner, pos, partner->unk_1F8);
+      partner->unk_EC.SetTarget(partner, pos, partner->unk_1F8);
     } else {
       partner->unk_EC.SetUnk04(pos);
     }
@@ -120,7 +120,7 @@ int ov0_02149BAC(int *args) {
   case 5:
     return partner->unk_EC.unk_44;
   case 6:
-    partner->sub_02032A44(args[2]);
+    partner->SetMoveSequence(args[2]);
     return 0;
   case 7:
     partner->ov0_02138A7C();
@@ -148,11 +148,11 @@ int ov0_02149BAC(int *args) {
   case 13:
     return GetUnk1D8(partner).y;
   case 14:
-    return ov0_0213E668(partner->GetPos(), args[2] << FX32_SHIFT,
+    return PartnerPath_IsBlocked(partner->GetPos(), args[2] << FX32_SHIFT,
                         partner->m_layer, 0);
   }
   return -1;
 }
 
-int ov0_02149E48(int *args) { return (int)MAIN_BSS_0210CA4C; }
+int Sys_GetPartnerManage(int *args) { return (int)MAIN_BSS_0210CA4C; }
 }

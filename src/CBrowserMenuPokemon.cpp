@@ -1,6 +1,6 @@
 #include "BrowserScreen.hpp"
 #include "CGame.hpp"
-#include "UnkStruct_020107A8.hpp"
+#include "PokeIdTableEntry.hpp"
 #include "scene/CBrowserMenu.hpp"
 
 CBrowserMenuItemPokemon::CBrowserMenuItemPokemon()
@@ -13,7 +13,7 @@ CBrowserMenuItemPokemon::~CBrowserMenuItemPokemon()
     SAFE_DELETE(unk_18);
 }
 
-void CBrowserMenuItemPokemon::ov21_0212131C(OamSpriteSet *anim)
+void CBrowserMenuItemPokemon::Init(OamSpriteSet *anim)
 {
     unk_18 = BrowserMenuSprite::Create(anim, 0x10, 0, 0, 3);
     unk_18->unk_00->SetTouchRect(0xB0, 0x10, -4, 0);
@@ -54,7 +54,7 @@ CBrowserMenuCursorPokemon::~CBrowserMenuCursorPokemon()
     SAFE_DELETE(unk_14);
 }
 
-void CBrowserMenuCursorPokemon::ov21_0212149C(OamSpriteSet *anim)
+void CBrowserMenuCursorPokemon::Init(OamSpriteSet *anim)
 {
     unk_14 = BrowserMenuSprite::Create(anim, 0x10, 0, 0, 0);
     anim->SetAnim(anim->unk_24, 0x10);
@@ -100,13 +100,13 @@ CBrowserMenuManagerPokemon::~CBrowserMenuManagerPokemon()
 {
 }
 
-void CBrowserMenuManagerPokemon::ov21_021215F8(OamSpriteSet *anim, BrowserScreen *owner)
+void CBrowserMenuManagerPokemon::Init(OamSpriteSet *anim, BrowserScreen *owner)
 {
     unk_8C = owner;
     unk_20 = 0;
 
     CBrowserMenuCursorPokemon *cursor = new CBrowserMenuCursorPokemon();
-    cursor->ov21_0212149C(anim);
+    cursor->Init(anim);
     SetCursor(cursor);
 
     unk_78 = 2;
@@ -114,7 +114,7 @@ void CBrowserMenuManagerPokemon::ov21_021215F8(OamSpriteSet *anim, BrowserScreen
     unk_84 = 0x2000;
     for (int i = 0; i < 6; i++) {
         CBrowserMenuItemPokemon *item = new CBrowserMenuItemPokemon();
-        item->ov21_0212131C(anim);
+        item->Init(anim);
         item->SetPos(0, i * 16);
         AddItem(item);
     }

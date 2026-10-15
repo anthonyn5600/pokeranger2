@@ -51,11 +51,11 @@ void CSexSelectScene::func6()
     SetupBGFonts();
     unk_20 = new Camera2D();
     unk_20->SetOrtho(0, FX32_CONST(192), 0, FX32_CONST(256), FX32_CONST(-1024), FX32_CONST(2048), FX32_CONST(1024));
-    ov19_0211CFC0();
-    ov19_0211CDA0();
-    ov19_0211D070();
-    ov19_0211D17C();
-    ov19_0211D300();
+    ShowQuestion();
+    LoadBG();
+    CreateTouchRects();
+    LoadPlayerGraphics();
+    LoadSprites();
     unk_68 = new CSoftwareSprite();
     unk_68->m_z = 10;
     m_audioEngine->PlayBgm(0x16, 0x40);
@@ -83,14 +83,14 @@ void CSexSelectScene::func7()
     m_game->m_textboxData->Reset();
 }
 
-void CSexSelectScene::ov19_0211CD54()
+void CSexSelectScene::ReleaseSprites()
 {
     for (int i = 0; i < 5; i++) {
         SAFE_DELETE(unk_3C[i]);
     }
 }
 
-void CSexSelectScene::ov19_0211CDA0()
+void CSexSelectScene::LoadBG()
 {
     unk_24[0] = new BGLayer((int)m_game);
     unk_24[0]->SetBG(5);
@@ -113,7 +113,7 @@ void CSexSelectScene::ov19_0211CDA0()
     delete archive;
 }
 
-void CSexSelectScene::ov19_0211CFC0()
+void CSexSelectScene::ShowQuestion()
 {
     CGame *game = m_game;
     game->m_textboxData->Init(game->unk_0014, game->touchPanel, &game->unk_14AC->unk_0C, game->m_nameTables, game->unk_0024, m_audioEngine, 0x10, 0x4000, 0);
@@ -122,7 +122,7 @@ void CSexSelectScene::ov19_0211CFC0()
     m_game->m_textboxData->ShowSystemMessage(1, 1, 1, 0);
 }
 
-void CSexSelectScene::ov19_0211D070()
+void CSexSelectScene::CreateTouchRects()
 {
     unk_70[0] = new CPrimitiveRECT();
     unk_70[0]->SetPos(FX32_CONST(-56), FX32_CONST(-24));
@@ -140,7 +140,7 @@ void CSexSelectScene::ov19_0211D070()
     unk_6C->m_z = 0;
 }
 
-void CSexSelectScene::ov19_0211D17C()
+void CSexSelectScene::LoadPlayerGraphics()
 {
     unk_2C[0] = new GraphicsSet("SS6", "/data/player/player3_LZ.bin", "SS6:player3_00.NCBR", "SS6:player3.NCLR", "SS6:player3_00.NCER", "SS6:player3_00.cac");
     unk_2C[2] = new GraphicsSet("SS7", "/data/player/player4_LZ.bin", "SS7:player4_00.NCBR", "SS7:player4.NCLR", "SS7:player4_00.NCER", "SS7:player4_00.cac");
@@ -150,7 +150,7 @@ void CSexSelectScene::ov19_0211D17C()
     unk_0E = unk_2C[3]->m_anim->Create(1, 0);
 }
 
-void CSexSelectScene::ov19_0211D300()
+void CSexSelectScene::LoadSprites()
 {
     int charNo = 0;
     unk_3C[1] = new OamSpriteSet((GXOamAttr *)&m_game->unk_0024[0x20], m_game->unk_14A8, FALSE, 0x40);
@@ -165,7 +165,7 @@ void CSexSelectScene::ov19_0211D300()
     unk_50[1] = unk_3C[0]->AddSprite(0, 0xB8, 0x48, 3);
 }
 
-void CSexSelectScene::ov19_0211D4A0()
+void CSexSelectScene::LoadBoyAnim()
 {
     unk_3C[2] = new OamSpriteSet((GXOamAttr *)&m_game->unk_0024[0x20], m_game->unk_14A8, FALSE, 0x40);
     unk_3C[2]->Load("data/menu", "mps001_00", 0x100, 5);
@@ -174,7 +174,7 @@ void CSexSelectScene::ov19_0211D4A0()
     unk_3C[2]->Update();
 }
 
-void CSexSelectScene::ov19_0211D540()
+void CSexSelectScene::LoadGirlAnim()
 {
     unk_3C[4] = new OamSpriteSet((GXOamAttr *)&m_game->unk_0024[0x20], m_game->unk_14A8, FALSE, 0x40);
     unk_3C[4]->Load("data/menu", "mps002_00", 0x100, 5);
@@ -255,28 +255,28 @@ u32 CSexSelectScene::func0()
     int ret = -1;
     switch (unk_04) {
     case 1:
-        ov19_0211D9B0();
+        UpdateSelect();
         break;
     case 2:
-        ov19_0211DAE8();
+        UpdateMoveToCenter();
         break;
     case 3:
-        ov19_0211DC24();
+        UpdateMoveBack();
         break;
     case 4:
-        ov19_0211DD7C();
+        UpdateConfirm();
         break;
     case 5:
-        ov19_0211DE04();
+        UpdateDarken();
         break;
     case 6:
-        ov19_0211DEF8();
+        UpdateEffectAnim();
         break;
     case 7:
-        ov19_0211DF74();
+        UpdateWait();
         break;
     case 8:
-        ov19_0211DFD8();
+        UpdatePlayerAnim();
         break;
     case 9:
         if (!m_game->m_mainFade->IsActive() && !m_game->m_subFade->IsActive()) {
@@ -286,7 +286,7 @@ u32 CSexSelectScene::func0()
             data->unk_8B6C = 0x10;
             GlobalValues_ClearChapterValues((GlobalValues *)m_game->unk_14B4);
             GlobalValues_ApplyProgress((GlobalValues *)m_game->unk_14B4, 0);
-            sub_020116C0(m_game->m_missionQuestData, 0);
+            MissionQuestData_ApplyProgress(m_game->m_missionQuestData, 0);
             SaveData *save = &MAIN_BSS_020B26A0;
             if (unk_06 == 1) {
                 SetPlayer(save, 0, sDefaultNameBoy);
@@ -305,7 +305,7 @@ u32 CSexSelectScene::func0()
     return ret;
 }
 
-void CSexSelectScene::ov19_0211D9B0()
+void CSexSelectScene::UpdateSelect()
 {
     CTouchPanel *tp = m_game->touchPanel;
     Point2D touch;
@@ -334,7 +334,7 @@ void CSexSelectScene::ov19_0211D9B0()
     }
 }
 
-void CSexSelectScene::ov19_0211DAE8()
+void CSexSelectScene::UpdateMoveToCenter()
 {
     int button = 0;
     int x = 0;
@@ -369,7 +369,7 @@ void CSexSelectScene::ov19_0211DAE8()
     unk_04 = 4;
 }
 
-void CSexSelectScene::ov19_0211DC24()
+void CSexSelectScene::UpdateMoveBack()
 {
     int button = 0;
     u16 x = 0;
@@ -407,7 +407,7 @@ void CSexSelectScene::ov19_0211DC24()
     unk_04 = 1;
 }
 
-void CSexSelectScene::ov19_0211DD7C()
+void CSexSelectScene::UpdateConfirm()
 {
     u32 answer;
     TextboxManager *textbox = m_game->m_textboxData;
@@ -427,7 +427,7 @@ void CSexSelectScene::ov19_0211DD7C()
     }
 }
 
-void CSexSelectScene::ov19_0211DE04()
+void CSexSelectScene::UpdateDarken()
 {
     unk_0A = FX32_MUL(FX32_DIV(unk_08 << FX32_SHIFT, FX32_CONST(60)), FX32_CONST(31)) >> FX32_SHIFT;
     if (unk_08 < 60) {
@@ -440,17 +440,17 @@ void CSexSelectScene::ov19_0211DE04()
         unk_50[2]->unk_14 = 0;
         unk_50[3]->unk_14 = 0;
         unk_04 = 6;
-        ov19_0211CD54();
+        ReleaseSprites();
         if (unk_06 == 1) {
-            ov19_0211D4A0();
+            LoadBoyAnim();
         }
         if (unk_06 == 2) {
-            ov19_0211D540();
+            LoadGirlAnim();
         }
     }
 }
 
-void CSexSelectScene::ov19_0211DEF8()
+void CSexSelectScene::UpdateEffectAnim()
 {
     int idx = 0;
     u16 anim = 0;
@@ -469,7 +469,7 @@ void CSexSelectScene::ov19_0211DEF8()
     unk_3C[idx]->Update();
 }
 
-void CSexSelectScene::ov19_0211DF74()
+void CSexSelectScene::UpdateWait()
 {
     unk_08++;
     if (unk_08 != 60) {
@@ -485,7 +485,7 @@ void CSexSelectScene::ov19_0211DF74()
     }
 }
 
-void CSexSelectScene::ov19_0211DFD8()
+void CSexSelectScene::UpdatePlayerAnim()
 {
     int idx = 0;
     u16 anim = 0;
@@ -525,30 +525,30 @@ void CSexSelectScene::func1()
         unk_3C[3]->WriteOam();
         break;
     case 6:
-        ov19_0211E16C();
+        WriteEffectOam();
         break;
     case 7:
-        ov19_0211E1A0();
+        DrawPlayer();
         break;
     case 8:
     case 9:
-        ov19_0211E1D0();
+        DrawPlayerAnim();
         break;
     }
-    ov19_0211E140();
+    DrawDarkRect();
     G3_Identity();
     unk_20->SetOffset(0, 0);
     unk_20->ApplyProjection();
     unk_20->ApplyView();
 }
 
-void CSexSelectScene::ov19_0211E140()
+void CSexSelectScene::DrawDarkRect()
 {
     unk_6C->m_alpha = unk_0A;
     unk_6C->Render(unk_20);
 }
 
-void CSexSelectScene::ov19_0211E16C()
+void CSexSelectScene::WriteEffectOam()
 {
     if (unk_06 == 1) {
         unk_3C[2]->WriteOam();
@@ -558,27 +558,27 @@ void CSexSelectScene::ov19_0211E16C()
     }
 }
 
-void CSexSelectScene::ov19_0211E1A0()
+void CSexSelectScene::DrawPlayer()
 {
     if (unk_06 == 1) {
-        ov19_0211E270();
+        DrawBoyAnim();
     }
     if (unk_06 == 2) {
-        ov19_0211E200();
+        DrawGirlStill();
     }
 }
 
-void CSexSelectScene::ov19_0211E1D0()
+void CSexSelectScene::DrawPlayerAnim()
 {
     if (unk_06 == 1) {
-        ov19_0211E270();
+        DrawBoyAnim();
     }
     if (unk_06 == 2) {
-        ov19_0211E308();
+        DrawGirlAnim();
     }
 }
 
-void CSexSelectScene::ov19_0211E200()
+void CSexSelectScene::DrawGirlStill()
 {
     unk_68->SetImage((UnkClass_CPrimitive_ImageProxy *)unk_2C[2]->m_image, NULL);
     unk_68->unk_34 = (UnkClass_CPrimitive_ImagePaletteProxy *)unk_2C[2]->m_palette;
@@ -588,7 +588,7 @@ void CSexSelectScene::ov19_0211E200()
     unk_68->Render(unk_20);
 }
 
-void CSexSelectScene::ov19_0211E270()
+void CSexSelectScene::DrawBoyAnim()
 {
     unk_68->SetImage((UnkClass_CPrimitive_ImageProxy *)unk_2C[1]->m_image, NULL);
     unk_68->unk_34 = (UnkClass_CPrimitive_ImagePaletteProxy *)unk_2C[1]->m_palette;
@@ -600,7 +600,7 @@ void CSexSelectScene::ov19_0211E270()
     unk_68->Render(unk_20);
 }
 
-void CSexSelectScene::ov19_0211E308()
+void CSexSelectScene::DrawGirlAnim()
 {
     unk_68->SetImage((UnkClass_CPrimitive_ImageProxy *)unk_2C[3]->m_image, NULL);
     unk_68->unk_34 = (UnkClass_CPrimitive_ImagePaletteProxy *)unk_2C[3]->m_palette;

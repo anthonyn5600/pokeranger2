@@ -1,33 +1,33 @@
-#include "battle/UnkClass_02127CD8.hpp"
+#include "battle/BattleHitEffectGfx.hpp"
 
 #include "CPlayerHPGauge.hpp"
 #include "CellAnimController.hpp"
-#include "battle/UnkClass_02127E14.hpp"
+#include "battle/BattleHitEffect.hpp"
 #include "primitive/CSoftwareSprite.hpp"
 
-UnkClass_02127CD8::UnkClass_02127CD8()
+BattleHitEffectGfx::BattleHitEffectGfx()
 {
-    ov1_02127D00();
+    Load();
 }
 
-UnkClass_02127CD8::~UnkClass_02127CD8()
+BattleHitEffectGfx::~BattleHitEffectGfx()
 {
-    ov1_02127DB8();
+    Release();
 }
 
-void UnkClass_02127CD8::ov1_02127D00()
+void BattleHitEffectGfx::Load()
 {
     m_res0 = new GraphicsSet("BHM", "data/interface/i027_LZ.bin", "BHM:i027_00.NCBR", "BHM:i027.NCLR", "BHM:i027_00.NCER", "BHM:i027_00.cac");
     m_res1 = new GraphicsSet("BHM", "data/interface/i068_LZ.bin", "BHM:i068_00.NCBR", "BHM:i068.NCLR", "BHM:i068_00.NCER", "BHM:i068_00.cac");
 }
 
-void UnkClass_02127CD8::ov1_02127DB8()
+void BattleHitEffectGfx::Release()
 {
     SAFE_DELETE(m_res0);
     SAFE_DELETE(m_res1);
 }
 
-UnkClass_02127E14::UnkClass_02127E14()
+BattleHitEffect::BattleHitEffect()
 {
     m_data = NULL;
     unk_04 = FALSE;
@@ -39,13 +39,13 @@ UnkClass_02127E14::UnkClass_02127E14()
     m_sprite1->m_cellDataIdx = 1;
 }
 
-UnkClass_02127E14::~UnkClass_02127E14()
+BattleHitEffect::~BattleHitEffect()
 {
     SAFE_DELETE(m_sprite0);
     SAFE_DELETE(m_sprite1);
 }
 
-void UnkClass_02127E14::ov1_02127EE4()
+void BattleHitEffect::Update()
 {
     CellAnimController *anim;
     u16 id;
@@ -76,7 +76,7 @@ void UnkClass_02127E14::ov1_02127EE4()
     }
 }
 
-void UnkClass_02127E14::ov1_02127FAC(Camera2D *camera)
+void BattleHitEffect::Render(Camera2D *camera)
 {
     if (!unk_04) {
         return;
@@ -99,7 +99,7 @@ void UnkClass_02127E14::ov1_02127FAC(Camera2D *camera)
     }
 }
 
-void UnkClass_02127E14::ov1_0212807C(UnkClass_02127CD8 *data)
+void BattleHitEffect::SetData(BattleHitEffectGfx *data)
 {
     m_data = data;
     m_anim0 = data->m_res0->m_anim;
@@ -117,7 +117,7 @@ void UnkClass_02127E14::ov1_0212807C(UnkClass_02127CD8 *data)
     m_sprite1->unk_38 = (UnkClass_CSoftwareSprite_38 *)res->m_cells;
 }
 
-void UnkClass_02127E14::ov1_0212812C(fx32 x, fx32 y, int flags)
+void BattleHitEffect::Show(fx32 x, fx32 y, int flags)
 {
     unk_04 = TRUE;
     unk_08 = 0;

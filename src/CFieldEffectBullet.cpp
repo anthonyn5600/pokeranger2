@@ -16,7 +16,7 @@ CFieldEffectBullet::CFieldEffectBullet(int kind)
 {
     CFieldEffectAttackActorData *data = new CFieldEffectAttackActorData();
     if (data != NULL) {
-        data->ov0_0214FFF0(kind, 1, 1);
+        data->Load(kind, 1, 1);
     }
     unk_18 = data;
     CellAnimController *cac = data->GetCac(0);
@@ -49,9 +49,9 @@ CFieldEffectBullet::~CFieldEffectBullet()
     SAFE_DELETE(unk_18);
 }
 
-int CFieldEffectBullet::ov0_02142264(int step)
+int CFieldEffectBullet::Update(int step)
 {
-    int state = CFieldEffectActor::ov0_02142264(step);
+    int state = CFieldEffectActor::Update(step);
     if (state != 0 && state != 4 && unk_18 != NULL) {
         unk_18->Update();
     }
@@ -67,7 +67,7 @@ int CFieldEffectBullet::ov0_02142264(int step)
     return state;
 }
 
-int CFieldEffectBullet::ov0_02142344(Camera2D *camera)
+int CFieldEffectBullet::Render(Camera2D *camera)
 {
     if (m_state != 4 && m_state != 0) {
         CellAnimController *cac = unk_18->GetCac(0);
@@ -109,7 +109,7 @@ int CFieldEffectBullet::SetParam(int param, int value)
     return ret;
 }
 
-BOOL CFieldEffectBullet::ov0_021421F0(int inTime, int holdTime, int outTime)
+BOOL CFieldEffectBullet::Start(int inTime, int holdTime, int outTime)
 {
     Point2D dir = m_end - m_pos;
     if (FX32_MUL(dir.x, dir.x) + FX32_MUL(dir.y, dir.y) != 0) {
@@ -163,7 +163,7 @@ BOOL CFieldEffectBullet::ov0_021421F0(int inTime, int holdTime, int outTime)
     if (cac != NULL) {
         cac->Restart(m_cacId);
     }
-    return CFieldEffect::ov0_021421F0(inTime, holdTime, outTime);
+    return CFieldEffect::Start(inTime, holdTime, outTime);
 }
 
 void CFieldEffectBullet::InitSprite()

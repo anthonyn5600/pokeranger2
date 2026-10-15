@@ -31,7 +31,7 @@ UnkClass_02129E98::~UnkClass_02129E98()
 {
 }
 
-void UnkClass_02129E98::ov3_02129F78()
+void UnkClass_02129E98::Update()
 {
     if (unk_1C4 != 0) {
         unk_1C0 += unk_1C4;
@@ -48,7 +48,7 @@ void UnkClass_02129E98::ov3_02129F78()
     }
 }
 
-void UnkClass_02129E98::ov3_02129FE0(Camera2D *camera)
+void UnkClass_02129E98::Render(Camera2D *camera)
 {
     if (unk_1C4 == 0) {
         return;

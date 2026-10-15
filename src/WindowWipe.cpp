@@ -58,10 +58,10 @@ void WindowWipe::Update()
 
     int buffer = unk_001C == 0 ? 1 : 0;
     BuildCircle(buffer, GetRadius());
-    sub_0200E834();
+    Advance();
 }
 
-void WindowWipe::sub_0200E4A8()
+void WindowWipe::Apply()
 {
     if (unk_0000 & 8) {
         if (unk_0000 & 0x40) {
@@ -155,7 +155,7 @@ void WindowWipe::BuildCircle(int buffer, int radius)
     unk_0000 |= 0x40;
 }
 
-void WindowWipe::sub_0200E834()
+void WindowWipe::Advance()
 {
     if (unk_0004 == unk_0006) {
         if (unk_0000 & 1) {

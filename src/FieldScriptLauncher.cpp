@@ -17,16 +17,16 @@ FieldScriptLauncher::FieldScriptLauncher(CGame *game)
 {
     MAIN_BSS_0210CA44 = this;
     m_game = game;
-    ov0_0213F960();
+    Reset();
 }
 
 FieldScriptLauncher::~FieldScriptLauncher()
 {
-    ov0_0213F960();
+    Reset();
     MAIN_BSS_0210CA44 = NULL;
 }
 
-void FieldScriptLauncher::ov0_0213F960()
+void FieldScriptLauncher::Reset()
 {
     m_state = 0;
     m_label[0] = '\0';
@@ -39,7 +39,7 @@ void FieldScriptLauncher::ov0_0213F960()
     m_pendingFade = -1;
 }
 
-void FieldScriptLauncher::ov0_0213F990()
+void FieldScriptLauncher::ClearPending()
 {
     m_pendingKind = 0;
     m_pendingLabel[0] = '\0';
@@ -48,7 +48,7 @@ void FieldScriptLauncher::ov0_0213F990()
     m_pendingFade = -1;
 }
 
-void FieldScriptLauncher::ov0_0213F9B0(BOOL startPending)
+void FieldScriptLauncher::Update(BOOL startPending)
 {
     unk_30 = 0;
     switch (m_state) {
@@ -73,7 +73,7 @@ void FieldScriptLauncher::ov0_0213F9B0(BOOL startPending)
         break;
     case 3: {
         CFieldTargetObject *obj = (CFieldTargetObject *)m_actor;
-        obj->ov0_0213CFBC();
+        obj->UpdateTouchScript();
         if ((obj->unk_F8 != NULL ? obj->unk_F8->unk_04 : 2) == 2) {
             obj->unk_FC = FALSE;
             m_actor = NULL;
@@ -92,29 +92,29 @@ void FieldScriptLauncher::ov0_0213F9B0(BOOL startPending)
     }
     switch (m_pendingKind) {
     case 1:
-        ov0_0213FD60(m_pendingLabel, m_pendingArg, m_pendingFade);
+        RunScript(m_pendingLabel, m_pendingArg, m_pendingFade);
         break;
     case 2:
-        ov0_0213FDFC(m_pendingActor, m_pendingLabel, m_pendingFade);
+        RunActorScript(m_pendingActor, m_pendingLabel, m_pendingFade);
         break;
     }
-    ov0_0213F990();
+    ClearPending();
 }
 
-BOOL FieldScriptLauncher::ov0_0213FB0C(const char *label, int arg, int fade)
+BOOL FieldScriptLauncher::LaunchScript(const char *label, int arg, int fade)
 {
-    if (!ov0_0213FEEC()) {
+    if (!IsBusy()) {
         CFieldPlayer *player = MAIN_BSS_0210CA48;
         if (player != NULL) {
             player->sub_show();
             player->sub_0201287C_();
             player->ResetMove();
-            player->ov0_021341E0();
+            player->ResetAction();
         }
         CFieldScene *scene = MAIN_BSS_0210CA40;
         if (scene != NULL) {
             scene->unk_0078 = 0;
-            scene->ov0_0212451C();
+            scene->ClearAllOutlines();
         }
     }
     m_pendingKind = 1;
@@ -125,20 +125,20 @@ BOOL FieldScriptLauncher::ov0_0213FB0C(const char *label, int arg, int fade)
     return TRUE;
 }
 
-BOOL FieldScriptLauncher::ov0_0213FC24(CFieldActor *actor, const char *label, int fade)
+BOOL FieldScriptLauncher::LaunchActorScript(CFieldActor *actor, const char *label, int fade)
 {
-    if (!ov0_0213FEEC()) {
+    if (!IsBusy()) {
         CFieldPlayer *player = MAIN_BSS_0210CA48;
         if (player != NULL && !player->ov0_0213416C() && (((int)actor->m_id >> 24) & 0xFF) == 2) {
             player->sub_show();
             player->sub_0201287C_();
             player->ResetMove();
-            player->ov0_021341E0();
+            player->ResetAction();
         }
         CFieldScene *scene = MAIN_BSS_0210CA40;
         if (scene != NULL) {
             scene->unk_0078 = 0;
-            scene->ov0_0212451C();
+            scene->ClearAllOutlines();
         }
     }
     m_pendingKind = 2;
@@ -149,7 +149,7 @@ BOOL FieldScriptLauncher::ov0_0213FC24(CFieldActor *actor, const char *label, in
     return TRUE;
 }
 
-void FieldScriptLauncher::ov0_0213FD60(const char *label, int arg, int fade)
+void FieldScriptLauncher::RunScript(const char *label, int arg, int fade)
 {
     if (m_actor != NULL) {
         m_actor->StopScript();
@@ -160,11 +160,11 @@ void FieldScriptLauncher::ov0_0213FD60(const char *label, int arg, int fade)
     unk_28 = 0;
     ScriptManager_SetArg(m_game->m_scriptManager, arg);
     ScriptManager_Run(m_game->m_scriptManager, label);
-    MAIN_BSS_0210CA40->ov0_02123E58(fade);
+    MAIN_BSS_0210CA40->StopActorMotion(fade);
     unk_30 = 1;
 }
 
-BOOL FieldScriptLauncher::ov0_0213FDFC(CFieldActor *actor, const char *label, int fade)
+BOOL FieldScriptLauncher::RunActorScript(CFieldActor *actor, const char *label, int fade)
 {
     if (actor != NULL && label != NULL) {
         if (m_actor != NULL) {
@@ -175,7 +175,7 @@ BOOL FieldScriptLauncher::ov0_0213FDFC(CFieldActor *actor, const char *label, in
         m_actor = actor;
         strcpy(m_label, label);
         unk_28 = 0;
-        MAIN_BSS_0210CA40->ov0_02123E58(fade);
+        MAIN_BSS_0210CA40->StopActorMotion(fade);
         if ((((int)actor->m_id >> 24) & 0xFF) != 3) {
             m_state = 2;
             m_actor->RunScriptLabel(label);
@@ -183,7 +183,7 @@ BOOL FieldScriptLauncher::ov0_0213FDFC(CFieldActor *actor, const char *label, in
         } else {
             m_state = 3;
             CFieldTargetObject *obj = (CFieldTargetObject *)m_actor;
-            obj->ov0_0213CF60(label);
+            obj->RunTouchScript(label);
             obj->unk_FC = TRUE;
         }
         unk_30 = 1;
@@ -192,7 +192,7 @@ BOOL FieldScriptLauncher::ov0_0213FDFC(CFieldActor *actor, const char *label, in
     return FALSE;
 }
 
-BOOL FieldScriptLauncher::ov0_0213FEEC()
+BOOL FieldScriptLauncher::IsBusy()
 {
     if (m_state != 0 || m_pendingKind != 0 || ScriptManager_IsRunning(m_game->m_scriptManager)) {
         return TRUE;
@@ -200,7 +200,7 @@ BOOL FieldScriptLauncher::ov0_0213FEEC()
     return FALSE;
 }
 
-BOOL FieldScriptLauncher::ov0_0213FF2C()
+BOOL FieldScriptLauncher::IsRunning()
 {
     if (m_state != 0 || ScriptManager_IsRunning(m_game->m_scriptManager)) {
         return TRUE;

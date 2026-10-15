@@ -51,7 +51,7 @@ CFieldEffectFlowerStorm::CFieldEffectFlowerStorm()
 {
     CFieldEffectNormalActorData *data = new CFieldEffectNormalActorData();
     if (data != NULL) {
-        data->ov0_021503B8(0x67, 0);
+        data->Load(0x67, 0);
         m_system.SetRes(FieldEffectSpriteRes(data->GetNcbr(0), data->GetPalette(), data->GetNcer(0)));
     }
     unk_18 = data;
@@ -66,9 +66,9 @@ CFieldEffectFlowerStorm::~CFieldEffectFlowerStorm()
     SAFE_DELETE(unk_18);
 }
 
-int CFieldEffectFlowerStorm::ov0_02142264(int step)
+int CFieldEffectFlowerStorm::Update(int step)
 {
-    CFieldEffectActor::ov0_02142264(step);
+    CFieldEffectActor::Update(step);
     m_forceField.Step(step);
     m_system.Update(step);
     if (unk_18 != NULL) {
@@ -87,25 +87,25 @@ int CFieldEffectFlowerStorm::ov0_02142264(int step)
     return m_state;
 }
 
-int CFieldEffectFlowerStorm::ov0_02142344(Camera2D *camera)
+int CFieldEffectFlowerStorm::Render(Camera2D *camera)
 {
     m_system.Draw(camera);
     return 0;
 }
 
-void CFieldEffectFlowerStorm::ov0_0214234C(Point2D pos, int arg1, int arg2, int arg3, int arg4)
+void CFieldEffectFlowerStorm::StartAt(Point2D pos, int arg1, int arg2, int arg3, int arg4)
 {
 }
 
-BOOL CFieldEffectFlowerStorm::ov0_021421F0(int inTime, int holdTime, int outTime)
+BOOL CFieldEffectFlowerStorm::Start(int inTime, int holdTime, int outTime)
 {
     m_forceField.Reset(m_pos);
-    return CFieldEffect::ov0_021421F0(inTime, holdTime, outTime);
+    return CFieldEffect::Start(inTime, holdTime, outTime);
 }
 
-int CFieldEffectFlowerStorm::ov0_02142240(int outTime)
+int CFieldEffectFlowerStorm::Stop(int outTime)
 {
-    return CFieldEffect::ov0_02142240(outTime);
+    return CFieldEffect::Stop(outTime);
 }
 
 int CFieldEffectFlowerStorm::SetParam(int param, int value)

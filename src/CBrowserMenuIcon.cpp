@@ -1,6 +1,6 @@
 #include "BrowserScreen.hpp"
 #include "CGame.hpp"
-#include "UnkStruct_020107A8.hpp"
+#include "PokeIdTableEntry.hpp"
 #include "scene/CBrowserMenu.hpp"
 
 CBrowserMenuItemIcon::CBrowserMenuItemIcon()
@@ -17,7 +17,7 @@ CBrowserMenuItemIcon::~CBrowserMenuItemIcon()
     }
 }
 
-void CBrowserMenuItemIcon::ov21_0212181C(OamSpriteSet **anims)
+void CBrowserMenuItemIcon::Init(OamSpriteSet **anims)
 {
     for (int i = 0; i < 3; i++) {
         unk_18[i] = BrowserMenuSprite::Create(anims[i], 0, 0, 0, 2);
@@ -101,7 +101,7 @@ CBrowserMenuCursorIcon::~CBrowserMenuCursorIcon()
     SAFE_DELETE(unk_14);
 }
 
-void CBrowserMenuCursorIcon::ov21_02121AF0(OamSpriteSet *anim)
+void CBrowserMenuCursorIcon::Init(OamSpriteSet *anim)
 {
     unk_14 = BrowserMenuSprite::Create(anim, 0x11, 0, 0, 0);
 }
@@ -153,10 +153,10 @@ CBrowserMenuManagerIcon::~CBrowserMenuManagerIcon()
 {
 }
 
-void CBrowserMenuManagerIcon::ov21_02121C74(OamSpriteSet **anims, OamSpriteSet *cursorAnim, BrowserScreen *browser)
+void CBrowserMenuManagerIcon::Init(OamSpriteSet **anims, OamSpriteSet *cursorAnim, BrowserScreen *browser)
 {
     unk_20 = 0;
-    UnkClass_021226C0 *list = browser->unk_010;
+    BrowserEntryList *list = browser->unk_010;
     for (int i = 0; i < 18; i++) {
         unk_8C[i] = list->unk_814[i];
     }
@@ -165,12 +165,12 @@ void CBrowserMenuManagerIcon::ov21_02121C74(OamSpriteSet **anims, OamSpriteSet *
     }
     for (int i = 0; i < 9; i++) {
         CBrowserMenuItemIcon *item = new CBrowserMenuItemIcon();
-        item->ov21_0212181C(anims);
+        item->Init(anims);
         item->SetPos(i * 24, 0);
         AddItem(item);
     }
     CBrowserMenuCursorIcon *cursor = new CBrowserMenuCursorIcon();
-    cursor->ov21_02121AF0(cursorAnim);
+    cursor->Init(cursorAnim);
     SetCursor(cursor);
 }
 

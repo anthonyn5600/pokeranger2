@@ -6,12 +6,12 @@
 #include "SaveData.hpp"
 #include "TextPrinter.hpp"
 
-struct UnkStruct_0211E47C {
+struct MissionQuestActor {
     u16 actorId;
     u16 placeId;
 };
 
-static UnkStruct_0211E47C sMissionActors[26] = {
+static MissionQuestActor sMissionActors[26] = {
     { 0x12, 0x04 },
     { 0x12, 0x06 },
     { 0x12, 0x09 },
@@ -40,7 +40,7 @@ static UnkStruct_0211E47C sMissionActors[26] = {
     { 0x1A, 0x0A },
 };
 
-static UnkStruct_0211E47C sQuestActors[61] = {
+static MissionQuestActor sQuestActors[61] = {
     { 0x39, 0x04 },
     { 0x2B, 0x04 },
     { 0x2E, 0x04 },
@@ -107,15 +107,15 @@ static UnkStruct_0211E47C sQuestActors[61] = {
 MissionQuestInfo::MissionQuestInfo(CGame *game)
 {
     unk_21C = game;
-    ov8_0211D7E0();
+    Init();
 }
 
 MissionQuestInfo::~MissionQuestInfo()
 {
-    ov8_0211D8EC();
+    Release();
 }
 
-void MissionQuestInfo::ov8_0211D7E0()
+void MissionQuestInfo::Init()
 {
     unk_00 = 0;
     unk_18 = NULL;
@@ -130,7 +130,7 @@ void MissionQuestInfo::ov8_0211D7E0()
     unk_4C = 0;
 }
 
-void MissionQuestInfo::ov8_0211D818()
+void MissionQuestInfo::Update()
 {
     G2_SetBG1Offset(0, -((int)unk_21C->unk_15D0 >> FX32_SHIFT));
     if (unk_18 == NULL) {
@@ -146,25 +146,25 @@ void MissionQuestInfo::ov8_0211D818()
     }
 }
 
-void MissionQuestInfo::ov8_0211D8A0()
+void MissionQuestInfo::Render()
 {
-    ov8_0211D9E8();
+    Draw();
 }
 
-void MissionQuestInfo::ov8_0211D8AC()
+void MissionQuestInfo::OnVBlank()
 {
-    ov8_0211E170();
+    DrawTexts();
 }
 
 void MissionQuestInfo::ov8_0211D8B8()
 {
     if (unk_18 != NULL) {
-        ov8_0211E0A4(TRUE, 0);
+        SetMode(TRUE, 0);
         unk_21C->unk_1494->LoadPalette();
     }
 }
 
-void MissionQuestInfo::ov8_0211D8EC()
+void MissionQuestInfo::Release()
 {
     SAFE_DELETE(unk_08);
     SAFE_DELETE(unk_0C);
@@ -181,7 +181,7 @@ static inline void DrawActor(CFieldActor *actor, Camera2D *camera)
     }
 }
 
-void MissionQuestInfo::ov8_0211D9E8()
+void MissionQuestInfo::Draw()
 {
     if (unk_18 == NULL) {
         return;
@@ -203,7 +203,7 @@ void MissionQuestInfo::ov8_0211D9E8()
     }
 }
 
-void MissionQuestInfo::ov8_0211DA98()
+void MissionQuestInfo::Load()
 {
     char path[0x40];
     GX_SetVisiblePlane(GX_PLANEMASK_BG1 | GX_PLANEMASK_BG2 | GX_PLANEMASK_OBJ);
@@ -236,7 +236,7 @@ void MissionQuestInfo::ov8_0211DA98()
     unk_1C[2] = unk_18->AddSprite(0, 0x80, 0x18, 1);
     unk_1C[3] = unk_18->AddSprite(3, 0x80, 0x90, 1);
     unk_1C[4] = unk_18->AddSprite(4, 0x7C, 0x38, 1);
-    if (ov8_0211E380() < 0) {
+    if (GetMissionIndex() < 0) {
         for (int i = 0; i < 6; i++) {
             if (i != 5 && unk_1C[i] != NULL) {
                 unk_1C[i]->unk_14 = 0;
@@ -261,7 +261,7 @@ void MissionQuestInfo::ov8_0211DA98()
         u16 id;
         switch (i) {
         case 0: {
-            int mission = ov8_0211E380();
+            int mission = GetMissionIndex();
             if (mission < 0) {
                 continue;
             }
@@ -270,7 +270,7 @@ void MissionQuestInfo::ov8_0211DA98()
             }
             unk_214 = 1;
             id = sMissionActors[mission].actorId;
-            int info = ov8_0211E380();
+            int info = GetMissionIndex();
             if (info == 9 && unk_21C->m_missionQuestData->m_chapter >= 0x30) {
                 info = 0x14;
             }
@@ -279,7 +279,7 @@ void MissionQuestInfo::ov8_0211DA98()
             break;
         }
         case 1: {
-            int quest = ov8_0211E3A4();
+            int quest = GetQuestIndex();
             if (quest < 0) {
                 continue;
             }
@@ -308,25 +308,25 @@ void MissionQuestInfo::ov8_0211DA98()
     }
 }
 
-BOOL MissionQuestInfo::ov8_0211E0A4(int mode, int arg1)
+BOOL MissionQuestInfo::SetMode(int mode, int arg1)
 {
     unk_00 = 0;
     if (mode) {
-        if (ov8_0211E380() < 0) {
+        if (GetMissionIndex() < 0) {
             return FALSE;
         }
     } else {
-        if (ov8_0211E3A4() < 0) {
+        if (GetQuestIndex() < 0) {
             return FALSE;
         }
     }
     unk_210 = mode;
-    ov8_0211E0FC();
-    ov8_0211E164();
+    UpdateTabs();
+    RequestDrawTexts();
     return TRUE;
 }
 
-void MissionQuestInfo::ov8_0211E0FC()
+void MissionQuestInfo::UpdateTabs()
 {
     if (unk_18 == NULL) {
         return;
@@ -340,19 +340,19 @@ void MissionQuestInfo::ov8_0211E0FC()
     }
 }
 
-BOOL MissionQuestInfo::ov8_0211E148()
+BOOL MissionQuestInfo::Setup()
 {
-    ov8_0211DA98();
+    Load();
     ov8_0211D8B8();
     return TRUE;
 }
 
-void MissionQuestInfo::ov8_0211E164()
+void MissionQuestInfo::RequestDrawTexts()
 {
     unk_04 = 1;
 }
 
-void MissionQuestInfo::ov8_0211E170()
+void MissionQuestInfo::DrawTexts()
 {
     if (!unk_04) {
         return;
@@ -384,9 +384,9 @@ void MissionQuestInfo::ov8_0211E170()
     text->Print(3, 2, 6, 1, (u8 *)info->GetString(4), FALSE, 0);
 }
 
-int MissionQuestInfo::ov8_0211E32C()
+int MissionQuestInfo::GetMissionPlace()
 {
-    int mission = ov8_0211E380();
+    int mission = GetMissionIndex();
     if (mission < 0) {
         return -1;
     }
@@ -400,7 +400,7 @@ int MissionQuestInfo::ov8_0211E32C()
     return place;
 }
 
-int MissionQuestInfo::ov8_0211E380()
+int MissionQuestInfo::GetMissionIndex()
 {
     MissionQuestData *data = unk_21C->m_missionQuestData;
     if (data->m_missionState == 0) {
@@ -409,7 +409,7 @@ int MissionQuestInfo::ov8_0211E380()
     return data->m_missionId - 1;
 }
 
-int MissionQuestInfo::ov8_0211E3A4()
+int MissionQuestInfo::GetQuestIndex()
 {
     MissionQuestData *data = unk_21C->m_missionQuestData;
     if (data->m_questActive == 0) {

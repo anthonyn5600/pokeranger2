@@ -26,11 +26,11 @@ public:
     virtual void func7();
     virtual u32 getSceneId();
 
-    void ov3_02120CF4();
-    void ov3_02120D90(int sel);
-    void ov3_021210A4();
-    void ov3_02121110();
-    void ov3_02121234(int scale);
+    void InitMessageWindow();
+    void DrawMessage(int sel);
+    void LoadSprites();
+    void CreateYesNoButtons();
+    void SetButtonScale(int scale);
 
 public:
     AudioEngine *m_audioEngine;

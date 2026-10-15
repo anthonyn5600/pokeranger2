@@ -9,9 +9,9 @@
 #include "CellAnimInstance.hpp"
 #include "BrightnessFade.hpp"
 #include "FieldSubScreen.hpp"
-#include "UnkClass_02041D80.hpp"
+#include "FieldDataRecords.hpp"
 #include "SaveData.hpp"
-#include "UnkStruct_020107A8.hpp"
+#include "PokeIdTableEntry.hpp"
 #include "field/CFieldEffectManpu.hpp"
 #include "field/CFieldEffectManage.hpp"
 #include "field/CFieldMap.hpp"
@@ -70,7 +70,7 @@ CFieldPlayer::CFieldPlayer()
     unk_98 = 0;
     unk_14C = 0;
     unk_148 = 0xF0;
-    ov0_02133EB4();
+    ClearTrail();
     unk_1B4 = 1;
 }
 
@@ -79,12 +79,12 @@ CFieldPlayer::~CFieldPlayer()
     MAIN_BSS_0210CA48 = NULL;
 }
 
-void CFieldPlayer::ov0_021307B0(PadInput *pad, CTouchPanel *touch, Camera2D *camera, CFieldMap *map, u32 flags)
+void CFieldPlayer::UpdateInput(PadInput *pad, CTouchPanel *touch, Camera2D *camera, CFieldMap *map, u32 flags)
 {
     int quantDir = 0xFFFF;
     int baseSpeed = 0xF0000 / DAT_0208d58c;
     if (MAIN_BSS_0210CA6C != NULL) {
-        UnkStruct_02041D80 *info = FieldData_GetMap(MAIN_BSS_0210CA6C, MAIN_BSS_020B26A0.m_mapId);
+        FieldMapData *info = FieldData_GetMap(MAIN_BSS_0210CA6C, MAIN_BSS_020B26A0.m_mapId);
         baseSpeed = info->unk_50 * 60 / DAT_0208d58c;
     }
     BOOL smooth = (flags & 2) ? TRUE : FALSE;
@@ -672,13 +672,13 @@ void CFieldPlayer::ov0_021307B0(PadInput *pad, CTouchPanel *touch, Camera2D *cam
         if ((u32)unk_14C >= (u32)unk_148) {
             CFieldEffectManage *mgr = MAIN_BSS_0210CA60;
             if (mgr != NULL) {
-                int i = sub_02007DF0(8, GetDir(), 0);
-                mgr->ov0_02143344(sTrailOffsets[i].x + GetX(), sTrailOffsets[i].y + GetY());
+                int i = GetDirectionIndex(8, GetDir(), 0);
+                mgr->EmitAirBubbles(sTrailOffsets[i].x + GetX(), sTrailOffsets[i].y + GetY());
             }
             unk_14C = 0;
         }
     }
-    ov0_02133EE4();
+    UpdateTrail();
 }
 
 void CFieldPlayer::ov0_02132E68(BOOL arg1)
@@ -698,15 +698,15 @@ void CFieldPlayer::ov0_02132E68(BOOL arg1)
     }
 }
 
-BOOL CFieldPlayer::ov0_02132EE4(u16 arg1, int arg2, u32 arg3)
+BOOL CFieldPlayer::CreatePlayerDrawObject(u16 arg1, int arg2, u32 arg3)
 {
     return CreateDrawObject(4, arg1, arg2, arg3, 1);
 }
 
-BOOL CFieldPlayer::ov0_02132F14(u8 arg1, int arg2, u8 arg3)
+BOOL CFieldPlayer::LoadModel(u8 arg1, int arg2, u8 arg3)
 {
     int base = arg2 == 0 ? 1 : 3;
-    BOOL result = ov0_02132EE4((arg1 & 1) + base, 0, 0x1FFFFFFE);
+    BOOL result = CreatePlayerDrawObject((arg1 & 1) + base, 0, 0x1FFFFFFE);
     if (result) {
         if (arg3 == 1) {
             SetMasks(0x20, 0x40);
@@ -717,9 +717,9 @@ BOOL CFieldPlayer::ov0_02132F14(u8 arg1, int arg2, u8 arg3)
     return result;
 }
 
-void CFieldPlayer::ov0_02132FA0(u8 mode)
+void CFieldPlayer::SetRideMode(u8 mode)
 {
-    UnkStruct_020107A8 *info;
+    PokeIdTableEntry *info;
     void *table = s_game->unk_1434;
     switch (mode) {
     case 0:
@@ -805,10 +805,10 @@ void CFieldPlayer::ov0_02132FA0(u8 mode)
         break;
     }
     ResetMove();
-    m_drawObject->m_actor->sub_0203EE3C();
+    m_drawObject->m_actor->RefreshAnim();
 }
 
-BOOL CFieldPlayer::ov0_021333A0(fx32 dx, fx32 dy, int arg3, int damage, int arg5)
+BOOL CFieldPlayer::KnockBack(fx32 dx, fx32 dy, int arg3, int damage, int arg5)
 {
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (scene != NULL && ((scene->m_flags & 1) ? TRUE : FALSE)) {
@@ -846,7 +846,7 @@ BOOL CFieldPlayer::ov0_021333A0(fx32 dx, fx32 dy, int arg3, int damage, int arg5
                 sub_020128EC_(FX_Div(FX_Atan2(-dy, -dx) << 4, 0x6486));
             }
             scene->unk_0078 = 0;
-            scene->ov0_0212451C();
+            scene->ClearAllOutlines();
             if (scene->m_subScreen != NULL) {
                 scene->m_subScreen->SwitchToDefaultPanel();
             }
@@ -856,7 +856,7 @@ BOOL CFieldPlayer::ov0_021333A0(fx32 dx, fx32 dy, int arg3, int damage, int arg5
         if (damage > 0) {
             energy -= damage;
             save->m_energy = energy > 0 ? (u8)energy : 0;
-            ov0_02133E8C(damage);
+            ShowDamage(damage);
         }
         if (arg5 < 0) {
             arg5 = unk_138 + 60;
@@ -974,14 +974,14 @@ void CFieldPlayer::SetLayer(int arg0)
     save->SetUnk0020(GetPos());
 }
 
-void CFieldPlayer::ov0_02133E8C(int arg1)
+void CFieldPlayer::ShowDamage(int arg1)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
-        MAIN_BSS_0210CA60->ov0_0214332C(arg1, 0x78, this);
+        MAIN_BSS_0210CA60->ShowDamage(arg1, 0x78, this);
     }
 }
 
-void CFieldPlayer::ov0_02133EB4()
+void CFieldPlayer::ClearTrail()
 {
     unk_1B0 = 0;
     for (int i = 0; i < 6; i++) {
@@ -1004,7 +1004,7 @@ void CFieldPlayer::PushHistory(Point2D pos, Point2D partnerPos)
     }
 }
 
-void CFieldPlayer::ov0_02133EE4()
+void CFieldPlayer::UpdateTrail()
 {
     if (m_map == NULL) {
         return;
@@ -1029,7 +1029,7 @@ void CFieldPlayer::ov0_02133EE4()
         return;
     }
     if (MATH_ABS(cell.x - last.x) > 1 || MATH_ABS(cell.y - last.y) > 1) {
-        ov0_02133EB4();
+        ClearTrail();
     }
     Point2D partner;
     ov0_0213EA6C(&partner, cell, m_layer, 0);
@@ -1048,7 +1048,7 @@ BOOL CFieldPlayer::ov0_0213416C()
     return FALSE;
 }
 
-BOOL CFieldPlayer::ov0_021341E0()
+BOOL CFieldPlayer::ResetAction()
 {
     if (unk_110 != 7) {
         unk_110 = 0;

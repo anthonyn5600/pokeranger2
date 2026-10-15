@@ -3,6 +3,7 @@
 #include "Collision.hpp"
 #include "MathUtil.hpp"
 #include "SaveData.hpp"
+#include "battle/BattleEffectivenessMark.hpp"
 #include "battle/BattleParamTable.hpp"
 #include "battle/CBattleAssist.hpp"
 #include "battle/CBattleAttackEffect.hpp"
@@ -10,11 +11,10 @@
 #include "battle/CBattleEnemy.hpp"
 #include "battle/CBattleEnemyData.hpp"
 #include "battle/StylerLine.hpp"
-#include "battle/UnkClass_02128414.hpp"
 #include "fx_utils.hpp"
 
-extern "C" fx32 ov1_0212EE80(int assistType, int type);
-extern "C" u16 ov1_0212EE98(int assistType, int idx);
+extern "C" fx32 GetAssistTypeRate(int assistType, int type);
+extern "C" u16 GetAssistEffectTime(int assistType, int idx);
 
 static const fx32 sSpeeds[] = { 0, 0x2000, 0x4000, 0x8000 };
 
@@ -33,7 +33,7 @@ int CBattleAssistInsect::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattle
 {
     for (u8 i = 0; i < 4; i++) {
         if ((m_slots[i].m_flags & 1) && !m_effects[i]->HasData()) {
-            m_effects[i]->ov1_02127300();
+            m_effects[i]->Terminate();
             m_effects[i] = NULL;
             m_slots[i].m_flags &= ~1;
         }
@@ -45,7 +45,7 @@ int CBattleAssistInsect::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattle
             bug->m_effect->FadeAlpha(0x40, 0);
             bug->m_flags &= ~1;
         } else if (bug->m_effect != NULL && bug->m_effect->unk_108.value == 0) {
-            bug->m_effect->ov1_02127300();
+            bug->m_effect->Terminate();
             bug->m_effect = NULL;
         }
     }
@@ -59,35 +59,35 @@ int CBattleAssistInsect::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattle
                 if (m_effects[i] == NULL || !CircleHitCircle(area, m_effects[i]->m_sphere.m_circle, NULL)) {
                     continue;
                 }
-                u16 power = unk_10->ov1_0212F32C(11, *level, (u8)(m_slots[i].m_level - 1));
-                fx32 rate = ov1_0212EE80(vfunc_10(), enemies[j]->unk_184->unk_18->unk_03);
-                enemies[j]->ov1_02126310((u16)(FX32_MUL(rate, power << FX32_SHIFT) >> FX32_SHIFT), TRUE);
+                u16 power = unk_10->GetAssistPower(11, *level, (u8)(m_slots[i].m_level - 1));
+                fx32 rate = GetAssistTypeRate(vfunc_10(), enemies[j]->unk_184->unk_18->unk_03);
+                enemies[j]->TakeDamage((u16)(FX32_MUL(rate, power << FX32_SHIFT) >> FX32_SHIFT), TRUE);
                 if (rate == 0x1000) {
-                    enemies[j]->unk_1A8->ov1_02128598(0);
+                    enemies[j]->unk_1A8->Show(0);
                 } else if (rate > 0x1000) {
-                    enemies[j]->unk_1A8->ov1_02128598(1);
+                    enemies[j]->unk_1A8->Show(1);
                 } else if (rate < 0x1000) {
-                    enemies[j]->unk_1A8->ov1_02128598(2);
+                    enemies[j]->unk_1A8->Show(2);
                 }
-                enemies[j]->ov1_021263A4(3, ov1_0212EE98(vfunc_10(), (u8)(m_slots[i].m_level - 1)));
-                m_effects[i]->ov1_02127300();
+                enemies[j]->SetStatus(3, GetAssistEffectTime(vfunc_10(), (u8)(m_slots[i].m_level - 1)));
+                m_effects[i]->Terminate();
                 m_effects[i] = NULL;
                 m_slots[i].m_flags &= ~1;
                 unk_14->PlaySe(0x13A);
                 u8 idx;
-                if (ov1_02133B08(&idx)) {
+                if (FindFreeBug(&idx)) {
                     InsectBug *bug = &m_bugs[idx];
                     bug->m_flags |= 1;
                     bug->m_timer = 0;
                     if (bug->m_effect != NULL) {
-                        bug->m_effect->ov1_02127300();
+                        bug->m_effect->Terminate();
                     }
-                    bug->m_effect = ov1_0212EE3C();
+                    bug->m_effect = GetFreeEffect();
                     if (bug->m_effect == NULL) {
                         continue;
                     }
-                    bug->m_effect->ov1_021270FC(unk_0C[1]);
-                    bug->m_effect->ov1_02127454(0x20, 2);
+                    bug->m_effect->Start(unk_0C[1]);
+                    bug->m_effect->PlayAction(0x20, 2);
                     CBattleEnemy *enemy = enemies[j];
                     Point2D pos;
                     pos = enemy->m_motion.m_pos;
@@ -100,10 +100,10 @@ int CBattleAssistInsect::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattle
     }
     switch (m_state) {
     case 0:
-        ov1_021335A4(touch, disk, enemies);
+        UpdateWait(touch, disk, enemies);
         break;
     case 1:
-        ov1_021336CC(touch, disk, enemies);
+        UpdateHold(touch, disk, enemies);
         break;
     }
     if (unk_04 == 0) {
@@ -118,7 +118,7 @@ int CBattleAssistInsect::vfunc_10()
     return 11;
 }
 
-void CBattleAssistInsect::ov1_021335A4(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies)
+void CBattleAssistInsect::UpdateWait(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies)
 {
     if (touch->unk_04 == 0) {
         return;
@@ -126,42 +126,42 @@ void CBattleAssistInsect::ov1_021335A4(CTouchPanel *touch, CBattleDisk *disk, CB
     m_start.x = m_end.x = (touch->unk_0A.x - 0x80) << FX32_SHIFT;
     m_start.y = m_end.y = (touch->unk_0A.y - 0x60) << FX32_SHIFT;
     m_line.p1 = m_start;
-    m_startMark = ov1_0212EE3C();
-    m_startMark->ov1_021270FC(unk_0C[0]);
+    m_startMark = GetFreeEffect();
+    m_startMark->Start(unk_0C[0]);
     m_startMark->m_motion.SetPos(m_start);
-    m_startMark->ov1_02127454(0x20, 0);
-    m_string = ov1_0212EE3C();
-    m_string->ov1_021270FC(unk_0C[0]);
+    m_startMark->PlayAction(0x20, 0);
+    m_string = GetFreeEffect();
+    m_string->Start(unk_0C[0]);
     m_string->m_motion.SetPos(m_start);
-    m_string->ov1_02127454(0x20, 1);
+    m_string->PlayAction(0x20, 1);
     m_string->ScaleTo(0, 0x28, 0x28);
-    m_endMark = ov1_0212EE3C();
-    m_endMark->ov1_021270FC(unk_0C[0]);
+    m_endMark = GetFreeEffect();
+    m_endMark->Start(unk_0C[0]);
     m_endMark->m_motion.SetPos(m_end);
-    m_endMark->ov1_02127454(0x20, 2);
+    m_endMark->PlayAction(0x20, 2);
     unk_14->PlaySe(0x138);
     m_state = 1;
 }
 
-void CBattleAssistInsect::ov1_021336CC(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies)
+void CBattleAssistInsect::UpdateHold(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies)
 {
     if (touch->unk_06 != 0) {
-        u8 level = ov1_02133AAC(ApproxLength(m_end.x - m_start.x, m_end.y - m_start.y));
+        u8 level = GetLevelFromLength(ApproxLength(m_end.x - m_start.x, m_end.y - m_start.y));
         u8 idx;
-        if (level != 0 && ov1_02133AD4(&idx)) {
-            CBattleAttackEffect *effect = ov1_0212EE3C();
+        if (level != 0 && FindFreeSlot(&idx)) {
+            CBattleAttackEffect *effect = GetFreeEffect();
             m_effects[idx] = effect;
-            effect->ov1_021270FC(unk_0C[0]);
-            effect->ov1_02127454(0x20, 2);
+            effect->Start(unk_0C[0]);
+            effect->PlayAction(0x20, 2);
             effect->m_motion.SetPos(m_end);
             effect->m_motion.MoveInDirection(FX_Atan2Idx(m_start.y - m_end.y, m_start.x - m_end.x), sSpeeds[level]);
             m_slots[idx].m_level = level;
             unk_14->PlaySe(0x139);
             m_slots[idx].m_flags |= 1;
         }
-        m_startMark->ov1_02127300();
-        m_string->ov1_02127300();
-        m_endMark->ov1_02127300();
+        m_startMark->Terminate();
+        m_string->Terminate();
+        m_endMark->Terminate();
         unk_14->StopSe(0x138);
         m_state = 0;
         return;
@@ -191,9 +191,9 @@ void CBattleAssistInsect::ov1_021336CC(CTouchPanel *touch, CBattleDisk *disk, CB
     if (!hit) {
         return;
     }
-    m_startMark->ov1_02127300();
-    m_string->ov1_02127300();
-    m_endMark->ov1_02127300();
+    m_startMark->Terminate();
+    m_string->Terminate();
+    m_endMark->Terminate();
     unk_14->StopSe(0x138);
     m_state = 0;
 }
@@ -201,9 +201,9 @@ void CBattleAssistInsect::ov1_021336CC(CTouchPanel *touch, CBattleDisk *disk, CB
 void CBattleAssistInsect::vfunc_0C()
 {
     if (m_state == 1) {
-        m_startMark->ov1_02127300();
-        m_string->ov1_02127300();
-        m_endMark->ov1_02127300();
+        m_startMark->Terminate();
+        m_string->Terminate();
+        m_endMark->Terminate();
         m_state = 0;
     }
     unk_14->StopSe(0x138);
@@ -211,7 +211,7 @@ void CBattleAssistInsect::vfunc_0C()
     unk_14->StopSe(0x13A);
 }
 
-u8 CBattleAssistInsect::ov1_02133AAC(fx32 dist)
+u8 CBattleAssistInsect::GetLevelFromLength(fx32 dist)
 {
     if (dist < 0x10000) {
         return 0;
@@ -225,7 +225,7 @@ u8 CBattleAssistInsect::ov1_02133AAC(fx32 dist)
     return 3;
 }
 
-BOOL CBattleAssistInsect::ov1_02133AD4(u8 *idx)
+BOOL CBattleAssistInsect::FindFreeSlot(u8 *idx)
 {
     for (u8 i = 0; i < 4; i++) {
         if (!(m_slots[i].m_flags & 1)) {
@@ -237,7 +237,7 @@ BOOL CBattleAssistInsect::ov1_02133AD4(u8 *idx)
 }
 
 // Scans m_slots with the bug count (the original reads past m_slots into m_bugs)
-BOOL CBattleAssistInsect::ov1_02133B08(u8 *idx)
+BOOL CBattleAssistInsect::FindFreeBug(u8 *idx)
 {
     for (u8 i = 0; i < 16; i++) {
         if (!(m_slots[i].m_flags & 1)) {
@@ -248,7 +248,7 @@ BOOL CBattleAssistInsect::ov1_02133B08(u8 *idx)
     return FALSE;
 }
 
-void CBattleAssistInsect::ov1_02133B3C(CBattleAttackEffect **effects)
+void CBattleAssistInsect::SetTargets(CBattleAttackEffect **effects)
 {
     m_targets = effects;
 }

@@ -17,7 +17,7 @@ extern SaveData MAIN_BSS_020B26A0;
 extern "C" {
 CFieldDrawActorData *SaveData_LoadPlayerActorData(SaveData *save, int arg1);
 CFieldDrawActorData *SaveData_FindPartnerActorData(SaveData *save, u16 id, int form, u16 mask, BOOL arg4);
-CFieldDrawActorData *sub_02017848(SaveData *save, u16 id, int form, u16 mask, BOOL arg4);
+CFieldDrawActorData *SaveData_FindPartyActorData(SaveData *save, u16 id, int form, u16 mask, BOOL arg4);
 }
 
 CFieldDrawActor::CFieldDrawActor()
@@ -79,7 +79,7 @@ void CFieldDrawActor::Load(int type, u16 id, int form, u32 mask, BOOL useTransfe
         if (type == 1) {
             m_actorData = SaveData_FindPartnerActorData(&MAIN_BSS_020B26A0, id, form, mask, TRUE);
         } else {
-            m_actorData = sub_02017848(&MAIN_BSS_020B26A0, id, form, mask, TRUE);
+            m_actorData = SaveData_FindPartyActorData(&MAIN_BSS_020B26A0, id, form, mask, TRUE);
         }
         m_actorData->AllocVram();
         if (OS_GetIrqMask() & OS_IE_V_BLANK) {
@@ -301,7 +301,7 @@ void CFieldDrawActor::vfunc_08()
     if (IsAnimChanged()) {
         unk_1D8 = unk_1DC;
         unk_1E0 = unk_1E1;
-        sub_0203EE3C();
+        RefreshAnim();
     }
     if (m_effectFlags & 1) {
         if (m_outlineTime >= 0) {
@@ -494,7 +494,7 @@ u32 CFieldDrawActor::Render(Camera2D *camera, fx32 z)
     return count;
 }
 
-void CFieldDrawActor::sub_0203EE3C()
+void CFieldDrawActor::RefreshAnim()
 {
     switch (unk_1D8) {
     case 0:

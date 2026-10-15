@@ -3,8 +3,8 @@
 #include <nitro.h>
 
 #include "FieldCannons.hpp"
+#include "FieldDataRecords.hpp"
 #include "SaveData.hpp"
-#include "UnkClass_02041D80.hpp"
 #include "field/CFieldTargetObject.hpp"
 
 extern FieldData *MAIN_BSS_0210CA6C;
@@ -40,7 +40,7 @@ static inline void SetCircle(CFieldActor *actor, Circle v)
     actor->unk_44 = v;
 }
 
-int CFieldTargetObjectManage::ov0_0213D1AC(int slot, u16 kind, u16 script, u16 touchScript, int arg5)
+int CFieldTargetObjectManage::Create(int slot, u16 kind, u16 script, u16 touchScript, int arg5)
 {
     if (m_actors != NULL) {
         int i;
@@ -75,22 +75,22 @@ int CFieldTargetObjectManage::ov0_0213D1AC(int slot, u16 kind, u16 script, u16 t
             if (unk_10 != NULL) {
                 void *block;
                 if (script != 0) {
-                    block = unk_10->ov0_021420AC(script, FALSE);
+                    block = unk_10->Get(script, FALSE);
                 } else {
-                    block = unk_10->ov0_021420AC(data->unk_06, FALSE);
+                    block = unk_10->Get(data->unk_06, FALSE);
                 }
                 if (block != NULL) {
                     if (!obj->SetScript(new CFieldTargetObjectActorScript(0x30), block)) {
                         LogError("SetScript  ERROR by FieldTargetObjectManage.cpp");
                     } else {
                         obj->unk_0C = TRUE;
-                        obj->ov0_0213CD3C();
+                        obj->CallNormal();
                     }
                 }
                 if (touchScript != 0) {
-                    block = unk_10->ov0_021420AC(touchScript, TRUE);
+                    block = unk_10->Get(touchScript, TRUE);
                     if (block != NULL) {
-                        if (!obj->ov0_0213CF30(new CFieldTargetObjectActorScript(0x20), block)) {
+                        if (!obj->SetTouchScript(new CFieldTargetObjectActorScript(0x20), block)) {
                             LogError("SetTouchScript ERROR by FieldTargetObjectManage.cpp");
                         }
                     }
@@ -118,7 +118,7 @@ int CFieldTargetObjectManage::ov0_0213D1AC(int slot, u16 kind, u16 script, u16 t
 BOOL CFieldTargetObjectManage::Clear()
 {
     if (unk_10 != NULL) {
-        unk_10->ov0_02142068();
+        unk_10->Clear();
     }
     return CFieldActorManage::Clear();
 }

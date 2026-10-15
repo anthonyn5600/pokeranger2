@@ -12,15 +12,15 @@ public:
     FieldCannons();
     ~FieldCannons();
 
-    void ov0_02159970();
+    void RestoreSaved();
     int ov0_02159B24();
-    int ov0_02159B5C();
-    int ov0_02159B84(int type, int index, int mode);
-    void ov0_02159CA8();
-    void ov0_02159D70();
-    void ov0_02159D7C();
-    void ov0_02159DB4(DrawObjectList *renderLists, FieldShadow *hud);
-    CFieldCannon *ov0_02159DFC(int index);
+    int FindFreeSlot();
+    int CreateCannon(int type, int index, int mode);
+    void Release();
+    void Clear();
+    void Update();
+    void Draw(DrawObjectList *renderLists, FieldShadow *hud);
+    CFieldCannon *GetCannon(int index);
 
 public:
     u16 unk_00; // used slots

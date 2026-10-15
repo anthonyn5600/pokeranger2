@@ -54,20 +54,20 @@ BattleDiskRing::~BattleDiskRing()
     SAFE_DELETE(m_res);
 }
 
-void BattleDiskRing::ov1_0212D5DC()
+void BattleDiskRing::Update()
 {
     m_angle += 0x400;
     m_anim->UpdateAll();
     switch (m_state) {
     case 1:
-        ov1_0212D774();
+        UpdateOpen();
         break;
     case 3:
-        ov1_0212D880();
+        UpdateClose();
         break;
     case 2:
     default:
-        ov1_0212D870();
+        UpdateShown();
         break;
     }
     u16 angle;
@@ -88,7 +88,7 @@ void BattleDiskRing::ov1_0212D5DC()
     }
 }
 
-void BattleDiskRing::ov1_0212D774()
+void BattleDiskRing::UpdateOpen()
 {
     m_frame++;
     m_radius = LinearInterpolate(0x40000, 0x20000, m_frame, 0x10);
@@ -100,7 +100,7 @@ void BattleDiskRing::ov1_0212D774()
     for (u8 i = 0; i < 3; i++) {
         m_sprites1[i]->m_alpha = alpha1;
     }
-    ov1_0212DBB0(alpha1);
+    SetLineAlpha(alpha1);
     if (m_frame >= 0x10) {
         m_radius = 0x20000;
         for (u8 i = 0; i < 3; i++) {
@@ -112,12 +112,12 @@ void BattleDiskRing::ov1_0212D774()
     }
 }
 
-void BattleDiskRing::ov1_0212D870()
+void BattleDiskRing::UpdateShown()
 {
-    ov1_0212DBB0(0x1F);
+    SetLineAlpha(0x1F);
 }
 
-void BattleDiskRing::ov1_0212D880()
+void BattleDiskRing::UpdateClose()
 {
     m_frame++;
     m_radius = LinearInterpolate(0x20000, 0x40000, m_frame, 0x10);
@@ -129,7 +129,7 @@ void BattleDiskRing::ov1_0212D880()
     for (u8 i = 0; i < 3; i++) {
         m_sprites1[i]->m_alpha = alpha1;
     }
-    ov1_0212DBB0(alpha1);
+    SetLineAlpha(alpha1);
     if (m_frame >= 0x10) {
         m_radius = 0x40000;
         for (u8 i = 0; i < 3; i++) {
@@ -141,7 +141,7 @@ void BattleDiskRing::ov1_0212D880()
     }
 }
 
-void BattleDiskRing::ov1_0212D974(Camera2D *camera)
+void BattleDiskRing::Render(Camera2D *camera)
 {
     if (m_state == 0) {
         return;
@@ -165,19 +165,19 @@ void BattleDiskRing::ov1_0212D974(Camera2D *camera)
     }
 }
 
-void BattleDiskRing::ov1_0212DAF0()
+void BattleDiskRing::Open()
 {
     m_state = 1;
     m_frame = 0;
 }
 
-void BattleDiskRing::ov1_0212DB04()
+void BattleDiskRing::Close()
 {
     m_state = 3;
     m_frame = 0;
 }
 
-int BattleDiskRing::ov1_0212DB18(int z)
+int BattleDiskRing::SetZ(int z)
 {
     for (u8 i = 0; i < 3; i++) {
         z += m_sprites0[i]->GetCellNumOAMAttrs(m_sprites0[i]->m_cellDataIdx);
@@ -191,7 +191,7 @@ int BattleDiskRing::ov1_0212DB18(int z)
     return z + 1;
 }
 
-void BattleDiskRing::ov1_0212DBB0(u8 alpha)
+void BattleDiskRing::SetLineAlpha(u8 alpha)
 {
     for (u8 i = 0; i < 3; i++) {
         for (u8 j = 0; j < 8; j++) {

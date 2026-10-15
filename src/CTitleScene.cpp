@@ -9,6 +9,7 @@
 #include "CGame.hpp"
 #include "Collision.hpp"
 #include "DisplayUtil.hpp"
+#include "FieldDataRecords.hpp"
 #include "FontSet.hpp"
 #include "GlobalValues.hpp"
 #include "OamSprite.hpp"
@@ -16,7 +17,6 @@
 #include "SaveDataBuffer.hpp"
 #include "SaveManager.hpp"
 #include "SubTextPrinter.hpp"
-#include "UnkClass_02041D80.hpp"
 #include "common.hpp"
 #include "file/CBinaryFileMes.hpp"
 
@@ -168,7 +168,7 @@ void CTitleScene::func5()
     GXS_DispOn();
 }
 
-void CTitleScene::ov3_0211CD2C()
+void CTitleScene::SetupBG()
 {
     G2S_SetBG0Offset(0, 0);
     G2S_SetBG1Offset(0, 0);
@@ -178,16 +178,16 @@ void CTitleScene::ov3_0211CD2C()
     G2S_SetBG1Control(GX_BG_SCRSIZE_TEXT_256x256, GX_BG_COLORMODE_16, GX_BG_SCRBASE_0x6800, GX_BG_CHARBASE_0x00000, GX_BG_EXTPLTT_01);
 }
 
-void CTitleScene::ov3_0211CD6C()
+void CTitleScene::DrawMenu()
 {
     if (m_flags & 0x200) {
-        ov3_0211CD8C();
+        DrawContinueMenu();
     } else {
-        ov3_0211D1B0();
+        DrawNewGameMenu();
     }
 }
 
-void CTitleScene::ov3_0211CD8C()
+void CTitleScene::DrawContinueMenu()
 {
     TextWindow wins[8] = {
         { 15, 2, 2, 3, 0, 3, 1 },
@@ -260,7 +260,7 @@ void CTitleScene::ov3_0211CD8C()
     }
 }
 
-void CTitleScene::ov3_0211D1B0()
+void CTitleScene::DrawNewGameMenu()
 {
     TextWindow wins[3] = {
         { 16, 2, 2, 2, 0, 3, 1 },
@@ -319,7 +319,7 @@ void CTitleScene::func6()
     m_game->m_textboxData->Init(m_game->unk_0014, m_game->touchPanel, &m_game->unk_14AC->unk_14, m_game->m_nameTables, m_game->unk_0024, m_game->m_audioEngine, 0x10, 0x4000, 0);
     SetupBGFonts();
     m_flags = 0x400;
-    ov3_0211CD2C();
+    SetupBG();
 
     RTCTime time;
     RTC_GetTime(&time);
@@ -346,7 +346,7 @@ void CTitleScene::func6()
     for (int i = 0; i < 4; i++) {
         unk_44[i] = m_resource->GetSprite(i + 6);
     }
-    ov3_02120634();
+    CreateYesNoButtons();
     ov3_0212069C();
 
     unk_A4 = m_resource->unk_04;
@@ -378,7 +378,7 @@ void CTitleScene::func6()
     MAIN_BSS_020B26A0.m_lastDate = date;
 }
 
-void CTitleScene::ov3_0211DD90()
+void CTitleScene::CreateMenuSprites()
 {
     u8 b3 = MAIN_BSS_020B26A0.m_rangerClassGrade;
     u8 lo = b3 & 0xF;
@@ -409,7 +409,7 @@ void CTitleScene::ov3_0211DD90()
     }
 }
 
-void CTitleScene::ov3_0211DF20()
+void CTitleScene::RemoveMenuSprites()
 {
     unk_40->RemoveAll();
     unk_54->RemoveAll();
@@ -516,8 +516,8 @@ u32 CTitleScene::func0()
     case 2:
         G2S_SetBlendBrightness(GX_BLEND_PLANEMASK_BG1, 0);
         unk_A4->LoadToVram();
-        ov3_021202E0();
-        ov3_0212038C(unk_DC);
+        InitMessageWindow();
+        DrawMessage(unk_DC);
         unk_A8->unk_14 = 1;
         unk_AC->unk_14 = 1;
         unk_A8->SetAffine(0x20, FALSE);
@@ -526,7 +526,7 @@ u32 CTitleScene::func0()
         SetState(3);
         break;
     case 3:
-        ov3_021206E8(unk_A0);
+        SetButtonScale(unk_A0);
         unk_B0->Update();
         if (m_flags & 3) {
             unk_96++;
@@ -575,7 +575,7 @@ u32 CTitleScene::func0()
         }
         break;
     case 7:
-        ov3_0212038C(unk_DC);
+        DrawMessage(unk_DC);
         unk_A8->unk_14 = 0;
         unk_AC->unk_14 = 0;
         SetState(8);
@@ -587,7 +587,7 @@ u32 CTitleScene::func0()
         }
         break;
     case 9:
-        ov3_0212038C(unk_DC);
+        DrawMessage(unk_DC);
         unk_A8->unk_14 = 1;
         unk_AC->unk_14 = 1;
         unk_A8->SetAffine(0x20, FALSE);
@@ -596,7 +596,7 @@ u32 CTitleScene::func0()
         SetState(10);
         break;
     case 10:
-        ov3_021206E8(unk_A0);
+        SetButtonScale(unk_A0);
         unk_B0->Update();
         if (m_flags & 3) {
             unk_96++;
@@ -645,7 +645,7 @@ u32 CTitleScene::func0()
         }
         break;
     case 11:
-        ov3_0212038C(unk_DC);
+        DrawMessage(unk_DC);
         unk_A8->unk_14 = 0;
         unk_AC->unk_14 = 0;
         SetState(12);
@@ -657,7 +657,7 @@ u32 CTitleScene::func0()
         }
         break;
     case 13:
-        ov3_0212038C(unk_DC);
+        DrawMessage(unk_DC);
         unk_A8->unk_14 = 0;
         unk_AC->unk_14 = 0;
         SetState(14);
@@ -676,7 +676,7 @@ u32 CTitleScene::func0()
         SetState(0xF);
         break;
     case 5:
-        ov3_0212038C(unk_DC);
+        DrawMessage(unk_DC);
         unk_A8->unk_14 = 1;
         unk_AC->unk_14 = 1;
         unk_A8->SetAffine(0x20, FALSE);
@@ -685,7 +685,7 @@ u32 CTitleScene::func0()
         SetState(6);
         break;
     case 6:
-        ov3_021206E8(unk_A0);
+        SetButtonScale(unk_A0);
         unk_B0->Update();
         if (m_flags & 3) {
             unk_96++;
@@ -734,7 +734,7 @@ u32 CTitleScene::func0()
         }
         break;
     case 15:
-        ov3_0212038C(unk_DC);
+        DrawMessage(unk_DC);
         SetState(0x10);
         if (unk_FC != 0) {
             unk_10 = 30;
@@ -759,7 +759,7 @@ u32 CTitleScene::func0()
         }
         break;
     case 18:
-        ov3_0212038C(unk_DC);
+        DrawMessage(unk_DC);
         SetState(0x13);
         if (unk_FC != 0) {
             unk_10 = 30;
@@ -785,8 +785,8 @@ u32 CTitleScene::func0()
     case 21:
         G2S_SetBlendBrightness(GX_BLEND_PLANEMASK_BG1, 0);
         unk_A4->LoadToVram();
-        ov3_021202E0();
-        ov3_0212038C(unk_DC);
+        InitMessageWindow();
+        DrawMessage(unk_DC);
         SetState(0x16);
         if (unk_FC != 0) {
             unk_10 = 30;
@@ -933,8 +933,8 @@ u32 CTitleScene::func0()
         m_audioEngine->PlaySe(2);
         G2S_SetBlendBrightness(GX_BLEND_PLANEMASK_BG1, 0);
         unk_A4->LoadToVram();
-        ov3_021202E0();
-        ov3_0212038C(unk_DC);
+        InitMessageWindow();
+        DrawMessage(unk_DC);
         break;
     case 34:
         if (tp->unk_04 != 0 || (u16)(pad->unk_0002 & 3)) {
@@ -964,8 +964,8 @@ u32 CTitleScene::func0()
         if (unk_E4->Update() != 0) {
             G2S_SetBlendBrightness(GX_BLEND_PLANEMASK_BG1, 0);
             unk_A4->LoadToVram();
-            ov3_021202E0();
-            ov3_0212038C(unk_DC);
+            InitMessageWindow();
+            DrawMessage(unk_DC);
             SetState(0x26);
             m_audioEngine->PlaySe(2);
         }
@@ -980,9 +980,9 @@ u32 CTitleScene::func0()
         m_flags &= ~0x1E;
         G2S_SetBlendBrightness(GX_BLEND_PLANEMASK_BG1, 0);
         unk_24->LoadToVram();
-        ov3_0211CD6C();
-        ov3_0211DF20();
-        ov3_0211DD90();
+        DrawMenu();
+        RemoveMenuSprites();
+        CreateMenuSprites();
         SetState(0x28);
         unk_F4 = 0xB40;
         if (unk_FC != 0) {
@@ -1071,8 +1071,8 @@ u32 CTitleScene::func0()
     case 44:
         G2S_SetBlendBrightness(GX_BLEND_PLANEMASK_BG1, 0);
         unk_A4->LoadToVram();
-        ov3_021202E0();
-        ov3_0212038C(unk_DC);
+        InitMessageWindow();
+        DrawMessage(unk_DC);
         unk_A8->unk_14 = 1;
         unk_AC->unk_14 = 1;
         unk_A8->SetAffine(0x20, FALSE);
@@ -1081,7 +1081,7 @@ u32 CTitleScene::func0()
         SetState(0x2D);
         break;
     case 45:
-        ov3_021206E8(unk_A0);
+        SetButtonScale(unk_A0);
         unk_B0->Update();
         if (m_flags & 3) {
             unk_96++;
@@ -1144,8 +1144,8 @@ u32 CTitleScene::func0()
         m_audioEngine->StopStream2(0);
         G2S_SetBlendBrightness(GX_BLEND_PLANEMASK_BG1, 0);
         unk_A4->LoadToVram();
-        ov3_021202E0();
-        ov3_0212038C(unk_DC);
+        InitMessageWindow();
+        DrawMessage(unk_DC);
         m_audioEngine->PlaySe(2);
         SetState(0x31);
         break;
@@ -1157,8 +1157,8 @@ u32 CTitleScene::func0()
     case 50:
         G2S_SetBlendBrightness(GX_BLEND_PLANEMASK_BG1, 0);
         unk_A4->LoadToVram();
-        ov3_021202E0();
-        ov3_0212038C(unk_DC);
+        InitMessageWindow();
+        DrawMessage(unk_DC);
         m_audioEngine->PlaySe(5);
         SetState(0x33);
         break;
@@ -1182,8 +1182,8 @@ u32 CTitleScene::func0()
     case 55:
         G2S_SetBlendBrightness(GX_BLEND_PLANEMASK_BG1, 0);
         unk_A4->LoadToVram();
-        ov3_021202E0();
-        ov3_0212038C(unk_DC);
+        InitMessageWindow();
+        DrawMessage(unk_DC);
         unk_E4->SetDevice(1);
         unk_E4->Clear(1);
         SetState(0x39);
@@ -1191,8 +1191,8 @@ u32 CTitleScene::func0()
     case 56:
         G2S_SetBlendBrightness(GX_BLEND_PLANEMASK_BG1, 0);
         unk_A4->LoadToVram();
-        ov3_021202E0();
-        ov3_0212038C(unk_DC);
+        InitMessageWindow();
+        DrawMessage(unk_DC);
         unk_E4->SetDevice(1);
         unk_E4->Clear(1);
         SetState(0x39);
@@ -1213,8 +1213,8 @@ u32 CTitleScene::func0()
     case 59:
         G2S_SetBlendBrightness(GX_BLEND_PLANEMASK_BG1, 0);
         unk_A4->LoadToVram();
-        ov3_021202E0();
-        ov3_0212038C(unk_DC);
+        InitMessageWindow();
+        DrawMessage(unk_DC);
         unk_E4->SetDevice(1);
         unk_E4->Clear(0);
         SetState(0x3C);
@@ -1235,8 +1235,8 @@ u32 CTitleScene::func0()
     case 62:
         G2S_SetBlendBrightness(GX_BLEND_PLANEMASK_BG1, 0);
         unk_A4->LoadToVram();
-        ov3_021202E0();
-        ov3_0212038C(unk_DC);
+        InitMessageWindow();
+        DrawMessage(unk_DC);
         unk_E4->SetDevice(1);
         unk_E4->Clear(0);
         SetState(0x3F);
@@ -1366,7 +1366,7 @@ void CTitleScene::func3()
     }
 }
 
-void CTitleScene::ov3_021202E0()
+void CTitleScene::InitMessageWindow()
 {
     TextWindow win = { 28, 4, 2, 19, 3, 2, 4 };
     SubTextPrinter *printer = GetPrinter(m_game);
@@ -1377,7 +1377,7 @@ void CTitleScene::ov3_021202E0()
     printer->InitWindow(0, win.width, win.height, win.left, win.top, 0x20, 0, 4);
 }
 
-void CTitleScene::ov3_0212038C(int msg)
+void CTitleScene::DrawMessage(int msg)
 {
     TextWindow win = { 28, 4, 2, 19, 0, 2, 4 };
     SubTextPrinter *printer = GetPrinter(m_game);
@@ -1467,7 +1467,7 @@ void CTitleScene::ov3_0212038C(int msg)
     }
 }
 
-void CTitleScene::ov3_02120634()
+void CTitleScene::CreateYesNoButtons()
 {
     unk_A8 = unk_B0->AddSprite(0, 0x40, 0x60, 0);
     unk_98 = unk_B0->unk_24;
@@ -1481,7 +1481,7 @@ void CTitleScene::ov3_0212069C()
     unk_D4 = unk_D8->AddSprite(0, 0xF8, 0xB0, 0);
 }
 
-void CTitleScene::ov3_021206E8(int scale)
+void CTitleScene::SetButtonScale(int scale)
 {
     MtxFx22 mtx;
     mtx._00 = scale;

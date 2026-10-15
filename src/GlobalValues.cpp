@@ -181,8 +181,8 @@ extern "C" void GlobalValues_ApplyProgress(GlobalValues *obj, int progress)
     CFieldPlayer *player;
     if (((save->m_rangerClassGrade >> 4) & 0xF) != oldStage && (player = MAIN_BSS_0210CA48) != NULL) {
         Point2D pos = player->GetPos();
-        player->ov0_02132F14(save->m_sex, (u8)((save->m_rangerClassGrade >> 4) & 0xF), save->m_areaType);
-        player->ov0_02132FA0(save->unk_8802);
+        player->LoadModel(save->m_sex, (u8)((save->m_rangerClassGrade >> 4) & 0xF), save->m_areaType);
+        player->SetRideMode(save->unk_8802);
         player->SetPos(pos);
     }
 }

@@ -4,23 +4,23 @@
 #include "CPlayerHPGauge.hpp"
 #include "CellAnimController.hpp"
 #include "SaveData.hpp"
+#include "battle/BattleDamageNumber.hpp"
+#include "battle/BattleDamageNumberGfx.hpp"
 #include "battle/BattleDiskRing.hpp"
 #include "battle/BattleHPNumber.hpp"
+#include "battle/BattleHitEffect.hpp"
+#include "battle/BattleHitEffectGfx.hpp"
 #include "battle/BattleParticle.hpp"
 #include "battle/BattleParticlePool.hpp"
 #include "battle/CBattlePowerSave.hpp"
 #include "battle/CDiskCursor.hpp"
 #include "battle/CLineEffect.hpp"
 #include "battle/StylerLine.hpp"
-#include "battle/UnkClass_02127CD8.hpp"
-#include "battle/UnkClass_02127E14.hpp"
-#include "battle/UnkClass_02128A60.hpp"
-#include "battle/UnkClass_02128B24.hpp"
 #include "fx_utils.hpp"
 #include "interpolation.hpp"
 #include "primitive/CSoftwareSprite.hpp"
 
-extern "C" fx32 ov1_0212EE80(int assistType, int type);
+extern "C" fx32 GetAssistTypeRate(int assistType, int type);
 
 static const fx32 sLineEffectArg0[7] = { 0x4000, 0x4000, 0x4000, 0x3000, 0x3000, 0x2000, 0x2000 };
 static const fx32 sLineEffectArg1[7] = { 0x800, 0x733, 0x666, 0x599, 0x4CC, 0x333, 0x199 };
@@ -35,7 +35,7 @@ static const char *sDiskNums[] = { "00", "01" };
 
 CBattleDisk::CBattleDisk(BattleParticlePool *particles)
 {
-    ov1_0212BAD0();
+    Load();
     unk_1B8 = new StylerLine();
     unk_1BC = new BattleHPNumber();
     unk_1C0 = new CBattlePowerSave();
@@ -43,24 +43,24 @@ CBattleDisk::CBattleDisk(BattleParticlePool *particles)
     unk_234 = new CSoftwareSprite();
     unk_248 = new CDiskCursor();
     unk_24C = new CLineEffect[7];
-    unk_258 = new UnkClass_02127CD8();
-    unk_254 = new UnkClass_02127E14();
-    unk_254->ov1_0212807C(unk_258);
-    unk_260 = new UnkClass_02128A60();
-    unk_25C = new UnkClass_02128B24();
-    unk_25C->ov1_02128BE4(unk_260);
-    unk_25C->ov1_02128E74(0x401);
+    unk_258 = new BattleHitEffectGfx();
+    unk_254 = new BattleHitEffect();
+    unk_254->SetData(unk_258);
+    unk_260 = new BattleDamageNumberGfx();
+    unk_25C = new BattleDamageNumber();
+    unk_25C->SetData(unk_260);
+    unk_25C->SetZ(0x401);
 
     CActor *leader = this;
     for (int i = 0; i < 7; i++) {
-        unk_24C[i].ov1_0212E69C(sLineEffectArg0[i], sLineEffectArg1[i], leader);
+        unk_24C[i].Setup(sLineEffectArg0[i], sLineEffectArg1[i], leader);
         leader = &unk_24C[i];
     }
 
     unk_198 = 0;
     unk_19A = 0;
     unk_194 = 0x20;
-    unk_1B8->ov1_02124548(0, 0);
+    unk_1B8->Reset(0, 0);
 
     unk_1C4.m_color = 0x1F;
     unk_1C4.m_z = 0x401;
@@ -78,7 +78,7 @@ CBattleDisk::CBattleDisk(BattleParticlePool *particles)
     unk_1E8.m_rectangle.pos = m_motion.GetPos();
 
     unk_250 = particles;
-    ov1_0212CF1C();
+    InitTypeGuards();
     unk_18C = 0;
     unk_242[0] = 0x319F;
     unk_242[1] = 0x7D8C;
@@ -91,10 +91,10 @@ CBattleDisk::CBattleDisk(BattleParticlePool *particles)
 
 CBattleDisk::~CBattleDisk()
 {
-    ov1_0212BC54();
+    Release();
 }
 
-void CBattleDisk::ov1_0212BAD0()
+void CBattleDisk::Load()
 {
     char path[96];
     char ncbr[96];
@@ -118,7 +118,7 @@ void CBattleDisk::ov1_0212BAD0()
     unk_264 = new BattleDiskRing();
 }
 
-void CBattleDisk::ov1_0212BC54()
+void CBattleDisk::Release()
 {
     for (int i = 0; i < 2; i++) {
         SAFE_DELETE(unk_238[i]);
@@ -143,17 +143,17 @@ void CBattleDisk::ov1_0212BC54()
 
 void CBattleDisk::vfunc_08()
 {
-    unk_25C->ov1_02128C2C();
-    unk_264->ov1_0212D5DC();
-    if (!ov1_0212C5C0()) {
+    unk_25C->Update();
+    unk_264->Update();
+    if (!IsActive()) {
         return;
     }
     Update();
-    unk_1B8->ov1_0212402C();
+    unk_1B8->Update();
     if (unk_18C != 0 && unk_190 == 0) {
-        ov1_0212C414();
+        UpdatePowerCharge();
     }
-    ov1_0212C3B4();
+    UpdateCursor();
     unk_1E8.m_rectangle.pos = m_motion.GetPos();
     unk_1C4.m_circle.pos = m_motion.GetPos();
     unk_22C->m_anim->UpdateAll();
@@ -161,34 +161,34 @@ void CBattleDisk::vfunc_08()
 
 void CBattleDisk::vfunc_0C(Camera2D *camera)
 {
-    unk_25C->ov1_02128C70(camera);
-    unk_254->ov1_02127FAC(camera);
+    unk_25C->Render(camera);
+    unk_254->Render(camera);
     if (IsUnk194Flag80()) {
-        unk_264->ov1_0212D974(camera);
+        unk_264->Render(camera);
     }
     if (!unk_188) {
         return;
     }
-    ov1_0212C02C(camera);
+    RenderDisk(camera);
     if (unk_18C == 0) {
         return;
     }
     if (unk_190 != 0) {
         return;
     }
-    if (unk_1C0->ov1_02137ABC()) {
-        ov1_0212C0B8(camera);
+    if (unk_1C0->IsCharging()) {
+        RenderChargeEffect(camera);
     }
-    if (unk_1C0->ov1_02137AD4()) {
-        ov1_0212C144(camera);
+    if (unk_1C0->GetLevel()) {
+        RenderChargeLevel(camera);
     }
     unk_1C0->vfunc_0C(camera);
 }
 
-void CBattleDisk::ov1_0212C00C(Camera2D *camera)
+void CBattleDisk::RenderLine(Camera2D *camera)
 {
     if (unk_188) {
-        unk_1B8->ov1_0212372C(camera);
+        unk_1B8->Render(camera);
     }
 }
 
@@ -196,7 +196,7 @@ void CBattleDisk::vfunc_10(Camera2D *camera)
 {
 }
 
-void CBattleDisk::ov1_0212C02C(Camera2D *camera)
+void CBattleDisk::RenderDisk(Camera2D *camera)
 {
     CSoftwareSprite *sprite = unk_228;
     sprite->SetImage((UnkClass_CPrimitive_ImageProxy *)unk_22C->m_image, NULL);
@@ -207,7 +207,7 @@ void CBattleDisk::ov1_0212C02C(Camera2D *camera)
     sprite->Render(camera);
 }
 
-void CBattleDisk::ov1_0212C0B8(Camera2D *camera)
+void CBattleDisk::RenderChargeEffect(Camera2D *camera)
 {
     CSoftwareSprite *sprite = unk_234;
     sprite->SetImage((UnkClass_CPrimitive_ImageProxy *)unk_238[0]->m_image, NULL);
@@ -218,42 +218,42 @@ void CBattleDisk::ov1_0212C0B8(Camera2D *camera)
     sprite->Render(camera);
 }
 
-void CBattleDisk::ov1_0212C144(Camera2D *camera)
+void CBattleDisk::RenderChargeLevel(Camera2D *camera)
 {
     CSoftwareSprite *sprite = unk_234;
     sprite->SetImage((UnkClass_CPrimitive_ImageProxy *)unk_238[1]->m_image, NULL);
     sprite->unk_34 = (UnkClass_CPrimitive_ImagePaletteProxy *)unk_238[1]->m_palette;
     sprite->unk_38 = (UnkClass_CSoftwareSprite_38 *)unk_238[1]->m_cells;
-    sprite->m_cellDataIdx = unk_1C0->ov1_02137AD4();
+    sprite->m_cellDataIdx = unk_1C0->GetLevel();
     sprite->SetPos(m_motion.GetPos());
     sprite->Render(camera);
 }
 
-void CBattleDisk::ov1_0212C1C4(Point2D pos)
+void CBattleDisk::AddLinePoint(Point2D pos)
 {
     unk_194 &= ~0x10;
     StylerLine *line = unk_1B8;
     PointPair2D seg;
     seg.p1 = line->m_lines[line->m_head].GetStart();
     seg.p2 = pos;
-    if (line->ov1_02124588(seg)) {
-        unk_1B8->ov1_021248E8(unk_1B8->m_hitIndex, unk_1B8->m_head);
-        unk_1B8->ov1_02124828(unk_1B8->m_hitIndex);
+    if (line->FindCrossing(seg)) {
+        unk_1B8->BuildLoop(unk_1B8->m_hitIndex, unk_1B8->m_head);
+        unk_1B8->CutAt(unk_1B8->m_hitIndex);
         unk_194 |= 0x10;
     }
-    unk_1B8->ov1_021243CC(pos.x, pos.y);
+    unk_1B8->ExtendTo(pos.x, pos.y);
     m_motion.SetPos(pos);
     if (IsUnk194Flag80()) {
         unk_264->SetPos(pos);
     }
     if (unk_1B8->m_state == 1) {
-        ov1_0212D148(pos, 1);
+        SpawnSparks(pos, 1);
     } else if (unk_1B8->m_state == 2) {
-        ov1_0212D148(pos, 2);
+        SpawnSparks(pos, 2);
     }
 }
 
-int CBattleDisk::ov1_0212C33C(u16 damage, u8 type)
+int CBattleDisk::TakeDamage(u16 damage, u8 type)
 {
     if (unk_194 & 0x40) {
         return 0;
@@ -268,14 +268,14 @@ int CBattleDisk::ov1_0212C33C(u16 damage, u8 type)
     } else {
         damage = 0;
     }
-    unk_1C0->ov1_021371F0();
-    ov1_0212C514(FALSE);
+    unk_1C0->ResetCharge();
+    SetActive(FALSE);
     return damage;
 }
 
-void CBattleDisk::ov1_0212C3B4()
+void CBattleDisk::UpdateCursor()
 {
-    if (!ov1_0212C5C0()) {
+    if (!IsActive()) {
         unk_198 |= 1;
     } else {
         unk_198 &= ~1;
@@ -286,48 +286,48 @@ void CBattleDisk::ov1_0212C3B4()
     }
 }
 
-void CBattleDisk::ov1_0212C414()
+void CBattleDisk::UpdatePowerCharge()
 {
-    if (ov1_0212C5C0()) {
-        unk_1C0->ov1_02137094(m_motion.m_pos);
+    if (IsActive()) {
+        unk_1C0->Hold(m_motion.m_pos);
     } else {
-        unk_1C0->ov1_02137144();
+        unk_1C0->StopHold();
     }
-    u16 prev = unk_1C0->ov1_02137AD4();
+    u16 prev = unk_1C0->GetLevel();
     unk_1C0->vfunc_08();
-    u16 cur = unk_1C0->ov1_02137AD4();
+    u16 cur = unk_1C0->GetLevel();
     if (prev != cur) {
         switch (cur) {
         case 0:
-            unk_1B8->ov1_02124F08();
+            unk_1B8->SetNormal();
             break;
         case 1:
-            unk_1B8->ov1_02124F64();
+            unk_1B8->SetPowerLevel1();
             break;
         case 2:
-            unk_1B8->ov1_02124F84();
+            unk_1B8->SetPowerLevel2();
             break;
         }
     }
     unk_238[0]->m_anim->UpdateAll();
 }
 
-BOOL CBattleDisk::ov1_0212C4B8()
+BOOL CBattleDisk::HasEnergy()
 {
     return unk_19C != 0;
 }
 
-BOOL CBattleDisk::ov1_0212C4CC()
+BOOL CBattleDisk::IsLoopClosed()
 {
     return (unk_194 & 0x10) != 0;
 }
 
-u8 CBattleDisk::ov1_0212C4E4()
+u8 CBattleDisk::IsVisible()
 {
     return unk_188;
 }
 
-void CBattleDisk::ov1_0212C4EC(u8 enabled)
+void CBattleDisk::SetVisible(u8 enabled)
 {
     unk_188 = enabled;
 }
@@ -341,40 +341,40 @@ void CBattleDisk::ov1_0212C4F4(BOOL arg0)
     }
 }
 
-void CBattleDisk::ov1_0212C514(BOOL active)
+void CBattleDisk::SetActive(BOOL active)
 {
     if (active) {
         unk_188 = TRUE;
         unk_194 |= 2;
         if (IsUnk194Flag80()) {
-            unk_264->ov1_0212DAF0();
+            unk_264->Open();
         }
     } else {
-        unk_1C0->ov1_02137144();
+        unk_1C0->StopHold();
         switch (unk_1B8->m_state) {
         case 1:
         case 2:
-            unk_1B8->ov1_02124F08();
+            unk_1B8->SetNormal();
         }
         if (IsUnk194Flag80() && unk_264->m_state != 0) {
-            unk_264->ov1_0212DB04();
+            unk_264->Close();
         }
         unk_188 = FALSE;
         unk_194 &= ~2;
     }
 }
 
-BOOL CBattleDisk::ov1_0212C5C0()
+BOOL CBattleDisk::IsActive()
 {
     return (unk_194 & 2) != 0;
 }
 
-BOOL CBattleDisk::ov1_0212C5D8()
+BOOL CBattleDisk::IsInvincible()
 {
     return (unk_194 & 0x40) != 0;
 }
 
-void CBattleDisk::ov1_0212C5F0(BOOL arg0)
+void CBattleDisk::SetInvincible(BOOL arg0)
 {
     if (arg0) {
         unk_194 |= 0x40;
@@ -383,49 +383,49 @@ void CBattleDisk::ov1_0212C5F0(BOOL arg0)
     }
 }
 
-void CBattleDisk::ov1_0212C610(fx32 x, fx32 y)
+void CBattleDisk::ResetLine(fx32 x, fx32 y)
 {
-    unk_1B8->ov1_02124548(x, y);
+    unk_1B8->Reset(x, y);
     if (IsUnk194Flag80()) {
         unk_264->SetPos((Point2D) { x, y });
     }
 }
 
-Point2D CBattleDisk::ov1_0212C670(int index)
+Point2D CBattleDisk::GetLineStart(int index)
 {
     return unk_1B8->m_lines[index].GetStart();
 }
 
-Point2D CBattleDisk::ov1_0212C690(int index)
+Point2D CBattleDisk::GetLineEnd(int index)
 {
     return unk_1B8->m_lines[index].GetEnd();
 }
 
-int CBattleDisk::ov1_0212C6B0(u16 index)
+int CBattleDisk::GetLineIndex(u16 index)
 {
-    return unk_1B8->ov1_02124AD4(index);
+    return unk_1B8->GetIndex(index);
 }
 
-int CBattleDisk::ov1_0212C6C0()
+int CBattleDisk::GetLineCount()
 {
     return unk_1B8->m_count;
 }
 
-void CBattleDisk::ov1_0212C6D0(u16 color)
+void CBattleDisk::ShatterLine(u16 color)
 {
     CGame *game = CGame::GetInstance();
-    for (int i = 0; i < ov1_0212C6C0(); i++) {
+    for (int i = 0; i < GetLineCount(); i++) {
         Point2D end;
-        end = ov1_0212C690(ov1_0212C6B0((u8)i));
-        BattleParticle *particle = unk_250->ov1_02136B24(0x50, end.x, end.y, 0, 0x2800, color);
+        end = GetLineEnd(GetLineIndex((u8)i));
+        BattleParticle *particle = unk_250->Spawn(0x50, end.x, end.y, 0, 0x2800, color);
         MATHRandContext32 *rand = &game->m_rand32;
-        particle->ov1_02136A58(-(MATH_Rand32(rand, 0x3000) + 0x1000), 0x1028);
-        particle->ov1_02136A88(0x1F, 0);
-        particle->ov1_02136AA0(0x1000, 0x28);
+        particle->SetVelocityY(-(MATH_Rand32(rand, 0x3000) + 0x1000), 0x1028);
+        particle->SetAlphaFade(0x1F, 0);
+        particle->SetScaleFade(0x1000, 0x28);
     }
 }
 
-void CBattleDisk::ov1_0212C7E8(Point2D pos, int count, fx32 arg2, u16 color)
+void CBattleDisk::SpawnLoopParticles(Point2D pos, int count, fx32 arg2, u16 color)
 {
     CGame::GetInstance();
     int step = (unk_1B8->m_lines2Count << 15) / count;
@@ -441,11 +441,11 @@ void CBattleDisk::ov1_0212C7E8(Point2D pos, int count, fx32 arg2, u16 color)
             p = GetLinePoints(&unk_1B8->m_lines2[idx]);
             fx32 x = LinearInterpolate(p.p1.x, p.p2.x, frac, 8);
             fx32 y = LinearInterpolate(p.p1.y, p.p2.y, frac, 8);
-            BattleParticle *particle = unk_250->ov1_02136B24(0xC, x, y, 0, 0x1000, color);
-            particle->ov1_02136A40((pos.x - x) / 12, 0x1000);
-            particle->ov1_02136A58((pos.y - y) / 12, 0x1000);
-            particle->ov1_02136AA0(arg2, 0x1000);
-            particle->ov1_02136A88(0x1F, 0x10);
+            BattleParticle *particle = unk_250->Spawn(0xC, x, y, 0, 0x1000, color);
+            particle->SetVelocityX((pos.x - x) / 12, 0x1000);
+            particle->SetVelocityY((pos.y - y) / 12, 0x1000);
+            particle->SetScaleFade(arg2, 0x1000);
+            particle->SetAlphaFade(0x1F, 0x10);
             t += step;
             i++;
         } while (i < count);
@@ -470,14 +470,14 @@ void CBattleDisk::ov1_0212C990(Point2D pos, int count, fx32 arg2, u16 color)
             p = GetLinePoints(&unk_1B8->m_lines2[idx]);
             fx32 x = LinearInterpolate(p.p1.x, p.p2.x, frac, 8);
             fx32 y = LinearInterpolate(p.p1.y, p.p2.y, frac, 8);
-            BattleParticle *particle = unk_250->ov1_02136B24(0x18, x, y, 0, 0x1000, color);
+            BattleParticle *particle = unk_250->Spawn(0x18, x, y, 0, 0x1000, color);
             dx = (pos.x - x) / 12;
             dy = (pos.y - y) / 12;
-            particle->ov1_02136A40(dx, 0x1000);
-            particle->ov1_02136A58(dy, 0x1000);
-            particle->ov1_02136AA0(arg2, 0x1000);
-            particle->ov1_02136A88(0x1F, 0x10);
-            particle->ov1_02136AB8(FX32_DIV(-dx, 0x4000), FX32_DIV(-dy, 0x4000), 0);
+            particle->SetVelocityX(dx, 0x1000);
+            particle->SetVelocityY(dy, 0x1000);
+            particle->SetScaleFade(arg2, 0x1000);
+            particle->SetAlphaFade(0x1F, 0x10);
+            particle->SetAcceleration(FX32_DIV(-dx, 0x4000), FX32_DIV(-dy, 0x4000), 0);
             t += step;
             i++;
         } while (i < count);
@@ -501,11 +501,11 @@ void CBattleDisk::ov1_0212CBA0(Point2D pos, int count, fx32 arg2)
             p = GetLinePoints(&unk_1B8->m_lines2[idx]);
             fx32 x = LinearInterpolate(p.p1.x, p.p2.x, frac, 8);
             fx32 y = LinearInterpolate(p.p1.y, p.p2.y, frac, 8);
-            BattleParticle *particle = unk_250->ov1_02136B24(0xC, x, y, 0, 0x1000, unk_242[colorIdx]);
-            particle->ov1_02136A40((pos.x - x) / 12, 0x1000);
-            particle->ov1_02136A58((pos.y - y) / 12, 0x1000);
-            particle->ov1_02136AA0(arg2, 0x1000);
-            particle->ov1_02136A88(0x1F, 0x10);
+            BattleParticle *particle = unk_250->Spawn(0xC, x, y, 0, 0x1000, unk_242[colorIdx]);
+            particle->SetVelocityX((pos.x - x) / 12, 0x1000);
+            particle->SetVelocityY((pos.y - y) / 12, 0x1000);
+            particle->SetScaleFade(arg2, 0x1000);
+            particle->SetAlphaFade(0x1F, 0x10);
             colorIdx++;
             if (colorIdx >= 3) {
                 colorIdx -= 3;
@@ -516,12 +516,12 @@ void CBattleDisk::ov1_0212CBA0(Point2D pos, int count, fx32 arg2)
     }
 }
 
-int CBattleDisk::ov1_0212CD6C(u16 level, int assistType, u8 type)
+int CBattleDisk::CalcCapturePower(u16 level, int assistType, u8 type)
 {
     fx32 power;
     fx32 base = level << FX32_SHIFT;
     SaveData *save = &MAIN_BSS_020B26A0;
-    power = FX32_MUL(base, unk_1C0->ov1_02137ADC());
+    power = FX32_MUL(base, unk_1C0->GetLevelScale());
 
     switch (SaveData_GetPartsLevel(save, STYLER_PART_SOKO)) {
     case 0:
@@ -569,7 +569,7 @@ int CBattleDisk::ov1_0212CD6C(u16 level, int assistType, u8 type)
     case 1:
     case 6:
     case 15:
-        power = FX32_MUL(power, ov1_0212EE80(assistType, type));
+        power = FX32_MUL(power, GetAssistTypeRate(assistType, type));
         break;
     }
 
@@ -593,12 +593,12 @@ int CBattleDisk::ov1_0212CD6C(u16 level, int assistType, u8 type)
     return (u16)(power >> FX32_SHIFT);
 }
 
-void CBattleDisk::ov1_0212CF0C(fx32 x, fx32 y, int arg2)
+void CBattleDisk::ShowHitEffect(fx32 x, fx32 y, int arg2)
 {
-    unk_254->ov1_0212812C(x, y, arg2);
+    unk_254->Show(x, y, arg2);
 }
 
-void CBattleDisk::ov1_0212CF1C()
+void CBattleDisk::InitTypeGuards()
 {
     MI_CpuFill8(unk_1A4, 0, sizeof(unk_1A4));
     unk_1A4[4] += SaveData_GetPartsBonus(&MAIN_BSS_020B26A0, STYLER_PART_LEAF_G);
@@ -620,17 +620,17 @@ void CBattleDisk::ov1_0212CF1C()
     unk_1A4[14] += SaveData_GetPartsBonus(&MAIN_BSS_020B26A0, STYLER_PART_DRAGON_G);
 }
 
-int CBattleDisk::ov1_0212D0D4(int z)
+int CBattleDisk::SetZ(int z)
 {
-    z = unk_1C0->ov1_02137D7C(z);
+    z = unk_1C0->SetZ(z);
     z += unk_234->GetCellNumOAMAttrs(unk_234->m_cellDataIdx);
     unk_234->m_z = z;
     z += unk_228->GetCellNumOAMAttrs(unk_228->m_cellDataIdx);
     unk_228->m_z = z;
-    return unk_264->ov1_0212DB18(z);
+    return unk_264->SetZ(z);
 }
 
-int CBattleDisk::ov1_0212D124(int z)
+int CBattleDisk::SetLineZ(int z)
 {
     StylerLine *line = unk_1B8;
     line->unk_54BC = z;
@@ -639,16 +639,16 @@ int CBattleDisk::ov1_0212D124(int z)
     return z + 0x61;
 }
 
-void CBattleDisk::ov1_0212D148(Point2D pos, int count)
+void CBattleDisk::SpawnSparks(Point2D pos, int count)
 {
     CGame *game = CGame::GetInstance();
     for (u8 i = 0; i < count; i++) {
         MATHRandContext32 *rand = &game->m_rand32;
-        BattleParticle *particle = unk_250->ov1_02136B24(
+        BattleParticle *particle = unk_250->Spawn(
             (u16)(MATH_Rand32(rand, 0x20) + 0x20), pos.x, pos.y, 0, 0x1000, 0x7FFF);
-        particle->ov1_02136A40(MATH_Rand32(rand, 0x999) - 0x4CC, 0x1000);
-        particle->ov1_02136A70(-0x333, 0x1199);
-        particle->ov1_02136A88(0x18, 1);
+        particle->SetVelocityX(MATH_Rand32(rand, 0x999) - 0x4CC, 0x1000);
+        particle->SetVelocityZ(-0x333, 0x1199);
+        particle->SetAlphaFade(0x18, 1);
     }
 }
 

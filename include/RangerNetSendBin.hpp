@@ -31,13 +31,13 @@ class RangerNetSendBin {
 public:
     RangerNetSendBin(CGame *game, RangerNetMenu *menu);
     ~RangerNetSendBin();
-    u8 *ov11_0212CEE8(const char *path);
-    void ov11_0212CFD4();
-    void ov11_0212D018(int v);
-    BOOL ov11_0212D030();
-    BOOL ov11_0212D854(UnkClass_0212CE58Work *work, int index);
-    int ov11_0212D880(UnkClass_0212CE58Work *work);
-    void ov11_0212D8A0(u8 *data, u8 *out);
+    u8 *LoadData(const char *path);
+    void Init();
+    void Start(int v);
+    BOOL Update();
+    BOOL StartComm(UnkClass_0212CE58Work *work, int index);
+    int GetPartnerCount(UnkClass_0212CE58Work *work);
+    void Encrypt(u8 *data, u8 *out);
 
 public:
     UnkClass_0212CE58Work *unk_0;

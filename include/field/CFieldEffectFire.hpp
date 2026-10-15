@@ -65,7 +65,7 @@ public:
         }
         return ret;
     }
-    virtual int ov0_02142264(int step);
+    virtual int Update(int step);
     virtual int SetParam(int param, int value);
     // Declared in reverse: the inline virtuals are emitted in reverse declaration order.
     virtual TFieldParticleEmitter<CSoftwareSprite> *GetEmitter()

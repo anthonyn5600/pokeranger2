@@ -79,17 +79,17 @@ public:
     {
         return 0x27;
     }
-    virtual int ov0_02142264(int step);
-    virtual int ov0_02142344(Camera2D *camera);
-    virtual int ov0_0214239C(int layer)
+    virtual int Update(int step);
+    virtual int Render(Camera2D *camera);
+    virtual int GetDrawCount(int layer)
     {
         return 1;
     }
-    virtual void ov0_02142398(DrawObjectList *renderLists);
-    void ov0_021509F4(VramImage *ncbr, VramPalette *palette, CNCERFile *ncer);
-    void ov0_02150A04(VramImage *ncbr, VramPalette *palette, CNCERFile *ncer, CellAnimController *cac);
-    void ov0_02150A94();
-    void ov0_02150AE8(int idx, int arg1, int arg2, int arg3);
+    virtual void AddToRenderLists(DrawObjectList *renderLists);
+    void SetSmokeRes(VramImage *ncbr, VramPalette *palette, CNCERFile *ncer);
+    void SetPuffRes(VramImage *ncbr, VramPalette *palette, CNCERFile *ncer, CellAnimController *cac);
+    void ReleasePuffs();
+    void Emit(int idx, int arg1, int arg2, int arg3);
 
     TFieldParticleSystem<CSoftwareSprite> m_system;
     CFieldParticleOneShotEmitter m_emitter;

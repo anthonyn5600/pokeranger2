@@ -24,7 +24,7 @@ CFieldEffectManpu::~CFieldEffectManpu()
     Detach();
 }
 
-int CFieldEffectManpu::ov0_02142344(Camera2D *camera)
+int CFieldEffectManpu::Render(Camera2D *camera)
 {
     CFieldActor *actor = unk_1C;
     if (actor != NULL && actor->IsActive() && !actor->IsHidden()) {

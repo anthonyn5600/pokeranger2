@@ -41,9 +41,9 @@ u32 CEncyclopediaScene::func0()
                 CGame *game = CGame::GetInstance();
                 if (next == 1) {
                     if (unk_3A4 != NULL) {
-                        unk_3A4->unk_18 = unk_014->ov22_0211DE9C();
+                        unk_3A4->unk_18 = unk_014->GetSelectedEntry();
                     }
-                    unk_018->ov22_0211E66C(unk_014->unk_18);
+                    unk_018->SetGroup(unk_014->unk_18);
                 }
                 unk_00C[unk_008]->func2();
                 unk_00C[unk_008]->func3(&unk_04C);
@@ -100,7 +100,7 @@ void CEncyclopediaScene::func5()
     G2S_SetWnd0InsidePlane(GX_WND_PLANEMASK_BG0 | GX_WND_PLANEMASK_BG1 | GX_WND_PLANEMASK_BG2 | GX_WND_PLANEMASK_BG3 | GX_WND_PLANEMASK_OBJ,
         FALSE);
     G2S_SetWndOutsidePlane(GX_WND_PLANEMASK_BG1 | GX_WND_PLANEMASK_BG2 | GX_WND_PLANEMASK_OBJ, FALSE);
-    unk_04C.ov22_0211F594();
+    unk_04C.Init();
     G2S_SetBlendAlpha(GX_BLEND_PLANEMASK_NONE, GX_BLEND_PLANEMASK_NONE, 0, 0);
     G3X_AlphaBlend(TRUE);
     G3X_AntiAlias(TRUE);
@@ -119,9 +119,9 @@ void CEncyclopediaScene::func5()
 
 void CEncyclopediaScene::func6()
 {
-    ov22_0211D1A4();
-    ov22_0211D294();
-    ov22_0211D200();
+    SetupBG();
+    InitTexts();
+    CreateBackButton();
     for (int i = 0; i < 2; i++) {
         unk_00C[i]->func0(&unk_01C);
     }
@@ -153,7 +153,7 @@ void CEncyclopediaScene::func7()
     GXS_SetVisibleWnd(unk_3A8);
 }
 
-void CEncyclopediaScene::ov22_0211D1A4()
+void CEncyclopediaScene::SetupBG()
 {
     CGame::GetInstance()->unk_1498->SetupBG();
     G2S_SetBG0Control(GX_BG_SCRSIZE_TEXT_256x256, GX_BG_COLORMODE_16, GX_BG_SCRBASE_0x3000, GX_BG_CHARBASE_0x0c000, GX_BG_EXTPLTT_01);
@@ -161,17 +161,17 @@ void CEncyclopediaScene::ov22_0211D1A4()
     MI_CpuClearFast(G2S_GetBG0ScrPtr(), 0x800);
 }
 
-void CEncyclopediaScene::ov22_0211D200()
+void CEncyclopediaScene::CreateBackButton()
 {
-    unk_028 = unk_01C.ov22_0211F3F0("data/menu", "ma005_00", 1, 0);
-    unk_02C.ov22_0211F134(0, unk_028, 0, 0, 240, 16, 24, 24, 0);
+    unk_028 = unk_01C.Load("data/menu", "ma005_00", 1, 0);
+    unk_02C.Init(0, unk_028, 0, 0, 240, 16, 24, 24, 0);
     unk_02C.SetListener(this);
-    unk_01C.ov22_0211F4A4(unk_028, 0);
+    unk_01C.ReserveOam(unk_028, 0);
 }
 
-void CEncyclopediaScene::ov22_0211D294()
+void CEncyclopediaScene::InitTexts()
 {
-    unk_04C.ov22_0211F72C();
+    unk_04C.InitTexts();
 }
 
 void CEncyclopediaScene::func3()

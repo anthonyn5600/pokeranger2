@@ -286,10 +286,10 @@ public:
     }
     virtual ~COPDCaptureLine();
     virtual u32 Render(Camera2D *camera);
-    void ov3_02129198(int count);
-    void ov3_02129280();
-    void ov3_021292FC(Point2D *points, int count);
-    void ov3_02129A4C();
+    void Init(int count);
+    void Release();
+    void SetPoints(Point2D *points, int count);
+    void UpdateAnim();
 
 public:
     COPDTexture *unk_18;
@@ -346,7 +346,7 @@ public:
     virtual void Stop();
     virtual int Update();
     virtual void Render(Camera2D *camera, int flip);
-    void ov3_02127B34();
+    void CreateLoopPath();
 
 public:
     int unk_004;
@@ -449,8 +449,8 @@ public:
     }
     virtual ~COPDScreenMeshNTF();
     virtual u32 Render(Camera2D *camera);
-    void ov3_02129AC0(int columns, int rows, fx32 x, fx32 y, fx32 s0, fx32 t0, fx32 s1, fx32 t1);
-    void ov3_02129C54();
+    void Init(int columns, int rows, fx32 x, fx32 y, fx32 s0, fx32 t0, fx32 s1, fx32 t1);
+    void Release();
 
     void SetVertex(u16 x, u16 y, fx32 vx, fx32 vy)
     {
@@ -482,8 +482,8 @@ class UnkClass_02129E98 {
 public:
     UnkClass_02129E98();
     ~UnkClass_02129E98();
-    void ov3_02129F78();
-    void ov3_02129FE0(Camera2D *camera);
+    void Update();
+    void Render(Camera2D *camera);
 
 public:
     CPrimitiveRECT unk_000[7];
@@ -550,7 +550,7 @@ public:
     virtual void Stop();
     virtual int Update();
     virtual void Render(Camera2D *camera, int flip);
-    void ov3_02125CB0();
+    void SetupToon();
 
 public:
     int unk_004;

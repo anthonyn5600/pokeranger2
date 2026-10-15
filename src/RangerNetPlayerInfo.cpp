@@ -43,17 +43,17 @@ struct RangerNetSessionParam {
 };
 RangerNetSessionParam gRangerNetSessionParam = { 0, 0, 2 };
 
-void ov11_02129800(const u8 *mac, int aid); // D5
-int ov11_0212B938(u8 type, u8 *data, u16 size);
-BOOL ov11_0212BEA0(u16 aid);
-BOOL ov11_0212BF48();
-u8 ov11_0212C154();
-BOOL ov11_0212C1D0();
+void CommServerClient_SetMacAddress(const u8 *mac, int aid); // D5
+int CommSys_SendData(u8 type, u8 *data, u16 size);
+BOOL CommSys_IsPlayerConnected(u16 aid);
+BOOL CommSys_ConnectedCount();
+u8 CommSys_CurNetId();
+BOOL CommSys_IsAlone();
 
-void ov11_02128974(int i);
-void ov11_02128A74(D3Info *info);
+void CommInfo_InitPlayer(int i);
+void TrainerInfo_Init(D3Info *info);
 
-void ov11_021286BC()
+void CommInfo_Init()
 {
     if (sWork != NULL) {
         return;
@@ -62,14 +62,14 @@ void ov11_021286BC()
     MI_CpuFill8(sWork, 0, sizeof(D3Work));
     for (int i = 0; i < 8; i++) {
         sWork->unk_340[i] = &sWork->entries[i].unk_20;
-        ov11_02128974(i);
+        CommInfo_InitPlayer(i);
     }
     sWork->unk_398 = 0;
     sWork->unk_399 = 0;
     sWork->unk_39A = 0;
 }
 
-void ov11_0212874C()
+void CommInfo_Delete()
 {
     if (sWork == NULL) {
         return;
@@ -83,26 +83,26 @@ void ov11_0212874C()
     sWork = NULL;
 }
 
-void ov11_021287A8()
+void CommInfo_SendPlayerInfo()
 {
-    int idx = ov11_0212C154();
+    int idx = CommSys_CurNetId();
     OS_GetMacAddress(sWork->entries[idx].mac);
-    ov11_0212B938(3, (u8 *)&sWork->entries[idx], sizeof(D3Entry));
+    CommSys_SendData(3, (u8 *)&sWork->entries[idx], sizeof(D3Entry));
 }
 
-u32 ov11_021287EC()
+u32 CommPlayerInfo_Size()
 {
     return sizeof(D3Entry);
 }
 
-void ov11_021287F4()
+void CommInfo_FinishReading()
 {
     if (sWork != NULL) {
         sWork->unk_398 = 1;
     }
 }
 
-void ov11_02128810(int aid, int size, D3Entry *data)
+void CommInfo_RecvPlayerDataArray(int aid, int size, D3Entry *data)
 {
     if (sWork == NULL) {
         return;
@@ -118,13 +118,13 @@ void ov11_02128810(int aid, int size, D3Entry *data)
     }
     sWork->unk_390[sWork->unk_39A] = 1;
     u8 idx = sWork->unk_39A;
-    if (idx != ov11_0212C154()) {
+    if (idx != CommSys_CurNetId()) {
         return;
     }
     sWork->unk_390[idx] = 3;
 }
 
-void ov11_021288BC(int aid, int size, D3Entry *data)
+void CommInfo_RecvPlayerData(int aid, int size, D3Entry *data)
 {
     if (sWork == NULL) {
         return;
@@ -134,37 +134,37 @@ void ov11_021288BC(int aid, int size, D3Entry *data)
         return;
     }
     MI_CpuCopy8(data, &sWork->entries[aid], sizeof(D3Entry));
-    ov11_02129800(sWork->entries[aid].mac, aid);
+    CommServerClient_SetMacAddress(sWork->entries[aid].mac, aid);
     sWork->unk_390[aid] = 1;
-    if (aid == ov11_0212C154()) {
+    if (aid == CommSys_CurNetId()) {
         sWork->unk_390[aid] = 3;
         return;
     }
     sWork->unk_399 = 1;
 }
 
-void ov11_02128974(int i)
+void CommInfo_InitPlayer(int i)
 {
-    ov11_02128A74(sWork->unk_340[i]);
+    TrainerInfo_Init(sWork->unk_340[i]);
     sWork->unk_390[i] = 0;
 }
 
-void ov11_021289AC()
+void CommInfo_ResetDisconnected()
 {
     if (sWork == NULL) {
         return;
     }
-    if (!ov11_0212BF48()) {
+    if (!CommSys_ConnectedCount()) {
         return;
     }
     for (u16 i = 0; i < 8; i++) {
-        if (!ov11_0212BEA0(i) && (i != 0 || !ov11_0212C1D0()) && sWork->unk_390[i] != 0) {
-            ov11_02128974(i);
+        if (!CommSys_IsPlayerConnected(i) && (i != 0 || !CommSys_IsAlone()) && sWork->unk_390[i] != 0) {
+            CommInfo_InitPlayer(i);
         }
     }
 }
 
-D3Info *ov11_02128A30(u16 aid)
+D3Info *CommInfo_GetPlayerInfo(u16 aid)
 {
     if (sWork == NULL) {
         return NULL;
@@ -178,7 +178,7 @@ D3Info *ov11_02128A30(u16 aid)
     return NULL;
 }
 
-void ov11_02128A74(D3Info *info)
+void TrainerInfo_Init(D3Info *info)
 {
     memset(info, 0, sizeof(D3Info));
     info->unk_19 = 2;

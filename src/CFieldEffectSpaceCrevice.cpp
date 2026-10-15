@@ -106,9 +106,9 @@ int CFieldEffectSpaceCrevice::SetParam(int param, int value)
     return ret;
 }
 
-int CFieldEffectSpaceCrevice::ov0_02142264(int step)
+int CFieldEffectSpaceCrevice::Update(int step)
 {
-    int state = CFieldEffect::ov0_02142264(step);
+    int state = CFieldEffect::Update(step);
     if (state == 0 || state == 4) {
         return state;
     }
@@ -164,7 +164,7 @@ int CFieldEffectSpaceCrevice::ov0_02142264(int step)
     return state;
 }
 
-int CFieldEffectSpaceCrevice::ov0_02142344(Camera2D *camera)
+int CFieldEffectSpaceCrevice::Render(Camera2D *camera)
 {
     return 0;
 }
@@ -233,7 +233,7 @@ void CFieldEffectSpaceCrevice::Spawn()
     }
 }
 
-void CFieldEffectSpaceCrevice::ov0_02142398(DrawObjectList *renderLists)
+void CFieldEffectSpaceCrevice::AddToRenderLists(DrawObjectList *renderLists)
 {
     renderLists->Insert(&m_drawObj);
 }

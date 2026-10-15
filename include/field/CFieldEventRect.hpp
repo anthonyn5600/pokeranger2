@@ -4,7 +4,7 @@
 #include <nitro.h>
 
 #include "Collision.hpp"
-#include "UnkStruct_02044464.hpp"
+#include "ScriptVM.hpp"
 #include "common.hpp"
 #include "file/CBinaryFile.hpp"
 #include "primitive/CPrimitiveRECT.hpp"
@@ -37,7 +37,7 @@ public:
     int m_state;
     CBinaryFile *m_file;
     int m_scriptState;
-    UnkStruct_02044464 m_vm;
+    ScriptVM m_vm;
     void *m_script;
     u32 *m_stack;
     int m_index;

@@ -4,7 +4,7 @@
 #include "CGame.hpp"
 #include "file/CArchiveGuard.hpp"
 
-static void ov28_0211D030(void *arg);
+static void LoaderThreadMain(void *arg);
 
 CMapDispRscLoader::CMapDispRscLoader()
 {
@@ -16,7 +16,7 @@ CMapDispRscLoader::CMapDispRscLoader()
         OS_InitAlarm();
     }
     OS_InitMessageQueue(&m_queue, m_messages, 1);
-    OS_CreateThread(&m_thread, ov28_0211D030, this, &m_stack[sizeof(m_stack)], sizeof(m_stack), 20);
+    OS_CreateThread(&m_thread, LoaderThreadMain, this, &m_stack[sizeof(m_stack)], sizeof(m_stack), 20);
     OS_WakeupThreadDirect(&m_thread);
 }
 
@@ -101,7 +101,7 @@ BOOL CMapDispRscLoader::Load(int id)
     return FALSE;
 }
 
-static void ov28_0211D030(void *arg)
+static void LoaderThreadMain(void *arg)
 {
     CMapDispRscLoader *loader = (CMapDispRscLoader *)arg;
     if (loader == NULL) {

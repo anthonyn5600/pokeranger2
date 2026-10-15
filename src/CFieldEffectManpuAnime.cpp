@@ -16,7 +16,7 @@ CFieldEffectManpuAnime::~CFieldEffectManpuAnime()
     m_slots->Free(m_anim);
 }
 
-int CFieldEffectManpuAnime::ov0_02142264(int step)
+int CFieldEffectManpuAnime::Update(int step)
 {
     UpdatePos(step);
     CellAnimController *cac = unk_18->GetCac(unk_78);
@@ -24,7 +24,7 @@ int CFieldEffectManpuAnime::ov0_02142264(int step)
         cac->Update(m_anim);
         m_sprite.m_cellDataIdx = cac->GetCell(m_anim);
     }
-    return CFieldEffectActor::ov0_02142264(step);
+    return CFieldEffectActor::Update(step);
 }
 
 void CFieldEffectManpuAnime::UpdatePos(int step)

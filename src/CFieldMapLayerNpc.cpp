@@ -56,7 +56,7 @@ BOOL CFieldMapLayerNpc::Load(void *data)
     if (manage != NULL) {
         int base = manage->CountActors();
         for (int i = 0; i < m_count; i++) {
-            int slot = manage->ov0_0213C66C(base + i, m_entries[i].unk_0A, m_entries[i].unk_06, m_entries[i].unk_08, 0);
+            int slot = manage->Create(base + i, m_entries[i].unk_0A, m_entries[i].unk_06, m_entries[i].unk_08, 0);
             if (slot >= 0) {
                 CFieldNpc *npc = (CFieldNpc *)manage->Get(slot);
                 fx32 y = m_entries[i].y << FX32_SHIFT;
@@ -76,7 +76,7 @@ BOOL CFieldMapLayerNpc::Load(void *data)
                 } else {
                     Actor_HideManpu(npc);
                     npc->unk_20 = 0;
-                    npc->sub_0202D394();
+                    npc->OnDisable();
                 }
             } else {
                 OS_Terminate();

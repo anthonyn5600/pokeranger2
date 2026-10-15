@@ -19,15 +19,15 @@ public:
     virtual void vfunc_08();
     virtual void vfunc_0C(Camera2D *camera);
     virtual void vfunc_10(Camera2D *camera);
-    void ov1_02135F2C(u16 hp, Point2D pos);
-    int ov1_02136248(int z);
-    void ov1_021362A0(int damage);
-    void ov1_02135E70(int arg0, u16 arg1, u16 arg2, Point2D pos);
-    void ov1_02135D8C();
-    BOOL ov1_0213607C();
-    void ov1_02136344();
-    void ov1_021363D0();
-    void ov1_0213642C();
+    void SetHP(u16 hp, Point2D pos);
+    int SetZ(int z);
+    void ShowDamage(int damage);
+    void Setup(int arg0, u16 arg1, u16 arg2, Point2D pos);
+    void Init();
+    BOOL IsVisible();
+    void UpdateDamageIn();
+    void UpdateDamageHold();
+    void UpdateDamageOut();
 
 public:
     CPrimitiveQUAD m_bar;

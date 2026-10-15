@@ -57,13 +57,13 @@ void COPDCaptureDiscScreen::Init()
     if (unk_058->m_anim != NULL) {
         unk_05C = unk_058->m_anim->Create(1, 0);
     }
-    ov3_02127B34();
-    unk_138.ov3_02129198(0x400);
+    CreateLoopPath();
+    unk_138.Init(0x400);
 }
 
 void COPDCaptureDiscScreen::Release()
 {
-    unk_138.ov3_02129280();
+    unk_138.Release();
     if (unk_1B8 != NULL) {
         delete[] unk_1B8;
         unk_1B8 = NULL;
@@ -108,7 +108,7 @@ void COPDCaptureDiscScreen::Start(COPDTexture *textures)
 
     unk_138.unk_28 = 0;
     unk_138.unk_18 = &textures[11];
-    unk_138.ov3_021292FC(unk_1B8, unk_1BC);
+    unk_138.SetPoints(unk_1B8, unk_1BC);
 
     Point2D offset = sOPDDiscOffset;
     m_lineEmitter.m_pos = offset;
@@ -143,7 +143,7 @@ void COPDCaptureDiscScreen::Start(COPDTexture *textures)
     game->m_subFade->Start(3, 30);
 }
 
-void COPDCaptureDiscScreen::ov3_02127B34()
+void COPDCaptureDiscScreen::CreateLoopPath()
 {
     CGame *game = CGame::GetInstance();
     int i;
@@ -332,7 +332,7 @@ int COPDCaptureDiscScreen::Update()
 
     m_lines.Update(1);
     m_sparks.Update(1);
-    unk_138.ov3_02129A4C();
+    unk_138.UpdateAnim();
     if (unk_7FC != 0) {
         for (int i = 0; i < 10; i++) {
             UnkStruct_COPDBeam *beam = &unk_75C[i];

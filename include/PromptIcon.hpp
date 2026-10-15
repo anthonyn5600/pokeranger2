@@ -11,9 +11,9 @@ public:
     PromptIcon();
     ~PromptIcon();
 
-    void sub_0200B714(CGame_0024 *arg0);
-    void sub_0200B744();
-    void sub_0200B818(u32 arg0, u32 arg1, u32 arg2, u32 arg3, s32 arg4, u32 arg5, u32 arg6);
+    void Init(CGame_0024 *arg0);
+    void Update();
+    void Setup(u32 arg0, u32 arg1, u32 arg2, u32 arg3, s32 arg4, u32 arg5, u32 arg6);
 
 public:
     CGame_0024 *unk_00;

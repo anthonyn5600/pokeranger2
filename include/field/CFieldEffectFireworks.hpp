@@ -14,8 +14,8 @@ public:
     {
         return 0x15;
     }
-    virtual int ov0_02142264(int step);
-    virtual int ov0_02142344(Camera2D *camera);
+    virtual int Update(int step);
+    virtual int Render(Camera2D *camera);
     virtual int SetParam(int param, int value);
     virtual void SetColor(u16 color);
 

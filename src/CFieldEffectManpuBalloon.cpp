@@ -19,7 +19,7 @@ void CFieldEffectManpuBalloon::SetType(int type)
     unk_24 = type;
 }
 
-int CFieldEffectManpuBalloon::ov0_02142264(int step)
+int CFieldEffectManpuBalloon::Update(int step)
 {
     if (unk_1C == NULL) {
         return 0;
@@ -49,7 +49,7 @@ int CFieldEffectManpuBalloon::ov0_02142264(int step)
     pos.y += sway;
     m_sprite.SetScale(0x1000, scale);
     m_sprite.SetPos(pos);
-    return CFieldEffectActor::ov0_02142264(step);
+    return CFieldEffectActor::Update(step);
 }
 
 int CFieldEffectManpuBalloon::Draw(Camera2D *camera)

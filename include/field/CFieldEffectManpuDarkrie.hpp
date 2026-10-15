@@ -13,7 +13,7 @@ class CFieldEffectManpuDarkrie : public CFieldEffectManpu {
 public:
     CFieldEffectManpuDarkrie(CFieldEffectManage::CResidentResource *res, AnimSlotPool *slots, int cac, int type);
     virtual ~CFieldEffectManpuDarkrie();
-    virtual int ov0_02142264(int step);
+    virtual int Update(int step);
     virtual int Draw(Camera2D *camera);
     virtual void SetDepth(fx32 z);
 

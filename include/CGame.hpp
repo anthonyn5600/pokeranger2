@@ -56,7 +56,7 @@ public:
     void ResetSaveState();
     void sub_0200FAA4();
     void sub_0200FAEC();
-    void sub_0200FB28();
+    void ResetForRestart();
     void OnVBlank();
     BOOL AddVBlankCallback(CGame_020100E4_arg0 arg0, void *arg1);
     void UpdateSystems();

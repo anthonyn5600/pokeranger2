@@ -17,10 +17,10 @@ public:
     CFieldPartner();
     virtual ~CFieldPartner();
     virtual void StopMotion();
-    virtual void sub_02032A44(int sequence);
+    virtual void SetMoveSequence(int sequence);
     virtual void SetUnk1EC(int value);
 
-    void ov0_02136CFC(BOOL keep, Point2D pos, int arg);
+    void MoveLinearTo(BOOL keep, Point2D pos, int arg);
     void ov0_02138628();
     BOOL ov0_02136D50(Point2D *out, int rank, BOOL clear);
     BOOL ov0_021373C0(Point2D *out);
@@ -32,8 +32,8 @@ public:
     void ov0_02138B44();
     void ov0_02138A7C();
     void ov0_0213905C();
-    void ov0_02139134();
-    void ov0_02139164();
+    void ClearTrail();
+    void UpdateTrail();
     inline void PushHistory(Point2D pos, Point2D partnerPos);
 
     inline Point2D GetTrail(int i)

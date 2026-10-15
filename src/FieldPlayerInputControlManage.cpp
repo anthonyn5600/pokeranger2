@@ -10,12 +10,12 @@
 #include "FieldSubScreen.hpp"
 #include "MathUtil.hpp"
 #include "PadInput.hpp"
+#include "PokeIdTableEntry.hpp"
 #include "SaveData.hpp"
 #include "SubScreenIconMenu.hpp"
 #include "TextboxManager.hpp"
 #include "UnkClass_0214FB28.hpp"
 #include "UnkClass_0214FD4C.hpp"
-#include "UnkStruct_020107A8.hpp"
 #include "WindowWipe.hpp"
 #include "field/CFieldActor.hpp"
 #include "field/CFieldEffect.hpp"
@@ -162,7 +162,7 @@ CFieldPlayerInputControlManage::~CFieldPlayerInputControlManage()
     MAIN_BSS_0210CA70 = NULL;
 }
 
-BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
+BOOL CFieldPlayerInputControlManage::Update(CFieldScene *scene,
     PadInput *pad,
     CTouchPanel *touch)
 {
@@ -172,7 +172,7 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
         int i;
         FieldData *table = GetTargetTable();
         // Used through casts per kind: typed alias locals would be coalesced with it and change its register
-        CFieldActor *touched = scene->ov0_021232A8();
+        CFieldActor *touched = scene->GetTouchedActor();
         BOOL busy = FALSE;
         if (MAIN_BSS_0210CA78 != NULL && MAIN_BSS_0210CA78->IsEffectActive(0xB)) {
             busy = TRUE;
@@ -199,7 +199,7 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                 CFieldNpcManage *npcs = MAIN_BSS_0210CA50;
                 CFieldTargetObjectManage *objects = MAIN_BSS_0210CA7C;
                 if (player != NULL) {
-                    UnkStruct_02006238 area;
+                    Sector area;
                     area.pos = player->GetPos();
                     area.unk_0C = player->GetDir();
                     area.unk_10 = 0x4000;
@@ -231,9 +231,9 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                             scene->unk_0078 = 5;
                             s_game->m_audioEngine->PlaySe(5);
                             scene->m_subScreen->SwitchToDefaultPanel();
-                            scene->ov0_0212451C();
+                            scene->ClearAllOutlines();
                             if (best->unk_E8 == 1) {
-                                UnkStruct_020107A8 *rec = PokeIdTable_Get(s_game->unk_1434, best->unk_EC);
+                                PokeIdTableEntry *rec = PokeIdTable_Get(s_game->unk_1434, best->unk_EC);
                                 RaisePokemonState(save, rec->unk_00, 1);
                                 BOOL notCaught = FALSE;
                                 if (GetPokemonState(save, rec->unk_00) != 2) {
@@ -254,7 +254,7 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                                     break;
                                 }
                             }
-                            best->sub_0203DA38();
+                            best->Talk();
                             return FALSE;
                         }
                     }
@@ -264,7 +264,7 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                         CFieldTargetObject *best = NULL;
                         for (int i = 0; i < objects->m_count; i++) {
                             CFieldTargetObject *obj = (CFieldTargetObject *)objects->Get(i);
-                            if (obj != NULL && obj->IsActive() && !obj->IsHidden() && obj->ov0_0213CFDC() && obj->m_layer == player->m_layer) {
+                            if (obj != NULL && obj->IsActive() && !obj->IsHidden() && obj->HasTouchScript() && obj->m_layer == player->m_layer) {
                                 Circle circle;
                                 circle.pos = obj->GetPos();
                                 if (obj->unk_50 == 0) {
@@ -282,10 +282,10 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                             }
                         }
                         if (best != NULL) {
-                            scene->ov0_0212451C();
+                            scene->ClearAllOutlines();
                             scene->m_subScreen->SwitchToDefaultPanel();
                             s_game->m_audioEngine->PlaySe(5);
-                            best->sub_0203DA38();
+                            best->Talk();
                             SaveData_AddTargetsChecked(save, 1);
                             return FALSE;
                         }
@@ -297,7 +297,7 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                 if (touch->unk_04) {
                     touchHandled = TRUE;
                     i = FALSE;
-                    if (scene->unk_00AA != 0xFFFF && scene->m_effects->ov0_02143088(scene->unk_00AA) != NULL) {
+                    if (scene->unk_00AA != 0xFFFF && scene->m_effects->Get(scene->unk_00AA) != NULL) {
                         CFieldPlayer *self = scene->m_player;
                         Point2D pos = GetHeadPos(self);
                         Rectangle rect;
@@ -306,7 +306,7 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                         rect.size.y = 0x10000;
                         rect.size.x = 0x10000;
                         if (PointInRect(touchPos, rect, 0)) {
-                            scene->ov0_021241B8();
+                            scene->ShowHint();
                             i = TRUE;
                         }
                     }
@@ -321,7 +321,7 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                         switch (GetKind(touched)) {
                         case 0:
                             if (save->unk_8802 == 2) {
-                                UnkStruct_020107A8 *rec = PokeIdTable_Get(s_game->unk_1434, 0x2B);
+                                PokeIdTableEntry *rec = PokeIdTable_Get(s_game->unk_1434, 0x2B);
                                 scene->unk_0078 = 0;
                                 s_game->m_textboxData->SetParam(0, rec->unk_00);
                                 scene->ov0_02123AEC(0x10, 0);
@@ -334,7 +334,7 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                         case 1: {
                             scene->unk_0078 = 4;
                             s_game->m_audioEngine->PlaySe(5);
-                            scene->ov0_0212451C();
+                            scene->ClearAllOutlines();
                             StartOutline((CFieldEnemy *)touched, 0x1F, 300);
                             RaisePokemonState(save, ((CFieldEnemy *)touched)->unk_E4, 1);
                             int mode = 0;
@@ -348,12 +348,12 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                         }
                         case 2: {
                             scene->m_subScreen->SwitchToDefaultPanel();
-                            scene->ov0_0212451C();
+                            scene->ClearAllOutlines();
                             if (((CFieldNpc *)touched)->m_layer == player->m_layer) {
                                 scene->unk_0078 = 5;
                                 s_game->m_audioEngine->PlaySe(5);
                                 if (((CFieldNpc *)touched)->unk_E8 == 1) {
-                                    UnkStruct_020107A8 *rec = PokeIdTable_Get(s_game->unk_1434, ((CFieldNpc *)touched)->unk_EC);
+                                    PokeIdTableEntry *rec = PokeIdTable_Get(s_game->unk_1434, ((CFieldNpc *)touched)->unk_EC);
                                     RaisePokemonState(save, rec->unk_00, 1);
                                     BOOL notCaught = FALSE;
                                     if (GetPokemonState(save, rec->unk_00) != 2) {
@@ -362,7 +362,7 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                                     scene->m_subScreen->SwitchToPokemonInfo(((CFieldNpc *)touched)->unk_EC, notCaught);
                                 }
                                 if (onScreen) {
-                                    ((CFieldNpc *)touched)->sub_0203DA38();
+                                    ((CFieldNpc *)touched)->Talk();
                                     if (((CFieldNpc *)touched)->unk_E8 == 0) {
                                         switch (((CFieldNpc *)touched)->unk_EC) {
                                         case 0x5C:
@@ -388,11 +388,11 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                             return FALSE;
                         }
                         case 3: {
-                            scene->ov0_0212451C();
+                            scene->ClearAllOutlines();
                             if (((CFieldTargetObject *)touched)->unk_20 == 2 && !busy) {
-                                if (((CFieldTargetObject *)touched)->ov0_0213CFDC()) {
+                                if (((CFieldTargetObject *)touched)->HasTouchScript()) {
                                     if (onScreen && ((CFieldTargetObject *)touched)->m_layer == player->m_layer) {
-                                        ((CFieldTargetObject *)touched)->sub_0203DA38();
+                                        ((CFieldTargetObject *)touched)->Talk();
                                         SaveData_AddTargetsChecked(save, 1);
                                         return FALSE;
                                     }
@@ -411,11 +411,11 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                             BrightnessFade *fade = s_game->m_mainFade;
                             WindowWipe *wipe = s_game->m_mainWipe;
                             if (!fade->IsActive() && fade->GetMode() != 2 && fade->GetMode() != 4 && !wipe->func0() && !wipe->sub_0200E91C()) {
-                                UnkStruct_020107A8 *rec = PokeIdTable_Get(s_game->unk_1434, ((CFieldPartnerPokemon *)touched)->unk_200);
+                                PokeIdTableEntry *rec = PokeIdTable_Get(s_game->unk_1434, ((CFieldPartnerPokemon *)touched)->unk_200);
                                 scene->m_partnerPokemon = (CFieldPartnerPokemon *)touched;
                                 s_game->m_audioEngine->PlaySe(5);
                                 scene->m_subScreen->SwitchToPokemonInfo(((CFieldPartnerPokemon *)touched)->unk_200, 0);
-                                scene->ov0_0212451C();
+                                scene->ClearAllOutlines();
                                 StartOutline((CFieldPartnerPokemon *)touched, 0x7FE0, -1);
                                 u32 type = rec->unk_05;
                                 if (type != 0 && type == scene->unk_0090 && rec->unk_06 >= scene->unk_0094 && scene->unk_0098[0] != 0) {
@@ -513,7 +513,7 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                             break;
                         }
                         case 5:
-                            touched->sub_0203DA38();
+                            touched->Talk();
                             scene->m_subScreen->SwitchToDefaultPanel();
                             return FALSE;
                         case 4:
@@ -549,7 +549,7 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                             int layerId = MAIN_BSS_0210CA48->m_layer;
                             CFieldMapLayerCollision *layer = scene->m_map->GetLayer(layerId);
                             PointPair2D move = { partnerPos, objPos };
-                            UnkStruct_020107A8 *rec = PokeIdTable_Get(s_game->unk_1434, partner->unk_200);
+                            PokeIdTableEntry *rec = PokeIdTable_Get(s_game->unk_1434, partner->unk_200);
                             started = FALSE;
                             Point2D hit;
                             if (!layer->Sweep(&move, 0x4000, &hit, 1) && layerId == ((CFieldTargetObject *)touched)->m_layer && ((CFieldTargetObject *)touched)->unk_20 == 2) {
@@ -559,13 +559,13 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                                     scene->ov0_02123AEC(1, 0);
                                     scene->unk_0080 = touched;
                                     s_game->m_audioEngine->PlaySe(0);
-                                    scene->ov0_0212451C();
+                                    scene->ClearAllOutlines();
                                     StartOutline(partner, 0x21F, -1);
                                     StartOutline((CFieldTargetObject *)touched, 0x21F, -1);
                                     started = TRUE;
                                 }
                             }
-                            if (!started && !((CFieldTargetObject *)touched)->ov0_0213CFDC() && ((CFieldTargetObject *)touched)->unk_20 == 2) {
+                            if (!started && !((CFieldTargetObject *)touched)->HasTouchScript() && ((CFieldTargetObject *)touched)->unk_20 == 2) {
                                 scene->m_subScreen->SwitchToTargetInfo(((CFieldTargetObject *)touched)->unk_E8);
                                 done = TRUE;
                             }
@@ -634,10 +634,10 @@ released:;
                     if (IsTrigger(pad, PAD_BUTTON_L) && save->IsButton1Enabled()) {
                         FieldSubScreen *inst = FieldSubScreen::GetInstance();
                         if (inst != NULL) {
-                            inst->sub_02022D88();
+                            inst->TogglePanel();
                             s_game->m_audioEngine->PlaySe(0xFA);
                             if (scene->unk_004C != NULL) {
-                                scene->unk_004C->ov0_0214FD24();
+                                scene->unk_004C->Press();
                             }
                         }
                         i = TRUE;
@@ -657,14 +657,14 @@ released:;
                             }
                             s_game->m_audioEngine->PlaySe(0xFA);
                             if (scene->unk_0050 != NULL) {
-                                scene->unk_0050->ov0_0214FF44();
+                                scene->unk_0050->Press();
                             }
                         }
                         i = TRUE;
                     }
                 }
                 if (!i && IsTrigger(pad, PAD_BUTTON_X | PAD_BUTTON_Y)) {
-                    scene->ov0_0212451C();
+                    scene->ClearAllOutlines();
                     scene->m_partners->SetOutlineAll(0x7FE0, 2, 300);
                 }
                 if (i) {

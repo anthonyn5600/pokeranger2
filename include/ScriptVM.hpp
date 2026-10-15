@@ -1,5 +1,5 @@
-#ifndef POKERANGER2_UNKSTRUCT_02044464_HPP
-#define POKERANGER2_UNKSTRUCT_02044464_HPP
+#ifndef POKERANGER2_SCRIPTVM_HPP
+#define POKERANGER2_SCRIPTVM_HPP
 
 #include <nitro.h>
 
@@ -30,7 +30,7 @@ struct ScriptHeader {
 };
 
 // Script interpreter state (arm9, around 0x02044464), embedded in CFieldMap and CFieldActorScript.
-struct UnkStruct_02044464 {
+struct ScriptVM {
     u32 *unk_00; // program counter
     u32 *unk_04; // stack pointer (grows down)
     u32 *unk_08; // call stack pointer (grows up from the stack base)
@@ -42,17 +42,17 @@ struct UnkStruct_02044464 {
     int unk_20; // wait counter
 };
 
-STATIC_SIZE_ASSERT(UnkStruct_02044464, 0x24);
+STATIC_SIZE_ASSERT(ScriptVM, 0x24);
 
 extern "C" {
 void Script_Link(void *script);
 void Script_RegisterSyscalls(u32 id, ScriptSyscall *handlers);
-void ScriptVM_Init(UnkStruct_02044464 *vm, void *stack, u32 stackSize);
-void ScriptVM_Clear(UnkStruct_02044464 *vm);
-void ScriptVM_Reset(UnkStruct_02044464 *vm);
-int ScriptVM_Run(UnkStruct_02044464 *vm, u32 steps);
-int ScriptVM_Start(UnkStruct_02044464 *vm, void *script, const char *name);
-int ScriptVM_CallFunction(UnkStruct_02044464 *vm, void *script, const char *name, int argc);
+void ScriptVM_Init(ScriptVM *vm, void *stack, u32 stackSize);
+void ScriptVM_Clear(ScriptVM *vm);
+void ScriptVM_Reset(ScriptVM *vm);
+int ScriptVM_Run(ScriptVM *vm, u32 steps);
+int ScriptVM_Start(ScriptVM *vm, void *script, const char *name);
+int ScriptVM_CallFunction(ScriptVM *vm, void *script, const char *name, int argc);
 }
 
-#endif // POKERANGER2_UNKSTRUCT_02044464_HPP
+#endif // POKERANGER2_SCRIPTVM_HPP

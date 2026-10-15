@@ -1,5 +1,5 @@
-#ifndef POKERANGER2_BATTLE_UNKCLASS_02129DD4_HPP
-#define POKERANGER2_BATTLE_UNKCLASS_02129DD4_HPP
+#ifndef POKERANGER2_BATTLE_CAPTUREEFFECT_HPP
+#define POKERANGER2_BATTLE_CAPTUREEFFECT_HPP
 
 #include <nitro.h>
 
@@ -14,13 +14,13 @@ class CSoftwareSprite;
 class CPrimitiveSPHERE;
 
 // Defined in ov1
-class UnkClass_02129DD4 {
+class CaptureEffect {
 public:
-    UnkClass_02129DD4(); // ov1_02129DD4
-    ~UnkClass_02129DD4(); // ov1_02129E48
-    void ov1_02129ED4();
-    void ov1_02129FD0(Camera2D *camera);
-    int ov1_0212A0D8(int z);
+    CaptureEffect(); // ov1_02129DD4
+    ~CaptureEffect(); // ov1_02129E48
+    void Update();
+    void Render(Camera2D *camera);
+    int SetZ(int z);
 
     inline void Stop()
     {
@@ -29,7 +29,7 @@ public:
         unk_1A = 0;
         unk_0C = FX32_ONE;
     }
-    void ov1_0212A058(UnkClass_02129B74 *data);
+    void SetData(UnkClass_02129B74 *data);
 
 public:
     UnkClass_02129B74 *m_data;
@@ -43,6 +43,6 @@ public:
     u16 m_animId;
 };
 
-STATIC_SIZE_ASSERT(UnkClass_02129DD4, 0x20);
+STATIC_SIZE_ASSERT(CaptureEffect, 0x20);
 
-#endif // POKERANGER2_BATTLE_UNKCLASS_02129DD4_HPP
+#endif // POKERANGER2_BATTLE_CAPTUREEFFECT_HPP

@@ -3,7 +3,7 @@
 
 #include <nitro.h>
 
-#include "battle/UnkStruct_0212E008.hpp"
+#include "battle/BattleEffectParam.hpp"
 #include "common.hpp"
 
 // Defined in ov1
@@ -12,7 +12,7 @@ public:
     BattleEffectTable(u32 arg0);
     ~BattleEffectTable(); // ov1_0212E304
 
-    inline UnkStruct_0212E008 *GetEntry(u16 id)
+    inline BattleEffectParam *GetEntry(u16 id)
     {
         if (id >= m_count) {
             return NULL;
@@ -23,7 +23,7 @@ public:
 public:
     u16 m_count;
     u8 unk_02[0x2];
-    UnkStruct_0212E008 *m_entries;
+    BattleEffectParam *m_entries;
 };
 
 STATIC_SIZE_ASSERT(BattleEffectTable, 0x8);

@@ -5,9 +5,9 @@
 
 #include "CGame.hpp"
 #include "NameTables.hpp"
+#include "PokeIdTableEntry.hpp"
 #include "SaveData.hpp"
 #include "SubTextPrinter.hpp"
-#include "UnkStruct_020107A8.hpp"
 #include "common.hpp"
 #include "file/CBinaryFileMes.hpp"
 #include "scene/CScene.hpp"
@@ -18,7 +18,7 @@ extern "C" {
 u8 *NameTables_GetFieldMoveName(NameTables *obj, u32 i);
 int sub_020107C4(int arg0);
 u8 *NameTables_GetPokemonName(NameTables *obj, u32 i);
-void sub_0202BC74(const u8 *src, u8 *dst, int len);
+void CopyStringUpper(const u8 *src, u8 *dst, int len);
 }
 
 struct TextWindow {
@@ -209,11 +209,11 @@ void SubScreenPokemonInfo::Load(int arg0, int arg1, int count)
     unk_44 = unk_30->AddSprite(1, 0x38, 0, 2);
 
     if (unk_00 != 0) {
-        sub_0201E0A4();
+        LoadSprites();
     }
     LoadBG();
     SetupBlend();
-    sub_0201EA2C();
+    SetupTextWindows();
     unk_54 = 0;
 }
 
@@ -303,7 +303,7 @@ int SubScreenPokemonInfo::LoadStep(int arg0, int arg1, int count)
         unk_2C->AddSprite(4, 0x38, 0x7B, 1);
         unk_44 = unk_30->AddSprite(1, 0x38, 0, 2);
         if (unk_00 != 0) {
-            sub_0201E0A4();
+            LoadSprites();
         }
         unk_70 = 11;
         break;
@@ -324,7 +324,7 @@ int SubScreenPokemonInfo::LoadStep(int arg0, int arg1, int count)
         unk_70 = 15;
         break;
     case 15:
-        sub_0201EA2C();
+        SetupTextWindows();
         unk_70 = 16;
         break;
     }
@@ -339,7 +339,7 @@ void SubScreenPokemonInfo::SetPokemon(int arg0, int arg1)
 
     unk_00 = arg0;
     unk_04 = arg1;
-    UnkStruct_020107A8 *rec = PokeIdTable_Get(game->unk_1434, arg0);
+    PokeIdTableEntry *rec = PokeIdTable_Get(game->unk_1434, arg0);
     unk_0E = rec->unk_03;
     unk_10 = rec->unk_04;
     unk_16 = rec->unk_00;
@@ -369,7 +369,7 @@ void SubScreenPokemonInfo::SetPokemon(int arg0, int arg1)
     unk_20 = rec->unk_14;
 }
 
-void SubScreenPokemonInfo::sub_0201E0A4()
+void SubScreenPokemonInfo::LoadSprites()
 {
     CGame *game = CGame::GetInstance();
 
@@ -409,12 +409,12 @@ void SubScreenPokemonInfo::sub_0201E0A4()
     unk_54 = 0;
 }
 
-void SubScreenPokemonInfo::sub_0201E27C()
+void SubScreenPokemonInfo::StartRefresh()
 {
     unk_54 = 1;
 }
 
-int SubScreenPokemonInfo::sub_0201E288(int step)
+int SubScreenPokemonInfo::LoadSpritesStep(int step)
 {
     CGame *game = CGame::GetInstance();
 
@@ -454,7 +454,7 @@ int SubScreenPokemonInfo::sub_0201E288(int step)
     case 3:
         unk_28->TransferToVram();
         unk_28->AddSprite(0, 0x38, 0x50, 1);
-        sub_0201EC80();
+        DrawTexts();
         step = 0;
         break;
     }
@@ -519,7 +519,7 @@ void SubScreenPokemonInfo::SetupBlend()
     G2S_SetBlendAlpha(GX_BLEND_PLANEMASK_NONE, GX_BLEND_PLANEMASK_BG1 | GX_BLEND_PLANEMASK_BG2 | GX_BLEND_PLANEMASK_BG3 | GX_BLEND_PLANEMASK_OBJ, 4, 0x1B);
 }
 
-void SubScreenPokemonInfo::sub_0201EA2C()
+void SubScreenPokemonInfo::SetupTextWindows()
 {
     TextWindow windows[10] = {
         { 16, 2, 16, 1, 0, 0, 1 },
@@ -551,16 +551,16 @@ void SubScreenPokemonInfo::sub_0201EA2C()
     game->unk_1498->Print(0, 0x70, windows[0].y, windows[0].color, unk_4C->unk_08[unk_0C % 10 + 8].unk_04, FALSE, 0);
 
     if (unk_08 == 0) {
-        sub_0201F024();
+        PrintLabels();
     } else {
         sub_0201F38C();
     }
     if (unk_00 != 0) {
-        sub_0201EC80();
+        DrawTexts();
     }
 }
 
-void SubScreenPokemonInfo::sub_0201EC80()
+void SubScreenPokemonInfo::DrawTexts()
 {
     TextWindow windows[10] = {
         { 16, 2, 16, 1, 0, 0, 1 },
@@ -595,7 +595,7 @@ void SubScreenPokemonInfo::sub_0201EC80()
         }
 
         if (unk_04 <= 1) {
-            sub_0202BC74(NameTables_GetPokemonName(game->m_nameTables, unk_16), name, 0x1F);
+            CopyStringUpper(NameTables_GetPokemonName(game->m_nameTables, unk_16), name, 0x1F);
             game->unk_1498->Print(8, windows[8].x, windows[8].y, windows[8].color, name, TRUE, 0);
         } else {
             game->unk_1498->Print(8, windows[8].x, windows[8].y, windows[8].color, unk_4C->unk_08[18].unk_04, TRUE, 0);
@@ -612,14 +612,14 @@ void SubScreenPokemonInfo::sub_0201EC80()
 
     if (unk_00 > 0) {
         if (unk_08 == 0) {
-            sub_0201F124();
+            PrintValues();
         } else {
             sub_0201F48C();
         }
     }
 }
 
-void SubScreenPokemonInfo::sub_0201F024()
+void SubScreenPokemonInfo::PrintLabels()
 {
     TextWindow windows[3] = {
         { 14, 2, 18, 4, 2, 0, 5 },
@@ -633,7 +633,7 @@ void SubScreenPokemonInfo::sub_0201F024()
     game->unk_1498->Print(3, windows[2].x, windows[2].y, windows[2].color, unk_4C->unk_08[3].unk_04, TRUE, 0);
 }
 
-void SubScreenPokemonInfo::sub_0201F124()
+void SubScreenPokemonInfo::PrintValues()
 {
     TextWindow windows[4] = {
         { 14, 2, 18, 6, 0, 0, 3 },
@@ -714,7 +714,7 @@ void SubScreenPokemonInfo::sub_0201F48C()
 
 void SubScreenPokemonInfo::Update()
 {
-    unk_54 = sub_0201E288(unk_54);
+    unk_54 = LoadSpritesStep(unk_54);
     CGame *game = CGame::GetInstance();
     unk_44->SetPos(unk_44->unk_0C, game->unk_15D0 >> FX32_SHIFT);
     unk_2C->Update();

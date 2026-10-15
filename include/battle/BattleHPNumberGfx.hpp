@@ -15,8 +15,8 @@ class BattleHPNumberGfx {
 public:
     BattleHPNumberGfx();
     ~BattleHPNumberGfx();
-    void ov1_02128628();
-    void ov1_021287A8();
+    void Load();
+    void Release();
 
 public:
     VramImage *m_image;

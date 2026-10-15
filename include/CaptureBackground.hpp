@@ -35,8 +35,8 @@ STATIC_SIZE_ASSERT(CaptureBackground, 0x1C);
 class Camera2D;
 
 extern "C" {
-void sub_020423F4(CaptureBackground *obj, Camera2D *camera);
-int sub_0204240C(CaptureBackground *obj, int z);
+void CaptureBackground_Render(CaptureBackground *obj, Camera2D *camera);
+int CaptureBackground_SetZ(CaptureBackground *obj, int z);
 }
 
 #endif // POKERANGER2_CAPTUREBACKGROUND_HPP

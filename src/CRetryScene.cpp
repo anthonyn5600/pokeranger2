@@ -2,9 +2,9 @@
 
 #include "CGame.hpp"
 #include "DisplayUtil.hpp"
+#include "FieldDataRecords.hpp"
 #include "SaveData.hpp"
 #include "SaveDataBuffer.hpp"
-#include "UnkClass_02041D80.hpp"
 
 extern SaveData MAIN_BSS_020B26A0;
 extern FieldData *MAIN_BSS_0210CA6C;
@@ -82,7 +82,7 @@ u32 CRetryScene::func0()
                 unk_0008 = 4;
                 break;
             default:
-                unk_0010->sub_02028360(0);
+                unk_0010->LoadPreviousCopy(0);
                 unk_0008 = 5;
                 break;
             }

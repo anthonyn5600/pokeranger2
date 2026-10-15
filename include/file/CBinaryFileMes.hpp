@@ -10,7 +10,7 @@ class CBinaryFileMes : public CBinaryFile {
 public:
     CBinaryFileMes(const char *path, u32 arg1);
 
-    static const char *sub_02003124();
+    static const char *GetLanguageSuffix();
 };
 
 STATIC_SIZE_ASSERT(CBinaryFileMes, 0xB8);

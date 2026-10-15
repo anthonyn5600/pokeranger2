@@ -8,13 +8,13 @@
 
 class CFieldEffectManage;
 
-// Defined in FieldEffectManage.cpp (ov0): up to 4 listeners told when CFieldEffectManage::ov0_02143410 runs.
+// Defined in FieldEffectManage.cpp (ov0): up to 4 listeners told when CFieldEffectManage::NotifyListeners runs.
 class FieldEffectListeners {
 public:
     FieldEffectListeners();
-    BOOL ov0_02143730(CFieldEffectManageEventListener *listener);
-    void ov0_02143760(CFieldEffectManageEventListener *listener);
-    void ov0_0214378C(CFieldEffectManage *mgr);
+    BOOL Add(CFieldEffectManageEventListener *listener);
+    void Remove(CFieldEffectManageEventListener *listener);
+    void Notify(CFieldEffectManage *mgr);
 
 public:
     CFieldEffectManageEventListener *m_listeners[4];

@@ -1,8 +1,8 @@
 #include "field/CFieldEffectActor.hpp"
 
-int CFieldEffectActor::ov0_02142264(int step)
+int CFieldEffectActor::Update(int step)
 {
-    return CFieldEffect::ov0_02142264(step);
+    return CFieldEffect::Update(step);
 }
 
 int CFieldEffectActor::IsReady()

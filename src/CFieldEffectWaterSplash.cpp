@@ -13,10 +13,10 @@ CFieldEffectWaterSplash::CFieldEffectWaterSplash()
 
 CFieldEffectWaterSplash::~CFieldEffectWaterSplash()
 {
-    ov0_021423A4();
+    Destroy();
 }
 
-void CFieldEffectWaterSplash::ov0_021423A4()
+void CFieldEffectWaterSplash::Destroy()
 {
     Deactivate();
 }
@@ -61,27 +61,27 @@ int CFieldEffectWaterSplash::SetParam(int param, int value)
     return ret;
 }
 
-BOOL CFieldEffectWaterSplash::ov0_021421F0(int inTime, int holdTime, int outTime)
+BOOL CFieldEffectWaterSplash::Start(int inTime, int holdTime, int outTime)
 {
     if (m_cac != NULL && m_anim != 0) {
         m_cac->Restart(m_anim);
     }
-    return CFieldEffect::ov0_021421F0(inTime, holdTime, outTime);
+    return CFieldEffect::Start(inTime, holdTime, outTime);
 }
 
-int CFieldEffectWaterSplash::ov0_02142264(int step)
+int CFieldEffectWaterSplash::Update(int step)
 {
-    int ret = CFieldEffect::ov0_02142264(step);
+    int ret = CFieldEffect::Update(step);
     if (ret != 0 && ret != 4 && m_cac != NULL && m_anim != 0) {
         m_cac->Update(m_anim);
         if (m_cac->GetStatus(m_anim) == 0) {
-            ov0_02142240(0);
+            Stop(0);
         }
     }
     return ret;
 }
 
-int CFieldEffectWaterSplash::ov0_02142344(Camera2D *camera)
+int CFieldEffectWaterSplash::Render(Camera2D *camera)
 {
     if (m_cac != NULL && m_anim != 0) {
         m_sprite.m_cellDataIdx = m_cac->GetCell(m_anim);
@@ -91,7 +91,7 @@ int CFieldEffectWaterSplash::ov0_02142344(Camera2D *camera)
     return 0;
 }
 
-void CFieldEffectWaterSplash::ov0_02142398(DrawObjectList *renderLists)
+void CFieldEffectWaterSplash::AddToRenderLists(DrawObjectList *renderLists)
 {
     renderLists->Insert(&m_drawObj);
 }

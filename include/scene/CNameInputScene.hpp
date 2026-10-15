@@ -25,27 +25,27 @@ public:
     virtual void func7();
     virtual u32 getSceneId();
 
-    void ov3_02121E44(int page);
-    void ov3_02122264(u8 pos);
-    void ov3_021222A0();
-    void ov3_02122340(int pos, int page, int idx);
-    BOOL ov3_021223FC();
-    void ov3_02122688();
-    void ov3_02122A8C();
-    void ov3_02122B7C();
-    void ov3_02122BCC();
-    void ov3_02122E68();
-    void ov3_02123014();
-    void ov3_021231F4();
-    void ov3_0212351C();
-    void ov3_0212362C(int mode);
-    void ov3_02123654();
-    void ov3_02123878();
-    void ov3_021239A8();
-    void ov3_02123DC0();
-    u16 ov3_02123E0C();
-    void ov3_02123E84(int idx, int x, int y, int color, int c);
-    void ov3_02123F8C();
+    void SetPage(int page);
+    void SetCursor(u8 pos);
+    void DeleteChar();
+    void InputChar(int pos, int page, int idx);
+    BOOL UseDefaultNameIfEmpty();
+    void UpdateInput();
+    void UpdateConfirm();
+    void StartMode();
+    void SwitchMode();
+    void SetupWindows();
+    void ShowConfirm();
+    void LoadBG();
+    void LoadMessages();
+    void LoadSprites(int mode);
+    void LoadInputSprites();
+    void LoadConfirmSprites();
+    void CreateKeyRects();
+    void ReleaseSprites();
+    u16 GetNameLength();
+    void PrintChar(int idx, int x, int y, int color, int c);
+    void DrawName();
 
 public:
     u8 unk_0004; // name length (cursor)

@@ -22,7 +22,7 @@ public:
     void LoadOwnData(int type, u16 id, int form, u32 mask, BOOL useTransfer);
     void Release();
     u32 Render(Camera2D *camera, fx32 z);
-    void sub_0203EE3C();
+    void RefreshAnim();
     void StartColorBlink(u16 arg0, u8 alpha, int duration);
     void StopBlink(int duration);
 

@@ -2,7 +2,7 @@
 
 #include "VramImage.hpp"
 #include "VramPalette.hpp"
-#include "battle/UnkClass_021299CC.hpp"
+#include "battle/CaptureMark.hpp"
 #include "file/CArchiveGuard.hpp"
 #include "file/CNCERFile.hpp"
 #include "interpolation.hpp"
@@ -10,15 +10,15 @@
 
 UnkClass_021297C0::UnkClass_021297C0()
 {
-    ov1_021297E8();
+    Load();
 }
 
 UnkClass_021297C0::~UnkClass_021297C0()
 {
-    ov1_0212993C();
+    Release();
 }
 
-void UnkClass_021297C0::ov1_021297E8()
+void UnkClass_021297C0::Load()
 {
     CArchiveGuard *guard = new CArchiveGuard("BOK", "data/interface/i026_LZ.bin", 1, 1, 0, NULL, 0);
 
@@ -37,7 +37,7 @@ void UnkClass_021297C0::ov1_021297E8()
     SAFE_DELETE(guard);
 }
 
-void UnkClass_021297C0::ov1_0212993C()
+void UnkClass_021297C0::Release()
 {
     SAFE_DELETE(m_image);
     SAFE_DELETE(m_palette);
@@ -46,7 +46,7 @@ void UnkClass_021297C0::ov1_0212993C()
     NNS_GfdFreeLnkPlttVram(m_plttKey);
 }
 
-UnkClass_021299CC::UnkClass_021299CC()
+CaptureMark::CaptureMark()
 {
     m_data = NULL;
     unk_08 = FALSE;
@@ -54,12 +54,12 @@ UnkClass_021299CC::UnkClass_021299CC()
     m_sprite->m_z = 0x400;
 }
 
-UnkClass_021299CC::~UnkClass_021299CC()
+CaptureMark::~CaptureMark()
 {
     SAFE_DELETE(m_sprite);
 }
 
-void UnkClass_021299CC::ov1_02129A40()
+void CaptureMark::Update()
 {
     if (!unk_08) {
         return;
@@ -74,7 +74,7 @@ void UnkClass_021299CC::ov1_02129A40()
     }
 }
 
-void UnkClass_021299CC::ov1_02129A98(Camera2D *camera)
+void CaptureMark::Render(Camera2D *camera)
 {
     if (!unk_08) {
         return;
@@ -84,7 +84,7 @@ void UnkClass_021299CC::ov1_02129A98(Camera2D *camera)
     m_sprite->Render(camera);
 }
 
-void UnkClass_021299CC::ov1_02129AF4(UnkClass_021297C0 *data)
+void CaptureMark::SetData(UnkClass_021297C0 *data)
 {
     m_data = data;
     m_sprite->SetImage((UnkClass_CPrimitive_ImageProxy *)data->m_image, NULL);
@@ -93,14 +93,14 @@ void UnkClass_021299CC::ov1_02129AF4(UnkClass_021297C0 *data)
     m_sprite->m_cellDataIdx = 0;
 }
 
-void UnkClass_021299CC::ov1_02129B30(u16 duration)
+void CaptureMark::Show(u16 duration)
 {
     unk_08 = TRUE;
     m_duration = duration;
     m_frame = 0;
 }
 
-int UnkClass_021299CC::ov1_02129B48(int z)
+int CaptureMark::SetZ(int z)
 {
     z += m_sprite->GetCellNumOAMAttrs(m_sprite->m_cellDataIdx);
     m_sprite->m_z = z;

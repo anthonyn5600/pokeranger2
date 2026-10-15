@@ -38,7 +38,7 @@ public:
     void Init();
     CellAnimInstance *Find(u16 id);
     u16 GetScriptPos(u16 id);
-    u8 sub_02008D38(u16 id);
+    u8 GetLoopCount(u16 id);
 
 public:
     u16 unk_00;

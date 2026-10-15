@@ -47,15 +47,15 @@ static inline void TraceX(CellLine *line, const Point2D &from, const Point2D &to
 }
 
 extern "C" {
-int ov0_0213E53C(CellLine *line, Point2D from, Point2D to);
-BOOL ov0_0213E668(Point2D pos, fx32 radius, int floor, int arg3);
-BOOL ov0_0213E7C4(Point2D from, fx32 step, Point2D to, int floor, int mode);
-BOOL ov0_0213E918(Point2D from, fx32 step, Point2D to, CFieldMapLayerCollision *layer, int mode);
-BOOL ov0_0213E9EC(Point2D from, fx32 step, Point2D to, int floor);
+int PartnerPath_BuildCellLine(CellLine *line, Point2D from, Point2D to);
+BOOL PartnerPath_IsBlocked(Point2D pos, fx32 radius, int floor, int arg3);
+BOOL PartnerPath_HasWallBetween(Point2D from, fx32 step, Point2D to, int floor, int mode);
+BOOL PartnerPath_HasWallBetweenOnLayer(Point2D from, fx32 step, Point2D to, CFieldMapLayerCollision *layer, int mode);
+BOOL PartnerPath_HitsTargetObject(Point2D from, fx32 step, Point2D to, int floor);
 BOOL ov0_0213EA6C(Point2D *out, Point2D cell, int floor, int arg3);
 BOOL ov0_0213EC1C(Point2D *out, Point2D cell, CFieldMapLayerCollision *coll);
-BOOL ov0_0213ED7C(Point2D from, Point2D to, CFieldMapLayerCollision *coll);
-int ov0_0213EF68(Point2D *out, Point2D center, int count, int floor);
+BOOL PartnerPath_CanReachCell(Point2D from, Point2D to, CFieldMapLayerCollision *coll);
+int PartnerPath_FindFreeCells(Point2D *out, Point2D center, int count, int floor);
 }
 
 // Cell offsets around the placement center: rings for the first search, diagonals for the last.
@@ -97,7 +97,7 @@ static Point2D sRingOffsets[34] = {
     { 6, -4 },
 };
 
-int ov0_0213E53C(CellLine *line, Point2D from, Point2D to)
+int PartnerPath_BuildCellLine(CellLine *line, Point2D from, Point2D to)
 {
     int y = from.y;
     int sx = 1;
@@ -135,7 +135,7 @@ int ov0_0213E53C(CellLine *line, Point2D from, Point2D to)
     return line->count;
 }
 
-BOOL ov0_0213E668(Point2D pos, fx32 radius, int floor, int arg3)
+BOOL PartnerPath_IsBlocked(Point2D pos, fx32 radius, int floor, int arg3)
 {
     if (MAIN_BSS_0210CA7C != NULL && MAIN_BSS_0210CA7C->CollideCircle(pos, radius, floor)) {
         return TRUE;
@@ -157,7 +157,7 @@ BOOL ov0_0213E668(Point2D pos, fx32 radius, int floor, int arg3)
     return FALSE;
 }
 
-BOOL ov0_0213E7C4(Point2D from, fx32 step, Point2D to, int floor, int mode)
+BOOL PartnerPath_HasWallBetween(Point2D from, fx32 step, Point2D to, int floor, int mode)
 {
     PointPair2D seg;
     Point2D hit;
@@ -170,7 +170,7 @@ BOOL ov0_0213E7C4(Point2D from, fx32 step, Point2D to, int floor, int mode)
         if (coll != NULL) {
             Point2D a = { from.x >> 16, from.y >> 16 };
             Point2D b = { to.x >> 16, to.y >> 16 };
-            int count = ov0_0213E53C(&line, a, b);
+            int count = PartnerPath_BuildCellLine(&line, a, b);
             for (int i = 1; i < count - 1; i++) {
                 if (CFieldMapLayerCollision::IsWall(coll->GetCellAt(line.cells[i].x, line.cells[i].y))) {
                     return TRUE;
@@ -184,13 +184,13 @@ BOOL ov0_0213E7C4(Point2D from, fx32 step, Point2D to, int floor, int mode)
     return FALSE;
 }
 
-BOOL ov0_0213E918(Point2D from, fx32 step, Point2D to, CFieldMapLayerCollision *layer, int mode)
+BOOL PartnerPath_HasWallBetweenOnLayer(Point2D from, fx32 step, Point2D to, CFieldMapLayerCollision *layer, int mode)
 {
     CellLine line;
     if (layer != NULL) {
         Point2D a = { from.x >> 16, from.y >> 16 };
         Point2D b = { to.x >> 16, to.y >> 16 };
-        int count = ov0_0213E53C(&line, a, b);
+        int count = PartnerPath_BuildCellLine(&line, a, b);
         for (int i = 1; i < count - 1; i++) {
             if (CFieldMapLayerCollision::IsWall(layer->GetCellAt(line.cells[i].x, line.cells[i].y))) {
                 return TRUE;
@@ -206,7 +206,7 @@ static inline void SetPoint(Point2D *p, fx32 x, fx32 y)
     p->y = y;
 }
 
-BOOL ov0_0213E9EC(Point2D from, fx32 step, Point2D to, int floor)
+BOOL PartnerPath_HitsTargetObject(Point2D from, fx32 step, Point2D to, int floor)
 {
     PointPair2D seg;
     Point2D hit;
@@ -318,7 +318,7 @@ BOOL ov0_0213EC1C(Point2D *out, Point2D cell, CFieldMapLayerCollision *coll)
     return TRUE;
 }
 
-BOOL ov0_0213ED7C(Point2D from, Point2D to, CFieldMapLayerCollision *coll)
+BOOL PartnerPath_CanReachCell(Point2D from, Point2D to, CFieldMapLayerCollision *coll)
 {
     int dx = from.x - to.x;
     int dy = from.y - to.y;
@@ -328,12 +328,12 @@ BOOL ov0_0213ED7C(Point2D from, Point2D to, CFieldMapLayerCollision *coll)
     Point2D next = from;
     if (dx > 0) {
         next.x--;
-        if (!CFieldMapLayerCollision::IsWall(coll->GetCellAt(next.x, next.y)) && ov0_0213ED7C(next, to, coll)) {
+        if (!CFieldMapLayerCollision::IsWall(coll->GetCellAt(next.x, next.y)) && PartnerPath_CanReachCell(next, to, coll)) {
             return TRUE;
         }
     } else if (dx < 0) {
         next.x++;
-        if (!CFieldMapLayerCollision::IsWall(coll->GetCellAt(next.x, next.y)) && ov0_0213ED7C(next, to, coll)) {
+        if (!CFieldMapLayerCollision::IsWall(coll->GetCellAt(next.x, next.y)) && PartnerPath_CanReachCell(next, to, coll)) {
             return TRUE;
         }
     }
@@ -343,18 +343,18 @@ BOOL ov0_0213ED7C(Point2D from, Point2D to, CFieldMapLayerCollision *coll)
         if (CFieldMapLayerCollision::IsWall(coll->GetCellAt(next.x, next.y))) {
             return FALSE;
         }
-        return ov0_0213ED7C(next, to, coll);
+        return PartnerPath_CanReachCell(next, to, coll);
     } else if (dy < 0) {
         next.y++;
         if (CFieldMapLayerCollision::IsWall(coll->GetCellAt(next.x, next.y))) {
             return FALSE;
         }
-        return ov0_0213ED7C(next, to, coll);
+        return PartnerPath_CanReachCell(next, to, coll);
     }
     return FALSE;
 }
 
-int ov0_0213EF68(Point2D *out, Point2D center, int count, int floor)
+int PartnerPath_FindFreeCells(Point2D *out, Point2D center, int count, int floor)
 {
     Point2D others[2];
     Point2D found[12];
@@ -414,11 +414,11 @@ int ov0_0213EF68(Point2D *out, Point2D center, int count, int floor)
         Point2D pos;
         pos.x = center.x - FX32_MUL(r, FX_SinIdx((u16)(angle + st * i)));
         pos.y = center.y - FX32_MUL(r, FX_CosIdx((u16)(angle + st * i)));
-        if (pos.x > 0x14000 && pos.y > 0x14000 && !ov0_0213E668(pos, 0xF000, floor, 0)) {
+        if (pos.x > 0x14000 && pos.y > 0x14000 && !PartnerPath_IsBlocked(pos, 0xF000, floor, 0)) {
             int cx = (pos.x + 0x8000) >> 16;
             int cy = (pos.y + 0x8000) >> 16;
             Point2D to = { snapped.x << 16, snapped.y << 16 };
-            if (!ov0_0213E918(pos, 0xF000, to, coll, 0)) {
+            if (!PartnerPath_HasWallBetweenOnLayer(pos, 0xF000, to, coll, 0)) {
                 BOOL near = FALSE;
                 for (int m = 0; m < n; m++) {
                     int dx = MATH_ABS(others[m].x - cx);
@@ -454,13 +454,13 @@ int ov0_0213EF68(Point2D *out, Point2D center, int count, int floor)
             Point2D pos = cell;
             pos.x <<= 16;
             pos.y <<= 16;
-            if (ov0_0213E668(pos, 0xF000, floor, 0)) {
+            if (PartnerPath_IsBlocked(pos, 0xF000, floor, 0)) {
                 continue;
             }
-            if (!ov0_0213ED7C(cell, centerCell, coll)) {
+            if (!PartnerPath_CanReachCell(cell, centerCell, coll)) {
                 continue;
             }
-            if (ov0_0213E9EC(pos, 0x1000, center, floor)) {
+            if (PartnerPath_HitsTargetObject(pos, 0x1000, center, floor)) {
                 continue;
             }
             BOOL near = FALSE;
@@ -504,10 +504,10 @@ int ov0_0213EF68(Point2D *out, Point2D center, int count, int floor)
             Point2D pos = cell;
             pos.x <<= 16;
             pos.y <<= 16;
-            if (!ov0_0213ED7C(cell, centerCell, coll)) {
+            if (!PartnerPath_CanReachCell(cell, centerCell, coll)) {
                 continue;
             }
-            if (ov0_0213E9EC(pos, 0x1000, center, floor)) {
+            if (PartnerPath_HitsTargetObject(pos, 0x1000, center, floor)) {
                 continue;
             }
             BOOL near = FALSE;

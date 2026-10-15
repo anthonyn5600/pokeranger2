@@ -21,16 +21,16 @@ static int sNdCleanupDone;
 static int sNdError;
 static int sNdDone;
 
-static void *ov11_02130470(DWCAllocType name, u32 size, int align);
-static void ov11_021304A4(DWCAllocType name, void *ptr, u32 size);
-static void ov11_021316A8(DWCNdCallbackReason reason, DWCNdError error, int servererror);
-static void ov11_021316C4();
-static int ov11_021316D8();
+static void *DwcAlloc(DWCAllocType name, u32 size, int align);
+static void DwcFree(DWCAllocType name, void *ptr, u32 size);
+static void NdCallback(DWCNdCallbackReason reason, DWCNdError error, int servererror);
+static void NdCleanupCallback();
+static int IsNdDone();
 
 DwcConnection::DwcConnection(CGame *game)
 {
     unk_10 = game;
-    ov11_02130310();
+    Init();
 }
 
 DwcConnection::~DwcConnection()
@@ -40,12 +40,12 @@ DwcConnection::~DwcConnection()
     }
 }
 
-void DwcConnection::ov11_02130310()
+void DwcConnection::Init()
 {
     unk_14 = NULL;
 }
 
-int DwcConnection::ov11_0213031C()
+int DwcConnection::InitDwc()
 {
     if (unk_14 != NULL) {
         Heap_Free(unk_14);
@@ -58,22 +58,22 @@ int DwcConnection::ov11_0213031C()
         Heap_Free(unk_14);
         unk_14 = NULL;
     }
-    DWC_SetMemFunc(ov11_02130470, ov11_021304A4);
+    DWC_SetMemFunc(DwcAlloc, DwcFree);
     return ret;
 }
 
-void DwcConnection::ov11_0213038C()
+void DwcConnection::StartConnect()
 {
     unk_00 = 0;
 }
 
-int DwcConnection::ov11_02130398()
+int DwcConnection::UpdateConnect()
 {
     DWCApInfo apInfo;
 
     switch (unk_00) {
     case 0:
-        if (ov11_0213031C() == DWC_INIT_RESULT_DESTROY_OTHER_SETTING) {
+        if (InitDwc() == DWC_INIT_RESULT_DESTROY_OTHER_SETTING) {
             return 1;
         }
         SetupInterrupts();
@@ -104,7 +104,7 @@ int DwcConnection::ov11_02130398()
     return 3;
 }
 
-static void *ov11_02130470(DWCAllocType name, u32 size, int align)
+static void *DwcAlloc(DWCAllocType name, u32 size, int align)
 {
     OSIntrMode mode = OS_DisableInterrupts();
     void *ptr = Heap_AllocWithAlignment(size, align);
@@ -112,12 +112,12 @@ static void *ov11_02130470(DWCAllocType name, u32 size, int align)
     return ptr;
 }
 
-static void ov11_021304A4(DWCAllocType name, void *ptr, u32 size)
+static void DwcFree(DWCAllocType name, void *ptr, u32 size)
 {
     Heap_Free(ptr);
 }
 
-void DwcConnection::ov11_021304B4()
+void DwcConnection::StartUtility()
 {
     void *work = Heap_Alloc(DWC_UTILITY_WORK_SIZE);
     DWC_StartUtility(work, DWC_LANGUAGE_ENGLISH, DWC_UTILITY_TOP_MENU_FOR_USA);
@@ -129,7 +129,7 @@ MissionDownload::MissionDownload(CGame *game, DwcConnection *dwc, RangerNetMenu 
     unk_4DC = game;
     unk_4D8 = dwc;
     unk_4E0 = menu;
-    ov11_02130B14();
+    Init();
 }
 
 MissionDownload::~MissionDownload()
@@ -139,7 +139,7 @@ MissionDownload::~MissionDownload()
     }
 }
 
-int MissionDownload::ov11_0213051C()
+int MissionDownload::Update()
 {
     switch (unk_02C) {
     case 0:
@@ -148,18 +148,18 @@ int MissionDownload::ov11_0213051C()
         break;
     case 1:
         CGame::GetInstance()->m_audioEngine->PlaySe(0xD1);
-        unk_4D8->ov11_0213038C();
+        unk_4D8->StartConnect();
         unk_02C = 2;
         unk_4B8 = 0;
         unk_4E0->unk_710 = 1;
     case 2: {
-        if (unk_4E0->ov11_0212247C() < 0) {
+        if (unk_4E0->CheckCancel() < 0) {
             sResult = 6;
             unk_02C = 6;
-            unk_4E0->ov11_02124520();
+            unk_4E0->StopConnecting();
             break;
         }
-        int ret = unk_4D8->ov11_02130398();
+        int ret = unk_4D8->UpdateConnect();
         if (ret == 3) {
             break;
         }
@@ -167,13 +167,13 @@ int MissionDownload::ov11_0213051C()
             sResult = 9;
             unk_02C = 6;
             unk_4C4 = 7200;
-            unk_4E0->ov11_02124520();
-            unk_4E0->ov11_02122B7C(15, 0, 0, 1);
+            unk_4E0->StopConnecting();
+            unk_4E0->ShowMessage(15, 0, 0, 1);
             break;
         }
         if (ret == 2) {
             sResult = 8;
-            unk_4E0->ov11_02124520();
+            unk_4E0->StopConnecting();
             unk_02C = 6;
             break;
         }
@@ -182,43 +182,43 @@ int MissionDownload::ov11_0213051C()
         unk_4B8 = 0;
     }
     case 3:
-        sResult = ov11_02130B48();
+        sResult = UpdateDownload();
         switch (sResult) {
         case 6:
             unk_02C = 6;
-            unk_4E0->ov11_02124520();
+            unk_4E0->StopConnecting();
             if (unk_4B8 != 0) {
-                unk_4E0->ov11_02122B7C(24, 0, 0, 1);
+                unk_4E0->ShowMessage(24, 0, 0, 1);
             }
             break;
         case 1:
             sResult = 1;
             unk_02C = 6;
-            unk_4E0->ov11_02124520();
+            unk_4E0->StopConnecting();
             break;
         case 8:
-            unk_4E0->ov11_02124520();
-            unk_4E0->ov11_0211EFB4();
+            unk_4E0->StopConnecting();
+            unk_4E0->ClearDownloadAnim();
             unk_02C = 6;
             break;
         case 0:
             unk_02C = 12;
-            unk_4E0->ov11_02124520();
+            unk_4E0->StopConnecting();
             break;
         case 4:
-            unk_4E0->ov11_02124520();
+            unk_4E0->StopConnecting();
             unk_02C = 6;
             unk_4C4 = 0;
             break;
         case 5:
-            unk_4E0->ov11_02124520();
-            unk_4E0->ov11_02122B7C(24, 0, 0, 1);
+            unk_4E0->StopConnecting();
+            unk_4E0->ShowMessage(24, 0, 0, 1);
             unk_02C = 4;
             unk_4C4 = 0;
             break;
         case 7:
-            unk_4E0->ov11_02124520();
-            unk_4E0->ov11_0211EFB4();
+            unk_4E0->StopConnecting();
+            unk_4E0->ClearDownloadAnim();
             unk_02C = 6;
             unk_4C4 = 0;
             break;
@@ -237,9 +237,9 @@ int MissionDownload::ov11_0213051C()
         if (sResult == 5 || (sResult == 6 && unk_4B8 != 0)) {
             unk_4C4 = 0;
         }
-        unk_4E0->ov11_02124520();
+        unk_4E0->StopConnecting();
         sNdCleanupDone = FALSE;
-        if (DWC_NdCleanupAsync(ov11_021316C4)) {
+        if (DWC_NdCleanupAsync(NdCleanupCallback)) {
             unk_02C = 9;
         } else {
             DWC_CleanupInet();
@@ -259,33 +259,33 @@ int MissionDownload::ov11_0213051C()
             unk_4C4 = 0;
             switch (sResult) {
             case 1:
-                unk_4E0->ov11_02122B7C(3, 0, 0, 1);
+                unk_4E0->ShowMessage(3, 0, 0, 1);
                 break;
             case 7:
-                unk_4E0->ov11_0211EFB4();
-                unk_4E0->ov11_02122B7C(5, 5, 0, 1);
+                unk_4E0->ClearDownloadAnim();
+                unk_4E0->ShowMessage(5, 5, 0, 1);
                 break;
             case 6:
                 if (unk_4B8 == 0) {
                     unk_02C = 11;
                 } else {
-                    unk_4E0->ov11_02122B7C(25, 0, 0, 1);
+                    unk_4E0->ShowMessage(25, 0, 0, 1);
                     unk_4C4 = 120;
                     unk_02C = 11;
                 }
                 break;
             case 4:
-                unk_4E0->ov11_02122B7C(49, 0, 0, 1);
+                unk_4E0->ShowMessage(49, 0, 0, 1);
                 unk_4C4 = 0;
                 unk_02C = 12;
                 break;
             case 5:
-                unk_4E0->ov11_02122B7C(48, 0, 0, 1);
+                unk_4E0->ShowMessage(48, 0, 0, 1);
                 unk_4C4 = 0;
                 unk_02C = 12;
                 break;
             case 8:
-                ov11_02131710();
+                ShowError();
                 break;
             }
         }
@@ -294,7 +294,7 @@ int MissionDownload::ov11_0213051C()
         if (--unk_4C4 > 0) {
             break;
         }
-        unk_4E0->ov11_02122B7C(15, 1, 0, 1);
+        unk_4E0->ShowMessage(15, 1, 0, 1);
         unk_02C = 12;
     case 12:
         switch (sResult) {
@@ -303,14 +303,14 @@ int MissionDownload::ov11_0213051C()
         case 5:
         case 8:
         case 9:
-            if (unk_4E0->ov11_02122428()) {
+            if (unk_4E0->CheckContinue()) {
                 return 1;
             }
             break;
         case 6:
-            if (unk_4E0->ov11_02122428()) {
-                unk_4E0->ov11_0211FB08(0, -1);
-                unk_4E0->ov11_02124520();
+            if (unk_4E0->CheckContinue()) {
+                unk_4E0->SetLinkIcon(0, -1);
+                unk_4E0->StopConnecting();
                 return 3;
             }
             break;
@@ -324,13 +324,13 @@ int MissionDownload::ov11_0213051C()
         }
         break;
     case 13:
-        ov11_02131710();
+        ShowError();
         unk_02C = 14;
         unk_4C4 = 7200;
         break;
     case 14:
         unk_4C4--;
-        if (unk_4E0->ov11_02122428() || unk_4C4 <= 0) {
+        if (unk_4E0->CheckContinue() || unk_4C4 <= 0) {
             unk_4C4 = 0;
             switch (sResult) {
             case 9:
@@ -346,37 +346,37 @@ int MissionDownload::ov11_0213051C()
     return 2;
 }
 
-void MissionDownload::ov11_02130B14()
+void MissionDownload::Init()
 {
     unk_4C0 = NULL;
     unk_02C = 0;
     unk_4B4 = 24;
 }
 
-void MissionDownload::ov11_02130B30()
+void MissionDownload::Start()
 {
     unk_02C = 1;
     unk_4B4 = 24;
 }
 
-int MissionDownload::ov11_02130B48()
+int MissionDownload::UpdateDownload()
 {
     char name[40];
     u32 received;
     u32 contentLen;
 
-    if (unk_4E0->ov11_0212247C() < 0) {
+    if (unk_4E0->CheckCancel() < 0) {
         if (unk_4B8 == 0) {
             return 6;
         }
-        unk_4E0->ov11_0211F96C();
-        unk_4E0->ov11_0211FBE4(3);
-        unk_4E0->ov11_02124438(0);
-        unk_4E0->ov11_0211F904();
-        unk_4E0->ov11_021217C0(11);
-        unk_4E0->ov11_0211EFB4();
+        unk_4E0->HideAllButtons();
+        unk_4E0->SetBackButton(3);
+        unk_4E0->UpdateWaitIcon(0);
+        unk_4E0->ClearItems();
+        unk_4E0->ShowButtons(11);
+        unk_4E0->ClearDownloadAnim();
         unk_4B4 = 10;
-        unk_4E0->ov11_02122B7C(23, 0, 0, 1);
+        unk_4E0->ShowMessage(23, 0, 0, 1);
         return 3;
     }
     switch (unk_4B4) {
@@ -405,7 +405,7 @@ int MissionDownload::ov11_02130B48()
     case 0:
         sNdError = 0;
         sNdDone = 0;
-        if (!DWC_NdInitAsync(ov11_021316A8, "YP2E", "griUBMRWtExs4ZNS")) {
+        if (!DWC_NdInitAsync(NdCallback, "YP2E", "griUBMRWtExs4ZNS")) {
             return 8;
         }
         unk_4B4 = 1;
@@ -414,21 +414,21 @@ int MissionDownload::ov11_02130B48()
         if (DWC_UpdateConnection()) {
             return 8;
         }
-        if (!ov11_021316D8()) {
+        if (!IsNdDone()) {
             break;
         }
         if (sNdError == 1) {
             return 8;
         }
-        unk_4E0->ov11_02122B7C(2, 0, 0, 1);
+        unk_4E0->ShowMessage(2, 0, 0, 1);
         unk_4B8 = 1;
         unk_4B6 = 2;
         unk_4B4 = 4;
     case 4:
-        if (ov11_02131980()) {
+        if (HasError()) {
             return 8;
         }
-        ov11_021316E8();
+        SetNdAttr();
         sNdError = 0;
         sNdDone = 0;
         if (!DWC_NdGetFileListNumAsync(&unk_4B0)) {
@@ -437,13 +437,13 @@ int MissionDownload::ov11_02130B48()
         unk_4B4 = 5;
         break;
     case 2:
-        unk_4E0->ov11_02122B7C(2, 0, 0, 1);
+        unk_4E0->ShowMessage(2, 0, 0, 1);
         unk_4B4 = 5;
     case 5:
-        if (ov11_02131980()) {
+        if (HasError()) {
             return 8;
         }
-        if (!ov11_021316D8()) {
+        if (!IsNdDone()) {
             break;
         }
         if (sNdError == 1) {
@@ -455,7 +455,7 @@ int MissionDownload::ov11_02130B48()
         unk_4B4 = 6;
         unk_4B6 = 3;
     case 6:
-        if (ov11_02131980()) {
+        if (HasError()) {
             return 8;
         }
         sNdError = 0;
@@ -466,13 +466,13 @@ int MissionDownload::ov11_02130B48()
         unk_4B4 = 7;
         break;
     case 3:
-        unk_4E0->ov11_02122B7C(2, 0, 0, 1);
+        unk_4E0->ShowMessage(2, 0, 0, 1);
         unk_4B4 = 7;
     case 7: {
-        if (ov11_02131980()) {
+        if (HasError()) {
             return 8;
         }
-        if (!ov11_021316D8()) {
+        if (!IsNdDone()) {
             break;
         }
         if (sNdError == 1) {
@@ -508,14 +508,14 @@ int MissionDownload::ov11_02130B48()
         CGame::GetInstance()->m_audioEngine->PlaySe(0xD2);
     }
     case 8:
-        unk_4E0->ov11_021217D4(unk_458, TRUE, 6);
+        unk_4E0->SetupMissionList(unk_458, TRUE, 6);
         unk_4B6 = 8;
         unk_4B4 = 9;
     case 9: {
-        if (ov11_02131980()) {
+        if (HasError()) {
             return 8;
         }
-        int sel = unk_4E0->ov11_021212B4();
+        int sel = unk_4E0->UpdateMissionSelect();
         if (sel < 0) {
             if (unk_4E0->unk_70C != 0) {
                 unk_4C8 = 7200;
@@ -538,7 +538,7 @@ int MissionDownload::ov11_02130B48()
         unk_4B4 = 11;
     }
     case 11:
-        if (ov11_02131980()) {
+        if (HasError()) {
             return 8;
         }
         if (unk_4C0 != NULL) {
@@ -559,15 +559,15 @@ int MissionDownload::ov11_02130B48()
         unk_4D0 = 0;
         unk_4D4 = 0;
     case 12:
-        unk_4E0->ov11_02122B7C(4, 0, 1, 1);
-        unk_4E0->ov11_0211EF5C();
+        unk_4E0->ShowMessage(4, 0, 1, 1);
+        unk_4E0->StartDownloadAnim();
         unk_4B4 = 13;
         unk_4B6 = 12;
     case 13:
-        if (ov11_02131980()) {
+        if (HasError()) {
             return 8;
         }
-        unk_4E0->ov11_0211F06C();
+        unk_4E0->UpdateDownloadAnim();
         if (sNdDone == 0) {
             if (DWC_NdGetProgress(&received, &contentLen) == TRUE && unk_4D4 != received) {
                 unk_4D4 = received;
@@ -579,26 +579,26 @@ int MissionDownload::ov11_02130B48()
             }
             break;
         }
-        unk_4E0->ov11_0211FBE4(3);
-        unk_4E0->ov11_02122B7C(45, 0, 1, 1);
+        unk_4E0->SetBackButton(3);
+        unk_4E0->ShowMessage(45, 0, 1, 1);
         unk_4B4 = 16;
         unk_4C4 = 120;
         break;
     case 16:
-        unk_4E0->ov11_0211F06C();
+        unk_4E0->UpdateDownloadAnim();
         if (--unk_4C4 <= 0) {
-            unk_4E0->ov11_02122B7C(46, 0, 1, 1);
+            unk_4E0->ShowMessage(46, 0, 1, 1);
             unk_4B4 = 17;
             unk_4C4 = 120;
             sNdCleanupDone = FALSE;
-            if (!DWC_NdCleanupAsync(ov11_021316C4)) {
+            if (!DWC_NdCleanupAsync(NdCleanupCallback)) {
                 sNdCleanupDone = TRUE;
             }
             unk_4E0->unk_710 = 0;
         }
         break;
     case 17:
-        unk_4E0->ov11_0211F06C();
+        unk_4E0->UpdateDownloadAnim();
         if (!sNdCleanupDone) {
             break;
         }
@@ -610,27 +610,27 @@ int MissionDownload::ov11_02130B48()
         }
         unk_4B4 = 18;
     case 18:
-        unk_4E0->ov11_0211F06C();
+        unk_4E0->UpdateDownloadAnim();
         if (unk_4C4 > 0) {
             unk_4C4--;
         } else {
-            unk_4E0->ov11_02122B7C(47, 0, 1, 1);
+            unk_4E0->ShowMessage(47, 0, 1, 1);
             unk_4B4 = 20;
             unk_4C4 = 120;
         }
         break;
     case 20:
-        unk_4E0->ov11_0211F06C();
+        unk_4E0->UpdateDownloadAnim();
         if (--unk_4C4 <= 0) {
-            unk_4E0->ov11_02122B7C(6, 0, 1, 1);
+            unk_4E0->ShowMessage(6, 0, 1, 1);
             unk_4B4 = 21;
             unk_4CC = 0;
         }
         break;
     case 21:
-        unk_4E0->ov11_0211F06C();
+        unk_4E0->UpdateDownloadAnim();
         for (; unk_4CC < 6; unk_4CC++) {
-            if (unk_4E0->ov11_02123D20(unk_4CC, unk_4C0, MAIN_BSS_020AF620.unk_00.unk_04)) {
+            if (unk_4E0->ReadMissionFile(unk_4CC, unk_4C0, MAIN_BSS_020AF620.unk_00.unk_04)) {
                 unk_4B4 = 22;
                 DownloadMissionData_ResetStep(unk_4E0->unk_620);
                 break;
@@ -639,13 +639,13 @@ int MissionDownload::ov11_02130B48()
         if (unk_4CC >= 6) {
             unk_4B4 = 14;
             unk_4C4 = 0;
-            unk_4E0->ov11_0211F0BC();
+            unk_4E0->FinishDownloadAnim();
             CGame::GetInstance()->m_audioEngine->StopSe(0xD1);
             CGame::GetInstance()->m_audioEngine->PlaySe(0xF0);
         }
         break;
     case 22: {
-        unk_4E0->ov11_0211F06C();
+        unk_4E0->UpdateDownloadAnim();
         int r = DownloadMissionData_Save(unk_4E0->unk_620, unk_4CC);
         if (r == 0) {
             break;
@@ -659,25 +659,25 @@ int MissionDownload::ov11_02130B48()
     }
     case 14:
         if (++unk_4C4 >= 180) {
-            unk_4E0->ov11_0212374C(unk_484[unk_4BC], FALSE);
+            unk_4E0->ShowDownloadedMessage(unk_484[unk_4BC], FALSE);
             unk_4B4 = 15;
         }
         break;
     case 15:
-        if (unk_4E0->ov11_02122428()) {
+        if (unk_4E0->CheckContinue()) {
             return 0;
         }
         break;
     case 23:
-        if (ov11_021316D8()) {
+        if (IsNdDone()) {
             return 2;
         }
         break;
     case 10:
-        if (ov11_02131980()) {
+        if (HasError()) {
             return 8;
         }
-        switch (unk_4E0->ov11_02121168()) {
+        switch (unk_4E0->UpdateButtonSelect()) {
         case -2:
             if (unk_4E0->unk_70C != 0) {
                 unk_4C8 = 7200;
@@ -688,14 +688,14 @@ int MissionDownload::ov11_02130B48()
             }
             break;
         case 14:
-            unk_4E0->ov11_02122B7C(0, 5, 3, 1);
+            unk_4E0->ShowMessage(0, 5, 3, 1);
             return 6;
         default:
-            unk_4E0->ov11_0211F904();
-            unk_4E0->ov11_0211F96C();
+            unk_4E0->ClearItems();
+            unk_4E0->HideAllButtons();
             unk_4B4 = unk_4B6;
-            unk_4E0->ov11_0211FBE4(5);
-            unk_4E0->ov11_02122B7C(0, 5, 3, 1);
+            unk_4E0->SetBackButton(5);
+            unk_4E0->ShowMessage(0, 5, 3, 1);
             break;
         }
         break;
@@ -709,7 +709,7 @@ int MissionDownload::ov11_02130B48()
     return 3;
 }
 
-static void ov11_021316A8(DWCNdCallbackReason reason, DWCNdError error, int servererror)
+static void NdCallback(DWCNdCallbackReason reason, DWCNdError error, int servererror)
 {
     sNdDone = TRUE;
     if (error != DWC_ND_ERROR_NONE) {
@@ -717,24 +717,24 @@ static void ov11_021316A8(DWCNdCallbackReason reason, DWCNdError error, int serv
     }
 }
 
-static void ov11_021316C4()
+static void NdCleanupCallback()
 {
     sNdCleanupDone = TRUE;
 }
 
-static int ov11_021316D8()
+static int IsNdDone()
 {
     return sNdDone;
 }
 
-void MissionDownload::ov11_021316E8()
+void MissionDownload::SetNdAttr()
 {
     if (!DWC_NdSetAttr("", "", "")) {
         OS_Terminate();
     }
 }
 
-void MissionDownload::ov11_02131710()
+void MissionDownload::ShowError()
 {
     char buf[64];
     int code;
@@ -793,12 +793,12 @@ void MissionDownload::ov11_02131710()
     } else {
         msg = 34;
     }
-    unk_4E0->ov11_021234A8(buf, code, -1);
-    unk_4E0->ov11_02122BA8(buf, FALSE);
-    unk_4E0->ov11_02122B7C(msg, 0, 0, 1);
+    unk_4E0->FormatNumber(buf, code, -1);
+    unk_4E0->SetMessageString(buf, FALSE);
+    unk_4E0->ShowMessage(msg, 0, 0, 1);
 }
 
-BOOL MissionDownload::ov11_02131980()
+BOOL MissionDownload::HasError()
 {
     int code;
     DWCErrorType type;

@@ -250,7 +250,7 @@ Overlay overlay0
     Object main.nef.p/src_SyscallField.cpp.o
     Object main.nef.p/src_SyscallFieldNpc.cpp.o
     Object main.nef.p/src_UnkClass_0214B93C.cpp.o
-    Object main.nef.p/src_UnkClass_0214B984.cpp.o
+    Object main.nef.p/src_FieldDebugFlags.cpp.o
     Object main.nef.p/src_UnkClass_0214FB28.cpp.o
     Object main.nef.p/src_UnkClass_0214FD4C.cpp.o
     Object main.nef.p/src_CFieldEffectActor.cpp.o
@@ -294,7 +294,7 @@ Overlay overlay0
     Object src_CFieldEffectDarknessClear.cpp.o
     Object main.nef.p/src_CFieldEffectAirBubbles.cpp.o
     Object main.nef.p/src_ManpuBlockHeap.cpp.o
-    Object main.nef.p/src_UnkClass_0216D5F4.cpp.o
+    Object main.nef.p/src_FieldTimerDisplay.cpp.o
     Object main.nef.p/src_CFieldEffectLaser.cpp.o
     Object src_CFieldEffectRisingPhoton.cpp.o
     Object src_CFieldEffectVolcanicSteam.cpp.o
@@ -316,10 +316,10 @@ Overlay overlay1
     Object main.nef.p/src_CBattleAttackEffect.cpp.o
     Object main.nef.p/src_UnkClass_021274AC.cpp.o
     Object main.nef.p/src_UnkClass_021278E8.cpp.o
-    Object main.nef.p/src_UnkClass_02127CD8.cpp.o
-    Object main.nef.p/src_UnkClass_021281B4.cpp.o
+    Object main.nef.p/src_BattleHitEffectGfx.cpp.o
+    Object main.nef.p/src_BattleEffectivenessMarkGfx.cpp.o
     Object main.nef.p/src_BattleHPNumberGfx.cpp.o
-    Object main.nef.p/src_UnkClass_02128A60.cpp.o
+    Object main.nef.p/src_BattleDamageNumberGfx.cpp.o
     Object main.nef.p/src_BattleStatusIconGfx.cpp.o
     Object main.nef.p/src_BattleStatusDebugGfx.cpp.o
     Object main.nef.p/src_UnkClass_021297C0.cpp.o
@@ -356,8 +356,8 @@ Overlay overlay1
     Object main.nef.p/src_BattleParticle.cpp.o
     Object main.nef.p/src_CBattlePowerSave.cpp.o
     Object main.nef.p/src_YSortedActorList.cpp.o
-    Object main.nef.p/src_UnkClass_021380AC.cpp.o
-    Object main.nef.p/src_UnkClass_021382D0.cpp.o
+    Object main.nef.p/src_BattleAssistButton.cpp.o
+    Object main.nef.p/src_BattleEscapeButton.cpp.o
     Object main.nef.p/src_BattleResult.cpp.o
     Object main.nef.p/src_CBattleGameOver.cpp.o
     Object main.nef.p/src_BattleAssistMenu.cpp.o
@@ -530,7 +530,7 @@ Overlay overlay21
     Object main.nef.p/src_CBrowserMenuIcon.cpp.o
     Object main.nef.p/src_CBrowserMenuType.cpp.o
     Object main.nef.p/src_BrowserSubScreen.cpp.o
-    Object main.nef.p/src_UnkClass_021226C0.cpp.o
+    Object main.nef.p/src_BrowserEntryList.cpp.o
 }
 
 Overlay overlay22

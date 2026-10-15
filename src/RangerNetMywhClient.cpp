@@ -1,24 +1,24 @@
 #include "AudioEngine.hpp"
 #include "CGame.hpp"
+#include "DownloadStationScan.hpp"
 #include "RangerNetExchange.hpp"
 #include "RangerNetMenu.hpp"
 #include "RangerNetMywh.hpp"
-#include "UnkClass_0212F3DC.hpp"
 
 // Clients of the mywh connection (0212EBCC..0212F648): RangerNetExchange's download states and
-// UnkClass_0212F3DC, both driving the mywh connection through a state callback.
+// DownloadStationScan, both driving the mywh connection through a state callback.
 
 // RangerNetSession.cpp
-void ov11_02128FEC();
-WVRResult ov11_02129040();
+void WirelessDriver_Init();
+WVRResult WirelessDriver_Shutdown();
 
 static int sLogoState;
 static int sDownloadState;
 
-static void ov11_0212F32C(int state);
-static void ov11_0212F5C8(int state);
+static void Exchange_MywhCallback(int state);
+static void LogoDownload_MywhCallback(int state);
 
-void RangerNetExchange::ov11_0212EBCC()
+void RangerNetExchange::UpdateLocalScan()
 {
     switch (unk_152) {
     case 0:
@@ -28,33 +28,33 @@ void RangerNetExchange::ov11_0212EBCC()
     case 1:
         unk_194->unk_710 = 1;
         CGame::GetInstance()->m_audioEngine->PlaySe(0xD1);
-        unk_194->ov11_02122B7C(2, 1, 0, 1);
-        if (!ov11_0212FE30(unk_050, ov11_0212F32C, unk_04C)) {
-            unk_194->ov11_02122B7C(3, 1, 0, 1);
-            ov11_0212F3B0();
+        unk_194->ShowMessage(2, 1, 0, 1);
+        if (!Mywh_StartDownload(unk_050, Exchange_MywhCallback, unk_04C)) {
+            unk_194->ShowMessage(3, 1, 0, 1);
+            AbortDownload();
             break;
         }
         unk_152 = 3;
         unk_144 = 7200;
         break;
     case 3:
-        if (!ov11_02130200()) {
+        if (!Mywh_IsInitialized()) {
             break;
         }
-        unk_194->ov11_0211FBE4(5);
+        unk_194->SetBackButton(5);
         unk_152 = 4;
     case 4:
-        unk_194->ov11_0211FB08(2, ov11_021301BC());
+        unk_194->SetLinkIcon(2, Mywh_GetLinkLevel());
         if (sDownloadState == 2 || sDownloadState == 4) {
-            if (ov11_021301DC() == NULL) {
+            if (Mywh_GetHeader() == NULL) {
                 break;
             }
-            ov11_0212E9B4(3);
+            SetState(3);
             CGame::GetInstance()->m_audioEngine->StopSe(0xD1);
             CGame::GetInstance()->m_audioEngine->PlaySe(0xD2);
         } else if (sDownloadState == 5 || --unk_144 == 0) {
-            unk_194->ov11_02122B7C(3, 1, 0, 1);
-            ov11_0212F3B0();
+            unk_194->ShowMessage(3, 1, 0, 1);
+            AbortDownload();
         }
         break;
     case 11:
@@ -62,11 +62,11 @@ void RangerNetExchange::ov11_0212EBCC()
         break;
     case 12:
         unk_152 = 25;
-        ov11_0212FD74();
+        Mywh_Finalize();
         break;
     case 20:
-        if (unk_194->ov11_02122428()) {
-            ov11_0212E9B4(8);
+        if (unk_194->CheckContinue()) {
+            SetState(8);
         }
         break;
     case 25:
@@ -74,9 +74,9 @@ void RangerNetExchange::ov11_0212EBCC()
     }
 }
 
-void RangerNetExchange::ov11_0212EE24()
+void RangerNetExchange::UpdateLocalSelect()
 {
-    const char *name = (const char *)ov11_021301DC();
+    const char *name = (const char *)Mywh_GetHeader();
 
     switch (unk_152) {
     case 0:
@@ -86,7 +86,7 @@ void RangerNetExchange::ov11_0212EE24()
         unk_152 = 4;
         break;
     case 4:
-        unk_188 = unk_194->ov11_02123C8C(name);
+        unk_188 = unk_194->FindMissionFile(name);
         for (int i = 0; i < 11; i++) {
             unk_15C[i] = -1;
         }
@@ -94,25 +94,25 @@ void RangerNetExchange::ov11_0212EE24()
             unk_188 = 10;
         }
         unk_15C[unk_188] = 1;
-        unk_194->ov11_021217D4(unk_15C, TRUE, 7);
+        unk_194->SetupMissionList(unk_15C, TRUE, 7);
         unk_152 = 5;
         break;
     case 5: {
-        int sel = unk_194->ov11_021212B4();
+        int sel = unk_194->UpdateMissionSelect();
         if (sel < 0) {
             break;
         }
         unk_188 = sel - 11;
-        unk_194->ov11_02122B7C(4, 1, 1, 1);
+        unk_194->ShowMessage(4, 1, 1, 1);
         unk_152 = 10;
         break;
     }
     case 10:
-        ov11_0212E9B4(4);
+        SetState(4);
         break;
     case 20:
-        if (unk_194->ov11_02122428()) {
-            ov11_0212E9B4(8);
+        if (unk_194->CheckContinue()) {
+            SetState(8);
         }
         break;
     case 25:
@@ -120,7 +120,7 @@ void RangerNetExchange::ov11_0212EE24()
     }
 }
 
-void RangerNetExchange::ov11_0212EF94()
+void RangerNetExchange::UpdateLocalReceive()
 {
     if (unk_048 != 0) {
         unk_048--;
@@ -131,42 +131,42 @@ void RangerNetExchange::ov11_0212EF94()
         unk_152 = 4;
         unk_154 = 0;
         unk_144 = 15;
-        unk_194->ov11_0211EF5C();
+        unk_194->StartDownloadAnim();
         CGame::GetInstance()->m_audioEngine->PlaySe(0xD1);
         break;
     case 3:
         unk_152 = 4;
         break;
     case 4: {
-        unk_194->ov11_0211F06C();
-        u16 n = ov11_0213018C();
-        if (n == ov11_021301A4() && sDownloadState == 3) {
+        unk_194->UpdateDownloadAnim();
+        u16 n = Mywh_GetChunksReceived();
+        if (n == Mywh_GetChunkCount() && sDownloadState == 3) {
             unk_152 = 11;
-            ov11_0212FD74();
+            Mywh_Finalize();
             break;
         }
         if (sDownloadState == 5 || unk_048 == 0) {
-            unk_194->ov11_02122B7C(16, 1, 0, 1);
-            ov11_0212F3B0();
+            unk_194->ShowMessage(16, 1, 0, 1);
+            AbortDownload();
             break;
         }
-        if (ov11_021301BC() <= 1) {
-            unk_194->ov11_02122B7C(14, 1, 1, 1);
+        if (Mywh_GetLinkLevel() <= 1) {
+            unk_194->ShowMessage(14, 1, 1, 1);
         }
         break;
     }
     case 11:
-        unk_194->ov11_0211F06C();
+        unk_194->UpdateDownloadAnim();
         if (sDownloadState == 4 || sDownloadState == 6) {
-            ov11_02130210(unk_050, unk_050);
-            ov11_0212E9B4(7);
+            Mywh_Decrypt(unk_050, unk_050);
+            SetState(7);
         }
         break;
     case 12:
         break;
     case 20:
-        if (unk_194->ov11_02122428()) {
-            ov11_0212E9B4(8);
+        if (unk_194->CheckContinue()) {
+            SetState(8);
         }
         break;
     case 25:
@@ -174,57 +174,57 @@ void RangerNetExchange::ov11_0212EF94()
     }
 }
 
-void RangerNetExchange::ov11_0212F158()
+void RangerNetExchange::UpdateLocalSave()
 {
     switch (unk_152) {
     case 0:
         unk_194->unk_710 = 0;
-        unk_194->ov11_0211F06C();
+        unk_194->UpdateDownloadAnim();
         unk_144 = 120;
         unk_152 = 13;
-        unk_194->ov11_02122B7C(5, 1, 1, 1);
-        unk_194->ov11_0211FBE4(3);
-        unk_194->ov11_0211FB08(0, -1);
+        unk_194->ShowMessage(5, 1, 1, 1);
+        unk_194->SetBackButton(3);
+        unk_194->SetLinkIcon(0, -1);
         break;
     case 13:
-        unk_194->ov11_0211F06C();
+        unk_194->UpdateDownloadAnim();
         if (--unk_144 != 0) {
             break;
         }
         unk_152 = 16;
-        unk_194->ov11_02121000(unk_050);
-        unk_194->ov11_02122B7C(6, 1, 1, 1);
+        unk_194->StartSaveMissions(unk_050);
+        unk_194->ShowMessage(6, 1, 1, 1);
         break;
     case 16: {
-        int ret = unk_194->ov11_02121010();
+        int ret = unk_194->UpdateSaveMissions();
         if (ret == 0) {
             break;
         }
         if (ret < 0) {
-            unk_194->ov11_02122B7C(13, 1, 0, 1);
+            unk_194->ShowMessage(13, 1, 0, 1);
             unk_152 = 19;
             break;
         }
-        unk_194->ov11_0212374C(unk_188, FALSE);
+        unk_194->ShowDownloadedMessage(unk_188, FALSE);
         unk_152 = 25;
         break;
     }
     case 19:
         break;
     case 25:
-        if (unk_194->ov11_02122428()) {
-            ov11_0212E9B4(8);
+        if (unk_194->CheckContinue()) {
+            SetState(8);
         }
         break;
     case 20:
-        if (unk_194->ov11_02122428()) {
-            ov11_0212E9B4(8);
+        if (unk_194->CheckContinue()) {
+            SetState(8);
         }
         break;
     }
 }
 
-static void ov11_0212F32C(int state)
+static void Exchange_MywhCallback(int state)
 {
     switch (state) {
     case 0:
@@ -249,24 +249,24 @@ static void ov11_0212F32C(int state)
     }
 }
 
-void RangerNetExchange::ov11_0212F3B0()
+void RangerNetExchange::AbortDownload()
 {
-    ov11_0212FD74();
+    Mywh_Finalize();
     unk_152 = 20;
-    unk_194->ov11_02124520();
+    unk_194->StopConnecting();
     unk_194->unk_710 = 0;
 }
 
-UnkClass_0212F3DC::UnkClass_0212F3DC()
+DownloadStationScan::DownloadStationScan()
 {
-    unk_0 = new u8[ov11_021301D4()];
+    unk_0 = new u8[Mywh_GetWorkSize()];
     unk_4 = new u8[0xF000];
     unk_8 = 0;
     sLogoState = 0;
     CGame::GetInstance()->unk_15DC = 0;
 }
 
-UnkClass_0212F3DC::~UnkClass_0212F3DC()
+DownloadStationScan::~DownloadStationScan()
 {
     if (unk_0 != NULL) {
         delete[] unk_0;
@@ -278,15 +278,15 @@ UnkClass_0212F3DC::~UnkClass_0212F3DC()
     }
 }
 
-BOOL UnkClass_0212F3DC::ov11_0212F46C()
+BOOL DownloadStationScan::Update()
 {
     switch (unk_8) {
     case 0:
         unk_8 = 1;
-        ov11_02128FEC();
+        WirelessDriver_Init();
         break;
     case 1:
-        if (!ov11_0212FE30(unk_4, ov11_0212F5C8, unk_0)) {
+        if (!Mywh_StartDownload(unk_4, LogoDownload_MywhCallback, unk_0)) {
             unk_8 = 25;
         } else {
             unk_8 = 3;
@@ -307,7 +307,7 @@ BOOL UnkClass_0212F3DC::ov11_0212F46C()
         }
         break;
     case 25:
-        ov11_0212FD74();
+        Mywh_Finalize();
         unk_8 = 24;
         break;
     case 24:
@@ -315,7 +315,7 @@ BOOL UnkClass_0212F3DC::ov11_0212F46C()
         case 4:
         case 5:
         case 6:
-            ov11_02129040();
+            WirelessDriver_Shutdown();
             unk_8 = 26;
             break;
         }
@@ -326,7 +326,7 @@ BOOL UnkClass_0212F3DC::ov11_0212F46C()
     return TRUE;
 }
 
-static void ov11_0212F5C8(int state)
+static void LogoDownload_MywhCallback(int state)
 {
     switch (state) {
     case 0:

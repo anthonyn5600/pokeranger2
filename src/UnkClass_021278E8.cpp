@@ -10,15 +10,15 @@
 
 UnkClass_021278E8::UnkClass_021278E8()
 {
-    ov1_02127910();
+    Load();
 }
 
 UnkClass_021278E8::~UnkClass_021278E8()
 {
-    ov1_02127A90();
+    Release();
 }
 
-void UnkClass_021278E8::ov1_02127910()
+void UnkClass_021278E8::Load()
 {
     CArchiveGuard *guard = new CArchiveGuard("BSW", "data/interface/i035_LZ.bin", 1, 1, 0, NULL, 0);
 
@@ -39,7 +39,7 @@ void UnkClass_021278E8::ov1_02127910()
     SAFE_DELETE(guard);
 }
 
-void UnkClass_021278E8::ov1_02127A90()
+void UnkClass_021278E8::Release()
 {
     SAFE_DELETE(m_image);
     SAFE_DELETE(m_palette);
@@ -63,7 +63,7 @@ UnkClass_02127B48::~UnkClass_02127B48()
     SAFE_DELETE(m_sprite);
 }
 
-void UnkClass_02127B48::ov1_02127BCC()
+void UnkClass_02127B48::Update()
 {
     if (!unk_08) {
         return;
@@ -71,7 +71,7 @@ void UnkClass_02127B48::ov1_02127BCC()
     m_data->m_anim->Update(m_animId);
 }
 
-void UnkClass_02127B48::ov1_02127BF0(Camera2D *camera)
+void UnkClass_02127B48::Render(Camera2D *camera)
 {
     if (!unk_08) {
         return;
@@ -81,7 +81,7 @@ void UnkClass_02127B48::ov1_02127BF0(Camera2D *camera)
     m_sprite->Render(camera);
 }
 
-void UnkClass_02127B48::ov1_02127C60(UnkClass_021278E8 *data)
+void UnkClass_02127B48::SetData(UnkClass_021278E8 *data)
 {
     m_data = data;
     m_sprite->SetImage((UnkClass_CPrimitive_ImageProxy *)data->m_image, NULL);
@@ -90,7 +90,7 @@ void UnkClass_02127B48::ov1_02127C60(UnkClass_021278E8 *data)
     m_animId = data->m_anim->Create(1, 0);
 }
 
-int UnkClass_02127B48::ov1_02127CAC(int z)
+int UnkClass_02127B48::SetZ(int z)
 {
     z += m_sprite->GetCellNumOAMAttrs(m_sprite->m_cellDataIdx);
     m_sprite->m_z = z;

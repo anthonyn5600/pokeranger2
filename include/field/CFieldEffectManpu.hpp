@@ -24,7 +24,7 @@ public:
     }
     virtual ~CFieldEffectManpu();
     virtual int GetEffectId();
-    virtual int ov0_02142344(Camera2D *camera);
+    virtual int Render(Camera2D *camera);
     virtual void SetType(int type);
     virtual int Draw(Camera2D *camera) = 0;
     virtual void SetDepth(fx32 z) = 0;

@@ -36,7 +36,7 @@ extern "C" {
 void MissionQuestData_Clear(MissionQuestData *obj);
 BOOL MissionQuestData_IsQuestActive(MissionQuestData *obj, int arg1);
 BOOL MissionQuestData_IsQuestEntered(MissionQuestData *obj, int arg1);
-void sub_020116C0(MissionQuestData *obj, int arg1);
+void MissionQuestData_ApplyProgress(MissionQuestData *obj, int arg1);
 BOOL MissionQuestData_IsQuestCleared(MissionQuestData *obj, int arg1);
 }
 

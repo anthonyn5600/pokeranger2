@@ -150,7 +150,7 @@ CNameInputScene::~CNameInputScene()
     func7();
 }
 
-void CNameInputScene::ov3_02121E44(int page)
+void CNameInputScene::SetPage(int page)
 {
     unk_00BC[1]->SetAnim(unk_0020, 7);
     unk_00BC[1]->SetAnim(unk_0024, 7);
@@ -197,7 +197,7 @@ void CNameInputScene::ov3_02121E44(int page)
             int x = i * 16 + 3;
             int y = j * 16 + 3;
             if (!(c & 0x80000000)) {
-                ov3_02123E84(0, x, y, 1, c);
+                PrintChar(0, x, y, 1, c);
             } else {
                 switch (c & ~0xFF000000) {
                 case 1:
@@ -213,7 +213,7 @@ void CNameInputScene::ov3_02121E44(int page)
     unk_0005 = page;
 }
 
-void CNameInputScene::ov3_02122264(u8 pos)
+void CNameInputScene::SetCursor(u8 pos)
 {
     u8 col = pos;
     if (pos >= 7) {
@@ -223,13 +223,13 @@ void CNameInputScene::ov3_02122264(u8 pos)
     unk_0004 = pos;
 }
 
-void CNameInputScene::ov3_021222A0()
+void CNameInputScene::DeleteChar()
 {
     if (unk_0004 == 0) {
         return;
     }
-    ov3_02122264(unk_0004 - 1);
-    u16 len = ov3_02123E0C();
+    SetCursor(unk_0004 - 1);
+    u16 len = GetNameLength();
     int c = unk_004C[unk_0004];
     unk_004C[unk_0004] = 0;
     int n = 4;
@@ -243,10 +243,10 @@ void CNameInputScene::ov3_021222A0()
         unk_0068[len - 1] = 0;
         len--;
     }
-    ov3_02123F8C();
+    DrawName();
 }
 
-void CNameInputScene::ov3_02122340(int pos, int page, int idx)
+void CNameInputScene::InputChar(int pos, int page, int idx)
 {
     u32 c = 0;
     switch (page) {
@@ -260,7 +260,7 @@ void CNameInputScene::ov3_02122340(int pos, int page, int idx)
         c = s_keysSymbol[0][idx];
         break;
     }
-    u16 len = ov3_02123E0C();
+    u16 len = GetNameLength();
     unk_0030[pos] = idx | (page << 24);
     unk_004C[pos] = c;
     int n = 0;
@@ -272,10 +272,10 @@ void CNameInputScene::ov3_02122340(int pos, int page, int idx)
             n++;
         }
     }
-    ov3_02123F8C();
+    DrawName();
 }
 
-BOOL CNameInputScene::ov3_021223FC()
+BOOL CNameInputScene::UseDefaultNameIfEmpty()
 {
     int i;
     for (i = 0; i < 7; i++) {
@@ -310,7 +310,7 @@ BOOL CNameInputScene::ov3_021223FC()
         unk_004C[3] = 'l';
         unk_004C[4] = 'y';
         unk_004C[5] = 'n';
-        ov3_02122264(6);
+        SetCursor(6);
     } else if (MAIN_BSS_020B26A0.m_sex == 1) {
         unk_0068[0] = 'K';
         unk_0068[1] = 'a';
@@ -324,9 +324,9 @@ BOOL CNameInputScene::ov3_021223FC()
         unk_004C[1] = 'a';
         unk_004C[2] = 't';
         unk_004C[3] = 'e';
-        ov3_02122264(4);
+        SetCursor(4);
     }
-    ov3_02123F8C();
+    DrawName();
     return TRUE;
 }
 
@@ -342,16 +342,16 @@ u32 CNameInputScene::func0()
         m_audioEngine->PlayBgm(0x16, 0x40);
         break;
     case 2:
-        ov3_02122688();
+        UpdateInput();
         break;
     case 3:
-        ov3_02122A8C();
+        UpdateConfirm();
         break;
     case 4:
-        ov3_02122B7C();
+        StartMode();
         break;
     case 5:
-        ov3_02122BCC();
+        SwitchMode();
         break;
     case 6:
         if (!s_game->m_mainFade->IsActive() && !s_game->m_subFade->IsActive()) {
@@ -362,7 +362,7 @@ u32 CNameInputScene::func0()
     return -1;
 }
 
-void CNameInputScene::ov3_02122688()
+void CNameInputScene::UpdateInput()
 {
     int i;
     unk_00BC[0]->Update();
@@ -377,8 +377,8 @@ void CNameInputScene::ov3_02122688()
                 int idx = i * 5 + j;
                 if (PointInRect(touch, unk_00CC[idx]->m_rectangle, 0)) {
                     if (unk_0004 < 7) {
-                        ov3_02122340(unk_0004, unk_0005, idx);
-                        ov3_02122264(unk_0004 + 1);
+                        InputChar(unk_0004, unk_0005, idx);
+                        SetCursor(unk_0004 + 1);
                     }
                     unk_0098->SetPos(i * 16 + 0x18, j * 16 + 0x40);
                     unk_0098->unk_14 = 1;
@@ -387,25 +387,25 @@ void CNameInputScene::ov3_02122688()
             }
         }
         if (PointInRect(touch, unk_00CC[62]->m_rectangle, 0)) {
-            ov3_021222A0();
+            DeleteChar();
             unk_00A0->SetPos(0xE0, 0x70);
             unk_00A0->unk_14 = 1;
             m_audioEngine->PlaySe(0xFE);
         }
         if (PointInRect(touch, unk_00CC[63]->m_rectangle, 0)) {
-            ov3_02121E44(0);
+            SetPage(0);
             m_audioEngine->PlaySe(0xFA);
         }
         if (PointInRect(touch, unk_00CC[64]->m_rectangle, 0)) {
-            ov3_02121E44(1);
+            SetPage(1);
             m_audioEngine->PlaySe(0xFA);
         }
         if (PointInRect(touch, unk_00CC[66]->m_rectangle, 0)) {
-            ov3_02121E44(3);
+            SetPage(3);
             m_audioEngine->PlaySe(0xFA);
         }
         if (PointInRect(touch, unk_00CC[67]->m_rectangle, 0)) {
-            if (!ov3_021223FC()) {
+            if (!UseDefaultNameIfEmpty()) {
                 unk_0006 = 1;
             }
             unk_00BC[1]->SetAnim(unk_001C, 2);
@@ -442,7 +442,7 @@ void CNameInputScene::ov3_02122688()
     }
 }
 
-void CNameInputScene::ov3_02122A8C()
+void CNameInputScene::UpdateConfirm()
 {
     u32 result;
     TextboxManager *textbox = m_game->m_textboxData;
@@ -465,35 +465,35 @@ void CNameInputScene::ov3_02122A8C()
     }
 }
 
-void CNameInputScene::ov3_02122B7C()
+void CNameInputScene::StartMode()
 {
     s_game->m_mainFade->Start(3, 5);
     s_game->m_subFade->Start(3, 5);
     unk_0010 = unk_0014;
 }
 
-void CNameInputScene::ov3_02122BCC()
+void CNameInputScene::SwitchMode()
 {
     if (unk_0014 == 2) {
         func7();
         GX_SetVisiblePlane(GX_PLANEMASK_BG0 | GX_PLANEMASK_BG2 | GX_PLANEMASK_BG3 | GX_PLANEMASK_OBJ);
         m_game->m_textboxData->Init(m_game->unk_0014, m_game->touchPanel, &m_game->unk_14AC->unk_0C, m_game->m_nameTables, m_game->unk_0024, m_game->m_audioEngine, 0x10, 0x4000, 0);
-        ov3_021231F4();
-        ov3_0212351C();
-        ov3_02122E68();
-        ov3_0212362C(0);
-        ov3_021239A8();
+        LoadBG();
+        LoadMessages();
+        SetupWindows();
+        LoadSprites(0);
+        CreateKeyRects();
         unk_0098->unk_14 = 0;
         unk_00A0->unk_14 = 0;
-        ov3_02123F8C();
-        ov3_02122264(unk_0004);
-        ov3_02121E44(0);
+        DrawName();
+        SetCursor(unk_0004);
+        SetPage(0);
     }
     if (unk_0014 == 3) {
-        ov3_02123DC0();
-        ov3_02123014();
-        ov3_021231F4();
-        ov3_0212362C(1);
+        ReleaseSprites();
+        ShowConfirm();
+        LoadBG();
+        LoadSprites(1);
     }
     unk_0010 = 4;
 }
@@ -552,7 +552,7 @@ void CNameInputScene::func5()
     GXS_DispOn();
 }
 
-void CNameInputScene::ov3_02122E68()
+void CNameInputScene::SetupWindows()
 {
     NameWindow windows[9] = {
         { 24, 10, 2, 7, 2, 3, 1, 6, 6 },
@@ -582,7 +582,7 @@ void CNameInputScene::ov3_02122E68()
     text->Print(7, windows[7].x, windows[7].y, windows[7].color, unk_01DC->unk_08[5].unk_04, TRUE, 0);
 }
 
-void CNameInputScene::ov3_02123014()
+void CNameInputScene::ShowConfirm()
 {
     int i;
     TextPrinter *text = m_game->unk_1494;
@@ -601,19 +601,19 @@ void CNameInputScene::func6()
     unk_000C = 0;
     unk_0010 = 0;
     m_game->m_textboxData->Init(m_game->unk_0014, m_game->touchPanel, &m_game->unk_14AC->unk_0C, m_game->m_nameTables, m_game->unk_0024, m_game->m_audioEngine, 0x10, 0x4000, 0);
-    ov3_021231F4();
-    ov3_0212351C();
-    ov3_02122E68();
-    ov3_0212362C(0);
-    ov3_021239A8();
+    LoadBG();
+    LoadMessages();
+    SetupWindows();
+    LoadSprites(0);
+    CreateKeyRects();
     unk_0098->unk_14 = 0;
     unk_00A0->unk_14 = 0;
     s_game->m_mainFade->Start(1, 30);
     s_game->m_subFade->Start(1, 30);
-    ov3_02121E44(unk_0005);
+    SetPage(unk_0005);
 }
 
-void CNameInputScene::ov3_021231F4()
+void CNameInputScene::LoadBG()
 {
     CArchiveGuard *archive = new CArchiveGuard("BGU", "data/menu/mnd000_bg_LZ.bin", 1, 1, 0, NULL, 0);
     CBGNCGRFile *ncgr = new CBGNCGRFile("BGU:mnd000.NCGR", 1, 0, 0);
@@ -639,23 +639,23 @@ void CNameInputScene::ov3_021231F4()
     delete archive;
 }
 
-void CNameInputScene::ov3_0212351C()
+void CNameInputScene::LoadMessages()
 {
     u32 pos;
     LOAD_MESSAGES(unk_01DC, "/data/message/etc/name_entry");
 }
 
-void CNameInputScene::ov3_0212362C(int mode)
+void CNameInputScene::LoadSprites(int mode)
 {
     if (mode == 0) {
-        ov3_02123654();
+        LoadInputSprites();
     }
     if (mode == 1) {
-        ov3_02123878();
+        LoadConfirmSprites();
     }
 }
 
-void CNameInputScene::ov3_02123654()
+void CNameInputScene::LoadInputSprites()
 {
     char name[0x60];
     int ofs = 0;
@@ -680,7 +680,7 @@ void CNameInputScene::ov3_02123654()
     unk_0090->unk_14 = 0;
 }
 
-void CNameInputScene::ov3_02123878()
+void CNameInputScene::LoadConfirmSprites()
 {
     char name[0x60];
     int ofs = 0;
@@ -693,7 +693,7 @@ void CNameInputScene::ov3_02123878()
     unk_00B8 = unk_00BC[3]->AddSprite(1, 0x80, 0x48, 0);
 }
 
-void CNameInputScene::ov3_021239A8()
+void CNameInputScene::CreateKeyRects()
 {
     for (int i = 0; i < 12; i++) {
         for (int j = 0; j < 5; j++) {
@@ -729,14 +729,14 @@ void CNameInputScene::func7()
     }
 }
 
-void CNameInputScene::ov3_02123DC0()
+void CNameInputScene::ReleaseSprites()
 {
     for (int i = 0; i < 4; i++) {
         SAFE_DELETE(unk_00BC[i]);
     }
 }
 
-u16 CNameInputScene::ov3_02123E0C()
+u16 CNameInputScene::GetNameLength()
 {
     u16 len = 0;
     for (int i = 0; i < 7 && unk_004C[i] != 0; i++) {
@@ -753,7 +753,7 @@ u16 CNameInputScene::ov3_02123E0C()
     return len;
 }
 
-void CNameInputScene::ov3_02123E84(int idx, int x, int y, int color, int c)
+void CNameInputScene::PrintChar(int idx, int x, int y, int color, int c)
 {
     char buf[8];
     int n = 4;
@@ -770,13 +770,13 @@ void CNameInputScene::ov3_02123E84(int idx, int x, int y, int color, int c)
     m_game->unk_1494->Print(idx, x + 5 - ((width & 1) + (width >> 1)), y, color, (u8 *)buf, FALSE, 0);
 }
 
-void CNameInputScene::ov3_02123F8C()
+void CNameInputScene::DrawName()
 {
     m_game->unk_1494->ClearWindow(8);
     int i;
     int x;
     for (i = 0, x = 2; i < 7 && unk_004C[i] != 0; i++) {
-        ov3_02123E84(8, x, 4, 1, unk_004C[i]);
+        PrintChar(8, x, 4, 1, unk_004C[i]);
         x += 11;
     }
 }

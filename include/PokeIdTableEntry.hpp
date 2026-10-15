@@ -1,12 +1,12 @@
-#ifndef POKERANGER2_UNKSTRUCT_020107A8_HPP
-#define POKERANGER2_UNKSTRUCT_020107A8_HPP
+#ifndef POKERANGER2_POKEIDTABLEENTRY_HPP
+#define POKERANGER2_POKEIDTABLEENTRY_HPP
 
 #include <nitro.h>
 
 #include "common.hpp"
 
 // Record returned by PokeIdTable_Get (from the table at CGame::unk_1434)
-struct UnkStruct_020107A8 {
+struct PokeIdTableEntry {
     u16 unk_00;
     u8 unk_02;
     u8 unk_03;
@@ -27,10 +27,10 @@ struct UnkStruct_020107A8 {
     u32 unk_14;
 };
 
-STATIC_SIZE_ASSERT(UnkStruct_020107A8, 0x18);
+STATIC_SIZE_ASSERT(PokeIdTableEntry, 0x18);
 
 extern "C" {
-UnkStruct_020107A8 *PokeIdTable_Get(void *obj, u16 arg1);
+PokeIdTableEntry *PokeIdTable_Get(void *obj, u16 arg1);
 }
 
-#endif // POKERANGER2_UNKSTRUCT_020107A8_HPP
+#endif // POKERANGER2_POKEIDTABLEENTRY_HPP

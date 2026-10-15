@@ -2,7 +2,7 @@
 
 #include <nitro.h>
 
-int CFieldEffect::ov0_021421D0()
+int CFieldEffect::Reset()
 {
     m_outTime = 0;
     m_inTime = 0;
@@ -11,7 +11,7 @@ int CFieldEffect::ov0_021421D0()
     return TRUE;
 }
 
-BOOL CFieldEffect::ov0_021421F0(int inTime, int holdTime, int outTime)
+BOOL CFieldEffect::Start(int inTime, int holdTime, int outTime)
 {
     if (inTime > 0) {
         m_state = 1;
@@ -29,7 +29,7 @@ BOOL CFieldEffect::ov0_021421F0(int inTime, int holdTime, int outTime)
     return m_state != 4;
 }
 
-int CFieldEffect::ov0_02142240(int outTime)
+int CFieldEffect::Stop(int outTime)
 {
     if (outTime > 0) {
         m_state = 3;
@@ -41,7 +41,7 @@ int CFieldEffect::ov0_02142240(int outTime)
     return TRUE;
 }
 
-int CFieldEffect::ov0_02142264(int step)
+int CFieldEffect::Update(int step)
 {
     int frame = m_frame;
     switch (m_state) {
@@ -82,11 +82,11 @@ int CFieldEffect::ov0_02142264(int step)
     return m_state;
 }
 
-int CFieldEffect::ov0_02142344(Camera2D *camera)
+int CFieldEffect::Render(Camera2D *camera)
 {
     return 0;
 }
 
-void CFieldEffect::ov0_0214234C(Point2D pos, int arg1, int arg2, int arg3, int arg4)
+void CFieldEffect::StartAt(Point2D pos, int arg1, int arg2, int arg3, int arg4)
 {
 }

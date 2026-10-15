@@ -13,11 +13,11 @@ class CDiskCursor;
 class CLineEffect;
 class CSoftwareSprite;
 class GraphicsSet;
-class UnkClass_02127CD8;
-class UnkClass_02127E14;
+class BattleHitEffectGfx;
+class BattleHitEffect;
 class BattleHPNumber;
-class UnkClass_02128A60;
-class UnkClass_02128B24;
+class BattleDamageNumberGfx;
+class BattleDamageNumber;
 class StylerLine;
 class BattleDiskRing;
 class BattleParticlePool;
@@ -31,44 +31,44 @@ public:
     virtual void vfunc_0C(Camera2D *camera);
     virtual void vfunc_10(Camera2D *camera);
 
-    void ov1_0212BAD0();
-    void ov1_0212BC54();
-    void ov1_0212C00C(Camera2D *camera);
-    void ov1_0212C02C(Camera2D *camera);
-    void ov1_0212C0B8(Camera2D *camera);
-    void ov1_0212C144(Camera2D *camera);
-    void ov1_0212C1C4(Point2D pos);
-    int ov1_0212C33C(u16 damage, u8 type);
-    void ov1_0212C3B4();
-    void ov1_0212C414();
-    BOOL ov1_0212C4B8();
-    BOOL ov1_0212C4CC();
-    u8 ov1_0212C4E4();
-    void ov1_0212C4EC(u8 enabled);
+    void Load();
+    void Release();
+    void RenderLine(Camera2D *camera);
+    void RenderDisk(Camera2D *camera);
+    void RenderChargeEffect(Camera2D *camera);
+    void RenderChargeLevel(Camera2D *camera);
+    void AddLinePoint(Point2D pos);
+    int TakeDamage(u16 damage, u8 type);
+    void UpdateCursor();
+    void UpdatePowerCharge();
+    BOOL HasEnergy();
+    BOOL IsLoopClosed();
+    u8 IsVisible();
+    void SetVisible(u8 enabled);
     void ov1_0212C4F4(BOOL arg0);
-    void ov1_0212C514(BOOL active);
-    BOOL ov1_0212C5C0();
-    BOOL ov1_0212C5D8();
-    void ov1_0212C5F0(BOOL arg0);
-    void ov1_0212C610(fx32 x, fx32 y);
-    Point2D ov1_0212C670(int index);
-    Point2D ov1_0212C690(int index);
-    int ov1_0212C6B0(u16 index);
-    int ov1_0212C6C0();
-    void ov1_0212C6D0(u16 color);
-    void ov1_0212C7E8(Point2D pos, int count, fx32 arg2, u16 color);
+    void SetActive(BOOL active);
+    BOOL IsActive();
+    BOOL IsInvincible();
+    void SetInvincible(BOOL arg0);
+    void ResetLine(fx32 x, fx32 y);
+    Point2D GetLineStart(int index);
+    Point2D GetLineEnd(int index);
+    int GetLineIndex(u16 index);
+    int GetLineCount();
+    void ShatterLine(u16 color);
+    void SpawnLoopParticles(Point2D pos, int count, fx32 arg2, u16 color);
     void ov1_0212C990(Point2D pos, int count, fx32 arg2, u16 color);
     void ov1_0212CBA0(Point2D pos, int count, fx32 arg2);
-    int ov1_0212CD6C(u16 level, int assistType, u8 type);
-    void ov1_0212CF0C(fx32 x, fx32 y, int arg2);
-    void ov1_0212CF1C();
-    int ov1_0212D0D4(int z);
-    int ov1_0212D124(int z);
-    void ov1_0212D148(Point2D pos, int count);
+    int CalcCapturePower(u16 level, int assistType, u8 type);
+    void ShowHitEffect(fx32 x, fx32 y, int arg2);
+    void InitTypeGuards();
+    int SetZ(int z);
+    int SetLineZ(int z);
+    void SpawnSparks(Point2D pos, int count);
 
     inline void ShowHitEffect(Point2D pos, int mode)
     {
-        ov1_0212CF0C(pos.x, pos.y, mode);
+        ShowHitEffect(pos.x, pos.y, mode);
     }
 
     inline BOOL IsUnk194Flag80()
@@ -108,10 +108,10 @@ public:
     CDiskCursor *unk_248;
     CLineEffect *unk_24C;
     BattleParticlePool *unk_250;
-    UnkClass_02127E14 *unk_254;
-    UnkClass_02127CD8 *unk_258;
-    UnkClass_02128B24 *unk_25C;
-    UnkClass_02128A60 *unk_260;
+    BattleHitEffect *unk_254;
+    BattleHitEffectGfx *unk_258;
+    BattleDamageNumber *unk_25C;
+    BattleDamageNumberGfx *unk_260;
     BattleDiskRing *unk_264;
 };
 

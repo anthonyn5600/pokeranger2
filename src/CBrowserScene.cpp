@@ -7,7 +7,7 @@
 
 static int sScrollX;
 
-static void ov21_0211C9E0()
+static void HBlankScrollIntr()
 {
     int line = GX_GetVCount();
     if (line >= 0x9C && line <= 0xA3) {
@@ -25,7 +25,7 @@ CBrowserScene::CBrowserScene()
     unk_0010 = 0;
     unk_0008 = NULL;
     unk_001C = OS_GetIrqFunction(OS_IE_H_BLANK);
-    OS_SetIrqFunction(OS_IE_H_BLANK, ov21_0211C9E0);
+    OS_SetIrqFunction(OS_IE_H_BLANK, HBlankScrollIntr);
     OS_EnableIrqMask(OS_IE_H_BLANK);
     GX_HBlankIntr(TRUE);
 }
@@ -109,7 +109,7 @@ void CBrowserScene::func7()
 
 u32 CBrowserScene::func0()
 {
-    unk_0008->ov21_0212004C();
+    unk_0008->Update();
     Point2D slide = unk_0008->unk_078;
     sScrollX = slide.x >> 12;
     switch (unk_0010) {
@@ -137,7 +137,7 @@ u32 CBrowserScene::func0()
 
 void CBrowserScene::func1()
 {
-    unk_0008->ov21_021203A8();
+    unk_0008->Draw();
 }
 
 void CBrowserScene::func2()

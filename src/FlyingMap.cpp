@@ -13,12 +13,12 @@
 extern FieldData *MAIN_BSS_0210CA6C;
 
 // Same tables as ov8's mission/quest actors (MissionQuestInfo)
-struct UnkStruct_0211DB50 {
+struct FlyingMapActor {
     u16 actorId;
     u16 placeId;
 };
 
-static UnkStruct_0211DB50 sMissionActors[26] = {
+static FlyingMapActor sMissionActors[26] = {
     { 0x12, 0x04 },
     { 0x12, 0x06 },
     { 0x12, 0x09 },
@@ -47,7 +47,7 @@ static UnkStruct_0211DB50 sMissionActors[26] = {
     { 0x1A, 0x0A },
 };
 
-static UnkStruct_0211DB50 sQuestActors[61] = {
+static FlyingMapActor sQuestActors[61] = {
     { 0x39, 0x04 },
     { 0x2B, 0x04 },
     { 0x2E, 0x04 },
@@ -117,7 +117,7 @@ u16 ov9_GetMissionQuestActor(BOOL quest, int i)
     return quest ? sQuestActors[i].actorId : sMissionActors[i].actorId;
 }
 
-static UnkStruct_0211DCAC sFlyDestinations[40] = {
+static FlyDestination sFlyDestinations[40] = {
     { 0x1, 496, 352, 0x7C, 0x98, 1, 0x1, 0, 0x32 },
     { 0x0, 0, 0, 0x6D, 0x94, 0, 0x2, 2, 0x0 },
     { 0x0, 0, 0, 0x6D, 0x94, 0, 0x3, 2, 0x0 },
@@ -163,15 +163,15 @@ static UnkStruct_0211DCAC sFlyDestinations[40] = {
 FlyingMap::FlyingMap(CGame *game)
 {
     unk_54 = game;
-    ov9_0211CCCC();
+    Init();
 }
 
 FlyingMap::~FlyingMap()
 {
-    ov9_0211CF48();
+    Release();
 }
 
-void FlyingMap::ov9_0211CCCC()
+void FlyingMap::Init()
 {
     unk_00 = 0;
     unk_24 = NULL;
@@ -191,7 +191,7 @@ void FlyingMap::ov9_0211CCCC()
     unk_14 = new RegionMap(unk_54);
 }
 
-void FlyingMap::ov9_0211CD40()
+void FlyingMap::Update()
 {
     if (unk_24 != NULL) {
         unk_24->Update();
@@ -211,11 +211,11 @@ void FlyingMap::ov9_0211CD40()
     case 5:
         break;
     case 4:
-        if (ov9_0211D754()) {
+        if (UpdateButtonAnim()) {
             break;
         }
         unk_3C[1]->SetVisible(FALSE);
-        ov9_0211D790();
+        ShowConfirmMessage();
         unk_00 = 3;
         break;
     case 3:
@@ -226,20 +226,20 @@ void FlyingMap::ov9_0211CD40()
             break;
         }
         if (unk_54->m_textboxData->GetYesNoResult() == 0) {
-            ov9_0211D66C();
-            ov9_0211D8F8(unk_48);
+            Close();
+            SetDestination(unk_48);
             break;
         }
         unk_00 = 1;
         GX_SetVisiblePlane(GX_GetVisiblePlane() | GX_PLANEMASK_OBJ);
         break;
     case 1:
-        ov9_0211D568();
+        UpdateSelect();
         break;
     }
 }
 
-void FlyingMap::ov9_0211CE80()
+void FlyingMap::Render()
 {
     if (unk_18 != NULL) {
         unk_18->Render();
@@ -249,35 +249,35 @@ void FlyingMap::ov9_0211CE80()
     }
     switch (unk_00) {
     case 2:
-        if (!ov9_0211DA78()) {
+        if (!IsFading()) {
             unk_00 = 5;
         }
     case 1:
     case 3:
     case 4:
-        ov9_0211D0A0();
+        WriteOam();
         break;
     case 5:
         break;
     }
 }
 
-void FlyingMap::ov9_0211CEF0()
+void FlyingMap::OnVBlank()
 {
     if (unk_14 != NULL) {
         unk_14->sub_0202A5F8();
     }
-    ov9_0211D690();
+    PrintPlaceName();
 }
 
-void FlyingMap::ov9_0211CF14()
+void FlyingMap::ResetMarker()
 {
     unk_3C[1]->SetVisible(FALSE);
-    unk_14->sub_0202B50C(0, 4);
+    unk_14->SetAreaMarker(0, 4);
     unk_54->unk_1494->LoadPalette();
 }
 
-void FlyingMap::ov9_0211CF48()
+void FlyingMap::Release()
 {
     unk_54->unk_146C.SetFps(30);
     unk_54->unk_1494->FreeWindows();
@@ -293,7 +293,7 @@ void FlyingMap::ov9_0211CF48()
     unk_54->m_textboxData->Reset();
 }
 
-void FlyingMap::ov9_0211D0A0()
+void FlyingMap::WriteOam()
 {
     if (unk_24 != NULL) {
         unk_24->WriteOam();
@@ -303,7 +303,7 @@ void FlyingMap::ov9_0211D0A0()
     }
 }
 
-void FlyingMap::ov9_0211D0CC()
+void FlyingMap::InitGraphics()
 {
     GX_SetVisiblePlane(GX_PLANEMASK_BG0 | GX_PLANEMASK_BG2 | GX_PLANEMASK_OBJ);
     GX_SetOBJVRamModeChar(GX_OBJVRAMMODE_CHAR_1D_32K);
@@ -352,23 +352,23 @@ void FlyingMap::ov9_0211D0CC()
     unk_18->Load(0xAC, 0, 0);
 }
 
-BOOL FlyingMap::ov9_0211D484()
+BOOL FlyingMap::Start()
 {
     unk_00 = 1;
-    ov9_0211D49C();
+    Setup();
     return TRUE;
 }
 
-BOOL FlyingMap::ov9_0211D49C()
+BOOL FlyingMap::Setup()
 {
-    ov9_0211D0CC();
-    ov9_0211CF14();
+    InitGraphics();
+    ResetMarker();
     unk_54->unk_146C.SetFps(60);
-    ov9_0211D4D4();
+    MarkDestinations();
     return TRUE;
 }
 
-void FlyingMap::ov9_0211D4D4()
+void FlyingMap::MarkDestinations()
 {
     u64 flags = 0;
     for (u32 i = 0; i < 40; i++) {
@@ -377,22 +377,22 @@ void FlyingMap::ov9_0211D4D4()
         }
     }
     if (unk_14 != NULL) {
-        unk_14->sub_0202B140(&flags);
+        unk_14->HighlightAreas(&flags);
     }
 }
 
-void FlyingMap::ov9_0211D568()
+void FlyingMap::UpdateSelect()
 {
     u32 cancel = (u16)(unk_54->unk_0014->unk_0002 & PAD_BUTTON_B);
     BOOL touched = unk_3C[0]->GetTouchTrigger() ? TRUE : FALSE;
     if (touched | cancel) {
         unk_54->m_audioEngine->PlaySe(0x103);
-        ov9_0211D66C();
+        Close();
         return;
     }
     if (unk_3C[1]->unk_14 != 0 && unk_3C[1]->GetTouchTrigger()) {
         unk_54->m_audioEngine->PlaySe(0xFA);
-        ov9_0211D84C();
+        PressFlyButton();
         return;
     }
     s16 kind;
@@ -401,28 +401,28 @@ void FlyingMap::ov9_0211D568()
     switch ((u16)kind) {
     case 1:
         unk_54->m_audioEngine->PlaySe(0xFA);
-        ov9_0211D7FC();
+        SelectCurrentArea();
         break;
     case 6:
         unk_54->m_audioEngine->PlaySe(0xFA);
-        ov9_0211D878(id);
+        SelectArea(id);
         break;
     }
 }
 
-void FlyingMap::ov9_0211D66C()
+void FlyingMap::Close()
 {
     unk_00 = 2;
-    ov9_0211DA34();
+    FadeOut();
 }
 
-void FlyingMap::ov9_0211D680(u16 id)
+void FlyingMap::SetSelected(u16 id)
 {
     unk_48 = id;
     unk_04 = 1;
 }
 
-void FlyingMap::ov9_0211D690()
+void FlyingMap::PrintPlaceName()
 {
     if (!unk_04) {
         return;
@@ -439,7 +439,7 @@ void FlyingMap::ov9_0211D690()
     text->Print(0, 0, 3, 3, (u8 *)unk_20->GetString(idx), TRUE, 0);
 }
 
-BOOL FlyingMap::ov9_0211D754()
+BOOL FlyingMap::UpdateButtonAnim()
 {
     if (++unk_08 < 15) {
         return TRUE;
@@ -449,39 +449,39 @@ BOOL FlyingMap::ov9_0211D754()
     return FALSE;
 }
 
-void FlyingMap::ov9_0211D790()
+void FlyingMap::ShowConfirmMessage()
 {
     unk_54->m_textboxData->SetTextSpeed(0);
     TextboxManager *textbox = unk_54->m_textboxData;
-    textbox->ShowSystemMessage(sFlyDestinations[ov9_0211D89C(unk_48)].messageId, 1, 1, 0);
+    textbox->ShowSystemMessage(sFlyDestinations[FindDestination(unk_48)].messageId, 1, 1, 0);
 }
 
-void FlyingMap::ov9_0211D7FC()
+void FlyingMap::SelectCurrentArea()
 {
     u16 id = unk_14->unk_56;
-    ov9_0211D680(id);
-    ov9_0211D980(id, 1);
+    SetSelected(id);
+    SetMarker(id, 1);
     if (sFlyDestinations[unk_4A].unk_0C == 2) {
         unk_3C[1]->SetVisible(FALSE);
     }
 }
 
-void FlyingMap::ov9_0211D84C()
+void FlyingMap::PressFlyButton()
 {
     unk_00 = 4;
     unk_08 = 0;
     unk_24->SetAnim(unk_44, 1);
 }
 
-void FlyingMap::ov9_0211D878(u16 id)
+void FlyingMap::SelectArea(u16 id)
 {
-    ov9_0211D680(id);
-    ov9_0211D980(id, 3);
+    SetSelected(id);
+    SetMarker(id, 3);
 }
 
-u16 FlyingMap::ov9_0211D89C(u8 placeId)
+u16 FlyingMap::FindDestination(u8 placeId)
 {
-    UnkStruct_0211DCAC *entry = sFlyDestinations;
+    FlyDestination *entry = sFlyDestinations;
     if (placeId == 0x14 && unk_54->m_missionQuestData->m_chapter >= 0x28) {
         placeId = 0x78;
     }
@@ -506,9 +506,9 @@ static inline void SetSaveName(SaveData *save, const char *name)
     }
 }
 
-void FlyingMap::ov9_0211D8F8(u16 placeId)
+void FlyingMap::SetDestination(u16 placeId)
 {
-    u16 idx = ov9_0211D89C(placeId);
+    u16 idx = FindDestination(placeId);
     SaveData *save = &MAIN_BSS_020B26A0;
     save->unk_8B78 = sFlyDestinations[idx].mapId;
     save->unk_8B7A = sFlyDestinations[idx].x;
@@ -517,17 +517,17 @@ void FlyingMap::ov9_0211D8F8(u16 placeId)
     unk_10 = 1;
 }
 
-void FlyingMap::ov9_0211D980(u16 id, int mode)
+void FlyingMap::SetMarker(u16 id, int mode)
 {
-    unk_14->sub_0202B50C(id, mode);
+    unk_14->SetAreaMarker(id, mode);
     if (mode == 4) {
         unk_3C[1]->SetVisible(FALSE);
         return;
     }
-    unk_3C[1]->SetVisible(sFlyDestinations[ov9_0211D89C(unk_48)].mapId != 0);
+    unk_3C[1]->SetVisible(sFlyDestinations[FindDestination(unk_48)].mapId != 0);
 }
 
-void FlyingMap::ov9_0211D9F0()
+void FlyingMap::FadeIn()
 {
     if (unk_54 != NULL) {
         unk_54->m_subFade->Start(3, 15);
@@ -535,7 +535,7 @@ void FlyingMap::ov9_0211D9F0()
     }
 }
 
-void FlyingMap::ov9_0211DA34()
+void FlyingMap::FadeOut()
 {
     if (unk_54 != NULL) {
         unk_54->m_subFade->Start(4, 15);
@@ -543,7 +543,7 @@ void FlyingMap::ov9_0211DA34()
     }
 }
 
-BOOL FlyingMap::ov9_0211DA78()
+BOOL FlyingMap::IsFading()
 {
     if (unk_54->m_subFade->IsActive() || unk_54->m_subFade->IsActive()) {
         return TRUE;
@@ -551,7 +551,7 @@ BOOL FlyingMap::ov9_0211DA78()
     return FALSE;
 }
 
-int FlyingMap::ov9_0211DAC0()
+int FlyingMap::GetResult()
 {
     if (unk_00 == 5) {
         return unk_10 ? 1 : 0;

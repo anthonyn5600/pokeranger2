@@ -3,9 +3,9 @@
 
 #include "CGame.hpp"
 #include "DrawObjectList.hpp"
+#include "FieldDataRecords.hpp"
 #include "FieldShadow.hpp"
 #include "SaveData.hpp"
-#include "UnkClass_02041D80.hpp"
 #include "common.hpp"
 #include "field/CFieldActor.hpp"
 #include "field/CFieldActorManage.hpp"
@@ -113,7 +113,7 @@ CFieldActor::~CFieldActor()
     DeleteDrawObject();
     SAFE_DELETE(m_script);
     if (m_bushEffect != 0 && MAIN_BSS_0210CA60 != NULL) {
-        MAIN_BSS_0210CA60->ov0_021430D8(m_bushEffect);
+        MAIN_BSS_0210CA60->Remove(m_bushEffect);
     }
     Actor_HideManpu(this);
 }
@@ -337,7 +337,7 @@ void CFieldActor::Update(CFieldMap *map)
         }
     }
 
-    UnkStruct_02041D80 *info = NULL;
+    FieldMapData *info = NULL;
     if (MAIN_BSS_0210CA6C != NULL) {
         info = FieldData_GetMap(MAIN_BSS_0210CA6C, MAIN_BSS_020B26A0.m_mapId);
     }
@@ -352,7 +352,7 @@ void CFieldActor::Update(CFieldMap *map)
         unk_7E += 60 / DAT_0208d58c;
         if (unk_7E >= unk_7D) {
             if (MAIN_BSS_0210CA60 != NULL) {
-                MAIN_BSS_0210CA60->ov0_021431A4(attr, x, y, m_layer, info);
+                MAIN_BSS_0210CA60->EmitFootStep(attr, x, y, m_layer, info);
             }
             unk_7E = 0;
         }
@@ -752,11 +752,11 @@ void CFieldActor::StartBushEffect()
         return;
     }
 
-    m_bushEffect = mgr->ov0_02142F6C(0x25, 0);
+    m_bushEffect = mgr->Create(0x25, 0);
     if (m_bushEffect == 0) {
         return;
     }
-    CFieldEffect *effect = mgr->ov0_02143088(m_bushEffect);
+    CFieldEffect *effect = mgr->Get(m_bushEffect);
     if (effect != NULL) {
         ((CFieldEffectBush *)effect)->Attach(this, mgr);
     }
@@ -776,11 +776,11 @@ void CFieldActor::StartBushEffect()
 void CFieldActor::StopBushEffect()
 {
     if (m_bushEffect != 0 && MAIN_BSS_0210CA60 != NULL) {
-        MAIN_BSS_0210CA60->ov0_021430D8(m_bushEffect);
+        MAIN_BSS_0210CA60->Remove(m_bushEffect);
     }
 }
 
-BOOL CFieldActor::sub_0203DA38()
+BOOL CFieldActor::Talk()
 {
     return TRUE;
 }

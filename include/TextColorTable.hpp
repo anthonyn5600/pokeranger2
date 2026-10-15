@@ -1,11 +1,11 @@
-#ifndef POKERANGER2_UNKUNION_020843E0_HPP
-#define POKERANGER2_UNKUNION_020843E0_HPP
+#ifndef POKERANGER2_TEXTCOLORTABLE_HPP
+#define POKERANGER2_TEXTCOLORTABLE_HPP
 
 #include <nitro.h>
 
 #include "common.hpp"
 
-union UnkUnion_020843E0 {
+union TextColorTable {
     struct {
         u32 unk_00;
         u32 unk_04;
@@ -17,6 +17,6 @@ union UnkUnion_020843E0 {
     u32 raw[6];
 };
 
-STATIC_SIZE_ASSERT(UnkUnion_020843E0, 0x18);
+STATIC_SIZE_ASSERT(TextColorTable, 0x18);
 
-#endif // POKERANGER2_UNKUNION_020843E0_HPP
+#endif // POKERANGER2_TEXTCOLORTABLE_HPP

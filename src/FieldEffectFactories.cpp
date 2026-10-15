@@ -88,42 +88,42 @@ FieldEffectFactories::FieldEffectFactories(CFieldEffectManage *mgr)
     , m_bush(mgr)
     , m_waterSplash(mgr)
 {
-    mgr->ov0_0214318C(3, &m_laser);
-    mgr->ov0_0214318C(2, &m_bullet);
-    mgr->ov0_0214318C(10, &m_spreadSmoke);
-    mgr->ov0_0214318C(31, &m_sandBurial);
-    mgr->ov0_0214318C(9, &m_steam);
-    mgr->ov0_0214318C(11, &m_scatterLeaves);
-    mgr->ov0_0214318C(34, &m_charge);
-    mgr->ov0_0214318C(32, &m_flash);
-    mgr->ov0_0214318C(5, &m_waveBullet);
-    mgr->ov0_0214318C(6, &m_attackCellAnime);
-    mgr->ov0_0214318C(4, &m_parabolaBullet);
-    mgr->ov0_0214318C(12, &m_poisonGas);
-    mgr->ov0_0214318C(7, &m_spray);
-    mgr->ov0_0214318C(14, &m_normalCellAnime);
-    mgr->ov0_0214318C(17, &m_fire);
-    mgr->ov0_0214318C(15, &m_spark);
-    mgr->ov0_0214318C(16, &m_jumon);
-    mgr->ov0_0214318C(13, &m_explosion);
-    mgr->ov0_0214318C(18, &m_slime);
-    mgr->ov0_0214318C(33, &m_fogcut);
-    mgr->ov0_0214318C(29, &m_flowerStorm);
-    mgr->ov0_0214318C(37, &m_bush);
-    mgr->ov0_0214318C(38, &m_waterSplash);
-    mgr->ov0_0214318C(1, &m_manpu);
-    mgr->ov0_0214318C(19, &m_bloom);
-    mgr->ov0_0214318C(20, &m_darkCloud);
-    mgr->ov0_0214318C(21, &m_fireworks);
-    mgr->ov0_0214318C(22, &m_darkShadow);
-    mgr->ov0_0214318C(23, &m_darknessClear);
-    mgr->ov0_0214318C(8, &m_waterGun);
-    mgr->ov0_0214318C(24, &m_risingPhoton);
-    mgr->ov0_0214318C(25, &m_volcanicSteam);
-    mgr->ov0_0214318C(26, &m_fuwanteWind);
-    mgr->ov0_0214318C(27, &m_glitter);
-    mgr->ov0_0214318C(28, &m_blackStoneAura);
-    mgr->ov0_0214318C(30, &m_spaceCrevice);
+    mgr->SetFactory(3, &m_laser);
+    mgr->SetFactory(2, &m_bullet);
+    mgr->SetFactory(10, &m_spreadSmoke);
+    mgr->SetFactory(31, &m_sandBurial);
+    mgr->SetFactory(9, &m_steam);
+    mgr->SetFactory(11, &m_scatterLeaves);
+    mgr->SetFactory(34, &m_charge);
+    mgr->SetFactory(32, &m_flash);
+    mgr->SetFactory(5, &m_waveBullet);
+    mgr->SetFactory(6, &m_attackCellAnime);
+    mgr->SetFactory(4, &m_parabolaBullet);
+    mgr->SetFactory(12, &m_poisonGas);
+    mgr->SetFactory(7, &m_spray);
+    mgr->SetFactory(14, &m_normalCellAnime);
+    mgr->SetFactory(17, &m_fire);
+    mgr->SetFactory(15, &m_spark);
+    mgr->SetFactory(16, &m_jumon);
+    mgr->SetFactory(13, &m_explosion);
+    mgr->SetFactory(18, &m_slime);
+    mgr->SetFactory(33, &m_fogcut);
+    mgr->SetFactory(29, &m_flowerStorm);
+    mgr->SetFactory(37, &m_bush);
+    mgr->SetFactory(38, &m_waterSplash);
+    mgr->SetFactory(1, &m_manpu);
+    mgr->SetFactory(19, &m_bloom);
+    mgr->SetFactory(20, &m_darkCloud);
+    mgr->SetFactory(21, &m_fireworks);
+    mgr->SetFactory(22, &m_darkShadow);
+    mgr->SetFactory(23, &m_darknessClear);
+    mgr->SetFactory(8, &m_waterGun);
+    mgr->SetFactory(24, &m_risingPhoton);
+    mgr->SetFactory(25, &m_volcanicSteam);
+    mgr->SetFactory(26, &m_fuwanteWind);
+    mgr->SetFactory(27, &m_glitter);
+    mgr->SetFactory(28, &m_blackStoneAura);
+    mgr->SetFactory(30, &m_spaceCrevice);
 }
 
 FieldEffectFactorySet::FieldEffectFactorySet()
@@ -131,15 +131,15 @@ FieldEffectFactorySet::FieldEffectFactorySet()
     unk_00 = NULL;
 }
 
-void FieldEffectFactorySet::ov0_021518B8(CFieldEffectManage *mgr)
+void FieldEffectFactorySet::Create(CFieldEffectManage *mgr)
 {
-    ov0_021518F4();
+    Release();
     if (mgr != NULL) {
         unk_00 = new FieldEffectFactories(mgr);
     }
 }
 
-void FieldEffectFactorySet::ov0_021518F4()
+void FieldEffectFactorySet::Release()
 {
     SAFE_DELETE(unk_00);
 }

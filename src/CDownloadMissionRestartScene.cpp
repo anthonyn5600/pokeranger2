@@ -3,10 +3,10 @@
 #include "DiskHPTable.hpp"
 #include "DisplayUtil.hpp"
 #include "FieldData.hpp"
+#include "FieldDataRecords.hpp"
 #include "SaveData.hpp"
 #include "ScriptManager.hpp"
-#include "UnkClass_02041D80.hpp"
-#include "UnkStruct_02044464.hpp"
+#include "ScriptVM.hpp"
 #include "scene/DownloadMission.hpp"
 
 extern FieldData *MAIN_BSS_0210CA6C;

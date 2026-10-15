@@ -38,30 +38,30 @@ static u8 sFreak[] = "FREAK";
 static u8 sGame[] = " GAME";
 static u8 sFull[] = " FULL";
 
-void ov11_021286BC(); // D3 (RangerNetPlayerInfo.cpp)
-void ov11_02128F1C(RangerNetSessionParam *param); // D5
-BOOL ov11_02129024(); // D5
-BOOL ov11_021291DC(); // D5
-BOOL ov11_0212A524(int arg, int flag3, int size, int flag5);
-void ov11_0212A630();
-void ov11_0212A668();
-void ov11_0212BB6C(u8 cmd, u8 *data);
-BOOL ov11_0212BEA0(u16 aid);
-BOOL ov11_0212BF7C();
-u16 ov11_0212C154();
-void ov11_0212C21C(MATHRandContext32 *ctx);
+void CommInfo_Init(); // D3 (RangerNetPlayerInfo.cpp)
+void CommServerClient_Init(RangerNetSessionParam *param); // D5
+BOOL WirelessDriver_IsReady(); // D5
+BOOL CommServerClient_StepFinalize(); // D5
+BOOL CommSys_InitServer(int arg, int flag3, int size, int flag5);
+void CommSys_SwitchTransitionTypeToParallel();
+void CommSys_Delete();
+void CommSys_SendDataFixedSizeServer(u8 cmd, u8 *data);
+BOOL CommSys_IsPlayerConnected(u16 aid);
+BOOL CommSys_IsInitialized();
+u16 CommSys_CurNetId();
+void CommSys_Seed(MATHRandContext32 *ctx);
 struct CommCmdTable;
-void ov11_0212CA60(const CommCmdTable *cmdTable, int count, void *arg);
-void ov11_0212CAE0();
+void CommCmd_Init(const CommCmdTable *cmdTable, int count, void *arg);
+void CommCmd_Delete();
 
-void ov11_02128C3C(void (*func)(), u16 n);
-void ov11_02128C58();
-void ov11_02128C70();
-void ov11_02128E38();
-void ov11_02128E60();
-void ov11_02128E84();
+void CommManager_SetTask(void (*func)(), u16 n);
+void CommTask_End();
+void CommTask_EndConnection();
+void CommTask_ConnectingBattleServer();
+void CommTask_WaitBattleServer();
+void CommTask_StartBattleServer();
 
-void ov11_02128A94(u8 arg)
+void CommManager_Initialize(u8 arg)
 {
     if (sWork != NULL) {
         return;
@@ -75,23 +75,23 @@ void ov11_02128A94(u8 arg)
     sWork->unk_31 = 0;
     sWork->unk_3C = 0;
     sWork->unk_33 = arg;
-    ov11_0212C21C(&sWork->unk_08);
-    ov11_0212CA60(NULL, 0, 0);
+    CommSys_Seed(&sWork->unk_08);
+    CommCmd_Init(NULL, 0, 0);
 }
 
-void ov11_02128B40()
+void CommManager_Free()
 {
     if (sWork == NULL) {
         return;
     }
-    ov11_0212CAE0();
+    CommCmd_Delete();
     if (sWork != NULL) {
         Heap_Free(sWork);
     }
     sWork = NULL;
 }
 
-BOOL ov11_02128B80()
+BOOL CommManager_IsInitialized()
 {
     if (sWork != NULL) {
         return TRUE;
@@ -99,70 +99,70 @@ BOOL ov11_02128B80()
     return FALSE;
 }
 
-void ov11_02128B9C(u8 arg)
+void CommManager_StartBattleServer(u8 arg)
 {
-    if (ov11_0212BF7C()) {
+    if (CommSys_IsInitialized()) {
         return;
     }
-    ov11_02128A94(arg);
+    CommManager_Initialize(arg);
     sWork->unk_33 = arg;
-    ov11_02128C3C(ov11_02128E84, 0);
+    CommManager_SetTask(CommTask_StartBattleServer, 0);
 }
 
-void ov11_02128BDC()
+void CommManager_EndBattle()
 {
     if (sWork != NULL) {
-        ov11_02128C3C(ov11_02128C70, 5);
+        CommManager_SetTask(CommTask_EndConnection, 5);
     }
 }
 
 extern "C" void thunk_FUN_overlay_11__02128b40()
 {
-    ov11_02128B40();
+    CommManager_Free();
 }
 
-void ov11_02128C14()
+void CommManager_Update()
 {
     if (sWork != NULL && sWork->unk_20 != NULL) {
         sWork->unk_20();
     }
 }
 
-void ov11_02128C3C(void (*func)(), u16 n)
+void CommManager_SetTask(void (*func)(), u16 n)
 {
     sWork->unk_20 = func;
     sWork->unk_2E = n;
 }
 
-void ov11_02128C58()
+void CommTask_End()
 {
-    if (ov11_0212BF7C()) {
+    if (CommSys_IsInitialized()) {
         return;
     }
-    ov11_02128B40();
+    CommManager_Free();
 }
 
-void ov11_02128C70()
+void CommTask_EndConnection()
 {
     if (sWork->unk_2E != 0) {
         sWork->unk_2E--;
     }
-    if (!ov11_021291DC()) {
+    if (!CommServerClient_StepFinalize()) {
         return;
     }
     if (sWork->unk_2E != 0) {
         return;
     }
-    ov11_0212A668();
-    ov11_02128C3C(ov11_02128C58, 0);
+    CommSys_Delete();
+    CommManager_SetTask(CommTask_End, 0);
 }
 
-void ov11_02128CC8(u8 aid, int size, u8 *data)
+void CommManager_ValidateConfirmationMessage(u8 aid, int size, u8 *data)
 {
     u32 i;
     BOOL match;
 
-    if (ov11_0212C154() != 0) {
+    if (CommSys_CurNetId() != 0) {
         return;
     }
     match = TRUE;
@@ -174,14 +174,14 @@ void ov11_02128CC8(u8 aid, int size, u8 *data)
     }
     if (match && sWork->unk_3C == 0) {
         sGame[0] = aid;
-        ov11_0212BB6C(7, sGame);
+        CommSys_SendDataFixedSizeServer(7, sGame);
         return;
     }
     sFull[0] = aid;
-    ov11_0212BB6C(7, sFull);
+    CommSys_SendDataFixedSizeServer(7, sFull);
 }
 
-void ov11_02128D64(int aid, int size, u8 *data)
+void CommManager_ValidateConfirmationResponseMessage(int aid, int size, u8 *data)
 {
     u8 id;
     u32 i;
@@ -196,7 +196,7 @@ void ov11_02128D64(int aid, int size, u8 *data)
     }
     if (match) {
         id = data[0];
-        if (id == ov11_0212C154()) {
+        if (id == CommSys_CurNetId()) {
             sWork->unk_31 = 1;
         }
         return;
@@ -210,48 +210,48 @@ void ov11_02128D64(int aid, int size, u8 *data)
     }
     if (match) {
         id = data[0];
-        if (id == (u8)ov11_0212C154()) {
+        if (id == (u8)CommSys_CurNetId()) {
             sWork->unk_31 = 2;
         }
     }
 }
 
-u32 ov11_02128E30()
+u32 CommManager_ConfirmationMessage_sizeof()
 {
     return sizeof(sFreak);
 }
 
-void ov11_02128E38()
+void CommTask_ConnectingBattleServer()
 {
-    if (!ov11_0212BEA0(ov11_0212C154())) {
+    if (!CommSys_IsPlayerConnected(CommSys_CurNetId())) {
         return;
     }
-    ov11_02128C3C(ov11_02128E60, 0);
+    CommManager_SetTask(CommTask_WaitBattleServer, 0);
 }
 
-void ov11_02128E60()
+void CommTask_WaitBattleServer()
 {
-    if (ov11_0212BF7C()) {
+    if (CommSys_IsInitialized()) {
         return;
     }
-    ov11_02128C3C(ov11_02128C58, 0);
+    CommManager_SetTask(CommTask_End, 0);
 }
 
-void ov11_02128E84()
+void CommTask_StartBattleServer()
 {
-    if (!ov11_02129024()) {
+    if (!WirelessDriver_IsReady()) {
         return;
     }
-    ov11_02128F1C(sWork->unk_24);
-    ov11_021286BC();
-    if (!ov11_0212A524(1, 1, 0x200, 1)) {
+    CommServerClient_Init(sWork->unk_24);
+    CommInfo_Init();
+    if (!CommSys_InitServer(1, 1, 0x200, 1)) {
         return;
     }
-    ov11_0212A630();
-    ov11_02128C3C(ov11_02128E38, 0);
+    CommSys_SwitchTransitionTypeToParallel();
+    CommManager_SetTask(CommTask_ConnectingBattleServer, 0);
 }
 
-int ov11_02128EE0()
+int CommManager_GetCommType()
 {
     if (sWork != NULL) {
         return sWork->unk_33;
@@ -259,7 +259,7 @@ int ov11_02128EE0()
     return 1;
 }
 
-u8 ov11_02128EFC()
+u8 CommManager_GetContestRegulation()
 {
     if (sWork != NULL) {
         return sWork->unk_34;

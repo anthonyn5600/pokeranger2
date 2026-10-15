@@ -17,7 +17,7 @@ CFieldEffectWaveBullet::CFieldEffectWaveBullet(int kind)
 {
     CFieldEffectAttackActorData *data = new CFieldEffectAttackActorData();
     if (data != NULL) {
-        data->ov0_0214FFF0(kind, m_kind == 0x4F ? 2 : 1, 1);
+        data->Load(kind, m_kind == 0x4F ? 2 : 1, 1);
     }
     unk_18 = data;
     if (unk_18 != NULL) {
@@ -50,9 +50,9 @@ CFieldEffectWaveBullet::~CFieldEffectWaveBullet()
     SAFE_DELETE(unk_18);
 }
 
-int CFieldEffectWaveBullet::ov0_02142264(int step)
+int CFieldEffectWaveBullet::Update(int step)
 {
-    int state = CFieldEffectActor::ov0_02142264(step);
+    int state = CFieldEffectActor::Update(step);
     if (state != 0 && state != 4 && unk_18 != NULL) {
         unk_18->Update();
     }
@@ -69,7 +69,7 @@ int CFieldEffectWaveBullet::ov0_02142264(int step)
     return state;
 }
 
-int CFieldEffectWaveBullet::ov0_02142344(Camera2D *camera)
+int CFieldEffectWaveBullet::Render(Camera2D *camera)
 {
     if (m_state != 4 && m_state != 0) {
         if (m_state == 3) {
@@ -125,13 +125,13 @@ int CFieldEffectWaveBullet::SetParam(int param, int value)
     return ret;
 }
 
-BOOL CFieldEffectWaveBullet::ov0_021421F0(int inTime, int holdTime, int outTime)
+BOOL CFieldEffectWaveBullet::Start(int inTime, int holdTime, int outTime)
 {
     m_emitter.func2();
-    return CFieldEffect::ov0_021421F0(inTime, holdTime, outTime);
+    return CFieldEffect::Start(inTime, holdTime, outTime);
 }
 
-void CFieldEffectWaveBullet::sub_0203365C(int arg0)
+void CFieldEffectWaveBullet::SetSe(int arg0)
 {
     m_se = arg0;
 }

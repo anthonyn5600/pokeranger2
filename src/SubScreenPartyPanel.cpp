@@ -5,9 +5,9 @@
 
 #include "CGame.hpp"
 #include "NameTables.hpp"
+#include "PokeIdTableEntry.hpp"
 #include "SaveData.hpp"
 #include "SubTextPrinter.hpp"
-#include "UnkStruct_020107A8.hpp"
 #include "common.hpp"
 #include "field/CFieldPartner.hpp"
 #include "field/CFieldPartnerManage.hpp"
@@ -18,7 +18,7 @@
 extern "C" {
 u8 *NameTables_GetFieldMoveName(NameTables *obj, u32 i);
 u8 *NameTables_GetPokemonName(NameTables *obj, u32 i);
-void sub_0202BC74(const u8 *src, u8 *dst, int len);
+void CopyStringUpper(const u8 *src, u8 *dst, int len);
 }
 
 struct TextWindow {
@@ -164,13 +164,13 @@ void SubScreenPartyPanel::LoadPanel()
 
     if (unk_20) {
         unk_28--;
-        UnkStruct_020107A8 *info = PokeIdTable_Get(game->unk_1434, unk_00[0]);
+        PokeIdTableEntry *info = PokeIdTable_Get(game->unk_1434, unk_00[0]);
         unk_30[0] = info->unk_00;
         unk_40[0] = info->unk_05;
         unk_48[0] = info->unk_06;
     }
     for (int i = 1; i <= unk_28; i++) {
-        UnkStruct_020107A8 *info = PokeIdTable_Get(game->unk_1434, unk_00[i]);
+        PokeIdTableEntry *info = PokeIdTable_Get(game->unk_1434, unk_00[i]);
         unk_30[i] = info->unk_00;
         unk_40[i] = info->unk_05;
         unk_48[i] = info->unk_06;
@@ -289,7 +289,7 @@ void SubScreenPartyPanel::DrawTexts()
     game->unk_1498->Print(1, 0x47, windows[1].y, windows[1].color, unk_74->unk_08[unk_2C + 8 - unk_20].unk_04, FALSE, 0);
 
     if (unk_20 != 0) {
-        sub_0202BC74(NameTables_GetPokemonName(game->m_nameTables, unk_30[0]), name, 0x1F);
+        CopyStringUpper(NameTables_GetPokemonName(game->m_nameTables, unk_30[0]), name, 0x1F);
         game->unk_1498->Print(2, windows[2].x, windows[2].y, windows[2].color, name, TRUE, 0);
         game->unk_1498->Print(3, windows[3].x, windows[3].y, windows[3].color, unk_74->unk_08[unk_24 + 0x15].unk_04, TRUE, 0);
     }
@@ -298,7 +298,7 @@ void SubScreenPartyPanel::DrawTexts()
         int n = i + 1;
         int j = i * 2 + 4;
         int k = i * 2 + 5;
-        sub_0202BC74(NameTables_GetPokemonName(game->m_nameTables, unk_30[n]), name, 0x1F);
+        CopyStringUpper(NameTables_GetPokemonName(game->m_nameTables, unk_30[n]), name, 0x1F);
         game->unk_1498->Print(j, windows[j].x, windows[j].y, windows[j].color, name, TRUE, 0);
         SubTextPrinter *text = game->unk_1498;
         text->Print(k, windows[k].x, windows[k].y, windows[k].color, NameTables_GetFieldMoveName(game->m_nameTables, unk_40[n]), TRUE, 0);

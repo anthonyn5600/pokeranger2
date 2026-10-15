@@ -16,7 +16,7 @@ CFieldEffectDamageIndication::CFieldEffectDamageIndication()
     m_vel.x = 0;
 }
 
-void CFieldEffectDamageIndication::ov0_02164DB8(int damage, int duration, CFieldPlayer *player)
+void CFieldEffectDamageIndication::Show(int damage, int duration, CFieldPlayer *player)
 {
     if (player == NULL) {
         return;
@@ -45,12 +45,12 @@ void CFieldEffectDamageIndication::ov0_02164DB8(int damage, int duration, CField
         m_rects[0].SetTexCoords(damage / 10 << 15, 0, (damage / 10 + 1) << 15, FX32_ONE * 16);
         m_rects[1].SetTexCoords((damage - damage / 10 * 10) << 15, 0, (damage - damage / 10 * 10 + 1) << 15, FX32_ONE * 16);
     }
-    ov0_021421F0(15, duration - 15, 0);
+    Start(15, duration - 15, 0);
 }
 
-int CFieldEffectDamageIndication::ov0_02142264(int step)
+int CFieldEffectDamageIndication::Update(int step)
 {
-    int state = CFieldEffect::ov0_02142264(step);
+    int state = CFieldEffect::Update(step);
     if (state == 4 || state == 0) {
         m_digits = 0;
         return state;
@@ -74,7 +74,7 @@ int CFieldEffectDamageIndication::ov0_02142264(int step)
     return state;
 }
 
-int CFieldEffectDamageIndication::ov0_02142344(Camera2D *camera)
+int CFieldEffectDamageIndication::Render(Camera2D *camera)
 {
     for (int i = 0; i < m_digits; i++) {
         m_rects[i].Render(camera);

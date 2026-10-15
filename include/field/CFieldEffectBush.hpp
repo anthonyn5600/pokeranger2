@@ -16,9 +16,9 @@ class CFieldEffectBush : public CFieldEffect {
 public:
     CFieldEffectBush();
     virtual ~CFieldEffectBush();
-    virtual void ov0_021423A4();
+    virtual void Destroy();
     virtual int GetEffectId();
-    virtual int ov0_02142344(Camera2D *camera);
+    virtual int Render(Camera2D *camera);
 
     void SetRes(VramImage *ncbr, VramPalette *palette);
     void Attach(CFieldActor *actor, CFieldEffectManage *mgr);

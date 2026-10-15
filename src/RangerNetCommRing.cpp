@@ -2,9 +2,9 @@
 
 // Byte ring buffers of the Ranger Net packet layer (0212C89C..0212CA60); pokeplatinum comm_ring.c
 
-void ov11_0212C2E4(); // RangerNetCommSystem.cpp
+void CommSys_SetError(); // RangerNetCommSystem.cpp
 
-void ov11_0212C89C(CommRing *ring, u8 *buf, int size)
+void CommRing_Init(CommRing *ring, u8 *buf, int size)
 {
     ring->buffer = buf;
     ring->size = size;
@@ -13,50 +13,50 @@ void ov11_0212C89C(CommRing *ring, u8 *buf, int size)
     ring->backupEndIndex = 0;
 }
 
-void ov11_0212C8B8(CommRing *ring, u8 *data, int size, int line)
+void CommRing_Write(CommRing *ring, u8 *data, int size, int line)
 {
-    if (ov11_0212CA20(ring) <= size) {
-        ov11_0212C2E4();
+    if (CommRing_RemainingSize(ring) <= size) {
+        CommSys_SetError();
         return;
     }
     int i;
     int j = 0;
     for (i = ring->backupEndIndex; i < ring->backupEndIndex + size; i++) {
-        ring->buffer[ov11_0212CA38(ring, i)] = data[j];
+        ring->buffer[CommRing_Index(ring, i)] = data[j];
         j++;
     }
-    ring->backupEndIndex = ov11_0212CA38(ring, i);
+    ring->backupEndIndex = CommRing_Index(ring, i);
 }
 
-int ov11_0212C938(CommRing *ring, u8 *buf, int size)
+int CommRing_Read(CommRing *ring, u8 *buf, int size)
 {
-    int n = ov11_0212C97C(ring, buf, size);
-    ring->startIndex = ov11_0212CA38(ring, ring->startIndex + n);
+    int n = CommRing_Peek(ring, buf, size);
+    ring->startIndex = CommRing_Index(ring, ring->startIndex + n);
     return n;
 }
 
-u8 ov11_0212C964(CommRing *ring)
+u8 CommRing_ReadByte(CommRing *ring)
 {
     u8 b;
-    ov11_0212C938(ring, &b, 1);
+    CommRing_Read(ring, &b, 1);
     return b;
 }
 
-int ov11_0212C97C(CommRing *ring, u8 *buf, int size)
+int CommRing_Peek(CommRing *ring, u8 *buf, int size)
 {
     int i;
     int n = 0;
     for (i = ring->startIndex; i < ring->startIndex + size; i++) {
-        if (ring->endIndex == ov11_0212CA38(ring, i)) {
+        if (ring->endIndex == CommRing_Index(ring, i)) {
             return n;
         }
-        buf[n] = ring->buffer[ov11_0212CA38(ring, i)];
+        buf[n] = ring->buffer[CommRing_Index(ring, i)];
         n++;
     }
     return n;
 }
 
-int ov11_0212C9F4(CommRing *ring)
+int CommRing_DataSize(CommRing *ring)
 {
     s16 read = ring->startIndex;
     if (read > ring->endIndex) {
@@ -65,17 +65,17 @@ int ov11_0212C9F4(CommRing *ring)
     return ring->endIndex - read;
 }
 
-int ov11_0212CA20(CommRing *ring)
+int CommRing_RemainingSize(CommRing *ring)
 {
-    return ring->size - ov11_0212C9F4(ring);
+    return ring->size - CommRing_DataSize(ring);
 }
 
-int ov11_0212CA38(CommRing *ring, int pos)
+int CommRing_Index(CommRing *ring, int pos)
 {
     return pos % ring->size;
 }
 
-void ov11_0212CA54(CommRing *ring)
+void CommRing_UpdateEndPos(CommRing *ring)
 {
     ring->endIndex = ring->backupEndIndex;
 }

@@ -5,9 +5,9 @@
 #include <string.h>
 
 #include "CGame.hpp"
+#include "FieldDataRecords.hpp"
 #include "Log.hpp"
-#include "UnkClass_02041D80.hpp"
-#include "UnkStruct_020107A8.hpp"
+#include "PokeIdTableEntry.hpp"
 #include "constants/scene.hpp"
 #include "field/CFieldPokeMove.hpp"
 #include "field/FieldPartnerIndex.hpp"
@@ -1176,7 +1176,7 @@ class MissionQuestData;
 extern MissionQuestData MAIN_BSS_020B2638;
 extern "C" int MissionQuestData_CountClearedQuests(MissionQuestData *obj);
 
-extern "C" u8 sub_020171A0(void)
+extern "C" u8 SaveData_CountClearedQuests(void)
 {
     return MissionQuestData_CountClearedQuests(&MAIN_BSS_020B2638);
 }
@@ -1279,8 +1279,8 @@ extern "C" void SaveData_ReleasePlayerActorData(SaveData *save)
     save->m_playerActorData.Release();
 }
 
-extern "C" u32 sub_02017E5C(SaveData *save);
-extern "C" u32 sub_02017F78(SaveData *save);
+extern "C" u32 SaveData_ReleaseUnusedPartnerActorData(SaveData *save);
+extern "C" u32 SaveData_ReleaseUnusedPartyActorData(SaveData *save);
 extern "C" void SaveData_ReleasePartnerActorData(SaveData *save);
 extern "C" void SaveData_ReleasePartyActorData(SaveData *save);
 
@@ -1292,19 +1292,19 @@ extern "C" CFieldDrawActorData *SaveData_FindPartnerActorData(SaveData *save, u1
         }
     }
     if (reload) {
-        sub_02017E5C(save);
+        SaveData_ReleaseUnusedPartnerActorData(save);
         save->m_reloadPartyActorData = 1;
     }
     for (int i = 0; i < 2; i++) {
         if (save->m_partnerActorData[i].unk_34 == 0) {
-            save->m_partnerActorData[i].sub_02041230(1, id, form, mask);
+            save->m_partnerActorData[i].Assign(1, id, form, mask);
             return &save->m_partnerActorData[i];
         }
     }
     return NULL;
 }
 
-extern "C" CFieldDrawActorData *sub_02017848(SaveData *save, u16 id, int form, u16 mask, BOOL reload)
+extern "C" CFieldDrawActorData *SaveData_FindPartyActorData(SaveData *save, u16 id, int form, u16 mask, BOOL reload)
 {
     for (int i = 0; i < 10; i++) {
         if (save->m_partyActorData[i].unk_34 != 0 && id == save->m_partyActorData[i].unk_1C && form == save->m_partyActorData[i].unk_1E) {
@@ -1312,19 +1312,19 @@ extern "C" CFieldDrawActorData *sub_02017848(SaveData *save, u16 id, int form, u
         }
     }
     if (reload) {
-        sub_02017F78(save);
+        SaveData_ReleaseUnusedPartyActorData(save);
         save->m_reloadPartyActorData = 1;
     }
     for (int i = 0; i < 10; i++) {
         if (save->m_partyActorData[i].unk_34 == 0) {
-            save->m_partyActorData[i].sub_02041230(0, id, form, mask);
+            save->m_partyActorData[i].Assign(0, id, form, mask);
             return &save->m_partyActorData[i];
         }
     }
     return NULL;
 }
 
-extern "C" void sub_02017948(SaveData *save, BOOL force)
+extern "C" void SaveData_LoadPartyActorData(SaveData *save, BOOL force)
 {
     u32 partnerMask = 0;
     u32 entryMask = 0;
@@ -1370,7 +1370,7 @@ extern "C" void sub_02017948(SaveData *save, BOOL force)
             for (int i = 0; i < 10; i++) {
                 PartyEntry *entry = SaveData_GetEntry(save, i);
                 if (entry != NULL && (entry->m_flags & 1)) {
-                    UnkStruct_020107A8 *info = PokeIdTable_Get(game->unk_1434, entry->m_kind);
+                    PokeIdTableEntry *info = PokeIdTable_Get(game->unk_1434, entry->m_kind);
                     entryMask |= 1 << i;
                     for (int j = 0; j < 10; j++) {
                         if (save->m_partyActorData[j].unk_34 != 0 && info->unk_00 == save->m_partyActorData[j].unk_1C
@@ -1418,8 +1418,8 @@ extern "C" void sub_02017948(SaveData *save, BOOL force)
                 if (enemy->unk_30 == 2 || enemy->unk_30 == 5) {
                     mask |= 0xC00;
                 }
-                UnkStruct_020107A8 *info = PokeIdTable_Get(game->unk_1434, entry->m_kind);
-                sub_02017848(save, info->unk_00, info->unk_02, mask, FALSE);
+                PokeIdTableEntry *info = PokeIdTable_Get(game->unk_1434, entry->m_kind);
+                SaveData_FindPartyActorData(save, info->unk_00, info->unk_02, mask, FALSE);
             }
         }
     } else {
@@ -1447,8 +1447,8 @@ extern "C" void sub_02017948(SaveData *save, BOOL force)
                 if (enemy->unk_30 == 2 || enemy->unk_30 == 5) {
                     mask |= 0xC00;
                 }
-                UnkStruct_020107A8 *info = PokeIdTable_Get(game->unk_1434, entry->m_kind);
-                sub_02017848(save, info->unk_00, info->unk_02, mask, FALSE);
+                PokeIdTableEntry *info = PokeIdTable_Get(game->unk_1434, entry->m_kind);
+                SaveData_FindPartyActorData(save, info->unk_00, info->unk_02, mask, FALSE);
             }
         }
     }
@@ -1460,7 +1460,7 @@ extern "C" void SaveData_ReleaseAllActorData(SaveData *save)
     SaveData_ReleasePartyActorData(save);
 }
 
-extern "C" u32 sub_02017E5C(SaveData *save)
+extern "C" u32 SaveData_ReleaseUnusedPartnerActorData(SaveData *save)
 {
     u32 used = 0;
     FieldData *table = MAIN_BSS_0210CA6C;
@@ -1488,7 +1488,7 @@ extern "C" u32 sub_02017E5C(SaveData *save)
     return missing;
 }
 
-extern "C" u32 sub_02017F78(SaveData *save)
+extern "C" u32 SaveData_ReleaseUnusedPartyActorData(SaveData *save)
 {
     CGame *game = CGame::GetInstance();
     u32 used = 0;
@@ -1497,7 +1497,7 @@ extern "C" u32 sub_02017F78(SaveData *save)
         for (int i = 0; i < 10; i++) {
             PartyEntry *entry = SaveData_GetEntry(save, i);
             if (entry != NULL && (entry->m_flags & 1)) {
-                UnkStruct_020107A8 *info = PokeIdTable_Get(game->unk_1434, entry->m_kind);
+                PokeIdTableEntry *info = PokeIdTable_Get(game->unk_1434, entry->m_kind);
                 missing |= 1 << i;
                 for (int j = 0; j < 10; j++) {
                     if (save->m_partyActorData[j].unk_34 != 0 && info->unk_00 == save->m_partyActorData[j].unk_1C

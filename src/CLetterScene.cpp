@@ -160,12 +160,12 @@ void CLetterScene::func6()
 
     delete file;
 
-    ov4_0211D060();
-    ov4_0211D394();
-    ov4_0211D440();
+    LoadBG();
+    SetupBG();
+    SetupText();
 }
 
-void CLetterScene::ov4_0211D060()
+void CLetterScene::LoadBG()
 {
     CArchiveGuard *archive = new CArchiveGuard("BGM", "data/menu/ml000_bg_LZ.bin", 0, 1, 0, NULL, 0);
     CBGNCGRFile *ncgr = new CBGNCGRFile("BGM:ml000.NCGR", 0, 0, 0);
@@ -199,7 +199,7 @@ void CLetterScene::ov4_0211D060()
     delete archive;
 }
 
-void CLetterScene::ov4_0211D394()
+void CLetterScene::SetupBG()
 {
     GX_SetVisiblePlane(GX_PLANEMASK_BG1 | GX_PLANEMASK_OBJ);
     GXS_SetVisiblePlane(GX_PLANEMASK_BG0);
@@ -213,7 +213,7 @@ void CLetterScene::ov4_0211D394()
     G2S_SetBG3Priority(3);
 }
 
-void CLetterScene::ov4_0211D440()
+void CLetterScene::SetupText()
 {
     m_game->unk_1494->SetFont(&m_game->unk_14AC->unk_0C, 1);
     m_game->unk_1494->FreeWindows();

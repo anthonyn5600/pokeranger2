@@ -9,23 +9,23 @@ class RangerNetMenu;
 // Defined in ov11, owned by RangerNetMenu::unk_71C: Ranger-to-Ranger exchange over RangerNetWireless
 class RangerNetExchange {
 public:
-    void ov11_0212D978();
+    void Init();
     RangerNetExchange(RangerNetMenu *menu);
     ~RangerNetExchange();
-    int ov11_0212DA48();
-    void ov11_0212DC84();
-    void ov11_0212E128();
-    void ov11_0212E518();
-    void ov11_0212E9B4(int state); // SetState: unk_151 = unk_150, unk_150 = state
-    void ov11_0212E9D8();
-    void ov11_0212E9E8();
-    void ov11_0212EA38();
-    int ov11_0212EBA4(const u16 *str);
-    void ov11_0212EBCC();
-    void ov11_0212EE24();
-    void ov11_0212EF94();
-    void ov11_0212F158();
-    void ov11_0212F3B0();
+    int Update();
+    void UpdateRecruit();
+    void UpdateConfirm();
+    void UpdateTransfer();
+    void SetState(int state); // SetState: unk_151 = unk_150, unk_150 = state
+    void Finish();
+    void Cancel();
+    void StartWireless();
+    int ParseNumber(const u16 *str);
+    void UpdateLocalScan();
+    void UpdateLocalSelect();
+    void UpdateLocalReceive();
+    void UpdateLocalSave();
+    void AbortDownload();
 
 public:
     u8 unk_000[0x48];

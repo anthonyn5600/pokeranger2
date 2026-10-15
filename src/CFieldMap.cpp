@@ -43,7 +43,7 @@ CFieldMap::CFieldMap()
 
 CFieldMap::~CFieldMap()
 {
-    ov0_02124EE4();
+    Release();
     if (unk_7C != NULL) {
         Heap_Free(unk_7C);
         unk_7C = NULL;
@@ -51,10 +51,10 @@ CFieldMap::~CFieldMap()
     MAIN_BSS_0210CA54 = NULL;
 }
 
-void CFieldMap::ov0_02124D98(const char *name)
+void CFieldMap::LoadScript(const char *name)
 {
     char path[0x80];
-    ov0_02124E9C();
+    ReleaseScript();
     u32 heapId = s_game->unk_14A8;
     OS_SPrintf(path, "data/Script/field/map/%s", name);
     unk_4C = new CBinaryFile(path, 0, 0, heapId, NULL, 0);
@@ -67,7 +67,7 @@ void CFieldMap::ov0_02124D98(const char *name)
     }
 }
 
-void CFieldMap::ov0_02124E48()
+void CFieldMap::RunScript()
 {
     if (unk_78 == NULL) {
         return;
@@ -78,7 +78,7 @@ void CFieldMap::ov0_02124E48()
     unk_50 = ScriptVM_Run(&unk_54, 0xFFFFF);
 }
 
-void CFieldMap::ov0_02124E9C()
+void CFieldMap::ReleaseScript()
 {
     ScriptVM_Clear(&unk_54);
     SAFE_DELETE(unk_4C);
@@ -86,9 +86,9 @@ void CFieldMap::ov0_02124E9C()
     unk_50 = 2;
 }
 
-void CFieldMap::ov0_02124EE4()
+void CFieldMap::Release()
 {
-    ov0_02124E9C();
+    ReleaseScript();
     for (int i = 0; i < unk_0C; i++) {
         SAFE_DELETE(unk_04[i]);
     }
@@ -131,7 +131,7 @@ void CFieldMap::ov0_02124EE4()
     SAFE_DELETE_ARRAY(unk_38);
 }
 
-void CFieldMap::ov0_021251D8(BOOL runScript, int fps)
+void CFieldMap::Update(BOOL runScript, int fps)
 {
     if (unk_14 > 0 && unk_10 != NULL) {
         for (int i = 0; i < unk_14; i++) {
@@ -163,7 +163,7 @@ void CFieldMap::ov0_021251D8(BOOL runScript, int fps)
     }
 }
 
-void CFieldMap::ov0_02125338(Camera2D *camera)
+void CFieldMap::Draw(Camera2D *camera)
 {
     G3_RestoreMtx(0);
     if (unk_24 > 0 && unk_20 != NULL) {
@@ -188,7 +188,7 @@ void CFieldMap::ov0_02125338(Camera2D *camera)
     G3_RestoreMtx(0);
 }
 
-int CFieldMap::ov0_0212546C(int group)
+int CFieldMap::GetCharacterDepth(int group)
 {
     int depth = ((group + 1) << 11) - 0x2001;
     if (group < unk_24 && unk_28[group] >= 0 && unk_20[group] != NULL) {
@@ -201,7 +201,7 @@ int CFieldMap::ov0_0212546C(int group)
     return depth;
 }
 
-FieldMapTextures *CFieldMap::ov0_0212550C(void *data, int id)
+FieldMapTextures *CFieldMap::LoadTextures(void *data, int id)
 {
     char arcName[] = "MTP";
     NNSFndArchive archive;
@@ -278,7 +278,7 @@ FieldMapTextures *CFieldMap::ov0_0212550C(void *data, int id)
     return NULL;
 }
 
-CFieldMapLayerBase *CFieldMap::ov0_02125904(void *data, int group, int index)
+CFieldMapLayerBase *CFieldMap::CreateLayer(void *data, int group, int index)
 {
     CFieldMapLayerBase *layer = NULL;
     if (data != NULL) {
@@ -389,7 +389,7 @@ CFieldMapLayerBase *CFieldMap::ov0_02125904(void *data, int group, int index)
     return layer;
 }
 
-FieldMapAnimQuad *CFieldMap::ov0_02125CA8(void *data, int index)
+FieldMapAnimQuad *CFieldMap::CreateAnimQuad(void *data, int index)
 {
     FieldMapAnimQuad *obj = new FieldMapAnimQuad();
     obj->m_textures = unk_04;
@@ -397,7 +397,7 @@ FieldMapAnimQuad *CFieldMap::ov0_02125CA8(void *data, int index)
     return obj;
 }
 
-FieldMapPaletteAnim *CFieldMap::ov0_02125CE8(void *data, int index)
+FieldMapPaletteAnim *CFieldMap::CreatePaletteAnim(void *data, int index)
 {
     FieldMapPaletteAnim *obj = new FieldMapPaletteAnim();
     obj->m_textures = unk_04;
@@ -405,11 +405,11 @@ FieldMapPaletteAnim *CFieldMap::ov0_02125CE8(void *data, int index)
     return obj;
 }
 
-BOOL CFieldMap::ov0_02125D28(u8 group, const char *name, u32 heapId)
+BOOL CFieldMap::Load(u8 group, const char *name, u32 heapId)
 {
     // Unused, but its initializer is what puts the chunk tags in .rodata right after "MTP".
     char tags[9][4] = { "TEX", { 'T', 'X', 'I', 'F' }, { 'R', 'L', 'C', 'N' }, "MLY", "PLA", { 'M', 'P', 'I', 'F' }, "CTA", { 'R', 'G', 'C', 'N' }, "LYR" };
-    ov0_02124EE4();
+    Release();
     CBinaryFile *texFile = NULL;
     unk_00 = FALSE;
     if (name != NULL) {
@@ -519,7 +519,7 @@ BOOL CFieldMap::ov0_02125D28(u8 group, const char *name, u32 heapId)
                         for (int i = 0; i < texCount; i++) {
                             void *texData = NNS_FndGetArchiveFileByIndex(&texArchive, i);
                             if (texData != NULL) {
-                                FieldMapTextures *texture = ov0_0212550C(texData, texIds != NULL ? texIds[i] : 0);
+                                FieldMapTextures *texture = LoadTextures(texData, texIds != NULL ? texIds[i] : 0);
                                 if (texture != NULL) {
                                     unk_04[unk_08] = texture;
                                     unk_08++;
@@ -536,7 +536,7 @@ BOOL CFieldMap::ov0_02125D28(u8 group, const char *name, u32 heapId)
                         unk_10 = new FieldMapAnimQuad *[ctaCount];
                         unk_14 = ctaCount;
                         for (int i = 0; i < ctaCount; i++) {
-                            unk_10[i] = ov0_02125CA8(NNS_FndGetArchiveFileByIndex(&ctaArchive, i), i);
+                            unk_10[i] = CreateAnimQuad(NNS_FndGetArchiveFileByIndex(&ctaArchive, i), i);
                         }
                         NNS_FndUnmountArchive(&ctaArchive);
                     }
@@ -548,7 +548,7 @@ BOOL CFieldMap::ov0_02125D28(u8 group, const char *name, u32 heapId)
                         unk_18 = new FieldMapPaletteAnim *[plaCount];
                         unk_1C = plaCount;
                         for (int i = 0; i < plaCount; i++) {
-                            unk_18[i] = ov0_02125CE8(NNS_FndGetArchiveFileByIndex(&plaArchive, i), i);
+                            unk_18[i] = CreatePaletteAnim(NNS_FndGetArchiveFileByIndex(&plaArchive, i), i);
                         }
                         NNS_FndUnmountArchive(&plaArchive);
                     }
@@ -579,7 +579,7 @@ BOOL CFieldMap::ov0_02125D28(u8 group, const char *name, u32 heapId)
                                 unk_20[i] = new CFieldMapLayerBase *[layerCount];
                                 unk_38[i] = layerCount;
                                 for (int j = 0; j < layerCount; j++) {
-                                    unk_20[i][j] = ov0_02125904(NNS_FndGetArchiveFileByIndex(&groupArchive, j), i, j);
+                                    unk_20[i][j] = CreateLayer(NNS_FndGetArchiveFileByIndex(&groupArchive, j), i, j);
                                     if (unk_20[i][j] != NULL) {
                                         switch (unk_20[i][j]->GetType()) {
                                         case 1:
@@ -619,7 +619,7 @@ BOOL CFieldMap::ov0_02125D28(u8 group, const char *name, u32 heapId)
     return unk_00;
 }
 
-void CFieldMap::ov0_02126658()
+void CFieldMap::ApplyPaletteAnims()
 {
     if (unk_1C > 0 && unk_18 != NULL) {
         for (int i = 0; i < unk_1C; i++) {

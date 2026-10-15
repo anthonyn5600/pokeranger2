@@ -26,23 +26,23 @@ public:
     virtual void func7();
     virtual u32 getSceneId();
 
-    void ov23_0211CBDC();
-    void ov23_0211CC44(Point2D touch);
-    void ov23_0211CDD4(Point2D touch);
-    void ov23_0211D214();
-    void ov23_0211D270();
-    void ov23_0211D870();
-    void ov23_0211DEB8();
-    void ov23_0211DEDC();
-    void ov23_0211DF00();
-    void ov23_0211E19C();
-    void ov23_0211E454();
-    void ov23_0211E668();
-    void ov23_0211E75C();
-    void ov23_0211E818(int digits, u32 value);
-    void ov23_0211E8A8(int value);
-    void ov23_0211E940(int hours, int minutes);
-    int ov23_0211EA18(int exp, int base);
+    void OpenPage();
+    void UpdatePage1Input(Point2D touch);
+    void UpdatePage2Input(Point2D touch);
+    void DrawPage();
+    void DrawPage1();
+    void DrawPage2();
+    void ShowPage1Buttons();
+    void ShowPage2Buttons();
+    void ClearNumberText();
+    void LoadBG();
+    void LoadMessages();
+    void LoadSprites();
+    void CreateTouchRects();
+    void FormatNumber(int digits, u32 value);
+    void FormatQuestCount(int value);
+    void FormatPlayTime(int hours, int minutes);
+    int Pow(int exp, int base);
 
 public:
     int unk_04; // frame counter

@@ -17,7 +17,7 @@ CBattleGameOver::CBattleGameOver(CGame *game, CBattleDisk *disk, CPlayerHPGauge 
     m_gauge = gauge;
     m_flags = 0;
     m_z = 0x400;
-    ov1_0213A680();
+    LoadGraphics();
 }
 
 CBattleGameOver::~CBattleGameOver()
@@ -27,14 +27,14 @@ CBattleGameOver::~CBattleGameOver()
     SAFE_DELETE(m_resC);
 }
 
-void CBattleGameOver::ov1_0213A680()
+void CBattleGameOver::LoadGraphics()
 {
-    ov1_0213A6A0();
-    ov1_0213A77C();
-    ov1_0213A858();
+    LoadResA();
+    LoadResB();
+    LoadResC();
 }
 
-void CBattleGameOver::ov1_0213A6A0()
+void CBattleGameOver::LoadResA()
 {
     char cac[96];
     char ncer[96];
@@ -51,7 +51,7 @@ void CBattleGameOver::ov1_0213A6A0()
     m_animA = m_resA->m_anim->Create(1, 0);
 }
 
-void CBattleGameOver::ov1_0213A77C()
+void CBattleGameOver::LoadResB()
 {
     char cac[96];
     char ncer[96];
@@ -68,7 +68,7 @@ void CBattleGameOver::ov1_0213A77C()
     m_animB = m_resB->m_anim->Create(1, 0);
 }
 
-void CBattleGameOver::ov1_0213A858()
+void CBattleGameOver::LoadResC()
 {
     char cac[96];
     char ncer[96];
@@ -88,60 +88,60 @@ void CBattleGameOver::ov1_0213A858()
 void CBattleGameOver::ov1_0213A914()
 {
     m_disk->ov1_0212C4F4(FALSE);
-    m_disk->ov1_0212C4EC(0);
-    m_disk->ov1_0212C610(0, 0);
+    m_disk->SetVisible(0);
+    m_disk->ResetLine(0, 0);
 }
 
-void CBattleGameOver::ov1_0213A948()
+void CBattleGameOver::StartWhiteOut()
 {
     m_game->m_mainFade->Start(2, 20);
 }
 
-void CBattleGameOver::ov1_0213A968()
+void CBattleGameOver::StartWhiteIn()
 {
     m_game->m_mainFade->Start(1, 8);
     m_flags &= ~0x1000;
     m_flags |= 0x2000;
 }
 
-void CBattleGameOver::ov1_0213A9A8(u16 duration)
+void CBattleGameOver::StartWait(u16 duration)
 {
     m_timer = 0;
     m_duration = duration;
 }
 
-void CBattleGameOver::ov1_0213A9BC()
+void CBattleGameOver::EnterState()
 {
     switch (m_state) {
     case 2:
         m_flags |= 0x1000;
-        ov1_0213A9A8(90);
+        StartWait(90);
         break;
     case 3:
-        ov1_0213A948();
+        StartWhiteOut();
         break;
     case 4:
-        ov1_0213A968();
+        StartWhiteIn();
         break;
     case 5:
-        ov1_0213A9A8(60);
+        StartWait(60);
         break;
     case 6:
-        ov1_0213A9A8(60);
+        StartWait(60);
         break;
     case 9:
-        ov1_0213AC90();
+        Finish();
         break;
     }
     m_flags &= ~2;
 }
 
-BOOL CBattleGameOver::ov1_0213AA58()
+BOOL CBattleGameOver::IsActive()
 {
     return (m_flags & 1) ? TRUE : FALSE;
 }
 
-void CBattleGameOver::ov1_0213AA70(BOOL active)
+void CBattleGameOver::SetActive(BOOL active)
 {
     if (active) {
         m_flags |= 1;
@@ -150,20 +150,20 @@ void CBattleGameOver::ov1_0213AA70(BOOL active)
     }
 }
 
-int CBattleGameOver::ov1_0213AA90(int z)
+int CBattleGameOver::SetZ(int z)
 {
     m_z = z;
     return z;
 }
 
-void CBattleGameOver::ov1_0213AA9C()
+void CBattleGameOver::WaitMainFade()
 {
     if (!m_game->m_mainFade->IsActive()) {
-        ov1_0213AC70();
+        NextState();
     }
 }
 
-void CBattleGameOver::ov1_0213AAC8()
+void CBattleGameOver::WaitFades()
 {
     BrightnessFade *fadeB = m_game->m_subFade;
     if (m_game->m_mainFade->IsActive()) {
@@ -172,13 +172,13 @@ void CBattleGameOver::ov1_0213AAC8()
     if (fadeB->IsActive()) {
         return;
     }
-    ov1_0213AC70();
+    NextState();
 }
 
-void CBattleGameOver::ov1_0213AB08()
+void CBattleGameOver::WaitTimer()
 {
     if (m_duration == m_timer) {
-        ov1_0213AC70();
+        NextState();
     } else if (m_duration > m_timer) {
         m_timer++;
     }
@@ -188,29 +188,29 @@ void CBattleGameOver::vfunc_08()
 {
     switch (m_state) {
     case 1:
-        ov1_0213AC70();
+        NextState();
         break;
     case 2:
     case 5:
     case 6:
-        ov1_0213AB08();
+        WaitTimer();
         break;
     case 3:
     case 4:
-        ov1_0213AA9C();
+        WaitMainFade();
         break;
     case 7:
-        ov1_0213AAC8();
+        WaitFades();
         break;
     case 8:
-        ov1_0213AC70();
+        NextState();
         break;
     case 9:
-        ov1_0213AC70();
+        NextState();
         break;
     }
     if (m_flags & 2) {
-        ov1_0213A9BC();
+        EnterState();
     }
     m_resA->m_anim->UpdateAll();
     m_resB->m_anim->UpdateAll();
@@ -227,27 +227,27 @@ void CBattleGameOver::vfunc_08()
     }
 }
 
-void CBattleGameOver::ov1_0213AC30()
+void CBattleGameOver::Start()
 {
     ov1_0213A914();
     m_state = 1;
-    ov1_0213AA70(TRUE);
+    SetActive(TRUE);
     m_audio->StopBgm(30);
     m_flags |= 2;
 }
 
-void CBattleGameOver::ov1_0213AC70()
+void CBattleGameOver::NextState()
 {
     m_state++;
     m_flags |= 2;
 }
 
-void CBattleGameOver::ov1_0213AC90()
+void CBattleGameOver::Finish()
 {
     m_flags &= ~1;
 }
 
-void CBattleGameOver::ov1_0213ACA4(Camera2D *camera)
+void CBattleGameOver::DrawResA(Camera2D *camera)
 {
     CSoftwareSprite *sprite = m_sprite;
     sprite->SetImage((UnkClass_CPrimitive_ImageProxy *)m_resA->m_image, NULL);
@@ -259,7 +259,7 @@ void CBattleGameOver::ov1_0213ACA4(Camera2D *camera)
     sprite->Render(camera);
 }
 
-void CBattleGameOver::ov1_0213AD3C(Camera2D *camera)
+void CBattleGameOver::DrawResC(Camera2D *camera)
 {
     CSoftwareSprite *sprite = m_sprite;
     sprite->SetImage((UnkClass_CPrimitive_ImageProxy *)m_resC->m_image, NULL);
@@ -274,10 +274,10 @@ void CBattleGameOver::ov1_0213AD3C(Camera2D *camera)
 void CBattleGameOver::vfunc_0C(Camera2D *camera)
 {
     if (m_flags & 0x1000) {
-        ov1_0213ACA4(camera);
+        DrawResA(camera);
     }
     if (m_flags & 0x2000) {
-        ov1_0213AD3C(camera);
+        DrawResC(camera);
     }
 }
 

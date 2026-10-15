@@ -17,21 +17,28 @@
 #include "GridOverlay.hpp"
 #include "MathUtil.hpp"
 #include "OamSpriteSet.hpp"
+#include "PokeIdTableEntry.hpp"
 #include "SaveData.hpp"
 #include "ScriptManager.hpp"
 #include "SubScreenPokemonInfo.hpp"
 #include "TextboxManager.hpp"
-#include "UnkStruct_020107A8.hpp"
+#include "battle/BattleAssistButton.hpp"
 #include "battle/BattleAssistMenu.hpp"
+#include "battle/BattleDamageNumber.hpp"
 #include "battle/BattleDebugMenu.hpp"
 #include "battle/BattleEffectTable.hpp"
+#include "battle/BattleEffectivenessMark.hpp"
+#include "battle/BattleEffectivenessMarkGfx.hpp"
 #include "battle/BattleEnemyGaugeGfx.hpp"
+#include "battle/BattleEscapeButton.hpp"
 #include "battle/BattleHPNumber.hpp"
 #include "battle/BattleHPNumberGfx.hpp"
+#include "battle/BattleHitEffect.hpp"
 #include "battle/BattleInfoPanel.hpp"
 #include "battle/BattleParamTable.hpp"
 #include "battle/BattleParticle.hpp"
 #include "battle/BattleParticlePool.hpp"
+#include "battle/BattlePokemonParam.hpp"
 #include "battle/BattlePokemonTable.hpp"
 #include "battle/BattleResult.hpp"
 #include "battle/BattleStatusDebug.hpp"
@@ -47,24 +54,17 @@
 #include "battle/CBattleEnemyGauge.hpp"
 #include "battle/CBattleGameOver.hpp"
 #include "battle/CBattlePowerSave.hpp"
+#include "battle/CaptureEffect.hpp"
 #include "battle/CaptureLineTrail.hpp"
+#include "battle/CaptureMark.hpp"
 #include "battle/CaptureResultBanner.hpp"
 #include "battle/StylerLine.hpp"
 #include "battle/UnkClass_021274AC.hpp"
 #include "battle/UnkClass_0212770C.hpp"
 #include "battle/UnkClass_021278E8.hpp"
 #include "battle/UnkClass_02127B48.hpp"
-#include "battle/UnkClass_02127E14.hpp"
-#include "battle/UnkClass_021281B4.hpp"
-#include "battle/UnkClass_02128414.hpp"
-#include "battle/UnkClass_02128B24.hpp"
 #include "battle/UnkClass_021297C0.hpp"
-#include "battle/UnkClass_021299CC.hpp"
 #include "battle/UnkClass_02129B74.hpp"
-#include "battle/UnkClass_02129DD4.hpp"
-#include "battle/UnkClass_021380AC.hpp"
-#include "battle/UnkClass_021382D0.hpp"
-#include "battle/UnkStruct_0212DFEC.hpp"
 #include "battle/YSortedActorList.hpp"
 #include "file/CBinaryFile.hpp"
 #include "interpolation.hpp"
@@ -119,13 +119,13 @@ CBattleScene::CBattleScene(CGame *game)
         unk_00A4[i] = &unk_009A[i];
     }
 
-    if (sub_02010B24(unk_001C) == 0x23) {
+    if (BattleStartParam_GetNextScene(unk_001C) == 0x23) {
         MAIN_BSS_020B26A0.m_levelExp = 0;
         SaveData_SetStylerLevel(&MAIN_BSS_020B26A0, BattleStartParam_GetStylerLevel(unk_001C));
     }
 
-    unk_0074 = sub_02010B50(unk_001C);
-    unk_0078 = sub_02010B58(unk_001C);
+    unk_0074 = BattleStartParam_GetPartnerEnergy(unk_001C);
+    unk_0078 = BattleStartParam_GetPartnerMaxEnergy(unk_001C);
     unk_007C = DAT_overlay_1_0213fb70[(u8)BattleStartParam_GetPartnerMood(unk_001C)];
     unk_0070 = 1;
     unk_0010 = CGame::GetInstance()->touchPanel;
@@ -183,7 +183,7 @@ CBattleScene::CBattleScene(CGame *game)
 CBattleScene::~CBattleScene()
 {
     m_game->m_audioEngine->StopBgm(1);
-    ov1_02122D78(1);
+    SelectTouchPanel(1);
     NNS_GfdResetLnkTexVramState();
     NNS_GfdResetLnkPlttVramState();
     m_game->unk_146C.SetFps(30);
@@ -259,7 +259,7 @@ void CBattleScene::func6()
         unk_03A8[i] = new BattleParticle();
     }
     unk_0BA8 = new BattleParticlePool(unk_03A8, 0x200);
-    unk_0BA8->ov1_02136BD0(1);
+    unk_0BA8->SetPolygonId(1);
 
     unk_00D8 = new CBattleDisk(unk_0BA8);
     unk_00D8->unk_19C = BattleStartParam_GetEnergy(unk_001C);
@@ -274,7 +274,7 @@ void CBattleScene::func6()
         unk_0030 += 4;
         break;
     }
-    unk_00D8->unk_1B8->ov1_02124AF4(unk_0030);
+    unk_00D8->unk_1B8->SetMaxCount(unk_0030);
 
     if ((u32)((MAIN_BSS_020B26A0.m_rangerClassGrade >> 4) & 0xF) < 2) {
         unk_00D8->unk_18C = 0;
@@ -297,13 +297,13 @@ void CBattleScene::func6()
     for (u8 j1 = 0; j1 < BattleStartParam_GetPokemonCount(unk_001C); j1++) {
         id = BattleStartParam_GetPokemonId(unk_001C, j1);
         if (id != 0xFFFF) {
-            unk_00FC[j1] = new CBattleEnemyData(id, PokeIdTable_Get(table, id), unk_0C18->ov1_0212DFEC(id), m_game->unk_14A8);
+            unk_00FC[j1] = new CBattleEnemyData(id, PokeIdTable_Get(table, id), unk_0C18->GetEntry(id), m_game->unk_14A8);
         }
     }
     for (u8 j2 = 0; j2 < BattleStartParam_GetEnemyCount(unk_001C); j2++) {
         if (BattleStartParam_GetEnemySlot(unk_001C, j2) != 0xFF) {
             unk_00DC[j2] = new CBattleEnemy(j2 + 1, unk_00FC[BattleStartParam_GetEnemySlot(unk_001C, j2)]);
-            unk_00DC[j2]->ov1_02126224();
+            unk_00DC[j2]->InitScript();
             unk_00DC[j2]->m_flags |= 0x100;
             if (sub_02010C08(unk_001C)) {
                 unk_00DC[j2]->ov1_02126764(1);
@@ -352,11 +352,11 @@ void CBattleScene::func6()
         if (unk_00DC[i] != NULL) {
             unk_010C[i] = new CBattleEnemyGauge(unk_012C);
             CBattleEnemy *enemy = unk_00DC[i];
-            UnkStruct_0212DFEC *param = enemy->unk_184->unk_1C;
+            BattlePokemonParam *param = enemy->unk_184->unk_1C;
             Point2D pos;
             pos.x = enemy->m_motion.m_pos.x;
             pos.y = enemy->m_motion.m_pos.y + (param->unk_0F << 12);
-            unk_010C[i]->ov1_02135E70(ov1_02122D3C(param->unk_0E), enemy->unk_188, param->unk_00, pos);
+            unk_010C[i]->Setup(ov1_02122D3C(param->unk_0E), enemy->unk_188, param->unk_00, pos);
         }
     }
 
@@ -364,20 +364,20 @@ void CBattleScene::func6()
     unk_0BEC = new UnkClass_021297C0();
     unk_0BF0 = new UnkClass_021278E8();
     unk_0BF4 = new UnkClass_021274AC();
-    unk_0BF8 = new UnkClass_021281B4();
+    unk_0BF8 = new BattleEffectivenessMarkGfx();
     unk_0BFC = new BattleHPNumberGfx();
     unk_0C00 = new BattleStatusIconGfx();
     unk_0C04 = new BattleStatusDebugGfx();
     for (int i = 0; i < 8; i++) {
         if (unk_00DC[i] != NULL) {
-            unk_00DC[i]->unk_198->ov1_0212A058(unk_0BE8);
-            unk_00DC[i]->unk_19C->ov1_02129AF4(unk_0BEC);
-            unk_00DC[i]->unk_1A0->ov1_02127C60(unk_0BF0);
-            unk_00DC[i]->unk_1A4->ov1_02127854(unk_0BF4);
-            unk_00DC[i]->unk_1A8->ov1_0212854C(unk_0BF8);
-            unk_00DC[i]->unk_1AC->ov1_0212891C(unk_0BFC);
-            unk_00DC[i]->unk_1B0->ov1_02129274(unk_0C00);
-            unk_00DC[i]->unk_1B4->ov1_02129784(unk_0C04);
+            unk_00DC[i]->unk_198->SetData(unk_0BE8);
+            unk_00DC[i]->unk_19C->SetData(unk_0BEC);
+            unk_00DC[i]->unk_1A0->SetData(unk_0BF0);
+            unk_00DC[i]->unk_1A4->SetData(unk_0BF4);
+            unk_00DC[i]->unk_1A8->SetData(unk_0BF8);
+            unk_00DC[i]->unk_1AC->SetData(unk_0BFC);
+            unk_00DC[i]->unk_1B0->SetData(unk_0C00);
+            unk_00DC[i]->unk_1B4->SetData(unk_0C04);
             unk_00DC[i]->unk_1B8 = unk_010C[i];
             unk_00DC[i]->unk_1BC = unk_0BA8;
         }
@@ -391,27 +391,27 @@ void CBattleScene::func6()
     unk_0BB0 = new CPlayerHPGauge();
     unk_0BB0->SetVisible(TRUE);
     unk_0BB0->SetHP(hp, maxHP);
-    if (sub_02010B3C(unk_001C)) {
+    if (BattleStartParam_HasPartner(unk_001C)) {
         unk_0BB0->SetPartnerVisible(TRUE);
         unk_0BB0->SetPartner(unk_0074 >> 12, unk_0078 >> 12);
     } else {
         unk_0BB0->SetPartnerVisible(FALSE);
     }
-    unk_0C08 = new UnkClass_021380AC();
-    unk_0C0C = new UnkClass_021382D0();
+    unk_0C08 = new BattleAssistButton();
+    unk_0C0C = new BattleEscapeButton();
     unk_0C2C = new FieldScreenEffectManage();
-    unk_0C2C->sub_02035D38(BattleStartParam_GetScreenEffect(unk_001C));
+    unk_0C2C->SetPrimaryEffect(BattleStartParam_GetScreenEffect(unk_001C));
     unk_0C2C->StartEffect(BattleStartParam_GetScreenEffect(unk_001C), 0, -1, 0);
     unk_0BBC = new CBattleGameOver(m_game, unk_00D8, unk_0BB0);
     unk_0BB8 = new BattleResult();
-    unk_0BB8->ov1_02139CE4(0x500);
+    unk_0BB8->SetZ(0x500);
     unk_0C30 = new BattleInfoPanel(m_game);
-    unk_0C30->ov1_0213EF94(1);
-    unk_0C30->ov1_0213E9F4(BattleStartParam_GetEnemyCount(unk_001C));
+    unk_0C30->SetListVisible(1);
+    unk_0C30->SetPokemonCount(BattleStartParam_GetEnemyCount(unk_001C));
     for (u8 j6 = 0; j6 < BattleStartParam_GetEnemyCount(unk_001C); j6++) {
-        UnkStruct_020107A8 *info = PokeIdTable_Get(table, BattleStartParam_GetPokemonId(unk_001C, BattleStartParam_GetEnemySlot(unk_001C, j6)));
-        unk_0C30->ov1_0213EDA4(info->unk_00, j6);
-        unk_0C30->ov1_0213EC34(info->unk_03, j6);
+        PokeIdTableEntry *info = PokeIdTable_Get(table, BattleStartParam_GetPokemonId(unk_001C, BattleStartParam_GetEnemySlot(unk_001C, j6)));
+        unk_0C30->SetPokemonSpecies(info->unk_00, j6);
+        unk_0C30->SetPokemonType(info->unk_03, j6);
     }
     unk_0C34 = new SubScreenPokemonInfo();
     unk_0BC0 = new BattleAssistMenu(table, unk_0C18, unk_0C30, unk_00D0);
@@ -539,7 +539,7 @@ void CBattleScene::func7()
     NNS_GfdResetLnkPlttVramState();
 }
 
-void CBattleScene::ov1_0211E71C(u8 arg0)
+void CBattleScene::ChangeBackground(u8 arg0)
 {
     NNS_GfdDumpLnkTexVramManager();
     SAFE_DELETE(unk_00D4);
@@ -556,12 +556,12 @@ void CBattleScene::ov1_0211E71C(u8 arg0)
     }
     unk_00D4 = new CaptureBackground(arg0);
     if (hadAssist) {
-        ov1_0211E928(type, value, partner);
+        CreateAssist(type, value, partner);
     }
     NNS_GfdDumpLnkTexVramManager();
 }
 
-BOOL CBattleScene::ov1_0211E7E8(u16 id)
+BOOL CBattleScene::AddEffectData(u16 id)
 {
     if (unk_0BE4 >= 0x12) {
         return FALSE;
@@ -571,23 +571,23 @@ BOOL CBattleScene::ov1_0211E7E8(u16 id)
             return FALSE;
         }
     }
-    UnkStruct_0212E008 *entry = unk_0C1C->GetEntry(id);
+    BattleEffectParam *entry = unk_0C1C->GetEntry(id);
     unk_02B0[unk_0BE4] = new CBattleAttackEffectData(id, entry, m_game->unk_14A8);
     unk_0BE4++;
     return TRUE;
 }
 
-BOOL CBattleScene::ov1_0211E8A4(u16 id, CBattleAttackEffectData **slot)
+BOOL CBattleScene::LoadEffectData(u16 id, CBattleAttackEffectData **slot)
 {
     SAFE_DELETE(*slot);
-    UnkStruct_0212E008 *entry = unk_0C1C->GetEntry(id);
+    BattleEffectParam *entry = unk_0C1C->GetEntry(id);
     *slot = new CBattleAttackEffectData(id, entry, m_game->unk_14A8);
     return TRUE;
 }
 
-void CBattleScene::ov1_0211E928(int type, u16 arg1, u32 partner)
+void CBattleScene::CreateAssist(int type, u16 arg1, u32 partner)
 {
-    ov1_02122B90();
+    ClearAssistEffects();
     SAFE_DELETE(unk_0384);
     for (u8 i = 0; i < 3; i++) {
         SAFE_DELETE(unk_0378[i]);
@@ -600,28 +600,28 @@ void CBattleScene::ov1_0211E928(int type, u16 arg1, u32 partner)
         unk_0384 = new CBattleAssistNormal(unk_02F8, unk_0378, params, arg1);
         break;
     case 1:
-        ov1_0211E8A4(0xD6, &unk_0378[0]);
+        LoadEffectData(0xD6, &unk_0378[0]);
         unk_0384 = new CBattleAssistFire(unk_02F8, unk_0378, params, arg1);
         audio->LoadSeGroup(0x90);
         break;
     case 2:
-        ov1_0211E8A4(0xCB, &unk_0378[0]);
+        LoadEffectData(0xCB, &unk_0378[0]);
         unk_0384 = new CBattleAssistWater(unk_02F8, unk_0378, params, arg1);
         audio->LoadSeGroup(0x8B);
         break;
     case 4:
-        ov1_0211E8A4(0xD5, &unk_0378[0]);
+        LoadEffectData(0xD5, &unk_0378[0]);
         unk_0384 = new CBattleAssistGrass(unk_02F8, unk_0378, params, arg1);
         audio->LoadSeGroup(0x91);
         break;
     case 3:
-        ov1_0211E8A4(0xD7, &unk_0378[0]);
+        LoadEffectData(0xD7, &unk_0378[0]);
         unk_0384 = new CBattleAssistElectric(unk_02F8, unk_0378, params, arg1);
         audio->LoadSeGroup(0x92);
         break;
     case 5:
-        ov1_0211E8A4(0xCD, &unk_0378[0]);
-        ov1_0211E8A4(0xCE, &unk_0378[1]);
+        LoadEffectData(0xCD, &unk_0378[0]);
+        LoadEffectData(0xCE, &unk_0378[1]);
         unk_0384 = new CBattleAssistIce(unk_02F8, unk_0378, params, arg1);
         audio->LoadSeGroup(0x8C);
         break;
@@ -629,58 +629,58 @@ void CBattleScene::ov1_0211E928(int type, u16 arg1, u32 partner)
         unk_0384 = new CBattleAssistGrapple(unk_02F8, unk_0378, params, arg1);
         break;
     case 7:
-        ov1_0211E8A4(0xCF, &unk_0378[0]);
+        LoadEffectData(0xCF, &unk_0378[0]);
         unk_0384 = new CBattleAssistPoison(unk_02F8, unk_0378, params, arg1);
         audio->LoadSeGroup(0x93);
         break;
     case 8: {
-        ov1_0211E8A4(0xCA, &unk_0378[0]);
+        LoadEffectData(0xCA, &unk_0378[0]);
         CBattleAssistGround *ground = new CBattleAssistGround(unk_02F8, unk_0378, params, arg1);
-        ground->ov1_0213219C(ov1_021227C4());
+        ground->SetQuake(GetCameraController());
         unk_0384 = ground;
         audio->LoadSeGroup(0x8D);
         break;
     }
     case 9:
-        ov1_0211E8A4(0xD0, &unk_0378[0]);
+        LoadEffectData(0xD0, &unk_0378[0]);
         unk_0384 = new CBattleAssistFly(unk_02F8, unk_0378, params, arg1);
         audio->LoadSeGroup(0x94);
         break;
     case 10:
-        ov1_0211E8A4(0xCC, &unk_0378[0]);
+        LoadEffectData(0xCC, &unk_0378[0]);
         unk_0384 = new CBattleAssistEsper(unk_02F8, unk_0378, params, arg1);
         audio->LoadSeGroup(0x8F);
         break;
     case 11: {
-        ov1_0211E8A4(0xD1, &unk_0378[0]);
-        ov1_0211E8A4(0xD2, &unk_0378[1]);
+        LoadEffectData(0xD1, &unk_0378[0]);
+        LoadEffectData(0xD2, &unk_0378[1]);
         CBattleAssistInsect *insect = new CBattleAssistInsect(unk_02F8, unk_0378, params, arg1);
         unk_0384 = insect;
-        insect->ov1_02133B3C(unk_0130);
+        insect->SetTargets(unk_0130);
         audio->LoadSeGroup(0x95);
         break;
     }
     case 12:
-        ov1_0211E8A4(0xC8, &unk_0378[0]);
+        LoadEffectData(0xC8, &unk_0378[0]);
         unk_0384 = new CBattleAssistRock(unk_02F8, unk_0378, params, arg1);
         audio->LoadSeGroup(0x8E);
         break;
     case 13:
-        ov1_0211E8A4(0xD3, &unk_0378[0]);
+        LoadEffectData(0xD3, &unk_0378[0]);
         unk_0384 = new CBattleAssistGhost(unk_02F8, unk_0378, params, arg1);
         audio->LoadSeGroup(0x96);
         break;
     case 14:
-        ov1_0211E8A4(0xD4, &unk_0378[0]);
+        LoadEffectData(0xD4, &unk_0378[0]);
         unk_0384 = new CBattleAssistDragon(unk_02F8, unk_0378, params, arg1);
-        ((CBattleAssistDragon *)unk_0384)->unk_44 = ov1_021227C4();
+        ((CBattleAssistDragon *)unk_0384)->unk_44 = GetCameraController();
         audio->LoadSeGroup(0x97);
         break;
     case 15:
         unk_0384 = new CBattleAssistEvil(unk_02F8, unk_0378, params, arg1);
         break;
     case 16:
-        ov1_0211E8A4(0xC9, &unk_0378[0]);
+        LoadEffectData(0xC9, &unk_0378[0]);
         unk_0384 = new CBattleAssistSteel(unk_02F8, unk_0378, params, arg1);
         audio->LoadSeGroup(0x98);
         break;
@@ -692,35 +692,35 @@ void CBattleScene::ov1_0211E928(int type, u16 arg1, u32 partner)
     }
     }
     if (type == 0) {
-        unk_00D8->unk_1B8->ov1_02124AF4(unk_0030 + 0x10);
+        unk_00D8->unk_1B8->SetMaxCount(unk_0030 + 0x10);
     } else {
-        unk_00D8->unk_1B8->ov1_02124AF4(unk_0030);
+        unk_00D8->unk_1B8->SetMaxCount(unk_0030);
     }
     if (type != 0x11) {
-        unk_00D8->unk_1B8->ov1_02124B08(type);
+        unk_00D8->unk_1B8->LoadTypeGfx(type);
     } else {
-        unk_00D8->unk_1B8->ov1_02124DEC();
+        unk_00D8->unk_1B8->ReleaseTypeGfx();
     }
     unk_00D8->unk_190 = 1;
 }
 
-void CBattleScene::ov1_0211EF74(u16 id, u32 partner)
+void CBattleScene::StartPokemonAssist(u16 id, u32 partner)
 {
-    UnkStruct_020107A8 *info = PokeIdTable_Get(unk_0C14, id);
-    UnkStruct_0212DFEC *param = unk_0C18->ov1_0212DFEC(id);
+    PokeIdTableEntry *info = PokeIdTable_Get(unk_0C14, id);
+    BattlePokemonParam *param = unk_0C18->GetEntry(id);
     if (info->unk_04 != 0x11) {
-        ov1_0211E928(info->unk_04, ov1_0211F010(id), partner);
+        CreateAssist(info->unk_04, GetAssistTime(id), partner);
     } else {
-        ov1_0211E928(0x11, param->unk_04, partner);
+        CreateAssist(0x11, param->unk_04, partner);
     }
-    unk_0C30->ov1_0213EDB0(info->unk_04, info->unk_05, info->unk_06);
-    unk_0C30->ov1_0213D92C(PokeIdTable_Get(unk_0C14, id)->unk_00);
+    unk_0C30->SetPartnerInfo(info->unk_04, info->unk_05, info->unk_06);
+    unk_0C30->LoadPokemonIcon(PokeIdTable_Get(unk_0C14, id)->unk_00);
 }
 
-u16 CBattleScene::ov1_0211F010(u16 id)
+u16 CBattleScene::GetAssistTime(u16 id)
 {
-    UnkStruct_020107A8 *info = PokeIdTable_Get(unk_0C14, id);
-    UnkStruct_0212DFEC *param = unk_0C18->ov1_0212DFEC(id);
+    PokeIdTableEntry *info = PokeIdTable_Get(unk_0C14, id);
+    BattlePokemonParam *param = unk_0C18->GetEntry(id);
     if (info->unk_04 != 0x11) {
         u16 value = param->unk_04 * 60;
         switch (SaveData_GetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_ASSISTT)) {
@@ -738,11 +738,11 @@ u16 CBattleScene::ov1_0211F010(u16 id)
     return 0;
 }
 
-void CBattleScene::ov1_0211F0D8(int arg0, u16 arg1)
+void CBattleScene::SetAllEnemiesStatus(int arg0, u16 arg1)
 {
     for (u8 i = 0; i < 8; i++) {
         if (unk_00DC[i] != NULL) {
-            unk_00DC[i]->ov1_021263A4(arg0, arg1);
+            unk_00DC[i]->SetStatus(arg0, arg1);
         }
     }
 }
@@ -752,13 +752,13 @@ u32 CBattleScene::func0()
     int result = -1;
     switch (unk_0020) {
     case 0:
-        result = ov1_0211F2B4();
+        result = UpdateIntro();
         break;
     case 1:
-        result = ov1_0211F3CC();
+        result = UpdateStartBanner();
         break;
     case 2:
-        result = ov1_0211F404();
+        result = UpdateBattle();
         break;
     case 3:
         result = ov1_0211F984();
@@ -767,22 +767,22 @@ u32 CBattleScene::func0()
         result = ov1_0211F9D8();
         break;
     case 5:
-        result = ov1_0211FA90();
+        result = UpdateAssistMenu();
         break;
     case 7:
-        result = ov1_0211FB88();
+        result = UpdateResult();
         break;
     case 6:
-        result = ov1_0211FC38();
+        result = UpdateGameOver();
         break;
     case 11:
-        result = ov1_0211FD68();
+        result = UpdateDebugMenu();
         break;
     case 8:
-        result = ov1_0211FCE0();
+        result = UpdateExit();
         break;
     case 9:
-        result = ov1_02120694();
+        result = UpdateNewPokemon();
         break;
     case 10:
         result = ov1_021208BC();
@@ -792,25 +792,25 @@ u32 CBattleScene::func0()
     unk_0BB0->vfunc_08();
     unk_00D8->unk_19D = unk_0BB0->GetHPLevel();
     unk_00D0->Update();
-    unk_0C08->ov1_02138238();
-    unk_0C0C->ov1_02138460();
+    unk_0C08->Update();
+    unk_0C0C->Update();
     if (unk_0020 == 2 && unk_0384 != NULL) {
-        unk_0C30->ov1_0213E9E4(unk_0384->unk_04);
+        unk_0C30->SetTimeLeft(unk_0384->unk_04);
     }
     if (unk_0020 == 5) {
-        unk_0C30->ov1_0213E32C(0);
+        unk_0C30->Update(0);
     } else {
-        unk_0C30->ov1_0213E32C(1);
+        unk_0C30->Update(1);
     }
     unk_0C2C->Update(60);
     unk_0024 = unk_0020;
     if (unk_0008 & 1) {
-        return sub_02010B24(unk_001C);
+        return BattleStartParam_GetNextScene(unk_001C);
     }
     return result;
 }
 
-int CBattleScene::ov1_0211F2B4()
+int CBattleScene::UpdateIntro()
 {
     BOOL done = FALSE;
     if (unk_0C44[2].file != NULL) {
@@ -830,28 +830,28 @@ int CBattleScene::ov1_0211F2B4()
         audio->LoadBattleBgmGroup(BattleStartParam_GetBgmIndex(unk_001C));
         audio = CGame::GetInstance()->m_audioEngine;
         audio->PlayBattleBgm(BattleStartParam_GetBgmIndex(unk_001C), 0);
-        unk_0C10->ov1_0213F8B4();
+        unk_0C10->Start();
         unk_0020 = 1;
         return -1;
     }
-    ov1_02121350();
-    ov1_021214B4();
-    ov1_0212156C();
-    ov1_0212157C();
+    UpdateEnemies();
+    UpdateEffects();
+    UpdateParticles();
+    RemoveOffscreenEffects();
     unk_00CC->Update();
     return -1;
 }
 
-int CBattleScene::ov1_0211F3CC()
+int CBattleScene::UpdateStartBanner()
 {
-    unk_0C10->ov1_0213F338();
+    unk_0C10->Update();
     if (!unk_0C10->IsActive()) {
         unk_0020 = 2;
     }
     return -1;
 }
 
-int CBattleScene::ov1_0211F404()
+int CBattleScene::UpdateBattle()
 {
     if (unk_0C44[0].file != NULL) {
         ScriptVM_Run(&unk_0C44[0].vm, 0xFFFFF);
@@ -865,17 +865,17 @@ int CBattleScene::ov1_0211F404()
     if (unk_0044 != BattleStartParam_GetEnemyCount(unk_001C)) {
         unk_0028++;
     }
-    ov1_02121460();
-    ov1_02121514();
+    RunEnemyScripts();
+    RunEffectScripts();
     if (unk_0020 != 2) {
         return -1;
     }
-    ov1_02121184();
-    ov1_021209C4();
-    ov1_02121350();
-    ov1_021214B4();
-    ov1_0212156C();
-    ov1_0212157C();
+    UpdateAssist();
+    UpdateCaptureLine();
+    UpdateEnemies();
+    UpdateEffects();
+    UpdateParticles();
+    RemoveOffscreenEffects();
     if (unk_0074 > unk_0078) {
         unk_0074 = unk_0078;
     }
@@ -887,14 +887,14 @@ int CBattleScene::ov1_0211F404()
         if (unk_0010->unk_04 != 0) {
             if (sub_02010BE0(unk_001C)) {
                 if (PointInRect(touchPos, unk_0C08->m_rect->m_rectangle, 0)) {
-                    unk_0C08->ov1_02138280();
+                    unk_0C08->Press();
                     unk_0080 |= 1;
                     unk_0081 = 0;
                 }
             }
             if (sub_02010BF4(unk_001C)) {
                 if (PointInRect(touchPos, unk_0C0C->m_rect->m_rectangle, 0)) {
-                    unk_0C0C->ov1_021384A8();
+                    unk_0C0C->Press();
                     unk_0080 |= 2;
                     unk_0081 = 0;
                 }
@@ -921,7 +921,7 @@ int CBattleScene::ov1_0211F404()
                         unk_0034--;
                         unk_0C30->ov1_0213EF14(1);
                         unk_0C30->ov1_0213EF40(1);
-                        unk_0C30->ov1_0213E7B8();
+                        unk_0C30->RefreshPokemonList();
                         unk_00D0->Open();
                         u8 mask = 0;
                         for (u8 i = 0; i < BattleStartParam_GetPartyCount(unk_001C); i++) {
@@ -929,7 +929,7 @@ int CBattleScene::ov1_0211F404()
                                 mask |= 1 << i;
                             }
                         }
-                        if (sub_02010B3C(unk_001C)) {
+                        if (BattleStartParam_HasPartner(unk_001C)) {
                             if (unk_0074 == unk_0078) {
                                 mask |= 1;
                             } else {
@@ -937,7 +937,7 @@ int CBattleScene::ov1_0211F404()
                             }
                         }
                         int count = (u32)SaveData_GetPartyCapacity(&MAIN_BSS_020B26A0, 0xFF) <= BattleStartParam_GetPartyCount(unk_001C) ? BattleStartParam_GetPartyCount(unk_001C) : SaveData_GetPartyCapacity(&MAIN_BSS_020B26A0, 0xFF);
-                        unk_0BC0->ov1_0213C2BC(count, unk_0388, unk_0082, mask, sub_02010B3C(unk_001C));
+                        unk_0BC0->Open(count, unk_0388, unk_0082, mask, BattleStartParam_HasPartner(unk_001C));
                         m_game->m_audioEngine->StopAllSe();
                         m_game->m_audioEngine->PlaySe(0xFA);
                         unk_0020 = 5;
@@ -959,11 +959,11 @@ int CBattleScene::ov1_0211F404()
             unk_0080 &= ~2;
         }
     }
-    ov1_02121714();
+    CheckLineHit();
     if (unk_00D8->unk_19C != 0) {
         return -1;
     }
-    ov1_02122B70();
+    StartGameOver();
     return -1;
 }
 
@@ -988,7 +988,7 @@ int CBattleScene::ov1_0211F9D8()
     }
     if (unk_00D0->unk_04 == 0 && !m_game->m_textboxData->CloseIfNoPrompt(1)) {
         if (m_game->m_textboxData->GetYesNoResult() == 0) {
-            ov1_021227CC(3);
+            EndBattle(3);
         } else {
             unk_00D0->Close();
             unk_0020 = 2;
@@ -998,7 +998,7 @@ int CBattleScene::ov1_0211F9D8()
     return -1;
 }
 
-int CBattleScene::ov1_0211FA90()
+int CBattleScene::UpdateAssistMenu()
 {
     if (unk_0C44[1].file != NULL) {
         ScriptVM_Run(&unk_0C44[1].vm, 0xFFFFF);
@@ -1006,14 +1006,14 @@ int CBattleScene::ov1_0211FA90()
     if (unk_0008 & 2) {
         return -1;
     }
-    unk_0BC0->ov1_0213B528(unk_0010);
+    unk_0BC0->Update(unk_0010);
     if (!unk_0BC0->IsActive()) {
-        if (unk_0BC0->ov1_0213C5F4() == 0) {
-            *unk_00A4[unk_0BC0->ov1_0213C5FC()] = 1;
-            if (sub_02010B3C(unk_001C) && unk_0BC0->ov1_0213C5FC() == 0) {
+        if (unk_0BC0->IsCancelled() == 0) {
+            *unk_00A4[unk_0BC0->GetSelectedIndex()] = 1;
+            if (BattleStartParam_HasPartner(unk_001C) && unk_0BC0->GetSelectedIndex() == 0) {
                 unk_0074 = 0;
             } else {
-                ov1_02122CA4(unk_0BC0->ov1_0213C5FC());
+                RemovePartyPokemon(unk_0BC0->GetSelectedIndex());
             }
             if (unk_0BC0->ov1_0213C604() == 1) {
                 unk_000C |= 8;
@@ -1026,14 +1026,14 @@ int CBattleScene::ov1_0211FA90()
     return -1;
 }
 
-int CBattleScene::ov1_0211FB88()
+int CBattleScene::UpdateResult()
 {
-    unk_0BB8->ov1_02138FEC();
+    unk_0BB8->Update();
     if (!unk_0BB8->IsActive()) {
         m_game->m_mainFade->Start(4, 10);
         m_game->m_subFade->Start(4, 10);
         CBattleResultParameter *result = m_game->unk_1444;
-        result->unk_6A = unk_0BB8->ov1_0213A4A0(unk_0BB8->m_score);
+        result->unk_6A = unk_0BB8->GetRank(unk_0BB8->m_score);
         result->unk_80 = unk_0BB8->m_exp;
         u8 hp = unk_0BB0->m_hp;
         unk_00D8->unk_19C = hp;
@@ -1043,29 +1043,29 @@ int CBattleScene::ov1_0211FB88()
     return -1;
 }
 
-int CBattleScene::ov1_0211FC38()
+int CBattleScene::UpdateGameOver()
 {
     unk_0BBC->vfunc_08();
-    if (!unk_0BBC->ov1_0213AA58()) {
+    if (!unk_0BBC->IsActive()) {
         CBattleResultParameter *result = m_game->unk_1444;
         result->unk_08 = 1;
         u8 hp = unk_0BB0->m_hp;
         unk_00D8->unk_19C = hp;
         result->unk_04 = hp;
-        ov1_021227CC(1);
+        EndBattle(1);
     }
-    ov1_02121460();
-    ov1_02121514();
-    ov1_02121184();
-    ov1_021209C4();
-    ov1_02121350();
-    ov1_021214B4();
-    ov1_0212156C();
-    ov1_0212157C();
+    RunEnemyScripts();
+    RunEffectScripts();
+    UpdateAssist();
+    UpdateCaptureLine();
+    UpdateEnemies();
+    UpdateEffects();
+    UpdateParticles();
+    RemoveOffscreenEffects();
     return -1;
 }
 
-int CBattleScene::ov1_0211FCE0()
+int CBattleScene::UpdateExit()
 {
     if (!m_game->m_mainFade->IsActive() && !m_game->m_subFade->IsActive()) {
         unk_0008 |= 1;
@@ -1080,20 +1080,20 @@ int CBattleScene::ov1_0211FCE0()
 static inline void SetDebugAssist(CBattleScene *scene, int type, u16 value)
 {
     scene->unk_0C30->ov1_0213ECB4(type, 0, 0);
-    scene->unk_0C30->ov1_0213EDB0(type, 0, 0);
-    scene->unk_0C30->ov1_0213D92C(0);
-    scene->ov1_0211E928(type, value, 0);
+    scene->unk_0C30->SetPartnerInfo(type, 0, 0);
+    scene->unk_0C30->LoadPokemonIcon(0);
+    scene->CreateAssist(type, value, 0);
 }
 
-int CBattleScene::ov1_0211FD68()
+int CBattleScene::UpdateDebugMenu()
 {
-    unk_0C40->ov1_02135C58();
-    if (unk_0C40->ov1_02135C68() == 0) {
+    unk_0C40->Update();
+    if (unk_0C40->IsActive() == 0) {
         G2_SetBlendBrightness(GX_BLEND_PLANEMASK_NONE, 0);
         GX_SetVisiblePlane(GX_PLANEMASK_BG0);
         unk_0020 = 2;
-        int value = unk_0C40->ov1_02135C8C();
-        switch (unk_0C40->ov1_02135C78()) {
+        int value = unk_0C40->GetResultValue();
+        switch (unk_0C40->GetResultId()) {
         case 6:
             if (value == 1) {
                 unk_000A |= 8;
@@ -1130,19 +1130,19 @@ int CBattleScene::ov1_0211FD68()
             unk_00D8->unk_19C = value;
             break;
         case 11:
-            unk_00D8->ov1_0212C5F0(!unk_00D8->ov1_0212C5D8());
+            unk_00D8->SetInvincible(!unk_00D8->IsInvincible());
             break;
         case 12:
-            ov1_0211F0D8(1, value * 60);
+            SetAllEnemiesStatus(1, value * 60);
             break;
         case 13:
-            ov1_0211F0D8(2, value * 60);
+            SetAllEnemiesStatus(2, value * 60);
             break;
         case 14:
-            ov1_0211F0D8(3, value * 60);
+            SetAllEnemiesStatus(3, value * 60);
             break;
         case 15:
-            ov1_0211F0D8(4, value * 60);
+            SetAllEnemiesStatus(4, value * 60);
             break;
         case 16:
             SetDebugAssist(this, 0, value * 60);
@@ -1200,31 +1200,31 @@ int CBattleScene::ov1_0211FD68()
             break;
         case 34:
             G2_SetBlendBrightness(GX_BLEND_PLANEMASK_NONE, 0);
-            ov1_021227CC(0);
+            EndBattle(0);
             break;
         case 35:
             G2_SetBlendBrightness(GX_BLEND_PLANEMASK_NONE, 0);
-            ov1_021227CC(1);
+            EndBattle(1);
             break;
         case 36:
             G2_SetBlendBrightness(GX_BLEND_PLANEMASK_NONE, 0);
-            ov1_021227CC(2);
+            EndBattle(2);
             break;
         case 37:
             G2_SetBlendBrightness(GX_BLEND_PLANEMASK_NONE, 0);
-            ov1_021227CC(3);
+            EndBattle(3);
             break;
         case 38:
             G2_SetBlendBrightness(GX_BLEND_PLANEMASK_NONE, 0);
-            ov1_021227CC(4);
+            EndBattle(4);
             break;
         }
-        unk_0C40->ov1_02135C2C();
+        unk_0C40->ResetResult();
     }
     return -1;
 }
 
-int CBattleScene::ov1_02120694()
+int CBattleScene::UpdateNewPokemon()
 {
     int index;
     u16 i;
@@ -1236,7 +1236,7 @@ int CBattleScene::ov1_02120694()
         if (unk_0010->unk_04 != 0 || (u16)(input->unk_0002 & 1)) {
             if (unk_005D == unk_005C) {
                 m_game->m_textboxData->CloseAndClear(1, 1);
-                unk_0BB8->ov1_02139C30(unk_00D8, unk_0BB0);
+                unk_0BB8->Start(unk_00D8, unk_0BB0);
                 if (!unk_00D0->IsOpen()) {
                     unk_00D0->Open();
                 }
@@ -1274,53 +1274,53 @@ int CBattleScene::ov1_021208BC()
     unk_006C++;
     if (unk_006C > 0x98) {
         if (unk_005C != 0) {
-            if (sub_02010B24(unk_001C) == 0x23) {
-                unk_0BB8->ov1_02139C30(unk_00D8, unk_0BB0);
+            if (BattleStartParam_GetNextScene(unk_001C) == 0x23) {
+                unk_0BB8->Start(unk_00D8, unk_0BB0);
                 if (!unk_00D0->IsOpen()) {
                     unk_00D0->Open();
                 }
                 unk_0020 = 7;
             } else {
-                unk_0C30->ov1_0213EF94(0);
+                unk_0C30->SetListVisible(0);
                 unk_0020 = 9;
             }
         } else {
-            unk_0BB8->ov1_02139C30(unk_00D8, unk_0BB0);
+            unk_0BB8->Start(unk_00D8, unk_0BB0);
             if (!unk_00D0->IsOpen()) {
                 unk_00D0->Open();
             }
             unk_0020 = 7;
         }
     }
-    ov1_02121460();
-    ov1_02121514();
-    ov1_02121184();
-    ov1_02121350();
-    ov1_021214B4();
-    ov1_0212156C();
-    ov1_0212157C();
+    RunEnemyScripts();
+    RunEffectScripts();
+    UpdateAssist();
+    UpdateEnemies();
+    UpdateEffects();
+    UpdateParticles();
+    RemoveOffscreenEffects();
     return -1;
 }
 
-void CBattleScene::ov1_021209C4()
+void CBattleScene::UpdateCaptureLine()
 {
     Point2D touchPos = { (unk_0010->unk_0A.x - 0x80) << FX32_SHIFT, (unk_0010->unk_0A.y - 0x60) << FX32_SHIFT };
-    if (unk_0044 != BattleStartParam_GetEnemyCount(unk_001C) && unk_00D8->ov1_0212C4B8()) {
+    if (unk_0044 != BattleStartParam_GetEnemyCount(unk_001C) && unk_00D8->HasEnergy()) {
         if (unk_0010->unk_04 != 0) {
             unk_0040 = 0;
             unk_00D8->m_motion.SetPos(touchPos);
-            unk_00D8->ov1_0212C610(touchPos.x, touchPos.y);
-            unk_00D8->ov1_0212C514(1);
+            unk_00D8->ResetLine(touchPos.x, touchPos.y);
+            unk_00D8->SetActive(1);
             unk_00D8->vfunc_08();
             m_game->m_audioEngine->PlayCaptureLineSe(0);
             unk_0034++;
             unk_003C = 0;
             unk_00D8->unk_187 = 0;
         } else if (unk_0010->unk_06 != 0) {
-            unk_00D8->ov1_0212C514(0);
+            unk_00D8->SetActive(0);
             unk_00D8->vfunc_08();
             m_game->m_audioEngine->StopCaptureLineSe(0);
-        } else if (unk_0010->unk_05 != 0 && unk_00D8->ov1_0212C5C0()) {
+        } else if (unk_0010->unk_05 != 0 && unk_00D8->IsActive()) {
             unk_00D8->m_motion.SetPos(touchPos);
             StylerLine *line = unk_00D8->unk_1B8;
             Point2D last = line->m_lines[line->m_head].GetStart();
@@ -1329,21 +1329,21 @@ void CBattleScene::ov1_021209C4()
             } else {
                 m_game->m_audioEngine->AddCaptureLinePitch(-12);
             }
-            unk_00D8->ov1_0212C1C4(touchPos);
-            if (unk_00D8->ov1_0212C4CC()) {
+            unk_00D8->AddLinePoint(touchPos);
+            if (unk_00D8->IsLoopClosed()) {
                 u8 hits = 0;
                 u8 captured = 0;
                 for (u8 i = 0; i < 8; i++) {
                     CBattleEnemy *enemy = unk_00DC[i];
                     if (enemy != NULL && enemy->IsAlive() && enemy->IsTargetable()
-                        && unk_00D8->unk_1B8->ov1_02124650(enemy->m_motion.m_pos.x, enemy->m_motion.m_pos.y - (enemy->m_bobHeight + (enemy->m_height + enemy->m_jumpHeight)))) {
+                        && unk_00D8->unk_1B8->IsInsideLoop(enemy->m_motion.m_pos.x, enemy->m_motion.m_pos.y - (enemy->m_bobHeight + (enemy->m_height + enemy->m_jumpHeight)))) {
                         if (hits == 0) {
                             unk_00D8->unk_187 = ++unk_003C;
                         }
                         hits++;
                         u16 level = DiskHPTable_GetPower(m_game->m_diskHPTable, MAIN_BSS_020B26A0.m_stylerLevel);
                         u8 type = enemy->unk_184->unk_18->unk_03;
-                        enemy->ov1_02126310(unk_00D8->ov1_0212CD6C(level, unk_0384 != NULL ? unk_0384->vfunc_10() : 0x12, type), 0);
+                        enemy->TakeDamage(unk_00D8->CalcCapturePower(level, unk_0384 != NULL ? unk_0384->vfunc_10() : 0x12, type), 0);
                         Point2D pos;
                         pos.x = enemy->m_motion.m_pos.x;
                         pos.y = enemy->m_motion.m_pos.y - (enemy->m_bobHeight + (enemy->m_height + enemy->m_jumpHeight));
@@ -1352,9 +1352,9 @@ void CBattleScene::ov1_021209C4()
                         } else if (enemy->m_flags & 0x1000) {
                             unk_00D8->ov1_0212C990(pos, 0x14, 0x4000, 0x7FFF);
                         } else {
-                            unk_00D8->ov1_0212C7E8(pos, 0x14, 0x4000, 0x7FFF);
+                            unk_00D8->SpawnLoopParticles(pos, 0x14, 0x4000, 0x7FFF);
                         }
-                        if (sub_02010B3C(unk_001C)) {
+                        if (BattleStartParam_HasPartner(unk_001C)) {
                             unk_0074 += unk_007C;
                         }
                         if (!enemy->IsAlive()) {
@@ -1363,27 +1363,27 @@ void CBattleScene::ov1_021209C4()
                             unk_0046[unk_0044] = enemy->unk_184->unk_16;
                             unk_0044++;
                             if (enemy->IsUnk2000()) {
-                                enemy->ov1_0212677C(0xF0);
+                                enemy->StartCapture(0xF0);
                             } else {
-                                enemy->ov1_0212677C(captured * 6 + 0x78);
+                                enemy->StartCapture(captured * 6 + 0x78);
                             }
-                            if (unk_00D8->unk_1C0->ov1_02137AD4() > unk_0056) {
-                                unk_0056 = unk_00D8->unk_1C0->ov1_02137AD4();
+                            if (unk_00D8->unk_1C0->GetLevel() > unk_0056) {
+                                unk_0056 = unk_00D8->unk_1C0->GetLevel();
                             }
                             if (unk_0044 == BattleStartParam_GetEnemyCount(unk_001C)) {
-                                unk_00D8->ov1_0212C514(0);
+                                unk_00D8->SetActive(0);
                                 if (unk_0384 != NULL) {
                                     unk_0384->vfunc_0C();
                                 }
                                 unk_00D8->vfunc_08();
                                 m_game->m_audioEngine->StopCaptureLineSe(0);
                             }
-                            UnkStruct_0212DFEC *param = enemy->unk_184->unk_1C;
+                            BattlePokemonParam *param = enemy->unk_184->unk_1C;
                             Point2D gaugePos;
                             Point2D enemyPos = enemy->m_motion.GetPos();
                             gaugePos.x = enemyPos.x;
                             gaugePos.y = enemyPos.y + (param->unk_0F << 12);
-                            unk_010C[i]->ov1_02135F2C(enemy->unk_188, gaugePos);
+                            unk_010C[i]->SetHP(enemy->unk_188, gaugePos);
                             unk_010C[i]->vfunc_08();
                             int mode = SaveData_GetPartsLevel(&MAIN_BSS_020B26A0, STYLER_PART_RECOVER);
                             u8 hp = unk_00D8->unk_19C;
@@ -1410,8 +1410,8 @@ void CBattleScene::ov1_021209C4()
                     for (u8 i = 0; i < 0x60; i++) {
                         effect = unk_0130[i];
                         if (effect->HasData() && effect->IsUnk100Clear() && effect->unk_184->unk_18->unk_16 != 0
-                            && unk_00D8->unk_1B8->ov1_02124650(effect->m_motion.m_pos.x, effect->m_motion.m_pos.y - (effect->m_bobHeight + (effect->m_height + effect->m_jumpHeight)))) {
-                            effect->ov1_021272AC();
+                            && unk_00D8->unk_1B8->IsInsideLoop(effect->m_motion.m_pos.x, effect->m_motion.m_pos.y - (effect->m_bobHeight + (effect->m_height + effect->m_jumpHeight)))) {
+                            effect->StartVanish();
                         }
                     }
                 }
@@ -1431,41 +1431,41 @@ void CBattleScene::ov1_021209C4()
                     m_game->m_audioEngine->PlaySe(0x3A);
                 }
                 PointPair2D first = unk_00D8->unk_1B8->m_lines2[0].m_points;
-                unk_0BAC->ov1_0212EA1C(first.p1);
+                unk_0BAC->Start(first.p1);
                 for (u16 j = 0; j < unk_00D8->unk_1B8->m_lines2Count; j++) {
-                    unk_0BAC->ov1_0212EA7C(unk_00D8->unk_1B8->m_lines2[j].GetStart());
+                    unk_0BAC->AddPoint(unk_00D8->unk_1B8->m_lines2[j].GetStart());
                 }
-                unk_0BAC->ov1_0212EAD4();
+                unk_0BAC->Close();
             }
         }
     }
     unk_00D8->vfunc_08();
-    unk_00D8->unk_254->ov1_02127EE4();
-    unk_0BAC->ov1_0212E940();
+    unk_00D8->unk_254->Update();
+    unk_0BAC->Update();
 }
 
-void CBattleScene::ov1_02121184()
+void CBattleScene::UpdateAssist()
 {
     if (unk_0044 == BattleStartParam_GetEnemyCount(unk_001C)) {
         return;
     }
-    if (!unk_00D8->ov1_0212C4B8()) {
+    if (!unk_00D8->HasEnergy()) {
         return;
     }
     if (unk_0384 != NULL) {
         if (unk_0384->vfunc_08(unk_0010, unk_00D8, unk_00DC) == 0) {
-            ov1_02122B90();
+            ClearAssistEffects();
             m_game->m_mainFade->Start(1, 0x20);
             m_game->m_subFade->Start(1, 0x20);
             unk_00D8->unk_19E = 0;
-            unk_00D8->unk_1B8->ov1_02124DEC();
-            unk_00D8->unk_1B8->ov1_02124AF4(unk_0030);
+            unk_00D8->unk_1B8->ReleaseTypeGfx();
+            unk_00D8->unk_1B8->SetMaxCount(unk_0030);
             unk_00D8->unk_190 = 0;
             m_game->m_audioEngine->PlaySe(0x13);
             unk_0384->vfunc_0C();
             SAFE_DELETE(unk_0384);
             unk_0C30->ov1_0213EF40(0);
-            unk_0C30->ov1_0213EEB8();
+            unk_0C30->ReleasePokemonIcon();
             unk_0C30->ov1_0213EDDC();
         } else {
             u16 time = unk_0384->unk_04;
@@ -1481,40 +1481,40 @@ void CBattleScene::ov1_02121184()
     }
 }
 
-void CBattleScene::ov1_02121350()
+void CBattleScene::UpdateEnemies()
 {
     for (u8 i = 0; i < 8; i++) {
         CBattleEnemy *enemy = unk_00DC[i];
         if (enemy != NULL && enemy->HasData()) {
-            UnkStruct_0212DFEC *param = enemy->unk_184->unk_1C;
+            BattlePokemonParam *param = enemy->unk_184->unk_1C;
             Point2D gaugePos;
             Point2D enemyPos = enemy->m_motion.GetPos();
             gaugePos.x = enemyPos.x;
             gaugePos.y = enemyPos.y + (param->unk_0F << 12);
             if (enemy->IsAlive()) {
-                unk_010C[i]->ov1_02135F2C(enemy->unk_188, gaugePos);
+                unk_010C[i]->SetHP(enemy->unk_188, gaugePos);
             }
-            int state = enemy->ov1_021267E8();
+            int state = enemy->IsCaptureFinished();
             enemy->vfunc_08();
             unk_010C[i]->vfunc_08();
-            if (state == 0 && enemy->ov1_021267E8() == 1) {
-                unk_0C30->ov1_0213EA2C(i);
+            if (state == 0 && enemy->IsCaptureFinished() == 1) {
+                unk_0C30->SetCaptured(i);
                 unk_0C30->ov1_0213EDDC();
             }
         }
     }
 }
 
-void CBattleScene::ov1_02121460()
+void CBattleScene::RunEnemyScripts()
 {
     for (u8 i = 0; i < 8; i++) {
         if (unk_00DC[i] != NULL && unk_00DC[i]->HasData()) {
-            unk_00DC[i]->ov1_0212580C();
+            unk_00DC[i]->RunScript();
         }
     }
 }
 
-void CBattleScene::ov1_021214B4()
+void CBattleScene::UpdateEffects()
 {
     for (u16 i = 0; i < 0x60; i++) {
         if (unk_0130[i] != NULL && unk_0130[i]->HasData()) {
@@ -1523,30 +1523,30 @@ void CBattleScene::ov1_021214B4()
     }
 }
 
-void CBattleScene::ov1_02121514()
+void CBattleScene::RunEffectScripts()
 {
     for (u16 i = 0; i < 0x60; i++) {
         if (unk_0130[i] != NULL && unk_0130[i]->HasData()) {
-            unk_0130[i]->ov1_02126F90();
+            unk_0130[i]->RunScript();
         }
     }
 }
 
-void CBattleScene::ov1_0212156C()
+void CBattleScene::UpdateParticles()
 {
-    unk_0BA8->ov1_02136AEC();
+    unk_0BA8->Update();
 }
 
-void CBattleScene::ov1_0212157C()
+void CBattleScene::RemoveOffscreenEffects()
 {
     CBattleAttackEffect *effect;
     for (u16 i = 0; i < 0x60; i++) {
         effect = unk_0130[i];
         if (effect->HasData() && effect->unk_184->unk_18->unk_15 != 0) {
             if (!PointInRect(effect->m_motion.m_pos, unk_12C8[0], 0)) {
-                effect->ov1_02127300();
+                effect->Terminate();
             } else if (!PointInRect(effect->m_motion.m_pos, unk_12C8[1], 0)) {
-                effect->ov1_02127300();
+                effect->Terminate();
             }
         }
     }
@@ -1554,20 +1554,20 @@ void CBattleScene::ov1_0212157C()
         effect = unk_02F8[j];
         if (effect->HasData() && effect->unk_184->unk_18->unk_15 != 0) {
             if (!PointInRect(effect->m_motion.m_pos, unk_12C8[0], 0)) {
-                effect->ov1_02127300();
+                effect->Terminate();
             } else if (!PointInRect(effect->m_motion.m_pos, unk_12C8[1], 0)) {
-                effect->ov1_02127300();
+                effect->Terminate();
             }
         }
     }
 }
 
-void CBattleScene::ov1_02121714()
+void CBattleScene::CheckLineHit()
 {
-    if (!unk_00D8->ov1_0212C4E4()) {
+    if (!unk_00D8->IsVisible()) {
         return;
     }
-    if (unk_00D8->ov1_0212C5D8()) {
+    if (unk_00D8->IsInvincible()) {
         return;
     }
     if ((unk_0080 & 2) && unk_0081 < 12) {
@@ -1576,10 +1576,10 @@ void CBattleScene::ov1_02121714()
     if ((unk_0080 & 1) && unk_0081 < 12) {
         return;
     }
-    ov1_02121774();
+    CheckLineHitObjects();
 }
 
-BOOL CBattleScene::ov1_02121774()
+BOOL CBattleScene::CheckLineHitObjects()
 {
     Circle hit;
     for (u8 i = 0; i < 0x60; i++) {
@@ -1589,16 +1589,16 @@ BOOL CBattleScene::ov1_02121774()
             hit.pos.x = circle.pos.x;
             hit.r = circle.r;
             hit.pos.y = circle.pos.y - (effect->m_bobHeight + (effect->m_height + effect->m_jumpHeight));
-            for (u16 j = 0; j < unk_00D8->ov1_0212C6C0() + 1; j++) {
-                if (PointInCircle(unk_00D8->ov1_0212C670(unk_00D8->ov1_0212C6B0(j)), hit)) {
-                    ov1_02122BE8();
-                    unk_00D8->ov1_0212C514(0);
-                    int result = unk_00D8->ov1_0212C33C(effect->unk_18E, effect->unk_184->unk_18->unk_0C);
-                    unk_00D8->unk_25C->ov1_02128E34(hit.pos, result);
+            for (u16 j = 0; j < unk_00D8->GetLineCount() + 1; j++) {
+                if (PointInCircle(unk_00D8->GetLineStart(unk_00D8->GetLineIndex(j)), hit)) {
+                    ShowLineTrail();
+                    unk_00D8->SetActive(0);
+                    int result = unk_00D8->TakeDamage(effect->unk_18E, effect->unk_184->unk_18->unk_0C);
+                    unk_00D8->unk_25C->Show(hit.pos, result);
                     if (unk_0384 != NULL) {
                         unk_0384->vfunc_0C();
                     }
-                    unk_00D8->ov1_0212C6D0(0x7FFF);
+                    unk_00D8->ShatterLine(0x7FFF);
                     if (result != effect->unk_18E) {
                         unk_00D8->ShowHitEffect(hit.pos, 3);
                     } else {
@@ -1612,7 +1612,7 @@ BOOL CBattleScene::ov1_02121774()
                     m_game->m_audioEngine->StopSe(0xB);
                     unk_0038++;
                     if (effect->unk_184->unk_18->unk_13 != 0) {
-                        effect->ov1_02127300();
+                        effect->Terminate();
                     }
                     return TRUE;
                 }
@@ -1626,11 +1626,11 @@ BOOL CBattleScene::ov1_02121774()
             hit.pos.x = circle.pos.x;
             hit.pos.y = circle.pos.y;
             hit.r = circle.r;
-            for (u16 j = 0; j < unk_00D8->ov1_0212C6C0() + 1; j++) {
-                if (PointInCircle(unk_00D8->ov1_0212C670(unk_00D8->ov1_0212C6B0(j)), hit)) {
-                    unk_00D8->ov1_0212C6D0(0x7FFF);
-                    ov1_02122BE8();
-                    unk_00D8->ov1_0212C514(0);
+            for (u16 j = 0; j < unk_00D8->GetLineCount() + 1; j++) {
+                if (PointInCircle(unk_00D8->GetLineStart(unk_00D8->GetLineIndex(j)), hit)) {
+                    unk_00D8->ShatterLine(0x7FFF);
+                    ShowLineTrail();
+                    unk_00D8->SetActive(0);
                     if (unk_0384 != NULL) {
                         unk_0384->vfunc_0C();
                     }
@@ -1649,50 +1649,50 @@ void CBattleScene::func1()
     unk_00C4->ApplyProjection();
     unk_00C4->ApplyView();
     G3_StoreMtx(0);
-    int z = ov1_02121DB0(unk_00C4, -0x3FF);
-    ov1_021222E8(unk_00C4, z);
+    int z = RenderField(unk_00C4, -0x3FF);
+    RenderScreenEffect(unk_00C4, z);
     z = 2;
     for (u8 i = 0; i < 8; i++) {
         if (unk_00DC[i] != NULL && unk_00DC[i]->HasData()) {
-            z = unk_00DC[i]->ov1_02125E00(unk_00C4, z);
+            z = unk_00DC[i]->DrawOverlays(unk_00C4, z);
         }
     }
-    z = ov1_021220B4(unk_00C4, z);
+    z = RenderEnemyGauges(unk_00C4, z);
     unk_00D0->SetZ(z + 3, z + 3, z + 3);
     unk_00D0->Render(unk_00C4);
     switch (unk_0024) {
     case 0:
-        ov1_02121D78(unk_00C4, z + 3);
+        RenderIntro(unk_00C4, z + 3);
         break;
     case 1:
-        ov1_02121D80(unk_00C4, z + 3);
+        RenderStartBanner(unk_00C4, z + 3);
         break;
     case 3:
     case 4:
-        ov1_02122010(unk_00C4, z + 3);
+        RenderPrompt(unk_00C4, z + 3);
         break;
     case 5:
-        ov1_02122018(unk_00C4, z + 3);
+        RenderAssistMenu(unk_00C4, z + 3);
         break;
     case 7:
-        ov1_02122044(unk_00C4, z + 3);
+        RenderResult(unk_00C4, z + 3);
         break;
     case 6:
-        ov1_02122074(unk_00C4, z + 3);
+        RenderGameOver(unk_00C4, z + 3);
         break;
     case 9:
-        ov1_021220AC(unk_00C4, z + 3);
+        RenderNewPokemon(unk_00C4, z + 3);
         break;
     }
     int subZ = unk_0BB0->SetZ(0x3AC);
     unk_0BB0->vfunc_0C(unk_00C8);
     if (sub_02010BE0(unk_001C)) {
-        subZ = unk_0C08->ov1_021382A4(subZ);
-        unk_0C08->ov1_02138268(unk_00C8);
+        subZ = unk_0C08->SetZ(subZ);
+        unk_0C08->Render(unk_00C8);
     }
     if (sub_02010BF4(unk_001C)) {
-        subZ = unk_0C0C->ov1_021384CC(subZ);
-        unk_0C0C->ov1_02138490(unk_00C8);
+        subZ = unk_0C0C->SetZ(subZ);
+        unk_0C0C->Render(unk_00C8);
     }
 }
 
@@ -1701,98 +1701,98 @@ void CBattleScene::func2()
     if (unk_005D != 0) {
         unk_0C34->Render();
     } else {
-        unk_0C30->ov1_0213E728();
+        unk_0C30->Render();
     }
 }
 
-int CBattleScene::ov1_02121D78(Camera2D *camera, int z)
+int CBattleScene::RenderIntro(Camera2D *camera, int z)
 {
     return z;
 }
 
-int CBattleScene::ov1_02121D80(Camera2D *camera, int z)
+int CBattleScene::RenderStartBanner(Camera2D *camera, int z)
 {
-    int result = unk_0C10->ov1_0213F970(z);
-    unk_0C10->ov1_0213F82C(camera);
+    int result = unk_0C10->SetZ(z);
+    unk_0C10->Render(camera);
     return result;
 }
 
-int CBattleScene::ov1_02121DB0(Camera2D *camera, int z)
+int CBattleScene::RenderField(Camera2D *camera, int z)
 {
     for (u8 i = 0; i < 8; i++) {
-        unk_0BC4[i]->ov1_02137EE8();
+        unk_0BC4[i]->Clear();
     }
     for (u8 i = 0; i < 8; i++) {
         if (unk_00DC[i] != NULL && unk_00DC[i]->HasData()) {
-            unk_0BC4[4]->ov1_02137DF8(unk_00DC[i]);
+            unk_0BC4[4]->Add(unk_00DC[i]);
         }
     }
     for (u8 i = 0; i < 0x60; i++) {
         if (unk_0130[i]->HasData()) {
-            unk_0BC4[unk_0130[i]->unk_184->unk_18->unk_08]->ov1_02137DF8(unk_0130[i]);
+            unk_0BC4[unk_0130[i]->unk_184->unk_18->unk_08]->Add(unk_0130[i]);
         }
     }
     for (u8 i = 0; i < 0x20; i++) {
         if (unk_02F8[i]->HasData()) {
-            unk_0BC4[unk_02F8[i]->unk_184->unk_18->unk_08]->ov1_02137DF8(unk_02F8[i]);
+            unk_0BC4[unk_02F8[i]->unk_184->unk_18->unk_08]->Add(unk_02F8[i]);
         }
     }
-    z = sub_0204240C(unk_00D4, z);
-    sub_020423F4(unk_00D4, unk_00C4);
+    z = CaptureBackground_SetZ(unk_00D4, z);
+    CaptureBackground_Render(unk_00D4, unk_00C4);
     unk_0BC4[7]->m_z = z;
-    unk_0BC4[6]->m_z = unk_0BC4[7]->ov1_02137F28(unk_00C4);
-    z = unk_0BC4[6]->ov1_02137F28(unk_00C4);
-    z = ov1_0212233C(unk_00C4, z);
-    z = unk_0BAC->ov1_0212EDB4(z);
-    unk_0BAC->ov1_0212E998(unk_00C4);
-    z = unk_00D8->ov1_0212D124(z);
-    unk_00D8->ov1_0212C00C(unk_00C4);
+    unk_0BC4[6]->m_z = unk_0BC4[7]->Render(unk_00C4);
+    z = unk_0BC4[6]->Render(unk_00C4);
+    z = RenderShadows(unk_00C4, z);
+    z = unk_0BAC->SetZ(z);
+    unk_0BAC->Render(unk_00C4);
+    z = unk_00D8->SetLineZ(z);
+    unk_00D8->RenderLine(unk_00C4);
     unk_0BC4[5]->m_z = z;
-    unk_0BC4[4]->m_z = unk_0BC4[5]->ov1_02137F28(unk_00C4);
-    z = unk_0BC4[4]->ov1_02137F28(unk_00C4);
-    z = unk_00D8->ov1_0212D0D4(z);
+    unk_0BC4[4]->m_z = unk_0BC4[5]->Render(unk_00C4);
+    z = unk_0BC4[4]->Render(unk_00C4);
+    z = unk_00D8->SetZ(z);
     unk_00D8->vfunc_0C(unk_00C4);
     unk_0BC4[3]->m_z = z;
-    unk_0BC4[2]->m_z = unk_0BC4[3]->ov1_02137F28(unk_00C4);
-    unk_0BC4[1]->m_z = unk_0BC4[2]->ov1_02137F28(unk_00C4);
-    unk_0BC4[0]->m_z = unk_0BC4[1]->ov1_02137F28(unk_00C4);
-    z = unk_0BC4[0]->ov1_02137F28(unk_00C4);
-    unk_0BA8->ov1_02136B88(unk_00C4);
+    unk_0BC4[2]->m_z = unk_0BC4[3]->Render(unk_00C4);
+    unk_0BC4[1]->m_z = unk_0BC4[2]->Render(unk_00C4);
+    unk_0BC4[0]->m_z = unk_0BC4[1]->Render(unk_00C4);
+    z = unk_0BC4[0]->Render(unk_00C4);
+    unk_0BA8->Render(unk_00C4);
     return z;
 }
 
-int CBattleScene::ov1_02122010(Camera2D *camera, int z)
+int CBattleScene::RenderPrompt(Camera2D *camera, int z)
 {
     return z;
 }
 
-int CBattleScene::ov1_02122018(Camera2D *camera, int z)
+int CBattleScene::RenderAssistMenu(Camera2D *camera, int z)
 {
-    int result = unk_0BC0->ov1_0213C67C(z);
-    unk_0BC0->ov1_0213BFFC(unk_00C4);
+    int result = unk_0BC0->SetZ(z);
+    unk_0BC0->Render(unk_00C4);
     return result;
 }
 
-int CBattleScene::ov1_02122044(Camera2D *camera, int z)
+int CBattleScene::RenderResult(Camera2D *camera, int z)
 {
-    int result = unk_0BB8->ov1_02139CE4(z);
-    unk_0BB8->ov1_021399A8(camera);
+    int result = unk_0BB8->SetZ(z);
+    unk_0BB8->Render(camera);
     return result;
 }
 
-int CBattleScene::ov1_02122074(Camera2D *camera, int z)
+int CBattleScene::RenderGameOver(Camera2D *camera, int z)
 {
-    int result = unk_0BBC->ov1_0213AA90(z);
+    int result = unk_0BBC->SetZ(z);
     unk_0BBC->vfunc_0C(camera);
     return result;
 }
 
-int CBattleScene::ov1_021220AC(Camera2D *camera, int z)
+int CBattleScene::RenderNewPokemon(Camera2D *camera, int z)
 {
     return z;
 }
 
-int CBattleScene::ov1_021220B4(Camera2D *camera, int z)
+int CBattleScene::RenderEnemyGauges(Camera2D *camera, int z)
 {
     G3_Identity();
     unk_00C8->ApplyProjection();
@@ -1803,22 +1803,22 @@ int CBattleScene::ov1_021220B4(Camera2D *camera, int z)
             CBattleEnemy *enemy = unk_00DC[0];
             if (enemy != NULL) {
                 if (enemy->HasData()) {
-                    unk_010C[0]->ov1_02135E70(8, enemy->unk_188, enemy->unk_184->unk_1C->unk_00, DAT_overlay_1_0213fb68);
+                    unk_010C[0]->Setup(8, enemy->unk_188, enemy->unk_184->unk_1C->unk_00, DAT_overlay_1_0213fb68);
                     unk_010C[0]->vfunc_08();
                 }
-                z = unk_010C[0]->ov1_02136248(z);
+                z = unk_010C[0]->SetZ(z);
                 unk_010C[0]->vfunc_0C(unk_00C8);
             }
             for (u8 i = 1; i < 8; i++) {
                 if (unk_00DC[i] != NULL && unk_00DC[i]->HasData() && unk_00DC[i]->unk_108.value == 0x1F && unk_00DC[i]->IsUnk400Clear()) {
-                    z = unk_010C[i]->ov1_02136248(z);
+                    z = unk_010C[i]->SetZ(z);
                     unk_010C[i]->vfunc_0C(unk_00C8);
                 }
             }
         } else {
             for (u8 i = 0; i < 8; i++) {
                 if (unk_00DC[i] != NULL && unk_00DC[i]->HasData() && unk_00DC[i]->unk_108.value == 0x1F && unk_00DC[i]->IsUnk400Clear()) {
-                    z = unk_010C[i]->ov1_02136248(z);
+                    z = unk_010C[i]->SetZ(z);
                     unk_010C[i]->vfunc_0C(unk_00C8);
                 }
             }
@@ -1827,7 +1827,7 @@ int CBattleScene::ov1_021220B4(Camera2D *camera, int z)
     return z;
 }
 
-int CBattleScene::ov1_021222E8(Camera2D *camera, int z)
+int CBattleScene::RenderScreenEffect(Camera2D *camera, int z)
 {
     G3_Identity();
     unk_00C4->SetOffset(0, 0);
@@ -1839,7 +1839,7 @@ int CBattleScene::ov1_021222E8(Camera2D *camera, int z)
     return z;
 }
 
-int CBattleScene::ov1_0212233C(Camera2D *camera, int z)
+int CBattleScene::RenderShadows(Camera2D *camera, int z)
 {
     CBattleEnemy *enemy;
     for (u8 i = 0; i < 8; i++) {
@@ -1859,7 +1859,7 @@ int CBattleScene::ov1_0212233C(Camera2D *camera, int z)
     for (u8 i = 0; i < 0x60; i++) {
         effect = unk_0130[i];
         if (effect->HasData() && effect->IsUnk200Clear()) {
-            UnkStruct_0212E008 *entry = effect->unk_184->unk_18;
+            BattleEffectParam *entry = effect->unk_184->unk_18;
             if (entry->unk_17 != 0 && (effect->m_height + effect->m_jumpHeight) + effect->m_bobHeight <= FX32_CONST(96)) {
                 Rectangle shadow = entry->GetShadowRect();
                 shadow.pos.x += effect->m_motion.m_pos.x;
@@ -1875,7 +1875,7 @@ int CBattleScene::ov1_0212233C(Camera2D *camera, int z)
     for (u8 i = 0; i < 0x20; i++) {
         CBattleAttackEffect *effect = unk_02F8[i];
         if (effect->HasData()) {
-            UnkStruct_0212E008 *entry = effect->unk_184->unk_18;
+            BattleEffectParam *entry = effect->unk_184->unk_18;
             if (entry->unk_17 != 0 && effect->unk_108.value == 0x1F && (effect->m_height + effect->m_jumpHeight) + effect->m_bobHeight <= FX32_CONST(96)) {
                 Rectangle shadow = entry->GetShadowRect();
                 shadow.pos.x += effect->m_motion.m_pos.x;
@@ -1891,7 +1891,7 @@ int CBattleScene::ov1_0212233C(Camera2D *camera, int z)
     return z + 1;
 }
 
-int CBattleScene::ov1_02122728(u32 id)
+int CBattleScene::GetObjectType(u32 id)
 {
     if (id >= 1 && id < 9) {
         return 1;
@@ -1902,7 +1902,7 @@ int CBattleScene::ov1_02122728(u32 id)
     return id == 0 ? 0 : 3;
 }
 
-CBattleEnemy *CBattleScene::ov1_02122760(u32 id)
+CBattleEnemy *CBattleScene::GetEnemy(u32 id)
 {
     if (id >= 1 && id < 9) {
         u32 idx = id - 1;
@@ -1911,7 +1911,7 @@ CBattleEnemy *CBattleScene::ov1_02122760(u32 id)
     return NULL;
 }
 
-CBattleAttackEffect *CBattleScene::ov1_02122788(u32 id)
+CBattleAttackEffect *CBattleScene::GetEffect(u32 id)
 {
     if (id >= 9 && id < 0x89) {
         u32 idx = id - 9;
@@ -1920,7 +1920,7 @@ CBattleAttackEffect *CBattleScene::ov1_02122788(u32 id)
     return NULL;
 }
 
-CBattleAttackEffectData *CBattleScene::ov1_021227B0(u32 idx)
+CBattleAttackEffectData *CBattleScene::GetEffectData(u32 idx)
 {
     if (idx >= 0x12) {
         return NULL;
@@ -1928,12 +1928,12 @@ CBattleAttackEffectData *CBattleScene::ov1_021227B0(u32 idx)
     return unk_02B0[idx];
 }
 
-CameraController *CBattleScene::ov1_021227C4()
+CameraController *CBattleScene::GetCameraController()
 {
     return unk_00CC;
 }
 
-void CBattleScene::ov1_021227CC(int result)
+void CBattleScene::EndBattle(int result)
 {
     CGame::GetInstance()->m_audioEngine->LoadResultAudio();
     CBattleResultParameter *res = m_game->unk_1444;
@@ -2012,7 +2012,7 @@ void CBattleScene::ov1_021227CC(int result)
         } else if (unk_0056 == 2) {
             unk_000C |= 0x200;
         }
-        ov1_02122DB4();
+        CheckNewCaptures();
     }
     unk_0BB8->m_bonusFlags = unk_000C;
     if (result == 0) {
@@ -2020,8 +2020,8 @@ void CBattleScene::ov1_021227CC(int result)
         unk_006C = 0;
         unk_0020 = 10;
     } else if (unk_005C != 0) {
-        if (sub_02010B24(unk_001C) == 0x23) {
-            unk_0BB8->ov1_02139C30(unk_00D8, unk_0BB0);
+        if (BattleStartParam_GetNextScene(unk_001C) == 0x23) {
+            unk_0BB8->Start(unk_00D8, unk_0BB0);
             if (!unk_00D0->IsOpen()) {
                 unk_00D0->Open();
             }
@@ -2030,7 +2030,7 @@ void CBattleScene::ov1_021227CC(int result)
             unk_0020 = 9;
         }
     } else {
-        unk_0BB8->ov1_02139C30(unk_00D8, unk_0BB0);
+        unk_0BB8->Start(unk_00D8, unk_0BB0);
         if (!unk_00D0->IsOpen()) {
             unk_00D0->Open();
         }
@@ -2039,34 +2039,34 @@ void CBattleScene::ov1_021227CC(int result)
     unk_0018 = result;
 }
 
-void CBattleScene::ov1_02122B70()
+void CBattleScene::StartGameOver()
 {
-    ov1_02122BE8();
-    unk_0BBC->ov1_0213AC30();
+    ShowLineTrail();
+    unk_0BBC->Start();
     unk_0020 = 6;
 }
 
-void CBattleScene::ov1_02122B90()
+void CBattleScene::ClearAssistEffects()
 {
     for (u16 i = 0; i < 0x20; i++) {
         if (unk_02F8[i] != NULL && unk_02F8[i]->HasData()) {
-            unk_02F8[i]->ov1_02127300();
+            unk_02F8[i]->Terminate();
         }
     }
 }
 
-void CBattleScene::ov1_02122BE8()
+void CBattleScene::ShowLineTrail()
 {
-    Point2D first = unk_00D8->ov1_0212C670(0);
-    unk_0BAC->ov1_0212EA1C(first);
-    for (u16 i = 0; i < (u32)unk_00D8->ov1_0212C6C0(); i++) {
-        Point2D pos = unk_00D8->ov1_0212C690(unk_00D8->ov1_0212C6B0(i));
-        unk_0BAC->ov1_0212EA7C(pos);
+    Point2D first = unk_00D8->GetLineStart(0);
+    unk_0BAC->Start(first);
+    for (u16 i = 0; i < (u32)unk_00D8->GetLineCount(); i++) {
+        Point2D pos = unk_00D8->GetLineEnd(unk_00D8->GetLineIndex(i));
+        unk_0BAC->AddPoint(pos);
     }
-    unk_0BAC->ov1_0212E940();
+    unk_0BAC->Update();
 }
 
-void CBattleScene::ov1_02122CA4(u8 index)
+void CBattleScene::RemovePartyPokemon(u8 index)
 {
     SAFE_DELETE(unk_0388[index]);
     for (; index < 7; index++) {
@@ -2094,7 +2094,7 @@ int CBattleScene::ov1_02122D3C(u8 arg0)
     return 1;
 }
 
-void CBattleScene::ov1_02122D78(int arg0)
+void CBattleScene::SelectTouchPanel(int arg0)
 {
     if (arg0) {
         CGame::GetInstance()->SetTouchPanelMode(0);
@@ -2115,7 +2115,7 @@ static inline void SetCaptureCount(SaveData *save, u16 id, int count)
     }
 }
 
-void CBattleScene::ov1_02122DB4()
+void CBattleScene::CheckNewCaptures()
 {
     SaveData *save = &MAIN_BSS_020B26A0;
     u16 ids[4];

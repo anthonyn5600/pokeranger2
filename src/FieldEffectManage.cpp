@@ -4,15 +4,15 @@
 #include "field/CFieldEffectManage.hpp"
 #include "file/CArchiveGuard.hpp"
 
-#define SAFE_RELEASE(ptr)          \
-    do {                           \
-        if (ptr != NULL) {         \
-            (ptr)->ov0_021423A4(); \
-            ptr = NULL;            \
-        }                          \
+#define SAFE_RELEASE(ptr)     \
+    do {                      \
+        if (ptr != NULL) {    \
+            (ptr)->Destroy(); \
+            ptr = NULL;       \
+        }                     \
     } while (0)
 
-struct UnkStruct_0210C1C0 {
+struct FieldEffectSaveBuffer {
     u8 unk_00[0x60];
     u8 unk_60;
     IFieldEffectDataBuilder *unk_64;
@@ -22,11 +22,11 @@ extern "C" {
 void LogInfo(const char *fmt, ...);
 }
 
-extern UnkStruct_0210C1C0 MAIN_BSS_0210C1C0;
+extern FieldEffectSaveBuffer MAIN_BSS_0210C1C0;
 extern SaveData MAIN_BSS_020B26A0;
 
 // Instantiated up front: the original emits it before the constructor (right after the stripped C2 copy).
-template void TFieldEffectParticle<CSoftwareSprite>::ov0_021423E8(const FieldEffectSpriteRes &res);
+template void TFieldEffectParticle<CSoftwareSprite>::SetParticleRes(const FieldEffectSpriteRes &res);
 
 // fake: an unreferenced global (own section, stripped by mwld) that only takes part in mwcc's size sort of the
 // TU's data; it puts _ZTI18CFieldEffectManage before CResidentResource's typeinfo like the original.
@@ -43,10 +43,10 @@ CFieldEffectManage::CFieldEffectManage(FieldEffectListeners *listeners)
         m_effects[i] = NULL;
     }
     MI_CpuFill8(m_factories, 0, sizeof(m_factories));
-    ov0_02143358();
-    m_footStepSmoke.ov0_021509F4(m_resident.GetNcbr(0), m_resident.GetPalette(), m_resident.GetNcer(0));
-    m_footStepSmoke.ov0_02150A04(m_resident.GetNcbr(0), m_resident.GetPalette(), m_resident.GetNcer(5), m_resident.GetCac(5));
-    m_airBubbles.ov0_021423E8(
+    LoadResident();
+    m_footStepSmoke.SetSmokeRes(m_resident.GetNcbr(0), m_resident.GetPalette(), m_resident.GetNcer(0));
+    m_footStepSmoke.SetPuffRes(m_resident.GetNcbr(0), m_resident.GetPalette(), m_resident.GetNcer(5), m_resident.GetCac(5));
+    m_airBubbles.SetParticleRes(
         FieldEffectSpriteRes(m_resident.GetNcbr(0), m_resident.GetPalette(), m_resident.GetNcer(7)));
     m_airBubbles.SetParam(0, 8);
     for (int i = 0; i < 4; i++) {
@@ -59,8 +59,8 @@ CFieldEffectManage::CFieldEffectManage(FieldEffectListeners *listeners)
 CFieldEffectManage::~CFieldEffectManage()
 {
     MAIN_BSS_0210C1C0.unk_64 = NULL;
-    ov0_02142F08();
-    m_footStepSmoke.ov0_02150A94();
+    Clear();
+    m_footStepSmoke.ReleasePuffs();
     for (int i = 0; i < 41; i++) {
         if (m_factories[i] != NULL) {
             m_factories[i]->Release(this);
@@ -70,7 +70,7 @@ CFieldEffectManage::~CFieldEffectManage()
     MAIN_BSS_0210CA60 = NULL;
 }
 
-int CFieldEffectManage::ov0_021428EC(int fps, BOOL arg1)
+int CFieldEffectManage::Update(int fps, BOOL arg1)
 {
     int frames;
     if (fps <= 0) {
@@ -93,33 +93,33 @@ int CFieldEffectManage::ov0_021428EC(int fps, BOOL arg1)
         }
     }
     for (int i = 0; i < 0x80; i++) {
-        if (m_effects[i] != NULL && m_effects[i]->ov0_02142264(frames) == 4) {
+        if (m_effects[i] != NULL && m_effects[i]->Update(frames) == 4) {
             for (int j = 0; j < 4; j++) {
-                unk_780[j] -= m_effects[i]->ov0_0214239C(j);
+                unk_780[j] -= m_effects[i]->GetDrawCount(j);
             }
             SAFE_RELEASE(m_effects[i]);
         }
     }
-    m_footStepSmoke.ov0_02142264(frames);
-    m_damageIndication.ov0_02142264(frames);
+    m_footStepSmoke.Update(frames);
+    m_damageIndication.Update(frames);
     SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     // fake: the second read through another type keeps `save` a base register (the original's add #0x8000);
     // the backend merges the loads (as in Syscall's sub_02033934)
     if (save->m_areaType == 1 && *(u8 *)&save->m_areaType == 1) {
-        m_airBubbles.ov0_02142264(frames);
+        m_airBubbles.Update(frames);
     }
     return TRUE;
 }
 
 static inline void DrawEffect(int *budget, CFieldEffect *effect, Camera2D *camera)
 {
-    effect->ov0_02142344(camera);
+    effect->Render(camera);
     for (int j = 0; j < 4; j++) {
-        budget[j] -= effect->ov0_0214239C(j);
+        budget[j] -= effect->GetDrawCount(j);
     }
 }
 
-int CFieldEffectManage::ov0_02142D88(Camera2D *camera)
+int CFieldEffectManage::Render(Camera2D *camera)
 {
     for (int i = 0; i < 0x80; i++) {
         if (m_effects[i] != NULL) {
@@ -137,7 +137,7 @@ int CFieldEffectManage::ov0_02142D88(Camera2D *camera)
     return TRUE;
 }
 
-int CFieldEffectManage::ov0_02142F08()
+int CFieldEffectManage::Clear()
 {
     for (int i = 0; i < 0x80; i++) {
         SAFE_RELEASE(m_effects[i]);
@@ -148,7 +148,7 @@ int CFieldEffectManage::ov0_02142F08()
     return TRUE;
 }
 
-u16 CFieldEffectManage::ov0_02142F6C(int kind, int arg)
+u16 CFieldEffectManage::Create(int kind, int arg)
 {
     u16 id = 0;
     for (int i = 0; i < 0x80; i++) {
@@ -158,7 +158,7 @@ u16 CFieldEffectManage::ov0_02142F6C(int kind, int arg)
                 if (effect != NULL) {
                     m_effects[i] = effect;
                     for (int j = 0; j < 4; j++) {
-                        unk_780[j] += effect->ov0_0214239C(j);
+                        unk_780[j] += effect->GetDrawCount(j);
                     }
                     id = i | (effect->GetEffectId() << 8);
                 }
@@ -169,7 +169,7 @@ u16 CFieldEffectManage::ov0_02142F6C(int kind, int arg)
     return id;
 }
 
-u16 CFieldEffectManage::ov0_02143024(u16 id)
+u16 CFieldEffectManage::GetNext(u16 id)
 {
     u16 next = 0;
     int i = id != 0 ? (id & 0xFF) + 1 : 0;
@@ -182,7 +182,7 @@ u16 CFieldEffectManage::ov0_02143024(u16 id)
     return next;
 }
 
-CFieldEffect *CFieldEffectManage::ov0_02143088(u16 id)
+CFieldEffect *CFieldEffectManage::Get(u16 id)
 {
     int idx = id & 0xFF;
     if (idx < 0x80) {
@@ -194,12 +194,12 @@ CFieldEffect *CFieldEffectManage::ov0_02143088(u16 id)
     return NULL;
 }
 
-BOOL CFieldEffectManage::ov0_021430D8(u16 id)
+BOOL CFieldEffectManage::Remove(u16 id)
 {
     int idx = id & 0xFF;
     if (idx < 0x80 && m_effects[idx] != NULL && ((id >> 8) & 0xFF) == m_effects[idx]->GetEffectId()) {
         for (int j = 0; j < 4; j++) {
-            unk_780[j] -= m_effects[idx]->ov0_0214239C(j);
+            unk_780[j] -= m_effects[idx]->GetDrawCount(j);
         }
         SAFE_RELEASE(m_effects[idx]);
         return TRUE;
@@ -207,14 +207,14 @@ BOOL CFieldEffectManage::ov0_021430D8(u16 id)
     return FALSE;
 }
 
-void CFieldEffectManage::ov0_0214318C(int kind, CFieldEffectFactory *factory)
+void CFieldEffectManage::SetFactory(int kind, CFieldEffectFactory *factory)
 {
     if (kind >= 0 && kind < 41) {
         m_factories[kind] = factory;
     }
 }
 
-BOOL CFieldEffectManage::ov0_021431A4(int kind, int arg1, int arg2, int arg3, const UnkStruct_02041D80 *table)
+BOOL CFieldEffectManage::EmitFootStep(int kind, int arg1, int arg2, int arg3, const FieldMapData *table)
 {
     int idx = -1;
     if (table == NULL) {
@@ -297,47 +297,47 @@ BOOL CFieldEffectManage::ov0_021431A4(int kind, int arg1, int arg2, int arg3, co
         }
     }
     if (idx >= 0) {
-        m_footStepSmoke.ov0_02150AE8(idx, arg1, arg2, arg3);
+        m_footStepSmoke.Emit(idx, arg1, arg2, arg3);
     }
     return TRUE;
 }
 
-int CFieldEffectManage::ov0_0214332C(int arg0, int arg1, CFieldPlayer *player)
+int CFieldEffectManage::ShowDamage(int arg0, int arg1, CFieldPlayer *player)
 {
-    m_damageIndication.ov0_02164DB8(arg0, arg1, player);
+    m_damageIndication.Show(arg0, arg1, player);
     return TRUE;
 }
 
-void CFieldEffectManage::ov0_02143344(fx32 x, fx32 y)
+void CFieldEffectManage::EmitAirBubbles(fx32 x, fx32 y)
 {
-    m_airBubbles.ov0_0216D050(x, y);
+    m_airBubbles.Emit(x, y);
 }
 
-void CFieldEffectManage::ov0_02143358()
+void CFieldEffectManage::LoadResident()
 {
     m_resident.Load();
 }
 
-int CFieldEffectManage::ov0_0214336C(int layer, int budget)
+int CFieldEffectManage::SetDrawBudget(int layer, int budget)
 {
     unk_790[layer] = budget;
     unk_7A0[layer] = budget;
     return unk_780[layer];
 }
 
-void CFieldEffectManage::ov0_02143380(DrawObjectList *renderLists)
+void CFieldEffectManage::AddToRenderLists(DrawObjectList *renderLists)
 {
-    m_footStepSmoke.ov0_02142398(renderLists);
+    m_footStepSmoke.AddToRenderLists(renderLists);
     for (int i = 0; i < 0x80; i++) {
         if (m_effects[i] != NULL) {
-            m_effects[i]->ov0_02142398(renderLists);
+            m_effects[i]->AddToRenderLists(renderLists);
         }
     }
 }
 
-void CFieldEffectManage::ov0_021433D0()
+void CFieldEffectManage::Reset()
 {
-    ov0_02142F08();
+    Clear();
     for (int i = 0; i < 41; i++) {
         if (m_factories[i] != NULL) {
             m_factories[i]->Reset();
@@ -345,9 +345,9 @@ void CFieldEffectManage::ov0_021433D0()
     }
 }
 
-void CFieldEffectManage::ov0_02143410()
+void CFieldEffectManage::NotifyListeners()
 {
-    m_listeners->ov0_0214378C(this);
+    m_listeners->Notify(this);
 }
 
 void CFieldEffectManage::BuildData(void *buf, int size)
@@ -368,12 +368,12 @@ void CFieldEffectManage::BuildData(void *buf, int size)
     u8 *end = p + size;
     for (int i = 0; i < 3; i++) {
         if (list[i] != NULL) {
-            p += list[i]->ov0_02142390(p, end);
+            p += list[i]->SaveState(p, end);
         }
     }
 }
 
-void CFieldEffectManage::ov0_021434F0()
+void CFieldEffectManage::RestoreSavedEffects()
 {
     u8 data[0x20];
     if (!MAIN_BSS_0210C1C0.unk_60) {
@@ -383,22 +383,22 @@ void CFieldEffectManage::ov0_021434F0()
     u8 *end = &MAIN_BSS_0210C1C0.unk_60;
     for (; p < end; p += 0x20) {
         MI_CpuCopy8(p, data, sizeof(data));
-        ov0_02143568(data);
+        RestoreEffect(data);
     }
     MAIN_BSS_0210C1C0.unk_60 = 0;
 }
 
-void CFieldEffectManage::ov0_02143568(const u8 *data)
+void CFieldEffectManage::RestoreEffect(const u8 *data)
 {
     u16 id = 0;
     int type = data[0] & 0x3F;
     int sub = (data[0] >> 6) & 3;
     switch (type) {
     case 0xD:
-        id = ov0_02142F6C(0xD, 0);
+        id = Create(0xD, 0);
         break;
     case 0xC:
-        id = ov0_02142F6C(0xC, 0);
+        id = Create(0xC, 0);
         break;
     case 0x12: {
         int arg;
@@ -420,7 +420,7 @@ void CFieldEffectManage::ov0_02143568(const u8 *data)
             break;
         }
         if (arg >= 0) {
-            id = ov0_02142F6C(0x12, arg);
+            id = Create(0x12, arg);
         }
         break;
     }
@@ -428,12 +428,12 @@ void CFieldEffectManage::ov0_02143568(const u8 *data)
     if (id == 0) {
         return;
     }
-    CFieldEffect *effect = ov0_02143088(id);
+    CFieldEffect *effect = Get(id);
     if (effect == NULL) {
         return;
     }
-    if (!effect->ov0_02142388(data)) {
-        ov0_021430D8(id);
+    if (!effect->RestoreState(data)) {
+        Remove(id);
     }
 }
 
@@ -444,9 +444,9 @@ void CFieldEffectManage::ov0_0214366C()
             int type = m_effects[i]->GetEffectId();
             if (type == 1 || type == 0x12 || type == 0xC || type == 0xD) {
                 for (int j = 0; j < 4; j++) {
-                    unk_780[j] -= m_effects[i]->ov0_0214239C(j);
+                    unk_780[j] -= m_effects[i]->GetDrawCount(j);
                 }
-                m_effects[i]->ov0_021423A4();
+                m_effects[i]->Destroy();
                 m_effects[i] = NULL;
             }
         }
@@ -458,7 +458,7 @@ FieldEffectListeners::FieldEffectListeners()
     MI_CpuFill8(this, 0, sizeof(*this));
 }
 
-BOOL FieldEffectListeners::ov0_02143730(CFieldEffectManageEventListener *listener)
+BOOL FieldEffectListeners::Add(CFieldEffectManageEventListener *listener)
 {
     BOOL added = FALSE;
     for (int i = 0; i < 4; i++) {
@@ -471,7 +471,7 @@ BOOL FieldEffectListeners::ov0_02143730(CFieldEffectManageEventListener *listene
     return added;
 }
 
-void FieldEffectListeners::ov0_02143760(CFieldEffectManageEventListener *listener)
+void FieldEffectListeners::Remove(CFieldEffectManageEventListener *listener)
 {
     for (int i = 0; i < 4; i++) {
         if (m_listeners[i] != NULL && m_listeners[i] == listener) {
@@ -480,7 +480,7 @@ void FieldEffectListeners::ov0_02143760(CFieldEffectManageEventListener *listene
     }
 }
 
-void FieldEffectListeners::ov0_0214378C(CFieldEffectManage *mgr)
+void FieldEffectListeners::Notify(CFieldEffectManage *mgr)
 {
     for (int i = 0; i < 4; i++) {
         if (m_listeners[i] != NULL) {

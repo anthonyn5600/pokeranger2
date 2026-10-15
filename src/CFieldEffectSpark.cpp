@@ -9,7 +9,7 @@ CFieldEffectSpark::CFieldEffectSpark(int kind)
 {
     CFieldEffectNormalActorData *data = new CFieldEffectNormalActorData();
     if (data != NULL) {
-        data->ov0_021503B8(kind, FALSE);
+        data->Load(kind, FALSE);
         VramPalette *palette = data->GetPalette();
         if (palette != NULL) {
             NNSG2dPaletteData *src = palette->GetData();
@@ -67,9 +67,9 @@ CFieldEffectSpark::~CFieldEffectSpark()
     SAFE_DELETE(unk_18);
 }
 
-int CFieldEffectSpark::ov0_02142264(int step)
+int CFieldEffectSpark::Update(int step)
 {
-    int state = CFieldEffectActor::ov0_02142264(step);
+    int state = CFieldEffectActor::Update(step);
     if (state != 0 && state != 4 && unk_18 != NULL) {
         unk_18->Update();
     }
@@ -130,7 +130,7 @@ static inline void Bob(CFieldEffectSpark *spark, SparkGlow &g)
     }
 }
 
-int CFieldEffectSpark::ov0_02142344(Camera2D *camera)
+int CFieldEffectSpark::Render(Camera2D *camera)
 {
     if (m_state != 4 && m_state != 0) {
         for (int i = 0; i < 3; i++) {
@@ -173,7 +173,7 @@ int CFieldEffectSpark::SetParam(int param, int value)
     return ret;
 }
 
-BOOL CFieldEffectSpark::ov0_021421F0(int inTime, int holdTime, int outTime)
+BOOL CFieldEffectSpark::Start(int inTime, int holdTime, int outTime)
 {
     m_glow[0].offsetStep = 0x1000;
     m_glow[1].offsetStep = 0x2000;
@@ -186,7 +186,7 @@ BOOL CFieldEffectSpark::ov0_021421F0(int inTime, int holdTime, int outTime)
         g->offset = MATH_Rand16(&MAIN_BSS_0210CEC8, m_size.y) - (m_size.y >> 1);
         m_glow[i].blendStep = 0xCC;
     }
-    return CFieldEffect::ov0_021421F0(inTime, holdTime, outTime);
+    return CFieldEffect::Start(inTime, holdTime, outTime);
 }
 
 void CFieldEffectSpark::InitSprites()

@@ -39,9 +39,9 @@ public:
     void SelectList(u16 list);
     BOOL Save(u16 list);
     BOOL Load(u16 list);
-    BOOL sub_02028360(u16 list);
+    BOOL LoadPreviousCopy(u16 list);
     BOOL Clear(u16 list);
-    BOOL sub_02028408(u16 list);
+    BOOL CheckHeader(u16 list);
     u32 Update();
     u8 UpdateWrite(BOOL clear);
     u8 UpdateLoad();

@@ -16,10 +16,10 @@ class UnkClass_02127B48 {
 public:
     UnkClass_02127B48();
     ~UnkClass_02127B48();
-    void ov1_02127BCC();
-    void ov1_02127BF0(Camera2D *camera);
-    void ov1_02127C60(UnkClass_021278E8 *data);
-    int ov1_02127CAC(int z);
+    void Update();
+    void Render(Camera2D *camera);
+    void SetData(UnkClass_021278E8 *data);
+    int SetZ(int z);
 
     inline void SetPos(Point2D pos)
     {

@@ -1,12 +1,12 @@
-#ifndef POKERANGER2_UNKCLASS_02041D80_HPP
-#define POKERANGER2_UNKCLASS_02041D80_HPP
+#ifndef POKERANGER2_FIELDDATARECORDS_HPP
+#define POKERANGER2_FIELDDATARECORDS_HPP
 
 #include <nitro.h>
 
 #include "FieldData.hpp"
 #include "common.hpp"
 
-struct UnkStruct_02041D80 {
+struct FieldMapData {
     u8 unk_00;
     u8 unk_01;
     u8 unk_02;
@@ -102,10 +102,10 @@ struct FieldTargetObjectData {
 
 extern "C" {
 FieldTargetObjectData *FieldData_GetTargetObject(FieldData *obj, int kind);
-UnkStruct_02041D80 *FieldData_GetMap(FieldData *obj, u32 mapId);
+FieldMapData *FieldData_GetMap(FieldData *obj, u32 mapId);
 }
 
 STATIC_SIZE_ASSERT(FieldTargetObjectData, 0x20);
-STATIC_SIZE_ASSERT(UnkStruct_02041D80, 0x54);
+STATIC_SIZE_ASSERT(FieldMapData, 0x54);
 
-#endif // POKERANGER2_UNKCLASS_02041D80_HPP
+#endif // POKERANGER2_FIELDDATARECORDS_HPP

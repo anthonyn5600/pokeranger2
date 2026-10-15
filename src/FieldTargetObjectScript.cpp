@@ -9,11 +9,11 @@ extern "C" {
 void Script_Link(void *script);
 }
 
-// One loaded target object/touch script (twin of UnkStruct_021357DC).
-class UnkStruct_02141F40 {
+// One loaded target object/touch script (twin of FieldEnemyScript).
+class FieldTargetObjectScript {
 public:
-    UnkStruct_02141F40();
-    ~UnkStruct_02141F40();
+    FieldTargetObjectScript();
+    ~FieldTargetObjectScript();
     void Load(const char *path, int id);
 
     u16 unk_00;
@@ -21,19 +21,19 @@ public:
     void *unk_08;
 };
 
-UnkStruct_02141F40::UnkStruct_02141F40()
+FieldTargetObjectScript::FieldTargetObjectScript()
 {
     unk_00 = 0;
     unk_04 = NULL;
     unk_08 = NULL;
 }
 
-UnkStruct_02141F40::~UnkStruct_02141F40()
+FieldTargetObjectScript::~FieldTargetObjectScript()
 {
     SAFE_DELETE(unk_04);
 }
 
-void UnkStruct_02141F40::Load(const char *path, int id)
+void FieldTargetObjectScript::Load(const char *path, int id)
 {
     u32 heapId = s_game->unk_14A8;
     SAFE_DELETE(unk_04);
@@ -55,17 +55,17 @@ FieldTargetObjectScriptCache::FieldTargetObjectScriptCache()
 
 FieldTargetObjectScriptCache::~FieldTargetObjectScriptCache()
 {
-    ov0_02142068();
+    Clear();
 }
 
-void FieldTargetObjectScriptCache::ov0_02142068()
+void FieldTargetObjectScriptCache::Clear()
 {
     for (int i = 0; i < 32; i++) {
         SAFE_DELETE(m_scripts[i]);
     }
 }
 
-void *FieldTargetObjectScriptCache::ov0_021420AC(int id, BOOL touch)
+void *FieldTargetObjectScriptCache::Get(int id, BOOL touch)
 {
     char path[0x100];
     u32 key = id;
@@ -78,7 +78,7 @@ void *FieldTargetObjectScriptCache::ov0_021420AC(int id, BOOL touch)
                 return m_scripts[i]->unk_08;
             }
         } else {
-            m_scripts[i] = new UnkStruct_02141F40();
+            m_scripts[i] = new FieldTargetObjectScript();
             if (!touch) {
                 OS_SPrintf(path, "data/Script/field/targetobject/to%02d/TargetObject%03d.fsb", id / 10, id);
             } else {

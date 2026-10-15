@@ -3,7 +3,7 @@
 
 #include <nitro.h>
 
-#include "battle/UnkStruct_0212DFEC.hpp"
+#include "battle/BattlePokemonParam.hpp"
 #include "common.hpp"
 
 // Defined in ov1
@@ -11,12 +11,12 @@ class BattlePokemonTable {
 public:
     BattlePokemonTable(u32 arg0);
     ~BattlePokemonTable(); // ov1_0212DFC4
-    UnkStruct_0212DFEC *ov1_0212DFEC(u16 id);
+    BattlePokemonParam *GetEntry(u16 id);
 
 public:
     u16 m_count;
     u8 unk_02[0x2];
-    UnkStruct_0212DFEC *m_entries;
+    BattlePokemonParam *m_entries;
 };
 
 STATIC_SIZE_ASSERT(BattlePokemonTable, 0x8);

@@ -18,22 +18,22 @@ public:
     MissionQuestInfo(CGame *game);
     ~MissionQuestInfo();
 
-    void ov8_0211D7E0();
-    void ov8_0211D818();
-    void ov8_0211D8A0();
-    void ov8_0211D8AC();
+    void Init();
+    void Update();
+    void Render();
+    void OnVBlank();
     void ov8_0211D8B8();
-    void ov8_0211D8EC();
-    void ov8_0211D9E8();
-    void ov8_0211DA98();
-    BOOL ov8_0211E0A4(int mode, int arg1);
-    void ov8_0211E0FC();
-    BOOL ov8_0211E148();
-    void ov8_0211E164();
-    void ov8_0211E170();
-    int ov8_0211E32C();
-    int ov8_0211E380();
-    int ov8_0211E3A4();
+    void Release();
+    void Draw();
+    void Load();
+    BOOL SetMode(int mode, int arg1);
+    void UpdateTabs();
+    BOOL Setup();
+    void RequestDrawTexts();
+    void DrawTexts();
+    int GetMissionPlace();
+    int GetMissionIndex();
+    int GetQuestIndex();
 
 public:
     u16 unk_00;

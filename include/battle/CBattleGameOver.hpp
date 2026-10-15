@@ -21,26 +21,26 @@ public:
     virtual void vfunc_0C(Camera2D *camera);
     virtual void vfunc_10(Camera2D *camera);
 
-    void ov1_0213A680();
-    void ov1_0213A6A0();
-    void ov1_0213A77C();
-    void ov1_0213A858();
+    void LoadGraphics();
+    void LoadResA();
+    void LoadResB();
+    void LoadResC();
     void ov1_0213A914();
-    void ov1_0213A948();
-    void ov1_0213A968();
-    void ov1_0213A9A8(u16 duration);
-    void ov1_0213A9BC();
-    BOOL ov1_0213AA58();
-    void ov1_0213AA70(BOOL active);
-    int ov1_0213AA90(int z);
-    void ov1_0213AA9C();
-    void ov1_0213AAC8();
-    void ov1_0213AB08();
-    void ov1_0213AC30();
-    void ov1_0213AC70();
-    void ov1_0213AC90();
-    void ov1_0213ACA4(Camera2D *camera);
-    void ov1_0213AD3C(Camera2D *camera);
+    void StartWhiteOut();
+    void StartWhiteIn();
+    void StartWait(u16 duration);
+    void EnterState();
+    BOOL IsActive();
+    void SetActive(BOOL active);
+    int SetZ(int z);
+    void WaitMainFade();
+    void WaitFades();
+    void WaitTimer();
+    void Start();
+    void NextState();
+    void Finish();
+    void DrawResA(Camera2D *camera);
+    void DrawResC(Camera2D *camera);
 
 public:
     AudioEngine *m_audio;

@@ -43,29 +43,29 @@ struct CommQueueCursor {
 };
 
 // RangerNetCommQueue.cpp
-CommQueue *ov11_0212C304(CommQueueMan *pool);
-BOOL ov11_0212C33C(CommQueueMan *pool);
-BOOL ov11_0212C378(CommQueueList *list);
-BOOL ov11_0212C3B8(CommQueueCursor *cursor, u8 v);
-BOOL ov11_0212C3E4(CommQueue *node, CommQueueCursor *cursor);
-BOOL ov11_0212C4A0(CommQueue *node, CommQueueCursor *cursor, CommRing *ring, BOOL partial);
-BOOL ov11_0212C5FC(CommQueueMan *pool, u8 cmd, u8 *data, u16 size, int unused, BOOL toRing);
-CommQueue *ov11_0212C6C0(CommQueueMan *pool);
-void ov11_0212C6F0(CommQueueMan *pool);
-BOOL ov11_0212C724(CommQueueMan *pool, CommQueueCursor *cursor, BOOL partial);
-void ov11_0212C7FC(CommQueueMan *pool, int count, CommRing *ring);
-void ov11_0212C840(CommQueueMan *pool);
-void ov11_0212C878(CommQueueMan *pool);
+CommQueue *CommQueue_GetFree(CommQueueMan *pool);
+BOOL CommQueue_IsEmpty(CommQueueMan *pool);
+BOOL CommQueueList_PopHead(CommQueueList *list);
+BOOL CommQueueCursor_WriteByte(CommQueueCursor *cursor, u8 v);
+BOOL CommQueue_WriteHeader(CommQueue *node, CommQueueCursor *cursor);
+BOOL CommQueue_WriteData(CommQueue *node, CommQueueCursor *cursor, CommRing *ring, BOOL partial);
+BOOL CommQueue_Write(CommQueueMan *pool, u8 cmd, u8 *data, u16 size, int unused, BOOL toRing);
+CommQueue *CommQueue_GetCurrent(CommQueueMan *pool);
+void CommQueue_Advance(CommQueueMan *pool);
+BOOL CommQueue_FillBuffer(CommQueueMan *pool, CommQueueCursor *cursor, BOOL partial);
+void CommQueueMan_Init(CommQueueMan *pool, int count, CommRing *ring);
+void CommQueueMan_Reset(CommQueueMan *pool);
+void CommQueueMan_Delete(CommQueueMan *pool);
 
 // RangerNetCommRing.cpp
-void ov11_0212C89C(CommRing *ring, u8 *buf, int size);
-void ov11_0212C8B8(CommRing *ring, u8 *data, int size, int line);
-int ov11_0212C938(CommRing *ring, u8 *buf, int size);
-u8 ov11_0212C964(CommRing *ring);
-int ov11_0212C97C(CommRing *ring, u8 *buf, int size);
-int ov11_0212C9F4(CommRing *ring);
-int ov11_0212CA20(CommRing *ring);
-int ov11_0212CA38(CommRing *ring, int pos);
-void ov11_0212CA54(CommRing *ring);
+void CommRing_Init(CommRing *ring, u8 *buf, int size);
+void CommRing_Write(CommRing *ring, u8 *data, int size, int line);
+int CommRing_Read(CommRing *ring, u8 *buf, int size);
+u8 CommRing_ReadByte(CommRing *ring);
+int CommRing_Peek(CommRing *ring, u8 *buf, int size);
+int CommRing_DataSize(CommRing *ring);
+int CommRing_RemainingSize(CommRing *ring);
+int CommRing_Index(CommRing *ring, int pos);
+void CommRing_UpdateEndPos(CommRing *ring);
 
 #endif // POKERANGER2_RANGERNETCOMM_HPP

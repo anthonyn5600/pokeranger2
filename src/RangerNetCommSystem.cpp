@@ -79,81 +79,81 @@ static volatile u8 sClientSendState = 4;
 static volatile u8 sServerSendState = 4;
 
 // RangerNetWh.cpp ... RangerNetShared.cpp
-int ov11_02127B08();
-void ov11_021285AC();
-void ov11_0212874C();
-int ov11_02128EE0();
-void ov11_02128C14();
-BOOL ov11_02129144(int arg, int flag3, int flag5);
-BOOL ov11_021292B8();
-void ov11_021296C8(u16 vcount);
-BOOL ov11_02129770();
-void ov11_02129858();
-u16 ov11_02128330();
-u16 ov11_02127AA4();
-int ov11_0212978C();
-BOOL ov11_02129830();
-void ov11_021298C4(int arg);
-void ov11_02129944();
-void ov11_02129A74();
+int WH_GetSystemState();
+void Connect_Update();
+void CommInfo_Delete();
+int CommManager_GetCommType();
+void CommManager_Update();
+BOOL CommServerClient_InitServer(int arg, int flag3, int flag5);
+BOOL CommServerClient_RequestEnd();
+void CommServerClient_Update(u16 vcount);
+BOOL CommServerClient_IsInitialized();
+void CommServerClient_SetEnding();
+u16 WH_GetCurrentAid();
+u16 WH_GetBitmap();
+int CommServerClient_IsClientConnecting();
+BOOL CommServerClient_IsEnding();
+void CommTool_Init(int arg);
+void CommTool_Delete();
+void CommTiming_Update();
 extern "C" BOOL thunk_FUN_overlay_11__02127904(const void *data, u16 size, int port, void (*callback)(BOOL result));
 
-u16 ov11_0212CE10(u16 mode); // D8
-void ov11_0212CB10(int netId, int cmd, int size, void *data); // RangerNetCommCmd.cpp
-u16 ov11_0212CBA4(int cmd);
-BOOL ov11_0212CC34(int cmd);
-u8 *ov11_0212CC90(int cmd, int netId, int size);
+u16 CommLocal_MaxMachines(u16 mode); // D8
+void CommCmd_Callback(int netId, int cmd, int size, void *data); // RangerNetCommCmd.cpp
+u16 CommCmd_PacketSizeOf(int cmd);
+BOOL CommCmd_HasRecvBuffer(int cmd);
+u8 *CommCmd_GetRecvBuffer(int cmd, int netId, int size);
 
-void ov11_02129D64();
-void ov11_0212A0C0();
-void ov11_0212A3E4(u16 aid);
-void ov11_0212A4C4();
-void ov11_0212A570();
-u8 ov11_0212A640();
-void ov11_0212A668();
-void ov11_0212A7A4();
-void ov11_0212A804();
-void ov11_0212A944();
-BOOL ov11_0212AA64(u8 frame);
-void ov11_0212AB58();
-void ov11_0212AED4(u16 aid, u8 *data, u16 size);
-void ov11_0212B110(u16 aid, u8 *data, u16 size);
-void ov11_0212B260(BOOL result);
-void ov11_0212B280(BOOL result);
-BOOL ov11_0212B4B4(u8 *data, int aid);
-BOOL ov11_0212B59C(u8 *hdr);
-BOOL ov11_0212B8A0(u8 cmd, u8 *data, u16 size);
-BOOL ov11_0212B938(u8 cmd, u8 *data, u16 size);
-BOOL ov11_0212BA98(u8 cmd, u8 *data, u16 size);
-BOOL ov11_0212BFAC();
-void ov11_0212C2E4();
-void ov11_0212BB7C(int aid, int cmd, int size, u8 *data, CommRecvState *pending);
-BOOL ov11_0212BF7C();
-BOOL ov11_0212C198(u8 cmd, u8 *data);
-void ov11_0212A5F8(u8 mode);
-void ov11_0212B7E4(u8 *frame);
-int ov11_0212C1A8(u16 mode);
-void ov11_0212AD8C();
-void ov11_0212B2A0();
-BOOL ov11_0212B6AC(u8 *frame);
-void ov11_0212BD58();
-void ov11_0212BDC8();
-BOOL ov11_0212BEA0(u16 aid);
-void ov11_0212BFD4();
-u16 ov11_0212C154();
-BOOL ov11_0212C1D0();
-void ov11_0212C21C(MATHRandContext32 *ctx);
+void CommSys_ResetData();
+void CommSys_ClearData();
+void CommSys_ClearServerRecvData(u16 aid);
+void CommSys_ClearDisconnectedClients();
+void CommSys_UpdateTransitionType();
+u8 CommSys_TransmissionType();
+void CommSys_Delete();
+void CommSys_UpdateSend();
+void CommSys_UpdateEnd();
+void CommSys_UpdateClient();
+BOOL CommSys_BuildParallelServerFrame(u8 frame);
+void CommSys_UpdateServerClient();
+void CommSys_RecvFromServer(u16 aid, u8 *data, u16 size);
+void CommSys_RecvFromClient(u16 aid, u8 *data, u16 size);
+void CommSys_ClientSendCallback(BOOL result);
+void CommSys_ServerSendCallback(BOOL result);
+BOOL CommSys_DecodeKeys(u8 *data, int aid);
+BOOL CommSys_EncodeKeys(u8 *hdr);
+BOOL CommSys_SendDataHuge(u8 cmd, u8 *data, u16 size);
+BOOL CommSys_SendData(u8 cmd, u8 *data, u16 size);
+BOOL CommSys_SendDataServer(u8 cmd, u8 *data, u16 size);
+BOOL CommSys_IsSendingMovementData();
+void CommSys_SetError();
+void CommSys_EndCallback(int aid, int cmd, int size, u8 *data, CommRecvState *pending);
+BOOL CommSys_IsInitialized();
+BOOL CommSys_SendDataFixedSize(u8 cmd, u8 *data);
+void CommSys_SwitchTransitionType(u8 mode);
+void CommSys_BuildServerFrame(u8 *frame);
+int CommSys_GetPacketSize(u16 mode);
+void CommSys_UpdateServer();
+void CommSys_SendClientFrame();
+BOOL CommSys_BuildClientFrame(u8 *frame);
+void CommSys_RecvData();
+void CommSys_RecvDataServer();
+BOOL CommSys_IsPlayerConnected(u16 aid);
+void CommSys_Transmission();
+u16 CommSys_CurNetId();
+BOOL CommSys_IsAlone();
+void CommSys_Seed(MATHRandContext32 *ctx);
 
-BOOL ov11_02129B60(BOOL keep, int size)
+BOOL CommSys_Init(BOOL keep, int size)
 {
     BOOL reset = FALSE;
     sActive = 0;
     if (keep) {
-        int n = ov11_0212CE10(ov11_02128EE0()) + 1;
+        int n = CommLocal_MaxMachines(CommManager_GetCommType()) + 1;
         if (sWork != NULL) {
             return TRUE;
         }
-        ov11_021298C4(0);
+        CommTool_Init(0);
         sWork = (CommSystem *)Heap_Alloc(sizeof(CommSystem));
         MI_CpuFill8(sWork, 0, sizeof(CommSystem));
         sWork->unk_654 = size + 0x40;
@@ -163,12 +163,12 @@ BOOL ov11_02129B60(BOOL keep, int size)
         sWork->unk_460 = (u8 *)Heap_Alloc(sWork->unk_654);
         sWork->unk_458 = (u8 *)Heap_Alloc(n * sWork->unk_654);
         sWork->unk_454 = (u8 *)Heap_Alloc(n * sWork->unk_654);
-        if (ov11_02128EE0() == 10) {
-            ov11_0212C7FC(&sWork->unk_548, 100, &sWork->unk_464);
-            ov11_0212C7FC(&sWork->unk_568, 800, &sWork->unk_4DC);
+        if (CommManager_GetCommType() == 10) {
+            CommQueueMan_Init(&sWork->unk_548, 100, &sWork->unk_464);
+            CommQueueMan_Init(&sWork->unk_568, 800, &sWork->unk_4DC);
         } else {
-            ov11_0212C7FC(&sWork->unk_548, 20, &sWork->unk_464);
-            ov11_0212C7FC(&sWork->unk_568, 280, &sWork->unk_4DC);
+            CommQueueMan_Init(&sWork->unk_548, 20, &sWork->unk_464);
+            CommQueueMan_Init(&sWork->unk_568, 280, &sWork->unk_4DC);
         }
     } else {
         reset = TRUE;
@@ -178,14 +178,14 @@ BOOL ov11_02129B60(BOOL keep, int size)
         sWork->unk_673[i] = 0xFF;
     }
     if (!reset) {
-        ov11_02129D64();
+        CommSys_ResetData();
     }
-    ov11_0212C21C(&sWork->unk_5F4);
+    CommSys_Seed(&sWork->unk_5F4);
     sWork->unk_683 = 0;
     return TRUE;
 }
 
-void ov11_02129D64()
+void CommSys_ResetData()
 {
     int i;
 
@@ -193,23 +193,23 @@ void ov11_02129D64()
     sWork->unk_629 = 0;
     sWork->unk_67B = 0;
     sWork->unk_67C = 0;
-    int n = ov11_0212CE10(ov11_02128EE0()) + 1;
+    int n = CommLocal_MaxMachines(CommManager_GetCommType()) + 1;
     MI_CpuFill8(sWork->unk_458, 0, sWork->unk_654 * n);
     for (i = 0; i < n; i++) {
-        ov11_0212C89C(&sWork->unk_4E8[i], sWork->unk_458 + i * sWork->unk_654, sWork->unk_654);
+        CommRing_Init(&sWork->unk_4E8[i], sWork->unk_458 + i * sWork->unk_654, sWork->unk_654);
     }
     MI_CpuFill8(sWork->unk_454, 0, sWork->unk_654 * n);
     for (i = 0; i < n; i++) {
-        ov11_0212C89C(&sWork->unk_47C[i], sWork->unk_454 + i * sWork->unk_654, sWork->unk_654);
+        CommRing_Init(&sWork->unk_47C[i], sWork->unk_454 + i * sWork->unk_654, sWork->unk_654);
     }
     MI_CpuFill8(sWork->unk_2D4, 0, sizeof(sWork->unk_2D4));
-    ov11_0212C89C(&sWork->unk_4DC, sWork->unk_2D4, sizeof(sWork->unk_2D4));
+    CommRing_Init(&sWork->unk_4DC, sWork->unk_2D4, sizeof(sWork->unk_2D4));
     for (i = 0; i < 0xC0; i++) {
         sWork->unk_154[0][i] = 0xEE;
         sWork->unk_154[1][i] = 0xEE;
     }
     MI_CpuFill8(sWork->unk_04C, 0, sizeof(sWork->unk_04C));
-    ov11_0212C89C(&sWork->unk_464, sWork->unk_04C, sizeof(sWork->unk_04C));
+    CommRing_Init(&sWork->unk_464, sWork->unk_04C, sizeof(sWork->unk_04C));
     sWork->unk_000[0][0] = 0xFF;
     sWork->unk_000[1][0] = 0xFF;
     for (i = 1; i < 0x26; i++) {
@@ -217,7 +217,7 @@ void ov11_02129D64()
         sWork->unk_000[1][i] = 0xEE;
     }
     MI_CpuFill8(sWork->unk_45C, 0, sWork->unk_654 * 2);
-    ov11_0212C89C(&sWork->unk_470, sWork->unk_45C, sWork->unk_654 * 2);
+    CommRing_Init(&sWork->unk_470, sWork->unk_45C, sWork->unk_654 * 2);
     sWork->unk_680 = 0;
     sWork->unk_681 = 0;
     for (i = 0; i < 8; i++) {
@@ -241,34 +241,34 @@ void ov11_02129D64()
     sWork->unk_67F = 1;
     sServerSendState = 4;
     sClientSendState = 4;
-    ov11_0212C840(&sWork->unk_548);
-    ov11_0212C840(&sWork->unk_568);
+    CommQueueMan_Reset(&sWork->unk_548);
+    CommQueueMan_Reset(&sWork->unk_568);
     sWork->unk_684 = 0;
 }
 
-void ov11_0212A0C0()
+void CommSys_ClearData()
 {
     int i;
 
     sWork->unk_628 = 0;
     sWork->unk_629 = 0;
-    int n = ov11_0212CE10(ov11_02128EE0()) + 1;
+    int n = CommLocal_MaxMachines(CommManager_GetCommType()) + 1;
     MI_CpuFill8(sWork->unk_458, 0, sWork->unk_654 * n);
     for (i = 0; i < n; i++) {
-        ov11_0212C89C(&sWork->unk_4E8[i], sWork->unk_458 + i * sWork->unk_654, sWork->unk_654);
+        CommRing_Init(&sWork->unk_4E8[i], sWork->unk_458 + i * sWork->unk_654, sWork->unk_654);
     }
     MI_CpuFill8(sWork->unk_454, 0, sWork->unk_654 * n);
     for (i = 0; i < n; i++) {
-        ov11_0212C89C(&sWork->unk_47C[i], sWork->unk_454 + i * sWork->unk_654, sWork->unk_654);
+        CommRing_Init(&sWork->unk_47C[i], sWork->unk_454 + i * sWork->unk_654, sWork->unk_654);
     }
     MI_CpuFill8(sWork->unk_2D4, 0, sizeof(sWork->unk_2D4));
-    ov11_0212C89C(&sWork->unk_4DC, sWork->unk_2D4, sizeof(sWork->unk_2D4));
+    CommRing_Init(&sWork->unk_4DC, sWork->unk_2D4, sizeof(sWork->unk_2D4));
     for (i = 0; i < 0xC0; i++) {
         sWork->unk_154[0][i] = 0xEE;
         sWork->unk_154[1][i] = 0xEE;
     }
     MI_CpuFill8(sWork->unk_04C, 0, sizeof(sWork->unk_04C));
-    ov11_0212C89C(&sWork->unk_464, sWork->unk_04C, sizeof(sWork->unk_04C));
+    CommRing_Init(&sWork->unk_464, sWork->unk_04C, sizeof(sWork->unk_04C));
     sWork->unk_000[0][0] = 0xFF;
     sWork->unk_000[1][0] = 0xFF;
     for (i = 1; i < 0x26; i++) {
@@ -276,7 +276,7 @@ void ov11_0212A0C0()
         sWork->unk_000[1][i] = 0xEE;
     }
     MI_CpuFill8(sWork->unk_45C, 0, sWork->unk_654 * 2);
-    ov11_0212C89C(&sWork->unk_470, sWork->unk_45C, sWork->unk_654 * 2);
+    CommRing_Init(&sWork->unk_470, sWork->unk_45C, sWork->unk_654 * 2);
     sWork->unk_680 = 0;
     sWork->unk_681 = 0;
     for (i = 0; i < 8; i++) {
@@ -296,48 +296,48 @@ void ov11_0212A0C0()
     sWork->unk_5E8.unk_0 = 0;
     sWork->unk_67E = 1;
     sWork->unk_67F = 1;
-    ov11_0212C840(&sWork->unk_548);
-    ov11_0212C840(&sWork->unk_568);
+    CommQueueMan_Reset(&sWork->unk_548);
+    CommQueueMan_Reset(&sWork->unk_568);
     sWork->unk_684 = 0;
 }
 
-void ov11_0212A3E4(u16 aid)
+void CommSys_ClearServerRecvData(u16 aid)
 {
     sWork->unk_65B[aid] = 0;
     sWork->unk_663[aid] = 1;
     sWork->unk_634[aid] = 0;
     sWork->unk_66B[aid] = 1;
-    ov11_0212C89C(&sWork->unk_47C[aid], sWork->unk_454 + aid * sWork->unk_654, sWork->unk_654);
-    ov11_0212C89C(&sWork->unk_4E8[aid], sWork->unk_458 + aid * sWork->unk_654, sWork->unk_654);
+    CommRing_Init(&sWork->unk_47C[aid], sWork->unk_454 + aid * sWork->unk_654, sWork->unk_654);
+    CommRing_Init(&sWork->unk_4E8[aid], sWork->unk_458 + aid * sWork->unk_654, sWork->unk_654);
     sWork->unk_588[aid].unk_A = 0xEE;
     sWork->unk_588[aid].unk_8 = 0xFFFF;
     sWork->unk_588[aid].unk_4 = NULL;
     sWork->unk_588[aid].unk_0 = 0;
 }
 
-void ov11_0212A4C4()
+void CommSys_ClearDisconnectedClients()
 {
     for (u16 aid = 1; aid < 8; aid++) {
-        if (!ov11_0212BEA0(aid) && sWork->unk_663[aid] == 0 && !ov11_0212C1D0()) {
-            ov11_0212A3E4(aid);
+        if (!CommSys_IsPlayerConnected(aid) && sWork->unk_663[aid] == 0 && !CommSys_IsAlone()) {
+            CommSys_ClearServerRecvData(aid);
         }
     }
 }
 
-BOOL ov11_0212A524(int arg, int flag3, int size, int flag5)
+BOOL CommSys_InitServer(int arg, int flag3, int size, int flag5)
 {
     BOOL result = TRUE;
-    if (ov11_02128EE0() < 0x13) {
-        result = ov11_02129144(arg, flag3, flag5);
+    if (CommManager_GetCommType() < 0x13) {
+        result = CommServerClient_InitServer(arg, flag3, flag5);
     }
-    ov11_02129B60(arg, size);
+    CommSys_Init(arg, size);
     return result;
 }
 
-void ov11_0212A570()
+void CommSys_UpdateTransitionType()
 {
     BOOL reset = FALSE;
-    if (ov11_0212C154() == 0) {
+    if (CommSys_CurNetId() == 0) {
         if (sServerSendState != 4) {
             return;
         }
@@ -353,12 +353,12 @@ void ov11_0212A570()
         sWork->unk_679 = 1;
     }
     if (reset) {
-        ov11_0212A0C0();
+        CommSys_ClearData();
     }
-    ov11_0212BFD4();
+    CommSys_Transmission();
 }
 
-void ov11_0212A5F8(u8 mode)
+void CommSys_SwitchTransitionType(u8 mode)
 {
     u8 state = sWork->unk_679;
     if (state == 0 && mode == 1) {
@@ -368,12 +368,12 @@ void ov11_0212A5F8(u8 mode)
     }
 }
 
-void ov11_0212A630()
+void CommSys_SwitchTransitionTypeToParallel()
 {
-    ov11_0212A5F8(1);
+    CommSys_SwitchTransitionType(1);
 }
 
-u8 ov11_0212A640()
+u8 CommSys_TransmissionType()
 {
     u8 state = sWork->unk_679;
     if (state == 2) {
@@ -385,21 +385,21 @@ u8 ov11_0212A640()
     return state;
 }
 
-void ov11_0212A668()
+void CommSys_Delete()
 {
     BOOL end = FALSE;
     if (sWork != NULL) {
-        if (ov11_02128EE0() >= 0x13) {
+        if (CommManager_GetCommType() >= 0x13) {
             end = TRUE;
-        } else if (ov11_021292B8()) {
+        } else if (CommServerClient_RequestEnd()) {
             end = TRUE;
         }
     }
     if (!end) {
         return;
     }
-    ov11_02129944();
-    ov11_0212874C();
+    CommTool_Delete();
+    CommInfo_Delete();
     sActive = 0;
     if (sWork->unk_45C != NULL) {
         Heap_Free(sWork->unk_45C);
@@ -417,95 +417,95 @@ void ov11_0212A668()
         Heap_Free(sWork->unk_454);
         sWork->unk_454 = NULL;
     }
-    ov11_0212C878(&sWork->unk_568);
-    ov11_0212C878(&sWork->unk_548);
+    CommQueueMan_Delete(&sWork->unk_568);
+    CommQueueMan_Delete(&sWork->unk_548);
     if (sWork != NULL) {
         Heap_Free(sWork);
     }
     sWork = NULL;
 }
 
-void ov11_0212A7A4()
+void CommSys_UpdateSend()
 {
     if (sWork != NULL && sActive != 0) {
-        ov11_0212B2A0();
-        if ((ov11_0212C154() == 0 && ov11_0212BEA0(0)) || ov11_0212C1D0()) {
-            ov11_0212AB58();
+        CommSys_SendClientFrame();
+        if ((CommSys_CurNetId() == 0 && CommSys_IsPlayerConnected(0)) || CommSys_IsAlone()) {
+            CommSys_UpdateServerClient();
         }
         sActive = 0;
     }
 }
 
-void ov11_0212A804()
+void CommSys_UpdateEnd()
 {
-    if (!ov11_02129830()) {
+    if (!CommServerClient_IsEnding()) {
         return;
     }
-    if (ov11_0212C154() == 0) {
-        if (ov11_0212978C() != 0) {
+    if (CommSys_CurNetId() == 0) {
+        if (CommServerClient_IsClientConnecting() != 0) {
             return;
         }
-        ov11_0212A668();
+        CommSys_Delete();
         return;
     }
-    ov11_0212A668();
+    CommSys_Delete();
 }
 
-BOOL ov11_0212A83C()
+BOOL CommSys_Update()
 {
-    ov11_021285AC();
-    ov11_02128C14();
+    Connect_Update();
+    CommManager_Update();
     if (sWork != NULL) {
         if (sWork->unk_686 == 0) {
             sActive = 0;
-            ov11_0212A570();
-            ov11_0212A944();
+            CommSys_UpdateTransitionType();
+            CommSys_UpdateClient();
             sWork->unk_624 &= 0x8000;
-            if (ov11_0212A640() == 0) {
-                ov11_0212BD58();
+            if (CommSys_TransmissionType() == 0) {
+                CommSys_RecvData();
             }
-            if ((ov11_0212C154() == 0 && ov11_0212BEA0(0)) || ov11_0212C1D0()) {
-                ov11_0212AD8C();
+            if ((CommSys_CurNetId() == 0 && CommSys_IsPlayerConnected(0)) || CommSys_IsAlone()) {
+                CommSys_UpdateServer();
             }
-            if (ov11_0212C154() == 0 || ov11_0212A640() == 1 || ov11_0212C1D0()) {
-                ov11_0212BDC8();
+            if (CommSys_CurNetId() == 0 || CommSys_TransmissionType() == 1 || CommSys_IsAlone()) {
+                CommSys_RecvDataServer();
             }
             sActive = 1;
         }
-        ov11_021296C8(sWork->unk_658);
-        if (ov11_0212C154() == 0) {
-            ov11_0212A4C4();
+        CommServerClient_Update(sWork->unk_658);
+        if (CommSys_CurNetId() == 0) {
+            CommSys_ClearDisconnectedClients();
         }
-        ov11_0212A804();
+        CommSys_UpdateEnd();
     } else {
-        ov11_021296C8(0);
+        CommServerClient_Update(0);
     }
-    ov11_02129A74();
-    ov11_0212A7A4();
+    CommTiming_Update();
+    CommSys_UpdateSend();
     return TRUE;
 }
 
-void ov11_0212A944()
+void CommSys_UpdateClient()
 {
     if (sWork->unk_67F != 0) {
-        if (ov11_02128EE0() >= 0x13) {
+        if (CommManager_GetCommType() >= 0x13) {
             return;
         }
-        if ((ov11_02127B08() != 4 || !ov11_0212BEA0(ov11_0212C154())) && !ov11_0212C1D0()) {
+        if ((WH_GetSystemState() != 4 || !CommSys_IsPlayerConnected(CommSys_CurNetId())) && !CommSys_IsAlone()) {
             return;
         }
         sClientSendState = 0;
-        ov11_0212B2A0();
+        CommSys_SendClientFrame();
         if (sClientSendState == 0) {
             return;
         }
         sWork->unk_67F = 0;
         return;
     }
-    if (ov11_02128EE0() >= 0x13) {
+    if (CommManager_GetCommType() >= 0x13) {
         return;
     }
-    if ((ov11_02127B08() != 4 || !ov11_0212BEA0(ov11_0212C154())) && !ov11_0212C1D0()) {
+    if ((WH_GetSystemState() != 4 || !CommSys_IsPlayerConnected(CommSys_CurNetId())) && !CommSys_IsAlone()) {
         return;
     }
     if (sClientSendState != 4) {
@@ -514,13 +514,13 @@ void ov11_0212A944()
     if (sWork->unk_630 > 3) {
         return;
     }
-    ov11_0212B6AC(sWork->unk_000[sWork->unk_67B]);
-    ov11_0212B6AC(sWork->unk_000[1 - sWork->unk_67B]);
+    CommSys_BuildClientFrame(sWork->unk_000[sWork->unk_67B]);
+    CommSys_BuildClientFrame(sWork->unk_000[1 - sWork->unk_67B]);
     sClientSendState = 0;
-    ov11_0212B2A0();
+    CommSys_SendClientFrame();
 }
 
-BOOL ov11_0212AA64(u8 frame)
+BOOL CommSys_BuildParallelServerFrame(u8 frame)
 {
     int stride;
     int i;
@@ -528,14 +528,14 @@ BOOL ov11_0212AA64(u8 frame)
     int n;
 
     full = 0;
-    stride = ov11_0212C1A8(ov11_02128EE0());
-    n = ov11_0212CE10(ov11_02128EE0()) + 1;
+    stride = CommSys_GetPacketSize(CommManager_GetCommType());
+    n = CommLocal_MaxMachines(CommManager_GetCommType()) + 1;
     for (i = 0; i < n; i++) {
-        ov11_0212CA54(&sWork->unk_47C[i]);
-        if (ov11_0212BEA0(i)) {
+        CommRing_UpdateEndPos(&sWork->unk_47C[i]);
+        if (CommSys_IsPlayerConnected(i)) {
             sWork->unk_154[frame][i * stride] = 0xE;
         }
-        ov11_0212C938(&sWork->unk_47C[i], &sWork->unk_154[frame][i * stride], stride);
+        CommRing_Read(&sWork->unk_47C[i], &sWork->unk_154[frame][i * stride], stride);
         if (sWork->unk_154[frame][i * stride] == 0xE) {
             full++;
         }
@@ -546,102 +546,102 @@ BOOL ov11_0212AA64(u8 frame)
     return TRUE;
 }
 
-void ov11_0212AB58()
+void CommSys_UpdateServerClient()
 {
     if (sWork == NULL) {
         return;
     }
-    if (ov11_02128EE0() >= 0x13) {
+    if (CommManager_GetCommType() >= 0x13) {
         return;
     }
     int i;
-    int stride = ov11_0212C1A8(ov11_02128EE0());
-    int n = ov11_0212CE10(ov11_02128EE0()) + 1;
+    int stride = CommSys_GetPacketSize(CommManager_GetCommType());
+    int n = CommLocal_MaxMachines(CommManager_GetCommType()) + 1;
     if (sServerSendState != 2 && sServerSendState != 0) {
         return;
     }
     sServerSendState++;
-    if (ov11_0212A640() == 1) {
-        ov11_0212AA64(sWork->unk_67C);
+    if (CommSys_TransmissionType() == 1) {
+        CommSys_BuildParallelServerFrame(sWork->unk_67C);
     }
-    if (ov11_02127B08() == 4 && !ov11_0212C1D0() && !thunk_FUN_overlay_11__02127904(sWork->unk_154[sWork->unk_67C], sizeof(sWork->unk_154[0]), 14, ov11_0212B280)) {
+    if (WH_GetSystemState() == 4 && !CommSys_IsAlone() && !thunk_FUN_overlay_11__02127904(sWork->unk_154[sWork->unk_67C], sizeof(sWork->unk_154[0]), 14, CommSys_ServerSendCallback)) {
         sServerSendState--;
     }
     if (sServerSendState == 1 || sServerSendState == 3) {
         for (i = 0; i < n; i++) {
-            if (ov11_0212BEA0(i)) {
+            if (CommSys_IsPlayerConnected(i)) {
                 sWork->unk_634[i]++;
-            } else if (ov11_0212C1D0() && i == 0) {
+            } else if (CommSys_IsAlone() && i == 0) {
                 sWork->unk_634[i]++;
             }
         }
-        ov11_0212AED4(0, sWork->unk_154[sWork->unk_67C], sizeof(sWork->unk_154[0]));
+        CommSys_RecvFromServer(0, sWork->unk_154[sWork->unk_67C], sizeof(sWork->unk_154[0]));
         sWork->unk_67C = 1 - sWork->unk_67C;
     }
     for (i = 0; i < n; i++) {
-        if (!ov11_0212BEA0(i) && ov11_0212A640() == 1) {
+        if (!CommSys_IsPlayerConnected(i) && CommSys_TransmissionType() == 1) {
             sWork->unk_154[sWork->unk_67C][i * stride] = 0xFF;
         }
     }
-    if (ov11_02127B08() == 4 && !ov11_0212C1D0()) {
+    if (WH_GetSystemState() == 4 && !CommSys_IsAlone()) {
         return;
     }
     sServerSendState++;
 }
 
-void ov11_0212AD8C()
+void CommSys_UpdateServer()
 {
-    if (sWork->unk_67F != 0 && (ov11_02127B08() == 4 || ov11_0212C1D0())) {
-        ov11_0212AB58();
+    if (sWork->unk_67F != 0 && (WH_GetSystemState() == 4 || CommSys_IsAlone())) {
+        CommSys_UpdateServerClient();
         if (sServerSendState == 2) {
             sWork->unk_67F = 0;
             return;
         }
     }
-    if (ov11_02127B08() != 4 && !ov11_0212C1D0()) {
+    if (WH_GetSystemState() != 4 && !CommSys_IsAlone()) {
         return;
     }
     if (sServerSendState != 4) {
         return;
     }
     for (int i = 1; i < 8; i++) {
-        if (ov11_0212BEA0(i)) {
+        if (CommSys_IsPlayerConnected(i)) {
             if (sWork->unk_634[i] > 3) {
                 return;
             }
-        } else if (i == 0 && ov11_0212C1D0() && sWork->unk_634[0] > 3) {
+        } else if (i == 0 && CommSys_IsAlone() && sWork->unk_634[0] > 3) {
             return;
         }
     }
-    if (ov11_0212A640() == 0) {
-        ov11_0212B7E4(sWork->unk_154[sWork->unk_67C]);
-        ov11_0212B7E4(sWork->unk_154[1 - sWork->unk_67C]);
+    if (CommSys_TransmissionType() == 0) {
+        CommSys_BuildServerFrame(sWork->unk_154[sWork->unk_67C]);
+        CommSys_BuildServerFrame(sWork->unk_154[1 - sWork->unk_67C]);
     }
     sServerSendState = 0;
-    ov11_0212AB58();
+    CommSys_UpdateServerClient();
 }
 
-void ov11_0212AED4(u16 aid, u8 *data, u16 size)
+void CommSys_RecvFromServer(u16 aid, u8 *data, u16 size)
 {
     sWork->unk_630--;
     if (data == NULL) {
         return;
     }
     if (*data == 0xB) {
-        if (ov11_0212A640() == 1) {
+        if (CommSys_TransmissionType() == 1) {
             return;
         }
         data++;
-    } else if (ov11_0212A640() == 0) {
+    } else if (CommSys_TransmissionType() == 0) {
         return;
     }
     if (sWork->unk_67E != 0 && (*data & 1)) {
         return;
     }
     sWork->unk_67E = 0;
-    if (ov11_0212A640() == 1) {
-        int stride = ov11_0212C1A8(ov11_02128EE0());
-        int n = ov11_0212CE10(ov11_02128EE0()) + 1;
+    if (CommSys_TransmissionType() == 1) {
+        int stride = CommSys_GetPacketSize(CommManager_GetCommType());
+        int n = CommLocal_MaxMachines(CommManager_GetCommType()) + 1;
         for (int i = 0; i < n; i++) {
             if (*data == 0xFF) {
                 sWork->unk_658 &= ~(1 << i);
@@ -656,7 +656,7 @@ void ov11_0212AED4(u16 aid, u8 *data, u16 size)
                 data += stride;
             } else {
                 data++;
-                ov11_0212C8B8(&sWork->unk_4E8[i], data, stride - 1, 0x5E6);
+                CommRing_Write(&sWork->unk_4E8[i], data, stride - 1, 0x5E6);
                 data += stride - 1;
                 sWork->unk_663[i] = 0;
             }
@@ -666,20 +666,20 @@ void ov11_0212AED4(u16 aid, u8 *data, u16 size)
     sWork->unk_658 = data[1];
     sWork->unk_658 <<= 8;
     sWork->unk_658 += data[2];
-    ov11_0212C8B8(&sWork->unk_470, data + 4, data[3], 0x5FF);
+    CommRing_Write(&sWork->unk_470, data + 4, data[3], 0x5FF);
 }
 
-void ov11_0212B0C0(u16 aid, u16 *data, u16 size)
+void CommSys_ServerRecvCallback(u16 aid, u16 *data, u16 size)
 {
     if (sWork->unk_66B[aid] != 0) {
         sWork->unk_634[aid]--;
         sWork->unk_66B[aid] = 0;
         return;
     }
-    ov11_0212B110(aid, (u8 *)data, size);
+    CommSys_RecvFromClient(aid, (u8 *)data, size);
 }
 
-void ov11_0212B110(u16 aid, u8 *data, u16 size)
+void CommSys_RecvFromClient(u16 aid, u8 *data, u16 size)
 {
     sWork->unk_634[aid]--;
     if (data == NULL) {
@@ -689,72 +689,72 @@ void ov11_0212B110(u16 aid, u8 *data, u16 size)
         return;
     }
     sWork->unk_663[aid] = 0;
-    if (ov11_0212A640() == 1) {
-        int stride = ov11_0212C1A8(ov11_02128EE0());
-        ov11_0212CE10(ov11_02128EE0());
+    if (CommSys_TransmissionType() == 1) {
+        int stride = CommSys_GetPacketSize(CommManager_GetCommType());
+        CommLocal_MaxMachines(CommManager_GetCommType());
         if (!(*data & 2)) {
-            ov11_0212C8B8(&sWork->unk_47C[aid], data, stride, 0x65E);
+            CommRing_Write(&sWork->unk_47C[aid], data, stride, 0x65E);
         }
         sWork->unk_65B[aid]++;
         return;
     }
-    ov11_0212B4B4(data, aid);
+    CommSys_DecodeKeys(data, aid);
     if (*data & 2) {
         return;
     }
-    if (ov11_0212CA20(&sWork->unk_4E8[aid]) < 0xB) {
+    if (CommRing_RemainingSize(&sWork->unk_4E8[aid]) < 0xB) {
         return;
     }
-    ov11_0212C8B8(&sWork->unk_4E8[aid], data + 1, 0xB, 0x66E);
+    CommRing_Write(&sWork->unk_4E8[aid], data + 1, 0xB, 0x66E);
 }
 
-void ov11_0212B260(BOOL result)
+void CommSys_ClientSendCallback(BOOL result)
 {
     if (result) {
         sClientSendState++;
     }
 }
 
-void ov11_0212B280(BOOL result)
+void CommSys_ServerSendCallback(BOOL result)
 {
     if (result) {
         sServerSendState++;
     }
 }
 
-void ov11_0212B2A0()
+void CommSys_SendClientFrame()
 {
     if (sWork == NULL) {
         return;
     }
-    if (ov11_02128EE0() >= 0x13) {
+    if (CommManager_GetCommType() >= 0x13) {
         return;
     }
-    int stride = ov11_0212C1A8(ov11_02128EE0());
-    ov11_0212CE10(ov11_02128EE0());
-    if (ov11_0212C1D0()) {
+    int stride = CommSys_GetPacketSize(CommManager_GetCommType());
+    CommLocal_MaxMachines(CommManager_GetCommType());
+    if (CommSys_IsAlone()) {
         if (sClientSendState == 2 || sClientSendState == 0) {
             sClientSendState++;
-            ov11_0212B260(TRUE);
-            ov11_0212B110(0, sWork->unk_000[sWork->unk_67B], stride);
+            CommSys_ClientSendCallback(TRUE);
+            CommSys_RecvFromClient(0, sWork->unk_000[sWork->unk_67B], stride);
             sWork->unk_67B = 1 - sWork->unk_67B;
             sWork->unk_630++;
             return;
         }
     }
-    if (ov11_02127B08() != 4) {
+    if (WH_GetSystemState() != 4) {
         return;
     }
-    if (!ov11_0212BEA0(ov11_0212C154())) {
-        ov11_0212C154();
+    if (!CommSys_IsPlayerConnected(CommSys_CurNetId())) {
+        CommSys_CurNetId();
         return;
     }
     if (sClientSendState != 2 && sClientSendState != 0) {
         return;
     }
-    if (ov11_0212C154() != 0) {
+    if (CommSys_CurNetId() != 0) {
         sClientSendState++;
-        if (!thunk_FUN_overlay_11__02127904(sWork->unk_000[sWork->unk_67B], stride, 14, ov11_0212B260)) {
+        if (!thunk_FUN_overlay_11__02127904(sWork->unk_000[sWork->unk_67B], stride, 14, CommSys_ClientSendCallback)) {
             sClientSendState--;
             return;
         }
@@ -762,17 +762,17 @@ void ov11_0212B2A0()
         sWork->unk_630++;
         return;
     }
-    if (!(ov11_02127AA4() & 0xFFFE)) {
+    if (!(WH_GetBitmap() & 0xFFFE)) {
         return;
     }
     sClientSendState++;
-    ov11_0212B260(TRUE);
-    ov11_0212B110(0, sWork->unk_000[sWork->unk_67B], stride);
+    CommSys_ClientSendCallback(TRUE);
+    CommSys_RecvFromClient(0, sWork->unk_000[sWork->unk_67B], stride);
     sWork->unk_67B = 1 - sWork->unk_67B;
     sWork->unk_630++;
 }
 
-BOOL ov11_0212B4B4(u8 *data, int aid)
+BOOL CommSys_DecodeKeys(u8 *data, int aid)
 {
     sWork->unk_60C[aid] = 0;
     if ((*data & 0x10) == 0x10) {
@@ -791,12 +791,12 @@ BOOL ov11_0212B4B4(u8 *data, int aid)
     return TRUE;
 }
 
-BOOL ov11_0212B59C(u8 *hdr)
+BOOL CommSys_EncodeKeys(u8 *hdr)
 {
     if (sWork->unk_626 != 0) {
         return FALSE;
     }
-    if (!ov11_0212BFAC()) {
+    if (!CommSys_IsSendingMovementData()) {
         return FALSE;
     }
     if (sWork->unk_67D != 0) {
@@ -820,20 +820,20 @@ BOOL ov11_0212B59C(u8 *hdr)
     return FALSE;
 }
 
-BOOL ov11_0212B6AC(u8 *frame)
+BOOL CommSys_BuildClientFrame(u8 *frame)
 {
-    int stride = ov11_0212C1A8(ov11_02128EE0());
-    ov11_0212CE10(ov11_02128EE0());
+    int stride = CommSys_GetPacketSize(CommManager_GetCommType());
+    CommLocal_MaxMachines(CommManager_GetCommType());
     if (sWork->unk_680 == 0) {
         *frame = 0;
     } else {
         *frame = 1;
     }
-    if (ov11_0212A640() == 0) {
-        ov11_0212B59C(frame);
+    if (CommSys_TransmissionType() == 0) {
+        CommSys_EncodeKeys(frame);
     }
     sWork->unk_680 = 0;
-    if (ov11_0212C33C(&sWork->unk_548)) {
+    if (CommQueue_IsEmpty(&sWork->unk_548)) {
         *frame |= 2;
         if (*frame == 2) {
             return FALSE;
@@ -842,10 +842,10 @@ BOOL ov11_0212B6AC(u8 *frame)
         CommQueueCursor cursor;
         cursor.size = stride - 1;
         cursor.ptr = frame + 1;
-        if (!ov11_0212C724(&sWork->unk_548, &cursor, 1)) {
+        if (!CommQueue_FillBuffer(&sWork->unk_548, &cursor, 1)) {
             sWork->unk_680 = 1;
         }
-        if (ov11_0212A640() == 1) {
+        if (CommSys_TransmissionType() == 1) {
             sWork->unk_65A++;
             *frame |= (sWork->unk_65A << 4) & 0xF0;
         }
@@ -853,7 +853,7 @@ BOOL ov11_0212B6AC(u8 *frame)
     return TRUE;
 }
 
-void ov11_0212B7E4(u8 *frame)
+void CommSys_BuildServerFrame(u8 *frame)
 {
     frame[0] = 0xB;
     if (sWork->unk_681 == 0) {
@@ -861,13 +861,13 @@ void ov11_0212B7E4(u8 *frame)
     } else {
         frame[1] = 1;
     }
-    u16 bitmap = ov11_02127AA4();
+    u16 bitmap = WH_GetBitmap();
     frame[2] = bitmap >> 8;
     frame[3] = bitmap;
     CommQueueCursor cursor;
     cursor.size = 0xBB;
     cursor.ptr = frame + 5;
-    if (ov11_0212C724(&sWork->unk_568, &cursor, 0)) {
+    if (CommQueue_FillBuffer(&sWork->unk_568, &cursor, 0)) {
         sWork->unk_681 = 0;
         frame[4] = 0xBB - cursor.size;
         return;
@@ -876,144 +876,144 @@ void ov11_0212B7E4(u8 *frame)
     frame[4] = 0xBB;
 }
 
-BOOL ov11_0212B8A0(u8 cmd, u8 *data, u16 size)
+BOOL CommSys_SendDataHuge(u8 cmd, u8 *data, u16 size)
 {
-    if (!ov11_0212BEA0(ov11_0212C154()) && !ov11_0212C1D0()) {
+    if (!CommSys_IsPlayerConnected(CommSys_CurNetId()) && !CommSys_IsAlone()) {
         return FALSE;
     }
-    if (ov11_0212C5FC(&sWork->unk_548, cmd, data, size, 1, 0)) {
+    if (CommQueue_Write(&sWork->unk_548, cmd, data, size, 1, 0)) {
         return TRUE;
     }
-    if (ov11_02128EE0() == 10) {
-        ov11_0212C2E4();
+    if (CommManager_GetCommType() == 10) {
+        CommSys_SetError();
     }
     return FALSE;
 }
 
-BOOL ov11_0212B938(u8 cmd, u8 *data, u16 size)
+BOOL CommSys_SendData(u8 cmd, u8 *data, u16 size)
 {
-    if (!ov11_0212BEA0(ov11_0212C154()) && !ov11_0212C1D0()) {
+    if (!CommSys_IsPlayerConnected(CommSys_CurNetId()) && !CommSys_IsAlone()) {
         return FALSE;
     }
-    if (ov11_0212C5FC(&sWork->unk_548, cmd, data, size, 1, 1)) {
+    if (CommQueue_Write(&sWork->unk_548, cmd, data, size, 1, 1)) {
         return TRUE;
     }
-    if (ov11_02128EE0() == 10) {
-        ov11_0212C2E4();
+    if (CommManager_GetCommType() == 10) {
+        CommSys_SetError();
     }
     return FALSE;
 }
 
-BOOL ov11_0212B9CC(u8 cmd, u8 *data, u16 size)
+BOOL CommSys_SendDataHugeServer(u8 cmd, u8 *data, u16 size)
 {
-    if (ov11_0212C154() != 0) {
+    if (CommSys_CurNetId() != 0) {
         return FALSE;
     }
-    if (!ov11_0212BEA0(0) && !ov11_0212C1D0()) {
+    if (!CommSys_IsPlayerConnected(0) && !CommSys_IsAlone()) {
         return FALSE;
     }
-    if (ov11_0212A640() == 1) {
-        return ov11_0212B8A0(cmd, data, size);
+    if (CommSys_TransmissionType() == 1) {
+        return CommSys_SendDataHuge(cmd, data, size);
     }
-    if (ov11_0212C5FC(&sWork->unk_568, cmd, data, size, 1, 0)) {
+    if (CommQueue_Write(&sWork->unk_568, cmd, data, size, 1, 0)) {
         return TRUE;
     }
-    if (ov11_02128EE0() == 10) {
-        ov11_0212C2E4();
+    if (CommManager_GetCommType() == 10) {
+        CommSys_SetError();
     }
     return FALSE;
 }
 
-BOOL ov11_0212BA98(u8 cmd, u8 *data, u16 size)
+BOOL CommSys_SendDataServer(u8 cmd, u8 *data, u16 size)
 {
-    if (ov11_0212C154() != 0) {
-        ov11_0212C2E4();
+    if (CommSys_CurNetId() != 0) {
+        CommSys_SetError();
         return FALSE;
     }
-    if (!ov11_0212BEA0(0) && !ov11_0212C1D0()) {
+    if (!CommSys_IsPlayerConnected(0) && !CommSys_IsAlone()) {
         return FALSE;
     }
-    if (ov11_0212A640() == 1) {
-        return ov11_0212B938(cmd, data, size);
+    if (CommSys_TransmissionType() == 1) {
+        return CommSys_SendData(cmd, data, size);
     }
-    if (ov11_0212C5FC(&sWork->unk_568, cmd, data, size, 1, 1)) {
+    if (CommQueue_Write(&sWork->unk_568, cmd, data, size, 1, 1)) {
         return TRUE;
     }
-    if (ov11_02128EE0() == 10) {
-        ov11_0212C2E4();
+    if (CommManager_GetCommType() == 10) {
+        CommSys_SetError();
     }
     return FALSE;
 }
 
-BOOL ov11_0212BB6C(u8 cmd, u8 *data)
+BOOL CommSys_SendDataFixedSizeServer(u8 cmd, u8 *data)
 {
-    return ov11_0212BA98(cmd, data, 0);
+    return CommSys_SendDataServer(cmd, data, 0);
 }
 
-void ov11_0212BB7C(int aid, int cmd, int size, u8 *data, CommRecvState *pending)
+void CommSys_EndCallback(int aid, int cmd, int size, u8 *data, CommRecvState *pending)
 {
-    ov11_0212CB10(aid, cmd, size, data);
+    CommCmd_Callback(aid, cmd, size, data);
     pending->unk_A = 0xEE;
     pending->unk_8 = 0xFFFF;
     pending->unk_4 = NULL;
     pending->unk_0 = 0;
 }
 
-void ov11_0212BBAC(CommRing *ring, int aid, u8 *buf, int flag, CommRecvState *pending)
+void CommSys_RecvDataSingle(CommRing *ring, int aid, u8 *buf, int flag, CommRecvState *pending)
 {
     int size;
     s16 pos;
     u8 cmd;
 
-    if (ov11_0212C9F4(ring) == 0) {
+    if (CommRing_DataSize(ring) == 0) {
         return;
     }
     do {
         cmd = pending->unk_A;
-        if (cmd != 0xEE || (cmd = ov11_0212C964(ring)) != 0xEE) {
+        if (cmd != 0xEE || (cmd = CommRing_ReadByte(ring)) != 0xEE) {
             pos = ring->startIndex;
             pending->unk_A = cmd;
             size = pending->unk_8;
             if (size == 0xFFFF) {
-                size = ov11_0212CBA4(cmd);
+                size = CommCmd_PacketSizeOf(cmd);
                 if (sWork->unk_685 != 0) {
                     return;
                 }
                 if (size == 0xFFFF) {
-                    if (ov11_0212C9F4(ring) < 1) {
+                    if (CommRing_DataSize(ring) < 1) {
                         ring->startIndex = pos;
                         return;
                     }
-                    int hi = ov11_0212C964(ring);
-                    size = ov11_0212C964(ring) + (hi << 8);
+                    int hi = CommRing_ReadByte(ring);
+                    size = CommRing_ReadByte(ring) + (hi << 8);
                     pos = ring->startIndex;
                 }
                 pending->unk_8 = size;
             }
-            if (ov11_0212CC34(cmd)) {
+            if (CommCmd_HasRecvBuffer(cmd)) {
                 if (pending->unk_4 == NULL) {
-                    pending->unk_4 = ov11_0212CC90(cmd, aid, pending->unk_8);
+                    pending->unk_4 = CommCmd_GetRecvBuffer(cmd, aid, pending->unk_8);
                 }
-                int n = ov11_0212C938(ring, buf, size - pending->unk_0);
+                int n = CommRing_Read(ring, buf, size - pending->unk_0);
                 if (pending->unk_4 != NULL) {
                     MI_CpuCopy8(buf, &pending->unk_4[pending->unk_0], n);
                 }
                 pending->unk_0 += n;
                 if (pending->unk_0 >= size) {
-                    ov11_0212BB7C(aid, cmd, size, pending->unk_4, pending);
+                    CommSys_EndCallback(aid, cmd, size, pending->unk_4, pending);
                 }
-            } else if (ov11_0212C9F4(ring) >= size) {
-                ov11_0212C938(ring, buf, size);
-                ov11_0212BB7C(aid, cmd, size, buf, pending);
+            } else if (CommRing_DataSize(ring) >= size) {
+                CommRing_Read(ring, buf, size);
+                CommSys_EndCallback(aid, cmd, size, buf, pending);
             } else {
                 ring->startIndex = pos;
                 return;
             }
         }
-    } while (ov11_0212C9F4(ring) != 0);
+    } while (CommRing_DataSize(ring) != 0);
 }
 
-void ov11_0212BD58()
+void CommSys_RecvData()
 {
     if (sWork == NULL) {
         return;
@@ -1021,14 +1021,14 @@ void ov11_0212BD58()
     if (sWork->unk_687 != 0) {
         return;
     }
-    ov11_0212CA54(&sWork->unk_470);
-    if (ov11_0212C9F4(&sWork->unk_470) <= 0) {
+    CommRing_UpdateEndPos(&sWork->unk_470);
+    if (CommRing_DataSize(&sWork->unk_470) <= 0) {
         return;
     }
-    ov11_0212BBAC(&sWork->unk_470, 0, sWork->unk_460, 1, &sWork->unk_5E8);
+    CommSys_RecvDataSingle(&sWork->unk_470, 0, sWork->unk_460, 1, &sWork->unk_5E8);
 }
 
-void ov11_0212BDC8()
+void CommSys_RecvDataServer()
 {
     if (sWork == NULL) {
         return;
@@ -1037,34 +1037,34 @@ void ov11_0212BDC8()
         return;
     }
     int i;
-    int n = ov11_0212CE10(ov11_02128EE0()) + 1;
+    int n = CommLocal_MaxMachines(CommManager_GetCommType()) + 1;
     for (i = 0; i < n; i++) {
-        ov11_0212CA54(&sWork->unk_4E8[i]);
-        if (ov11_0212C9F4(&sWork->unk_4E8[i]) > 0) {
-            ov11_0212BBAC(&sWork->unk_4E8[i], i, sWork->unk_460, 0, &sWork->unk_588[i]);
+        CommRing_UpdateEndPos(&sWork->unk_4E8[i]);
+        if (CommRing_DataSize(&sWork->unk_4E8[i]) > 0) {
+            CommSys_RecvDataSingle(&sWork->unk_4E8[i], i, sWork->unk_460, 0, &sWork->unk_588[i]);
         }
     }
 }
 
-BOOL ov11_0212BEA0(u16 aid)
+BOOL CommSys_IsPlayerConnected(u16 aid)
 {
     if (sWork == NULL) {
         return FALSE;
     }
-    if (ov11_02128EE0() >= 0x13) {
+    if (CommManager_GetCommType() >= 0x13) {
         return FALSE;
     }
-    if (!ov11_0212BF7C()) {
+    if (!CommSys_IsInitialized()) {
         return FALSE;
     }
-    if (ov11_02127B08() != 4) {
+    if (WH_GetSystemState() != 4) {
         return FALSE;
     }
-    if (aid == ov11_0212C154()) {
+    if (aid == CommSys_CurNetId()) {
         return TRUE;
     }
-    if (ov11_0212C154() == 0) {
-        if (ov11_02127AA4() & (1 << aid)) {
+    if (CommSys_CurNetId() == 0) {
+        if (WH_GetBitmap() & (1 << aid)) {
             return TRUE;
         }
     } else if (sWork->unk_658 & (1 << aid)) {
@@ -1073,31 +1073,31 @@ BOOL ov11_0212BEA0(u16 aid)
     return FALSE;
 }
 
-int ov11_0212BF48()
+int CommSys_ConnectedCount()
 {
     int count = 0;
     for (int i = 0; i < 8; i++) {
-        if (ov11_0212BEA0(i)) {
+        if (CommSys_IsPlayerConnected(i)) {
             count++;
         }
     }
     return count;
 }
 
-BOOL ov11_0212BF7C()
+BOOL CommSys_IsInitialized()
 {
-    if (sWork != NULL && ov11_02128EE0() >= 0x13) {
+    if (sWork != NULL && CommManager_GetCommType() >= 0x13) {
         return TRUE;
     }
-    return ov11_02129770();
+    return CommServerClient_IsInitialized();
 }
 
-int ov11_0212BFAC()
+int CommSys_IsSendingMovementData()
 {
     return sWork != NULL ? sWork->unk_624 & 0x8000 : TRUE;
 }
 
-void ov11_0212BFD4()
+void CommSys_Transmission()
 {
     if (sWork == NULL) {
         return;
@@ -1105,10 +1105,10 @@ void ov11_0212BFD4()
     switch (sWork->unk_677) {
     case 1: {
         BOOL sent;
-        if (ov11_0212A640() == 1) {
-            sent = ov11_0212C198(0xB, &sWork->unk_678);
+        if (CommSys_TransmissionType() == 1) {
+            sent = CommSys_SendDataFixedSize(0xB, &sWork->unk_678);
         } else {
-            sent = ov11_0212BA98(0xB, &sWork->unk_678, 1);
+            sent = CommSys_SendDataServer(0xB, &sWork->unk_678, 1);
         }
         if (!sent) {
             return;
@@ -1117,88 +1117,88 @@ void ov11_0212BFD4()
         break;
     }
     case 3:
-        if (!ov11_0212C198(0xC, &sWork->unk_678)) {
+        if (!CommSys_SendDataFixedSize(0xC, &sWork->unk_678)) {
             return;
         }
-        ov11_0212A5F8(sWork->unk_678);
+        CommSys_SwitchTransitionType(sWork->unk_678);
         sWork->unk_677 = 0;
         break;
     }
 }
 
-void ov11_0212C09C(int aid, int size, u8 *data)
+void CommSys_RecvSwitchRequest(int aid, int size, u8 *data)
 {
-    if (ov11_0212C154() != 0) {
+    if (CommSys_CurNetId() != 0) {
         return;
     }
     sWork->unk_677 = 1;
     sWork->unk_678 = *data;
 }
 
-void ov11_0212C0D4(int aid, int size, u8 *data)
+void CommSys_RecvSwitchNotify(int aid, int size, u8 *data)
 {
-    if (ov11_0212C154() == 0) {
+    if (CommSys_CurNetId() == 0) {
         return;
     }
     sWork->unk_678 = *data;
     sWork->unk_677 = 3;
 }
 
-void ov11_0212C10C(int aid, int size, u8 *data)
+void CommSys_RecvSwitchAck(int aid, int size, u8 *data)
 {
-    if (ov11_0212C154() != 0) {
+    if (CommSys_CurNetId() != 0) {
         return;
     }
     if (sWork->unk_677 != 2) {
         return;
     }
-    ov11_0212A5F8(*data);
+    CommSys_SwitchTransitionType(*data);
     sWork->unk_677 = 0;
 }
 
-u16 ov11_0212C154()
+u16 CommSys_CurNetId()
 {
-    if (sWork != NULL && ov11_02128EE0() < 0x13) {
-        if (ov11_0212C1D0()) {
+    if (sWork != NULL && CommManager_GetCommType() < 0x13) {
+        if (CommSys_IsAlone()) {
             return 0;
         }
-        return ov11_02128330();
+        return WH_GetCurrentAid();
     }
     return 0;
 }
 
-BOOL ov11_0212C198(u8 cmd, u8 *data)
+BOOL CommSys_SendDataFixedSize(u8 cmd, u8 *data)
 {
-    return ov11_0212B938(cmd, data, 0);
+    return CommSys_SendData(cmd, data, 0);
 }
 
-int ov11_0212C1A8(u16 mode)
+int CommSys_GetPacketSize(u16 mode)
 {
-    if (ov11_0212CE10(mode) >= 5) {
+    if (CommLocal_MaxMachines(mode) >= 5) {
         return 12;
     }
-    if (ov11_0212A640() == 0) {
+    if (CommSys_TransmissionType() == 0) {
         return 12;
     }
     return 0x26;
 }
 
-BOOL ov11_0212C1D0()
+BOOL CommSys_IsAlone()
 {
     CommSystem *work = sWork;
     return work != NULL ? work->unk_682 : 0;
 }
 
-void ov11_0212C1EC()
+void CommSys_RecvEnd()
 {
     u8 data;
-    if (!ov11_02129830() && ov11_0212C154() == 0) {
-        ov11_0212BB6C(2, &data);
+    if (!CommServerClient_IsEnding() && CommSys_CurNetId() == 0) {
+        CommSys_SendDataFixedSizeServer(2, &data);
     }
-    ov11_02129858();
+    CommServerClient_SetEnding();
 }
 
-void ov11_0212C21C(MATHRandContext32 *ctx)
+void CommSys_Seed(MATHRandContext32 *ctx)
 {
     RTCDate date;
     RTCTime time;
@@ -1207,13 +1207,13 @@ void ov11_0212C21C(MATHRandContext32 *ctx)
     MATH_InitRand32(ctx, ((((((((((u64)date.year * 16) + date.month) * 32) + date.day) * 32) + time.hour) * 64) + time.minute) * 64) + (time.second + 0x25));
 }
 
-void ov11_0212C2E4()
+void CommSys_SetError()
 {
     sWork->unk_685 = 1;
 }
 
 // size of RangerNetSessionParam (RangerNetPlayerInfo.cpp)
-u32 ov11_0212C2FC()
+u32 RangerNetSessionParam_Size()
 {
     return 0x20;
 }

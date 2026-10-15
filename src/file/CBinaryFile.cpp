@@ -241,7 +241,7 @@ BOOL CBinaryFile::Exists(const char *path, u32 arg1)
     return FS_ConvertPathToFileID(&fileID, path);
 }
 
-const char *CBinaryFileMes::sub_02003124()
+const char *CBinaryFileMes::GetLanguageSuffix()
 {
     static const char *DAT_0208A538[] = {
         "_jp.mes",
@@ -265,7 +265,7 @@ const char *CBinaryFileMes::sub_02003124()
 CBinaryFileMes::CBinaryFileMes(const char *path, u32 arg1)
 {
     char v0[0x40];
-    OS_SPrintf(v0, "%s%s", path, sub_02003124());
+    OS_SPrintf(v0, "%s%s", path, GetLanguageSuffix());
 
     void *v1 = Load(v0, arg1, 0, 0, 0, 0);
 

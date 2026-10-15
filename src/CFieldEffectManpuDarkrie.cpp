@@ -56,7 +56,7 @@ CFieldEffectManpuDarkrie::~CFieldEffectManpuDarkrie()
     }
 }
 
-int CFieldEffectManpuDarkrie::ov0_02142264(int step)
+int CFieldEffectManpuDarkrie::Update(int step)
 {
     UpdatePos(step);
     UpdateColors(step);
@@ -67,7 +67,7 @@ int CFieldEffectManpuDarkrie::ov0_02142264(int step)
             m_sprites[i].m_cellDataIdx = cac->GetCell(m_anims[i]);
         }
     }
-    return CFieldEffectActor::ov0_02142264(step);
+    return CFieldEffectActor::Update(step);
 }
 
 void CFieldEffectManpuDarkrie::UpdatePos(int step)

@@ -23,7 +23,7 @@ struct DebugMenuItem {
     void *arg1;
 };
 
-// Field debug menu page (unk_10/unk_14: cursor and scroll, cleared by FieldDebugMenu::ov0_0214FAA0)
+// Field debug menu page (unk_10/unk_14: cursor and scroll, cleared by FieldDebugMenu::Reset)
 struct DebugMenu {
     const char *name;
     DebugMenuItem *items;
@@ -41,10 +41,10 @@ class FieldDebugMenu {
 public:
     FieldDebugMenu(CGame *game);
     ~FieldDebugMenu();
-    void ov0_0214FA94(DebugMenu *menus, int count);
-    void ov0_0214FAA0();
-    void ov0_0214FB08();
-    BOOL ov0_0214FB18();
+    void SetMenus(DebugMenu *menus, int count);
+    void Reset();
+    void Update();
+    BOOL IsActive();
 
 public:
     CGame *m_game;

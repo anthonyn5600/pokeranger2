@@ -15,8 +15,8 @@ class BattleEnemyGaugeGfx {
 public:
     BattleEnemyGaugeGfx();
     ~BattleEnemyGaugeGfx();
-    void ov1_021364D4();
-    void ov1_02136678();
+    void Load();
+    void Release();
 
 public:
     VramImage *m_image;

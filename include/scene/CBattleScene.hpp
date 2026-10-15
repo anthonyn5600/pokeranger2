@@ -3,7 +3,7 @@
 
 #include "CGame.hpp"
 #include "Collision.hpp"
-#include "UnkStruct_02044464.hpp"
+#include "ScriptVM.hpp"
 #include "common.hpp"
 #include "scene/CScene.hpp"
 
@@ -31,7 +31,7 @@ class CaptureBackground;
 class FieldScreenEffectManage;
 class UnkClass_021274AC;
 class UnkClass_021278E8;
-class UnkClass_021281B4;
+class BattleEffectivenessMarkGfx;
 class BattleHPNumberGfx;
 class BattleStatusIconGfx;
 class BattleStatusDebugGfx;
@@ -45,8 +45,8 @@ class BattleEnemyGaugeGfx;
 class BattleParticle;
 class BattleParticlePool;
 class YSortedActorList;
-class UnkClass_021380AC;
-class UnkClass_021382D0;
+class BattleAssistButton;
+class BattleEscapeButton;
 class BattleResult;
 class BattleAssistMenu;
 class BattleInfoPanel;
@@ -58,7 +58,7 @@ struct CBattleScript {
     CBinaryFile *file;
     void *data;
     u32 stack[0x80];
-    UnkStruct_02044464 vm;
+    ScriptVM vm;
 };
 
 STATIC_SIZE_ASSERT(CBattleScript, 0x22C);
@@ -77,59 +77,59 @@ public:
     virtual void func7();
     virtual u32 getSceneId();
 
-    void ov1_0211E71C(u8 arg0);
-    BOOL ov1_0211E7E8(u16 id);
-    BOOL ov1_0211E8A4(u16 id, CBattleAttackEffectData **slot);
-    void ov1_0211E928(int type, u16 arg1, u32 partner);
-    void ov1_0211EF74(u16 id, u32 partner);
-    int ov1_0211F2B4();
-    int ov1_0211F3CC();
-    int ov1_0211F404();
+    void ChangeBackground(u8 arg0);
+    BOOL AddEffectData(u16 id);
+    BOOL LoadEffectData(u16 id, CBattleAttackEffectData **slot);
+    void CreateAssist(int type, u16 arg1, u32 partner);
+    void StartPokemonAssist(u16 id, u32 partner);
+    int UpdateIntro();
+    int UpdateStartBanner();
+    int UpdateBattle();
     int ov1_0211F984();
     int ov1_0211F9D8();
-    int ov1_0211FA90();
-    int ov1_0211FB88();
-    int ov1_0211FC38();
-    int ov1_0211FCE0();
-    int ov1_0211FD68();
-    int ov1_02120694();
+    int UpdateAssistMenu();
+    int UpdateResult();
+    int UpdateGameOver();
+    int UpdateExit();
+    int UpdateDebugMenu();
+    int UpdateNewPokemon();
     int ov1_021208BC();
-    void ov1_021209C4();
-    void ov1_02121184();
-    void ov1_02121350();
-    void ov1_02121460();
-    void ov1_02121514();
-    void ov1_021214B4();
-    void ov1_0212156C();
-    void ov1_0212157C();
-    BOOL ov1_02121774();
-    int ov1_02121D78(Camera2D *camera, int z);
-    int ov1_02121D80(Camera2D *camera, int z);
-    int ov1_02121DB0(Camera2D *camera, int z);
-    int ov1_02122010(Camera2D *camera, int z);
-    int ov1_02122018(Camera2D *camera, int z);
-    int ov1_02122044(Camera2D *camera, int z);
-    int ov1_02122074(Camera2D *camera, int z);
-    int ov1_021220AC(Camera2D *camera, int z);
-    int ov1_021220B4(Camera2D *camera, int z);
-    int ov1_021222E8(Camera2D *camera, int z);
-    int ov1_0212233C(Camera2D *camera, int z);
-    void ov1_02122BE8();
-    void ov1_02121714();
-    void ov1_02122B70();
-    void ov1_021227CC(int arg0);
-    void ov1_02122CA4(u8 index);
-    u16 ov1_0211F010(u16 id);
-    void ov1_0211F0D8(int arg0, u16 arg1);
-    static int ov1_02122728(u32 id);
-    CBattleEnemy *ov1_02122760(u32 id);
-    CBattleAttackEffect *ov1_02122788(u32 id);
-    CBattleAttackEffectData *ov1_021227B0(u32 idx);
-    CameraController *ov1_021227C4();
-    void ov1_02122DB4();
-    void ov1_02122B90();
+    void UpdateCaptureLine();
+    void UpdateAssist();
+    void UpdateEnemies();
+    void RunEnemyScripts();
+    void RunEffectScripts();
+    void UpdateEffects();
+    void UpdateParticles();
+    void RemoveOffscreenEffects();
+    BOOL CheckLineHitObjects();
+    int RenderIntro(Camera2D *camera, int z);
+    int RenderStartBanner(Camera2D *camera, int z);
+    int RenderField(Camera2D *camera, int z);
+    int RenderPrompt(Camera2D *camera, int z);
+    int RenderAssistMenu(Camera2D *camera, int z);
+    int RenderResult(Camera2D *camera, int z);
+    int RenderGameOver(Camera2D *camera, int z);
+    int RenderNewPokemon(Camera2D *camera, int z);
+    int RenderEnemyGauges(Camera2D *camera, int z);
+    int RenderScreenEffect(Camera2D *camera, int z);
+    int RenderShadows(Camera2D *camera, int z);
+    void ShowLineTrail();
+    void CheckLineHit();
+    void StartGameOver();
+    void EndBattle(int arg0);
+    void RemovePartyPokemon(u8 index);
+    u16 GetAssistTime(u16 id);
+    void SetAllEnemiesStatus(int arg0, u16 arg1);
+    static int GetObjectType(u32 id);
+    CBattleEnemy *GetEnemy(u32 id);
+    CBattleAttackEffect *GetEffect(u32 id);
+    CBattleAttackEffectData *GetEffectData(u32 idx);
+    CameraController *GetCameraController();
+    void CheckNewCaptures();
+    void ClearAssistEffects();
     int ov1_02122D3C(u8 arg0);
-    void ov1_02122D78(int arg0);
+    void SelectTouchPanel(int arg0);
 
 public:
     CGame *m_game;
@@ -204,12 +204,12 @@ public:
     UnkClass_021297C0 *unk_0BEC;
     UnkClass_021278E8 *unk_0BF0;
     UnkClass_021274AC *unk_0BF4;
-    UnkClass_021281B4 *unk_0BF8;
+    BattleEffectivenessMarkGfx *unk_0BF8;
     BattleHPNumberGfx *unk_0BFC;
     BattleStatusIconGfx *unk_0C00;
     BattleStatusDebugGfx *unk_0C04;
-    UnkClass_021380AC *unk_0C08;
-    UnkClass_021382D0 *unk_0C0C;
+    BattleAssistButton *unk_0C08;
+    BattleEscapeButton *unk_0C0C;
     CaptureResultBanner *unk_0C10;
     PokeIdTable *unk_0C14;
     BattlePokemonTable *unk_0C18;

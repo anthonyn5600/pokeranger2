@@ -17,10 +17,10 @@ CFieldEffectBush::CFieldEffectBush()
 
 CFieldEffectBush::~CFieldEffectBush()
 {
-    ov0_021423A4();
+    Destroy();
 }
 
-void CFieldEffectBush::ov0_021423A4()
+void CFieldEffectBush::Destroy()
 {
     Detach();
 }
@@ -91,7 +91,7 @@ void CFieldEffectBush::Detach()
     m_actor = NULL;
 }
 
-int CFieldEffectBush::ov0_02142344(Camera2D *camera)
+int CFieldEffectBush::Render(Camera2D *camera)
 {
     if (m_actor != NULL) {
         if (!IsOnScreen(m_actor)) {

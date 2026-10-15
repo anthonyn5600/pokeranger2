@@ -213,7 +213,7 @@ BOOL SaveManager::Load(u16 list)
     return FALSE;
 }
 
-BOOL SaveManager::sub_02028360(u16 list)
+BOOL SaveManager::LoadPreviousCopy(u16 list)
 {
     unk_70 = TRUE;
     return Load(list);
@@ -239,7 +239,7 @@ BOOL SaveManager::Clear(u16 list)
     return FALSE;
 }
 
-BOOL SaveManager::sub_02028408(u16 list)
+BOOL SaveManager::CheckHeader(u16 list)
 {
     unk_6C = TRUE;
     return Load(list);

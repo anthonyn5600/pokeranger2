@@ -4,7 +4,7 @@
 #include <nitro.h>
 
 #include "CActorData.hpp"
-#include "battle/UnkStruct_0212E008.hpp"
+#include "battle/BattleEffectParam.hpp"
 #include "common.hpp"
 
 class CBinaryFile;
@@ -13,11 +13,11 @@ class CNANRFile;
 // Defined in ov1
 class CBattleAttackEffectData : public CActorData {
 public:
-    CBattleAttackEffectData(u16 id, UnkStruct_0212E008 *entry, u32 heapId);
+    CBattleAttackEffectData(u16 id, BattleEffectParam *entry, u32 heapId);
     virtual ~CBattleAttackEffectData();
 
 public:
-    UnkStruct_0212E008 *unk_18;
+    BattleEffectParam *unk_18;
     CNANRFile *m_nanr[0x1D];
     CBinaryFile *m_scriptFile;
     void *m_script;

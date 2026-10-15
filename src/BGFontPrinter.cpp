@@ -115,7 +115,7 @@ void BGFontPrinter::Init(u32 arg0, u32 arg1, u32 arg2, u32 arg3)
     delete archive;
 }
 
-void BGFontPrinter::sub_020027E8()
+void BGFontPrinter::FlushArea()
 {
     if (FX_Whole(unk_10[2]) == 0) {
         return;

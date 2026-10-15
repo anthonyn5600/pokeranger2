@@ -108,7 +108,7 @@ int CFieldEffectBloom::SetParam(int param, int value)
         break;
     case 17:
         if (MAIN_BSS_0210CA40 != NULL) {
-            m_actor = MAIN_BSS_0210CA40->ov0_02123060(value);
+            m_actor = MAIN_BSS_0210CA40->FindActor(value);
         }
         break;
     case 26:
@@ -127,9 +127,9 @@ int CFieldEffectBloom::SetParam(int param, int value)
     return ret;
 }
 
-int CFieldEffectBloom::ov0_02142264(int step)
+int CFieldEffectBloom::Update(int step)
 {
-    int state = CFieldEffect::ov0_02142264(step);
+    int state = CFieldEffect::Update(step);
     if (m_blinkTimer > 0) {
         m_blinkTimer -= step;
         if (m_blinkTimer <= 0) {
@@ -198,7 +198,7 @@ int CFieldEffectBloom::ov0_02142264(int step)
     return state;
 }
 
-int CFieldEffectBloom::ov0_02142344(Camera2D *camera)
+int CFieldEffectBloom::Render(Camera2D *camera)
 {
     switch (m_mode) {
     case 0: {

@@ -5,7 +5,7 @@
 #include "field/CFieldManpuEffectActorData.hpp"
 #include "file/CArchiveGuard.hpp"
 
-BOOL CFieldEffectAttackActorData::ov0_0214FFF0(int id, int first, int count)
+BOOL CFieldEffectAttackActorData::Load(int id, int first, int count)
 {
     char path[0x60];
 
@@ -77,7 +77,7 @@ void CFieldManpuEffectActorData::Update()
     }
 }
 
-BOOL CFieldEffectNormalActorData::ov0_021503B8(int id, BOOL immediate)
+BOOL CFieldEffectNormalActorData::Load(int id, BOOL immediate)
 {
     char path[0x60];
 

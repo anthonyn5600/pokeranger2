@@ -11,7 +11,7 @@ public:
     FieldActorSyscalls();
     ~FieldActorSyscalls();
 
-    static void ov0_02149120(); // Script_RegisterSyscalls(0xB, handler table)
+    static void Register(); // Script_RegisterSyscalls(0xB, handler table)
 };
 
 // Defined in ov0 (empty ctor/dtor)
@@ -20,7 +20,7 @@ public:
     FieldEnemySyscalls();
     ~FieldEnemySyscalls();
 
-    static void ov0_021485C8(); // Script_RegisterSyscalls(0xA, handler table)
+    static void Register(); // Script_RegisterSyscalls(0xA, handler table)
 };
 
 // Defined in ov0 (empty ctor/dtor)
@@ -29,7 +29,7 @@ public:
     FieldPlayerSyscalls();
     ~FieldPlayerSyscalls();
 
-    static void ov0_0214998C(); // Script_RegisterSyscalls(0xC, handler table)
+    static void Register(); // Script_RegisterSyscalls(0xC, handler table)
 };
 
 // Defined in ov0 (empty ctor/dtor)
@@ -38,7 +38,7 @@ public:
     FieldPartnerSyscalls();
     ~FieldPartnerSyscalls();
 
-    static void ov0_02149A7C(); // Script_RegisterSyscalls(0xD, handler table)
+    static void Register(); // Script_RegisterSyscalls(0xD, handler table)
 };
 
 // Defined in ov0 (empty ctor/dtor)
@@ -47,7 +47,7 @@ public:
     FieldSyscalls();
     ~FieldSyscalls();
 
-    static void ov0_02149E60(); // Script_RegisterSyscalls(0xE, handler table)
+    static void Register(); // Script_RegisterSyscalls(0xE, handler table)
 };
 
 // Defined in ov0 (empty ctor/dtor)
@@ -56,7 +56,7 @@ public:
     UnkClass_0214B93C();
     ~UnkClass_0214B93C();
 
-    static void ov0_0214B944(); // Script_RegisterSyscalls(0xF, handler table)
+    static void Register(); // Script_RegisterSyscalls(0xF, handler table)
 };
 
 // Defined in ov0 (empty ctor/dtor)
@@ -65,7 +65,7 @@ public:
     FieldNpcSyscalls();
     ~FieldNpcSyscalls();
 
-    static void ov0_0214B6F8(); // Script_RegisterSyscalls(0x10, handler table)
+    static void Register(); // Script_RegisterSyscalls(0x10, handler table)
 };
 
 // Defined in ov0: owns one object of each class above
@@ -74,8 +74,8 @@ public:
     FieldSyscallSets();
     ~FieldSyscallSets();
 
-    void ov0_0213D658();
-    void ov0_0213D728();
+    void Init();
+    void Release();
 
 public:
     FieldActorSyscalls *unk_00;

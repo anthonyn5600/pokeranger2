@@ -2,7 +2,7 @@
 
 #include <nitro.h>
 
-#include "UnkStruct_02044464.hpp"
+#include "ScriptVM.hpp"
 
 extern "C" {
 extern u32 MAIN_BSS_0210CED4;

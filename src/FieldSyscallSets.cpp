@@ -12,28 +12,28 @@ FieldSyscallSets::FieldSyscallSets()
 
 FieldSyscallSets::~FieldSyscallSets()
 {
-    ov0_0213D728();
+    Release();
 }
 
-void FieldSyscallSets::ov0_0213D658()
+void FieldSyscallSets::Init()
 {
     unk_00 = new FieldActorSyscalls();
-    FieldActorSyscalls::ov0_02149120();
+    FieldActorSyscalls::Register();
     unk_04 = new FieldEnemySyscalls();
-    FieldEnemySyscalls::ov0_021485C8();
+    FieldEnemySyscalls::Register();
     unk_08 = new FieldPlayerSyscalls();
-    FieldPlayerSyscalls::ov0_0214998C();
+    FieldPlayerSyscalls::Register();
     unk_0C = new FieldPartnerSyscalls();
-    FieldPartnerSyscalls::ov0_02149A7C();
+    FieldPartnerSyscalls::Register();
     unk_10 = new FieldSyscalls();
-    FieldSyscalls::ov0_02149E60();
+    FieldSyscalls::Register();
     unk_14 = new UnkClass_0214B93C();
-    UnkClass_0214B93C::ov0_0214B944();
+    UnkClass_0214B93C::Register();
     unk_18 = new FieldNpcSyscalls();
-    FieldNpcSyscalls::ov0_0214B6F8();
+    FieldNpcSyscalls::Register();
 }
 
-void FieldSyscallSets::ov0_0213D728()
+void FieldSyscallSets::Release()
 {
     SAFE_DELETE(unk_00);
     SAFE_DELETE(unk_04);

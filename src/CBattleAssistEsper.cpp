@@ -2,6 +2,7 @@
 #include "CTouchPanel.hpp"
 #include "Collision.hpp"
 #include "SaveData.hpp"
+#include "battle/BattleEffectivenessMark.hpp"
 #include "battle/BattleParamTable.hpp"
 #include "battle/CBattleAssist.hpp"
 #include "battle/CBattleAttackEffect.hpp"
@@ -9,11 +10,10 @@
 #include "battle/CBattleEnemy.hpp"
 #include "battle/CBattleEnemyData.hpp"
 #include "battle/StylerLine.hpp"
-#include "battle/UnkClass_02128414.hpp"
 #include "fx_utils.hpp"
 
-extern "C" fx32 ov1_0212EE80(int assistType, int type);
-extern "C" u16 ov1_0212EE98(int assistType, int idx);
+extern "C" fx32 GetAssistTypeRate(int assistType, int type);
+extern "C" u16 GetAssistEffectTime(int assistType, int idx);
 
 CBattleAssistEsper::CBattleAssistEsper(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3)
     : CBattleAssist(effects, effectData, params, arg3)
@@ -30,13 +30,13 @@ int CBattleAssistEsper::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleE
         return 0;
     }
     unk_04--;
-    ov1_021304F0(enemies);
+    UpdateEffects(enemies);
     Point2D pos;
     pos.x = (touch->unk_0A.x - 0x80) << FX32_SHIFT;
     pos.y = (touch->unk_0A.y - 0x60) << FX32_SHIFT;
     if (touch->unk_04 != 0) {
         for (u8 i = 0; i < 4; i++) {
-            if (m_effects[i] != NULL && m_effects[i]->HasData() && ov1_021309F4(pos, m_slots[i].rect)) {
+            if (m_effects[i] != NULL && m_effects[i]->HasData() && IsInRect(pos, m_slots[i].rect)) {
                 m_selected = i;
                 m_last = pos;
                 m_flags |= 2;
@@ -45,17 +45,17 @@ int CBattleAssistEsper::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleE
         }
     }
     if (touch->unk_05 != 0) {
-        if (!(m_flags & 2) && disk->ov1_0212C4CC()) {
+        if (!(m_flags & 2) && disk->IsLoopClosed()) {
             for (u8 i = 0; i < 8; i++) {
                 if (enemies[i] != NULL && enemies[i]->IsAlive()
-                    && disk->unk_1B8->ov1_02124650(enemies[i]->m_motion.m_pos.x, enemies[i]->m_motion.m_pos.y)) {
+                    && disk->unk_1B8->IsInsideLoop(enemies[i]->m_motion.m_pos.x, enemies[i]->m_motion.m_pos.y)) {
                     return 1;
                 }
             }
             Rectangle rect = disk->unk_1B8->m_rect.m_rectangle;
             if (rect.size.x >= 0x20000 && rect.size.y >= 0x20000) {
                 u8 idx = 0;
-                if (ov1_0213071C(&idx)) {
+                if (CreateEffect(&idx)) {
                     m_selected = idx;
                     Rectangle *dst = &m_slots[idx].rect;
                     dst->pos = rect.pos;
@@ -65,7 +65,7 @@ int CBattleAssistEsper::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleE
                     CBattleAttackEffect *effect = m_effects[idx];
                     effect->m_motion.SetX(rect.pos.x);
                     effect->m_motion.SetY(rect.pos.y);
-                    m_effects[idx]->ov1_02127388(FALSE);
+                    m_effects[idx]->SetCollisionEnabled(FALSE);
                     m_effects[idx]->ScaleTo(0, 0x1000, 0x1000);
                     unk_14->PlaySe(0x127);
                 }
@@ -91,17 +91,17 @@ int CBattleAssistEsper::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleE
     return 1;
 }
 
-void CBattleAssistEsper::ov1_021304F0(CBattleEnemy **enemies)
+void CBattleAssistEsper::UpdateEffects(CBattleEnemy **enemies)
 {
     for (u8 i = 0; i < 4; i++) {
         if (m_effects[i] != NULL && m_effects[i]->HasData()) {
-            if (m_effects[i]->IsUnk100Clear() && ov1_021307E8(m_effects[i], enemies)) {
+            if (m_effects[i]->IsUnk100Clear() && HitEnemies(m_effects[i], enemies)) {
                 m_effects[i]->m_motion.m_mode = 0;
-                m_effects[i]->ov1_02127454(0x20, 2);
-                m_effects[i]->ov1_02127388(FALSE);
+                m_effects[i]->PlayAction(0x20, 2);
+                m_effects[i]->SetCollisionEnabled(FALSE);
                 m_slots[i].state = 2;
             }
-            ov1_02130628(i);
+            UpdateSlotAnim(i);
             Point2D pos = m_effects[i]->m_motion.m_pos;
             m_slots[i].rect.pos.x = pos.x - FX32_MUL(m_slots[i].rect.size.x, 0x800);
             m_slots[i].rect.pos.y = pos.y - FX32_MUL(m_slots[i].rect.size.y, 0x800);
@@ -109,19 +109,19 @@ void CBattleAssistEsper::ov1_021304F0(CBattleEnemy **enemies)
     }
 }
 
-void CBattleAssistEsper::ov1_02130628(u8 i)
+void CBattleAssistEsper::UpdateSlotAnim(u8 i)
 {
-    if (!m_effects[i]->ov1_0212747C() && m_slots[i].state == 0) {
+    if (!m_effects[i]->IsAnimActive() && m_slots[i].state == 0) {
         m_slots[i].state = 1;
-        m_effects[i]->ov1_02127454(0x20, 1);
-        m_effects[i]->ov1_02127388(TRUE);
+        m_effects[i]->PlayAction(0x20, 1);
+        m_effects[i]->SetCollisionEnabled(TRUE);
     }
-    if (!m_effects[i]->ov1_0212747C() && m_slots[i].state == 2) {
-        m_effects[i]->ov1_02127300();
+    if (!m_effects[i]->IsAnimActive() && m_slots[i].state == 2) {
+        m_effects[i]->Terminate();
     }
 }
 
-BOOL CBattleAssistEsper::ov1_021306C0(u8 *idx)
+BOOL CBattleAssistEsper::FindFreeSlot(u8 *idx)
 {
     for (u8 i = 0; i < 4; i++) {
         if (m_effects[i] == NULL || !m_effects[i]->HasData()) {
@@ -132,29 +132,29 @@ BOOL CBattleAssistEsper::ov1_021306C0(u8 *idx)
     return FALSE;
 }
 
-BOOL CBattleAssistEsper::ov1_0213071C(u8 *outIdx)
+BOOL CBattleAssistEsper::CreateEffect(u8 *outIdx)
 {
     u8 idx = 0;
-    if (!ov1_021306C0(&idx)) {
+    if (!FindFreeSlot(&idx)) {
         return FALSE;
     }
-    CBattleAttackEffect *effect = ov1_0212EE3C();
+    CBattleAttackEffect *effect = GetFreeEffect();
     if (effect == NULL) {
         return FALSE;
     }
     m_slots[idx].unk_00 = 0;
     m_slots[idx].state = 0;
     m_slots[idx].unk_02 = 0;
-    effect->ov1_021270FC(unk_0C[0]);
-    effect->ov1_02127454(0x20, 0);
-    effect->ov1_02127388(TRUE);
+    effect->Start(unk_0C[0]);
+    effect->PlayAction(0x20, 0);
+    effect->SetCollisionEnabled(TRUE);
     effect->ScaleTo(0, 0, 0);
     m_effects[idx] = effect;
     *outIdx = idx;
     return TRUE;
 }
 
-BOOL CBattleAssistEsper::ov1_021307E8(CBattleAttackEffect *effect, CBattleEnemy **enemies)
+BOOL CBattleAssistEsper::HitEnemies(CBattleAttackEffect *effect, CBattleEnemy **enemies)
 {
     Circle area;
     Circle circle = effect->m_sphere.m_circle;
@@ -165,20 +165,20 @@ BOOL CBattleAssistEsper::ov1_021307E8(CBattleAttackEffect *effect, CBattleEnemy 
     for (int i = 0; i < 8; i++) {
         if (enemies[i] != NULL && enemies[i]->IsAlive() && enemies[i]->IsTargetable()
             && CircleHitCircle(area, enemies[i]->m_sphere.m_circle, NULL)) {
-            fx32 rate = ov1_0212EE80(vfunc_10(), enemies[i]->unk_184->unk_18->unk_03);
+            fx32 rate = GetAssistTypeRate(vfunc_10(), enemies[i]->unk_184->unk_18->unk_03);
             if (effect->m_motion.m_speed != 0) {
-                u16 power = unk_10->ov1_0212F32C(vfunc_10(), MAIN_BSS_020B26A0.m_stylerLevel, 0);
-                enemies[i]->ov1_02126310((u16)(FX32_MUL(rate, power << FX32_SHIFT) >> FX32_SHIFT), TRUE);
-                enemies[i]->ov1_021263A4(4, ov1_0212EE98(vfunc_10(), 0));
+                u16 power = unk_10->GetAssistPower(vfunc_10(), MAIN_BSS_020B26A0.m_stylerLevel, 0);
+                enemies[i]->TakeDamage((u16)(FX32_MUL(rate, power << FX32_SHIFT) >> FX32_SHIFT), TRUE);
+                enemies[i]->SetStatus(4, GetAssistEffectTime(vfunc_10(), 0));
                 if (rate == 0x1000) {
                     unk_14->PlaySe(0x129);
-                    enemies[i]->unk_1A8->ov1_02128598(0);
+                    enemies[i]->unk_1A8->Show(0);
                 } else if (rate > 0x1000) {
                     unk_14->PlaySe(0x146);
-                    enemies[i]->unk_1A8->ov1_02128598(1);
+                    enemies[i]->unk_1A8->Show(1);
                 } else if (rate < 0x1000) {
                     unk_14->PlaySe(0x147);
-                    enemies[i]->unk_1A8->ov1_02128598(2);
+                    enemies[i]->unk_1A8->Show(2);
                 }
                 hit = TRUE;
             }
@@ -192,7 +192,7 @@ int CBattleAssistEsper::vfunc_10()
     return 10;
 }
 
-BOOL CBattleAssistEsper::ov1_021309F4(Point2D pos, Rectangle rect)
+BOOL CBattleAssistEsper::IsInRect(Point2D pos, Rectangle rect)
 {
     if (rect.pos.x <= pos.x && rect.pos.x + rect.size.x >= pos.x && rect.pos.y <= pos.y && rect.pos.y + rect.size.y >= pos.y) {
         return TRUE;

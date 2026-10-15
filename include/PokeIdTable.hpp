@@ -3,7 +3,7 @@
 
 #include <nitro.h>
 
-#include "UnkStruct_020107A8.hpp"
+#include "PokeIdTableEntry.hpp"
 #include "common.hpp"
 
 // Table loaded from data/param/PokeID.bin; CGame::unk_1434
@@ -13,7 +13,7 @@ public:
 
 public:
     u16 m_count;
-    UnkStruct_020107A8 *m_entries;
+    PokeIdTableEntry *m_entries;
 };
 
 STATIC_SIZE_ASSERT(PokeIdTable, 0x8);

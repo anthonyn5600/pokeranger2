@@ -92,18 +92,18 @@ public:
     virtual void Draw();
     virtual void SetPos(int x, int y);
 
-    void ov21_02120A00(int *list, int count, int sel);
+    void SetList(int *list, int count, int sel);
     void Select(int index);
     void SetScroll(int scroll);
     void UpdateSelected();
-    BOOL ov21_02120D5C();
-    BOOL ov21_02120D70();
-    BOOL ov21_02120D8C();
-    BOOL ov21_02120DA0();
-    BOOL ov21_02120DC8();
-    BOOL ov21_02120E84();
-    BOOL ov21_02120F68();
-    BOOL ov21_02120FD8();
+    BOOL CanSelectPrev();
+    BOOL CanSelectNext();
+    BOOL CanScrollPrev();
+    BOOL CanScrollNext();
+    BOOL SelectPrev();
+    BOOL SelectNext();
+    BOOL PagePrev();
+    BOOL PageNext();
 
     BOOL IsLastPage()
     {
@@ -149,7 +149,7 @@ class CBrowserMenuItemPokemon : public CBrowserMenuItem {
 public:
     CBrowserMenuItemPokemon();
     virtual ~CBrowserMenuItemPokemon();
-    void ov21_0212131C(OamSpriteSet *anim);
+    void Init(OamSpriteSet *anim);
     virtual void func08();
     virtual void func0C();
     virtual BOOL IsTouched();
@@ -167,7 +167,7 @@ class CBrowserMenuCursorPokemon : public CBrowserMenuCursor {
 public:
     CBrowserMenuCursorPokemon();
     virtual ~CBrowserMenuCursorPokemon();
-    void ov21_0212149C(OamSpriteSet *anim);
+    void Init(OamSpriteSet *anim);
     virtual void Update();
     virtual void func0C();
     virtual void UpdatePos();
@@ -185,7 +185,7 @@ class CBrowserMenuManagerPokemon : public CBrowserMenuManager {
 public:
     CBrowserMenuManagerPokemon();
     virtual ~CBrowserMenuManagerPokemon();
-    void ov21_021215F8(OamSpriteSet *anim, BrowserScreen *owner);
+    void Init(OamSpriteSet *anim, BrowserScreen *owner);
     virtual void Refresh();
     virtual void Draw();
 
@@ -200,7 +200,7 @@ class CBrowserMenuItemIcon : public CBrowserMenuItem {
 public:
     CBrowserMenuItemIcon();
     virtual ~CBrowserMenuItemIcon();
-    void ov21_0212181C(OamSpriteSet **anims);
+    void Init(OamSpriteSet **anims);
     virtual void func08();
     virtual void func0C();
     virtual BOOL IsTouched();
@@ -218,7 +218,7 @@ class CBrowserMenuCursorIcon : public CBrowserMenuCursor {
 public:
     CBrowserMenuCursorIcon();
     virtual ~CBrowserMenuCursorIcon();
-    void ov21_02121AF0(OamSpriteSet *anim);
+    void Init(OamSpriteSet *anim);
     virtual void Update();
     virtual void func0C();
     virtual void UpdatePos();
@@ -238,7 +238,7 @@ class CBrowserMenuManagerIcon : public CBrowserMenuManager {
 public:
     CBrowserMenuManagerIcon();
     virtual ~CBrowserMenuManagerIcon();
-    void ov21_02121C74(OamSpriteSet **anims, OamSpriteSet *cursorAnim, BrowserScreen *browser);
+    void Init(OamSpriteSet **anims, OamSpriteSet *cursorAnim, BrowserScreen *browser);
     virtual void Refresh();
 
 public:
@@ -253,7 +253,7 @@ class CBrowserMenuItemType : public CBrowserMenuItem {
 public:
     CBrowserMenuItemType();
     virtual ~CBrowserMenuItemType();
-    void ov21_02121EA8(OamSpriteSet *anim);
+    void Init(OamSpriteSet *anim);
     virtual void func08();
     virtual void func0C();
     virtual BOOL IsTouched();
@@ -275,7 +275,7 @@ class CBrowserMenuManagerType : public CBrowserMenuManager {
 public:
     CBrowserMenuManagerType();
     virtual ~CBrowserMenuManagerType();
-    void ov21_0212200C(OamSpriteSet *anim);
+    void Init(OamSpriteSet *anim);
 };
 
 STATIC_SIZE_ASSERT(CBrowserMenuManagerType, 0x8C);

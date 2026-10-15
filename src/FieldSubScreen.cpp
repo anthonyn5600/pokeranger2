@@ -171,15 +171,15 @@ void FieldSubScreen::Render()
         RenderPicture();
         break;
     case 7:
-        sub_02001210();
+        ReportFrameTime();
         break;
     }
 }
 
-void FieldSubScreen::sub_020227AC()
+void FieldSubScreen::FlushDebugInfo()
 {
     if (m_mode == 7) {
-        sub_02007D78();
+        FlushBGFonts();
     }
 }
 
@@ -323,7 +323,7 @@ BOOL FieldSubScreen::SwitchToPartyPanel()
     return TRUE;
 }
 
-BOOL FieldSubScreen::sub_02022B20()
+BOOL FieldSubScreen::RefreshPartyPanel()
 {
     unk_64 = FALSE;
     if (unk_58) {
@@ -409,7 +409,7 @@ BOOL FieldSubScreen::ShowRangerCardNow()
     return TRUE;
 }
 
-BOOL FieldSubScreen::sub_02022D04()
+BOOL FieldSubScreen::ShowDebugInfo()
 {
     unk_64 = FALSE;
     if (unk_58) {
@@ -428,7 +428,7 @@ BOOL FieldSubScreen::sub_02022D04()
     return TRUE;
 }
 
-void FieldSubScreen::sub_02022D88()
+void FieldSubScreen::TogglePanel()
 {
     unk_64 = FALSE;
     if (unk_58) {
@@ -479,7 +479,7 @@ void FieldSubScreen::ShowPicture(int picId)
     unk_64 = FALSE;
 }
 
-void FieldSubScreen::sub_02022EC4()
+void FieldSubScreen::HidePicture()
 {
     unk_58 = FALSE;
 }

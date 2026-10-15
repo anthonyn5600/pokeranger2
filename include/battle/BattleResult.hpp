@@ -24,20 +24,20 @@ public:
     ~BattleResult();
     void Load();
     void Release();
-    void ov1_02138FEC();
-    void ov1_02139088();
-    void ov1_021390A8();
-    void ov1_02139154();
-    void ov1_02139280();
-    void ov1_021392F8();
-    void ov1_02139364();
-    void ov1_021396C0();
-    void ov1_021397FC();
-    void ov1_0213985C();
-    void ov1_021398F4();
-    void ov1_021399A8(Camera2D *camera);
-    void ov1_02139C30(CBattleDisk *disk, CPlayerHPGauge *gauge);
-    int ov1_02139CE4(int z);
+    void Update();
+    void UpdateStart();
+    void UpdateExpSlideIn();
+    void UpdateNextBonus();
+    void UpdateBonusSlideIn();
+    void UpdateRankSlideIn();
+    void UpdateExpTally();
+    void UpdateExpTallyNoLevel();
+    void UpdateLevelUpFlash();
+    void UpdateLevelUpSlideIn();
+    void UpdateWaitInput();
+    void Render(Camera2D *camera);
+    void Start(CBattleDisk *disk, CPlayerHPGauge *gauge);
+    int SetZ(int z);
     void SetPanelPos(fx32 x, fx32 y);
     void SetLevelPos(fx32 x, fx32 y);
     void SetStat1Pos(fx32 x, fx32 y);
@@ -53,7 +53,7 @@ public:
     void SetLevelDigits(u8 from, u8 to);
     void SetStat1Digits(u8 value);
     void SetStat2Digits(u8 value);
-    u8 ov1_0213A4A0(u16 score);
+    u8 GetRank(u16 score);
 
     inline BOOL IsActive()
     {

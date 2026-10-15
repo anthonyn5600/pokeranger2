@@ -13,10 +13,10 @@
 #include "FieldShadow.hpp"
 #include "OamSprite.hpp"
 #include "OamSpriteSet.hpp"
+#include "PokeIdTableEntry.hpp"
 #include "SaveData.hpp"
 #include "SubScreenPokemonInfo.hpp"
 #include "TextboxManager.hpp"
-#include "UnkStruct_020107A8.hpp"
 #include "field/CFieldActor.hpp"
 #include "field/CFieldActorManage.hpp"
 #include "interpolation.hpp"
@@ -191,7 +191,7 @@ CReleaseScene::CReleaseScene(CGame *game)
 {
     m_game = game;
     unk_08 = NULL;
-    ov7_0211CAB4();
+    Create();
 }
 
 CReleaseScene::~CReleaseScene()
@@ -199,7 +199,7 @@ CReleaseScene::~CReleaseScene()
     SAFE_DELETE(unk_08);
 }
 
-void CReleaseScene::ov7_0211CAB4()
+void CReleaseScene::Create()
 {
     unk_08 = new ReleaseMenu(m_game);
 }
@@ -254,7 +254,7 @@ void CReleaseScene::func6()
     NNS_GfdResetLnkTexVramState();
     NNS_GfdResetLnkPlttVramState();
     if (unk_08 != NULL) {
-        unk_08->ov7_0211E02C();
+        unk_08->Start();
     }
 }
 
@@ -268,8 +268,8 @@ void CReleaseScene::func7()
 u32 CReleaseScene::func0()
 {
     if (unk_08 != NULL) {
-        unk_08->ov7_0211D054();
-        int result = unk_08->ov7_0211F604();
+        unk_08->Update();
+        int result = unk_08->GetResult();
         if (result != -1) {
             return result == 0 ? 6 : 1;
         }
@@ -282,14 +282,14 @@ u32 CReleaseScene::func0()
 void CReleaseScene::func1()
 {
     if (unk_08 != NULL) {
-        unk_08->ov7_0211D38C();
+        unk_08->Render();
     }
 }
 
 void CReleaseScene::func2()
 {
     if (unk_08 != NULL) {
-        unk_08->ov7_0211D3F0();
+        unk_08->OnVBlank();
     }
 }
 
@@ -306,12 +306,12 @@ u32 CReleaseScene::getSceneId()
 ReleaseMenu::ReleaseMenu(CGame *game)
 {
     unk_27C = game;
-    ov7_0211CFB4();
+    Init();
 }
 
 ReleaseMenu::~ReleaseMenu()
 {
-    ov7_0211D62C();
+    Release();
     SAFE_DELETE(unk_014);
     SAFE_DELETE(unk_00C);
     SAFE_DELETE(unk_010);
@@ -329,7 +329,7 @@ ReleaseMenu::~ReleaseMenu()
     SAFE_DELETE(unk_278);
 }
 
-void ReleaseMenu::ov7_0211CFB4()
+void ReleaseMenu::Init()
 {
     int i;
 
@@ -352,13 +352,13 @@ void ReleaseMenu::ov7_0211CFB4()
     unk_224 = NULL;
     unk_220 = 0x10;
     unk_222 = 0x10;
-    unk_008 = ov7_0211EFE4();
+    unk_008 = IsOverCapacity();
     unk_228 = NULL;
     unk_278 = NULL;
     unk_21C = -1;
 }
 
-void ReleaseMenu::ov7_0211D054()
+void ReleaseMenu::Update()
 {
     if (unk_058 != NULL) {
         unk_058->Update();
@@ -379,10 +379,10 @@ void ReleaseMenu::ov7_0211D054()
 
     switch (unk_000) {
     case 8:
-        if (ov7_0211F5BC()) {
+        if (IsFading()) {
             break;
         }
-        if (!ov7_0211F4FC()) {
+        if (!IsConfirmPressed()) {
             if (--unk_1F4 > 0) {
                 break;
             }
@@ -397,20 +397,20 @@ void ReleaseMenu::ov7_0211D054()
         }
         break;
     case 1:
-        ov7_0211E1B4();
+        UpdateInput();
         break;
     case 2: {
         if (--unk_218 != 0) {
             break;
         }
         unk_218 = 10;
-        ov7_0211EE6C(ov7_0211F100() != 0, ov7_0211F168() != 0);
-        if (ov7_0211EF5C() > 1) {
+        SetButtonsEnabled(GetRechargeMask() != 0, GetSelectedMask() != 0);
+        if (CountSelected() > 1) {
             u32 msg = 0x5D;
             if (unk_204 != 0) {
                 msg = 0x5E;
             }
-            ov7_0211F1FC(msg, 1, 1, 1, 0);
+            ShowMessage(msg, 1, 1, 1, 0);
             unk_000 = 5;
             break;
         }
@@ -443,31 +443,31 @@ void ReleaseMenu::ov7_0211D054()
         if (--unk_218 != 0) {
             break;
         }
-        ov7_0211EC8C();
+        StartRecharge();
         break;
     case 4:
         if (--unk_218 != 0) {
             break;
         }
-        ov7_0211EB7C();
+        StartRelease();
         break;
     case 10:
-        ov7_0211E894();
+        UpdateRelease();
         break;
     case 11:
-        ov7_0211E680();
+        UpdateRecharge();
         break;
     }
 }
 
-void ReleaseMenu::ov7_0211D38C()
+void ReleaseMenu::Render()
 {
     switch (unk_000) {
     case 0:
     case 9:
         break;
     case 6:
-        if (!ov7_0211F5BC()) {
+        if (!IsFading()) {
             unk_000 = 9;
         }
     case 1:
@@ -480,12 +480,12 @@ void ReleaseMenu::ov7_0211D38C()
     case 10:
     case 11:
     default:
-        ov7_0211D698();
+        Draw();
         break;
     }
 }
 
-void ReleaseMenu::ov7_0211D3F0()
+void ReleaseMenu::OnVBlank()
 {
     if (unk_220 == unk_222) {
         return;
@@ -495,10 +495,10 @@ void ReleaseMenu::ov7_0211D3F0()
     if (unk_220 != 0x10) {
         id = unk_0B4[unk_220].unk_0C;
     }
-    ov7_0211F2B0(id);
+    ShowPokemonInfo(id);
 }
 
-void ReleaseMenu::ov7_0211D42C()
+void ReleaseMenu::CreateSprites()
 {
     for (int i = 0; i <= 2; i++) {
         unk_060[i] = unk_058->AddSprite(0, (i + i / 2) * 14 + 0x10, 0x10, 0);
@@ -518,16 +518,16 @@ void ReleaseMenu::ov7_0211D42C()
     if (count <= max) {
         unk_060[7] = unk_05C->AddSprite(0, 0xF0, 0x10, 0);
         unk_060[7]->SetTouchRect(0x20, 0x20, 0, 0);
-        ov7_0211F1FC(0x17, 1, 2, 1, 0);
+        ShowMessage(0x17, 1, 2, 1, 0);
     } else {
-        ov7_0211F1FC(0x66, 1, 2, 1, 0);
+        ShowMessage(0x66, 1, 2, 1, 0);
     }
-    ov7_0211E080(count);
-    ov7_0211E168(max);
-    ov7_0211EE6C(FALSE, FALSE);
+    DrawPartyCount(count);
+    DrawPartyCapacity(max);
+    SetButtonsEnabled(FALSE, FALSE);
 }
 
-void ReleaseMenu::ov7_0211D62C()
+void ReleaseMenu::Release()
 {
     unk_27C->m_textboxData->ResetTextSpeed();
     unk_27C->m_textboxData->CloseAndClear(1, 1);
@@ -537,7 +537,7 @@ void ReleaseMenu::ov7_0211D62C()
     unk_27C->m_textboxData->Reset();
 }
 
-void ReleaseMenu::ov7_0211D698()
+void ReleaseMenu::Draw()
 {
     if (unk_058 != NULL) {
         unk_058->WriteOam();
@@ -555,7 +555,7 @@ void ReleaseMenu::ov7_0211D698()
     unk_00C->ApplyView();
     G3_StoreMtx(0);
     if (unk_014 != NULL) {
-        sub_020423F4(unk_014, unk_00C);
+        CaptureBackground_Render(unk_014, unk_00C);
     }
     unk_0A4->DrawAll(unk_0A8->GetList(), unk_0AC);
     if (unk_000 != 10) {
@@ -563,7 +563,7 @@ void ReleaseMenu::ov7_0211D698()
             unk_018.m_alpha = unk_216;
             unk_018.Render(unk_00C);
         } else {
-            ov7_0211F370(unk_00C);
+            DrawMarks(unk_00C);
         }
     }
     DrawObjectList *list = unk_0A8[0].GetList();
@@ -580,7 +580,7 @@ void ReleaseMenu::ov7_0211D698()
     }
 }
 
-void ReleaseMenu::ov7_0211D7FC()
+void ReleaseMenu::Load()
 {
     GX_SetVisiblePlane(GX_GetVisiblePlane() | GX_PLANEMASK_BG2 | GX_PLANEMASK_OBJ);
     GX_SetOBJVRamModeChar(GX_OBJVRAMMODE_CHAR_1D_32K);
@@ -641,7 +641,7 @@ void ReleaseMenu::ov7_0211D7FC()
     SAFE_DELETE(unk_0AC);
     unk_0AC = new FieldShadow(5);
 
-    UnkStruct_020107A8 *info;
+    PokeIdTableEntry *info;
     int n;
     s32 i;
     PartyEntry *data;
@@ -698,42 +698,42 @@ void ReleaseMenu::ov7_0211D7FC()
     unk_278->SetVisible(TRUE);
     unk_278->SetHP(unk_0B0->m_energy, unk_0B0->m_maxEnergy);
     unk_278->SetPartnerVisible(FALSE);
-    ov7_0211F2E0();
+    LoadMarks();
     unk_018.SetRectangle(0, 0, 0x100000, 0x100000, 0x3F2);
     unk_018.m_color = 0;
     unk_018.m_polygonID = 0x2B;
     G2_SetBlendAlpha(GX_BLEND_PLANEMASK_BG2, GX_BLEND_PLANEMASK_BG0, 8, 8);
 }
 
-BOOL ReleaseMenu::ov7_0211E02C()
+BOOL ReleaseMenu::Start()
 {
     unk_000 = 1;
-    ov7_0211E050();
-    ov7_0211F534();
+    Setup();
+    FadeIn();
     return TRUE;
 }
 
-BOOL ReleaseMenu::ov7_0211E050()
+BOOL ReleaseMenu::Setup()
 {
-    ov7_0211D7FC();
-    ov7_0211D42C();
+    Load();
+    CreateSprites();
     unk_27C->unk_146C.SetFps(60);
     return TRUE;
 }
 
-void ReleaseMenu::ov7_0211E080(int count)
+void ReleaseMenu::DrawPartyCount(int count)
 {
     if (unk_058 == NULL) {
         return;
     }
     if (count / 10 > 0) {
         unk_060[0]->unk_14 = 1;
-        ov7_0211E19C(unk_080[0], count / 10);
+        SetDigit(unk_080[0], count / 10);
     } else {
         unk_060[0]->unk_14 = 0;
     }
-    ov7_0211E19C(unk_080[1], count % 10);
-    int left = SaveData_CountPartyExceptPartner(&MAIN_BSS_020B26A0, -1) - ov7_0211EF5C();
+    SetDigit(unk_080[1], count % 10);
+    int left = SaveData_CountPartyExceptPartner(&MAIN_BSS_020B26A0, -1) - CountSelected();
     if (left > SaveData_GetPartyCapacityExceptPartner(&MAIN_BSS_020B26A0, 0xFF, -1)) {
         unk_060[0]->SetPalette(5);
         unk_060[1]->SetPalette(5);
@@ -743,34 +743,34 @@ void ReleaseMenu::ov7_0211E080(int count)
     }
 }
 
-void ReleaseMenu::ov7_0211E168(int count)
+void ReleaseMenu::DrawPartyCapacity(int count)
 {
-    ov7_0211E19C(unk_080[2], count % 10);
+    SetDigit(unk_080[2], count % 10);
 }
 
-void ReleaseMenu::ov7_0211E19C(int idx, int anim)
+void ReleaseMenu::SetDigit(int idx, int anim)
 {
     if (unk_058 != NULL) {
         unk_058->SetAnim(idx, anim);
     }
 }
 
-void ReleaseMenu::ov7_0211E1B4()
+void ReleaseMenu::UpdateInput()
 {
     if (unk_060[7] != NULL && ((u16)(unk_27C->unk_0014->unk_0002 & PAD_BUTTON_B) || unk_060[7]->GetTouchTrigger())) {
         unk_27C->m_audioEngine->PlaySe(0x103);
-        ov7_0211F1E8();
+        Exit();
         return;
     }
     if (unk_060[5] != NULL && unk_060[5]->unk_14 != 0) {
-        if (ov7_0211F168() != 0 && unk_060[5]->GetTouchTrigger()) {
-            ov7_0211EF14(0);
+        if (GetSelectedMask() != 0 && unk_060[5]->GetTouchTrigger()) {
+            SelectAction(0);
             return;
         }
     }
     if (unk_060[6] != NULL && unk_060[6]->unk_14 != 0) {
-        if (ov7_0211F100() != 0 && unk_060[6]->GetTouchTrigger()) {
-            ov7_0211EF14(1);
+        if (GetRechargeMask() != 0 && unk_060[6]->GetTouchTrigger()) {
+            SelectAction(1);
             return;
         }
     }
@@ -787,7 +787,7 @@ void ReleaseMenu::ov7_0211E1B4()
         if (actor != NULL && actor->IsActive() && actor->IsTouched(pos)) {
             if (unk_0B4[i].unk_04 != 0) {
                 unk_27C->m_audioEngine->PlaySe(0xFD);
-                ov7_0211F1FC(0x1B, 1, 2, 1, 0);
+                ShowMessage(0x1B, 1, 2, 1, 0);
             } else {
                 if (!unk_0B4[i].unk_00) {
                     unk_27C->m_audioEngine->PlaySe(0xFA);
@@ -805,12 +805,12 @@ void ReleaseMenu::ov7_0211E1B4()
                             actor->m_drawObject->SetOutlineWidth(2);
                             actor->m_drawObject->StartOutline(-1);
                         }
-                        ov7_0211F29C(i);
+                        RequestPokemonInfo(i);
                     }
                 } else {
                     if (unk_21C == i) {
                         actor->ClearEffectFlags(1);
-                        ov7_0211F29C(0x10);
+                        RequestPokemonInfo(0x10);
                         unk_21C = 0x10;
                     }
                     unk_27C->m_audioEngine->PlaySe(0xFE);
@@ -820,24 +820,24 @@ void ReleaseMenu::ov7_0211E1B4()
             break;
         }
     }
-    int selected = ov7_0211EF5C();
-    ov7_0211E080(SaveData_CountPartyExceptPartner(&MAIN_BSS_020B26A0, -1) - selected);
-    ov7_0211EE6C(ov7_0211F100() != 0, ov7_0211F168() != 0);
+    int selected = CountSelected();
+    DrawPartyCount(SaveData_CountPartyExceptPartner(&MAIN_BSS_020B26A0, -1) - selected);
+    SetButtonsEnabled(GetRechargeMask() != 0, GetSelectedMask() != 0);
 }
 
-void ReleaseMenu::ov7_0211E680()
+void ReleaseMenu::UpdateRecharge()
 {
     switch (unk_1F8) {
     case 0:
-        unk_1FC = ov7_0211F100();
+        unk_1FC = GetRechargeMask();
         for (u32 i = 0; i < unk_0A4->m_count; i++) {
             if (unk_1FC & (1 << i)) {
                 unk_0A4->Get(i)->m_flags |= 0x100;
             }
         }
         unk_27C->m_textboxData->CloseAndClear(1, 0);
-        ov7_0211EE6C(FALSE, FALSE);
-        ov7_0211EB04(0x1F, 60);
+        SetButtonsEnabled(FALSE, FALSE);
+        StartDim(0x1F, 60);
         unk_1F8 = 1;
     case 1:
         if (unk_208) {
@@ -847,11 +847,11 @@ void ReleaseMenu::ov7_0211E680()
     case 2: {
         u16 anim = 0;
         u16 hp = 0;
-        unk_1FC = ov7_0211F100();
+        unk_1FC = GetRechargeMask();
         if (unk_1FC == 0) {
             return;
         }
-        ov7_0211F01C(&hp, &anim);
+        GetRechargeAmount(&hp, &anim);
         hp += unk_0B0->m_energy;
         if (hp > unk_0B0->m_maxEnergy) {
             hp = unk_0B0->m_maxEnergy;
@@ -861,27 +861,27 @@ void ReleaseMenu::ov7_0211E680()
         unk_278->StartHeal(anim);
         unk_27C->m_audioEngine->PlaySe(0x143);
         unk_1F8 = 3;
-        ov7_0211ED10(TRUE);
+        SetRechargeAnim(TRUE);
     }
     case 3:
         if (!unk_278->IsHealing()) {
             unk_27C->m_audioEngine->StopSe(0x143);
             unk_1F8 = 4;
             unk_200 = 30;
-            ov7_0211ED10(FALSE);
-            ov7_0211EB3C(60);
+            SetRechargeAnim(FALSE);
+            StopDim(60);
         }
         break;
     case 4:
         if (!unk_208) {
-            ov7_0211EB7C();
+            StartRelease();
         }
         break;
     }
-    ov7_0211EA74();
+    UpdateDim();
 }
 
-void ReleaseMenu::ov7_0211E894()
+void ReleaseMenu::UpdateRelease()
 {
     unk_218++;
     for (s32 i = 0; i < unk_0A4->m_count; i++) {
@@ -892,7 +892,7 @@ void ReleaseMenu::ov7_0211E894()
                 if (unk_218 > unk_0B4[i].unk_10) {
                     unk_0B4[i].unk_0E = 1;
                     actor->m_flags |= 0x100;
-                    ov7_0211ECA4(actor, i);
+                    ReleasePokemon(actor, i);
                 }
                 break;
             case 1:
@@ -904,27 +904,27 @@ void ReleaseMenu::ov7_0211E894()
             }
         }
     }
-    if (ov7_0211EF5C() > 0) {
+    if (CountSelected() > 0) {
         return;
     }
-    ov7_0211E080(SaveData_CountPartyExceptPartner(&MAIN_BSS_020B26A0, -1));
+    DrawPartyCount(SaveData_CountPartyExceptPartner(&MAIN_BSS_020B26A0, -1));
     unk_000 = 1;
     if (unk_060[7] == NULL) {
-        if (!ov7_0211EFE4()) {
-            ov7_0211F1E8();
+        if (!IsOverCapacity()) {
+            Exit();
             return;
         }
-        ov7_0211F1FC(0x66, 1, 2, 1, 0);
+        ShowMessage(0x66, 1, 2, 1, 0);
         return;
     }
-    if (SaveData_CountPartyExceptPartner(&MAIN_BSS_020B26A0, -1) - ov7_0211EFA0() <= 0) {
-        ov7_0211F1E8();
+    if (SaveData_CountPartyExceptPartner(&MAIN_BSS_020B26A0, -1) - CountUnreleasable() <= 0) {
+        Exit();
         return;
     }
-    ov7_0211F1FC(0x17, 1, 2, 1, 0);
+    ShowMessage(0x17, 1, 2, 1, 0);
 }
 
-void ReleaseMenu::ov7_0211EA74()
+void ReleaseMenu::UpdateDim()
 {
     if (unk_208 && unk_210 > 0) {
         unk_20C++;
@@ -945,7 +945,7 @@ void ReleaseMenu::ov7_0211EA74()
     unk_208 = FALSE;
 }
 
-void ReleaseMenu::ov7_0211EB04(u8 alpha, int duration)
+void ReleaseMenu::StartDim(u8 alpha, int duration)
 {
     unk_208 = TRUE;
     unk_20C = 0;
@@ -961,7 +961,7 @@ void ReleaseMenu::ov7_0211EB04(u8 alpha, int duration)
     }
 }
 
-void ReleaseMenu::ov7_0211EB3C(int duration)
+void ReleaseMenu::StopDim(int duration)
 {
     unk_20C = 0;
     unk_215 = 0;
@@ -977,9 +977,9 @@ void ReleaseMenu::ov7_0211EB3C(int duration)
     }
 }
 
-void ReleaseMenu::ov7_0211EB7C()
+void ReleaseMenu::StartRelease()
 {
-    if (ov7_0211EF5C() == 0) {
+    if (CountSelected() == 0) {
         return;
     }
     unk_218 = 0;
@@ -994,21 +994,21 @@ void ReleaseMenu::ov7_0211EB7C()
             unk_0B4[i].unk_10 = count * 20;
         }
     }
-    if (ov7_0211EF5C() == 1) {
-        ov7_0211F1FC(0x18, 0, 0, 1, 0);
+    if (CountSelected() == 1) {
+        ShowMessage(0x18, 0, 0, 1, 0);
     } else {
-        ov7_0211F1FC(0x19, 0, 0, 1, 0);
+        ShowMessage(0x19, 0, 0, 1, 0);
     }
-    ov7_0211EE6C(FALSE, FALSE);
+    SetButtonsEnabled(FALSE, FALSE);
 }
 
-void ReleaseMenu::ov7_0211EC8C()
+void ReleaseMenu::StartRecharge()
 {
     unk_1F8 = 0;
     unk_000 = 11;
 }
 
-void ReleaseMenu::ov7_0211ECA4(CFieldActor *actor, int idx)
+void ReleaseMenu::ReleasePokemon(CFieldActor *actor, int idx)
 {
     unk_27C->m_audioEngine->PlayStream(unk_0B4[idx].unk_0A, 0x40);
     SaveData_RemoveFromParty(unk_0B0, actor->m_id);
@@ -1016,7 +1016,7 @@ void ReleaseMenu::ov7_0211ECA4(CFieldActor *actor, int idx)
     actor->StartMoveTo(unk_00C->GetOffset());
 }
 
-void ReleaseMenu::ov7_0211ED10(BOOL heal)
+void ReleaseMenu::SetRechargeAnim(BOOL heal)
 {
     int i;
     BOOL played = FALSE;
@@ -1043,7 +1043,7 @@ void ReleaseMenu::ov7_0211ED10(BOOL heal)
     }
 }
 
-void ReleaseMenu::ov7_0211EE6C(BOOL a, BOOL b)
+void ReleaseMenu::SetButtonsEnabled(BOOL a, BOOL b)
 {
     if (unk_060[6] != NULL) {
         unk_058->SetAnim(unk_080[6], a ? 0xF : 0x10);
@@ -1053,7 +1053,7 @@ void ReleaseMenu::ov7_0211EE6C(BOOL a, BOOL b)
     }
 }
 
-void ReleaseMenu::ov7_0211EEC4(BOOL a)
+void ReleaseMenu::SetButtonPressed(BOOL a)
 {
     if (a) {
         if (unk_060[6] != NULL) {
@@ -1066,16 +1066,16 @@ void ReleaseMenu::ov7_0211EEC4(BOOL a)
     }
 }
 
-void ReleaseMenu::ov7_0211EF14(int choice)
+void ReleaseMenu::SelectAction(int choice)
 {
     unk_27C->m_audioEngine->PlaySe(0xFF);
-    ov7_0211EEC4(choice);
+    SetButtonPressed(choice);
     unk_204 = choice;
     unk_000 = 2;
     unk_218 = 10;
 }
 
-s16 ReleaseMenu::ov7_0211EF5C()
+s16 ReleaseMenu::CountSelected()
 {
     int i;
     s16 count = 0;
@@ -1087,7 +1087,7 @@ s16 ReleaseMenu::ov7_0211EF5C()
     return count;
 }
 
-s16 ReleaseMenu::ov7_0211EFA0()
+s16 ReleaseMenu::CountUnreleasable()
 {
     int i;
     s16 count = 0;
@@ -1099,7 +1099,7 @@ s16 ReleaseMenu::ov7_0211EFA0()
     return count;
 }
 
-BOOL ReleaseMenu::ov7_0211EFE4()
+BOOL ReleaseMenu::IsOverCapacity()
 {
     if (SaveData_CountPartyExceptPartner(&MAIN_BSS_020B26A0, -1) > SaveData_GetPartyCapacityExceptPartner(&MAIN_BSS_020B26A0, 0xFF, -1)) {
         return TRUE;
@@ -1107,7 +1107,7 @@ BOOL ReleaseMenu::ov7_0211EFE4()
     return FALSE;
 }
 
-void ReleaseMenu::ov7_0211F01C(u16 *hp, u16 *anim)
+void ReleaseMenu::GetRechargeAmount(u16 *hp, u16 *anim)
 {
     *hp = 0;
     *anim = 0;
@@ -1140,13 +1140,13 @@ void ReleaseMenu::ov7_0211F01C(u16 *hp, u16 *anim)
     }
 }
 
-u32 ReleaseMenu::ov7_0211F100()
+u32 ReleaseMenu::GetRechargeMask()
 {
     u32 mask = 0;
-    if (ov7_0211F4E0()) {
+    if (IsEnergyFull()) {
         return 0;
     }
-    u32 selected = ov7_0211F168();
+    u32 selected = GetSelectedMask();
     for (u32 i = 0; i < unk_0A4->m_count; i++) {
         if ((selected & (1 << i)) && unk_0B4[i].unk_08 >= 0) {
             mask |= 1 << i;
@@ -1155,7 +1155,7 @@ u32 ReleaseMenu::ov7_0211F100()
     return mask;
 }
 
-u32 ReleaseMenu::ov7_0211F168()
+u32 ReleaseMenu::GetSelectedMask()
 {
     u32 i;
     u32 mask = 0;
@@ -1168,13 +1168,13 @@ u32 ReleaseMenu::ov7_0211F168()
     return mask;
 }
 
-void ReleaseMenu::ov7_0211F1E8()
+void ReleaseMenu::Exit()
 {
     unk_000 = 6;
-    ov7_0211F578();
+    FadeOut();
 }
 
-void ReleaseMenu::ov7_0211F1FC(u32 msg, u32 arg1, int next, u32 arg3, u32 arg4)
+void ReleaseMenu::ShowMessage(u32 msg, u32 arg1, int next, u32 arg3, u32 arg4)
 {
     unk_27C->m_textboxData->CloseAndClear(1, 0);
     unk_27C->m_textboxData->SetTextSpeed(0);
@@ -1192,24 +1192,24 @@ void ReleaseMenu::ov7_0211F1FC(u32 msg, u32 arg1, int next, u32 arg3, u32 arg4)
     }
 }
 
-void ReleaseMenu::ov7_0211F29C(u16 idx)
+void ReleaseMenu::RequestPokemonInfo(u16 idx)
 {
     if (unk_220 != idx) {
         unk_222 = idx;
     }
 }
 
-void ReleaseMenu::ov7_0211F2B0(u16 id)
+void ReleaseMenu::ShowPokemonInfo(u16 id)
 {
     if (unk_224 == NULL) {
         return;
     }
     unk_224->SetPokemon(id, 0);
-    unk_224->sub_0201EC80();
-    unk_224->sub_0201E27C();
+    unk_224->DrawTexts();
+    unk_224->StartRefresh();
 }
 
-void ReleaseMenu::ov7_0211F2E0()
+void ReleaseMenu::LoadMarks()
 {
     SAFE_DELETE(unk_228);
     unk_228 = new GraphicsSet("RSC", "data/menu/mr001_00_LZ.bin", "RSC:mr001_00.NCBR", "RSC:mr001.NCLR", "RSC:mr001_00.NCER", "RSC:mr001_00.cac");
@@ -1225,7 +1225,7 @@ static inline fx32 RectY(Rectangle rect)
     return rect.pos.y;
 }
 
-void ReleaseMenu::ov7_0211F370(Camera2D *camera)
+void ReleaseMenu::DrawMarks(Camera2D *camera)
 {
     int i;
     CSoftwareSprite *sprite = &unk_22C;
@@ -1238,7 +1238,7 @@ void ReleaseMenu::ov7_0211F370(Camera2D *camera)
     for (i = 0; i < unk_0A4->m_count; i++) {
         CFieldActor *actor = unk_0A4->Get(i);
         if (actor != NULL && unk_0B4[i].unk_00) {
-            if (unk_0B4[i].unk_08 < 0 || ov7_0211F4E0()) {
+            if (unk_0B4[i].unk_08 < 0 || IsEnergyFull()) {
                 sprite->m_cellDataIdx = 0;
             } else {
                 sprite->m_cellDataIdx = 1;
@@ -1251,7 +1251,7 @@ void ReleaseMenu::ov7_0211F370(Camera2D *camera)
     }
 }
 
-BOOL ReleaseMenu::ov7_0211F4E0()
+BOOL ReleaseMenu::IsEnergyFull()
 {
     if (unk_0B0->m_energy >= unk_0B0->m_maxEnergy) {
         return TRUE;
@@ -1259,7 +1259,7 @@ BOOL ReleaseMenu::ov7_0211F4E0()
     return FALSE;
 }
 
-BOOL ReleaseMenu::ov7_0211F4FC()
+BOOL ReleaseMenu::IsConfirmPressed()
 {
     PadInput *keys = unk_27C->unk_0014;
     CTouchPanel *tp = CGame::GetInstance()->touchPanel;
@@ -1269,7 +1269,7 @@ BOOL ReleaseMenu::ov7_0211F4FC()
     return FALSE;
 }
 
-void ReleaseMenu::ov7_0211F534()
+void ReleaseMenu::FadeIn()
 {
     if (unk_27C == NULL) {
         return;
@@ -1278,7 +1278,7 @@ void ReleaseMenu::ov7_0211F534()
     unk_27C->m_subFade->Start(3, 15);
 }
 
-void ReleaseMenu::ov7_0211F578()
+void ReleaseMenu::FadeOut()
 {
     if (unk_27C == NULL) {
         return;
@@ -1287,7 +1287,7 @@ void ReleaseMenu::ov7_0211F578()
     unk_27C->m_subFade->Start(4, 15);
 }
 
-BOOL ReleaseMenu::ov7_0211F5BC()
+BOOL ReleaseMenu::IsFading()
 {
     if (unk_27C->m_subFade->IsActive() || unk_27C->m_mainFade->IsActive()) {
         return TRUE;
@@ -1295,7 +1295,7 @@ BOOL ReleaseMenu::ov7_0211F5BC()
     return FALSE;
 }
 
-int ReleaseMenu::ov7_0211F604()
+int ReleaseMenu::GetResult()
 {
     if (unk_000 != 9) {
         return -1;

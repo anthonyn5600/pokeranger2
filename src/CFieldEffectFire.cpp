@@ -21,12 +21,12 @@ CFieldEffectFire::CFieldEffectFire(int kind)
 {
     CFieldEffectNormalActorData *data = new CFieldEffectNormalActorData();
     if (data != NULL) {
-        data->ov0_021503B8(kind, FALSE);
+        data->Load(kind, FALSE);
         CellAnimController *cac = data->GetCac(0);
         if (cac != NULL) {
             m_cacId = cac->Create(1, 0);
         }
-        ov0_021423E8(FieldEffectSpriteRes(data->GetNcbr(0), data->GetPalette(), data->GetNcer(0)));
+        SetParticleRes(FieldEffectSpriteRes(data->GetNcbr(0), data->GetPalette(), data->GetNcer(0)));
     }
     m_data = data;
     m_emitter.m_lifeMin = 300;
@@ -101,9 +101,9 @@ static inline void UpdateParticlesW(TFieldParticleSystem<CSoftwareSprite> *sys, 
     }
 }
 
-int CFieldEffectFire::ov0_02142264(int step)
+int CFieldEffectFire::Update(int step)
 {
-    int state = CFieldEffect::ov0_02142264(step);
+    int state = CFieldEffect::Update(step);
     if (state != 4 && m_system != NULL) {
         TFieldParticleSystem<CSoftwareSprite> *sys = m_system;
         int dt = step * sys->m_speed;

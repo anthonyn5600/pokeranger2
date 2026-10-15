@@ -44,7 +44,7 @@ void CFieldEffectDarkCloud::SetRes(VramImage *ncbr, VramPalette *palette, CNCERF
     m_remains.m_res.ncbr = ncbr;
     m_remains.m_res.palette = palette;
     m_remains.m_res.ncer = ncer;
-    ov0_021423E8(FieldEffectSpriteRes(ncbr, palette, ncer));
+    SetParticleRes(FieldEffectSpriteRes(ncbr, palette, ncer));
 }
 
 int CFieldEffectDarkCloud::SetParam(int param, int value)
@@ -69,7 +69,7 @@ int CFieldEffectDarkCloud::SetParam(int param, int value)
 
 // The base particle system update written out as in CFieldEffectFire (shape from CFieldEffectDarknessClear2): the
 // particle walk one inline level deep with `next` declared before `p`, the emitter part expanded at the caller.
-// Calling the base inline (TFieldEffectParticle::ov0_02142264) swaps p/next registers.
+// Calling the base inline (TFieldEffectParticle::Update) swaps p/next registers.
 static inline void UpdateParticlesW(TFieldParticleSystem<CSoftwareSprite> *sys, int dt)
 {
     TFieldParticle<CSoftwareSprite> *next;
@@ -95,11 +95,11 @@ static inline void UpdateParticlesW(TFieldParticleSystem<CSoftwareSprite> *sys, 
     }
 }
 
-BOOL CFieldEffectDarkCloud::ov0_021421F0(int inTime, int holdTime, int outTime)
+BOOL CFieldEffectDarkCloud::Start(int inTime, int holdTime, int outTime)
 {
-    BOOL ret = TFieldEffectParticle<CSoftwareSprite>::ov0_021421F0(inTime, holdTime, outTime);
+    BOOL ret = TFieldEffectParticle<CSoftwareSprite>::Start(inTime, holdTime, outTime);
     for (int n = 0; n < 100; n++) {
-        int state = CFieldEffect::ov0_02142264(3);
+        int state = CFieldEffect::Update(3);
         if (state != 4 && m_system != NULL) {
             TFieldParticleSystem<CSoftwareSprite> *sys = m_system;
             int dt = 3 * sys->m_speed;
@@ -126,7 +126,7 @@ BOOL CFieldEffectDarkCloud::ov0_021421F0(int inTime, int holdTime, int outTime)
     return ret;
 }
 
-int CFieldEffectDarkCloud::ov0_02142264(int step)
+int CFieldEffectDarkCloud::Update(int step)
 {
     if (m_mover.Update(step)) {
         m_system->m_offset = m_mover.cur;
@@ -135,7 +135,7 @@ int CFieldEffectDarkCloud::ov0_02142264(int step)
         m_remainsEmitter.Stop();
     }
     m_remains.Update(step);
-    int state = CFieldEffect::ov0_02142264(step);
+    int state = CFieldEffect::Update(step);
     if (state != 4 && m_system != NULL) {
         TFieldParticleSystem<CSoftwareSprite> *sys = m_system;
         int dt = step * sys->m_speed;
@@ -161,13 +161,13 @@ int CFieldEffectDarkCloud::ov0_02142264(int step)
     return state;
 }
 
-int CFieldEffectDarkCloud::ov0_02142344(Camera2D *camera)
+int CFieldEffectDarkCloud::Render(Camera2D *camera)
 {
     m_remains.Draw(camera);
-    return TFieldEffectParticle<CSoftwareSprite>::ov0_02142344(camera);
+    return TFieldEffectParticle<CSoftwareSprite>::Render(camera);
 }
 
-void CFieldEffectDarkCloud::sub_0203331C(const Point2D &pos, int arg1)
+void CFieldEffectDarkCloud::MoveTo(const Point2D &pos, int arg1)
 {
     m_mover.Start(m_system->m_offset, pos, arg1);
     m_remainsEmitter.func2();

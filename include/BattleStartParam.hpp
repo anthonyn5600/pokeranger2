@@ -47,12 +47,12 @@ STATIC_SIZE_ASSERT(BattleStartParam, 0x5C);
 
 extern "C" {
 void BattleStartParam_Reset(BattleStartParam *obj);
-u32 sub_02010B24(BattleStartParam *obj);
+u32 BattleStartParam_GetNextScene(BattleStartParam *obj);
 u8 BattleStartParam_GetEnergy(BattleStartParam *obj);
 u8 BattleStartParam_GetStylerLevel(BattleStartParam *obj);
-BOOL sub_02010B3C(BattleStartParam *obj);
-u32 sub_02010B50(BattleStartParam *obj);
-u32 sub_02010B58(BattleStartParam *obj);
+BOOL BattleStartParam_HasPartner(BattleStartParam *obj);
+u32 BattleStartParam_GetPartnerEnergy(BattleStartParam *obj);
+u32 BattleStartParam_GetPartnerMaxEnergy(BattleStartParam *obj);
 u32 BattleStartParam_GetPartnerMood(BattleStartParam *obj);
 u8 BattleStartParam_GetPokemonCount(BattleStartParam *obj);
 u16 BattleStartParam_GetPokemonId(BattleStartParam *obj, int idx);

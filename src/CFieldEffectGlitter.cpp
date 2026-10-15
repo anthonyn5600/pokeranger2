@@ -65,7 +65,7 @@ int CFieldEffectGlitter::SetParam(int param, int value)
         break;
     case 17:
         if (MAIN_BSS_0210CA40 != NULL) {
-            m_actor = MAIN_BSS_0210CA40->ov0_02123060(value);
+            m_actor = MAIN_BSS_0210CA40->FindActor(value);
         }
         break;
     case 26:
@@ -84,18 +84,18 @@ int CFieldEffectGlitter::SetParam(int param, int value)
     return ret;
 }
 
-BOOL CFieldEffectGlitter::ov0_021421F0(int inTime, int holdTime, int outTime)
+BOOL CFieldEffectGlitter::Start(int inTime, int holdTime, int outTime)
 {
     if (inTime > 0) {
         m_blinkTimer = inTime;
         m_sprite.m_alpha = 0;
     }
-    return CFieldEffect::ov0_021421F0(inTime, holdTime, outTime);
+    return CFieldEffect::Start(inTime, holdTime, outTime);
 }
 
-int CFieldEffectGlitter::ov0_02142264(int step)
+int CFieldEffectGlitter::Update(int step)
 {
-    int state = CFieldEffect::ov0_02142264(step);
+    int state = CFieldEffect::Update(step);
     if (state == 2) {
         if (m_blinkTimer > 0) {
             m_blinkTimer -= step;
@@ -150,7 +150,7 @@ int CFieldEffectGlitter::ov0_02142264(int step)
     return state;
 }
 
-int CFieldEffectGlitter::ov0_02142344(Camera2D *camera)
+int CFieldEffectGlitter::Render(Camera2D *camera)
 {
     if (m_blinkTimer > 0) {
         m_sprite.m_rotAngle = m_angle1;

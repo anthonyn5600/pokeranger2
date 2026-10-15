@@ -3,9 +3,9 @@
 #include <nitro.h>
 
 #include "CGame.hpp"
+#include "FieldDataRecords.hpp"
+#include "PokeIdTableEntry.hpp"
 #include "SaveData.hpp"
-#include "UnkClass_02041D80.hpp"
-#include "UnkStruct_020107A8.hpp"
 #include "field/CFieldEffectManpu.hpp"
 #include "field/CFieldEnemy.hpp"
 #include "field/CFieldPartnerManage.hpp"
@@ -14,7 +14,7 @@
 #include "file/CBinaryFile.hpp"
 #include "sub_02044440.hpp"
 
-struct UnkStruct_0210C228 {
+struct FieldEnemySaveBuffer {
     u8 unk_000[0x800];
     u8 unk_800;
     IFieldEnemyDataBuilder *unk_804;
@@ -24,7 +24,7 @@ extern CFieldPlayer *MAIN_BSS_0210CA48;
 extern CFieldPartnerManage *MAIN_BSS_0210CA4C;
 extern FieldData *MAIN_BSS_0210CA6C;
 extern SaveData MAIN_BSS_020B26A0;
-extern UnkStruct_0210C228 MAIN_BSS_0210C228;
+extern FieldEnemySaveBuffer MAIN_BSS_0210C228;
 extern MATHRandContext16 MAIN_BSS_0210CEC8;
 
 extern "C" {
@@ -35,19 +35,19 @@ FieldEnemyData *FieldData_GetEnemy(FieldData *obj, int kind);
 BOOL SaveData_IsInParty(SaveData *save, int mapId, int idx);
 }
 
-UnkStruct_021357DC::UnkStruct_021357DC()
+FieldEnemyScript::FieldEnemyScript()
 {
     unk_00 = 0;
     unk_04 = NULL;
     unk_08 = NULL;
 }
 
-UnkStruct_021357DC::~UnkStruct_021357DC()
+FieldEnemyScript::~FieldEnemyScript()
 {
     SAFE_DELETE(unk_04);
 }
 
-void UnkStruct_021357DC::Load(const char *path)
+void FieldEnemyScript::Load(const char *path)
 {
     u32 heapId = s_game->unk_14A8;
     unk_04 = new CBinaryFile(path, 0, 0, heapId, NULL, 0);
@@ -83,7 +83,7 @@ void *FieldEnemyScriptCache::Get(u32 id)
                 return m_scripts[i]->unk_08;
             }
         } else {
-            m_scripts[i] = new UnkStruct_021357DC();
+            m_scripts[i] = new FieldEnemyScript();
             OS_SPrintf(path, "data/Script/field/actor/FieldEnemyScript%d.fsb", id);
             m_scripts[i]->Load(path);
             m_scripts[i]->unk_00 = id;
@@ -186,10 +186,10 @@ void CFieldEnemyManage::UpdateAll(CFieldMap *map, BOOL update)
             if (enemy->unk_244) {
                 Actor_HideManpu(enemy);
                 enemy->unk_20 = 0;
-                enemy->sub_0202D394();
+                enemy->OnDisable();
                 SetEnemyStateById(enemy, 1);
             } else {
-                ov0_021369DC(enemy);
+                ResetEnemy(enemy);
                 SetEnemyStateById(enemy, 3);
             }
         }
@@ -203,7 +203,7 @@ static inline void SetUnk70(CFieldActor *actor, fx32 x, fx32 y)
     actor->unk_74 = y;
 }
 
-int CFieldEnemyManage::ov0_02135E30(int slot, u16 kind, u16 script, int arg4)
+int CFieldEnemyManage::Create(int slot, u16 kind, u16 script, int arg4)
 {
     if (m_actors != NULL) {
         FieldData *table = MAIN_BSS_0210CA6C;
@@ -215,7 +215,7 @@ int CFieldEnemyManage::ov0_02135E30(int slot, u16 kind, u16 script, int arg4)
                 continue;
             }
             FieldEnemyData *data = FieldData_GetEnemy(table, kind);
-            UnkStruct_020107A8 *info = PokeIdTable_Get(s_game->unk_1434, kind);
+            PokeIdTableEntry *info = PokeIdTable_Get(s_game->unk_1434, kind);
             CFieldEnemy *enemy = new CFieldEnemy();
             u32 id = slot & 0xFFF;
             id |= ((save->m_mapId & 0xFFF) << 12) | 0x1000000;
@@ -311,7 +311,7 @@ u32 CFieldEnemyManage::ov0_02136320(int type)
     return 0;
 }
 
-void CFieldEnemyManage::ov0_02136384()
+void CFieldEnemyManage::AddTargets()
 {
     CFieldTargetObjectManage *targets = MAIN_BSS_0210CA7C;
     if (targets == NULL) {
@@ -327,7 +327,7 @@ void CFieldEnemyManage::ov0_02136384()
             continue;
         }
         int count = targets->CountActors();
-        int index = targets->ov0_0213D1AC(count, kind, 0, 0, 0);
+        int index = targets->Create(count, kind, 0, 0, 0);
         if (index < 0) {
             continue;
         }
@@ -346,17 +346,17 @@ void CFieldEnemyManage::ov0_02136384()
             case 3:
                 break;
             case 4:
-                enemy->ov0_021351AC();
+                enemy->DisableTargetObject();
                 break;
             case 5:
             case 6:
             case 7:
             case 8:
-                enemy->ov0_02134FCC();
+                enemy->EnableTargetObject();
                 enemy->m_flags &= ~0x400;
                 enemy->m_flags |= 0x200;
                 enemy->unk_168.unk_D0 = 7;
-                enemy->sub_02032A44(0x11);
+                enemy->SetMoveSequence(0x11);
                 enemy->m_flags |= 1;
                 break;
             }
@@ -364,12 +364,12 @@ void CFieldEnemyManage::ov0_02136384()
             LogInfo("targetid= %d", index);
             LogInfo("objnum= %d", count);
         } else {
-            enemy->ov0_021351AC();
+            enemy->DisableTargetObject();
         }
     }
 }
 
-void CFieldEnemyManage::ov0_0213669C(u32 id, u16 script)
+void CFieldEnemyManage::ChangeScript(u32 id, u16 script)
 {
     CFieldEnemy *enemy = (CFieldEnemy *)Find(id);
     void *block = unk_14->Get(script);
@@ -380,7 +380,7 @@ void CFieldEnemyManage::ov0_0213669C(u32 id, u16 script)
     }
 }
 
-void CFieldEnemyManage::ov0_02136730(u32 id)
+void CFieldEnemyManage::RestoreScript(u32 id)
 {
     CFieldEnemy *enemy = (CFieldEnemy *)Find(id);
     void *block = NULL;
@@ -410,13 +410,13 @@ void CFieldEnemyManage::BuildData(void *buf, int size)
     for (int i = 0; i < m_count; i++) {
         CFieldEnemy *enemy = (CFieldEnemy *)m_actors[i];
         if (enemy != NULL) {
-            enemy->ov0_021356BC(p, end);
+            enemy->SaveState(p, end);
         }
         p += 0x40;
     }
 }
 
-void CFieldEnemyManage::ov0_02136878()
+void CFieldEnemyManage::RestoreSavedEnemies()
 {
     u8 data[0x40];
     if (!MAIN_BSS_0210C228.unk_800) {
@@ -428,14 +428,14 @@ void CFieldEnemyManage::ov0_02136878()
         MI_CpuCopy8(p, data, sizeof(data));
         CFieldEnemy *enemy = (CFieldEnemy *)m_actors[i];
         if (enemy != NULL) {
-            enemy->ov0_021356CC(data);
+            enemy->RestoreState(data);
         }
         p += 0x40;
     }
     MAIN_BSS_0210C228.unk_800 = 0;
 }
 
-void CFieldEnemyManage::ov0_0213690C(int arg1, int arg2)
+void CFieldEnemyManage::ShowManpuAll(int arg1, int arg2)
 {
     for (int i = 0; i < m_count; i++) {
         CFieldActor *actor = Get(i);
@@ -445,7 +445,7 @@ void CFieldEnemyManage::ov0_0213690C(int arg1, int arg2)
     }
 }
 
-void CFieldEnemyManage::ov0_02136968()
+void CFieldEnemyManage::HideManpuAll()
 {
     for (int i = 0; i < m_count; i++) {
         CFieldActor *actor = Get(i);
@@ -464,13 +464,13 @@ BOOL CFieldEnemyManage::Clear()
     return result;
 }
 
-void CFieldEnemyManage::ov0_021369DC(CFieldEnemy *enemy)
+void CFieldEnemyManage::ResetEnemy(CFieldEnemy *enemy)
 {
     if (enemy == NULL) {
         return;
     }
     enemy->unk_20 = 2;
-    enemy->ov0_021356EC();
+    enemy->ResetToHome();
     FieldEnemyData *data = FieldData_GetEnemy(MAIN_BSS_0210CA6C, enemy->unk_E8);
     SetEnemyScript(this, enemy, data, enemy->unk_254);
 }

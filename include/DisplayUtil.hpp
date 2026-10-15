@@ -4,7 +4,7 @@
 void SetupMainBGFont();
 void SetupSubBGFont();
 void SetupBGFonts();
-void sub_02007D78();
+void FlushBGFonts();
 void LoadOam();
 
 #endif // POKERANGER2_DISPLAYUTIL_HPP

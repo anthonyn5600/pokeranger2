@@ -27,7 +27,7 @@ void CPrimitiveRECT::SetRectangle(fx32 x, fx32 y, fx32 w, fx32 h, fx32 z)
     m_z = z;
 }
 
-void CPrimitiveRECT::sub_02003C00(Point2D *arg0, CPrimitiveRECT *arg1)
+void CPrimitiveRECT::GetPos(Point2D *arg0, CPrimitiveRECT *arg1)
 {
     Point2D v0(arg1->m_rectangle.pos);
     *arg0 = v0;

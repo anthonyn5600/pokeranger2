@@ -1,6 +1,7 @@
 #include "AudioEngine.hpp"
 #include "Collision.hpp"
 #include "SaveData.hpp"
+#include "battle/BattleEffectivenessMark.hpp"
 #include "battle/BattleParamTable.hpp"
 #include "battle/CBattleAssist.hpp"
 #include "battle/CBattleAttackEffect.hpp"
@@ -8,12 +9,11 @@
 #include "battle/CBattleEnemy.hpp"
 #include "battle/CBattleEnemyData.hpp"
 #include "battle/StylerLine.hpp"
-#include "battle/UnkClass_02128414.hpp"
 #include "fx_utils.hpp"
 #include "interpolation.hpp"
 
-extern "C" fx32 ov1_0212EE80(int assistType, int type);
-extern "C" u16 ov1_0212EE98(int assistType, int idx);
+extern "C" fx32 GetAssistTypeRate(int assistType, int type);
+extern "C" u16 GetAssistEffectTime(int assistType, int idx);
 
 static inline Circle GetCircle(CBattleAttackEffect *effect)
 {
@@ -50,7 +50,7 @@ int CBattleAssistGhost::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleE
             if (m_ghosts[k].m_timer >= 0xF0) {
                 m_ghosts[k].m_effect->FadeAlpha(0x20, 0);
                 m_ghosts[k].m_effect->ScaleTo(0x20, 0x2000, 0x2000);
-                m_ghosts[k].m_effect->ov1_02127388(FALSE);
+                m_ghosts[k].m_effect->SetCollisionEnabled(FALSE);
                 m_ghosts[k].m_flags &= ~1;
             }
             if (m_ghosts[k].m_effect->IsUnk100Clear()) {
@@ -58,18 +58,18 @@ int CBattleAssistGhost::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleE
                 for (u8 i = 0; i < 8; i++) {
                     if (enemies[i] != NULL && enemies[i]->IsAlive() && enemies[i]->IsTargetable()
                         && CircleHitCircle(circle, enemies[i]->m_sphere.m_circle, NULL)) {
-                        u16 power = unk_10->ov1_0212F32C(vfunc_10(), *level, 0);
-                        fx32 rate = ov1_0212EE80(vfunc_10(), enemies[i]->unk_184->unk_18->unk_03);
-                        enemies[i]->ov1_02126310((u16)(FX32_MUL(rate, power << FX32_SHIFT) >> FX32_SHIFT), TRUE);
-                        enemies[i]->ov1_021263A4(2, ov1_0212EE98(vfunc_10(), 0));
+                        u16 power = unk_10->GetAssistPower(vfunc_10(), *level, 0);
+                        fx32 rate = GetAssistTypeRate(vfunc_10(), enemies[i]->unk_184->unk_18->unk_03);
+                        enemies[i]->TakeDamage((u16)(FX32_MUL(rate, power << FX32_SHIFT) >> FX32_SHIFT), TRUE);
+                        enemies[i]->SetStatus(2, GetAssistEffectTime(vfunc_10(), 0));
                         if (rate == 0x1000) {
-                            enemies[i]->unk_1A8->ov1_02128598(0);
+                            enemies[i]->unk_1A8->Show(0);
                         } else if (rate > 0x1000) {
-                            enemies[i]->unk_1A8->ov1_02128598(1);
+                            enemies[i]->unk_1A8->Show(1);
                         } else if (rate < 0x1000) {
-                            enemies[i]->unk_1A8->ov1_02128598(2);
+                            enemies[i]->unk_1A8->Show(2);
                         }
-                        m_ghosts[k].m_effect->ov1_02127300();
+                        m_ghosts[k].m_effect->Terminate();
                         unk_14->PlaySe(0x13C);
                         m_ghosts[k].m_flags &= ~1;
                     }
@@ -77,24 +77,24 @@ int CBattleAssistGhost::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleE
             }
         }
     }
-    if (disk->ov1_0212C5C0() && disk->ov1_0212C4CC()) {
+    if (disk->IsActive() && disk->IsLoopClosed()) {
         for (u8 i = 0; i < 8; i++) {
             if (enemies[i] != NULL && enemies[i]->IsAlive() && enemies[i]->IsTargetable()) {
                 Point2D enemyPos;
                 enemyPos = enemies[i]->m_motion.GetPos();
-                if (disk->unk_1B8->ov1_02124650(enemyPos.x, enemyPos.y)) {
+                if (disk->unk_1B8->IsInsideLoop(enemyPos.x, enemyPos.y)) {
                     return 1;
                 }
             }
         }
         Rectangle rect = disk->unk_1B8->m_rect.m_rectangle;
         if (rect.size.x >= 0x20000 && rect.size.y >= 0x20000) {
-            GhostSlot *ghost = ov1_02131A48();
+            GhostSlot *ghost = FindFreeGhost();
             if (ghost != NULL) {
                 Point2D newPos;
                 newPos = rect.pos;
-                ghost->m_effect = ov1_0212EE3C();
-                ghost->m_effect->ov1_021270FC(unk_0C[0]);
+                ghost->m_effect = GetFreeEffect();
+                ghost->m_effect->Start(unk_0C[0]);
                 ghost->m_effect->m_motion.SetPos(newPos);
                 ghost->m_effect->m_motion.MoveInDirection(0, 0x800);
                 ghost->m_timer = 0;
@@ -118,7 +118,7 @@ void CBattleAssistGhost::vfunc_0C()
     unk_14->StopSe(0x13C);
 }
 
-GhostSlot *CBattleAssistGhost::ov1_02131A48()
+GhostSlot *CBattleAssistGhost::FindFreeGhost()
 {
     for (u8 i = 0; i < 5; i++) {
         if (!(m_ghosts[i].m_flags & 1)) {

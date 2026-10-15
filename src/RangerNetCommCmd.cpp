@@ -24,64 +24,64 @@ struct CommCmdManager {
 struct D3Entry;
 
 // RangerNetConnect.cpp .. RangerNetCommSystem.cpp
-void ov11_021287EC();
-void ov11_021287F4();
-void ov11_02128810(int aid, int size, D3Entry *data);
-void ov11_021288BC(int aid, int size, D3Entry *data);
-void ov11_02128CC8(u8 aid, int size, u8 *data);
-void ov11_02128D64(int aid, int size, u8 *data);
-void ov11_02128E30();
-void ov11_02129970(u8 aid, int size, u8 *data);
-void ov11_02129A1C(int aid, int size, const u8 *data);
-void ov11_02129A3C(int aid, int size, const u8 *data);
-void ov11_02129AEC(int aid, int size, const u8 *data);
-void ov11_02129B14();
-void ov11_02129B1C(int idx, int size, const void *data);
-void ov11_02129B58();
-BOOL ov11_0212BA98(u8 cmd, u8 *data, u16 size);
-BOOL ov11_0212BEA0(u16 aid);
-u16 ov11_0212C154();
-BOOL ov11_0212C198(u8 cmd, u8 *data);
-void ov11_0212C09C(int aid, int size, u8 *data);
-void ov11_0212C0D4(int aid, int size, u8 *data);
-void ov11_0212C10C(int aid, int size, u8 *data);
-void ov11_0212C1EC();
-void ov11_0212C2E4();
+void CommPlayerInfo_Size();
+void CommInfo_FinishReading();
+void CommInfo_RecvPlayerDataArray(int aid, int size, D3Entry *data);
+void CommInfo_RecvPlayerData(int aid, int size, D3Entry *data);
+void CommManager_ValidateConfirmationMessage(u8 aid, int size, u8 *data);
+void CommManager_ValidateConfirmationResponseMessage(int aid, int size, u8 *data);
+void CommManager_ConfirmationMessage_sizeof();
+void CommTiming_RecvSyncNo(u8 aid, int size, u8 *data);
+void CommTiming_RecvPlayerSyncNo(int aid, int size, const u8 *data);
+void CommTiming_RecvSyncState(int aid, int size, const u8 *data);
+void CommList_Recv(int aid, int size, const u8 *data);
+void CommList_Size();
+void CommTool_RecvTempData(int idx, int size, const void *data);
+void CommTool_TempDataSize();
+BOOL CommSys_SendDataServer(u8 cmd, u8 *data, u16 size);
+BOOL CommSys_IsPlayerConnected(u16 aid);
+u16 CommSys_CurNetId();
+BOOL CommSys_SendDataFixedSize(u8 cmd, u8 *data);
+void CommSys_RecvSwitchRequest(int aid, int size, u8 *data);
+void CommSys_RecvSwitchNotify(int aid, int size, u8 *data);
+void CommSys_RecvSwitchAck(int aid, int size, u8 *data);
+void CommSys_RecvEnd();
+void CommSys_SetError();
 
-int ov11_0212CCF0();
-int ov11_0212CCF8();
-int ov11_0212CD00();
-static void ov11_0212CD08(int netId, int size, void *data, void *arg);
-static void ov11_0212CD80(int netId, int size, void *data, void *arg);
-static void ov11_0212CDC4(int netId, int size, void *data, void *arg);
+int CommPacketSizeOf_Nothing();
+int CommPacketSizeOf_NetId();
+int CommPacketSizeOf_U16();
+static void CommCmd_RecvResetRequest(int netId, int size, void *data, void *arg);
+static void CommCmd_RecvReset(int netId, int size, void *data, void *arg);
+static void CommCmd_RecvResetDone(int netId, int size, void *data, void *arg);
 
 static const CommCmdTable sBuiltinCmds[] = {
-    { NULL, ov11_0212CCF0, NULL },
-    { NULL, ov11_0212CCF0, NULL },
-    { (CommCmdFunc)ov11_0212C1EC, ov11_0212CCF0, NULL },
-    { (CommCmdFunc)ov11_021288BC, (CommCmdSizeFunc)ov11_021287EC, NULL },
-    { (CommCmdFunc)ov11_02128810, (CommCmdSizeFunc)ov11_021287EC, NULL },
-    { (CommCmdFunc)ov11_021287F4, ov11_0212CCF0, NULL },
-    { (CommCmdFunc)ov11_02128CC8, (CommCmdSizeFunc)ov11_02128E30, NULL },
-    { (CommCmdFunc)ov11_02128D64, (CommCmdSizeFunc)ov11_02128E30, NULL },
+    { NULL, CommPacketSizeOf_Nothing, NULL },
+    { NULL, CommPacketSizeOf_Nothing, NULL },
+    { (CommCmdFunc)CommSys_RecvEnd, CommPacketSizeOf_Nothing, NULL },
+    { (CommCmdFunc)CommInfo_RecvPlayerData, (CommCmdSizeFunc)CommPlayerInfo_Size, NULL },
+    { (CommCmdFunc)CommInfo_RecvPlayerDataArray, (CommCmdSizeFunc)CommPlayerInfo_Size, NULL },
+    { (CommCmdFunc)CommInfo_FinishReading, CommPacketSizeOf_Nothing, NULL },
+    { (CommCmdFunc)CommManager_ValidateConfirmationMessage, (CommCmdSizeFunc)CommManager_ConfirmationMessage_sizeof, NULL },
+    { (CommCmdFunc)CommManager_ValidateConfirmationResponseMessage, (CommCmdSizeFunc)CommManager_ConfirmationMessage_sizeof, NULL },
     { NULL, NULL, NULL },
     { NULL, NULL, NULL },
-    { (CommCmdFunc)ov11_0212C09C, ov11_0212CCF8, NULL },
-    { (CommCmdFunc)ov11_0212C0D4, ov11_0212CCF8, NULL },
-    { (CommCmdFunc)ov11_0212C10C, ov11_0212CCF8, NULL },
-    { ov11_0212CD08, ov11_0212CCF0, NULL },
-    { ov11_0212CD80, ov11_0212CCF0, NULL },
-    { ov11_0212CDC4, ov11_0212CCF0, NULL },
-    { (CommCmdFunc)ov11_02129970, ov11_0212CCF8, NULL },
-    { (CommCmdFunc)ov11_02129A3C, ov11_0212CCF8, NULL },
-    { (CommCmdFunc)ov11_02129A1C, ov11_0212CD00, NULL },
-    { (CommCmdFunc)ov11_02129AEC, (CommCmdSizeFunc)ov11_02129B14, NULL },
-    { (CommCmdFunc)ov11_02129B1C, (CommCmdSizeFunc)ov11_02129B58, NULL },
+    { (CommCmdFunc)CommSys_RecvSwitchRequest, CommPacketSizeOf_NetId, NULL },
+    { (CommCmdFunc)CommSys_RecvSwitchNotify, CommPacketSizeOf_NetId, NULL },
+    { (CommCmdFunc)CommSys_RecvSwitchAck, CommPacketSizeOf_NetId, NULL },
+    { CommCmd_RecvResetRequest, CommPacketSizeOf_Nothing, NULL },
+    { CommCmd_RecvReset, CommPacketSizeOf_Nothing, NULL },
+    { CommCmd_RecvResetDone, CommPacketSizeOf_Nothing, NULL },
+    { (CommCmdFunc)CommTiming_RecvSyncNo, CommPacketSizeOf_NetId, NULL },
+    { (CommCmdFunc)CommTiming_RecvSyncState, CommPacketSizeOf_NetId, NULL },
+    { (CommCmdFunc)CommTiming_RecvPlayerSyncNo, CommPacketSizeOf_U16, NULL },
+    { (CommCmdFunc)CommList_Recv, (CommCmdSizeFunc)CommList_Size, NULL },
+    { (CommCmdFunc)CommTool_RecvTempData, (CommCmdSizeFunc)CommTool_TempDataSize, NULL },
 };
 
 static CommCmdManager *sCommCmdManager;
 
-void ov11_0212CA60(const CommCmdTable *cmdTable, int count, void *arg)
+void CommCmd_Init(const CommCmdTable *cmdTable, int count, void *arg)
 {
     int i;
 
@@ -97,7 +97,7 @@ void ov11_0212CA60(const CommCmdTable *cmdTable, int count, void *arg)
     sCommCmdManager->unk_14 = 0;
 }
 
-void ov11_0212CAE0()
+void CommCmd_Delete()
 {
     if (sCommCmdManager == NULL) {
         return;
@@ -108,7 +108,7 @@ void ov11_0212CAE0()
     sCommCmdManager = NULL;
 }
 
-void ov11_0212CB10(int netId, int cmd, int size, void *data)
+void CommCmd_Callback(int netId, int cmd, int size, void *data)
 {
     CommCmdFunc func;
 
@@ -116,7 +116,7 @@ void ov11_0212CB10(int netId, int cmd, int size, void *data)
         func = sBuiltinCmds[cmd].func;
     } else {
         if (cmd > sCommCmdManager->count + 22) {
-            ov11_0212C2E4();
+            CommSys_SetError();
             return;
         }
         func = sCommCmdManager->cmdTable[cmd - 22].func;
@@ -130,7 +130,7 @@ void ov11_0212CB10(int netId, int cmd, int size, void *data)
     }
 }
 
-int ov11_0212CBA4(int cmd)
+int CommCmd_PacketSizeOf(int cmd)
 {
     int size = 0;
     CommCmdSizeFunc func;
@@ -139,11 +139,11 @@ int ov11_0212CBA4(int cmd)
         func = sBuiltinCmds[cmd].sizeFunc;
     } else {
         if (sCommCmdManager == NULL) {
-            ov11_0212C2E4();
+            CommSys_SetError();
             return size;
         }
         if (cmd > sCommCmdManager->count + 22) {
-            ov11_0212C2E4();
+            CommSys_SetError();
             return size;
         }
         func = sCommCmdManager->cmdTable[cmd - 22].sizeFunc;
@@ -154,7 +154,7 @@ int ov11_0212CBA4(int cmd)
     return size;
 }
 
-BOOL ov11_0212CC34(int cmd)
+BOOL CommCmd_HasRecvBuffer(int cmd)
 {
     if (cmd < 22) {
         return sBuiltinCmds[cmd].bufferFunc != NULL;
@@ -162,7 +162,7 @@ BOOL ov11_0212CC34(int cmd)
     return sCommCmdManager->cmdTable[cmd - 22].bufferFunc != NULL;
 }
 
-void *ov11_0212CC90(int cmd, int netId, int size)
+void *CommCmd_GetRecvBuffer(int cmd, int netId, int size)
 {
     CommCmdBufferFunc func;
 
@@ -176,52 +176,52 @@ void *ov11_0212CC90(int cmd, int netId, int size)
     return NULL;
 }
 
-int ov11_0212CCF0()
+int CommPacketSizeOf_Nothing()
 {
     return 0;
 }
 
-int ov11_0212CCF8()
+int CommPacketSizeOf_NetId()
 {
     return 1;
 }
 
-int ov11_0212CD00()
+int CommPacketSizeOf_U16()
 {
     return 2;
 }
 
-static void ov11_0212CD08(int netId, int size, void *data, void *arg)
+static void CommCmd_RecvResetRequest(int netId, int size, void *data, void *arg)
 {
     int i;
 
-    if (ov11_0212C154() != 0) {
+    if (CommSys_CurNetId() != 0) {
         return;
     }
     sCommCmdManager->unk_0C[netId] = 1;
     for (i = 0; i < 8; i++) {
-        if (!ov11_0212BEA0(i)) {
+        if (!CommSys_IsPlayerConnected(i)) {
             continue;
         }
         if (!sCommCmdManager->unk_0C[i]) {
             return;
         }
     }
-    ov11_0212BA98(14, NULL, 0);
+    CommSys_SendDataServer(14, NULL, 0);
 }
 
-static void ov11_0212CD80(int netId, int size, void *data, void *arg)
+static void CommCmd_RecvReset(int netId, int size, void *data, void *arg)
 {
     sCommCmdManager->cmdTable = NULL;
     sCommCmdManager->count = 0;
     sCommCmdManager->arg = NULL;
     sCommCmdManager->unk_14 = 1;
-    ov11_0212C198(15, (u8 *)data);
+    CommSys_SendDataFixedSize(15, (u8 *)data);
 }
 
-static void ov11_0212CDC4(int netId, int size, void *data, void *arg)
+static void CommCmd_RecvResetDone(int netId, int size, void *data, void *arg)
 {
-    if (ov11_0212C154() != 0) {
+    if (CommSys_CurNetId() != 0) {
         return;
     }
     sCommCmdManager->unk_0C[netId] = 0;

@@ -10,11 +10,11 @@ FieldEffectScriptHandler::FieldEffectScriptHandler()
 
 FieldEffectScriptHandler::~FieldEffectScriptHandler()
 {
-    ov0_021639BC();
+    Release();
     ScriptVM_Clear(&m_vm);
 }
 
-int FieldEffectScriptHandler::ov0_02163904(int id)
+int FieldEffectScriptHandler::LoadScript(int id)
 {
     char path[0x104];
     OS_SPrintf(path, "data/Script/field/effect/ef%03d.fsb", id);
@@ -34,7 +34,7 @@ int FieldEffectScriptHandler::ov0_02163904(int id)
     return i;
 }
 
-void FieldEffectScriptHandler::ov0_021639BC()
+void FieldEffectScriptHandler::Release()
 {
     for (int i = 0; i < 3; i++) {
         SAFE_DELETE(m_scripts[i].m_file);
@@ -42,7 +42,7 @@ void FieldEffectScriptHandler::ov0_021639BC()
     }
 }
 
-int FieldEffectScriptHandler::ov0_02163A08(int slot, int arg, int x, int y, int param)
+int FieldEffectScriptHandler::CallEventHandle(int slot, int arg, int x, int y, int param)
 {
     if (slot >= 0 && slot < 3 && m_scripts[slot].m_script != NULL) {
         ScriptVM_Reset(&m_vm);

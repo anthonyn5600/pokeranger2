@@ -5,7 +5,7 @@
 
 #include "common.hpp"
 
-struct UnkStruct_0212F310 {
+struct BattleParamEntry {
     u16 unk_00;
     u16 unk_02;
     u16 unk_04[3];
@@ -23,7 +23,7 @@ struct UnkStruct_0212F310 {
     u16 unk_2C[3];
 };
 
-STATIC_SIZE_ASSERT(UnkStruct_0212F310, 0x32);
+STATIC_SIZE_ASSERT(BattleParamEntry, 0x32);
 
 // Assist parameter table (BattleAssist param .bin), CBattleAssist::unk_10
 class BattleParamTable {
@@ -31,12 +31,12 @@ public:
     BattleParamTable(const char *path, u32 arg1);
     ~BattleParamTable();
 
-    UnkStruct_0212F310 *ov1_0212F310(int id);
-    u16 ov1_0212F32C(int kind, u16 id, u16 index);
+    BattleParamEntry *GetEntry(int id);
+    u16 GetAssistPower(int kind, u16 id, u16 index);
 
 public:
     u16 m_count;
-    UnkStruct_0212F310 *m_entries;
+    BattleParamEntry *m_entries;
 };
 
 STATIC_SIZE_ASSERT(BattleParamTable, 0x8);

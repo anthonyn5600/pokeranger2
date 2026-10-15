@@ -27,9 +27,9 @@ public:
     virtual void Process(CFieldMap *map);
     virtual BOOL UpdateMove(CFieldMap *map);
 
-    BOOL ov0_0213E3E4(u16 kind, u8 arg1);
-    BOOL ov0_0213E4BC(u32 targetId);
-    void ov0_0213E4F0();
+    BOOL LoadTargetClearScript(u16 kind, u8 arg1);
+    BOOL RunTargetClearScript(u32 targetId);
+    void UpdateTargetClearScript();
 
 public:
     int unk_268;

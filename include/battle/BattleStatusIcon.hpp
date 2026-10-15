@@ -16,12 +16,12 @@ class BattleStatusIcon {
 public:
     BattleStatusIcon();
     ~BattleStatusIcon();
-    void ov1_02129274(BattleStatusIconGfx *data);
-    void ov1_021292CC();
-    void ov1_02129368(Camera2D *camera);
+    void SetData(BattleStatusIconGfx *data);
+    void Update();
+    void Render(Camera2D *camera);
     void ov1_021293D4(Camera2D *camera);
-    void ov1_021293D8(int state);
-    int ov1_02129490(int z);
+    void SetStatus(int state);
+    int SetZ(int z);
 
     inline void SetPos(Point2D pos)
     {

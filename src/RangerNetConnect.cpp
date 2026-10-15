@@ -20,61 +20,61 @@ struct D2Work {
 
 static D2Work *sWork;
 
-void ov11_021287A8(); // D3 (RangerNetPlayerInfo.cpp)
-void *ov11_02128A30(u16 aid); // D3 (RangerNetPlayerInfo.cpp)
-void ov11_02128B9C(u8 arg); // D4
-void ov11_02128BDC(); // D4
-int ov11_0212B9CC(u8 cmd, u8 *data, u16 size);
-BOOL ov11_0212BEA0(u16 aid);
-BOOL ov11_0212BF7C();
-u8 ov11_0212C154();
-void ov11_0212C21C(MATHRandContext32 *ctx);
-void ov11_0212CDF4(int arg);
+void CommInfo_SendPlayerInfo(); // D3 (RangerNetPlayerInfo.cpp)
+void *CommInfo_GetPlayerInfo(u16 aid); // D3 (RangerNetPlayerInfo.cpp)
+void CommManager_StartBattleServer(u8 arg); // D4
+void CommManager_EndBattle(); // D4
+int CommSys_SendDataHugeServer(u8 cmd, u8 *data, u16 size);
+BOOL CommSys_IsPlayerConnected(u16 aid);
+BOOL CommSys_IsInitialized();
+u8 CommSys_CurNetId();
+void CommSys_Seed(MATHRandContext32 *ctx);
+void SessionCmd_Init(int arg);
 
-void ov11_021284DC(void (*func)(), u16 n);
-void ov11_0212854C();
+void Connect_SetTask(void (*func)(), u16 n);
+void Connect_TaskCollectPlayerInfo();
 
-void ov11_02128478(int arg)
+void Connect_Init(int arg)
 {
     if (sWork != NULL) {
         return;
     }
-    ov11_0212CDF4(arg);
+    SessionCmd_Init(arg);
     sWork = (D2Work *)Heap_Alloc(sizeof(D2Work));
     MI_CpuFill8(sWork, 0, sizeof(D2Work));
     sWork->unk_20 = 0x32;
     sWork->unk_00 = arg;
-    ov11_0212C21C(&sWork->unk_04);
+    CommSys_Seed(&sWork->unk_04);
 }
 
-void ov11_021284DC(void (*func)(), u16 n)
+void Connect_SetTask(void (*func)(), u16 n)
 {
     sWork->unk_1C = func;
     sWork->unk_20 = n;
 }
 
-void ov11_021284F8()
+void Connect_TaskSendPlayerInfo()
 {
-    if (!ov11_0212BEA0(ov11_0212C154())) {
+    if (!CommSys_IsPlayerConnected(CommSys_CurNetId())) {
         return;
     }
     for (int i = 0; i < 16; i++) {
         sWork->unk_3BD[i] = 0;
     }
-    ov11_021287A8();
-    ov11_021284DC(ov11_0212854C, 0);
+    CommInfo_SendPlayerInfo();
+    Connect_SetTask(Connect_TaskCollectPlayerInfo, 0);
 }
 
-void ov11_0212854C()
+void Connect_TaskCollectPlayerInfo()
 {
     for (u16 i = 0; i < 16; i++) {
-        if (sWork->unk_24[i] == NULL && ov11_0212BEA0(i) == TRUE) {
-            sWork->unk_24[i] = ov11_02128A30(i);
+        if (sWork->unk_24[i] == NULL && CommSys_IsPlayerConnected(i) == TRUE) {
+            sWork->unk_24[i] = CommInfo_GetPlayerInfo(i);
         }
     }
 }
 
-void ov11_021285AC()
+void Connect_Update()
 {
     D2Work *work = sWork;
     if (work != NULL && work->unk_1C != NULL) {
@@ -84,19 +84,19 @@ void ov11_021285AC()
     }
 }
 
-void ov11_021285E0(int arg, u8 arg2)
+void Connect_Start(int arg, u8 arg2)
 {
-    if (ov11_0212BF7C()) {
+    if (CommSys_IsInitialized()) {
         return;
     }
-    ov11_02128B9C(arg2);
-    ov11_02128478(arg);
-    ov11_021284DC(ov11_021284F8, 0);
+    CommManager_StartBattleServer(arg2);
+    Connect_Init(arg);
+    Connect_SetTask(Connect_TaskSendPlayerInfo, 0);
 }
 
-void ov11_0212861C(void *data, u16 size)
+void Connect_SendData(void *data, u16 size)
 {
-    ov11_0212B9CC(0x16, (u8 *)data, size);
+    CommSys_SendDataHugeServer(0x16, (u8 *)data, size);
 }
 
 void ov11_02128634(u8 v)
@@ -106,12 +106,12 @@ void ov11_02128634(u8 v)
     }
 }
 
-u32 ov11_02128654()
+u32 Connect_GetRecvBufferSize()
 {
     return sizeof(sWork->unk_64);
 }
 
-void *ov11_0212865C()
+void *Connect_GetRecvBuffer()
 {
     return sWork->unk_64;
 }
@@ -121,11 +121,11 @@ void ov11_02128670(int i)
     sWork->unk_3BD[i] = 1;
 }
 
-void ov11_0212868C()
+void Connect_Free()
 {
     if (sWork != NULL) {
         Heap_Free(sWork);
     }
     sWork = NULL;
-    ov11_02128BDC();
+    CommManager_EndBattle();
 }

@@ -13,7 +13,7 @@
 #include "common.hpp"
 
 // Fly destination (ov9 table)
-struct UnkStruct_0211DCAC {
+struct FlyDestination {
     u16 mapId;
     s16 x;
     s16 y;
@@ -25,7 +25,7 @@ struct UnkStruct_0211DCAC {
     u16 messageId;
 };
 
-STATIC_SIZE_ASSERT(UnkStruct_0211DCAC, 0x10);
+STATIC_SIZE_ASSERT(FlyDestination, 0x10);
 
 // Defined in ov9: fly destination map (CFlyingScene)
 class FlyingMap {
@@ -33,33 +33,33 @@ public:
     FlyingMap(CGame *game);
     ~FlyingMap();
 
-    void ov9_0211CCCC();
-    void ov9_0211CD40();
-    void ov9_0211CE80();
-    void ov9_0211CEF0();
-    void ov9_0211CF14();
-    void ov9_0211CF48();
-    void ov9_0211D0A0();
-    void ov9_0211D0CC();
-    BOOL ov9_0211D484();
-    BOOL ov9_0211D49C();
-    void ov9_0211D4D4();
-    void ov9_0211D568();
-    void ov9_0211D66C();
-    void ov9_0211D680(u16 id);
-    void ov9_0211D690();
-    BOOL ov9_0211D754();
-    void ov9_0211D790();
-    void ov9_0211D7FC();
-    void ov9_0211D84C();
-    void ov9_0211D878(u16 id);
-    u16 ov9_0211D89C(u8 placeId);
-    void ov9_0211D8F8(u16 placeId);
-    void ov9_0211D980(u16 id, int mode);
-    void ov9_0211D9F0();
-    void ov9_0211DA34();
-    BOOL ov9_0211DA78();
-    int ov9_0211DAC0();
+    void Init();
+    void Update();
+    void Render();
+    void OnVBlank();
+    void ResetMarker();
+    void Release();
+    void WriteOam();
+    void InitGraphics();
+    BOOL Start();
+    BOOL Setup();
+    void MarkDestinations();
+    void UpdateSelect();
+    void Close();
+    void SetSelected(u16 id);
+    void PrintPlaceName();
+    BOOL UpdateButtonAnim();
+    void ShowConfirmMessage();
+    void SelectCurrentArea();
+    void PressFlyButton();
+    void SelectArea(u16 id);
+    u16 FindDestination(u8 placeId);
+    void SetDestination(u16 placeId);
+    void SetMarker(u16 id, int mode);
+    void FadeIn();
+    void FadeOut();
+    BOOL IsFading();
+    int GetResult();
 
 public:
     u16 unk_00;

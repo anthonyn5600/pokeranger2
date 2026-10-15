@@ -37,10 +37,10 @@ public:
 STATIC_SIZE_ASSERT(TouchDotLine, 0xC4);
 
 extern "C" {
-void ov0_0214816C(TouchDotLine *obj, VramImage *ncbr, VramPalette *palette, CNCERFile *ncer, CellAnimController *cac);
-void ov0_021481EC(TouchDotLine *obj, int fps);
-void ov0_02148288(TouchDotLine *obj, Camera2D *camera);
-void ov0_02148480(TouchDotLine *obj, Point2D *pos, Point2D *target);
+void TouchDotLine_SetRes(TouchDotLine *obj, VramImage *ncbr, VramPalette *palette, CNCERFile *ncer, CellAnimController *cac);
+void TouchDotLine_Update(TouchDotLine *obj, int fps);
+void TouchDotLine_Draw(TouchDotLine *obj, Camera2D *camera);
+void TouchDotLine_SetLine(TouchDotLine *obj, Point2D *pos, Point2D *target);
 }
 
 #endif // POKERANGER2_TOUCHDOTLINE_HPP

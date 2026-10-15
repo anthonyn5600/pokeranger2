@@ -38,7 +38,7 @@ public:
     virtual int SetParam(int param, int value);
     virtual TFieldParticleForceField<CSoftwareSprite> *GetForceField();
     virtual TFieldParticleEmitter<CSoftwareSprite> *GetEmitter();
-    BOOL ov0_0216D050(fx32 x, fx32 y);
+    BOOL Emit(fx32 x, fx32 y);
 
     CBubbleForceField m_forceField;
     CBubbleEmitter m_emitter;

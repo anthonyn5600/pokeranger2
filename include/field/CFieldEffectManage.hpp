@@ -5,9 +5,9 @@
 
 #include "CEffectActorData.hpp"
 #include "CellAnimController.hpp"
+#include "FieldDataRecords.hpp"
 #include "FieldEffectListeners.hpp"
-#include "UnkClass_02041D80.hpp"
-#include "UnkStruct_02044464.hpp"
+#include "ScriptVM.hpp"
 #include "common.hpp"
 #include "field/CFieldEffect.hpp"
 #include "field/CFieldEffectFactory.hpp"
@@ -31,11 +31,11 @@ public:
     {
         return 0x24;
     }
-    virtual int ov0_02142264(int step);
-    virtual int ov0_02142344(Camera2D *camera);
+    virtual int Update(int step);
+    virtual int Render(Camera2D *camera);
 
     // Shows `damage` above `player` for `duration` frames.
-    void ov0_02164DB8(int damage, int duration, CFieldPlayer *player);
+    void Show(int damage, int duration, CFieldPlayer *player);
     void InitRects(GraphicsSet *digits);
 
     CPrimitiveRECT m_rects[2];
@@ -52,7 +52,7 @@ public:
     virtual void Update();
 
     // Loads data/effect/e<id>_LZ.bin: count entries a<first>, a<first + 1>...
-    BOOL ov0_0214FFF0(int id, int first, int count);
+    BOOL Load(int id, int first, int count);
 };
 
 // Between the Attack and Normal actor data on purpose: the class order (Attack, Manpu, Normal) decides the order of
@@ -67,7 +67,7 @@ public:
     virtual void Update();
 
     // Loads data/field/effect/ef<id>_LZ.bin.
-    BOOL ov0_021503B8(int id, BOOL immediate);
+    BOOL Load(int id, BOOL immediate);
 };
 
 class CBinaryFile;
@@ -86,12 +86,12 @@ public:
     ~FieldEffectScriptHandler();
 
     // Loads ef<id>.fsb into a free slot; returns the slot or -1.
-    int ov0_02163904(int id);
-    void ov0_021639BC();
+    int LoadScript(int id);
+    void Release();
     // Calls the slot's EventHandle(arg, x, y, param).
-    int ov0_02163A08(int slot, int arg, int x, int y, int param);
+    int CallEventHandle(int slot, int arg, int x, int y, int param);
 
-    UnkStruct_02044464 m_vm;
+    ScriptVM m_vm;
     FieldEffectScript m_scripts[3];
     u32 m_stack[0x20];
 };
@@ -106,24 +106,24 @@ public:
     CFieldEffectManage(FieldEffectListeners *listeners);
     virtual void BuildData(void *buf, int size);
     virtual ~CFieldEffectManage();
-    int ov0_021428EC(int fps, BOOL arg1);
-    int ov0_02142D88(Camera2D *camera);
-    int ov0_02142F08();
-    u16 ov0_02142F6C(int kind, int arg);
-    u16 ov0_02143024(u16 id);
-    CFieldEffect *ov0_02143088(u16 id);
-    BOOL ov0_021430D8(u16 id);
-    void ov0_0214318C(int kind, CFieldEffectFactory *factory);
-    BOOL ov0_021431A4(int kind, int arg1, int arg2, int arg3, const UnkStruct_02041D80 *table);
-    int ov0_0214332C(int arg0, int arg1, CFieldPlayer *player);
-    void ov0_02143344(fx32 x, fx32 y);
-    void ov0_02143358();
-    int ov0_0214336C(int layer, int budget);
-    void ov0_02143380(DrawObjectList *renderLists);
-    void ov0_021433D0();
-    void ov0_02143410();
-    void ov0_021434F0();
-    void ov0_02143568(const u8 *data);
+    int Update(int fps, BOOL arg1);
+    int Render(Camera2D *camera);
+    int Clear();
+    u16 Create(int kind, int arg);
+    u16 GetNext(u16 id);
+    CFieldEffect *Get(u16 id);
+    BOOL Remove(u16 id);
+    void SetFactory(int kind, CFieldEffectFactory *factory);
+    BOOL EmitFootStep(int kind, int arg1, int arg2, int arg3, const FieldMapData *table);
+    int ShowDamage(int arg0, int arg1, CFieldPlayer *player);
+    void EmitAirBubbles(fx32 x, fx32 y);
+    void LoadResident();
+    int SetDrawBudget(int layer, int budget);
+    void AddToRenderLists(DrawObjectList *renderLists);
+    void Reset();
+    void NotifyListeners();
+    void RestoreSavedEffects();
+    void RestoreEffect(const u8 *data);
     void ov0_0214366C();
 
     class CResidentResource : public CEffectResource {

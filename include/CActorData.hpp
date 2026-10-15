@@ -36,8 +36,8 @@ public:
     void LoadFromPath(const char *path, const char *name, int mask, BOOL releaseArchive, const char *arcName);
     BOOL LoadAnim(CActorAnim *anim, const char *base, u32 heapId);
     BOOL LoadAnimWithImage(CActorAnim *anim, const char *imageBase, const char *base, VramImage *image, u32 heapId);
-    BOOL sub_02014CEC(CActorAnim *anim, const char *base, u32 heapId, BOOL arg3);
-    BOOL sub_02014EA4(CActorAnim *anim, const char *imageBase, const char *base, VramImage *image, u32 heapId, BOOL arg5);
+    BOOL LoadAnimFromArchive(CActorAnim *anim, const char *base, u32 heapId, BOOL arg3);
+    BOOL LoadAnimWithImageFromArchive(CActorAnim *anim, const char *imageBase, const char *base, VramImage *image, u32 heapId, BOOL arg5);
     void LoadArchived(int type, int id, int form, u16 mask, const char *arcName, u32 heapId, u32 archiveArg, BOOL fromArchive);
     void LoadImagesToVram(u32 addr);
     void AllocAndLoadImages(NNSGfdTexKey *keys);

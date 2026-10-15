@@ -60,7 +60,7 @@ void CActorDataPlayer::LoadPlayer(u16 id, int form, u32 mask, const char *arcNam
     for (int i = 0; i < 0x1C; i++) {
         if (mask & (1 << (i + 1))) {
             OS_SPrintf(file, "%s:%s_%02d", arc, name, i);
-            sub_02014CEC(&m_anims[index], file, 0, TRUE);
+            LoadAnimFromArchive(&m_anims[index], file, 0, TRUE);
             m_anims[index].id = i + 1;
             index++;
         }
@@ -121,6 +121,6 @@ u8 CActorDataPlayer::GetAnimId(int action, u32 sub)
 
 void CActorDataPlayer::Release()
 {
-    sub_02040DB8();
+    ForceRelease();
     unk_50834 = 0xFFFF;
 }

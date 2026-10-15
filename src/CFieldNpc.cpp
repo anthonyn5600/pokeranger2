@@ -51,12 +51,12 @@ CFieldNpc::~CFieldNpc()
     SAFE_DELETE(unk_1D0);
 }
 
-BOOL CFieldNpc::sub_0203DA38()
+BOOL CFieldNpc::Talk()
 {
     if (MAIN_BSS_0210CA44 == NULL) {
         return FALSE;
     }
-    MAIN_BSS_0210CA44->ov0_0213FC24(this, "main", -1);
+    MAIN_BSS_0210CA44->LaunchActorScript(this, "main", -1);
     return TRUE;
 }
 
@@ -86,7 +86,7 @@ void CFieldNpc::Process(CFieldMap *map)
     UpdateScript();
     Update(map);
     if (unk_E8 != 0) {
-        unk_F4.ov0_02158988();
+        unk_F4.UpdateHeight();
     }
 }
 
@@ -102,21 +102,21 @@ BOOL CFieldNpc::UpdateMove(CFieldMap *map)
         s_game->m_audioEngine->PlayStream(unk_F0, 0x40);
     }
     if (unk_E8 != 0) {
-        unk_F4.ov0_02158988();
+        unk_F4.UpdateHeight();
     }
     return result;
 }
 
-void CFieldNpc::ov0_0213C5DC()
+void CFieldNpc::ApplyFloatHeight()
 {
     if (unk_E8 != 0) {
-        unk_F4.ov0_02158F38();
+        unk_F4.ApplyFloatHeight();
     }
 }
 
-void CFieldNpc::sub_02032A44(int sequence)
+void CFieldNpc::SetMoveSequence(int sequence)
 {
-    unk_F4.ov0_0215674C(sequence);
+    unk_F4.SetSequence(sequence);
 }
 
 void CFieldNpc::StopMotion()

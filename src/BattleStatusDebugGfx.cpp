@@ -9,15 +9,15 @@
 
 BattleStatusDebugGfx::BattleStatusDebugGfx()
 {
-    ov1_021294E4();
+    Load();
 }
 
 BattleStatusDebugGfx::~BattleStatusDebugGfx()
 {
-    ov1_02129638();
+    Release();
 }
 
-void BattleStatusDebugGfx::ov1_021294E4()
+void BattleStatusDebugGfx::Load()
 {
     CArchiveGuard *guard = new CArchiveGuard("BST", "data/battle/system/battle_status_debug_LZ.bin", 1, 1, 0, NULL, 0);
 
@@ -36,7 +36,7 @@ void BattleStatusDebugGfx::ov1_021294E4()
     SAFE_DELETE(guard);
 }
 
-void BattleStatusDebugGfx::ov1_02129638()
+void BattleStatusDebugGfx::Release()
 {
     SAFE_DELETE(m_image);
     SAFE_DELETE(m_palette);
@@ -60,7 +60,7 @@ BattleStatusDebug::~BattleStatusDebug()
     SAFE_DELETE(m_sprite);
 }
 
-void BattleStatusDebug::ov1_02129784(BattleStatusDebugGfx *data)
+void BattleStatusDebug::SetData(BattleStatusDebugGfx *data)
 {
     m_data = data;
     m_sprite->SetImage((UnkClass_CPrimitive_ImageProxy *)data->m_image, NULL);

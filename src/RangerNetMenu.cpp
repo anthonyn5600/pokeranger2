@@ -12,34 +12,34 @@
 #include "CGame.hpp"
 #include "CPowerManage.hpp"
 #include "CTouchPanel.hpp"
+#include "DownloadStationScan.hpp"
 #include "DwcConnection.hpp"
 #include "MessageTable.hpp"
 #include "MissionDownload.hpp"
 #include "OamSpriteSet.hpp"
 #include "PadInput.hpp"
 #include "RangerNetExchange.hpp"
+#include "RangerNetMenuItem.hpp"
 #include "RangerNetMissionList.hpp"
 #include "RangerNetSendBin.hpp"
 #include "SaveManager.hpp"
 #include "SubTextPrinter.hpp"
 #include "TextPrinter.hpp"
-#include "UnkClass_02124578.hpp"
-#include "UnkClass_0212F3DC.hpp"
 #include "fx_utils.hpp"
 #include "heap.hpp"
 
-int ov11_0211E030();
+int AgbCheck_GetMissionNo();
 
 extern BOOL OVERLAY11_BSS_02169B40; // set by the WM_Reset/WM_End callbacks
-static void ov11_02123E94(void *arg);
-static void ov11_02123EA8(void *arg);
-BOOL ov11_02123E40();
-void ov11_02128FEC();
+static void WmResetCallback(void *arg);
+static void WmEndCallback(void *arg);
+BOOL StopWm();
+void WirelessDriver_Init();
 
 extern "C" void thunk_FUN_overlay_11__02128b40(); // wireless lib (D4), ov11_02128C08
-fx32 ov11_021243C4(fx32 start, fx32 b, fx32 t, fx32 a);
-fx32 ov11_021243F8(fx32 start, fx32 end, fx32 b, fx32 t);
-int ov11_02124EB0(int pos);
+fx32 EvalQuadratic(fx32 start, fx32 b, fx32 t, fx32 a);
+fx32 SolveQuadraticAccel(fx32 start, fx32 end, fx32 b, fx32 t);
+int GetItemY(int pos);
 #include "DiskHPTable.hpp"
 #include "FieldData.hpp"
 #include "MissionQuestData.hpp"
@@ -55,7 +55,7 @@ int DownloadMissionData_Load(DownloadMissionData *obj, int list);
 int DownloadMissionClears_Get(DownloadMissionClears *obj, int bit);
 int DownloadMissionData_Save(DownloadMissionData *obj, int list);
 }
-fx32 ov11_0212439C(fx32 a, fx32 b);
+fx32 QuadraticVelocity(fx32 a, fx32 b);
 
 RangerNetMenu::RangerNetMenu(CGame *game, int arg)
 {
@@ -63,23 +63,23 @@ RangerNetMenu::RangerNetMenu(CGame *game, int arg)
     if (arg != 0) {
         ov11_0211E1DC();
     } else {
-        ov11_0211E0E8();
+        Init();
     }
 }
 
 RangerNetMenu::~RangerNetMenu()
 {
-    ov11_0211F52C();
+    Release();
 }
 
-void RangerNetMenu::ov11_0211E0E8()
+void RangerNetMenu::Init()
 {
-    ov11_0211E1E8();
+    InitBase();
     unk_718 = new DwcConnection(unk_72C);
     unk_714 = new MissionDownload(unk_72C, unk_718, this);
     unk_71C = new RangerNetExchange(this);
     unk_720 = new RangerNetSendBin(unk_72C, this);
-    ov11_02124038(0, 0);
+    SetState(0, 0);
     unk_002 = 0;
     unk_044 = MAIN_BSS_0210CA6C;
     unk_008 = new MessageTable("/data/message/etc/place_name");
@@ -90,10 +90,10 @@ void RangerNetMenu::ov11_0211E0E8()
 
 void RangerNetMenu::ov11_0211E1DC()
 {
-    ov11_0211E1E8();
+    InitBase();
 }
 
-void RangerNetMenu::ov11_0211E1E8()
+void RangerNetMenu::InitBase()
 {
     unk_000 = 0;
     unk_00C = NULL;
@@ -114,7 +114,7 @@ void RangerNetMenu::ov11_0211E1E8()
     unk_014 = new OamSprite *[25];
     unk_01C = new u8[0x64];
     unk_020 = new u8[0x64];
-    ov11_02124038(0, 0);
+    SetState(0, 0);
     unk_002 = 0;
     unk_044 = NULL;
     unk_008 = NULL;
@@ -129,75 +129,75 @@ void RangerNetMenu::ov11_0211E1E8()
     unk_728 = new SaveManager(1);
 }
 
-void RangerNetMenu::ov11_0211E2EC()
+void RangerNetMenu::Update()
 {
     if (unk_724 != NULL) {
-        unk_724->ov11_0211CE20();
+        unk_724->Update();
     }
-    if (ov11_02123FB0()) {
+    if (IsFading()) {
         return;
     }
     switch (unk_000) {
     case 1:
-        ov11_021202E4();
+        UpdateLoad();
         break;
     case 15:
-        ov11_02120EBC();
+        UpdateAgbDownload();
         break;
     case 4:
-        ov11_02120DA8();
+        UpdateWifiDownload();
         break;
     case 5:
-        ov11_02120A80();
+        UpdateLocalDownload();
         break;
     case 6:
-        ov11_02120AE8();
+        UpdateSendEgg();
         break;
     case 7:
-        ov11_02120C1C();
+        UpdateSendPokemon();
         break;
     case 3:
-        ov11_021204B0();
+        UpdateMenu();
         break;
     case 8:
-        ov11_02121A08();
+        UpdateWfcSettings();
         break;
     case 9:
-        ov11_02121168();
+        UpdateButtonSelect();
         break;
     case 10:
-        ov11_02121214();
+        UpdateReset();
         break;
     case 14:
-        ov11_02124038(0xD, 0xFFFF);
+        SetState(0xD, 0xFFFF);
         break;
     case 12:
-        ov11_02124038(0xB, 0xFFFF);
+        SetState(0xB, 0xFFFF);
         break;
     case 16:
         break;
     }
-    ov11_02121A7C();
+    UpdateSprites();
 }
 
-void RangerNetMenu::ov11_0211E414()
+void RangerNetMenu::Draw()
 {
     if (unk_724 != NULL) {
-        unk_724->ov11_0211CF04();
+        unk_724->Draw();
     }
-    ov11_02121B38();
+    DrawSprites();
 }
 
 void RangerNetMenu::ov11_0211E438()
 {
     if (unk_724 != NULL) {
-        unk_724->ov11_0211CF10();
+        unk_724->PrintText();
     }
-    ov11_02123B98();
-    ov11_02122C60();
+    LoadButtonGraphics();
+    PrintMessage();
 }
 
-void RangerNetMenu::ov11_0211E464()
+void RangerNetMenu::LoadSprites()
 {
     static s16 sPositions[] = {
         9,
@@ -272,7 +272,7 @@ void RangerNetMenu::ov11_0211E464()
         OS_SPrintf(name, "rn001_%02d", i + 10);
         u32 size = unk_048[i]->LoadFiles("data/menu", name, unk_040 / 32, 1);
         if (i < 4) {
-            unk_108[i].ov11_021245A8(unk_048, i, unk_040);
+            unk_108[i].InitLabel(unk_048, i, unk_040);
             unk_03C += unk_048[i]->unk_30;
             unk_040 += size;
         }
@@ -306,7 +306,7 @@ void RangerNetMenu::ov11_0211E464()
         unk_0A0[i] = unk_00C->AddSprite(i + 0x11, 0x10, 0, 0);
     }
     for (i = 0; i < 4; i++) {
-        unk_108[i].ov11_02124604(unk_00C);
+        unk_108[i].InitFrame(unk_00C);
         unk_108[i].unk_18 = unk_0A0;
     }
     unk_03C += unk_00C->unk_30;
@@ -369,18 +369,18 @@ void RangerNetMenu::ov11_0211E464()
         unk_0C4[i]->LoadFiles("data/menu", name, unk_040 / 32, 9);
     }
 
-    ov11_0211F904();
-    ov11_0211F96C();
-    ov11_0211FB08(0, -1);
+    ClearItems();
+    HideAllButtons();
+    SetLinkIcon(0, -1);
     if (unk_724 != NULL) {
         Heap_Free(unk_724);
         unk_724 = NULL;
     }
     unk_724 = new RangerNetMissionList(unk_72C, this);
-    unk_724->ov11_0211D864();
-    unk_724->ov11_0211D7D4(0, 0, NULL);
-    ov11_02124438(0);
-    ov11_02123794(3);
+    unk_724->Load();
+    unk_724->ShowMessage(0, 0, NULL);
+    UpdateWaitIcon(0);
+    SetMessageLayout(3);
     G2S_SetBlendAlpha(GX_BLEND_PLANEMASK_NONE, GX_BLEND_PLANEMASK_BG2 | GX_BLEND_PLANEMASK_BG3, 10, 6);
     unk_72C->m_audioEngine->LoadBgmGroup(3);
     unk_72C->m_audioEngine->LoadSystemSe();
@@ -390,26 +390,26 @@ void RangerNetMenu::ov11_0211E464()
     unk_0B8 = 0x42680;
 }
 
-void RangerNetMenu::ov11_0211EF5C()
+void RangerNetMenu::StartDownloadAnim()
 {
     unk_0B0->CopyToVram();
-    ov11_0211EFB4();
+    ClearDownloadAnim();
     unk_0BC = unk_0B0->AddSprite(0, unk_0B8 / 1000, 0x5C, 2);
 }
 
-void RangerNetMenu::ov11_0211EFB4()
+void RangerNetMenu::ClearDownloadAnim()
 {
     unk_0B0->RemoveAll();
 }
 
-void RangerNetMenu::ov11_0211EFC4()
+void RangerNetMenu::InitDownloadDoneSprite()
 {
     unk_0B4->CopyToVram();
     unk_0B4->RemoveAll();
     unk_0C0 = unk_0B4->AddSprite(0, 0x120, 0x5C, 2);
 }
 
-void RangerNetMenu::ov11_0211F008(int i)
+void RangerNetMenu::InitSendAnim(int i)
 {
     unk_0D0 = unk_0C4[i]->AddSprite(0, 0x80, 0x90, 1);
     unk_0C4[i]->CopyToVram();
@@ -419,7 +419,7 @@ void RangerNetMenu::ov11_0211F008(int i)
     unk_0E8 = 0;
 }
 
-void RangerNetMenu::ov11_0211F06C()
+void RangerNetMenu::UpdateDownloadAnim()
 {
     unk_0B8 -= 600;
     if (unk_0B8 <= -32000) {
@@ -428,14 +428,14 @@ void RangerNetMenu::ov11_0211F06C()
     unk_0BC->SetPos(unk_0B8 / 1000, 0x5C);
 }
 
-void RangerNetMenu::ov11_0211F0BC()
+void RangerNetMenu::FinishDownloadAnim()
 {
-    ov11_0211EFC4();
+    InitDownloadDoneSprite();
     unk_0BC->SetVisible(FALSE);
     unk_0C0->SetPos(unk_0B8 / 1000, 0x5C);
 }
 
-BOOL RangerNetMenu::ov11_0211F0FC()
+BOOL RangerNetMenu::UpdateSendAnim()
 {
     fx32 v;
     switch (unk_0D8) {
@@ -452,15 +452,15 @@ BOOL RangerNetMenu::ov11_0211F0FC()
     case 1:
         if (--unk_0E0 <= 0) {
             unk_0D8 = 2;
-            unk_0F0 = ov11_021243F8(0, 0x1F000, 0, 0x3C000);
+            unk_0F0 = SolveQuadraticAccel(0, 0x1F000, 0, 0x3C000);
             unk_0E0 = 0;
         }
         break;
     case 2:
-        ov11_0211F26C();
+        UpdateSendPulse();
         unk_014[22]->SetVisible(TRUE);
         if (++unk_0E0 < 60) {
-            v = ov11_021243C4(0, 0, unk_0E0 << 12, unk_0F0);
+            v = EvalQuadratic(0, 0, unk_0E0 << 12, unk_0F0);
         } else {
             unk_0D8 = 3;
             unk_0E0 = 60;
@@ -469,16 +469,16 @@ BOOL RangerNetMenu::ov11_0211F0FC()
         G2S_ChangeBlendAlpha(v >> 12, 16);
         break;
     case 3:
-        ov11_0211F26C();
+        UpdateSendPulse();
         if (--unk_0E0 <= 0) {
             unk_0DC = 0;
             unk_0D8 = 4;
         }
         break;
     case 4:
-        ov11_0211F26C();
-        if (!ov11_0211F3A8()) {
-            ov11_0211F32C();
+        UpdateSendPulse();
+        if (!UpdateSendLaunch()) {
+            StartSendFadeOut();
             return FALSE;
         }
         break;
@@ -486,7 +486,7 @@ BOOL RangerNetMenu::ov11_0211F0FC()
     return TRUE;
 }
 
-void RangerNetMenu::ov11_0211F26C()
+void RangerNetMenu::UpdateSendPulse()
 {
     unk_0E8 += 4;
     u16 deg = unk_0E8 % 180;
@@ -496,24 +496,24 @@ void RangerNetMenu::ov11_0211F26C()
     unk_0F8[0] = FX32_DIV(FX32_ONE, q);
 }
 
-void RangerNetMenu::ov11_0211F32C()
+void RangerNetMenu::StartSendFadeOut()
 {
     unk_0E0 = 60;
 }
 
-BOOL RangerNetMenu::ov11_0211F338()
+BOOL RangerNetMenu::UpdateSendFadeOut()
 {
-    ov11_0211F26C();
-    fx32 a = ov11_021243F8(0, 0x1F000, 0, 0x3C000);
+    UpdateSendPulse();
+    fx32 a = SolveQuadraticAccel(0, 0x1F000, 0, 0x3C000);
     fx32 v = 0;
     if (--unk_0E0 > 0) {
-        v = ov11_021243C4(0, 0, unk_0E0 << 12, a);
+        v = EvalQuadratic(0, 0, unk_0E0 << 12, a);
     }
     G2S_ChangeBlendAlpha(v >> 12, 16);
     return unk_0E0 > 0;
 }
 
-BOOL RangerNetMenu::ov11_0211F3A8()
+BOOL RangerNetMenu::UpdateSendLaunch()
 {
     switch (unk_0DC) {
     case 0:
@@ -523,8 +523,8 @@ BOOL RangerNetMenu::ov11_0211F3A8()
         break;
     case 1:
         if (--unk_0E0 <= 0) {
-            unk_0F0 = ov11_021243F8(0xA000, 0x1000, 0, 0x5000);
-            unk_0F4 = ov11_021243F8(0x1000, 0, 0, 0xC000);
+            unk_0F0 = SolveQuadraticAccel(0xA000, 0x1000, 0, 0x5000);
+            unk_0F4 = SolveQuadraticAccel(0x1000, 0, 0, 0xC000);
             unk_0DC++;
             unk_0E0 = 0;
             unk_0E4 = 0;
@@ -535,12 +535,12 @@ BOOL RangerNetMenu::ov11_0211F3A8()
         if (unk_0E0 < 5) {
             unk_0E0++;
         }
-        fx32 v = ov11_021243C4(0xA000, 0, unk_0E0 << 12, unk_0F0);
+        fx32 v = EvalQuadratic(0xA000, 0, unk_0E0 << 12, unk_0F0);
         unk_0F8[1] = FX32_DIV(FX32_ONE, FX32_DIV(v, 0xA000));
         if (unk_0E4 < 12) {
             unk_0E4++;
         }
-        fx32 w = ov11_021243C4(0x1000, 0, unk_0E4 << 12, unk_0F4);
+        fx32 w = EvalQuadratic(0x1000, 0, unk_0E4 << 12, unk_0F4);
         unk_0D0->SetPos(0x80, (FX32_MUL(w, 0xB0000) >> 12) - 0x20);
         if (unk_0E4 >= 12) {
             return FALSE;
@@ -550,7 +550,7 @@ BOOL RangerNetMenu::ov11_0211F3A8()
     return TRUE;
 }
 
-void RangerNetMenu::ov11_0211F52C()
+void RangerNetMenu::Release()
 {
     int i;
     thunk_FUN_overlay_11__02128b40();
@@ -600,25 +600,25 @@ void RangerNetMenu::ov11_0211F52C()
     SAFE_DELETE(unk_728);
 }
 
-void RangerNetMenu::ov11_0211F904()
+void RangerNetMenu::ClearItems()
 {
     for (int i = 0; i < 4; i++) {
-        unk_108[i].ov11_02124EBC(FALSE);
-        unk_108[i].ov11_021248EC(FALSE);
+        unk_108[i].SetActive(FALSE);
+        unk_108[i].SetVisible(FALSE);
         unk_328[i] = -1;
     }
     unk_33C[unk_364] = 0;
-    ov11_02124370(FALSE);
+    SetArrowsVisible(FALSE);
 }
 
-void RangerNetMenu::ov11_0211F96C()
+void RangerNetMenu::HideAllButtons()
 {
     for (int i = 9; i <= 24; i++) {
         unk_014[i]->SetVisible(FALSE);
     }
 }
 
-void RangerNetMenu::ov11_0211F990()
+void RangerNetMenu::SetupMainMenu()
 {
     static int sIds[] = { 0, 1, 4, 5 };
     int n = 0;
@@ -626,7 +626,7 @@ void RangerNetMenu::ov11_0211F990()
         int type = 0;
         BOOL found;
         int v;
-        if (ov11_021202CC(sIds[i])) {
+        if (HasItem(sIds[i])) {
             continue;
         }
         switch (i) {
@@ -640,7 +640,7 @@ void RangerNetMenu::ov11_0211F990()
             }
             break;
         case 1:
-            v = ov11_02120178();
+            v = GetMissionsIcon();
             if (v < 0) {
                 found = FALSE;
             } else {
@@ -649,7 +649,7 @@ void RangerNetMenu::ov11_0211F990()
             }
             break;
         case 2:
-            v = ov11_02120248();
+            v = GetTransferIcon();
             if (v < 0) {
                 found = FALSE;
             } else {
@@ -666,16 +666,16 @@ void RangerNetMenu::ov11_0211F990()
             break;
         }
         if (found) {
-            int slot = ov11_02124054();
-            int idx = ov11_02124094();
-            ov11_02124260(slot, idx);
-            unk_108[slot].ov11_02124820(sIds[i]);
-            unk_108[slot].ov11_02124730(type);
-            unk_108[slot].ov11_02124680(0, 1);
+            int slot = FindFreeItem();
+            int idx = FindFreeRow();
+            SetRowItem(slot, idx);
+            unk_108[slot].SetId(sIds[i]);
+            unk_108[slot].SetIcon(type);
+            unk_108[slot].SetState(0, 1);
             if (n % 2 != 0) {
-                unk_108[slot].ov11_02124A6C(idx);
+                unk_108[slot].SlideInLeft(idx);
             } else {
-                unk_108[slot].ov11_02124B10(idx);
+                unk_108[slot].SlideInRight(idx);
             }
             n++;
         }
@@ -685,7 +685,7 @@ void RangerNetMenu::ov11_0211F990()
     unk_014[9]->SetVisible(FALSE);
 }
 
-void RangerNetMenu::ov11_0211FB08(int mode, int level)
+void RangerNetMenu::SetLinkIcon(int mode, int level)
 {
     if (unk_710 == 0) {
         mode = 0;
@@ -715,7 +715,7 @@ void RangerNetMenu::ov11_0211FB08(int mode, int level)
     }
 }
 
-void RangerNetMenu::ov11_0211FBE4(int mode)
+void RangerNetMenu::SetBackButton(int mode)
 {
     switch (mode) {
     case 3:
@@ -733,7 +733,7 @@ void RangerNetMenu::ov11_0211FBE4(int mode)
 }
 
 // FC60: `delay = 0` at the declaration is dead but makes IRO split delay before n (register order of cases 0/1).
-int RangerNetMenu::ov11_0211FC60()
+int RangerNetMenu::SetupSubMenu()
 {
     static int sIds0[] = { 6, 7 };
     static int sIds1[] = { 1, 2, 3 };
@@ -762,18 +762,18 @@ int RangerNetMenu::ov11_0211FC60()
                 type = 4;
                 break;
             }
-            slot = ov11_02124054();
-            idx = ov11_02124094();
-            ov11_02124260(slot, idx);
-            unk_108[slot].ov11_02124820(sIds0[n]);
-            unk_108[slot].ov11_02124730(type);
-            unk_108[slot].ov11_02124680(0, 1);
-            unk_108[slot].ov11_02124BB0(idx, delay);
+            slot = FindFreeItem();
+            idx = FindFreeRow();
+            SetRowItem(slot, idx);
+            unk_108[slot].SetId(sIds0[n]);
+            unk_108[slot].SetIcon(type);
+            unk_108[slot].SetState(0, 1);
+            unk_108[slot].SlideInBottom(idx, delay);
         }
         break;
     case 1:
         for (n = 0, delay = 0; n < (sizeof(sIds1) / sizeof(sIds1[0])); n++, delay += 0x5000) {
-            if (ov11_021202CC(sIds1[n])) {
+            if (HasItem(sIds1[n])) {
                 continue;
             }
             int a = 0;
@@ -785,28 +785,28 @@ int RangerNetMenu::ov11_0211FC60()
                 delayed = FALSE;
                 break;
             case 2:
-                type = ov11_021201A8();
+                type = GetSpecialMissionsIcon();
                 if (type == -1) {
                     continue;
                 }
                 break;
             case 3:
-                type = ov11_021201F8();
+                type = GetExtraMissionsIcon();
                 if (type == -1) {
                     continue;
                 }
                 break;
             }
-            slot = ov11_02124054();
-            idx = ov11_02124094();
-            ov11_02124260(slot, idx);
-            unk_108[slot].ov11_02124820(sIds1[n]);
-            unk_108[slot].ov11_02124730(type);
-            unk_108[slot].ov11_02124680(a, 1);
+            slot = FindFreeItem();
+            idx = FindFreeRow();
+            SetRowItem(slot, idx);
+            unk_108[slot].SetId(sIds1[n]);
+            unk_108[slot].SetIcon(type);
+            unk_108[slot].SetState(a, 1);
             if (delayed) {
-                unk_108[slot].ov11_02124BB0(idx, delay);
+                unk_108[slot].SlideInBottom(idx, delay);
             } else {
-                unk_108[slot].ov11_02124A6C(idx);
+                unk_108[slot].SlideInLeft(idx);
             }
         }
         break;
@@ -833,7 +833,7 @@ int RangerNetMenu::ov11_0211FC60()
                 n++;
             }
         }
-        ov11_021229F0(0, 1);
+        ShowPage(0, 1);
         break;
     }
     case 3: {
@@ -859,7 +859,7 @@ int RangerNetMenu::ov11_0211FC60()
                 n++;
             }
         }
-        ov11_021229F0(0, 1);
+        ShowPage(0, 1);
         break;
     }
     case 4:
@@ -879,13 +879,13 @@ int RangerNetMenu::ov11_0211FC60()
                 break;
             }
             if (show) {
-                slot = ov11_02124054();
-                idx = ov11_02124094();
-                ov11_02124260(slot, idx);
-                unk_108[slot].ov11_02124820(sIds4[i]);
-                unk_108[slot].ov11_02124730(type);
-                unk_108[slot].ov11_02124680(0, type == 1);
-                unk_108[slot].ov11_02124BB0(idx, n * 0x5000);
+                slot = FindFreeItem();
+                idx = FindFreeRow();
+                SetRowItem(slot, idx);
+                unk_108[slot].SetId(sIds4[i]);
+                unk_108[slot].SetIcon(type);
+                unk_108[slot].SetState(0, type == 1);
+                unk_108[slot].SlideInBottom(idx, n * 0x5000);
                 n++;
             }
         }
@@ -908,10 +908,10 @@ int RangerNetMenu::ov11_02120170()
     return 0;
 }
 
-int RangerNetMenu::ov11_02120178()
+int RangerNetMenu::GetMissionsIcon()
 {
-    int a = ov11_021201A8();
-    int b = ov11_021201F8();
+    int a = GetSpecialMissionsIcon();
+    int b = GetExtraMissionsIcon();
     if (b != -1 && a != 1) {
         a = b;
     }
@@ -936,12 +936,12 @@ static inline int GetStateResult(const int *states)
     return result;
 }
 
-int RangerNetMenu::ov11_021201A8()
+int RangerNetMenu::GetSpecialMissionsIcon()
 {
     return GetStateResult(unk_638);
 }
 
-int RangerNetMenu::ov11_021201F8()
+int RangerNetMenu::GetExtraMissionsIcon()
 {
     return GetStateResult(unk_644);
 }
@@ -964,12 +964,12 @@ static inline int GetFlagResult(const int *states)
     return result;
 }
 
-int RangerNetMenu::ov11_02120248()
+int RangerNetMenu::GetTransferIcon()
 {
     return GetFlagResult(unk_62C);
 }
 
-int RangerNetMenu::ov11_02120294(int id)
+int RangerNetMenu::FindItem(int id)
 {
     for (int i = 0; i < 4; i++) {
         if (unk_108[i].unk_38 != 0 && id == unk_108[i].unk_54) {
@@ -979,12 +979,12 @@ int RangerNetMenu::ov11_02120294(int id)
     return -1;
 }
 
-BOOL RangerNetMenu::ov11_021202CC(int id)
+BOOL RangerNetMenu::HasItem(int id)
 {
-    return ov11_02120294(id) >= 0 ? TRUE : FALSE;
+    return FindItem(id) >= 0 ? TRUE : FALSE;
 }
 
-void RangerNetMenu::ov11_021202E4()
+void RangerNetMenu::UpdateLoad()
 {
     switch (unk_002) {
     case 0:
@@ -1013,7 +1013,7 @@ void RangerNetMenu::ov11_021202E4()
             break;
         case -2:
             unk_638[unk_650] = -1;
-            ov11_02124038(0x11, 0xFFFF);
+            SetState(0x11, 0xFFFF);
             break;
         case 0:
             break;
@@ -1033,86 +1033,86 @@ void RangerNetMenu::ov11_021202E4()
             unk_002 = 2;
             return;
         }
-        ov11_02123EBC();
-        ov11_02124038(3, 0);
+        FadeIn();
+        SetState(3, 0);
         unk_002 = 0;
         unk_72C->m_audioEngine->PlayBgm(0x16, 0);
         break;
     }
 }
 
-void RangerNetMenu::ov11_021204B0()
+void RangerNetMenu::UpdateMenu()
 {
     int r;
     switch (unk_002) {
     case 0:
-        if (ov11_02123FB0()) {
+        if (IsFading()) {
             return;
         }
         unk_002 = 1;
-        ov11_0211F990();
-        ov11_02122B7C(0, 5, 3, 1);
-        ov11_02122C18(0, 5, 0);
-        ov11_02123A78(0x19);
-        ov11_0211FBE4(4);
-        ov11_0211FB08(0, -1);
+        SetupMainMenu();
+        ShowMessage(0, 5, 3, 1);
+        ShowTopMessage(0, 5, 0);
+        SetButtonMode(0x19);
+        SetBackButton(4);
+        SetLinkIcon(0, -1);
         break;
     case 1:
-        if (ov11_021242B8(-1)) {
+        if (IsItemMoving(-1)) {
             return;
         }
-        ov11_02121658(unk_364);
-        ov11_02123C04(ov11_02120294(unk_350[unk_364]));
+        SaveItems(unk_364);
+        SelectItem(FindItem(unk_350[unk_364]));
         unk_002 = 2;
         break;
     case 2:
-        r = ov11_02121F48(1);
+        r = HandleItemInput(1);
         if (r == 4) {
             return;
         }
         if (r >= 0) {
-            ov11_0212253C(r);
+            ChooseItem(r);
         } else {
-            ov11_021224E4();
+            ExitToTitle();
         }
         break;
     case 4:
         if (unk_708 == NULL) {
             return;
         }
-        if (unk_708->ov11_0212F46C()) {
+        if (unk_708->Update()) {
             return;
         }
         SAFE_DELETE(unk_708);
         unk_002 = 5;
         break;
     case 5:
-        if (ov11_021242B8(-1)) {
+        if (IsItemMoving(-1)) {
             return;
         }
-        ov11_021241EC(unk_33C[unk_364 - 1], 0);
+        MoveRow(unk_33C[unk_364 - 1], 0);
         unk_002 = 6;
         break;
     case 6:
-        if (ov11_021242B8(-1)) {
+        if (IsItemMoving(-1)) {
             return;
         }
-        unk_108[unk_328[0]].ov11_02124680(2, 1);
-        ov11_0211FC60();
+        unk_108[unk_328[0]].SetState(2, 1);
+        SetupSubMenu();
         unk_002 = 7;
         break;
     case 7:
-        if (ov11_021242B8(-1)) {
+        if (IsItemMoving(-1)) {
             return;
         }
-        ov11_02121658(unk_364);
-        ov11_02123C04(ov11_021240C0(1));
+        SaveItems(unk_364);
+        SelectItem(GetRowItem(1));
         unk_002 = 8;
         break;
     case 8:
         if (unk_4B4 != 0) {
             BOOL changed = FALSE;
-            switch (ov11_02121168()) {
+            switch (UpdateButtonSelect()) {
             case 0x17:
                 if (unk_4B0 < 1) {
                     unk_4B0++;
@@ -1127,198 +1127,198 @@ void RangerNetMenu::ov11_021204B0()
                 break;
             default:
                 if (unk_52C == 2) {
-                    ov11_02124370(changed);
+                    SetArrowsVisible(changed);
                     return;
                 }
                 break;
             }
             if (changed) {
                 unk_524 = 0;
-                ov11_02124370(FALSE);
-                ov11_021229F0(unk_4B0, 0);
-                ov11_02123C04(ov11_021240C0(1));
+                SetArrowsVisible(FALSE);
+                ShowPage(unk_4B0, 0);
+                SelectItem(GetRowItem(1));
                 return;
             }
         }
-        r = ov11_02121F48(1);
+        r = HandleItemInput(1);
         if (r == 4) {
             return;
         }
         if (r >= 0) {
-            ov11_0212253C(r);
+            ChooseItem(r);
         } else {
-            ov11_02121550();
+            GoBack();
         }
         break;
     case 9: {
-        if (ov11_021242B8(-1)) {
+        if (IsItemMoving(-1)) {
             return;
         }
-        int slot = ov11_021240C0(0);
-        unk_108[slot].ov11_02124680(0, 1);
-        unk_108[slot].ov11_02124730(unk_51C);
+        int slot = GetRowItem(0);
+        unk_108[slot].SetState(0, 1);
+        unk_108[slot].SetIcon(unk_51C);
         unk_350[--unk_364] = unk_108[slot].unk_54;
-        ov11_021241EC(0, unk_33C[unk_364]);
+        MoveRow(0, unk_33C[unk_364]);
         unk_002 = 11;
         break;
     }
     case 10:
-        if (ov11_021242B8(-1)) {
+        if (IsItemMoving(-1)) {
             return;
         }
-        ov11_02123C04(ov11_02120294(unk_350[unk_364]));
+        SelectItem(FindItem(unk_350[unk_364]));
         unk_002 = 8;
         break;
     case 11:
-        if (ov11_021242B8(-1)) {
+        if (IsItemMoving(-1)) {
             return;
         }
         switch (unk_350[unk_364]) {
         case 2:
         case 3:
-            ov11_021216C4(unk_364);
+            RestoreItems(unk_364);
             unk_002 = 10;
             break;
         default:
             unk_002 = 1;
-            ov11_0211FBE4(4);
-            ov11_0211F990();
+            SetBackButton(4);
+            SetupMainMenu();
             break;
         }
         break;
     case 3:
-        if (ov11_021242B8(-1)) {
+        if (IsItemMoving(-1)) {
             return;
         }
-        unk_108[ov11_021240C0(ov11_02124278())].ov11_02124C28();
+        unk_108[GetRowItem(GetSelectedRow())].SlideOutTop();
         unk_002 = 12;
         break;
     case 12:
-        if (ov11_021242B8(-1)) {
+        if (IsItemMoving(-1)) {
             return;
         }
-        ov11_0212280C();
+        OpenItem();
         break;
     case 13:
-        r = ov11_02121168();
+        r = UpdateButtonSelect();
         if (r == -2) {
             return;
         }
         if (r == 0xE) {
-            ov11_02122510();
+            StartMission();
             return;
         }
-        ov11_02121964(unk_350[unk_364 - 2]);
+        ReturnToMenu(unk_350[unk_364 - 2]);
         break;
     case 14:
-        if (!ov11_02122428()) {
+        if (!CheckContinue()) {
             return;
         }
-        ov11_02122B7C(0, 5, 3, 1);
+        ShowMessage(0, 5, 3, 1);
         unk_002 = 10;
-        ov11_02124370(TRUE);
+        SetArrowsVisible(TRUE);
         break;
     case 15:
         break;
     }
 }
 
-void RangerNetMenu::ov11_02120A80()
+void RangerNetMenu::UpdateLocalDownload()
 {
     switch (unk_002) {
     case 0:
         unk_002 = 3;
-        ov11_02128FEC();
-        unk_71C->ov11_0212E9B4(2);
-        ov11_0211FBE4(3);
+        WirelessDriver_Init();
+        unk_71C->SetState(2);
+        SetBackButton(3);
         break;
     case 3: {
-        int state = unk_71C->ov11_0212DA48();
+        int state = unk_71C->Update();
         if (state == 8 || state == 10) {
-            ov11_02121288();
+            StartReset();
         }
         break;
     }
     }
 }
 
-void RangerNetMenu::ov11_02120AE8()
+void RangerNetMenu::UpdateSendEgg()
 {
     switch (unk_002) {
     case 0:
         unk_002 = 1;
-        ov11_02122B7C(2, 3, 1, 1);
-        ov11_02122C18(1, 3, 1);
-        ov11_021217C0(0x11);
+        ShowMessage(2, 3, 1, 1);
+        ShowTopMessage(1, 3, 1);
+        ShowButtons(0x11);
         break;
     case 1:
-        switch (ov11_02121168()) {
+        switch (UpdateButtonSelect()) {
         case -2:
             return;
         case 0x13:
             unk_002 = 2;
             break;
         default:
-            ov11_02121964(4);
+            ReturnToMenu(4);
             break;
         }
         break;
     case 2:
-        ov11_02122B7C(4, 3, 1, 0);
-        ov11_02122C18(3, 3, 1);
+        ShowMessage(4, 3, 1, 0);
+        ShowTopMessage(3, 3, 1);
         unk_002 = 3;
-        ov11_02128FEC();
-        unk_71C->ov11_0212E9B4(14);
-        ov11_0211FBE4(5);
+        WirelessDriver_Init();
+        unk_71C->SetState(14);
+        SetBackButton(5);
         unk_710 = 1;
         break;
     case 3: {
-        int state = unk_71C->ov11_0212DA48();
+        int state = unk_71C->Update();
         if (state == 8 || state == 10) {
-            ov11_02121288();
+            StartReset();
         }
         break;
     }
     }
 }
 
-void RangerNetMenu::ov11_02120C1C()
+void RangerNetMenu::UpdateSendPokemon()
 {
     switch (unk_002) {
     case 0:
         unk_002 = 1;
-        ov11_02122B7C(2, 4, 0, 1);
-        ov11_02122C18(1, 4, 1);
-        ov11_021217C0(0x11);
+        ShowMessage(2, 4, 0, 1);
+        ShowTopMessage(1, 4, 1);
+        ShowButtons(0x11);
         break;
     case 1:
-        switch (ov11_02121168()) {
+        switch (UpdateButtonSelect()) {
         case -2:
             return;
         case 0x13:
             unk_002 = 2;
             break;
         default:
-            ov11_02121964(4);
+            ReturnToMenu(4);
             break;
         }
         break;
     case 2:
-        ov11_02122B7C(4, 4, 1, 0);
-        ov11_02122C18(3, 4, 1);
+        ShowMessage(4, 4, 1, 0);
+        ShowTopMessage(3, 4, 1);
         unk_002 = 3;
-        ov11_02128FEC();
+        WirelessDriver_Init();
         unk_710 = 1;
-        unk_720->ov11_0212D018(unk_604);
-        ov11_0211FBE4(5);
+        unk_720->Start(unk_604);
+        SetBackButton(5);
         break;
     case 3: {
-        BOOL busy = unk_720->ov11_0212D030();
-        ov11_0211FB08(2, -1);
+        BOOL busy = unk_720->Update();
+        SetLinkIcon(2, -1);
         if (busy) {
             return;
         }
-        if (ov11_02123E40()) {
+        if (StopWm()) {
             unk_002 = 4;
         } else {
             unk_002 = 5;
@@ -1330,101 +1330,101 @@ void RangerNetMenu::ov11_02120C1C()
             return;
         }
         OVERLAY11_BSS_02169B40 = FALSE;
-        WM_End(ov11_02123EA8);
+        WM_End(WmEndCallback);
         unk_002 = 5;
         break;
     case 5:
         if (!OVERLAY11_BSS_02169B40) {
             return;
         }
-        ov11_02121288();
+        StartReset();
         break;
     }
 }
 
-void RangerNetMenu::ov11_02120DA8()
+void RangerNetMenu::UpdateWifiDownload()
 {
     int r;
     switch (unk_002) {
     case 0:
         unk_002 = 1;
-        ov11_02122B7C(0x10, 0, 1, 1);
-        ov11_021217C0(0xB);
+        ShowMessage(0x10, 0, 1, 1);
+        ShowButtons(0xB);
         break;
     case 1:
-        r = ov11_02121168();
+        r = UpdateButtonSelect();
         if (r == -2) {
             return;
         }
         if (r == 0xE) {
             unk_002 = 2;
-            ov11_02128FEC();
-            unk_714->ov11_02130B30();
-            ov11_02122B7C(0x16, 0, 0, 1);
-            ov11_0211FBE4(5);
+            WirelessDriver_Init();
+            unk_714->Start();
+            ShowMessage(0x16, 0, 0, 1);
+            SetBackButton(5);
         } else {
-            ov11_02121964(0);
+            ReturnToMenu(0);
         }
         break;
     case 2:
-        r = unk_714->ov11_0213051C();
-        ov11_0211FB08(1, -1);
+        r = unk_714->Update();
+        SetLinkIcon(1, -1);
         switch (r) {
         case 0:
-            ov11_02121288();
+            StartReset();
             break;
         case 1:
-            ov11_02121288();
+            StartReset();
             break;
         case 2:
             break;
         case 3:
-            ov11_02121288();
+            StartReset();
             break;
         }
         break;
     }
 }
 
-void RangerNetMenu::ov11_02120EBC()
+void RangerNetMenu::UpdateAgbDownload()
 {
     int r;
     switch (unk_002) {
     case 0:
-        ov11_02123DDC();
-        ov11_02123EBC();
+        SetupAgbMissionList();
+        FadeIn();
         unk_002 = 1;
         break;
     case 1:
-        if (!ov11_02123FB0()) {
+        if (!IsFading()) {
             unk_002 = 2;
         }
         break;
     case 2:
-        r = ov11_021212B4();
+        r = UpdateMissionSelect();
         if (r < 0) {
             return;
         }
         unk_6EC = r - 0xB;
         unk_002 = 3;
-        ov11_02122B7C(4, 1, 1, 1);
+        ShowMessage(4, 1, 1, 1);
         break;
     case 3:
-        ov11_0211EF5C();
+        StartDownloadAnim();
         unk_002 = 4;
-        ov11_02121000(unk_700);
-        ov11_02122B7C(6, 1, 1, 1);
+        StartSaveMissions(unk_700);
+        ShowMessage(6, 1, 1, 1);
         break;
     case 4:
-        r = ov11_02121010();
+        r = UpdateSaveMissions();
         if (r == 0) {
             return;
         }
         if (r < 0) {
-            ov11_02122B7C(0xD, 1, 0, 1);
+            ShowMessage(0xD, 1, 0, 1);
             unk_002 = 7;
         } else {
-            ov11_0212374C(unk_6EC, TRUE);
+            ShowDownloadedMessage(unk_6EC, TRUE);
             unk_002 = 6;
         }
         break;
@@ -1435,13 +1435,13 @@ void RangerNetMenu::ov11_02120EBC()
     }
 }
 
-void RangerNetMenu::ov11_02121000(void *buf)
+void RangerNetMenu::StartSaveMissions(void *buf)
 {
     unk_6F4 = buf;
     unk_6FC = 2;
 }
 
-int RangerNetMenu::ov11_02121010()
+int RangerNetMenu::UpdateSaveMissions()
 {
     int r;
     switch (unk_6FC) {
@@ -1454,9 +1454,9 @@ int RangerNetMenu::ov11_02121010()
         unk_6FC = 3;
         break;
     case 3:
-        ov11_0211F06C();
+        UpdateDownloadAnim();
         for (; unk_6F0 < 6; unk_6F0++) {
-            if (ov11_02123D20(unk_6F0, unk_6F4, MAIN_BSS_020AF620.unk_00.unk_04)) {
+            if (ReadMissionFile(unk_6F0, unk_6F4, MAIN_BSS_020AF620.unk_00.unk_04)) {
                 unk_6FC = 4;
                 DownloadMissionData_ResetStep(unk_620);
                 break;
@@ -1464,14 +1464,14 @@ int RangerNetMenu::ov11_02121010()
         }
         if (unk_6F0 >= 6) {
             unk_6F8 = 120;
-            ov11_0211F0BC();
+            FinishDownloadAnim();
             unk_6FC = 6;
             unk_72C->m_audioEngine->StopSe(0xD1);
             unk_72C->m_audioEngine->PlaySe(0xF0);
         }
         break;
     case 4:
-        ov11_0211F06C();
+        UpdateDownloadAnim();
         r = DownloadMissionData_Save(unk_620, unk_6F0);
         if (r == 0) {
             break;
@@ -1493,7 +1493,7 @@ int RangerNetMenu::ov11_02121010()
     return 0;
 }
 
-int RangerNetMenu::ov11_02121168()
+int RangerNetMenu::UpdateButtonSelect()
 {
     int r;
     switch (unk_52C) {
@@ -1501,7 +1501,7 @@ int RangerNetMenu::ov11_02121168()
         unk_52C = 1;
     case 1:
         unk_70C = 0;
-        r = ov11_02122150();
+        r = HandleButtonInput();
         if (r == -1) {
             unk_014[6]->SetVisible(FALSE);
             return -1;
@@ -1514,7 +1514,7 @@ int RangerNetMenu::ov11_02121168()
         break;
     case 2:
         if (++unk_524 >= 30) {
-            ov11_02123BD4();
+            HideButtons();
             return unk_528;
         }
         break;
@@ -1522,80 +1522,80 @@ int RangerNetMenu::ov11_02121168()
     return -2;
 }
 
-int RangerNetMenu::ov11_02121214()
+int RangerNetMenu::UpdateReset()
 {
     switch (unk_002) {
     case 1:
-        if (!ov11_02122428()) {
+        if (!CheckContinue()) {
             break;
         }
         unk_002 = 2;
-        ov11_02123F58();
+        FadeOutToWhite();
     case 2:
-        if (!ov11_02123FB0()) {
-            ov11_02121270();
+        if (!IsFading()) {
+            ResetSystem();
         }
         break;
     }
     return -1;
 }
 
-void RangerNetMenu::ov11_02121270()
+void RangerNetMenu::ResetSystem()
 {
     CPowerManage::SetMode(0);
     OS_ResetSystem(0);
 }
 
-void RangerNetMenu::ov11_02121288()
+void RangerNetMenu::StartReset()
 {
     unk_002 = 2;
-    ov11_02124038(0xA, 0xFFFF);
-    ov11_02123F58();
+    SetState(0xA, 0xFFFF);
+    FadeOutToWhite();
 }
 
-int RangerNetMenu::ov11_021212B4()
+int RangerNetMenu::UpdateMissionSelect()
 {
     int slot;
     switch (unk_530) {
     case 0:
         unk_530 = 1;
-        ov11_02122B7C(0, 5, 3, 1);
+        ShowMessage(0, 5, 3, 1);
     case 1:
-        if (ov11_021242B8(-1)) {
+        if (IsItemMoving(-1)) {
             break;
         }
-        slot = ov11_021240C0(1);
+        slot = GetRowItem(1);
         if (slot < 0) {
-            slot = ov11_021240C0(0);
+            slot = GetRowItem(0);
         }
-        ov11_02123C04(slot);
+        SelectItem(slot);
         unk_530 = 3;
         break;
     case 2:
         break;
     case 3: {
-        int id = ov11_02121428();
+        int id = UpdateItemSelect();
         if (id < 0) {
             break;
         }
-        slot = ov11_02120294(id);
-        ov11_02123C04(slot);
-        ov11_02124370(FALSE);
-        ov11_021241C8(slot, 30);
-        ov11_021240D4(slot);
+        slot = FindItem(id);
+        SelectItem(slot);
+        SetArrowsVisible(FALSE);
+        BlinkItem(slot, 30);
+        ClearOtherRows(slot);
         unk_350[unk_364] = id;
         unk_530 = 4;
         break;
     }
     case 4:
-        if (ov11_021242B8(-1)) {
+        if (IsItemMoving(-1)) {
             break;
         }
-        unk_108[ov11_021240C0(ov11_02124278())].ov11_02124C28();
+        unk_108[GetRowItem(GetSelectedRow())].SlideOutTop();
         unk_530 = 5;
         break;
     case 5:
-        if (ov11_021242B8(-1)) {
+        if (IsItemMoving(-1)) {
             break;
         }
         return unk_350[unk_364];
@@ -1603,11 +1603,11 @@ int RangerNetMenu::ov11_021212B4()
     return -1;
 }
 
-int RangerNetMenu::ov11_02121428()
+int RangerNetMenu::UpdateItemSelect()
 {
     if (unk_4B4 != 0) {
         BOOL changed = FALSE;
-        switch (ov11_02121168()) {
+        switch (UpdateButtonSelect()) {
         case 0x17:
             if (unk_4B0 < 1) {
                 unk_4B0++;
@@ -1622,38 +1622,38 @@ int RangerNetMenu::ov11_02121428()
             break;
         default:
             if (unk_52C == 2) {
-                ov11_02124370(changed);
+                SetArrowsVisible(changed);
                 return -1;
             }
             break;
         }
         if (changed) {
             unk_524 = 0;
-            ov11_02124370(FALSE);
-            ov11_021229F0(unk_4B0, 0);
-            ov11_02123C04(ov11_021240C0(1));
+            SetArrowsVisible(FALSE);
+            ShowPage(unk_4B0, 0);
+            SelectItem(GetRowItem(1));
             return -1;
         }
     }
-    int r = ov11_02121F48(1);
+    int r = HandleItemInput(1);
     if (r != 4) {
         if (r >= 0) {
-            ov11_02123BD4();
-            return unk_108[ov11_021240C0(r)].unk_54;
+            HideButtons();
+            return unk_108[GetRowItem(r)].unk_54;
         }
-        ov11_02121550();
+        GoBack();
         return -2;
     }
     return -1;
 }
 
-void RangerNetMenu::ov11_02121550()
+void RangerNetMenu::GoBack()
 {
-    int slot = ov11_021240C0(ov11_02124278());
-    unk_108[slot].ov11_02124680(0, unk_108[slot].unk_48);
-    ov11_02124370(FALSE);
-    slot = ov11_021240C0(0);
-    ov11_021240D4(slot);
+    int slot = GetRowItem(GetSelectedRow());
+    unk_108[slot].SetState(0, unk_108[slot].unk_48);
+    SetArrowsVisible(FALSE);
+    slot = GetRowItem(0);
+    ClearOtherRows(slot);
     unk_51C = 0;
     int r;
     switch (unk_108[slot].unk_54) {
@@ -1664,38 +1664,38 @@ void RangerNetMenu::ov11_02121550()
         }
         break;
     case 1:
-        r = ov11_02120178();
+        r = GetMissionsIcon();
         if (r >= 0) {
             unk_51C = r;
         }
         break;
     case 2:
-        r = ov11_021201A8();
+        r = GetSpecialMissionsIcon();
         if (r >= 0) {
             unk_51C = r;
         }
         break;
     case 3:
-        r = ov11_021201F8();
+        r = GetExtraMissionsIcon();
         if (r >= 0) {
             unk_51C = r;
         }
         break;
     case 4:
-        r = ov11_02120248();
+        r = GetTransferIcon();
         if (r >= 0) {
             unk_51C = r;
         }
         break;
     }
     unk_002 = 9;
-    ov11_02123BD4();
+    HideButtons();
 }
 
-void RangerNetMenu::ov11_02121658(int idx)
+void RangerNetMenu::SaveItems(int idx)
 {
     for (int i = 0; i < 4; i++) {
-        int slot = ov11_021240C0(i);
+        int slot = GetRowItem(i);
         if (slot < 0) {
             unk_3B8[idx][i] = -1;
         } else {
@@ -1707,14 +1707,14 @@ void RangerNetMenu::ov11_02121658(int idx)
     }
 }
 
-void RangerNetMenu::ov11_021216C4(int idx)
+void RangerNetMenu::RestoreItems(int idx)
 {
     int n = 0;
     for (int i = 0; i < 4; i++) {
-        if (ov11_021240C0(i) >= 0) {
+        if (GetRowItem(i) >= 0) {
             continue;
         }
-        int slot = ov11_02124054();
+        int slot = FindFreeItem();
         if (unk_108[slot].unk_38 != 0) {
             continue;
         }
@@ -1722,36 +1722,36 @@ void RangerNetMenu::ov11_021216C4(int idx)
             continue;
         }
         if (unk_368[idx][i] != 2) {
-            unk_108[slot].ov11_02124680(0, 1);
+            unk_108[slot].SetState(0, 1);
         } else {
-            unk_108[slot].ov11_02124680(2, 1);
+            unk_108[slot].SetState(2, 1);
         }
-        unk_108[slot].ov11_02124820(unk_3B8[idx][i]);
-        unk_108[slot].ov11_02124730(unk_408[idx][i]);
-        unk_108[slot].ov11_021247A8(unk_458[idx][i]);
+        unk_108[slot].SetId(unk_3B8[idx][i]);
+        unk_108[slot].SetIcon(unk_408[idx][i]);
+        unk_108[slot].SetEnabled(unk_458[idx][i]);
         unk_328[i] = slot;
         if (n % 2 != 0) {
-            unk_108[slot].ov11_02124A6C(i);
+            unk_108[slot].SlideInLeft(i);
         } else {
-            unk_108[slot].ov11_02124B10(i);
+            unk_108[slot].SlideInRight(i);
         }
         n++;
     }
 }
 
-void RangerNetMenu::ov11_021217C0(int state)
+void RangerNetMenu::ShowButtons(int state)
 {
     unk_52C = 0;
-    ov11_02123A78(state);
+    SetButtonMode(state);
 }
 
-void RangerNetMenu::ov11_021217D4(const int *ids, BOOL show, int arg)
+void RangerNetMenu::SetupMissionList(const int *ids, BOOL show, int arg)
 {
     int n = 0;
     int i;
     unk_530 = 0;
     for (i = 0; i < 4; i++) {
-        ov11_02124150(i);
+        HideRow(i);
     }
     unk_4B4 = 0;
     for (i = 0; i < 6; i++) {
@@ -1777,47 +1777,47 @@ void RangerNetMenu::ov11_021217D4(const int *ids, BOOL show, int arg)
         }
     }
     if (show) {
-        int slot = ov11_02122B04(arg, 0, 2);
-        unk_108[slot].ov11_02124844(0x80, ov11_02124EB0(0));
-        unk_108[slot].ov11_021248EC(TRUE);
-        unk_108[slot].ov11_02124EBC(TRUE);
+        int slot = AddItem(arg, 0, 2);
+        unk_108[slot].SetPos(0x80, GetItemY(0));
+        unk_108[slot].SetVisible(TRUE);
+        unk_108[slot].SetActive(TRUE);
     }
-    ov11_021229F0(0, 1);
+    ShowPage(0, 1);
 }
 
-void RangerNetMenu::ov11_02121964(int a)
+void RangerNetMenu::ReturnToMenu(int a)
 {
-    ov11_021241A0();
-    ov11_0211F96C();
-    unk_108[ov11_02122B04(a, 0, 2)].ov11_02124A6C(0);
+    HideAllRows();
+    HideAllButtons();
+    unk_108[AddItem(a, 0, 2)].SlideInLeft(0);
     unk_364--;
-    ov11_0211FC60();
-    ov11_02124038(3, 0xFFFF);
+    SetupSubMenu();
+    SetState(3, 0xFFFF);
     unk_002 = 10;
-    ov11_02122B7C(0, 5, 3, 1);
-    ov11_02122C18(0, 5, 0);
+    ShowMessage(0, 5, 3, 1);
+    ShowTopMessage(0, 5, 0);
 }
 
-void RangerNetMenu::ov11_02121A08()
+void RangerNetMenu::UpdateWfcSettings()
 {
     if (unk_002 != 0) {
         return;
     }
-    if (ov11_02123FB0()) {
+    if (IsFading()) {
         return;
     }
-    ov11_0211F52C();
-    ov11_02128FEC();
+    Release();
+    WirelessDriver_Init();
     OS_InitAlarm();
     OSIrqMask mask = OS_GetIrqMask();
     OS_SetIrqMask(0);
-    unk_718->ov11_021304B4();
+    unk_718->StartUtility();
     OS_SetIrqMask(mask);
     OS_EnableIrq();
-    ov11_02121270();
+    ResetSystem();
 }
 
-void RangerNetMenu::ov11_02121A7C()
+void RangerNetMenu::UpdateSprites()
 {
     if (unk_00C != NULL) {
         unk_00C->Update();
@@ -1838,7 +1838,7 @@ void RangerNetMenu::ov11_02121A7C()
         unk_0B4->Update();
     }
     for (int i = 0; i < 4; i++) {
-        unk_108[i].ov11_02124888();
+        unk_108[i].Update();
     }
     if (unk_0EC != 0) {
         for (int i = 0; i < 3; i++) {
@@ -1849,7 +1849,7 @@ void RangerNetMenu::ov11_02121A7C()
     }
 }
 
-void RangerNetMenu::ov11_02121B38()
+void RangerNetMenu::DrawSprites()
 {
     if (unk_00C != NULL) {
         unk_00C->WriteOam();
@@ -1870,7 +1870,7 @@ void RangerNetMenu::ov11_02121B38()
         unk_0B4->WriteOam();
     }
     for (int i = 0; i < 4; i++) {
-        unk_108[i].ov11_021248CC();
+        unk_108[i].Draw();
     }
     if (unk_0EC == 0) {
         return;
@@ -1885,7 +1885,7 @@ void RangerNetMenu::ov11_02121B38()
     }
 }
 
-void RangerNetMenu::ov11_02121C20()
+void RangerNetMenu::LoadBackground()
 {
     static int sScreens[] = { 0, 4, 3 };
     char path[0x40];
@@ -1929,23 +1929,23 @@ void RangerNetMenu::ov11_02121C20()
     }
 }
 
-BOOL RangerNetMenu::ov11_02121EEC()
+BOOL RangerNetMenu::Setup()
 {
-    ov11_02124038(1, 0xFFFF);
+    SetState(1, 0xFFFF);
     unk_002 = 0;
-    ov11_02121F18();
+    LoadGraphics();
     return TRUE;
 }
 
-BOOL RangerNetMenu::ov11_02121F18()
+BOOL RangerNetMenu::LoadGraphics()
 {
-    ov11_02121C20();
-    ov11_0211E464();
+    LoadBackground();
+    LoadSprites();
     unk_72C->unk_146C.SetFps(60);
     return TRUE;
 }
 
-int RangerNetMenu::ov11_02121F48(BOOL sound)
+int RangerNetMenu::HandleItemInput(BOOL sound)
 {
     int dir = 0;
     PadInput *pad = unk_72C->unk_0014;
@@ -1956,7 +1956,7 @@ int RangerNetMenu::ov11_02121F48(BOOL sound)
         dir = PAD_KEY_UP;
     }
     if (dir != 0) {
-        int cur = ov11_02124278();
+        int cur = GetSelectedRow();
         for (int i = 1; i < 4; i++) {
             int slot;
             switch (dir) {
@@ -1969,7 +1969,7 @@ int RangerNetMenu::ov11_02121F48(BOOL sound)
                 break;
             }
             if (slot >= 0 && unk_108[slot].unk_50 == 0) {
-                ov11_02123C04(slot);
+                SelectItem(slot);
                 break;
             }
         }
@@ -1993,10 +1993,10 @@ int RangerNetMenu::ov11_02121F48(BOOL sound)
             unk_72C->m_audioEngine->PlaySe(0xFF);
         }
         unk_70C = 1;
-        return ov11_02124278();
+        return GetSelectedRow();
     }
     for (int i = 0; i < 4; i++) {
-        if (unk_108[i].ov11_02124ED0()) {
+        if (unk_108[i].IsTouched()) {
             if (sound) {
                 unk_72C->m_audioEngine->PlaySe(0xFF);
             }
@@ -2007,18 +2007,18 @@ int RangerNetMenu::ov11_02121F48(BOOL sound)
     return 4;
 }
 
-int RangerNetMenu::ov11_02122150()
+int RangerNetMenu::HandleButtonInput()
 {
     PadInput *pad = unk_72C->unk_0014;
     if ((u16)(pad->unk_0006 & PAD_KEY_LEFT) || (u16)(pad->unk_0006 & PAD_KEY_RIGHT)) {
         switch (unk_520) {
         case 10:
-            ov11_02123A78(11);
+            SetButtonMode(11);
             unk_72C->m_audioEngine->PlaySe(0x108);
             unk_70C = 1;
             return -2;
         case 11:
-            ov11_02123A78(10);
+            SetButtonMode(10);
             unk_72C->m_audioEngine->PlaySe(0x108);
             unk_70C = 1;
             return -2;
@@ -2027,14 +2027,14 @@ int RangerNetMenu::ov11_02122150()
     if (unk_520 == 20 || unk_520 == 21) {
         if ((u16)(pad->unk_0006 & PAD_KEY_RIGHT)) {
             if (unk_4B0 < 1) {
-                ov11_02123A78(0x17);
+                SetButtonMode(0x17);
                 unk_72C->m_audioEngine->PlaySe(0x108);
                 unk_70C = 1;
                 return 0x17;
             }
         } else if ((u16)(pad->unk_0006 & PAD_KEY_LEFT)) {
             if (unk_4B0 > 0) {
-                ov11_02123A78(0x18);
+                SetButtonMode(0x18);
                 unk_72C->m_audioEngine->PlaySe(0x108);
                 unk_70C = 1;
                 return 0x18;
@@ -2091,7 +2091,7 @@ int RangerNetMenu::ov11_02122150()
             break;
         }
         if (next != -1) {
-            ov11_02123A78(next);
+            SetButtonMode(next);
             unk_72C->m_audioEngine->PlaySe(se);
             unk_70C = 1;
             return next;
@@ -2100,7 +2100,7 @@ int RangerNetMenu::ov11_02122150()
     return -2;
 }
 
-BOOL RangerNetMenu::ov11_02122428()
+BOOL RangerNetMenu::CheckContinue()
 {
     PadInput *pad = unk_72C->unk_0014;
     CTouchPanel *tp = CGame::GetInstance()->touchPanel;
@@ -2111,7 +2111,7 @@ BOOL RangerNetMenu::ov11_02122428()
     return TRUE;
 }
 
-int RangerNetMenu::ov11_0212247C()
+int RangerNetMenu::CheckCancel()
 {
     OamSprite *sprite = unk_014[0];
     PadInput *pad = unk_72C->unk_0014;
@@ -2124,62 +2124,62 @@ int RangerNetMenu::ov11_0212247C()
     return 0;
 }
 
-void RangerNetMenu::ov11_021224E4()
+void RangerNetMenu::ExitToTitle()
 {
-    ov11_02124038(0xE, 0xFFFF);
+    SetState(0xE, 0xFFFF);
     unk_002 = 15;
-    ov11_02123F58();
+    FadeOutToWhite();
 }
 
-void RangerNetMenu::ov11_02122510()
+void RangerNetMenu::StartMission()
 {
-    ov11_02124038(0xC, 0xFFFF);
+    SetState(0xC, 0xFFFF);
     unk_002 = 15;
-    ov11_02123F00();
+    FadeOutToBlack();
 }
 
-void RangerNetMenu::ov11_0212253C(int sel)
+void RangerNetMenu::ChooseItem(int sel)
 {
     unk_33C[unk_364] = sel;
-    int slot = ov11_021240C0(sel);
+    int slot = GetRowItem(sel);
     unk_350[unk_364] = unk_108[slot].unk_54;
     switch (unk_350[unk_364]) {
     case 0:
-        ov11_02123BD4();
+        HideButtons();
         unk_002 = 4;
-        ov11_02123C04(slot);
-        ov11_02124370(FALSE);
-        ov11_021241C8(slot, 30);
-        ov11_021240D4(slot);
+        SelectItem(slot);
+        SetArrowsVisible(FALSE);
+        BlinkItem(slot, 30);
+        ClearOtherRows(slot);
         unk_364++;
         SAFE_DELETE(unk_708);
-        unk_708 = new UnkClass_0212F3DC();
+        unk_708 = new DownloadStationScan();
         return;
     case 1:
     case 4:
-        ov11_02123BD4();
+        HideButtons();
         unk_002 = 5;
         break;
     case 2:
     case 3:
-        ov11_02123BD4();
+        HideButtons();
         unk_002 = 5;
         break;
     case 5:
     case 6:
     case 7:
-        ov11_02123BD4();
+        HideButtons();
         unk_002 = 3;
         break;
     case 11:
         if (((MAIN_BSS_020B26A0.m_rangerClassGrade >> 4) & 0xF) < 1u) {
-            ov11_02122B7C(1, 2, 1, 1);
+            ShowMessage(1, 2, 1, 1);
             unk_002 = 14;
-            ov11_02123C04(slot);
-            ov11_02124370(FALSE);
+            SelectItem(slot);
+            SetArrowsVisible(FALSE);
             return;
         }
-        ov11_02123BD4();
+        HideButtons();
         unk_002 = 3;
         break;
     case 12:
@@ -2188,51 +2188,51 @@ void RangerNetMenu::ov11_0212253C(int sel)
     case 15:
     case 16:
         if (unk_72C->m_missionQuestData->m_chapter < 0x45) {
-            ov11_02122B7C(2, 2, 1, 1);
+            ShowMessage(2, 2, 1, 1);
             unk_002 = 14;
-            ov11_02123C04(slot);
-            ov11_02124370(FALSE);
+            SelectItem(slot);
+            SetArrowsVisible(FALSE);
             return;
         }
-        ov11_02123BD4();
+        HideButtons();
         unk_002 = 3;
         break;
     case 8:
     case 9:
     case 10:
         if (unk_108[slot].unk_48 == 0) {
-            ov11_02122B7C(2, 5, 1, 1);
+            ShowMessage(2, 5, 1, 1);
             unk_002 = 14;
-            ov11_02123C04(slot);
-            ov11_02124370(FALSE);
+            SelectItem(slot);
+            SetArrowsVisible(FALSE);
             return;
         }
-        ov11_02123BD4();
+        HideButtons();
         unk_002 = 3;
         break;
     }
-    ov11_02123C04(slot);
-    ov11_02124370(FALSE);
-    ov11_021241C8(slot, 30);
-    ov11_021240D4(slot);
+    SelectItem(slot);
+    SetArrowsVisible(FALSE);
+    BlinkItem(slot, 30);
+    ClearOtherRows(slot);
     unk_364++;
 }
 
-void RangerNetMenu::ov11_0212280C()
+void RangerNetMenu::OpenItem()
 {
     int kind = unk_350[unk_364 - 1];
     switch (kind) {
     case 5:
-        ov11_02124038(8, 0xFFFF);
+        SetState(8, 0xFFFF);
         unk_002 = 0;
-        ov11_02123F58();
+        FadeOutToWhite();
         break;
     case 6:
-        ov11_02124038(4, 0xFFFF);
+        SetState(4, 0xFFFF);
         unk_002 = 0;
         break;
     case 7:
-        ov11_02124038(5, 0xFFFF);
+        SetState(5, 0xFFFF);
         unk_002 = 0;
         break;
     case 11:
@@ -2242,94 +2242,94 @@ void RangerNetMenu::ov11_0212280C()
     case 15:
     case 16: {
         int idx = kind - 11;
-        ov11_02122C48(idx);
+        ShowTopMission(idx);
         int type = 3;
         if (unk_638[idx] == 2 && idx < 3) {
             type = 4;
         }
-        ov11_02122B7C(type, 2, 0, 1);
+        ShowMessage(type, 2, 0, 1);
         unk_72C->unk_14A4->unk_81AC = idx + 1;
-        ov11_02124038(3, 0xFFFF);
+        SetState(3, 0xFFFF);
         unk_002 = 13;
-        ov11_021217C0(11);
+        ShowButtons(11);
         break;
     }
     case 8:
-        ov11_02124038(6, 0xFFFF);
+        SetState(6, 0xFFFF);
         unk_002 = 0;
         break;
     case 9:
         unk_72C->unk_1498->unk_30[0] = 0x1EB;
         unk_72C->unk_1494->unk_34[0] = 0x1EB;
         unk_604 = 1;
-        ov11_02124038(7, 0xFFFF);
+        SetState(7, 0xFFFF);
         unk_002 = 0;
         break;
     case 10:
         unk_72C->unk_1498->unk_30[0] = 0x1BF;
         unk_72C->unk_1494->unk_34[0] = 0x1BF;
         unk_604 = 0;
-        ov11_02124038(7, 0xFFFF);
+        SetState(7, 0xFFFF);
         unk_002 = 0;
         break;
     }
 }
 
-void RangerNetMenu::ov11_021229F0(int page, BOOL delayed)
+void RangerNetMenu::ShowPage(int page, BOOL delayed)
 {
     int i;
     for (i = 1; i < 4; i++) {
-        ov11_02124150(i);
+        HideRow(i);
     }
     unk_4B0 = page;
     for (i = 0; i < 3; i++) {
         if (unk_4B8[page][i].id < 0) {
             continue;
         }
-        int slot = ov11_02122B04(unk_4B8[page][i].id, unk_4B8[page][i].kind, 0);
-        unk_108[slot].ov11_021247A8(unk_4B8[page][i].flag);
+        int slot = AddItem(unk_4B8[page][i].id, unk_4B8[page][i].kind, 0);
+        unk_108[slot].SetEnabled(unk_4B8[page][i].flag);
         if (delayed) {
-            unk_108[slot].ov11_02124BB0(unk_108[slot].unk_58, i * 0x5000);
+            unk_108[slot].SlideInBottom(unk_108[slot].unk_58, i * 0x5000);
         } else {
-            unk_108[slot].ov11_02124844(0x80, ov11_02124EB0(unk_108[slot].unk_58));
-            unk_108[slot].ov11_021248EC(TRUE);
-            unk_108[slot].ov11_02124EBC(TRUE);
+            unk_108[slot].SetPos(0x80, GetItemY(unk_108[slot].unk_58));
+            unk_108[slot].SetVisible(TRUE);
+            unk_108[slot].SetActive(TRUE);
         }
     }
     if (unk_4B4 == 0) {
         return;
     }
     if (page == 0) {
-        ov11_021217C0(0x14);
+        ShowButtons(0x14);
     } else {
-        ov11_021217C0(0x15);
+        ShowButtons(0x15);
     }
 }
 
-int RangerNetMenu::ov11_02122B04(int id, int type, int anim)
+int RangerNetMenu::AddItem(int id, int type, int anim)
 {
-    int slot = ov11_02124054();
+    int slot = FindFreeItem();
     if (slot < 0) {
         return -1;
     }
-    ov11_02124260(slot, ov11_02124094());
-    unk_108[slot].ov11_02124820(id);
-    unk_108[slot].ov11_02124730(type);
-    unk_108[slot].ov11_02124680(anim, 1);
+    SetRowItem(slot, FindFreeRow());
+    unk_108[slot].SetId(id);
+    unk_108[slot].SetIcon(type);
+    unk_108[slot].SetState(anim, 1);
     return slot;
 }
 
-void RangerNetMenu::ov11_02122B7C(int a, int b, int c, int d)
+void RangerNetMenu::ShowMessage(int a, int b, int c, int d)
 {
     unk_038 = 1;
     unk_5A0 = c;
     unk_554 = b;
     unk_580 = 0;
     unk_5A4 = d;
-    ov11_02122BD4(a);
+    AddMessage(a);
 }
 
-void RangerNetMenu::ov11_02122BA8(const char *str, BOOL top)
+void RangerNetMenu::SetMessageString(const char *str, BOOL top)
 {
     CGame *game = unk_72C;
     if (top) {
@@ -2339,7 +2339,7 @@ void RangerNetMenu::ov11_02122BA8(const char *str, BOOL top)
     }
 }
 
-void RangerNetMenu::ov11_02122BD4(int a)
+void RangerNetMenu::AddMessage(int a)
 {
     if (unk_580 < 10) {
         unk_558[unk_580] = a;
@@ -2347,31 +2347,31 @@ void RangerNetMenu::ov11_02122BD4(int a)
     }
 }
 
-void RangerNetMenu::ov11_02122BF8(int i, int v)
+void RangerNetMenu::SetNameArg(int i, int v)
 {
     if (i < 10) {
         unk_5D0[i] = v;
     }
 }
 
-void RangerNetMenu::ov11_02122C08(int i, int v)
+void RangerNetMenu::SetNumberArg(int i, int v)
 {
     if (i < 10) {
         unk_5A8[i] = v;
     }
 }
 
-void RangerNetMenu::ov11_02122C18(int a, int b, int c)
+void RangerNetMenu::ShowTopMessage(int a, int b, int c)
 {
     if (unk_724 != NULL) {
-        unk_724->ov11_0211D7D4(c, a, unk_534[b]);
+        unk_724->ShowMessage(c, a, unk_534[b]);
     }
 }
 
-void RangerNetMenu::ov11_02122C48(int mode)
+void RangerNetMenu::ShowTopMission(int mode)
 {
     if (unk_724 != NULL) {
-        unk_724->ov11_0211D804(mode);
+        unk_724->ShowMission(mode);
     }
 }
 
@@ -2381,13 +2381,13 @@ static inline void PrintText(RangerNetMenu *menu, MessageTable *msgs, int idx, i
     box->Print(idx, x, y, color, (u8 *)msgs->GetString(msg), center, 0);
 }
 
-void RangerNetMenu::ov11_02122C60()
+void RangerNetMenu::PrintMessage()
 {
     if (unk_038 == 0) {
         return;
     }
     unk_038 = 0;
-    ov11_02123794(unk_5A0);
+    SetMessageLayout(unk_5A0);
     unk_72C->unk_1498->ClearWindow(0);
     if (unk_5A4 != 0) {
         PrintText(this, unk_534[5], 0, 0, 3, 3, 1, TRUE);
@@ -2414,9 +2414,9 @@ void RangerNetMenu::ov11_02122C60()
         unk_72C->unk_1498->ClearWindow(1);
         PrintText(this, unk_534[unk_554], 1, 0, 3, 1, 9, FALSE);
         PrintText(this, unk_534[unk_554], 1, 0, 0xE, 1, 10, FALSE);
-        ov11_0212331C(1, 0x46, 0xE, unk_5A8[0], 1, 0, 5);
+        PrintNumber(1, 0x46, 0xE, unk_5A8[0], 1, 0, 5);
         PrintText(this, unk_534[unk_554], 1, 0, 0x1A, 1, 11, FALSE);
-        ov11_02123228(1, 0, 0x26, 1, 0);
+        PrintApplicationNo(1, 0, 0x26, 1, 0);
         PrintText(this, unk_534[unk_554], 1, 0x64, 0x26, 1, 12, FALSE);
         PrintText(this, unk_534[unk_554], 1, 0, 0x3E, 1, unk_558[0], FALSE);
         break;
@@ -2424,9 +2424,9 @@ void RangerNetMenu::ov11_02122C60()
         unk_72C->unk_1498->ClearWindow(1);
         PrintText(this, unk_534[unk_554], 1, 0, 3, 1, 9, FALSE);
         PrintText(this, unk_534[unk_554], 1, 0, 0xE, 1, 10, FALSE);
-        ov11_0212331C(1, 0x50, 0xE, unk_5A8[0], 1, 0, 5);
+        PrintNumber(1, 0x50, 0xE, unk_5A8[0], 1, 0, 5);
         PrintText(this, unk_534[unk_554], 1, 0, 0x1A, 1, 11, FALSE);
-        ov11_02123598(1, 0x50, 0x1A, unk_5D0[0], 1, 0);
+        PrintTrainerName(1, 0x50, 0x1A, unk_5D0[0], 1, 0);
         PrintText(this, unk_534[unk_554], 1, 0x64, 0x26, 1, 12, FALSE);
         PrintText(this, unk_534[unk_554], 1, 0, 0x3E, 1, unk_558[0], FALSE);
         break;
@@ -2439,18 +2439,18 @@ static inline void PrintTextTop(RangerNetMenu *menu, MessageTable *msgs, int idx
     box->Print(idx, x, y, color, (u8 *)msgs->GetString(msg), center, 0);
 }
 
-void RangerNetMenu::ov11_02123228(int idx, int x, int y, int color, BOOL top)
+void RangerNetMenu::PrintApplicationNo(int idx, int x, int y, int color, BOOL top)
 {
-    ov11_0212331C(idx, x, y, unk_5A8[1], color, top, 4);
+    PrintNumber(idx, x, y, unk_5A8[1], color, top, 4);
     if (top) {
         PrintTextTop(this, unk_534[6], idx, x + 0x1C, y, color, 10, FALSE);
     } else {
         PrintText(this, unk_534[6], idx, x + 0x1C, y, color, 10, FALSE);
     }
-    ov11_0212331C(idx, x + 0x23, y, unk_5A8[2], color, top, 4);
+    PrintNumber(idx, x + 0x23, y, unk_5A8[2], color, top, 4);
 }
 
-void RangerNetMenu::ov11_0212331C(int idx, int x, int y, int value, int color, BOOL top, int digits)
+void RangerNetMenu::PrintNumber(int idx, int x, int y, int value, int color, BOOL top, int digits)
 {
     TextPrinter *topBox;
     SubTextPrinter *subBox;
@@ -2482,7 +2482,7 @@ void RangerNetMenu::ov11_0212331C(int idx, int x, int y, int value, int color, B
     }
 }
 
-void RangerNetMenu::ov11_021234A8(char *buf, int value, int digits)
+void RangerNetMenu::FormatNumber(char *buf, int value, int digits)
 {
     int count = 1;
     int div = 10;
@@ -2510,7 +2510,7 @@ void RangerNetMenu::ov11_021234A8(char *buf, int value, int digits)
     }
 }
 
-void RangerNetMenu::ov11_02123598(int idx, int x, int y, int name, int color, BOOL top)
+void RangerNetMenu::PrintTrainerName(int idx, int x, int y, int name, int color, BOOL top)
 {
     static u16 sRanges[] = { 1, 0x51, 0x52, 0xA1, 0xA2, 0xDF, 0xE1, 0x111, 0x121, 0x15E, 0x15F, 0x19E, 0x1A9, 0x1DD };
     char buf[0x34];
@@ -2564,7 +2564,7 @@ void RangerNetMenu::ov11_02123598(int idx, int x, int y, int name, int color, BO
     }
 }
 
-void RangerNetMenu::ov11_0212374C(int a, BOOL b)
+void RangerNetMenu::ShowDownloadedMessage(int a, BOOL b)
 {
     BOOL flag = FALSE;
     if (b) {
@@ -2579,10 +2579,10 @@ void RangerNetMenu::ov11_0212374C(int a, BOOL b)
         }
         a = a - 6 + base;
     }
-    ov11_02122B7C(a, flag, 0, 1);
+    ShowMessage(a, flag, 0, 1);
 }
 
-void RangerNetMenu::ov11_02123794(int mode)
+void RangerNetMenu::SetMessageLayout(int mode)
 {
     if (unk_59C == mode) {
         return;
@@ -2631,11 +2631,11 @@ void RangerNetMenu::ov11_02123794(int mode)
     }
 }
 
-void RangerNetMenu::ov11_02123A78(int sel)
+void RangerNetMenu::SetButtonMode(int sel)
 {
     BOOL alt;
     unk_520 = sel;
-    ov11_02123BD4();
+    HideButtons();
     switch (unk_520) {
     case 10:
         unk_014[13]->SetVisible(TRUE);
@@ -2681,7 +2681,7 @@ void RangerNetMenu::ov11_02123A78(int sel)
     }
 }
 
-void RangerNetMenu::ov11_02123B98()
+void RangerNetMenu::LoadButtonGraphics()
 {
     if (unk_4A8 == 0) {
         return;
@@ -2694,7 +2694,7 @@ void RangerNetMenu::ov11_02123B98()
     }
 }
 
-void RangerNetMenu::ov11_02123BD4()
+void RangerNetMenu::HideButtons()
 {
     for (int i = 10; i <= 24; i++) {
         unk_014[i]->SetVisible(FALSE);
@@ -2702,7 +2702,7 @@ void RangerNetMenu::ov11_02123BD4()
     unk_014[6]->SetVisible(FALSE);
 }
 
-void RangerNetMenu::ov11_02123C04(int sel)
+void RangerNetMenu::SelectItem(int sel)
 {
     for (int i = 0; i < 4; i++) {
         if (unk_108[i].unk_38 == 0) {
@@ -2710,16 +2710,16 @@ void RangerNetMenu::ov11_02123C04(int sel)
         }
         if (sel == i) {
             if (unk_108[i].unk_50 == 0) {
-                unk_108[i].ov11_02124680(1, unk_108[i].unk_48);
-                unk_108[i].ov11_021249E0();
+                unk_108[i].SetState(1, unk_108[i].unk_48);
+                unk_108[i].StartArrowAnim();
             }
         } else if (unk_108[i].unk_50 == 1) {
-            unk_108[i].ov11_02124680(0, unk_108[i].unk_48);
+            unk_108[i].SetState(0, unk_108[i].unk_48);
         }
     }
 }
 
-int RangerNetMenu::ov11_02123C8C(const char *name)
+int RangerNetMenu::FindMissionFile(const char *name)
 {
     char buf[0x30];
     for (int i = 0; i < 11; i++) {
@@ -2731,39 +2731,39 @@ int RangerNetMenu::ov11_02123C8C(const char *name)
     return -1;
 }
 
-BOOL RangerNetMenu::ov11_02123CEC(void *mem)
+BOOL RangerNetMenu::MountArchive(void *mem)
 {
     return NNS_FndMountArchive(&unk_658, "RNS", mem);
 }
 
-BOOL RangerNetMenu::ov11_02123D0C()
+BOOL RangerNetMenu::UnmountArchive()
 {
     return NNS_FndUnmountArchive(&unk_658);
 }
 
-BOOL RangerNetMenu::ov11_02123D20(int i, void *mem, u8 *dst)
+BOOL RangerNetMenu::ReadMissionFile(int i, void *mem, u8 *dst)
 {
     char name[0x30];
     char path[0x30];
     FSFile file;
-    if (!ov11_02123CEC(mem)) {
+    if (!MountArchive(mem)) {
         return FALSE;
     }
     OS_SPrintf(name, "PRS_MISSION_%0d.dat", i + 1);
     OS_SPrintf(path, "RNS:%s", name);
     FS_InitFile(&file);
     if (!FS_OpenFile(&file, path)) {
-        ov11_02123D0C();
+        UnmountArchive();
         return FALSE;
     }
     s32 read = FS_ReadFile(&file, dst, FS_GetLength(&file));
-    ov11_02123D0C();
+    UnmountArchive();
     return read >= 0 ? TRUE : FALSE;
 }
 
-void RangerNetMenu::ov11_02123DDC()
+void RangerNetMenu::SetupAgbMissionList()
 {
-    unk_6EC = ov11_0211E030();
+    unk_6EC = AgbCheck_GetMissionNo();
     for (int i = 0; i < 11; i++) {
         unk_6C0[i] = -1;
     }
@@ -2771,14 +2771,14 @@ void RangerNetMenu::ov11_02123DDC()
         unk_6EC = 10;
     }
     unk_6C0[unk_6EC] = 1;
-    ov11_021217D4(unk_6C0, FALSE, 6);
+    SetupMissionList(unk_6C0, FALSE, 6);
 }
 
-BOOL ov11_02123E40()
+BOOL StopWm()
 {
     OVERLAY11_BSS_02169B40 = FALSE;
-    if (WM_Reset(ov11_02123E94) != WM_ERRCODE_OPERATING) {
-        if (WM_End(ov11_02123EA8) != WM_ERRCODE_OPERATING) {
+    if (WM_Reset(WmResetCallback) != WM_ERRCODE_OPERATING) {
+        if (WM_End(WmEndCallback) != WM_ERRCODE_OPERATING) {
             OVERLAY11_BSS_02169B40 = TRUE;
         }
         return FALSE;
@@ -2786,19 +2786,19 @@ BOOL ov11_02123E40()
     return TRUE;
 }
 
-// WM_Reset callback (ov11_02123E40)
-static void ov11_02123E94(void *arg)
+// WM_Reset callback (StopWm)
+static void WmResetCallback(void *arg)
 {
     OVERLAY11_BSS_02169B40 = TRUE;
 }
 
-// WM_End callback (ov11_02123E40, ov11_02120C1C)
-static void ov11_02123EA8(void *arg)
+// WM_End callback (StopWm, UpdateSendPokemon)
+static void WmEndCallback(void *arg)
 {
     OVERLAY11_BSS_02169B40 = TRUE;
 }
 
-void RangerNetMenu::ov11_02123EBC()
+void RangerNetMenu::FadeIn()
 {
     if (unk_72C != NULL) {
         unk_72C->m_subFade->Start(3, 15);
@@ -2806,7 +2806,7 @@ void RangerNetMenu::ov11_02123EBC()
     }
 }
 
-void RangerNetMenu::ov11_02123F00()
+void RangerNetMenu::FadeOutToBlack()
 {
     if (unk_72C != NULL) {
         unk_72C->m_audioEngine->StopBgm(10);
@@ -2815,7 +2815,7 @@ void RangerNetMenu::ov11_02123F00()
     }
 }
 
-void RangerNetMenu::ov11_02123F58()
+void RangerNetMenu::FadeOutToWhite()
 {
     unk_72C->m_audioEngine->StopBgm(10);
     if (unk_72C != NULL) {
@@ -2824,7 +2824,7 @@ void RangerNetMenu::ov11_02123F58()
     }
 }
 
-BOOL RangerNetMenu::ov11_02123FB0()
+BOOL RangerNetMenu::IsFading()
 {
     if (unk_72C->m_subFade->IsActive() || unk_72C->m_mainFade->IsActive()) {
         return TRUE;
@@ -2832,7 +2832,7 @@ BOOL RangerNetMenu::ov11_02123FB0()
     return FALSE;
 }
 
-int RangerNetMenu::ov11_02123FF8()
+int RangerNetMenu::GetNextScene()
 {
     switch (unk_000) {
     case 0xD:
@@ -2845,7 +2845,7 @@ int RangerNetMenu::ov11_02123FF8()
     return -1;
 }
 
-void RangerNetMenu::ov11_02124038(int state, int arg)
+void RangerNetMenu::SetState(int state, int arg)
 {
     if (arg == 0xFFFF) {
         arg = unk_000;
@@ -2854,7 +2854,7 @@ void RangerNetMenu::ov11_02124038(int state, int arg)
     unk_000 = state;
 }
 
-int RangerNetMenu::ov11_02124054()
+int RangerNetMenu::FindFreeItem()
 {
     for (int i = 0; i < 4; i++) {
         if (unk_108[i].IsEmpty()) {
@@ -2864,7 +2864,7 @@ int RangerNetMenu::ov11_02124054()
     return -1;
 }
 
-int RangerNetMenu::ov11_02124094()
+int RangerNetMenu::FindFreeRow()
 {
     for (int i = 0; i < 4; i++) {
         if (unk_328[i] < 0) {
@@ -2874,7 +2874,7 @@ int RangerNetMenu::ov11_02124094()
     return -1;
 }
 
-int RangerNetMenu::ov11_021240C0(int i)
+int RangerNetMenu::GetRowItem(int i)
 {
     if (i < 0) {
         return 0;
@@ -2882,7 +2882,7 @@ int RangerNetMenu::ov11_021240C0(int i)
     return unk_328[i];
 }
 
-void RangerNetMenu::ov11_021240D4(int keep)
+void RangerNetMenu::ClearOtherRows(int keep)
 {
     int n = 0;
     for (int i = 0; i < 4; i++) {
@@ -2891,61 +2891,61 @@ void RangerNetMenu::ov11_021240D4(int keep)
             continue;
         }
         if (n % 2 == 0) {
-            unk_108[slot].ov11_02124AD4();
+            unk_108[slot].SlideOutLeft();
         } else {
-            unk_108[slot].ov11_02124B78();
+            unk_108[slot].SlideOutRight();
         }
         unk_328[i] = -1;
         n++;
     }
 }
 
-void RangerNetMenu::ov11_02124150(int i)
+void RangerNetMenu::HideRow(int i)
 {
     int slot = unk_328[i];
     if (slot < 0) {
         return;
     }
-    unk_108[slot].ov11_021248EC(FALSE);
-    unk_108[slot].ov11_02124EBC(FALSE);
+    unk_108[slot].SetVisible(FALSE);
+    unk_108[slot].SetActive(FALSE);
     unk_328[i] = -1;
 }
 
-void RangerNetMenu::ov11_021241A0()
+void RangerNetMenu::HideAllRows()
 {
     for (int i = 0; i < 4; i++) {
-        ov11_02124150(i);
+        HideRow(i);
     }
 }
 
-void RangerNetMenu::ov11_021241C8(int slot, int t)
+void RangerNetMenu::BlinkItem(int slot, int t)
 {
     if (slot < 0) {
         return;
     }
-    unk_108[slot].ov11_0212494C(t << 12);
+    unk_108[slot].StartBlink(t << 12);
 }
 
-void RangerNetMenu::ov11_021241EC(int a, int b)
+void RangerNetMenu::MoveRow(int a, int b)
 {
-    int slot = ov11_021240C0(a);
+    int slot = GetRowItem(a);
     if (slot == unk_328[b]) {
         return;
     }
-    unk_108[slot].ov11_02124C64(slot, b);
-    unk_108[slot].ov11_021247A8(1);
+    unk_108[slot].MoveToRow(slot, b);
+    unk_108[slot].SetEnabled(1);
     unk_328[a] = -1;
     unk_328[b] = slot;
-    ov11_02124370(FALSE);
+    SetArrowsVisible(FALSE);
 }
 
-void RangerNetMenu::ov11_02124260(int slot, int idx)
+void RangerNetMenu::SetRowItem(int slot, int idx)
 {
     unk_108[slot].unk_58 = idx;
     unk_328[idx] = slot;
 }
 
-int RangerNetMenu::ov11_02124278()
+int RangerNetMenu::GetSelectedRow()
 {
     for (int i = 0; i < 4; i++) {
         int slot = unk_328[i];
@@ -2956,9 +2956,9 @@ int RangerNetMenu::ov11_02124278()
     return -1;
 }
 
-BOOL RangerNetMenu::ov11_021242B8(int slot)
+BOOL RangerNetMenu::IsItemMoving(int slot)
 {
-    ov11_02124318();
+    RemoveInactiveRows();
     if (slot < 0) {
         for (int i = 0; i < 4; i++) {
             if (unk_108[i].unk_34 != 0) {
@@ -2971,7 +2971,7 @@ BOOL RangerNetMenu::ov11_021242B8(int slot)
     return FALSE;
 }
 
-void RangerNetMenu::ov11_02124318()
+void RangerNetMenu::RemoveInactiveRows()
 {
     for (int i = 0; i < 4; i++) {
         int idx = unk_328[i];
@@ -2983,28 +2983,28 @@ void RangerNetMenu::ov11_02124318()
     }
 }
 
-void RangerNetMenu::ov11_02124370(BOOL visible)
+void RangerNetMenu::SetArrowsVisible(BOOL visible)
 {
     unk_0A0[0]->SetVisible(visible);
     unk_0A0[1]->SetVisible(visible);
 }
 
-fx32 ov11_0212439C(fx32 a, fx32 b)
+fx32 QuadraticVelocity(fx32 a, fx32 b)
 {
     return FX32_MUL(FX32_MUL(b, a), 2 * FX32_ONE);
 }
 
-fx32 ov11_021243C4(fx32 start, fx32 b, fx32 t, fx32 a)
+fx32 EvalQuadratic(fx32 start, fx32 b, fx32 t, fx32 a)
 {
     return start + (FX32_MUL(b, t) + FX32_MUL(a, FX32_MUL(t, t)));
 }
 
-fx32 ov11_021243F8(fx32 start, fx32 end, fx32 b, fx32 t)
+fx32 SolveQuadraticAccel(fx32 start, fx32 end, fx32 b, fx32 t)
 {
     return FX32_DIV(end - FX32_MUL(b, t) - start, FX32_MUL(t, t));
 }
 
-void RangerNetMenu::ov11_02124438(int mode)
+void RangerNetMenu::UpdateWaitIcon(int mode)
 {
     switch (mode) {
     case 0:
@@ -3028,31 +3028,31 @@ void RangerNetMenu::ov11_02124438(int mode)
     }
 }
 
-void RangerNetMenu::ov11_02124520()
+void RangerNetMenu::StopConnecting()
 {
     unk_72C->m_audioEngine->StopSe(0xD1);
-    ov11_0211F96C();
-    ov11_0211FBE4(3);
-    ov11_02124438(0);
-    ov11_0211FB08(0, -1);
-    ov11_0211F904();
+    HideAllButtons();
+    SetBackButton(3);
+    UpdateWaitIcon(0);
+    SetLinkIcon(0, -1);
+    ClearItems();
 }
 
-UnkClass_02124578::UnkClass_02124578()
+RangerNetMenuItem::RangerNetMenuItem()
 {
     unk_04 = 0;
     unk_4C = 0;
     unk_30 = 0;
     unk_34 = 0;
     unk_3C = 0;
-    ov11_02124EBC(FALSE);
+    SetActive(FALSE);
 }
 
-UnkClass_02124578::~UnkClass_02124578()
+RangerNetMenuItem::~RangerNetMenuItem()
 {
 }
 
-void UnkClass_02124578::ov11_021245A8(OamSpriteSet **res, int idx, int v)
+void RangerNetMenuItem::InitLabel(OamSpriteSet **res, int idx, int v)
 {
     unk_00 = res;
     unk_04 = unk_00[idx];
@@ -3061,7 +3061,7 @@ void UnkClass_02124578::ov11_021245A8(OamSpriteSet **res, int idx, int v)
     unk_24 = unk_04->unk_24;
 }
 
-void UnkClass_02124578::ov11_02124604(OamSpriteSet *res)
+void RangerNetMenuItem::InitFrame(OamSpriteSet *res)
 {
     unk_08 = res;
     unk_10 = res->AddSprite(0x15, 0, 0, 3);
@@ -3071,31 +3071,31 @@ void UnkClass_02124578::ov11_02124604(OamSpriteSet *res)
     unk_20 = res->unk_24;
 }
 
-void UnkClass_02124578::ov11_02124680(int state, int arg)
+void RangerNetMenuItem::SetState(int state, int arg)
 {
     unk_50 = state;
     switch (state) {
     case 1:
         unk_08->SetAnim(unk_1C, 0x15);
         unk_30 = 1;
-        ov11_021247A8(arg);
+        SetEnabled(arg);
         break;
     case 2:
         unk_08->SetAnim(unk_1C, 0x16);
         unk_30 = 0;
-        ov11_021247A8(arg);
-        ov11_02124730(0);
+        SetEnabled(arg);
+        SetIcon(0);
         break;
     case 0:
     default:
         unk_08->SetAnim(unk_1C, 0x14);
         unk_30 = 0;
-        ov11_021247A8(arg);
+        SetEnabled(arg);
         break;
     }
 }
 
-void UnkClass_02124578::ov11_02124730(int type)
+void RangerNetMenuItem::SetIcon(int type)
 {
     int anim;
     unk_4C = type;
@@ -3120,7 +3120,7 @@ void UnkClass_02124578::ov11_02124730(int type)
     unk_08->SetAnim(unk_20, anim);
 }
 
-void UnkClass_02124578::ov11_021247A8(int flag)
+void RangerNetMenuItem::SetEnabled(int flag)
 {
     unk_48 = flag;
     if (flag != 0) {
@@ -3141,13 +3141,13 @@ void UnkClass_02124578::ov11_021247A8(int flag)
     }
 }
 
-void UnkClass_02124578::ov11_02124820(int id)
+void RangerNetMenuItem::SetId(int id)
 {
     unk_54 = id;
     unk_00[id]->SetVramOffsets(unk_28, 1);
 }
 
-void UnkClass_02124578::ov11_02124844(int x, int y)
+void RangerNetMenuItem::SetPos(int x, int y)
 {
     unk_80 = x;
     unk_84 = y;
@@ -3156,7 +3156,7 @@ void UnkClass_02124578::ov11_02124844(int x, int y)
     unk_14->SetPos(x + 0x58, y);
 }
 
-void UnkClass_02124578::ov11_02124888()
+void RangerNetMenuItem::Update()
 {
     if (unk_38 == 0) {
         return;
@@ -3164,20 +3164,20 @@ void UnkClass_02124578::ov11_02124888()
     if (unk_04 != NULL) {
         unk_04->Update();
     }
-    ov11_02124CBC();
+    UpdateMove();
     if (unk_50 == 1) {
-        ov11_02124E38();
+        UpdateArrows();
     }
 }
 
-void UnkClass_02124578::ov11_021248CC()
+void RangerNetMenuItem::Draw()
 {
     if (unk_38 != 0 && unk_04 != NULL) {
         unk_04->WriteOam();
     }
 }
 
-void UnkClass_02124578::ov11_021248EC(BOOL visible)
+void RangerNetMenuItem::SetVisible(BOOL visible)
 {
     unk_2C = visible;
     unk_10->SetVisible(visible);
@@ -3189,7 +3189,7 @@ void UnkClass_02124578::ov11_021248EC(BOOL visible)
     }
 }
 
-void UnkClass_02124578::ov11_0212494C(fx32 v)
+void RangerNetMenuItem::StartBlink(fx32 v)
 {
     unk_70 = 0;
     unk_74 = v;
@@ -3197,9 +3197,9 @@ void UnkClass_02124578::ov11_0212494C(fx32 v)
     unk_34 = 1;
 }
 
-void UnkClass_02124578::ov11_02124968(fx32 a, fx32 b, fx32 c, fx32 d, int e, int f, int g)
+void RangerNetMenuItem::StartMove(fx32 a, fx32 b, fx32 c, fx32 d, int e, int f, int g)
 {
-    unk_64 = ov11_021243F8(a, b, c, d);
+    unk_64 = SolveQuadraticAccel(a, b, c, d);
     unk_60 = c;
     unk_68 = a;
     unk_6C = b;
@@ -3210,13 +3210,13 @@ void UnkClass_02124578::ov11_02124968(fx32 a, fx32 b, fx32 c, fx32 d, int e, int
     unk_7C = g;
     unk_40 = f;
     unk_44 = 0;
-    ov11_02124EBC(TRUE);
+    SetActive(TRUE);
 }
 
-void UnkClass_02124578::ov11_021249E0()
+void RangerNetMenuItem::StartArrowAnim()
 {
-    unk_64 = ov11_021243F8(0, 0x4000, 0, 0x14000);
-    unk_60 = ov11_0212439C(0x14000, unk_64);
+    unk_64 = SolveQuadraticAccel(0, 0x4000, 0, 0x14000);
+    unk_60 = QuadraticVelocity(0x14000, unk_64);
     unk_60 = FX32_MUL(unk_60, (fx64)-FX32_ONE);
     unk_68 = 0;
     unk_6C = 0x4000;
@@ -3226,57 +3226,57 @@ void UnkClass_02124578::ov11_021249E0()
     unk_18[1]->SetVisible(TRUE);
 }
 
-void UnkClass_02124578::ov11_02124A6C(int arg)
+void RangerNetMenuItem::SlideInLeft(int arg)
 {
     unk_3C = 0;
-    ov11_02124844(-0x80, ov11_02124EB0(arg));
-    ov11_02124968(0x80000, -0x80000, 0, 0xF000, 1, 1, 0);
+    SetPos(-0x80, GetItemY(arg));
+    StartMove(0x80000, -0x80000, 0, 0xF000, 1, 1, 0);
     unk_58 = arg;
 }
 
-void UnkClass_02124578::ov11_02124AD4()
+void RangerNetMenuItem::SlideOutLeft()
 {
     unk_3C = 1;
-    ov11_02124968(0x80000, -0x80000, 0, 0xA000, 1, 0, 0);
+    StartMove(0x80000, -0x80000, 0, 0xA000, 1, 0, 0);
 }
 
-void UnkClass_02124578::ov11_02124B10(int arg)
+void RangerNetMenuItem::SlideInRight(int arg)
 {
     unk_3C = 0;
-    ov11_02124844(0x180, ov11_02124EB0(arg));
-    ov11_02124968(0x80000, 0x180000, 0, 0xF000, 1, 1, 0);
+    SetPos(0x180, GetItemY(arg));
+    StartMove(0x80000, 0x180000, 0, 0xF000, 1, 1, 0);
     unk_58 = arg;
 }
 
-void UnkClass_02124578::ov11_02124B78()
+void RangerNetMenuItem::SlideOutRight()
 {
     unk_3C = 1;
-    ov11_02124968(0x80000, 0x180000, 0, 0xA000, 1, 0, 0);
+    StartMove(0x80000, 0x180000, 0, 0xA000, 1, 0, 0);
 }
 
-void UnkClass_02124578::ov11_02124BB0(int arg, int g)
+void RangerNetMenuItem::SlideInBottom(int arg, int g)
 {
     unk_3C = 0;
-    ov11_021248EC(FALSE);
-    ov11_02124844(0x80, ov11_02124EB0(arg) + 0xC0);
-    ov11_02124968(ov11_02124EB0(arg) << 12, 0xF0000, 0, 0xF000, 0, 1, g);
+    SetVisible(FALSE);
+    SetPos(0x80, GetItemY(arg) + 0xC0);
+    StartMove(GetItemY(arg) << 12, 0xF0000, 0, 0xF000, 0, 1, g);
     unk_58 = arg;
 }
 
-void UnkClass_02124578::ov11_02124C28()
+void RangerNetMenuItem::SlideOutTop()
 {
     unk_3C = 1;
-    ov11_02124968(unk_84 << 12, -0x30000, 0, 0xA000, 0, 0, 0);
+    StartMove(unk_84 << 12, -0x30000, 0, 0xA000, 0, 0, 0);
 }
 
-void UnkClass_02124578::ov11_02124C64(int slot, int pos)
+void RangerNetMenuItem::MoveToRow(int slot, int pos)
 {
-    int y = ov11_02124EB0(pos);
-    ov11_02124968(y << 12, unk_84 << 12, 0, 0x14000, 0, 1, 0);
+    int y = GetItemY(pos);
+    StartMove(y << 12, unk_84 << 12, 0, 0x14000, 0, 1, 0);
     unk_58 = pos;
 }
 
-void UnkClass_02124578::ov11_02124CBC()
+void RangerNetMenuItem::UpdateMove()
 {
     if (unk_34 == 0) {
         return;
@@ -3288,26 +3288,26 @@ void UnkClass_02124578::ov11_02124CBC()
     if (unk_44 != 0) {
         if (unk_70 < unk_74) {
             if ((unk_70 >> 12) % 8 < 4) {
-                ov11_02124680(1, 1);
+                SetState(1, 1);
             } else {
-                ov11_02124680(0, 1);
+                SetState(0, 1);
             }
             unk_70 += 0x1000;
         } else {
-            ov11_02124680(1, 1);
-            ov11_021248EC(TRUE);
+            SetState(1, 1);
+            SetVisible(TRUE);
             unk_34 = 0;
         }
         return;
     }
-    ov11_021248EC(TRUE);
+    SetVisible(TRUE);
     fx32 pos;
     if (unk_70 < unk_74) {
         fx32 t = unk_70;
         if (unk_40 != 0) {
             t = unk_74 - unk_70;
         }
-        pos = ov11_021243C4(unk_68, unk_60, t, unk_64);
+        pos = EvalQuadratic(unk_68, unk_60, t, unk_64);
         unk_70 += 0x1000;
     } else {
         pos = unk_6C;
@@ -3317,38 +3317,38 @@ void UnkClass_02124578::ov11_02124CBC()
         unk_34 = 0;
         unk_70 = 0;
         if (unk_3C != 0) {
-            ov11_02124EBC(FALSE);
+            SetActive(FALSE);
         }
     }
     if (unk_78 != 0) {
-        ov11_02124844(pos >> 12, unk_84);
+        SetPos(pos >> 12, unk_84);
         return;
     }
     if (pos < -0x20000 || pos > 0xA1000) {
-        ov11_021248EC(FALSE);
+        SetVisible(FALSE);
         return;
     }
-    ov11_02124844(unk_80, pos >> 12);
+    SetPos(unk_80, pos >> 12);
 }
 
-void UnkClass_02124578::ov11_02124E38()
+void RangerNetMenuItem::UpdateArrows()
 {
     if (unk_18[0]->unk_14 == 0) {
         return;
     }
-    fx32 pos = ov11_021243C4(unk_68, unk_60, unk_70, unk_64);
+    fx32 pos = EvalQuadratic(unk_68, unk_60, unk_70, unk_64);
     unk_70 = unk_70 < unk_74 ? unk_70 + 0x1000 : 0;
     int x = pos >> 12;
     unk_18[0]->SetPos(x + 0x14, unk_84);
     unk_18[1]->SetPos(0xEC - x, unk_84);
 }
 
-int ov11_02124EB0(int pos)
+int GetItemY(int pos)
 {
     return pos * 32 + 0x34;
 }
 
-void UnkClass_02124578::ov11_02124EBC(BOOL active)
+void RangerNetMenuItem::SetActive(BOOL active)
 {
     unk_38 = active;
     if (!active) {
@@ -3356,7 +3356,7 @@ void UnkClass_02124578::ov11_02124EBC(BOOL active)
     }
 }
 
-BOOL UnkClass_02124578::ov11_02124ED0()
+BOOL RangerNetMenuItem::IsTouched()
 {
     if (unk_38 == 0 || unk_2C == 0 || unk_50 == 2) {
         return FALSE;

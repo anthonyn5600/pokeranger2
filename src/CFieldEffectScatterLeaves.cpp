@@ -102,7 +102,7 @@ CFieldEffect *CFieldEffectScatterLeavesFactory::Create(int arg)
     CFieldEffectScatterLeaves *effect = new CFieldEffectScatterLeaves(arg);
     CFieldEffectManage *mgr;
     if (effect != NULL && (mgr = MAIN_BSS_0210CA60) != NULL) {
-        effect->ov0_021423E8(FieldEffectSpriteRes(mgr->m_resident.GetNcbr(0), mgr->m_resident.GetPalette(), mgr->m_resident.GetNcer(0)));
+        effect->SetParticleRes(FieldEffectSpriteRes(mgr->m_resident.GetNcbr(0), mgr->m_resident.GetPalette(), mgr->m_resident.GetNcer(0)));
     }
     return effect;
 }

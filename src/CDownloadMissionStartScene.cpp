@@ -3,29 +3,29 @@
 #include "DiskHPTable.hpp"
 #include "DisplayUtil.hpp"
 #include "FieldData.hpp"
+#include "FieldDataRecords.hpp"
 #include "GlobalValues.hpp"
 #include "MissionQuestData.hpp"
 #include "SaveData.hpp"
 #include "ScriptManager.hpp"
-#include "UnkClass_02041D80.hpp"
-#include "UnkStruct_02044464.hpp"
+#include "ScriptVM.hpp"
 #include "scene/DownloadMission.hpp"
 
-struct UnkStruct_0210C1C0 {
+struct FieldEffectSaveBuffer {
     u8 unk_00[0x60];
     u8 unk_60;
     void *unk_64;
 };
 
-struct UnkStruct_0210C228 {
+struct FieldEnemySaveBuffer {
     u8 unk_000[0x800];
     u8 unk_800;
     void *unk_804;
 };
 
 extern FieldData *MAIN_BSS_0210CA6C;
-extern UnkStruct_0210C1C0 MAIN_BSS_0210C1C0;
-extern UnkStruct_0210C228 MAIN_BSS_0210C228;
+extern FieldEffectSaveBuffer MAIN_BSS_0210C1C0;
+extern FieldEnemySaveBuffer MAIN_BSS_0210C228;
 
 u8 g_downloadMissionKey[16] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F };
 
@@ -192,7 +192,7 @@ u32 CDownloadMissionStartScene::func0()
         GlobalValues_ClearChapterValues(&MAIN_BSS_0210C0B0);
         GlobalValues_ApplyProgress(&MAIN_BSS_0210C0B0, 0);
         GlobalValues_ApplyProgress(&MAIN_BSS_0210C0B0, progress);
-        sub_020116C0(&MAIN_BSS_020B2638, 0);
+        MissionQuestData_ApplyProgress(&MAIN_BSS_020B2638, 0);
         GlobalValues_Set(&MAIN_BSS_0210C0B0, 1, v1);
         GlobalValues_Set(&MAIN_BSS_0210C0B0, 2, v2);
         GlobalValues_Set(&MAIN_BSS_0210C0B0, 0x1B, v1B);

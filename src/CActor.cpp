@@ -603,7 +603,7 @@ u16 CActor::GetAnimScriptPos()
     return anim->bank->GetScriptPos(unk_C8[unk_C0]);
 }
 
-u8 CActor::sub_02012E1C()
+u8 CActor::GetAnimLoopCount()
 {
     if (m_data == NULL) {
         return 0;
@@ -613,7 +613,7 @@ u8 CActor::sub_02012E1C()
     if (anim == NULL) {
         return 0;
     }
-    return anim->bank->sub_02008D38(unk_C8[unk_C0]);
+    return anim->bank->GetLoopCount(unk_C8[unk_C0]);
 }
 
 void CActor::RestartAnim()

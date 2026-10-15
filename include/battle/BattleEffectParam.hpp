@@ -1,5 +1,5 @@
-#ifndef POKERANGER2_BATTLE_UNKSTRUCT_0212E008_HPP
-#define POKERANGER2_BATTLE_UNKSTRUCT_0212E008_HPP
+#ifndef POKERANGER2_BATTLE_BATTLEEFFECTPARAM_HPP
+#define POKERANGER2_BATTLE_BATTLEEFFECTPARAM_HPP
 
 #include <nitro.h>
 
@@ -7,7 +7,7 @@
 #include "common.hpp"
 
 // Attack effect parameter record (BattleEffectTable table entry)
-struct UnkStruct_0212E008 {
+struct BattleEffectParam {
     u16 unk_00;
     u16 unk_02;
     int unk_04;
@@ -40,6 +40,6 @@ struct UnkStruct_0212E008 {
     }
 };
 
-STATIC_SIZE_ASSERT(UnkStruct_0212E008, 0x1C);
+STATIC_SIZE_ASSERT(BattleEffectParam, 0x1C);
 
-#endif // POKERANGER2_BATTLE_UNKSTRUCT_0212E008_HPP
+#endif // POKERANGER2_BATTLE_BATTLEEFFECTPARAM_HPP

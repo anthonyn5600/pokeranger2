@@ -193,7 +193,7 @@ void MissionQuestData_LoadChapterMessages(MissionQuestData *obj, int arg1)
     obj->m_textbox->LoadChapterMessages(arg1);
 }
 
-void sub_020116C0(MissionQuestData *obj, int arg1)
+void MissionQuestData_ApplyProgress(MissionQuestData *obj, int arg1)
 {
     int i;
     if (arg1 > 0x45) {

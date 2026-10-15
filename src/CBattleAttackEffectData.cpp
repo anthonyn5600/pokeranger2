@@ -1,10 +1,10 @@
 #include "battle/CBattleAttackEffectData.hpp"
 
-#include "UnkStruct_02044464.hpp"
+#include "ScriptVM.hpp"
 #include "file/CBinaryFile.hpp"
 #include "file/CNANRFile.hpp"
 
-CBattleAttackEffectData::CBattleAttackEffectData(u16 id, UnkStruct_0212E008 *entry, u32 heapId)
+CBattleAttackEffectData::CBattleAttackEffectData(u16 id, BattleEffectParam *entry, u32 heapId)
     : CActorData(3, entry->unk_02, 0, 0x20, FALSE, NULL)
 {
     AllocAndLoadImages(m_texKeys);

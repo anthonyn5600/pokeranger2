@@ -13,12 +13,12 @@ public:
 
 // Buffers saved with the main save blocks (src/SaveManager.cpp); a builder fills them before saving.
 // Each global lives in its own TU (src/sub_0202A4A0.cpp, src/sub_0202A4D8.cpp), whose static init runs the ctor.
-struct UnkStruct_0210C1C0 {
+struct FieldEffectSaveBuffer {
     u8 unk_00[0x60];
     u8 unk_60;
     IDataBuilder *unk_64;
 
-    UnkStruct_0210C1C0()
+    FieldEffectSaveBuffer()
     {
         unk_64 = NULL;
         MI_CpuFill8(unk_00, 0, sizeof(unk_00));
@@ -33,14 +33,14 @@ struct UnkStruct_0210C1C0 {
     }
 };
 
-STATIC_SIZE_ASSERT(UnkStruct_0210C1C0, 0x68);
+STATIC_SIZE_ASSERT(FieldEffectSaveBuffer, 0x68);
 
-struct UnkStruct_0210C228 {
+struct FieldEnemySaveBuffer {
     u8 unk_000[0x800];
     u8 unk_800;
     IFieldEnemyDataBuilder *unk_804;
 
-    UnkStruct_0210C228()
+    FieldEnemySaveBuffer()
     {
         unk_804 = NULL;
         MI_CpuFill8(unk_000, 0, sizeof(unk_000));
@@ -55,14 +55,14 @@ struct UnkStruct_0210C228 {
     }
 };
 
-STATIC_SIZE_ASSERT(UnkStruct_0210C228, 0x808);
+STATIC_SIZE_ASSERT(FieldEnemySaveBuffer, 0x808);
 
-extern UnkStruct_0210C1C0 MAIN_BSS_0210C1C0;
-extern UnkStruct_0210C228 MAIN_BSS_0210C228;
+extern FieldEffectSaveBuffer MAIN_BSS_0210C1C0;
+extern FieldEnemySaveBuffer MAIN_BSS_0210C228;
 
 extern "C" {
-void sub_0202A4A0(UnkStruct_0210C1C0 *obj);
-void sub_0202A4D8(UnkStruct_0210C228 *obj);
+void FieldEffectSaveBuffer_Build(FieldEffectSaveBuffer *obj);
+void FieldEnemySaveBuffer_Build(FieldEnemySaveBuffer *obj);
 }
 
 #endif // POKERANGER2_SAVEDATABUFFER_HPP

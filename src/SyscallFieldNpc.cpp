@@ -1,5 +1,5 @@
 #include "FieldSyscallSets.hpp"
-#include "UnkStruct_02044464.hpp"
+#include "ScriptVM.hpp"
 #include "field/CFieldNpc.hpp"
 #include "field/CFieldNpcManage.hpp"
 
@@ -7,23 +7,23 @@ extern "C" {
 void LogError(const char *fmt, ...);
 void LogInfo(const char *fmt, ...);
 int ov0_0214B710(int *args);
-int ov0_0214B718(int *args);
-int ov0_0214B764(int *args);
-int ov0_0214B774(int *args);
+int Sys_NpcCommand(int *args);
+int Sys_GetNpcManage(int *args);
+int Sys_NpcManageCommand(int *args);
 }
 
 static ScriptSyscall sFieldNpcSyscalls[] = {
     (ScriptSyscall)ov0_0214B710,
-    (ScriptSyscall)ov0_0214B718,
-    (ScriptSyscall)ov0_0214B764,
-    (ScriptSyscall)ov0_0214B774,
+    (ScriptSyscall)Sys_NpcCommand,
+    (ScriptSyscall)Sys_GetNpcManage,
+    (ScriptSyscall)Sys_NpcManageCommand,
 };
 
 FieldNpcSyscalls::FieldNpcSyscalls() {}
 
 FieldNpcSyscalls::~FieldNpcSyscalls() {}
 
-void FieldNpcSyscalls::ov0_0214B6F8() {
+void FieldNpcSyscalls::Register() {
   Script_RegisterSyscalls(0x10, sFieldNpcSyscalls);
 }
 
@@ -31,7 +31,7 @@ extern "C" {
 
 int ov0_0214B710(int *args) { return 0; }
 
-int ov0_0214B718(int *args) {
+int Sys_NpcCommand(int *args) {
   CFieldNpc *npc = (CFieldNpc *)args[1];
   int cmd = args[0];
   if (npc == NULL) {
@@ -46,9 +46,9 @@ int ov0_0214B718(int *args) {
   return 0;
 }
 
-int ov0_0214B764(int *args) { return (int)MAIN_BSS_0210CA50; }
+int Sys_GetNpcManage(int *args) { return (int)MAIN_BSS_0210CA50; }
 
-int ov0_0214B774(int *args) {
+int Sys_NpcManageCommand(int *args) {
   int cmd = args[0];
   CFieldNpcManage *manage = (CFieldNpcManage *)args[1];
   if (manage == NULL) {
@@ -60,7 +60,7 @@ int ov0_0214B774(int *args) {
     int base = manage->CountActors();
     fx32 x = args[5];
     fx32 y = args[6];
-    int slot = manage->ov0_0213C66C(base, args[3], args[2], args[4], 0);
+    int slot = manage->Create(base, args[3], args[2], args[4], 0);
     CFieldNpc *npc = (CFieldNpc *)manage->Get(slot);
     if (npc != NULL) {
       npc->SetPosXY(x, y);

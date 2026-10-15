@@ -80,7 +80,7 @@ int CFieldEffectBlackStoneAura::SetParam(int param, int value)
         break;
     case 17:
         if (MAIN_BSS_0210CA40 != NULL) {
-            m_actor = MAIN_BSS_0210CA40->ov0_02123060(value);
+            m_actor = MAIN_BSS_0210CA40->FindActor(value);
         }
         break;
     default:
@@ -98,16 +98,16 @@ void CFieldEffectBlackStoneAura::SetTexture(UnkClass_02151244 *tex)
     }
 }
 
-BOOL CFieldEffectBlackStoneAura::ov0_021421F0(int inTime, int holdTime, int outTime)
+BOOL CFieldEffectBlackStoneAura::Start(int inTime, int holdTime, int outTime)
 {
     m_spawnTimer = 1;
     m_colorIdx = 0;
-    return CFieldEffect::ov0_021421F0(inTime, holdTime, outTime);
+    return CFieldEffect::Start(inTime, holdTime, outTime);
 }
 
-int CFieldEffectBlackStoneAura::ov0_02142264(int step)
+int CFieldEffectBlackStoneAura::Update(int step)
 {
-    int state = CFieldEffect::ov0_02142264(step);
+    int state = CFieldEffect::Update(step);
     fx32 fade;
     switch (state) {
     case 1:
@@ -155,7 +155,7 @@ int CFieldEffectBlackStoneAura::ov0_02142264(int step)
     return state;
 }
 
-int CFieldEffectBlackStoneAura::ov0_02142344(Camera2D *camera)
+int CFieldEffectBlackStoneAura::Render(Camera2D *camera)
 {
     int idx = m_next;
     int n = 0;

@@ -41,9 +41,9 @@ void CFieldEffectExplosion::Init(CEffectActorData *data0, CEffectActorData *data
     InitSprites();
 }
 
-int CFieldEffectExplosion::ov0_02142264(int step)
+int CFieldEffectExplosion::Update(int step)
 {
-    int state = CFieldEffectActor::ov0_02142264(step);
+    int state = CFieldEffectActor::Update(step);
     if (state != 0 && state != 4) {
         if (m_nextPhase >= 0) {
             m_phase = m_nextPhase;
@@ -59,12 +59,12 @@ int CFieldEffectExplosion::ov0_02142264(int step)
                     m_nextPhase = 1;
                     m_frame = 0;
                 } else if (m_phase == 1) {
-                    ov0_02142240(0);
+                    Stop(0);
                 }
             } else if (m_phase == 1 && m_frame < 0x2E) {
                 CFieldEffectManage *mgr = MAIN_BSS_0210CA60;
                 if (mgr->unk_87C == 0 && IsTouchingPlayer()) {
-                    mgr->unk_7B0.ov0_02163A08(m_kind, 0, m_pos.x >> 12, m_pos.y >> 12, m_param);
+                    mgr->unk_7B0.CallEventHandle(m_kind, 0, m_pos.x >> 12, m_pos.y >> 12, m_param);
                 }
                 m_frame += step;
             }
@@ -73,7 +73,7 @@ int CFieldEffectExplosion::ov0_02142264(int step)
     return state;
 }
 
-int CFieldEffectExplosion::ov0_02142344(Camera2D *camera)
+int CFieldEffectExplosion::Render(Camera2D *camera)
 {
     if (m_state != 0 && m_state != 4) {
         CellAnimController *cac = m_data[m_phase]->GetCac(0);
@@ -108,14 +108,14 @@ int CFieldEffectExplosion::SetParam(int param, int value)
     return ret;
 }
 
-BOOL CFieldEffectExplosion::ov0_021421F0(int inTime, int holdTime, int outTime)
+BOOL CFieldEffectExplosion::Start(int inTime, int holdTime, int outTime)
 {
     m_phase = 0;
     m_nextPhase = -1;
     unk_18 = m_data[0];
     CellAnimController *cac = m_data[m_phase]->GetCac(0);
     cac->Restart(m_cacIds[m_phase]);
-    return CFieldEffect::ov0_021421F0(0, -1, 0);
+    return CFieldEffect::Start(0, -1, 0);
 }
 
 void CFieldEffectExplosion::InitSprites()
@@ -131,7 +131,7 @@ void CFieldEffectExplosion::InitSprites()
 
 BOOL CFieldEffectExplosion::IsTouchingPlayer()
 {
-    CFieldPlayer *player = (CFieldPlayer *)MAIN_BSS_0210CA40->ov0_02123060(0);
+    CFieldPlayer *player = (CFieldPlayer *)MAIN_BSS_0210CA40->FindActor(0);
     fx32 range = player->unk_E0 + 0x20800;
     Point2D d = player->GetPos() - m_pos;
     if (ApproxLength(d.x, d.y) < range) {
@@ -140,7 +140,7 @@ BOOL CFieldEffectExplosion::IsTouchingPlayer()
     return FALSE;
 }
 
-int CFieldEffectExplosion::ov0_02142390(void *buf, void *end)
+int CFieldEffectExplosion::SaveState(void *buf, void *end)
 {
     ExplosionSave save;
     CellAnimController *cac = m_data[m_phase]->GetCac(0);
@@ -162,7 +162,7 @@ int CFieldEffectExplosion::ov0_02142390(void *buf, void *end)
     return 0;
 }
 
-BOOL CFieldEffectExplosion::ov0_02142388(const void *data)
+BOOL CFieldEffectExplosion::RestoreState(const void *data)
 {
     const ExplosionSave *save = (const ExplosionSave *)data;
     if (save->flags & 1) {
@@ -180,7 +180,7 @@ BOOL CFieldEffectExplosion::ov0_02142388(const void *data)
             cac->UpdateAll();
         }
         LogInfo("cell %d", cac->GetCell(m_cacIds[m_phase]));
-        CFieldEffect::ov0_021421F0(0, -1, 0);
+        CFieldEffect::Start(0, -1, 0);
         return TRUE;
     }
     return FALSE;
@@ -191,7 +191,7 @@ CFieldEffectExplosionFactory::CFieldEffectExplosionFactory(CFieldEffectManage *m
     , m_pool(NULL)
 {
     if (mgr != NULL) {
-        m_kind = mgr->unk_7B0.ov0_02163904(1);
+        m_kind = mgr->unk_7B0.LoadScript(1);
     }
 }
 
@@ -217,8 +217,8 @@ CFieldEffect *CFieldEffectExplosionFactory::Create(int arg)
 
 BOOL CFieldEffectExplosionFactory::Load()
 {
-    if (m_data[0].ov0_0214FFF0(0x1C, 1, 1)) {
-        if (m_data[1].ov0_0214FFF0(0x1D, 1, 1)) {
+    if (m_data[0].Load(0x1C, 1, 1)) {
+        if (m_data[1].Load(0x1D, 1, 1)) {
             SAFE_DELETE_ARRAY(m_pool);
             m_pool = new CFieldEffectExplosion[3];
             for (int i = 0; i < 3; i++) {

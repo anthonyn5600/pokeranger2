@@ -5,7 +5,7 @@
 #include <string.h>
 
 #include "Log.hpp"
-#include "UnkStruct_02044464.hpp"
+#include "ScriptVM.hpp"
 
 extern "C" {
 extern MATHRandContext16 MAIN_BSS_0210CEC8;

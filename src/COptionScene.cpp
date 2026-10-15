@@ -183,15 +183,15 @@ void COptionScene::func6()
         m_buttons[i]->SetTouchRect(0x2A, 0x10, 0, 0);
     }
 
-    ov6_0211D460();
-    ov6_0211D638();
-    ov6_0211D6B4();
+    LoadBG();
+    SetupBG();
+    DrawTexts();
     m_game->m_textboxData->LoadSystemMessages(2);
     m_game->m_textboxData->SetTextSpeed(m_textSpeed);
     m_game->m_textboxData->ShowSystemMessage(4, 1, 0, 0);
 }
 
-void COptionScene::ov6_0211D460()
+void COptionScene::LoadBG()
 {
     CArchiveGuard *archive = new CArchiveGuard("BGS", "data/menu/mo000_bg_LZ.bin", 1, 1, 0, NULL, 0);
     CBGNCGRFile *ncgr = new CBGNCGRFile("BGS:mo000.NCGR", 1, 0, 0);
@@ -207,7 +207,7 @@ void COptionScene::ov6_0211D460()
     delete archive;
 }
 
-void COptionScene::ov6_0211D638()
+void COptionScene::SetupBG()
 {
     GX_SetVisiblePlane(GX_PLANEMASK_BG0 | GX_PLANEMASK_BG2 | GX_PLANEMASK_BG3 | GX_PLANEMASK_OBJ);
     G2_SetBG1Priority(0);
@@ -217,7 +217,7 @@ void COptionScene::ov6_0211D638()
     G2_SetBlendAlpha(GX_BLEND_PLANEMASK_BG2, GX_BLEND_PLANEMASK_BG2 | GX_BLEND_PLANEMASK_BG3 | GX_BLEND_PLANEMASK_OBJ, 8, 0x17);
 }
 
-void COptionScene::ov6_0211D6B4()
+void COptionScene::DrawTexts()
 {
     int params[3][7] = {
         { 12, 2, 10, 1, 4, 3, 1 },

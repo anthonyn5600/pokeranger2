@@ -12,15 +12,15 @@ static const u16 sDigitDivisors[] = { 10000, 1000, 100, 10, 1 };
 
 BattleHPNumberGfx::BattleHPNumberGfx()
 {
-    ov1_02128628();
+    Load();
 }
 
 BattleHPNumberGfx::~BattleHPNumberGfx()
 {
-    ov1_021287A8();
+    Release();
 }
 
-void BattleHPNumberGfx::ov1_02128628()
+void BattleHPNumberGfx::Load()
 {
     CArchiveGuard *guard = new CArchiveGuard("BHP", "data/battle/system/battle_number01_LZ.bin", 1, 1, 0, NULL, 0);
 
@@ -41,7 +41,7 @@ void BattleHPNumberGfx::ov1_02128628()
     SAFE_DELETE(guard);
 }
 
-void BattleHPNumberGfx::ov1_021287A8()
+void BattleHPNumberGfx::Release()
 {
     SAFE_DELETE(m_image);
     SAFE_DELETE(m_palette);
@@ -66,7 +66,7 @@ BattleHPNumber::~BattleHPNumber()
     SAFE_DELETE(m_sprite);
 }
 
-void BattleHPNumber::ov1_0212891C(BattleHPNumberGfx *data)
+void BattleHPNumber::SetData(BattleHPNumberGfx *data)
 {
     m_data = data;
     m_sprite->SetImage((UnkClass_CPrimitive_ImageProxy *)data->m_image, NULL);
@@ -76,7 +76,7 @@ void BattleHPNumber::ov1_0212891C(BattleHPNumberGfx *data)
     m_animId = data->m_anim->Create(1, 0);
 }
 
-void BattleHPNumber::ov1_02128970(Camera2D *camera)
+void BattleHPNumber::Render(Camera2D *camera)
 {
     BOOL started;
     u16 value;

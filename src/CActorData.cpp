@@ -713,7 +713,7 @@ void CActorData::LoadArchived(int type, int id, int form, u16 mask, const char *
 
     if (mask & 1) {
         OS_SPrintf(file, "%s:%s", arc, name);
-        sub_02014CEC(&m_anims[index], file, heapId, fromArchive);
+        LoadAnimFromArchive(&m_anims[index], file, heapId, fromArchive);
         m_anims[index].id = 0;
         index++;
     }
@@ -721,13 +721,13 @@ void CActorData::LoadArchived(int type, int id, int form, u16 mask, const char *
     if (mask & 2) {
         OS_SPrintf(file, "%s:%s_s", arc, name);
         if (unk_06) {
-            if (!sub_02014EA4(&m_anims[index], base, file, image, heapId, fromArchive)) {
-                sub_02014CEC(&m_anims[index], file, heapId, fromArchive);
+            if (!LoadAnimWithImageFromArchive(&m_anims[index], base, file, image, heapId, fromArchive)) {
+                LoadAnimFromArchive(&m_anims[index], file, heapId, fromArchive);
             } else {
                 image = m_anims[index].image;
             }
         } else {
-            sub_02014CEC(&m_anims[index], file, heapId, fromArchive);
+            LoadAnimFromArchive(&m_anims[index], file, heapId, fromArchive);
         }
         m_anims[index].id = 1;
         index++;
@@ -736,13 +736,13 @@ void CActorData::LoadArchived(int type, int id, int form, u16 mask, const char *
     if (mask & 4) {
         OS_SPrintf(file, "%s:%s_w", arc, name);
         if (unk_06) {
-            if (!sub_02014EA4(&m_anims[index], base, file, image, heapId, fromArchive)) {
-                sub_02014CEC(&m_anims[index], file, heapId, fromArchive);
+            if (!LoadAnimWithImageFromArchive(&m_anims[index], base, file, image, heapId, fromArchive)) {
+                LoadAnimFromArchive(&m_anims[index], file, heapId, fromArchive);
             } else {
                 image = m_anims[index].image;
             }
         } else {
-            sub_02014CEC(&m_anims[index], file, heapId, fromArchive);
+            LoadAnimFromArchive(&m_anims[index], file, heapId, fromArchive);
         }
         m_anims[index].id = 2;
         index++;
@@ -751,11 +751,11 @@ void CActorData::LoadArchived(int type, int id, int form, u16 mask, const char *
     if (mask & 8) {
         OS_SPrintf(file, "%s:%s_t", arc, name);
         if (unk_06) {
-            if (!sub_02014EA4(&m_anims[index], base, file, image, heapId, fromArchive)) {
-                sub_02014CEC(&m_anims[index], file, heapId, fromArchive);
+            if (!LoadAnimWithImageFromArchive(&m_anims[index], base, file, image, heapId, fromArchive)) {
+                LoadAnimFromArchive(&m_anims[index], file, heapId, fromArchive);
             }
         } else {
-            sub_02014CEC(&m_anims[index], file, heapId, fromArchive);
+            LoadAnimFromArchive(&m_anims[index], file, heapId, fromArchive);
         }
         m_anims[index].id = 3;
         index++;
@@ -768,7 +768,7 @@ void CActorData::LoadArchived(int type, int id, int form, u16 mask, const char *
                     break;
                 }
                 OS_SPrintf(file, "%s:%s_p%02d", arc, name, i + 1);
-                if (!sub_02014CEC(&m_anims[index], file, heapId, fromArchive)) {
+                if (!LoadAnimFromArchive(&m_anims[index], file, heapId, fromArchive)) {
                     break;
                 }
                 m_anims[index].id = i + 4;
@@ -776,7 +776,7 @@ void CActorData::LoadArchived(int type, int id, int form, u16 mask, const char *
             }
         } else {
             OS_SPrintf(file, "%s:%s_p", arc, name);
-            sub_02014CEC(&m_anims[index], file, heapId, fromArchive);
+            LoadAnimFromArchive(&m_anims[index], file, heapId, fromArchive);
             m_anims[index].id = 4;
             index++;
         }
@@ -785,7 +785,7 @@ void CActorData::LoadArchived(int type, int id, int form, u16 mask, const char *
         for (int bit = 0x40; bit <= 0x100; bit <<= 1) {
             if (mask & bit) {
                 OS_SPrintf(file, "%s:%s_p%02d", arc, name, i + 1);
-                sub_02014CEC(&m_anims[index], file, heapId, fromArchive);
+                LoadAnimFromArchive(&m_anims[index], file, heapId, fromArchive);
                 m_anims[index].id = i + 4;
                 index++;
             }
@@ -799,7 +799,7 @@ void CActorData::LoadArchived(int type, int id, int form, u16 mask, const char *
                 break;
             }
             OS_SPrintf(file, "%s:%s_a%02d", arc, name, i + 1);
-            if (!sub_02014CEC(&m_anims[index], file, heapId, fromArchive)) {
+            if (!LoadAnimFromArchive(&m_anims[index], file, heapId, fromArchive)) {
                 break;
             }
             m_anims[index].id = i + 7;
@@ -810,7 +810,7 @@ void CActorData::LoadArchived(int type, int id, int form, u16 mask, const char *
         for (int bit = 0x200; bit <= 0x1000; bit <<= 1) {
             if (mask & bit) {
                 OS_SPrintf(file, "%s:%s_a%02d", arc, name, i + 1);
-                sub_02014CEC(&m_anims[index], file, heapId, fromArchive);
+                LoadAnimFromArchive(&m_anims[index], file, heapId, fromArchive);
                 m_anims[index].id = i + 7;
                 index++;
             }
@@ -819,7 +819,7 @@ void CActorData::LoadArchived(int type, int id, int form, u16 mask, const char *
     }
 }
 
-BOOL CActorData::sub_02014CEC(CActorAnim *anim, const char *base, u32 heapId, BOOL arg3)
+BOOL CActorData::LoadAnimFromArchive(CActorAnim *anim, const char *base, u32 heapId, BOOL arg3)
 {
     char imagePath[0x60];
     char cellPath[0x60];
@@ -853,7 +853,7 @@ BOOL CActorData::sub_02014CEC(CActorAnim *anim, const char *base, u32 heapId, BO
     return TRUE;
 }
 
-BOOL CActorData::sub_02014EA4(CActorAnim *anim, const char *imageBase, const char *base, VramImage *image, u32 heapId, BOOL arg5)
+BOOL CActorData::LoadAnimWithImageFromArchive(CActorAnim *anim, const char *imageBase, const char *base, VramImage *image, u32 heapId, BOOL arg5)
 {
     char imagePath[0x60];
     char cellPath[0x60];

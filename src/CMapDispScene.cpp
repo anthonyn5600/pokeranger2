@@ -3,7 +3,7 @@
 CMapDispScene::CMapDispScene(CGame *game)
 {
     m_game = game;
-    ov28_0211CAAC();
+    Create();
 }
 
 CMapDispScene::~CMapDispScene()
@@ -11,7 +11,7 @@ CMapDispScene::~CMapDispScene()
     SAFE_DELETE(unk_08);
 }
 
-void CMapDispScene::ov28_0211CAAC()
+void CMapDispScene::Create()
 {
     unk_08 = new CMapDispScreen(m_game);
 }
@@ -19,8 +19,8 @@ void CMapDispScene::ov28_0211CAAC()
 u32 CMapDispScene::func0()
 {
     if (unk_08 != NULL) {
-        unk_08->ov28_0211D218();
-        if (unk_08->ov28_0211DAB0() != -1) {
+        unk_08->Update();
+        if (unk_08->GetResult() != -1) {
             return 6;
         }
     }
@@ -30,14 +30,14 @@ u32 CMapDispScene::func0()
 void CMapDispScene::func1()
 {
     if (unk_08 != NULL) {
-        unk_08->ov28_0211D2DC();
+        unk_08->Render();
     }
 }
 
 void CMapDispScene::func2()
 {
     if (unk_08 != NULL) {
-        unk_08->ov28_0211D344();
+        unk_08->OnVBlank();
     }
 }
 
@@ -79,8 +79,8 @@ void CMapDispScene::func5()
 void CMapDispScene::func6()
 {
     if (unk_08 != NULL) {
-        unk_08->ov28_0211D700();
-        unk_08->ov28_0211D9E0();
+        unk_08->Start();
+        unk_08->FadeIn();
     }
 }
 

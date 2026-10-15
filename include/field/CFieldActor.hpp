@@ -334,15 +334,15 @@ public:
     virtual BOOL RunScriptLabel(const char *label);
     virtual BOOL StopScript();
     virtual BOOL RestartScriptLabel();
-    virtual void sub_0202D394();
+    virtual void OnDisable();
     virtual void SetId(u32 id);
     virtual void Process(CFieldMap *map);
     virtual BOOL UpdateMove(CFieldMap *map);
-    virtual BOOL sub_0203DA38();
+    virtual BOOL Talk();
     virtual void SetLayer(int arg0);
     virtual void StopMotion();
     virtual void PlayAnim(int arg0, int arg1);
-    virtual void sub_02032A44(int arg0);
+    virtual void SetMoveSequence(int arg0);
 
     void UpdateScript();
     void Reset();

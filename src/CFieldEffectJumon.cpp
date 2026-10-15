@@ -16,9 +16,9 @@ CFieldEffectJumon::~CFieldEffectJumon()
 {
 }
 
-int CFieldEffectJumon::ov0_02142264(int step)
+int CFieldEffectJumon::Update(int step)
 {
-    int state = CFieldEffect::ov0_02142264(step);
+    int state = CFieldEffect::Update(step);
     if (state != 0 && state != 4) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 2; j++) {
@@ -44,7 +44,7 @@ int CFieldEffectJumon::ov0_02142264(int step)
     return state;
 }
 
-int CFieldEffectJumon::ov0_02142344(Camera2D *camera)
+int CFieldEffectJumon::Render(Camera2D *camera)
 {
     if (m_state != 4 && m_state != 0) {
         for (int i = 0; i < 3; i++) {
@@ -80,7 +80,7 @@ int CFieldEffectJumon::SetParam(int param, int value)
     return ret;
 }
 
-BOOL CFieldEffectJumon::ov0_021421F0(int inTime, int holdTime, int outTime)
+BOOL CFieldEffectJumon::Start(int inTime, int holdTime, int outTime)
 {
     const int t8 = 8;
     const int t20 = 20;
@@ -108,7 +108,7 @@ BOOL CFieldEffectJumon::ov0_021421F0(int inTime, int holdTime, int outTime)
             m_rings[i].m_trail[j] = p;
         }
     }
-    return CFieldEffect::ov0_021421F0(inTime, holdTime, outTime);
+    return CFieldEffect::Start(inTime, holdTime, outTime);
 }
 
 void CFieldEffectJumon::InitSprites()

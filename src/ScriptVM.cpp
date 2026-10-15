@@ -1,8 +1,6 @@
+#include "ScriptVM.hpp"
+
 #include <nitro.h>
-
-#include "UnkStruct_02044464.hpp"
-
-typedef UnkStruct_02044464 ScriptVM;
 
 struct ScriptGlobals {
     ScriptHeader *scripts;

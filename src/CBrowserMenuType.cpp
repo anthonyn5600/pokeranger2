@@ -1,6 +1,6 @@
 #include "BrowserScreen.hpp"
 #include "CGame.hpp"
-#include "UnkStruct_020107A8.hpp"
+#include "PokeIdTableEntry.hpp"
 #include "scene/CBrowserMenu.hpp"
 
 CBrowserMenuItemType::CBrowserMenuItemType()
@@ -13,7 +13,7 @@ CBrowserMenuItemType::~CBrowserMenuItemType()
 {
 }
 
-void CBrowserMenuItemType::ov21_02121EA8(OamSpriteSet *anim)
+void CBrowserMenuItemType::Init(OamSpriteSet *anim)
 {
     unk_24 = anim;
     unk_18 = unk_24->AddSprite(0xB, 0, 0, 2);
@@ -67,11 +67,11 @@ CBrowserMenuManagerType::~CBrowserMenuManagerType()
 {
 }
 
-void CBrowserMenuManagerType::ov21_0212200C(OamSpriteSet *anim)
+void CBrowserMenuManagerType::Init(OamSpriteSet *anim)
 {
     for (int i = 0; i < 4; i++) {
         CBrowserMenuItemType *item = new CBrowserMenuItemType();
-        item->ov21_02121EA8(anim);
+        item->Init(anim);
         item->SetPos(0, i * 20);
         AddItem(item);
     }

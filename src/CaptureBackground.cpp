@@ -70,12 +70,12 @@ void CaptureBackground::Release()
     SAFE_DELETE(m_cells);
 }
 
-extern "C" void sub_020423F4(CaptureBackground *obj, Camera2D *camera)
+extern "C" void CaptureBackground_Render(CaptureBackground *obj, Camera2D *camera)
 {
     obj->m_sprite->Render(camera);
 }
 
-extern "C" int sub_0204240C(CaptureBackground *obj, int z)
+extern "C" int CaptureBackground_SetZ(CaptureBackground *obj, int z)
 {
     z += obj->m_sprite->GetCellNumOAMAttrs(obj->m_sprite->m_cellDataIdx);
     obj->m_sprite->m_z = z;

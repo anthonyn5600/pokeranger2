@@ -3,12 +3,12 @@
 #include "CBattleResultParameter.hpp"
 #include "CGame.hpp"
 #include "FieldCannons.hpp"
+#include "FieldDataRecords.hpp"
 #include "FieldEventRectManage.hpp"
 #include "FieldScriptLauncher.hpp"
 #include "FieldSyscallSets.hpp"
 #include "SaveData.hpp"
-#include "UnkClass_02041D80.hpp"
-#include "UnkStruct_02044464.hpp"
+#include "ScriptVM.hpp"
 #include "field/CFieldEffectManage.hpp"
 #include "field/CFieldEnemyManage.hpp"
 #include "field/CFieldEventRect.hpp"
@@ -42,64 +42,64 @@ u32 SaveData_AddPokemonRides(SaveData *save, u32 value);
 PartyEntry *SaveData_FindEntry(SaveData *save, u32 id);
 PartyEntry *SaveData_GetEntry(SaveData *save, int idx);
 int ov0_02149E78(int *args, int argc);
-int ov0_02149E80(int *args, int argc);
-int ov0_02149ED0(int *args, int argc);
-int ov0_02149F3C(int *args, int argc);
-int ov0_02149FB8(int *args, int argc);
+int Sys_LaunchScript(int *args, int argc);
+int Sys_StartBattleWithEnemy(int *args, int argc);
+int Sys_DisableEventRectAt(int *args, int argc);
+int Sys_EnableEventRectAt(int *args, int argc);
 int ov0_0214A034(int *args, int argc);
 int ov0_0214A058(int *args, int argc);
-int ov0_0214A07C(int *args, int argc);
-int ov0_0214A0AC(int *args, int argc);
-int ov0_0214A110(int *args, int argc);
-int ov0_0214A138(int *args, int argc);
-int ov0_0214A3A8(int *args, int argc);
-int ov0_0214A56C(int *args, int argc);
+int Sys_IsPlayerControlUnlocked(int *args, int argc);
+int Sys_SetFieldWaza(int *args, int argc);
+int Sys_ClearFieldWaza(int *args, int argc);
+int Sys_RidePokemon(int *args, int argc);
+int Sys_GetOffPokemon(int *args, int argc);
+int Sys_GetSelectedPartyId(int *args, int argc);
 int ov0_0214A588(int *args, int argc);
-int ov0_0214A5D4(int *args, int argc);
+int Sys_GetPartyEntryId(int *args, int argc);
 int ov0_0214A62C(int *args, int argc);
 int ov0_0214A6D4(int *args, int argc);
 int ov0_0214A6FC(int *args, int argc);
-int ov0_0214A734(int *args, int argc);
-int ov0_0214A76C(int *args, int argc);
-int ov0_0214A7B8(int *args, int argc);
-int ov0_0214A7FC(int *args, int argc);
-int ov0_0214A678(int *args, int argc);
-int ov0_0214A8B4(int *args, int argc);
-int ov0_0214A86C(int *args, int argc);
-int ov0_0214A890(int *args, int argc);
-int ov0_0214AA3C(int *args, int argc);
+int Sys_CreateCannon(int *args, int argc);
+int Sys_ActivateCannon(int *args, int argc);
+int Sys_SetCannonPos(int *args, int argc);
+int Sys_SetCannonParams(int *args, int argc);
+int Sys_GetEnemyId(int *args, int argc);
+int Sys_IsPlayerAtTargetObject(int *args, int argc);
+int Sys_HideEnemies(int *args, int argc);
+int Sys_ShowEnemies(int *args, int argc);
+int Sys_IsPlayerAtTargetObjectEx(int *args, int argc);
 int ov0_0214ABC8(int *args, int argc);
 int ov0_0214ABE4(int *args, int argc);
 int ov0_0214AC00(int *args, int argc);
 int ov0_0214AC1C(int *args, int argc);
-int ov0_0214AC38(int *args, int argc);
-int ov0_0214AC54(int *args, int argc);
-int ov0_0214AD0C(int *args, int argc);
-int ov0_0214ADC4(int *args, int argc);
-int ov0_0214AE7C(int *args, int argc);
-int ov0_0214AF34(int *args, int argc);
-int ov0_0214B020(int *args, int argc);
-int ov0_0214B058(int *args, int argc);
-int ov0_0214B0A8(int *args, int argc);
-int ov0_0214B0F0(int *args, int argc);
-int ov0_0214B118(int *args, int argc);
-int ov0_0214B140(int *args, int argc);
+int Sys_QuadraticInterpolate(int *args, int argc);
+int Sys_IsPlayerAboveEventRect(int *args, int argc);
+int Sys_IsPlayerBelowEventRect(int *args, int argc);
+int Sys_IsPlayerLeftOfEventRect(int *args, int argc);
+int Sys_IsPlayerRightOfEventRect(int *args, int argc);
+int Sys_KnockBackPlayer(int *args, int argc);
+int Sys_IsFlagValid(int *args, int argc);
+int Sys_SetFlagCount(int *args, int argc);
+int Sys_SetFlagSub(int *args, int argc);
+int Sys_GetFlagCount(int *args, int argc);
+int Sys_GetFlagSub(int *args, int argc);
+int Sys_IsActorFloating(int *args, int argc);
 int ov0_0214B180(int *args, int argc);
-int ov0_0214B194(int *args, int argc);
+int Sys_IsPlayerNearTargetObject(int *args, int argc);
 int ov0_0214B320(int *args, int argc);
-int ov0_0214B338(int *args, int argc);
-int ov0_0214B39C(int *args, int argc);
-int ov0_0214B3FC(int *args, int argc);
-int ov0_0214B450(int *args, int argc);
-int ov0_0214B4A4(int *args, int argc);
-int ov0_0214B4D0(int *args, int argc);
-int ov0_0214B50C(int *args, int argc);
-int ov0_0214B534(int *args, int argc);
-int ov0_0214B574(int *args, int argc);
-int ov0_0214B5F4(int *args, int argc);
-int ov0_0214B624(int *args, int argc);
-int ov0_0214B654(int *args, int argc);
-int ov0_0214B670(int *args, int argc);
+int Sys_SetFlagCountValue(int *args, int argc);
+int Sys_SetFlagPos(int *args, int argc);
+int Sys_GetFlagX(int *args, int argc);
+int Sys_GetFlagY(int *args, int argc);
+int Sys_GetFlagValue(int *args, int argc);
+int Sys_SetFlagKind(int *args, int argc);
+int Sys_GetFlagKind(int *args, int argc);
+int Sys_SetFlagValue(int *args, int argc);
+int Sys_IsFieldBusy(int *args, int argc);
+int Sys_SetButton1Enabled(int *args, int argc);
+int Sys_SetButton2Enabled(int *args, int argc);
+int Sys_IsButton1Enabled(int *args, int argc);
+int Sys_IsButton2Enabled(int *args, int argc);
 int ov0_0214B68C(int *args, int argc);
 int ov0_0214B6CC(int *args, int argc);
 }
@@ -122,65 +122,65 @@ static inline Point2D GetFlagPos(int i)
 
 static ScriptSyscall sFieldSyscalls[] = {
     (ScriptSyscall)ov0_02149E78,
-    (ScriptSyscall)ov0_02149E80,
-    (ScriptSyscall)ov0_02149ED0,
-    (ScriptSyscall)ov0_02149F3C,
-    (ScriptSyscall)ov0_02149FB8,
+    (ScriptSyscall)Sys_LaunchScript,
+    (ScriptSyscall)Sys_StartBattleWithEnemy,
+    (ScriptSyscall)Sys_DisableEventRectAt,
+    (ScriptSyscall)Sys_EnableEventRectAt,
     (ScriptSyscall)ov0_0214A034,
     (ScriptSyscall)ov0_0214A058,
-    (ScriptSyscall)ov0_0214A07C,
-    (ScriptSyscall)ov0_0214A0AC,
-    (ScriptSyscall)ov0_0214A110,
-    (ScriptSyscall)ov0_0214A138,
-    (ScriptSyscall)ov0_0214A3A8,
-    (ScriptSyscall)ov0_0214A0AC,
-    (ScriptSyscall)ov0_0214A56C,
+    (ScriptSyscall)Sys_IsPlayerControlUnlocked,
+    (ScriptSyscall)Sys_SetFieldWaza,
+    (ScriptSyscall)Sys_ClearFieldWaza,
+    (ScriptSyscall)Sys_RidePokemon,
+    (ScriptSyscall)Sys_GetOffPokemon,
+    (ScriptSyscall)Sys_SetFieldWaza,
+    (ScriptSyscall)Sys_GetSelectedPartyId,
     (ScriptSyscall)ov0_0214A588,
-    (ScriptSyscall)ov0_0214A5D4,
+    (ScriptSyscall)Sys_GetPartyEntryId,
     (ScriptSyscall)ov0_0214A62C,
     (ScriptSyscall)ov0_0214A6D4,
     (ScriptSyscall)ov0_0214A6FC,
-    (ScriptSyscall)ov0_0214A734,
-    (ScriptSyscall)ov0_0214A76C,
-    (ScriptSyscall)ov0_0214A7B8,
-    (ScriptSyscall)ov0_0214A7FC,
-    (ScriptSyscall)ov0_0214A678,
-    (ScriptSyscall)ov0_0214A8B4,
-    (ScriptSyscall)ov0_0214A86C,
-    (ScriptSyscall)ov0_0214A890,
-    (ScriptSyscall)ov0_0214AA3C,
+    (ScriptSyscall)Sys_CreateCannon,
+    (ScriptSyscall)Sys_ActivateCannon,
+    (ScriptSyscall)Sys_SetCannonPos,
+    (ScriptSyscall)Sys_SetCannonParams,
+    (ScriptSyscall)Sys_GetEnemyId,
+    (ScriptSyscall)Sys_IsPlayerAtTargetObject,
+    (ScriptSyscall)Sys_HideEnemies,
+    (ScriptSyscall)Sys_ShowEnemies,
+    (ScriptSyscall)Sys_IsPlayerAtTargetObjectEx,
     (ScriptSyscall)ov0_0214ABC8,
     (ScriptSyscall)ov0_0214ABE4,
     (ScriptSyscall)ov0_0214AC00,
     (ScriptSyscall)ov0_0214AC1C,
-    (ScriptSyscall)ov0_0214AC38,
-    (ScriptSyscall)ov0_0214AC54,
-    (ScriptSyscall)ov0_0214AD0C,
-    (ScriptSyscall)ov0_0214ADC4,
-    (ScriptSyscall)ov0_0214AE7C,
-    (ScriptSyscall)ov0_0214AF34,
-    (ScriptSyscall)ov0_0214B020,
-    (ScriptSyscall)ov0_0214B058,
-    (ScriptSyscall)ov0_0214B0A8,
-    (ScriptSyscall)ov0_0214B0F0,
-    (ScriptSyscall)ov0_0214B118,
-    (ScriptSyscall)ov0_0214B140,
+    (ScriptSyscall)Sys_QuadraticInterpolate,
+    (ScriptSyscall)Sys_IsPlayerAboveEventRect,
+    (ScriptSyscall)Sys_IsPlayerBelowEventRect,
+    (ScriptSyscall)Sys_IsPlayerLeftOfEventRect,
+    (ScriptSyscall)Sys_IsPlayerRightOfEventRect,
+    (ScriptSyscall)Sys_KnockBackPlayer,
+    (ScriptSyscall)Sys_IsFlagValid,
+    (ScriptSyscall)Sys_SetFlagCount,
+    (ScriptSyscall)Sys_SetFlagSub,
+    (ScriptSyscall)Sys_GetFlagCount,
+    (ScriptSyscall)Sys_GetFlagSub,
+    (ScriptSyscall)Sys_IsActorFloating,
     (ScriptSyscall)ov0_0214B180,
-    (ScriptSyscall)ov0_0214B194,
+    (ScriptSyscall)Sys_IsPlayerNearTargetObject,
     (ScriptSyscall)ov0_0214B320,
-    (ScriptSyscall)ov0_0214B338,
-    (ScriptSyscall)ov0_0214B39C,
-    (ScriptSyscall)ov0_0214B3FC,
-    (ScriptSyscall)ov0_0214B450,
-    (ScriptSyscall)ov0_0214B4A4,
-    (ScriptSyscall)ov0_0214B4D0,
-    (ScriptSyscall)ov0_0214B50C,
-    (ScriptSyscall)ov0_0214B534,
-    (ScriptSyscall)ov0_0214B574,
-    (ScriptSyscall)ov0_0214B5F4,
-    (ScriptSyscall)ov0_0214B624,
-    (ScriptSyscall)ov0_0214B654,
-    (ScriptSyscall)ov0_0214B670,
+    (ScriptSyscall)Sys_SetFlagCountValue,
+    (ScriptSyscall)Sys_SetFlagPos,
+    (ScriptSyscall)Sys_GetFlagX,
+    (ScriptSyscall)Sys_GetFlagY,
+    (ScriptSyscall)Sys_GetFlagValue,
+    (ScriptSyscall)Sys_SetFlagKind,
+    (ScriptSyscall)Sys_GetFlagKind,
+    (ScriptSyscall)Sys_SetFlagValue,
+    (ScriptSyscall)Sys_IsFieldBusy,
+    (ScriptSyscall)Sys_SetButton1Enabled,
+    (ScriptSyscall)Sys_SetButton2Enabled,
+    (ScriptSyscall)Sys_IsButton1Enabled,
+    (ScriptSyscall)Sys_IsButton2Enabled,
     (ScriptSyscall)ov0_0214B68C,
     (ScriptSyscall)ov0_0214B6CC,
 };
@@ -193,7 +193,7 @@ FieldSyscalls::~FieldSyscalls()
 {
 }
 
-void FieldSyscalls::ov0_02149E60()
+void FieldSyscalls::Register()
 {
     Script_RegisterSyscalls(0xE, sFieldSyscalls);
 }
@@ -205,7 +205,7 @@ int ov0_02149E78(int *args, int argc)
     return 0;
 }
 
-int ov0_02149E80(int *args, int argc)
+int Sys_LaunchScript(int *args, int argc)
 {
     const char *label = NULL;
     int arg = 0;
@@ -216,12 +216,12 @@ int ov0_02149E80(int *args, int argc)
         arg = args[1];
     }
     if (label != NULL && label[0] != '\0' && MAIN_BSS_0210CA44 != NULL) {
-        MAIN_BSS_0210CA44->ov0_0213FB0C(label, arg, -1);
+        MAIN_BSS_0210CA44->LaunchScript(label, arg, -1);
     }
     return 0;
 }
 
-int ov0_02149ED0(int *args, int argc)
+int Sys_StartBattleWithEnemy(int *args, int argc)
 {
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (scene != NULL) {
@@ -230,14 +230,14 @@ int ov0_02149ED0(int *args, int argc)
             a = args[0];
         }
         BattleStartParam_Reset(scene->m_game->unk_143C);
-        sub_02010D04(scene->m_game->unk_1444);
-        scene->ov0_02122FEC(a, -1, -1);
+        BattleResultParameter_Reset(scene->m_game->unk_1444);
+        scene->AddBattleEnemy(a, -1, -1);
         scene->m_flags |= 1;
     }
     return 0;
 }
 
-int ov0_02149F3C(int *args, int argc)
+int Sys_DisableEventRectAt(int *args, int argc)
 {
     SaveData *save = &MAIN_BSS_020B26A0;
     int map = 0;
@@ -261,7 +261,7 @@ int ov0_02149F3C(int *args, int argc)
     return 0;
 }
 
-int ov0_02149FB8(int *args, int argc)
+int Sys_EnableEventRectAt(int *args, int argc)
 {
     SaveData *save = &MAIN_BSS_020B26A0;
     int map = 0;
@@ -288,7 +288,7 @@ int ov0_02149FB8(int *args, int argc)
 int ov0_0214A034(int *args, int argc)
 {
     if (MAIN_BSS_0210CA40 != NULL) {
-        MAIN_BSS_0210CA40->ov0_021247E4();
+        MAIN_BSS_0210CA40->LockPlayerControl();
     }
     return 0;
 }
@@ -296,12 +296,12 @@ int ov0_0214A034(int *args, int argc)
 int ov0_0214A058(int *args, int argc)
 {
     if (MAIN_BSS_0210CA40 != NULL) {
-        MAIN_BSS_0210CA40->ov0_021248DC();
+        MAIN_BSS_0210CA40->UnlockPlayerControl();
     }
     return 0;
 }
 
-int ov0_0214A07C(int *args, int argc)
+int Sys_IsPlayerControlUnlocked(int *args, int argc)
 {
     if (MAIN_BSS_0210CA40 != NULL) {
         return !(MAIN_BSS_0210CA40->m_flags & 8) ? 1 : 0;
@@ -309,7 +309,7 @@ int ov0_0214A07C(int *args, int argc)
     return 0;
 }
 
-int ov0_0214A0AC(int *args, int argc)
+int Sys_SetFieldWaza(int *args, int argc)
 {
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (scene != NULL && argc >= 2) {
@@ -324,21 +324,21 @@ int ov0_0214A0AC(int *args, int argc)
             level = args[1];
             name = (const char *)args[2];
         }
-        scene->ov0_021240AC(waza, level, name);
+        scene->SetFieldWaza(waza, level, name);
         return 1;
     }
     return 0;
 }
 
-int ov0_0214A110(int *args, int argc)
+int Sys_ClearFieldWaza(int *args, int argc)
 {
     if (MAIN_BSS_0210CA40 == NULL) {
         return 0;
     }
-    MAIN_BSS_0210CA40->ov0_0212419C();
+    MAIN_BSS_0210CA40->ClearFieldWaza();
     return 1;
 }
-int ov0_0214A138(int *args, int argc)
+int Sys_RidePokemon(int *args, int argc)
 {
     u32 id = args[0];
     SaveData *save = &MAIN_BSS_020B26A0;
@@ -348,18 +348,18 @@ int ov0_0214A138(int *args, int argc)
     if (data != NULL && player != NULL) {
         switch (data->m_kind) {
         case 0x2B:
-            player->ov0_02132FA0(2);
+            player->SetRideMode(2);
             save->unk_8802 = 2;
             Audio()->PlayStream2(0x54, 0x40);
             break;
         case 0x6A:
-            player->ov0_02132FA0(6);
+            player->SetRideMode(6);
             save->unk_8802 = 6;
             Audio()->PlayStream2(0xE2, 0x40);
             break;
         case 0xA9:
         case 0x129:
-            player->ov0_02132FA0(3);
+            player->SetRideMode(3);
             save->unk_8802 = 3;
             Audio()->PlayStream2(0x18B, 0x40);
             if (Audio()->unk_F0 != 1) {
@@ -369,16 +369,16 @@ int ov0_0214A138(int *args, int argc)
             }
             break;
         case 0xAC:
-            player->ov0_02132FA0(5);
+            player->SetRideMode(5);
             save->unk_8802 = 5;
             break;
         case 0xBE:
-            player->ov0_02132FA0(4);
+            player->SetRideMode(4);
             save->unk_8802 = 4;
             Audio()->PlayStream2(0x1A3, 0x40);
             break;
         case 0x8E:
-            player->ov0_02132FA0(7);
+            player->SetRideMode(7);
             save->unk_8802 = 7;
             Audio()->PlayStream2(0x144, 0x40);
             break;
@@ -391,7 +391,7 @@ int ov0_0214A138(int *args, int argc)
     return 0;
 }
 
-int ov0_0214A3A8(int *args, int argc)
+int Sys_GetOffPokemon(int *args, int argc)
 {
     SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     u32 ret = 0;
@@ -404,7 +404,7 @@ int ov0_0214A3A8(int *args, int argc)
             switch (ride) {
             case 1:
             case 6:
-                player->ov0_02132FA0(1);
+                player->SetRideMode(1);
                 save->unk_8802 = 1;
                 break;
             case 3: {
@@ -416,7 +416,7 @@ int ov0_0214A3A8(int *args, int argc)
                 }
             }
             default:
-                player->ov0_02132FA0(0);
+                player->SetRideMode(0);
                 save->unk_8802 = 0;
                 break;
             }
@@ -431,7 +431,7 @@ int ov0_0214A3A8(int *args, int argc)
     }
     return ret;
 }
-int ov0_0214A56C(int *args, int argc)
+int Sys_GetSelectedPartyId(int *args, int argc)
 {
     SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     if (save != NULL) {
@@ -445,15 +445,15 @@ int ov0_0214A588(int *args, int argc)
     int arg = args[0];
     u32 id = args[1];
     if (MAIN_BSS_0210CA40 != NULL && (((int)id >> 24) & 0xFF) == 3) {
-        CFieldTargetObject *obj = (CFieldTargetObject *)MAIN_BSS_0210CA40->ov0_02123060(id);
+        CFieldTargetObject *obj = (CFieldTargetObject *)MAIN_BSS_0210CA40->FindActor(id);
         if (obj != NULL) {
-            obj->ov0_0213CD78(arg);
+            obj->CallTargetClear(arg);
         }
     }
     return 0;
 }
 
-int ov0_0214A5D4(int *args, int argc)
+int Sys_GetPartyEntryId(int *args, int argc)
 {
     PartyEntry *record = SaveData_GetEntry(&MAIN_BSS_020B26A0, args[0]);
     if (record != NULL && (record->m_flags & 1)) {
@@ -472,7 +472,7 @@ int ov0_0214A62C(int *args, int argc)
     return 0;
 }
 
-int ov0_0214A678(int *args, int argc)
+int Sys_GetEnemyId(int *args, int argc)
 {
     int idx = args[0];
     CFieldEnemyManage *manage = MAIN_BSS_0210CA5C;
@@ -508,43 +508,43 @@ int ov0_0214A6FC(int *args, int argc)
     return ret;
 }
 
-int ov0_0214A734(int *args, int argc)
+int Sys_CreateCannon(int *args, int argc)
 {
     int ret = -1;
     if (MAIN_BSS_0210CA40 != NULL) {
-        ret = MAIN_BSS_0210CA40->m_cannons->ov0_02159B84(args[0], 0, 0);
+        ret = MAIN_BSS_0210CA40->m_cannons->CreateCannon(args[0], 0, 0);
     }
     return ret;
 }
 
-int ov0_0214A76C(int *args, int argc)
+int Sys_ActivateCannon(int *args, int argc)
 {
     int ret = 0;
     if (MAIN_BSS_0210CA40 != NULL) {
         int flag = args[1];
-        CFieldCannon *entry = MAIN_BSS_0210CA40->m_cannons->ov0_02159DFC(args[0]);
+        CFieldCannon *entry = MAIN_BSS_0210CA40->m_cannons->GetCannon(args[0]);
         if (entry != NULL && flag != 0) {
-            entry->ov0_0215A384(1);
+            entry->SetEnabled(1);
             ret = entry->unk_20;
         }
     }
     return ret;
 }
 
-int ov0_0214A7B8(int *args, int argc)
+int Sys_SetCannonPos(int *args, int argc)
 {
     if (MAIN_BSS_0210CA40 != NULL) {
         int a = args[1];
         int b = args[2];
-        CFieldCannon *entry = MAIN_BSS_0210CA40->m_cannons->ov0_02159DFC(args[0]);
+        CFieldCannon *entry = MAIN_BSS_0210CA40->m_cannons->GetCannon(args[0]);
         if (entry != NULL) {
-            entry->ov0_0215A3BC(a, b);
+            entry->SetOrigin(a, b);
         }
     }
     return 0;
 }
 
-int ov0_0214A7FC(int *args, int argc)
+int Sys_SetCannonParams(int *args, int argc)
 {
     if (MAIN_BSS_0210CA40 != NULL) {
         int a1 = args[1];
@@ -555,15 +555,15 @@ int ov0_0214A7FC(int *args, int argc)
         int a6 = args[6];
         int a7 = args[7];
         int a8 = args[8];
-        CFieldCannon *entry = MAIN_BSS_0210CA40->m_cannons->ov0_02159DFC(args[0]);
+        CFieldCannon *entry = MAIN_BSS_0210CA40->m_cannons->GetCannon(args[0]);
         if (entry != NULL) {
-            entry->ov0_0215A3D4(a1, a2, a3, a4, a5, a6, a7, a8);
+            entry->SetParams(a1, a2, a3, a4, a5, a6, a7, a8);
         }
     }
     return 0;
 }
 
-int ov0_0214A86C(int *args, int argc)
+int Sys_HideEnemies(int *args, int argc)
 {
     if (MAIN_BSS_0210CA40 != NULL) {
         MAIN_BSS_0210CA40->m_flags |= 0x400;
@@ -571,14 +571,14 @@ int ov0_0214A86C(int *args, int argc)
     return 0;
 }
 
-int ov0_0214A890(int *args, int argc)
+int Sys_ShowEnemies(int *args, int argc)
 {
     if (MAIN_BSS_0210CA40 != NULL) {
         MAIN_BSS_0210CA40->m_flags &= ~0x400;
     }
     return 0;
 }
-int ov0_0214A8B4(int *args, int argc)
+int Sys_IsPlayerAtTargetObject(int *args, int argc)
 {
     CFieldActor *obj = MAIN_BSS_0210CA7C->Get(args[0] & 0xFFF);
     CFieldPlayer *player = MAIN_BSS_0210CA48;
@@ -593,7 +593,7 @@ int ov0_0214A8B4(int *args, int argc)
     }
     return FALSE;
 }
-int ov0_0214AA3C(int *args, int argc)
+int Sys_IsPlayerAtTargetObjectEx(int *args, int argc)
 {
     int height = args[1];
     CFieldActor *obj = MAIN_BSS_0210CA7C->Get(args[0] & 0xFFF);
@@ -645,12 +645,12 @@ int ov0_0214AC1C(int *args, int argc)
     return 0;
 }
 
-int ov0_0214AC38(int *args, int argc)
+int Sys_QuadraticInterpolate(int *args, int argc)
 {
     return QuadraticInterpolate(args[0], args[1], args[2], args[3], args[4]);
 }
 
-int ov0_0214AC54(int *args, int argc)
+int Sys_IsPlayerAboveEventRect(int *args, int argc)
 {
     int idx = args[0];
     CFieldPlayer *player = MAIN_BSS_0210CA48;
@@ -666,7 +666,7 @@ int ov0_0214AC54(int *args, int argc)
     return 0;
 }
 
-int ov0_0214AD0C(int *args, int argc)
+int Sys_IsPlayerBelowEventRect(int *args, int argc)
 {
     int idx = args[0];
     CFieldPlayer *player = MAIN_BSS_0210CA48;
@@ -682,7 +682,7 @@ int ov0_0214AD0C(int *args, int argc)
     return 0;
 }
 
-int ov0_0214ADC4(int *args, int argc)
+int Sys_IsPlayerLeftOfEventRect(int *args, int argc)
 {
     int idx = args[0];
     CFieldPlayer *player = MAIN_BSS_0210CA48;
@@ -698,7 +698,7 @@ int ov0_0214ADC4(int *args, int argc)
     return 0;
 }
 
-int ov0_0214AE7C(int *args, int argc)
+int Sys_IsPlayerRightOfEventRect(int *args, int argc)
 {
     int idx = args[0];
     CFieldPlayer *player = MAIN_BSS_0210CA48;
@@ -713,7 +713,7 @@ int ov0_0214AE7C(int *args, int argc)
     }
     return 0;
 }
-int ov0_0214AF34(int *args, int argc)
+int Sys_KnockBackPlayer(int *args, int argc)
 {
     CFieldPlayer *player = MAIN_BSS_0210CA48;
     int x = args[0];
@@ -722,7 +722,7 @@ int ov0_0214AF34(int *args, int argc)
     int damage = args[3];
     Point2D pos = player->GetPos();
     u16 angle = FX_Atan2Idx(pos.y - (y << FX32_SHIFT), pos.x - (x << FX32_SHIFT));
-    player->ov0_021333A0(FX_CosIdx(angle) << FX32_SHIFT,
+    player->KnockBack(FX_CosIdx(angle) << FX32_SHIFT,
         FX_SinIdx(angle) << FX32_SHIFT,
         arg3,
         damage,
@@ -730,13 +730,13 @@ int ov0_0214AF34(int *args, int argc)
     return 0;
 }
 
-int ov0_0214B020(int *args, int argc)
+int Sys_IsFlagValid(int *args, int argc)
 {
     u32 flags = MAIN_BSS_020B26A0.unk_81B4[args[0] & 0x3FF];
     return ((flags & 1) ? TRUE : FALSE) ? TRUE : FALSE;
 }
 
-int ov0_0214B058(int *args, int argc)
+int Sys_SetFlagCount(int *args, int argc)
 {
     u32 i = args[0] & 0x3FF;
     SaveData *save = &MAIN_BSS_020B26A0;
@@ -744,7 +744,7 @@ int ov0_0214B058(int *args, int argc)
     return 0;
 }
 
-int ov0_0214B0A8(int *args, int argc)
+int Sys_SetFlagSub(int *args, int argc)
 {
     u32 i = args[0] & 0x3FF;
     SaveData *save = &MAIN_BSS_020B26A0;
@@ -753,22 +753,22 @@ int ov0_0214B0A8(int *args, int argc)
     return 0;
 }
 
-int ov0_0214B0F0(int *args, int argc)
+int Sys_GetFlagCount(int *args, int argc)
 {
     return (MAIN_BSS_020B26A0.unk_81B4[args[0] & 0x3FF] >> 12) & 0xFF;
 }
 
-int ov0_0214B118(int *args, int argc)
+int Sys_GetFlagSub(int *args, int argc)
 {
     return (MAIN_BSS_020B26A0.unk_81B4[args[0] & 0x3FF] >> 8) & 0xF;
 }
 
-int ov0_0214B140(int *args, int argc)
+int Sys_IsActorFloating(int *args, int argc)
 {
     u32 id = args[0];
     int ret = 0;
     if (MAIN_BSS_0210CA40 != NULL) {
-        CFieldActor *actor = MAIN_BSS_0210CA40->ov0_02123060(id);
+        CFieldActor *actor = MAIN_BSS_0210CA40->FindActor(id);
         if (actor != NULL && actor->m_floatBase > 0) {
             ret = 1;
         }
@@ -780,7 +780,7 @@ int ov0_0214B180(int *args, int argc)
 {
     return MAIN_BSS_0210CA48->unk_104;
 }
-int ov0_0214B194(int *args, int argc)
+int Sys_IsPlayerNearTargetObject(int *args, int argc)
 {
     int height = args[1];
     CFieldActor *obj = MAIN_BSS_0210CA7C->Get(args[0] & 0xFFF);
@@ -803,7 +803,7 @@ int ov0_0214B320(int *args, int argc)
     return 0;
 }
 
-int ov0_0214B338(int *args, int argc)
+int Sys_SetFlagCountValue(int *args, int argc)
 {
     SaveData *save = &MAIN_BSS_020B26A0;
     int i = args[0];
@@ -818,7 +818,7 @@ int ov0_0214B338(int *args, int argc)
     return 0;
 }
 
-int ov0_0214B39C(int *args, int argc)
+int Sys_SetFlagPos(int *args, int argc)
 {
     int i = args[0];
     Point2D pos = { args[1] << FX32_SHIFT, args[2] << FX32_SHIFT };
@@ -826,34 +826,34 @@ int ov0_0214B39C(int *args, int argc)
     return 0;
 }
 
-int ov0_0214B3FC(int *args, int argc)
+int Sys_GetFlagX(int *args, int argc)
 {
     return (s16)(GetFlagPos(args[0]).x >> FX32_SHIFT);
 }
 
-int ov0_0214B450(int *args, int argc)
+int Sys_GetFlagY(int *args, int argc)
 {
     return (s16)(GetFlagPos(args[0]).y >> FX32_SHIFT);
 }
 
-int ov0_0214B4A4(int *args, int argc)
+int Sys_GetFlagValue(int *args, int argc)
 {
     return (u16)(MAIN_BSS_020B26A0.unk_81B4[args[0] & 0x3FF] >> 20);
 }
 
-int ov0_0214B4D0(int *args, int argc)
+int Sys_SetFlagKind(int *args, int argc)
 {
     u32 i = args[0] & 0x3FF;
     SaveData *save = &MAIN_BSS_020B26A0;
     save->SetFlagKind(i, args[1]);
     return 0;
 }
-int ov0_0214B50C(int *args, int argc)
+int Sys_GetFlagKind(int *args, int argc)
 {
     return (MAIN_BSS_020B26A0.unk_81B4[args[0] & 0x3FF] >> 1) & 0x7F;
 }
 
-int ov0_0214B534(int *args, int argc)
+int Sys_SetFlagValue(int *args, int argc)
 {
     u32 i = args[0] & 0x3FF;
     SaveData *save = &MAIN_BSS_020B26A0;
@@ -861,12 +861,12 @@ int ov0_0214B534(int *args, int argc)
     return 0;
 }
 
-int ov0_0214B574(int *args, int argc)
+int Sys_IsFieldBusy(int *args, int argc)
 {
     BOOL ret = FALSE;
     FieldScriptLauncher *runner = MAIN_BSS_0210CA44;
     CFieldScene *scene = MAIN_BSS_0210CA40;
-    if (runner != NULL && runner->ov0_0213FEEC()) {
+    if (runner != NULL && runner->IsBusy()) {
         ret = TRUE;
     }
     if (scene != NULL) {
@@ -878,7 +878,7 @@ int ov0_0214B574(int *args, int argc)
     return ret;
 }
 
-int ov0_0214B5F4(int *args, int argc)
+int Sys_SetButton1Enabled(int *args, int argc)
 {
     int enable = args[0];
     SaveData *save = &MAIN_BSS_020B26A0;
@@ -890,7 +890,7 @@ int ov0_0214B5F4(int *args, int argc)
     return 0;
 }
 
-int ov0_0214B624(int *args, int argc)
+int Sys_SetButton2Enabled(int *args, int argc)
 {
     int enable = args[0];
     SaveData *save = &MAIN_BSS_020B26A0;
@@ -902,12 +902,12 @@ int ov0_0214B624(int *args, int argc)
     return 0;
 }
 
-int ov0_0214B654(int *args, int argc)
+int Sys_IsButton1Enabled(int *args, int argc)
 {
     return MAIN_BSS_020B26A0.IsButton1Enabled();
 }
 
-int ov0_0214B670(int *args, int argc)
+int Sys_IsButton2Enabled(int *args, int argc)
 {
     return MAIN_BSS_020B26A0.IsButton2Enabled();
 }
@@ -916,9 +916,9 @@ int ov0_0214B68C(int *args, int argc)
 {
     u32 id = args[0];
     if (MAIN_BSS_0210CA40 != NULL) {
-        CFieldActor *actor = MAIN_BSS_0210CA40->ov0_02123060(id);
+        CFieldActor *actor = MAIN_BSS_0210CA40->FindActor(id);
         if (actor != NULL) {
-            actor->sub_02032A44(0x19);
+            actor->SetMoveSequence(0x19);
         }
     }
     return 0;

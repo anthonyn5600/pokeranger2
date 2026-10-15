@@ -37,17 +37,17 @@ public:
     virtual ~CFieldTargetObject();
     virtual void Process(CFieldMap *map);
     virtual BOOL UpdateMove(CFieldMap *map);
-    virtual BOOL sub_0203DA38();
+    virtual BOOL Talk();
     virtual void StopMotion();
     virtual void PlayAnim(int arg0, int arg1);
 
-    BOOL ov0_0213CD3C();
-    BOOL ov0_0213CD78(int arg);
-    BOOL ov0_0213CDB4(int arg);
-    BOOL ov0_0213CF30(CFieldActorScript *script, void *block);
-    BOOL ov0_0213CF60(const char *func);
-    void ov0_0213CFBC();
-    BOOL ov0_0213CFDC();
+    BOOL CallNormal();
+    BOOL CallTargetClear(int arg);
+    BOOL CallTargetInit(int arg);
+    BOOL SetTouchScript(CFieldActorScript *script, void *block);
+    BOOL RunTouchScript(const char *func);
+    void UpdateTouchScript();
+    BOOL HasTouchScript();
 
     CFieldTargetObjectActorScript *GetScript()
     {

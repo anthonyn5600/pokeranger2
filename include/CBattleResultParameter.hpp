@@ -60,7 +60,7 @@ public:
 STATIC_SIZE_ASSERT(CBattleResultParameter, 0x84);
 
 extern "C" {
-void sub_02010D04(CBattleResultParameter *obj);
+void BattleResultParameter_Reset(CBattleResultParameter *obj);
 }
 
 #endif // POKERANGER2_CBATTLERESULTPARAMETER_HPP

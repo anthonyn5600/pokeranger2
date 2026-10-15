@@ -13,7 +13,7 @@ public:
     virtual ~CFieldPartnerNpc();
     virtual void Process(CFieldMap *map);
     virtual BOOL UpdateMove(CFieldMap *map);
-    virtual BOOL sub_0203DA38();
+    virtual BOOL Talk();
 
     void SetName(const char *name);
     void ClearName();

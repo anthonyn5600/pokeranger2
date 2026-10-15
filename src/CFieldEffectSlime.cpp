@@ -46,9 +46,9 @@ void CFieldEffectSlime::Init(int type, CEffectActorData *data, int kind)
     MI_CpuFill8(m_puddles, 0, sizeof(m_puddles));
 }
 
-int CFieldEffectSlime::ov0_02142264(int step)
+int CFieldEffectSlime::Update(int step)
 {
-    int state = CFieldEffectActor::ov0_02142264(step);
+    int state = CFieldEffectActor::Update(step);
     if (state != 0 && state != 4) {
         m_timer -= step;
         if (m_timer <= 0) {
@@ -63,7 +63,7 @@ int CFieldEffectSlime::ov0_02142264(int step)
                 UpdatePuddle(i);
                 CFieldEffectManage *mgr = MAIN_BSS_0210CA60;
                 if (mgr->unk_87C == 0 && IsTouchingPlayer(&m_puddles[i].pos) && m_param > 0) {
-                    mgr->unk_7B0.ov0_02163A08(m_kind, 0, m_puddles[i].pos.x >> 12, m_puddles[i].pos.y >> 12, m_param);
+                    mgr->unk_7B0.CallEventHandle(m_kind, 0, m_puddles[i].pos.x >> 12, m_puddles[i].pos.y >> 12, m_param);
                 }
             }
         }
@@ -71,7 +71,7 @@ int CFieldEffectSlime::ov0_02142264(int step)
     return state;
 }
 
-int CFieldEffectSlime::ov0_02142344(Camera2D *camera)
+int CFieldEffectSlime::Render(Camera2D *camera)
 {
     if (m_state != 0 && m_state != 4) {
         CellAnimController *cac = unk_18->GetCac(0);
@@ -115,7 +115,7 @@ int CFieldEffectSlime::SetParam(int param, int value)
         break;
     case 17:
         if (MAIN_BSS_0210CA40 != NULL) {
-            m_actor = MAIN_BSS_0210CA40->ov0_02123060(value);
+            m_actor = MAIN_BSS_0210CA40->FindActor(value);
             if (m_actor != NULL && (m_flags & 0x8000)) {
                 BOOL isEnemy;
                 if ((u8)(value >> 24) == 1) {
@@ -139,13 +139,13 @@ int CFieldEffectSlime::SetParam(int param, int value)
     return ret;
 }
 
-BOOL CFieldEffectSlime::ov0_021421F0(int inTime, int holdTime, int outTime)
+BOOL CFieldEffectSlime::Start(int inTime, int holdTime, int outTime)
 {
     if (m_actor == NULL) {
         return FALSE;
     }
-    ov0_021633B8();
-    return CFieldEffect::ov0_021421F0(0, -1, 0);
+    StopPuddles();
+    return CFieldEffect::Start(0, -1, 0);
 }
 
 void CFieldEffectSlime::Reset(BOOL keepParam)
@@ -196,14 +196,14 @@ void CFieldEffectSlime::InitSprites()
     }
 }
 
-int CFieldEffectSlime::ov0_0214239C(int layer)
+int CFieldEffectSlime::GetDrawCount(int layer)
 {
     return 0xA;
 }
 
 BOOL CFieldEffectSlime::IsTouchingPlayer(const Point2D *pos)
 {
-    CFieldPlayer *player = (CFieldPlayer *)MAIN_BSS_0210CA40->ov0_02123060(0);
+    CFieldPlayer *player = (CFieldPlayer *)MAIN_BSS_0210CA40->FindActor(0);
     fx32 range = player->unk_E0 + 0x9000;
     Point2D d = player->GetPos() - *pos;
     if (ApproxLength(d.x, d.y) < range) {
@@ -212,12 +212,12 @@ BOOL CFieldEffectSlime::IsTouchingPlayer(const Point2D *pos)
     return FALSE;
 }
 
-void CFieldEffectSlime::ov0_021633B8()
+void CFieldEffectSlime::StopPuddles()
 {
     m_flags &= ~2;
 }
 
-void CFieldEffectSlime::ov0_021633CC()
+void CFieldEffectSlime::StartPuddles()
 {
     if (!(m_flags & 2)) {
         AddPuddle();
@@ -226,7 +226,7 @@ void CFieldEffectSlime::ov0_021633CC()
     }
 }
 
-int CFieldEffectSlime::ov0_02142390(void *buf, void *end)
+int CFieldEffectSlime::SaveState(void *buf, void *end)
 {
     SlimeSave save;
     u8 mask = 0;
@@ -271,7 +271,7 @@ int CFieldEffectSlime::ov0_02142390(void *buf, void *end)
     return 0;
 }
 
-BOOL CFieldEffectSlime::ov0_02142388(const void *data)
+BOOL CFieldEffectSlime::RestoreState(const void *data)
 {
     const SlimeSave *save = (const SlimeSave *)data;
     for (int i = 0; i < 5; i++) {
@@ -285,12 +285,12 @@ BOOL CFieldEffectSlime::ov0_02142388(const void *data)
     }
     if (save->actorId != 0) {
         if (MAIN_BSS_0210CA40 != NULL) {
-            m_actor = MAIN_BSS_0210CA40->ov0_02123060(save->actorId);
+            m_actor = MAIN_BSS_0210CA40->FindActor(save->actorId);
         }
         if (save->mask & 0x80) {
-            CFieldEffect::ov0_021421F0(0, 0, 0x96);
+            CFieldEffect::Start(0, 0, 0x96);
         } else {
-            CFieldEffect::ov0_021421F0(0, -1, 0);
+            CFieldEffect::Start(0, -1, 0);
         }
         return TRUE;
     }
@@ -303,7 +303,7 @@ CFieldEffectSlimeFactory::CFieldEffectSlimeFactory(CFieldEffectManage *mgr)
     , m_pool(NULL)
 {
     if (mgr != NULL) {
-        m_kind = mgr->unk_7B0.ov0_02163904(2);
+        m_kind = mgr->unk_7B0.LoadScript(2);
     }
 }
 
@@ -330,7 +330,7 @@ CFieldEffect *CFieldEffectSlimeFactory::Create(int arg)
 
 BOOL CFieldEffectSlimeFactory::Load(int type)
 {
-    if (m_data.ov0_0214FFF0(type, 1, 1)) {
+    if (m_data.Load(type, 1, 1)) {
         SAFE_DELETE_ARRAY(m_pool);
         m_pool = new CFieldEffectSlime[4];
         for (int i = 0; i < 4; i++) {

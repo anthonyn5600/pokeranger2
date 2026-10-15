@@ -14,7 +14,7 @@ CBattleAssistEvil::~CBattleAssistEvil()
 
 int CBattleAssistEvil::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies)
 {
-    disk->unk_19E = unk_10->ov1_0212F32C(vfunc_10(), MAIN_BSS_020B26A0.m_stylerLevel, 0);
+    disk->unk_19E = unk_10->GetAssistPower(vfunc_10(), MAIN_BSS_020B26A0.m_stylerLevel, 0);
     if (unk_04 == 0) {
         return 0;
     }

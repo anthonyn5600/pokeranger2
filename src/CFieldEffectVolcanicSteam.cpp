@@ -16,7 +16,7 @@ CFieldEffectVolcanicSteam::~CFieldEffectVolcanicSteam()
 {
 }
 
-void CFieldEffectVolcanicSteam::ov0_02142398(DrawObjectList *renderLists)
+void CFieldEffectVolcanicSteam::AddToRenderLists(DrawObjectList *renderLists)
 {
     m_animator.Register(renderLists);
 }
@@ -29,7 +29,7 @@ int CFieldEffectVolcanicSteam::SetParam(int param, int value)
     return TFieldEffectSmoke<CSimpleSpriteNTF>::SetParam(param, value);
 }
 
-int CFieldEffectVolcanicSteam::ov0_02142344(Camera2D *camera)
+int CFieldEffectVolcanicSteam::Render(Camera2D *camera)
 {
     m_animator.m_drawObj.m_system = m_system;
     if (m_system != NULL) {
@@ -102,7 +102,7 @@ CFieldEffect *CFieldEffectVolcanicSteamFactory::Create(int arg)
     CFieldEffectVolcanicSteam *effect = new CFieldEffectVolcanicSteam();
     if (effect != NULL) {
         NtfTextureParam *texture = (NtfTextureParam *)&m_tex;
-        effect->ov0_021423E8(texture);
+        effect->SetParticleRes(texture);
     }
     return effect;
 }

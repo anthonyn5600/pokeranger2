@@ -65,7 +65,7 @@ int CFieldEffectRisingPhoton::SetParam(int param, int value)
     return ret;
 }
 
-int CFieldEffectRisingPhoton::sub_02033244(int arg0, int arg1, int arg2)
+int CFieldEffectRisingPhoton::SetParamArray(int arg0, int arg1, int arg2)
 {
     int ret = 1;
     if (arg0 == 22) {
@@ -101,7 +101,7 @@ int CFieldEffectRisingPhoton::IsReady()
     return 0;
 }
 
-BOOL CFieldEffectRisingPhoton::ov0_021421F0(int inTime, int holdTime, int outTime)
+BOOL CFieldEffectRisingPhoton::Start(int inTime, int holdTime, int outTime)
 {
     for (int i = 0; i < m_count; i++) {
         Photon *p = &m_photons[i];
@@ -114,15 +114,15 @@ BOOL CFieldEffectRisingPhoton::ov0_021421F0(int inTime, int holdTime, int outTim
         }
         p->timer = 0;
     }
-    return CFieldEffect::ov0_021421F0(inTime, holdTime, outTime);
+    return CFieldEffect::Start(inTime, holdTime, outTime);
 }
 
-int CFieldEffectRisingPhoton::ov0_02142264(int step)
+int CFieldEffectRisingPhoton::Update(int step)
 {
     if (m_readyFrames < 2) {
         m_readyFrames++;
     }
-    int ret = CFieldEffect::ov0_02142264(step);
+    int ret = CFieldEffect::Update(step);
     if (ret != 0 && ret != 4) {
         int active = 0;
         Camera2D *camera = MAIN_BSS_0210CA40->m_camera;
@@ -190,14 +190,14 @@ int CFieldEffectRisingPhoton::ov0_02142264(int step)
             }
         }
         if (active == 0) {
-            ov0_02142240(0);
+            Stop(0);
             ret = 4;
         }
     }
     return ret;
 }
 
-int CFieldEffectRisingPhoton::ov0_02142344(Camera2D *camera)
+int CFieldEffectRisingPhoton::Render(Camera2D *camera)
 {
     if (m_state != 0 && m_state != 4) {
         for (int i = 0; i < m_count; i++) {

@@ -23,24 +23,24 @@ public:
     {
         SAFE_DELETE(m_system);
     }
-    virtual BOOL ov0_021421F0(int inTime, int holdTime, int outTime)
+    virtual BOOL Start(int inTime, int holdTime, int outTime)
     {
         TFieldParticleEmitter<T> *emitter = GetEmitter();
         if (emitter != NULL) {
             emitter->func2();
         }
-        return CFieldEffect::ov0_021421F0(inTime, holdTime, outTime);
+        return CFieldEffect::Start(inTime, holdTime, outTime);
     }
-    virtual int ov0_02142264(int step)
+    virtual int Update(int step)
     {
-        int state = CFieldEffect::ov0_02142264(step);
+        int state = CFieldEffect::Update(step);
         if (state != 4 && m_system != NULL) {
             m_system->Update(step);
         }
         return state;
     }
 
-    virtual void ov0_021423E8(const typename TFieldParticleRes<T>::Type &res)
+    virtual void SetParticleRes(const typename TFieldParticleRes<T>::Type &res)
     {
         m_res = res;
         if (m_system != NULL) {
@@ -77,7 +77,7 @@ public:
         }
         return ret;
     }
-    virtual int ov0_02142344(Camera2D *camera)
+    virtual int Render(Camera2D *camera)
     {
         if (m_system != NULL) {
             m_system->Draw(camera);

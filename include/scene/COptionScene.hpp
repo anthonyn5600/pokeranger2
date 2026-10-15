@@ -23,9 +23,9 @@ public:
     virtual void func7();
     virtual u32 getSceneId();
 
-    void ov6_0211D460();
-    void ov6_0211D638();
-    void ov6_0211D6B4();
+    void LoadBG();
+    void SetupBG();
+    void DrawTexts();
 
 public:
     OamSpriteSet *m_sprites;

@@ -18,11 +18,11 @@ public:
     StaffrollPicture();
     ~StaffrollPicture();
 
-    void ov25_0211D514();
-    BOOL ov25_0211D548();
-    void ov25_0211D5DC();
-    void ov25_0211D5EC(const char *dir, const char *name, const char *file, u32 charOffset, u32 plttNo);
-    void ov25_0211D6A8(int bg, int steps);
+    void Release();
+    BOOL UpdateTransfer();
+    void Init();
+    void Load(const char *dir, const char *name, const char *file, u32 charOffset, u32 plttNo);
+    void StartTransfer(int bg, int steps);
 
 public:
     u16 unk_00; // state
@@ -41,12 +41,12 @@ public:
     StaffrollText();
     ~StaffrollText();
 
-    void ov25_0211D6FC(NNSG2dFont *font);
-    void ov25_0211D704();
-    void ov25_0211D758(int bg, int scrBase, int charBase, int plttNo, int priority);
-    void ov25_0211DBBC(int x, int y, int color, const char *str, int align);
-    void ov25_0211DD14();
-    void ov25_0211DD30(int x, int y);
+    void SetFont(NNSG2dFont *font);
+    void Release();
+    void Setup(int bg, int scrBase, int charBase, int plttNo, int priority);
+    void Print(int x, int y, int color, const char *str, int align);
+    void Clear();
+    void SetScroll(int x, int y);
 
 public:
     NNSG2dFont *unk_00;
@@ -70,16 +70,16 @@ public:
     StaffrollPictures();
     ~StaffrollPictures();
 
-    void ov25_0211E108(int count, int bg0, int bg1);
-    void ov25_0211E174();
-    void ov25_0211E1B0();
-    void ov25_0211EFFC(int idx, const char *dir, const char *name, const char *file, u32 charOffset, u32 plttNo);
-    void ov25_0211F048(int idx, int steps, int type, int duration, int outType, int outDuration);
-    void ov25_0211F16C(int type, int duration);
-    void ov25_0211F1D4(int bg);
-    void ov25_0211F344(int bg);
-    void ov25_0211F4C0(int bg, int priority);
-    void ov25_0211F5CC(int bg, int x, int y);
+    void Init(int count, int bg0, int bg1);
+    void Release();
+    void Update();
+    void Load(int idx, const char *dir, const char *name, const char *file, u32 charOffset, u32 plttNo);
+    void Show(int idx, int steps, int type, int duration, int outType, int outDuration);
+    void StartFadeOut(int type, int duration);
+    void ShowBG(int bg);
+    void HideBG(int bg);
+    void SetBGPriority(int bg, int priority);
+    void SetBGOffset(int bg, int x, int y);
 
 public:
     StaffrollPicture *unk_00;
@@ -104,11 +104,11 @@ public:
     StaffrollTheEnd();
     ~StaffrollTheEnd();
 
-    BOOL ov25_0211F750();
-    BOOL ov25_0211F840();
-    BOOL ov25_0211F890();
-    BOOL ov25_0211FA20();
-    BOOL ov25_0211FA54();
+    BOOL Load();
+    BOOL Release();
+    BOOL Update();
+    BOOL WriteOam();
+    BOOL Start();
 
 public:
     OamSpriteSet *unk_00;

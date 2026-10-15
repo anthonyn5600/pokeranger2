@@ -13,7 +13,7 @@ CFieldEffectCellAnime::CFieldEffectCellAnime(int kind, BOOL attack)
     if (attack == TRUE) {
         CFieldEffectAttackActorData *data = new CFieldEffectAttackActorData();
         if (data != NULL) {
-            data->ov0_0214FFF0(kind, 1, kind == 0x12 ? 2 : 1);
+            data->Load(kind, 1, kind == 0x12 ? 2 : 1);
         }
         unk_18 = data;
     } else if (kind < 0) {
@@ -21,7 +21,7 @@ CFieldEffectCellAnime::CFieldEffectCellAnime(int kind, BOOL attack)
     } else {
         CFieldEffectNormalActorData *data = new CFieldEffectNormalActorData();
         if (data != NULL) {
-            data->ov0_021503B8(kind, FALSE);
+            data->Load(kind, FALSE);
         }
         unk_18 = data;
     }
@@ -68,9 +68,9 @@ CFieldEffectCellAnime::~CFieldEffectCellAnime()
     }
 }
 
-int CFieldEffectCellAnime::ov0_02142264(int step)
+int CFieldEffectCellAnime::Update(int step)
 {
-    int state = CFieldEffectActor::ov0_02142264(step);
+    int state = CFieldEffectActor::Update(step);
     if (state != 0 && state != 4 && m_kind >= 0 && unk_18 != NULL) {
         unk_18->Update();
     }
@@ -99,13 +99,13 @@ int CFieldEffectCellAnime::ov0_02142264(int step)
     }
     if (state == 2 && m_index >= 0) {
         if (GetCac()->GetStatus(m_cacIds[m_index]) == 0 && m_holdTime < 0) {
-            ov0_02142240(0);
+            Stop(0);
         }
     }
     return state;
 }
 
-int CFieldEffectCellAnime::ov0_02142344(Camera2D *camera)
+int CFieldEffectCellAnime::Render(Camera2D *camera)
 {
     if (m_state != 4 && m_state != 0 && m_index >= 0) {
         CellAnimController *cac = GetCac();
@@ -135,10 +135,10 @@ int CFieldEffectCellAnime::SetParam(int param, int value)
     return ret;
 }
 
-BOOL CFieldEffectCellAnime::ov0_021421F0(int inTime, int holdTime, int outTime)
+BOOL CFieldEffectCellAnime::Start(int inTime, int holdTime, int outTime)
 {
     m_index = -1;
-    return CFieldEffect::ov0_021421F0(inTime, holdTime, outTime);
+    return CFieldEffect::Start(inTime, holdTime, outTime);
 }
 
 void CFieldEffectCellAnime::InitSprites()
@@ -164,7 +164,7 @@ void CFieldEffectCellAnime::InitSprites()
     }
 }
 
-void CFieldEffectCellAnime::sub_0203365C(int arg0)
+void CFieldEffectCellAnime::SetSe(int arg0)
 {
     m_se = arg0;
 }

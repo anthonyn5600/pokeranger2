@@ -3,7 +3,7 @@
 CFlyingScene::CFlyingScene(CGame *game)
 {
     m_game = game;
-    ov9_0211CAAC();
+    Create();
 }
 
 CFlyingScene::~CFlyingScene()
@@ -11,7 +11,7 @@ CFlyingScene::~CFlyingScene()
     SAFE_DELETE(unk_08);
 }
 
-void CFlyingScene::ov9_0211CAAC()
+void CFlyingScene::Create()
 {
     unk_08 = new FlyingMap(m_game);
 }
@@ -55,8 +55,8 @@ void CFlyingScene::func5()
 void CFlyingScene::func6()
 {
     if (unk_08 != NULL) {
-        unk_08->ov9_0211D484();
-        unk_08->ov9_0211D9F0();
+        unk_08->Start();
+        unk_08->FadeIn();
     }
 }
 
@@ -67,8 +67,8 @@ void CFlyingScene::func7()
 u32 CFlyingScene::func0()
 {
     if (unk_08 != NULL) {
-        unk_08->ov9_0211CD40();
-        if (unk_08->ov9_0211DAC0() != -1) {
+        unk_08->Update();
+        if (unk_08->GetResult() != -1) {
             return 1;
         }
     }
@@ -78,14 +78,14 @@ u32 CFlyingScene::func0()
 void CFlyingScene::func1()
 {
     if (unk_08 != NULL) {
-        unk_08->ov9_0211CE80();
+        unk_08->Render();
     }
 }
 
 void CFlyingScene::func2()
 {
     if (unk_08 != NULL) {
-        unk_08->ov9_0211CEF0();
+        unk_08->OnVBlank();
     }
 }
 

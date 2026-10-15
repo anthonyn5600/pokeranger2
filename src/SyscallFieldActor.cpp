@@ -1,16 +1,16 @@
 #include "FieldSyscallSets.hpp"
-#include "UnkStruct_02044464.hpp"
+#include "ScriptVM.hpp"
 #include "field/CFieldActor.hpp"
 #include "field/CFieldPartner.hpp"
 
 extern "C" {
 int ov0_02149138(int *args);
-int ov0_02149140(int *args);
+int Sys_ActorCommand(int *args);
 }
 
 static ScriptSyscall sFieldActorSyscalls[] = {
     (ScriptSyscall)ov0_02149138,
-    (ScriptSyscall)ov0_02149140,
+    (ScriptSyscall)Sys_ActorCommand,
 };
 
 FieldActorSyscalls::FieldActorSyscalls()
@@ -21,7 +21,7 @@ FieldActorSyscalls::~FieldActorSyscalls()
 {
 }
 
-void FieldActorSyscalls::ov0_02149120()
+void FieldActorSyscalls::Register()
 {
     Script_RegisterSyscalls(0xB, sFieldActorSyscalls);
 }
@@ -44,7 +44,7 @@ int ov0_02149138(int *args)
     return 0;
 }
 
-int ov0_02149140(int *args)
+int Sys_ActorCommand(int *args)
 {
     CFieldActor *actor = (CFieldActor *)args[1];
     int cmd = args[0];

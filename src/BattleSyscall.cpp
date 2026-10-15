@@ -6,8 +6,10 @@
 #include "CTPEmulator.hpp"
 #include "CameraController.hpp"
 #include "SaveData.hpp"
+#include "ScriptVM.hpp"
 #include "TextboxManager.hpp"
-#include "UnkStruct_02044464.hpp"
+#include "battle/BattleEffectParam.hpp"
+#include "battle/BattlePokemonParam.hpp"
 #include "battle/CBattleAssist.hpp"
 #include "battle/CBattleAttackEffect.hpp"
 #include "battle/CBattleAttackEffectData.hpp"
@@ -16,8 +18,6 @@
 #include "battle/CBattleEnemyData.hpp"
 #include "battle/UnkClass_0212770C.hpp"
 #include "battle/UnkClass_02127B48.hpp"
-#include "battle/UnkStruct_0212DFEC.hpp"
-#include "battle/UnkStruct_0212E008.hpp"
 #include "scene/CBattleScene.hpp"
 
 static inline CBattleScene *BattleScene()
@@ -27,62 +27,62 @@ static inline CBattleScene *BattleScene()
 
 extern "C" {
 
-CBattleDisk *ov1_0212A124()
+CBattleDisk *Battle_GetDisk()
 {
     return BattleScene()->unk_00D8;
 }
 
-CBattleAssist *ov1_0212A13C()
+CBattleAssist *Battle_GetAssist()
 {
     return BattleScene()->unk_0384;
 }
 
-CBattleEnemy *ov1_0212A1B0(u8 id);
-CBattleAttackEffect *ov1_0212A1D0(u8 id);
+CBattleEnemy *Battle_FindEnemy(u8 id);
+CBattleAttackEffect *Battle_FindEffect(u8 id);
 
-CActor *ov1_0212A154(u8 id)
+CActor *Battle_FindActor(u8 id)
 {
-    int kind = CBattleScene::ov1_02122728(id);
+    int kind = CBattleScene::GetObjectType(id);
     CActor *actor = NULL;
     switch (kind) {
     case 0:
-        actor = ov1_0212A124();
+        actor = Battle_GetDisk();
         break;
     case 1:
-        actor = ov1_0212A1B0(id);
+        actor = Battle_FindEnemy(id);
         break;
     case 2:
-        actor = ov1_0212A1D0(id);
+        actor = Battle_FindEffect(id);
         break;
     }
     return actor;
 }
 
-CBattleEnemy *ov1_0212A1B0(u8 id)
+CBattleEnemy *Battle_FindEnemy(u8 id)
 {
-    return BattleScene()->ov1_02122760(id);
+    return BattleScene()->GetEnemy(id);
 }
 
-CBattleAttackEffect *ov1_0212A1D0(u8 id)
+CBattleAttackEffect *Battle_FindEffect(u8 id)
 {
-    return BattleScene()->ov1_02122788(id);
+    return BattleScene()->GetEffect(id);
 }
 
-u8 ov1_0212A1F0()
+u8 Battle_FindFreeEffectId()
 {
     for (u8 i = 0; i < 0x60; i++) {
-        if (!ov1_0212A1D0(i + 9)->HasData()) {
+        if (!Battle_FindEffect(i + 9)->HasData()) {
             return i + 9;
         }
     }
     return 0x89;
 }
 
-CBattleAttackEffectData *ov1_0212A240(u16 id)
+CBattleAttackEffectData *Battle_FindEffectData(u16 id)
 {
     CBattleScene *scene = BattleScene();
     for (u8 i = 0; i < 0x12; i++) {
-        CBattleAttackEffectData *data = scene->ov1_021227B0(i);
+        CBattleAttackEffectData *data = scene->GetEffectData(i);
         if (data != NULL && id == data->unk_18->unk_00) {
             return data;
         }
@@ -90,47 +90,47 @@ CBattleAttackEffectData *ov1_0212A240(u16 id)
     return NULL;
 }
 
-int ov1_0212A298(int *args)
+int BattleSys_LoadEffectData(int *args)
 {
-    return BattleScene()->ov1_0211E7E8(args[0]) ? TRUE : FALSE;
+    return BattleScene()->AddEffectData(args[0]) ? TRUE : FALSE;
 }
 
-int ov1_0212A2CC(int *args)
+int BattleSys_LoadMessages(int *args)
 {
     s_game->m_textboxData->LoadBattleMessages(args[0]);
     return 1;
 }
 
-int ov1_0212A2F4(int *args)
+int BattleSys_LoadBgmGroup(int *args)
 {
     s_game->m_audioEngine->LoadBgmGroup(args[0]);
     return 1;
 }
 
-int ov1_0212A31C(int *args)
+int BattleSys_LoadSeGroup(int *args)
 {
     s_game->m_audioEngine->LoadBattleSeGroup(args[0]);
     return 1;
 }
 
-int ov1_0212A344(int *args)
+int BattleSys_ChangeBackground(int *args)
 {
-    BattleScene()->ov1_0211E71C(args[0]);
+    BattleScene()->ChangeBackground(args[0]);
     return 1;
 }
 
-int ov1_0212A36C(int *args)
+int BattleSys_SpawnEffect(int *args)
 {
-    u8 slot = ov1_0212A1F0();
+    u8 slot = Battle_FindFreeEffectId();
     if (slot == 0x89) {
         return 0x89;
     }
-    CBattleAttackEffectData *data = ov1_0212A240(args[0]);
+    CBattleAttackEffectData *data = Battle_FindEffectData(args[0]);
     if (data == NULL) {
         return 0x89;
     }
-    CBattleAttackEffect *effect = ov1_0212A1D0(slot);
-    effect->ov1_021270FC(data);
+    CBattleAttackEffect *effect = Battle_FindEffect(slot);
+    effect->Start(data);
     Point2D pos;
     pos.x = args[1];
     pos.y = args[2];
@@ -139,18 +139,18 @@ int ov1_0212A36C(int *args)
     return slot;
 }
 
-int ov1_0212A3FC(int *args)
+int BattleSys_SpawnEffectWithPower(int *args)
 {
-    u8 slot = ov1_0212A1F0();
+    u8 slot = Battle_FindFreeEffectId();
     if (slot == 0x89) {
         return 0x89;
     }
-    CBattleAttackEffectData *data = ov1_0212A240(args[0]);
+    CBattleAttackEffectData *data = Battle_FindEffectData(args[0]);
     if (data == NULL) {
         return 0x89;
     }
-    CBattleAttackEffect *effect = ov1_0212A1D0(slot);
-    effect->ov1_021270FC(data);
+    CBattleAttackEffect *effect = Battle_FindEffect(slot);
+    effect->Start(data);
     Point2D pos;
     pos.x = args[1];
     pos.y = args[2];
@@ -159,9 +159,9 @@ int ov1_0212A3FC(int *args)
     return slot;
 }
 
-int ov1_0212A48C(int *args)
+int BattleSys_MoveActorLinear(int *args)
 {
-    CActor *actor = ov1_0212A154(args[0]);
+    CActor *actor = Battle_FindActor(args[0]);
     if (actor == NULL) {
         return 0;
     }
@@ -172,9 +172,9 @@ int ov1_0212A48C(int *args)
     return 1;
 }
 
-int ov1_0212A4EC(int *args)
+int BattleSys_MoveActorAtSpeed(int *args)
 {
-    CActor *actor = ov1_0212A154(args[0]);
+    CActor *actor = Battle_FindActor(args[0]);
     if (actor == NULL) {
         return 0;
     }
@@ -185,9 +185,9 @@ int ov1_0212A4EC(int *args)
     return 1;
 }
 
-int ov1_0212A544(int *args)
+int BattleSys_MoveActorInDirection(int *args)
 {
-    CActor *actor = ov1_0212A154(args[0]);
+    CActor *actor = Battle_FindActor(args[0]);
     if (actor == NULL) {
         return 0;
     }
@@ -195,9 +195,9 @@ int ov1_0212A544(int *args)
     return 1;
 }
 
-int ov1_0212A580(int *args)
+int BattleSys_ActorOrbit(int *args)
 {
-    CActor *actor = ov1_0212A154(args[0]);
+    CActor *actor = Battle_FindActor(args[0]);
     if (actor == NULL) {
         return 0;
     }
@@ -205,9 +205,9 @@ int ov1_0212A580(int *args)
     return 1;
 }
 
-int ov1_0212A600(int *args)
+int BattleSys_MoveActorHeightTo(int *args)
 {
-    CActor *actor = ov1_0212A154(args[0]);
+    CActor *actor = Battle_FindActor(args[0]);
     if (actor == NULL) {
         return 0;
     }
@@ -215,9 +215,9 @@ int ov1_0212A600(int *args)
     return 1;
 }
 
-int ov1_0212A638(int *args)
+int BattleSys_MoveActorHeightAtSpeed(int *args)
 {
-    CActor *actor = ov1_0212A154(args[0]);
+    CActor *actor = Battle_FindActor(args[0]);
     if (actor == NULL) {
         return 0;
     }
@@ -225,9 +225,9 @@ int ov1_0212A638(int *args)
     return 1;
 }
 
-int ov1_0212A668(int *args)
+int BattleSys_StopActor(int *args)
 {
-    CActor *actor = ov1_0212A154(args[0]);
+    CActor *actor = Battle_FindActor(args[0]);
     if (actor == NULL) {
         return 0;
     }
@@ -235,9 +235,9 @@ int ov1_0212A668(int *args)
     return 0;
 }
 
-int ov1_0212A69C(int *args)
+int BattleSys_ActorJump(int *args)
 {
-    CActor *actor = ov1_0212A154(args[0]);
+    CActor *actor = Battle_FindActor(args[0]);
     if (actor == NULL) {
         return 0;
     }
@@ -245,43 +245,43 @@ int ov1_0212A69C(int *args)
     return 0;
 }
 
-int ov1_0212A6D4(int *args)
+int BattleSys_SetActorAnim(int *args)
 {
     if ((u8)args[2] == 0 && args[1] == 0x10) {
         return 0;
     }
-    CActor *actor = ov1_0212A154(args[0]);
+    CActor *actor = Battle_FindActor(args[0]);
     if (actor == NULL) {
         return 0;
     }
-    CBattleAttackEffect *effect = ov1_0212A1D0(args[0]);
+    CBattleAttackEffect *effect = Battle_FindEffect(args[0]);
     if (effect != NULL) {
-        effect->ov1_02127454(args[1], (u8)(args[2] - 1));
+        effect->PlayAction(args[1], (u8)(args[2] - 1));
     } else {
         actor->SetAnim(args[1], (u8)(args[2] - 1));
     }
     return 1;
 }
 
-int ov1_0212A754(int *args)
+int BattleSys_RemoveActor(int *args)
 {
     u8 id = args[0];
-    switch (CBattleScene::ov1_02122728(id)) {
+    switch (CBattleScene::GetObjectType(id)) {
     case 0:
         break;
     case 1:
-        ov1_0212A1B0(id)->ov1_021262AC();
+        Battle_FindEnemy(id)->Terminate();
         break;
     case 2:
-        ov1_0212A1D0(id)->ov1_02127300();
+        Battle_FindEffect(id)->Terminate();
         break;
     }
     return 0;
 }
 
-int ov1_0212A7A8(int *args)
+int BattleSys_PauseEnemyScript(int *args)
 {
-    CBattleEnemy *enemy = ov1_0212A1B0(args[0]);
+    CBattleEnemy *enemy = Battle_FindEnemy(args[0]);
     if (enemy == NULL) {
         return 0;
     }
@@ -289,9 +289,9 @@ int ov1_0212A7A8(int *args)
     return 1;
 }
 
-int ov1_0212A7D8(int *args)
+int BattleSys_ResumeEnemyScript(int *args)
 {
-    CBattleEnemy *enemy = ov1_0212A1B0(args[0]);
+    CBattleEnemy *enemy = Battle_FindEnemy(args[0]);
     if (enemy == NULL) {
         return 0;
     }
@@ -299,51 +299,51 @@ int ov1_0212A7D8(int *args)
     return 1;
 }
 
-int ov1_0212A808(int *args)
+int BattleSys_EnableCollision(int *args)
 {
     u8 id = args[0];
-    switch (CBattleScene::ov1_02122728(id)) {
+    switch (CBattleScene::GetObjectType(id)) {
     case 1:
-        ov1_0212A1B0(id)->ov1_0212671C(TRUE);
+        Battle_FindEnemy(id)->SetTargetable(TRUE);
         break;
     case 2:
-        ov1_0212A1D0(id)->ov1_02127388(TRUE);
+        Battle_FindEffect(id)->SetCollisionEnabled(TRUE);
         break;
     }
     return 0;
 }
 
-int ov1_0212A85C(int *args)
+int BattleSys_DisableCollision(int *args)
 {
     u8 id = args[0];
-    switch (CBattleScene::ov1_02122728(id)) {
+    switch (CBattleScene::GetObjectType(id)) {
     case 1:
-        ov1_0212A1B0(id)->ov1_0212671C(FALSE);
+        Battle_FindEnemy(id)->SetTargetable(FALSE);
         break;
     case 2:
-        ov1_0212A1D0(id)->ov1_02127388(FALSE);
+        Battle_FindEffect(id)->SetCollisionEnabled(FALSE);
         break;
     }
     return 0;
 }
 
-int ov1_0212A8B0(int *args)
+int BattleSys_AttachEffect(int *args)
 {
-    CBattleAttackEffect *effect = ov1_0212A1D0(args[0]);
+    CBattleAttackEffect *effect = Battle_FindEffect(args[0]);
     if (effect == NULL) {
         return 0;
     }
-    CActor *target = ov1_0212A154(args[1]);
+    CActor *target = Battle_FindActor(args[1]);
     if (target == NULL) {
         return 0;
     }
-    effect->ov1_0212728C((CBattleEnemy *)target, CBattleScene::ov1_02122728((u8)args[1]));
+    effect->AttachTo((CBattleEnemy *)target, CBattleScene::GetObjectType((u8)args[1]));
     return 1;
 }
 
-int ov1_0212A90C(int *args)
+int BattleSys_ScaleActor(int *args)
 {
-    CActor *actor = ov1_0212A154(args[0]);
+    CActor *actor = Battle_FindActor(args[0]);
     if (actor == NULL) {
         return 0;
     }
@@ -351,9 +351,9 @@ int ov1_0212A90C(int *args)
     return 1;
 }
 
-int ov1_0212A940(int *args)
+int BattleSys_FadeActorAlpha(int *args)
 {
-    CActor *actor = ov1_0212A154(args[0]);
+    CActor *actor = Battle_FindActor(args[0]);
     if (actor == NULL) {
         return 0;
     }
@@ -361,9 +361,9 @@ int ov1_0212A940(int *args)
     return 1;
 }
 
-int ov1_0212A978(int *args)
+int BattleSys_TurnActorTo(int *args)
 {
-    CActor *actor = ov1_0212A154(args[0]);
+    CActor *actor = Battle_FindActor(args[0]);
     if (actor == NULL) {
         return 0;
     }
@@ -384,9 +384,9 @@ int ov1_0212A978(int *args)
     return 1;
 }
 
-int ov1_0212AA30(int *args)
+int BattleSys_ActorFaceMoveDir(int *args)
 {
-    CActor *actor = ov1_0212A154(args[0]);
+    CActor *actor = Battle_FindActor(args[0]);
     if (actor == NULL) {
         return 0;
     }
@@ -394,9 +394,9 @@ int ov1_0212AA30(int *args)
     return 1;
 }
 
-int ov1_0212AA58(int *args)
+int BattleSys_ActorLookAt(int *args)
 {
-    CActor *actor = ov1_0212A154(args[0]);
+    CActor *actor = Battle_FindActor(args[0]);
     if (actor == NULL) {
         return 0;
     }
@@ -407,9 +407,9 @@ int ov1_0212AA58(int *args)
     return 1;
 }
 
-int ov1_0212AAA8(int *args)
+int BattleSys_SpinActor(int *args)
 {
-    CActor *actor = ov1_0212A154(args[0]);
+    CActor *actor = Battle_FindActor(args[0]);
     if (actor == NULL) {
         return 0;
     }
@@ -419,17 +419,17 @@ int ov1_0212AAA8(int *args)
 
 int ov1_0212AAE0(int *args)
 {
-    CBattleEnemy *enemy = ov1_0212A1B0(args[0]);
+    CBattleEnemy *enemy = Battle_FindEnemy(args[0]);
     if (enemy == NULL) {
         return 0;
     }
-    enemy->unk_1A4->ov1_02127888(args[1], args[2]);
+    enemy->unk_1A4->Show(args[1], args[2]);
     return 1;
 }
 
 int ov1_0212AB20(int *args)
 {
-    CBattleEnemy *enemy = ov1_0212A1B0(args[0]);
+    CBattleEnemy *enemy = Battle_FindEnemy(args[0]);
     if (enemy == NULL) {
         return 0;
     }
@@ -439,7 +439,7 @@ int ov1_0212AB20(int *args)
 
 int ov1_0212AB48(int *args)
 {
-    CBattleEnemy *enemy = ov1_0212A1B0(args[0]);
+    CBattleEnemy *enemy = Battle_FindEnemy(args[0]);
     if (enemy == NULL) {
         return 0;
     }
@@ -447,67 +447,67 @@ int ov1_0212AB48(int *args)
     return 1;
 }
 
-int ov1_0212AB78(int *args)
+int BattleSys_SetEnemyInvincible(int *args)
 {
-    CBattleEnemy *enemy = ov1_0212A1B0(args[0]);
+    CBattleEnemy *enemy = Battle_FindEnemy(args[0]);
     if (enemy == NULL) {
         return 0;
     }
-    enemy->ov1_02126734(TRUE);
+    enemy->SetInvincible(TRUE);
     return 1;
 }
 
-int ov1_0212ABA4(int *args)
+int BattleSys_ClearEnemyInvincible(int *args)
 {
-    CBattleEnemy *enemy = ov1_0212A1B0(args[0]);
+    CBattleEnemy *enemy = Battle_FindEnemy(args[0]);
     if (enemy == NULL) {
         return 0;
     }
-    enemy->ov1_02126734(FALSE);
+    enemy->SetInvincible(FALSE);
     return 1;
 }
 
-int ov1_0212ABD0(int *args)
+int BattleSys_ShowShadow(int *args)
 {
     u8 id = args[0];
-    switch (CBattleScene::ov1_02122728(id)) {
+    switch (CBattleScene::GetObjectType(id)) {
     case 1:
-        ov1_0212A1B0(id)->ov1_0212674C(TRUE);
+        Battle_FindEnemy(id)->SetShadowVisible(TRUE);
         break;
     case 2:
-        ov1_0212A1D0(id)->ov1_02127370(TRUE);
+        Battle_FindEffect(id)->SetShadowVisible(TRUE);
         break;
     }
     return 1;
 }
 
-int ov1_0212AC24(int *args)
+int BattleSys_HideShadow(int *args)
 {
     u8 id = args[0];
-    switch (CBattleScene::ov1_02122728(id)) {
+    switch (CBattleScene::GetObjectType(id)) {
     case 1:
-        ov1_0212A1B0(id)->ov1_0212674C(FALSE);
+        Battle_FindEnemy(id)->SetShadowVisible(FALSE);
         break;
     case 2:
-        ov1_0212A1D0(id)->ov1_02127370(FALSE);
+        Battle_FindEffect(id)->SetShadowVisible(FALSE);
         break;
     }
     return 1;
 }
 
-int ov1_0212AC78(int *args)
+int BattleSys_SetEnemyStatus(int *args)
 {
-    CBattleEnemy *enemy = ov1_0212A1B0(args[0]);
+    CBattleEnemy *enemy = Battle_FindEnemy(args[0]);
     if (enemy == NULL) {
         return 0;
     }
-    enemy->ov1_021263A4(args[1], (u16)args[2]);
+    enemy->SetStatus(args[1], (u16)args[2]);
     return 1;
 }
 
 int ov1_0212ACB0(int *args)
 {
-    CBattleDisk *disk = ov1_0212A124();
+    CBattleDisk *disk = Battle_GetDisk();
     if (disk == NULL) {
         return 0;
     }
@@ -517,7 +517,7 @@ int ov1_0212ACB0(int *args)
 
 int ov1_0212ACDC(int *args)
 {
-    CBattleDisk *disk = ov1_0212A124();
+    CBattleDisk *disk = Battle_GetDisk();
     if (disk == NULL) {
         return 0;
     }
@@ -525,22 +525,22 @@ int ov1_0212ACDC(int *args)
     return 1;
 }
 
-int ov1_0212AD08(int *args)
+int BattleSys_SetPartnerEnergyGain(int *args)
 {
     BattleScene()->unk_007C = args[0];
     return 1;
 }
 
-int ov1_0212AD28(int *args)
+int BattleSys_GetHP(int *args)
 {
     u8 id = args[0];
     int value;
-    switch (CBattleScene::ov1_02122728(id)) {
+    switch (CBattleScene::GetObjectType(id)) {
     case 0:
-        value = ov1_0212A124()->unk_19C;
+        value = Battle_GetDisk()->unk_19C;
         break;
     case 1:
-        value = ov1_0212A1B0(id)->unk_188;
+        value = Battle_FindEnemy(id)->unk_188;
         break;
     case 2:
         return 0;
@@ -548,21 +548,21 @@ int ov1_0212AD28(int *args)
     return value;
 }
 
-int ov1_0212AD88(int *args)
+int BattleSys_GetHPPercent(int *args)
 {
     u8 id = args[0];
     int hp;
     int maxHp;
-    switch (CBattleScene::ov1_02122728(id)) {
+    switch (CBattleScene::GetObjectType(id)) {
     case 0: {
         u8 level = BattleStartParam_GetStylerLevel(s_game->unk_143C);
-        hp = ov1_0212A124()->unk_19C;
+        hp = Battle_GetDisk()->unk_19C;
         maxHp = DiskHPTable_GetMaxEnergy(s_game->m_diskHPTable, level);
         break;
     }
     case 1:
-        hp = ov1_0212A1B0(id)->unk_188;
-        maxHp = ov1_0212A1B0(id)->unk_184->unk_1C->unk_00;
+        hp = Battle_FindEnemy(id)->unk_188;
+        maxHp = Battle_FindEnemy(id)->unk_184->unk_1C->unk_00;
         break;
     case 2:
         return 0;
@@ -570,36 +570,36 @@ int ov1_0212AD88(int *args)
     return hp * 100 / maxHp;
 }
 
-int ov1_0212AE40(int *args)
+int BattleSys_GetEnemyStatus(int *args)
 {
-    CBattleEnemy *enemy = ov1_0212A1B0(args[0]);
+    CBattleEnemy *enemy = Battle_FindEnemy(args[0]);
     if (enemy != NULL) {
         return enemy->unk_18C;
     }
     return 0;
 }
 
-int ov1_0212AE60(int *args)
+int BattleSys_GetActorX(int *args)
 {
-    CActor *actor = ov1_0212A154(args[0]);
+    CActor *actor = Battle_FindActor(args[0]);
     if (actor != NULL) {
         return actor->m_motion.m_pos.x;
     }
     return 0;
 }
 
-int ov1_0212AE80(int *args)
+int BattleSys_GetActorY(int *args)
 {
-    CActor *actor = ov1_0212A154(args[0]);
+    CActor *actor = Battle_FindActor(args[0]);
     if (actor != NULL) {
         return actor->m_motion.m_pos.y;
     }
     return 0;
 }
 
-int ov1_0212AEA0(int *args)
+int BattleSys_PredictActorX(int *args)
 {
-    CActor *actor = ov1_0212A154(args[0]);
+    CActor *actor = Battle_FindActor(args[0]);
     if (actor == NULL) {
         return 0;
     }
@@ -607,9 +607,9 @@ int ov1_0212AEA0(int *args)
     return actor->m_motion.m_pos.x + dx * args[1];
 }
 
-int ov1_0212AED8(int *args)
+int BattleSys_PredictActorY(int *args)
 {
-    CActor *actor = ov1_0212A154(args[0]);
+    CActor *actor = Battle_FindActor(args[0]);
     if (actor == NULL) {
         return 0;
     }
@@ -617,120 +617,120 @@ int ov1_0212AED8(int *args)
     return actor->m_motion.m_pos.y + dy * args[1];
 }
 
-int ov1_0212AF10(int *args)
+int BattleSys_GetActorDir(int *args)
 {
-    CActor *actor = ov1_0212A154(args[0]);
+    CActor *actor = Battle_FindActor(args[0]);
     if (actor != NULL) {
         return actor->m_dir;
     }
     return 0;
 }
 
-int ov1_0212AF30(int *args)
+int BattleSys_GetAttackPower(int *args)
 {
     int value = 0;
     u8 id = args[0];
-    switch (CBattleScene::ov1_02122728(id)) {
+    switch (CBattleScene::GetObjectType(id)) {
     case 1:
-        value = ov1_0212A1B0(id)->unk_184->unk_1C->unk_05;
+        value = Battle_FindEnemy(id)->unk_184->unk_1C->unk_05;
         break;
     case 2:
-        value = ov1_0212A1D0(id)->unk_18E;
+        value = Battle_FindEffect(id)->unk_18E;
         break;
     }
     return value;
 }
 
-int ov1_0212AF8C(int *args)
+int BattleSys_ActorExists(int *args)
 {
-    CActor *actor = ov1_0212A154(args[0]);
+    CActor *actor = Battle_FindActor(args[0]);
     if (actor == NULL) {
         return 0;
     }
     return actor->HasData();
 }
 
-int ov1_0212AFBC(int *args)
+int BattleSys_IsActorMoving(int *args)
 {
-    CActor *actor = ov1_0212A154(args[0]);
+    CActor *actor = Battle_FindActor(args[0]);
     if (actor == NULL) {
         return 0;
     }
     return actor->m_motion.IsActive();
 }
 
-int ov1_0212AFEC(int *args)
+int BattleSys_IsActorHeightMoving(int *args)
 {
-    CActor *actor = ov1_0212A154(args[0]);
+    CActor *actor = Battle_FindActor(args[0]);
     if (actor != NULL) {
         return actor->m_heightTweening;
     }
     return 0;
 }
 
-int ov1_0212B00C(int *args)
+int BattleSys_IsActorJumping(int *args)
 {
-    CActor *actor = ov1_0212A154(args[0]);
+    CActor *actor = Battle_FindActor(args[0]);
     if (actor != NULL) {
         return actor->m_jumping;
     }
     return 0;
 }
 
-int ov1_0212B02C(int *args)
+int BattleSys_GetActorAnimState(int *args)
 {
     u8 id = args[0];
-    CActor *actor = ov1_0212A154(id);
+    CActor *actor = Battle_FindActor(id);
     if (actor == NULL) {
         return 0;
     }
-    if (CBattleScene::ov1_02122728(id) == 2) {
-        return ((CBattleAttackEffect *)actor)->ov1_0212747C();
+    if (CBattleScene::GetObjectType(id) == 2) {
+        return ((CBattleAttackEffect *)actor)->IsAnimActive();
     }
     return actor->GetAnimStatus();
 }
 
-int ov1_0212B070(int *args)
+int BattleSys_IsActorTurning(int *args)
 {
-    CActor *actor = ov1_0212A154(args[0]);
+    CActor *actor = Battle_FindActor(args[0]);
     if (actor != NULL) {
         return actor->m_turning;
     }
     return 0;
 }
 
-int ov1_0212B090(int *args)
+int BattleSys_ActivateDisk(int *args)
 {
-    ov1_0212A124()->ov1_0212C514(1);
+    Battle_GetDisk()->SetActive(1);
     return 1;
 }
 
-int ov1_0212B0A8(int *args)
+int BattleSys_DeactivateDisk(int *args)
 {
-    ov1_0212A124()->ov1_0212C514(0);
+    Battle_GetDisk()->SetActive(0);
     s_game->m_audioEngine->StopCaptureLineSe(0);
-    CBattleAssist *assist = ov1_0212A13C();
+    CBattleAssist *assist = Battle_GetAssist();
     if (assist != NULL) {
         assist->vfunc_0C();
     }
     return 1;
 }
 
-int ov1_0212B0F4(int *args)
+int BattleSys_IsDiskActive(int *args)
 {
-    return ov1_0212A124()->ov1_0212C5C0();
+    return Battle_GetDisk()->IsActive();
 }
 
-int ov1_0212B104(int *args)
+int BattleSys_GetBattleTime(int *args)
 {
     return BattleScene()->unk_0028;
 }
 
-int ov1_0212B11C(int *args)
+int BattleSys_CountEnemies(int *args)
 {
     int count = 0;
     for (int i = 0; i < 8; i++) {
-        CBattleEnemy *enemy = ov1_0212A1B0(i + 1);
+        CBattleEnemy *enemy = Battle_FindEnemy(i + 1);
         if (enemy != NULL && enemy->HasData()) {
             count++;
         }
@@ -738,7 +738,7 @@ int ov1_0212B11C(int *args)
     return count;
 }
 
-int ov1_0212B170(int *args)
+int BattleSys_ShowMessage(int *args)
 {
     s_game->m_textboxData->ShowBattleMessage(args[0], 1, 1, 0);
     return 1;
@@ -750,129 +750,129 @@ int ov1_0212B1AC(int *args)
     return 1;
 }
 
-int ov1_0212B1E4(int *args)
+int BattleSys_IsTextboxActive(int *args)
 {
     return s_game->m_textboxData->IsActive();
 }
 
-int ov1_0212B204(int *args)
+int BattleSys_CloseTextbox(int *args)
 {
     s_game->m_textboxData->CloseAndClear(1, 1);
     return 1;
 }
 
-int ov1_0212B230(int *args)
+int BattleSys_PauseBattle(int *args)
 {
     BattleScene()->unk_0008 |= 2;
     return 1;
 }
 
-int ov1_0212B254(int *args)
+int BattleSys_ResumeBattle(int *args)
 {
     BattleScene()->unk_0008 &= ~2;
     return 1;
 }
 
-int ov1_0212B278(int *args)
+int BattleSys_ShowEnemyGauges(int *args)
 {
     BattleScene()->unk_0070 = TRUE;
     return 1;
 }
 
-int ov1_0212B294(int *args)
+int BattleSys_HideEnemyGauges(int *args)
 {
     BattleScene()->unk_0070 = FALSE;
     return 1;
 }
 
-int ov1_0212B2B4(int *args)
+int BattleSys_EndBattle(int *args)
 {
-    BattleScene()->ov1_021227CC(args[0]);
+    BattleScene()->EndBattle(args[0]);
     return 1;
 }
 
-int ov1_0212B2D8(int *args)
+int BattleSys_UseTouchEmulator(int *args)
 {
-    BattleScene()->ov1_02122D78(0);
+    BattleScene()->SelectTouchPanel(0);
     return 1;
 }
 
-int ov1_0212B2FC(int *args)
+int BattleSys_UseTouchPanel(int *args)
 {
-    BattleScene()->ov1_02122D78(1);
+    BattleScene()->SelectTouchPanel(1);
     return 1;
 }
 
-int ov1_0212B320(int *args)
+int BattleSys_FadeOutWhite(int *args)
 {
     s_game->m_mainFade->Start(2, args[0]);
     return 1;
 }
 
-int ov1_0212B354(int *args)
+int BattleSys_FadeInWhite(int *args)
 {
     s_game->m_mainFade->Start(1, args[0]);
     return 1;
 }
 
-int ov1_0212B388(int *args)
+int BattleSys_FadeOutBlack(int *args)
 {
     s_game->m_mainFade->Start(4, args[0]);
     return 1;
 }
 
-int ov1_0212B3BC(int *args)
+int BattleSys_FadeInBlack(int *args)
 {
     s_game->m_mainFade->Start(3, args[0]);
     return 1;
 }
 
-int ov1_0212B3F0(int *args)
+int BattleSys_PlaySe(int *args)
 {
     s_game->m_audioEngine->PlaySe(args[0]);
     return 1;
 }
 
-int ov1_0212B418(int *args)
+int BattleSys_StopSe(int *args)
 {
     s_game->m_audioEngine->StopSe(args[0]);
     return 1;
 }
 
-int ov1_0212B440(int *args)
+int BattleSys_PlayStream(int *args)
 {
     s_game->m_audioEngine->PlayStream(args[0], 0x40);
     return 1;
 }
 
-int ov1_0212B46C(int *args)
+int BattleSys_PlayBgm(int *args)
 {
     s_game->m_audioEngine->PlayBgm(args[0], 0);
     return 1;
 }
 
-int ov1_0212B498(int *args)
+int BattleSys_StopBgm(int *args)
 {
     s_game->m_audioEngine->StopBgm(args[0]);
     return 1;
 }
 
-int ov1_0212B4C0(int *args)
+int BattleSys_Sin(int *args)
 {
     return FX_SinIdx((u16)args[0]);
 }
 
-int ov1_0212B4E4(int *args)
+int BattleSys_Cos(int *args)
 {
     return FX_CosIdx((u16)args[0]);
 }
 
-int ov1_0212B510(int *args)
+int BattleSys_Atan2(int *args)
 {
     return FX_Atan2Idx(args[3] - args[1], args[2] - args[0]);
 }
 
-int ov1_0212B530(int *args)
+int BattleSys_TouchPress(int *args)
 {
     CTPEmulator *emu = CGame::GetInstance()->touchPanelEmulator;
     if (emu == NULL) {
@@ -882,7 +882,7 @@ int ov1_0212B530(int *args)
     return 1;
 }
 
-int ov1_0212B55C(int *args)
+int BattleSys_TouchRelease(int *args)
 {
     CTPEmulator *emu = CGame::GetInstance()->touchPanelEmulator;
     if (emu == NULL) {
@@ -892,7 +892,7 @@ int ov1_0212B55C(int *args)
     return 1;
 }
 
-int ov1_0212B580(int *args)
+int BattleSys_TouchDragTo(int *args)
 {
     CTPEmulator *emu = CGame::GetInstance()->touchPanelEmulator;
     if (emu == NULL) {
@@ -902,14 +902,14 @@ int ov1_0212B580(int *args)
     return 1;
 }
 
-CameraController *ov1_0212B5BC()
+CameraController *Battle_GetCameraController()
 {
-    return BattleScene()->ov1_021227C4();
+    return BattleScene()->GetCameraController();
 }
 
-int ov1_0212B5D8(int *args)
+int BattleSys_SetCameraPos(int *args)
 {
-    CameraController *camera = ov1_0212B5BC();
+    CameraController *camera = Battle_GetCameraController();
     if (camera != NULL) {
         return 0;
     }
@@ -917,9 +917,9 @@ int ov1_0212B5D8(int *args)
     return 1;
 }
 
-int ov1_0212B600(int *args)
+int BattleSys_SetCameraScale(int *args)
 {
-    CameraController *camera = ov1_0212B5BC();
+    CameraController *camera = Battle_GetCameraController();
     if (camera != NULL) {
         return 0;
     }
@@ -927,9 +927,9 @@ int ov1_0212B600(int *args)
     return 1;
 }
 
-int ov1_0212B628(int *args)
+int BattleSys_MoveCameraTo(int *args)
 {
-    CameraController *camera = ov1_0212B5BC();
+    CameraController *camera = Battle_GetCameraController();
     if (camera == NULL) {
         return 0;
     }
@@ -937,9 +937,9 @@ int ov1_0212B628(int *args)
     return 1;
 }
 
-int ov1_0212B650(int *args)
+int BattleSys_MoveCameraToTimed(int *args)
 {
-    CameraController *camera = ov1_0212B5BC();
+    CameraController *camera = Battle_GetCameraController();
     if (camera == NULL) {
         return 0;
     }
@@ -947,9 +947,9 @@ int ov1_0212B650(int *args)
     return 1;
 }
 
-int ov1_0212B688(int *args)
+int BattleSys_ZoomCamera(int *args)
 {
-    CameraController *camera = ov1_0212B5BC();
+    CameraController *camera = Battle_GetCameraController();
     if (camera == NULL) {
         return 0;
     }
@@ -957,9 +957,9 @@ int ov1_0212B688(int *args)
     return 1;
 }
 
-int ov1_0212B6B8(int *args)
+int BattleSys_SwayCamera(int *args)
 {
-    CameraController *camera = ov1_0212B5BC();
+    CameraController *camera = Battle_GetCameraController();
     if (camera == NULL) {
         return 0;
     }
@@ -967,9 +967,9 @@ int ov1_0212B6B8(int *args)
     return 1;
 }
 
-int ov1_0212B6F8(int *args)
+int BattleSys_ShakeCamera(int *args)
 {
-    CameraController *camera = ov1_0212B5BC();
+    CameraController *camera = Battle_GetCameraController();
     if (camera == NULL) {
         return 0;
     }
@@ -977,9 +977,9 @@ int ov1_0212B6F8(int *args)
     return 1;
 }
 
-int ov1_0212B728(int *args)
+int BattleSys_SpinCamera(int *args)
 {
-    CameraController *camera = ov1_0212B5BC();
+    CameraController *camera = Battle_GetCameraController();
     if (camera == NULL) {
         return 0;
     }
@@ -987,9 +987,9 @@ int ov1_0212B728(int *args)
     return 1;
 }
 
-int ov1_0212B760(int *args)
+int BattleSys_SpinZoomCamera(int *args)
 {
-    CameraController *camera = ov1_0212B5BC();
+    CameraController *camera = Battle_GetCameraController();
     if (camera == NULL) {
         return 0;
     }
@@ -1000,99 +1000,99 @@ int ov1_0212B760(int *args)
 
 // The battle script syscall table (registered by CBattleScene::func6)
 ScriptSyscall gBattleSyscalls[] = {
-    (ScriptSyscall)ov1_0212A298,
-    (ScriptSyscall)ov1_0212A2CC,
-    (ScriptSyscall)ov1_0212A2F4,
-    (ScriptSyscall)ov1_0212A31C,
-    (ScriptSyscall)ov1_0212A344,
-    (ScriptSyscall)ov1_0212A36C,
-    (ScriptSyscall)ov1_0212A3FC,
-    (ScriptSyscall)ov1_0212A48C,
-    (ScriptSyscall)ov1_0212A4EC,
-    (ScriptSyscall)ov1_0212A544,
-    (ScriptSyscall)ov1_0212A580,
-    (ScriptSyscall)ov1_0212A600,
-    (ScriptSyscall)ov1_0212A638,
-    (ScriptSyscall)ov1_0212A668,
-    (ScriptSyscall)ov1_0212A69C,
-    (ScriptSyscall)ov1_0212A6D4,
-    (ScriptSyscall)ov1_0212A754,
-    (ScriptSyscall)ov1_0212A7A8,
-    (ScriptSyscall)ov1_0212A7D8,
-    (ScriptSyscall)ov1_0212A808,
-    (ScriptSyscall)ov1_0212A85C,
-    (ScriptSyscall)ov1_0212A8B0,
-    (ScriptSyscall)ov1_0212A90C,
-    (ScriptSyscall)ov1_0212A940,
-    (ScriptSyscall)ov1_0212A978,
-    (ScriptSyscall)ov1_0212AA30,
-    (ScriptSyscall)ov1_0212AA58,
-    (ScriptSyscall)ov1_0212AAA8,
+    (ScriptSyscall)BattleSys_LoadEffectData,
+    (ScriptSyscall)BattleSys_LoadMessages,
+    (ScriptSyscall)BattleSys_LoadBgmGroup,
+    (ScriptSyscall)BattleSys_LoadSeGroup,
+    (ScriptSyscall)BattleSys_ChangeBackground,
+    (ScriptSyscall)BattleSys_SpawnEffect,
+    (ScriptSyscall)BattleSys_SpawnEffectWithPower,
+    (ScriptSyscall)BattleSys_MoveActorLinear,
+    (ScriptSyscall)BattleSys_MoveActorAtSpeed,
+    (ScriptSyscall)BattleSys_MoveActorInDirection,
+    (ScriptSyscall)BattleSys_ActorOrbit,
+    (ScriptSyscall)BattleSys_MoveActorHeightTo,
+    (ScriptSyscall)BattleSys_MoveActorHeightAtSpeed,
+    (ScriptSyscall)BattleSys_StopActor,
+    (ScriptSyscall)BattleSys_ActorJump,
+    (ScriptSyscall)BattleSys_SetActorAnim,
+    (ScriptSyscall)BattleSys_RemoveActor,
+    (ScriptSyscall)BattleSys_PauseEnemyScript,
+    (ScriptSyscall)BattleSys_ResumeEnemyScript,
+    (ScriptSyscall)BattleSys_EnableCollision,
+    (ScriptSyscall)BattleSys_DisableCollision,
+    (ScriptSyscall)BattleSys_AttachEffect,
+    (ScriptSyscall)BattleSys_ScaleActor,
+    (ScriptSyscall)BattleSys_FadeActorAlpha,
+    (ScriptSyscall)BattleSys_TurnActorTo,
+    (ScriptSyscall)BattleSys_ActorFaceMoveDir,
+    (ScriptSyscall)BattleSys_ActorLookAt,
+    (ScriptSyscall)BattleSys_SpinActor,
     (ScriptSyscall)ov1_0212AAE0,
     (ScriptSyscall)ov1_0212AB20,
     (ScriptSyscall)ov1_0212AB48,
-    (ScriptSyscall)ov1_0212AB78,
-    (ScriptSyscall)ov1_0212ABA4,
-    (ScriptSyscall)ov1_0212ABD0,
-    (ScriptSyscall)ov1_0212AC24,
-    (ScriptSyscall)ov1_0212AC78,
-    (ScriptSyscall)ov1_0212AD28,
-    (ScriptSyscall)ov1_0212AD88,
-    (ScriptSyscall)ov1_0212AE40,
-    (ScriptSyscall)ov1_0212AE60,
-    (ScriptSyscall)ov1_0212AE80,
-    (ScriptSyscall)ov1_0212AEA0,
-    (ScriptSyscall)ov1_0212AED8,
-    (ScriptSyscall)ov1_0212AF10,
-    (ScriptSyscall)ov1_0212AF30,
-    (ScriptSyscall)ov1_0212AF8C,
-    (ScriptSyscall)ov1_0212AFBC,
-    (ScriptSyscall)ov1_0212AFEC,
-    (ScriptSyscall)ov1_0212B00C,
-    (ScriptSyscall)ov1_0212B02C,
-    (ScriptSyscall)ov1_0212B070,
-    (ScriptSyscall)ov1_0212B090,
-    (ScriptSyscall)ov1_0212B0A8,
-    (ScriptSyscall)ov1_0212B0F4,
+    (ScriptSyscall)BattleSys_SetEnemyInvincible,
+    (ScriptSyscall)BattleSys_ClearEnemyInvincible,
+    (ScriptSyscall)BattleSys_ShowShadow,
+    (ScriptSyscall)BattleSys_HideShadow,
+    (ScriptSyscall)BattleSys_SetEnemyStatus,
+    (ScriptSyscall)BattleSys_GetHP,
+    (ScriptSyscall)BattleSys_GetHPPercent,
+    (ScriptSyscall)BattleSys_GetEnemyStatus,
+    (ScriptSyscall)BattleSys_GetActorX,
+    (ScriptSyscall)BattleSys_GetActorY,
+    (ScriptSyscall)BattleSys_PredictActorX,
+    (ScriptSyscall)BattleSys_PredictActorY,
+    (ScriptSyscall)BattleSys_GetActorDir,
+    (ScriptSyscall)BattleSys_GetAttackPower,
+    (ScriptSyscall)BattleSys_ActorExists,
+    (ScriptSyscall)BattleSys_IsActorMoving,
+    (ScriptSyscall)BattleSys_IsActorHeightMoving,
+    (ScriptSyscall)BattleSys_IsActorJumping,
+    (ScriptSyscall)BattleSys_GetActorAnimState,
+    (ScriptSyscall)BattleSys_IsActorTurning,
+    (ScriptSyscall)BattleSys_ActivateDisk,
+    (ScriptSyscall)BattleSys_DeactivateDisk,
+    (ScriptSyscall)BattleSys_IsDiskActive,
     (ScriptSyscall)ov1_0212ACB0,
     (ScriptSyscall)ov1_0212ACDC,
-    (ScriptSyscall)ov1_0212AD08,
-    (ScriptSyscall)ov1_0212B104,
-    (ScriptSyscall)ov1_0212B11C,
-    (ScriptSyscall)ov1_0212B170,
+    (ScriptSyscall)BattleSys_SetPartnerEnergyGain,
+    (ScriptSyscall)BattleSys_GetBattleTime,
+    (ScriptSyscall)BattleSys_CountEnemies,
+    (ScriptSyscall)BattleSys_ShowMessage,
     (ScriptSyscall)ov1_0212B1AC,
-    (ScriptSyscall)ov1_0212B1E4,
-    (ScriptSyscall)ov1_0212B204,
-    (ScriptSyscall)ov1_0212B230,
-    (ScriptSyscall)ov1_0212B254,
-    (ScriptSyscall)ov1_0212B2B4,
-    (ScriptSyscall)ov1_0212B2D8,
-    (ScriptSyscall)ov1_0212B2FC,
-    (ScriptSyscall)ov1_0212B278,
-    (ScriptSyscall)ov1_0212B294,
-    (ScriptSyscall)ov1_0212B320,
-    (ScriptSyscall)ov1_0212B354,
-    (ScriptSyscall)ov1_0212B388,
-    (ScriptSyscall)ov1_0212B3BC,
-    (ScriptSyscall)ov1_0212B3F0,
-    (ScriptSyscall)ov1_0212B418,
-    (ScriptSyscall)ov1_0212B440,
-    (ScriptSyscall)ov1_0212B46C,
-    (ScriptSyscall)ov1_0212B498,
-    (ScriptSyscall)ov1_0212B4C0,
-    (ScriptSyscall)ov1_0212B4E4,
-    (ScriptSyscall)ov1_0212B510,
-    (ScriptSyscall)ov1_0212B530,
-    (ScriptSyscall)ov1_0212B55C,
-    (ScriptSyscall)ov1_0212B580,
-    (ScriptSyscall)ov1_0212B5D8,
-    (ScriptSyscall)ov1_0212B600,
-    (ScriptSyscall)ov1_0212B628,
-    (ScriptSyscall)ov1_0212B650,
-    (ScriptSyscall)ov1_0212B688,
-    (ScriptSyscall)ov1_0212B6B8,
-    (ScriptSyscall)ov1_0212B6F8,
-    (ScriptSyscall)ov1_0212B728,
-    (ScriptSyscall)ov1_0212B760,
+    (ScriptSyscall)BattleSys_IsTextboxActive,
+    (ScriptSyscall)BattleSys_CloseTextbox,
+    (ScriptSyscall)BattleSys_PauseBattle,
+    (ScriptSyscall)BattleSys_ResumeBattle,
+    (ScriptSyscall)BattleSys_EndBattle,
+    (ScriptSyscall)BattleSys_UseTouchEmulator,
+    (ScriptSyscall)BattleSys_UseTouchPanel,
+    (ScriptSyscall)BattleSys_ShowEnemyGauges,
+    (ScriptSyscall)BattleSys_HideEnemyGauges,
+    (ScriptSyscall)BattleSys_FadeOutWhite,
+    (ScriptSyscall)BattleSys_FadeInWhite,
+    (ScriptSyscall)BattleSys_FadeOutBlack,
+    (ScriptSyscall)BattleSys_FadeInBlack,
+    (ScriptSyscall)BattleSys_PlaySe,
+    (ScriptSyscall)BattleSys_StopSe,
+    (ScriptSyscall)BattleSys_PlayStream,
+    (ScriptSyscall)BattleSys_PlayBgm,
+    (ScriptSyscall)BattleSys_StopBgm,
+    (ScriptSyscall)BattleSys_Sin,
+    (ScriptSyscall)BattleSys_Cos,
+    (ScriptSyscall)BattleSys_Atan2,
+    (ScriptSyscall)BattleSys_TouchPress,
+    (ScriptSyscall)BattleSys_TouchRelease,
+    (ScriptSyscall)BattleSys_TouchDragTo,
+    (ScriptSyscall)BattleSys_SetCameraPos,
+    (ScriptSyscall)BattleSys_SetCameraScale,
+    (ScriptSyscall)BattleSys_MoveCameraTo,
+    (ScriptSyscall)BattleSys_MoveCameraToTimed,
+    (ScriptSyscall)BattleSys_ZoomCamera,
+    (ScriptSyscall)BattleSys_SwayCamera,
+    (ScriptSyscall)BattleSys_ShakeCamera,
+    (ScriptSyscall)BattleSys_SpinCamera,
+    (ScriptSyscall)BattleSys_SpinZoomCamera,
     NULL,
 };

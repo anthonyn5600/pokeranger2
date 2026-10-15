@@ -34,7 +34,7 @@ public:
     virtual void func7();
     virtual u32 getSceneId();
 
-    void ov26_0211D3C0(int id);
+    void LoadPicture(int id);
 
 public:
     int unk_0004; // frame counter

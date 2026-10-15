@@ -23,7 +23,7 @@ TouchDotLine::~TouchDotLine()
 
 extern "C" {
 
-void ov0_0214816C(TouchDotLine *obj, VramImage *ncbr, VramPalette *palette, CNCERFile *ncer, CellAnimController *cac)
+void TouchDotLine_SetRes(TouchDotLine *obj, VramImage *ncbr, VramPalette *palette, CNCERFile *ncer, CellAnimController *cac)
 {
     obj->m_dot.SetResources((UnkClass_CPrimitive_ImageProxy *)ncbr, NULL, (UnkClass_CPrimitive_ImagePaletteProxy *)palette, (UnkClass_CSoftwareSprite_38 *)ncer);
     obj->m_dot.m_cellDataIdx = 0;
@@ -40,7 +40,7 @@ void ov0_0214816C(TouchDotLine *obj, VramImage *ncbr, VramPalette *palette, CNCE
     }
 }
 
-void ov0_021481EC(TouchDotLine *obj, int fps)
+void TouchDotLine_Update(TouchDotLine *obj, int fps)
 {
     if (!obj->m_visible) {
         return;
@@ -60,7 +60,7 @@ void ov0_021481EC(TouchDotLine *obj, int fps)
     }
 }
 
-void ov0_02148288(TouchDotLine *obj, Camera2D *camera)
+void TouchDotLine_Draw(TouchDotLine *obj, Camera2D *camera)
 {
     if (!obj->m_visible) {
         return;
@@ -111,7 +111,7 @@ void ov0_02148288(TouchDotLine *obj, Camera2D *camera)
     obj->m_visible = FALSE;
 }
 
-void ov0_02148480(TouchDotLine *obj, Point2D *pos, Point2D *target)
+void TouchDotLine_SetLine(TouchDotLine *obj, Point2D *pos, Point2D *target)
 {
     obj->m_start = *pos;
     obj->m_end = *target;

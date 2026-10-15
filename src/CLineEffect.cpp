@@ -8,7 +8,7 @@
 
 CLineEffect::CLineEffect()
 {
-    ov1_0212E620();
+    Load();
     SetData(unk_184);
     unk_184->LoadImagesToVram(NNS_GfdGetTexKeyAddr(NNS_GfdAllocLnkTexVram(unk_184->GetImagesSize(), FALSE, 0)));
     unk_184->ReleaseImages();
@@ -21,20 +21,20 @@ CLineEffect::CLineEffect()
 
 CLineEffect::~CLineEffect()
 {
-    ov1_0212E66C();
+    Release();
 }
 
-void CLineEffect::ov1_0212E620()
+void CLineEffect::Load()
 {
     unk_184 = new CActorData("data/disk02_LZ.bin", "disk02", 1, TRUE, NULL);
 }
 
-void CLineEffect::ov1_0212E66C()
+void CLineEffect::Release()
 {
     SAFE_DELETE(unk_184);
 }
 
-void CLineEffect::ov1_0212E69C(fx32 arg0, fx32 arg1, CActor *leader)
+void CLineEffect::Setup(fx32 arg0, fx32 arg1, CActor *leader)
 {
     m_leader = leader;
     unk_194 = arg0;

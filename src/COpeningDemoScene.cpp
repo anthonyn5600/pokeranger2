@@ -71,7 +71,7 @@ u32 COpeningDemoScene::func0()
     return -1;
 }
 
-static void ov3_02125140(void *arg);
+static void FlipCapture(void *arg);
 
 void COpeningDemoScene::func1()
 {
@@ -84,14 +84,14 @@ void COpeningDemoScene::func1()
         m_screen->Render(m_camera, s_captureFlip);
     }
     G3_PopMtx(1);
-    s_game->AddVBlankCallback(ov3_02125140, NULL);
+    s_game->AddVBlankCallback(FlipCapture, NULL);
     if (m_next < 0) {
         return;
     }
     if (m_screen != NULL) {
         m_screen->Stop();
     }
-    ov3_02124CAC(m_next);
+    SetScreen(m_next);
     m_next = -1;
 }
 
@@ -138,7 +138,7 @@ void COpeningDemoScene::func5()
     G3X_AntiAlias(FALSE);
     GX_DispOn();
     GXS_DispOn();
-    ov3_02124F18();
+    SetupSubOam();
     s_captureFlip = FALSE;
 
     G2_SetWnd0Position(0, 50, 255, 100);
@@ -189,20 +189,20 @@ void COpeningDemoScene::func6()
         m_capture.Init();
         m_title.Init();
         m_title.unk_613 = 0;
-        ov3_02124CAC(0);
+        SetScreen(0);
         m_resource = new CTitleResource();
         m_resource->Load(s_game);
         s_game->unk_14A4->unk_8BA0 = (int)m_resource;
     } else {
         m_title.Init();
         m_title.unk_613 = 1;
-        ov3_02124CAC(1);
+        SetScreen(1);
         s_game->unk_14A4->unk_8BA0 = 0;
     }
     unk_14D0 = 0;
 }
 
-void COpeningDemoScene::ov3_02124CAC(int screen)
+void COpeningDemoScene::SetScreen(int screen)
 {
     switch (screen) {
     case 1:
@@ -238,7 +238,7 @@ void COpeningDemoScene::func7()
     GXS_SetGraphicsMode(GX_BGMODE_0);
 }
 
-void COpeningDemoScene::ov3_02124F18()
+void COpeningDemoScene::SetupSubOam()
 {
     int i;
     int x;
@@ -258,7 +258,7 @@ void COpeningDemoScene::ov3_02124F18()
     GXS_LoadOAM(m_subOam, 0, sizeof(m_subOam));
 }
 
-static void ov3_02124FEC()
+static void SetupCaptureToVramD()
 {
     GX_SetDispSelect(GX_DISP_SELECT_MAIN_SUB);
     GX_ResetBankForSubOBJ();
@@ -275,7 +275,7 @@ static void ov3_02124FEC()
     G2S_BG2Mosaic(FALSE);
 }
 
-static void ov3_021250AC()
+static void SetupCaptureToVramC()
 {
     GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);
     GX_ResetBankForSubBG();
@@ -289,12 +289,12 @@ static void ov3_021250AC()
     GXS_SetVisiblePlane(GX_PLANEMASK_OBJ);
 }
 
-static void ov3_02125140(void *arg)
+static void FlipCapture(void *arg)
 {
     if (s_captureFlip) {
-        ov3_021250AC();
+        SetupCaptureToVramC();
     } else {
-        ov3_02124FEC();
+        SetupCaptureToVramD();
     }
     s_captureFlip = !s_captureFlip;
 }

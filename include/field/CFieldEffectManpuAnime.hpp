@@ -11,7 +11,7 @@ class CFieldEffectManpuAnime : public CFieldEffectManpuSimple {
 public:
     CFieldEffectManpuAnime(CEffectActorData *data, AnimSlotPool *slots, int type);
     virtual ~CFieldEffectManpuAnime();
-    virtual int ov0_02142264(int step);
+    virtual int Update(int step);
     virtual int Draw(Camera2D *camera);
     virtual void UpdatePos(int step);
 

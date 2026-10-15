@@ -14,13 +14,13 @@ class MissionDownload {
 public:
     MissionDownload(CGame *game, DwcConnection *dwc, RangerNetMenu *menu);
     ~MissionDownload();
-    void ov11_02130B14();
-    void ov11_02130B30();
-    int ov11_0213051C();
-    int ov11_02130B48();
-    void ov11_021316E8();
-    void ov11_02131710();
-    BOOL ov11_02131980();
+    void Init();
+    void Start();
+    int Update();
+    int UpdateDownload();
+    void SetNdAttr();
+    void ShowError();
+    BOOL HasError();
 
 public:
     u8 unk_000[0x2C];

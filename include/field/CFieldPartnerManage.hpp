@@ -45,31 +45,31 @@ public:
 
     virtual void func0(CFieldEffectManage *mgr);
 
-    int ov0_02139920(u32 id, u16 kind, u16 flags, int type, int arg5);
+    int Create(u32 id, u16 kind, u16 flags, int type, int arg5);
     void ov0_02139E14(int mode);
     void ov0_02139E9C();
     void ov0_02139F10(BOOL arg);
     void ov0_02139F98(fx32 x, fx32 y, int dir);
-    void ov0_0213A050(u32 id);
-    int ov0_0213A084(u32 id);
+    void LeaveParty(u32 id);
+    int RemoveFromParty(u32 id);
     void ov0_0213A2B4();
-    void ov0_0213A360(u32 id, u16 kind, u16 flags, int type, int arg5);
-    u32 ov0_0213A4C4(u32 kind);
-    u32 ov0_0213A520(u32 kind);
-    BOOL ov0_0213A57C(u16 kind, CFieldPartner *partner);
-    int ov0_0213A658(u16 kind);
-    void ov0_0213A7FC(BOOL arg);
+    void AddToParty(u32 id, u16 kind, u16 flags, int type, int arg5);
+    u32 FindPartnerNpc(u32 kind);
+    u32 FindPartnerPokemon(u32 kind);
+    BOOL InitPartnerPokemon(u16 kind, CFieldPartner *partner);
+    int GetPartnerMaxEnergy(u16 kind);
+    void SetPartnersVisible(BOOL arg);
 
     // Next TU (ov0_0213A96C...)
     void ov0_0213A96C(BOOL keep, u32 id, BOOL warp);
     void ov0_0213AD8C(BOOL warp);
     BOOL ov0_0213B048();
-    BOOL ov0_0213B0F0();
+    BOOL ArePartnersHidden();
     void ov0_0213B150(u32 id);
     void ov0_0213B184(u32 id);
     void ov0_0213B1BC();
     void ov0_0213B340();
-    void ov0_0213B410(int count);
+    void FindCirclePositions(int count);
     void ov0_0213BB54(Point2D *out, int count);
     void ov0_0213BDE8(int count);
     void ov0_0213BE94(Point2D *out, int count);

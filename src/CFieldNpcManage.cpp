@@ -3,9 +3,9 @@
 #include <nitro.h>
 
 #include "CGame.hpp"
+#include "FieldDataRecords.hpp"
+#include "PokeIdTableEntry.hpp"
 #include "SaveData.hpp"
-#include "UnkClass_02041D80.hpp"
-#include "UnkStruct_020107A8.hpp"
 #include "field/CFieldNpc.hpp"
 
 struct FieldNpcData {
@@ -45,7 +45,7 @@ static inline void SetCircle(CFieldActor *actor, Circle v)
     actor->unk_44 = v;
 }
 
-int CFieldNpcManage::ov0_0213C66C(int slot, int type, u16 kind, u16 script, int arg5)
+int CFieldNpcManage::Create(int slot, int type, u16 kind, u16 script, int arg5)
 {
     if (m_actors != NULL) {
         FieldData *table = MAIN_BSS_0210CA6C;
@@ -71,7 +71,7 @@ int CFieldNpcManage::ov0_0213C66C(int slot, int type, u16 kind, u16 script, int 
                 SetUnk70(npc, data->unk_02 << FX32_SHIFT, data->unk_03 << FX32_SHIFT);
             } else {
                 flags = 6;
-                UnkStruct_020107A8 *info = PokeIdTable_Get(s_game->unk_1434, kind);
+                PokeIdTableEntry *info = PokeIdTable_Get(s_game->unk_1434, kind);
                 model = info->unk_00;
                 arg3 = info->unk_02;
                 FieldEnemyData *data = FieldData_GetEnemy(MAIN_BSS_0210CA6C, kind);

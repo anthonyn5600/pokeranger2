@@ -15,9 +15,9 @@ class YSortedActorList {
 public:
     YSortedActorList();
     ~YSortedActorList(); // ov1_02137DBC
-    BOOL ov1_02137DF8(CActor *actor);
-    void ov1_02137EE8();
-    int ov1_02137F28(Camera2D *camera);
+    BOOL Add(CActor *actor);
+    void Clear();
+    int Render(Camera2D *camera);
 
 public:
     std::list<CActor *> m_actors;

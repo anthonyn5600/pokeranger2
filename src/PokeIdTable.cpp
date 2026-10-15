@@ -1,14 +1,14 @@
 #include "PokeIdTable.hpp"
 
 #include "ParamTableFile.hpp"
-#include "UnkStruct_020107A8.hpp"
+#include "PokeIdTableEntry.hpp"
 
 PokeIdTable::PokeIdTable(u32 arg0)
 {
     ParamTableFile *table = new ParamTableFile(arg0);
     table->Load("data/param/PokeID.bin");
-    m_count = table->sub_0200D390();
-    m_entries = new UnkStruct_020107A8[m_count];
+    m_count = table->GetRowCount();
+    m_entries = new PokeIdTableEntry[m_count];
 
     u32 value = 0;
     for (int i = 0; i < m_count; i++) {
@@ -55,7 +55,7 @@ PokeIdTable::PokeIdTable(u32 arg0)
 
 extern "C" {
 
-UnkStruct_020107A8 *PokeIdTable_Get(void *obj, u16 id)
+PokeIdTableEntry *PokeIdTable_Get(void *obj, u16 id)
 {
     PokeIdTable *self = (PokeIdTable *)obj;
     if (id >= self->m_count) {

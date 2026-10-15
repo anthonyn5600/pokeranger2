@@ -35,16 +35,16 @@ void CFieldEffectManpuGokigen::SetType(int type)
     unk_24 = type;
 }
 
-BOOL CFieldEffectManpuGokigen::ov0_021421F0(int inTime, int holdTime, int outTime)
+BOOL CFieldEffectManpuGokigen::Start(int inTime, int holdTime, int outTime)
 {
     m_emitter.m_actor = unk_1C;
     m_emitter.func2();
-    return CFieldEffect::ov0_021421F0(inTime, holdTime, outTime);
+    return CFieldEffect::Start(inTime, holdTime, outTime);
 }
 
-int CFieldEffectManpuGokigen::ov0_02142264(int step)
+int CFieldEffectManpuGokigen::Update(int step)
 {
-    int state = CFieldEffectActor::ov0_02142264(step);
+    int state = CFieldEffectActor::Update(step);
     if (state != 0 && state != 4) {
         m_animator.Step(step);
         m_system.Update(step);

@@ -56,9 +56,9 @@ CFieldEffectSandBurial::~CFieldEffectSandBurial()
 {
 }
 
-int CFieldEffectSandBurial::ov0_02142264(int step)
+int CFieldEffectSandBurial::Update(int step)
 {
-    CFieldEffectActor::ov0_02142264(step);
+    CFieldEffectActor::Update(step);
     m_system.Update(step);
     if (m_state == 2 && m_timer++ == 1) {
         if (MATH_Rand16(&MAIN_BSS_0210CEC8, 2) == 0) {
@@ -75,17 +75,17 @@ int CFieldEffectSandBurial::ov0_02142264(int step)
     return m_state;
 }
 
-int CFieldEffectSandBurial::ov0_02142344(Camera2D *camera)
+int CFieldEffectSandBurial::Render(Camera2D *camera)
 {
     m_system.Draw(camera);
     return 0;
 }
 
-void CFieldEffectSandBurial::ov0_0214234C(Point2D pos, int arg1, int arg2, int arg3, int arg4)
+void CFieldEffectSandBurial::StartAt(Point2D pos, int arg1, int arg2, int arg3, int arg4)
 {
     m_center = pos;
     m_timer = 0;
-    ov0_021421F0(120, 120, 120);
+    Start(120, 120, 120);
 }
 
 void CFieldEffectSandBurial::AddPoint(fx32 x, fx32 y)

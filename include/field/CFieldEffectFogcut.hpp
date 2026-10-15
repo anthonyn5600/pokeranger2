@@ -76,11 +76,11 @@ public:
     {
         return 0x21;
     }
-    virtual BOOL ov0_021421F0(int inTime, int holdTime, int outTime);
-    virtual int ov0_02142240(int outTime);
-    virtual int ov0_02142264(int step);
-    virtual int ov0_02142344(Camera2D *camera);
-    virtual void ov0_0214234C(Point2D pos, int arg1, int arg2, int arg3, int arg4);
+    virtual BOOL Start(int inTime, int holdTime, int outTime);
+    virtual int Stop(int outTime);
+    virtual int Update(int step);
+    virtual int Render(Camera2D *camera);
+    virtual void StartAt(Point2D pos, int arg1, int arg2, int arg3, int arg4);
     virtual int SetParam(int param, int value);
 
     void AddPoint(int angle, fx32 x, fx32 y);

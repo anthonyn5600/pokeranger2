@@ -6,7 +6,7 @@
 
 CDiskCursor::CDiskCursor()
 {
-    ov1_0212E410();
+    Load();
     SetData(unk_184);
     unk_184->LoadImagesToVram(NNS_GfdGetTexKeyAddr(NNS_GfdAllocLnkTexVram(unk_184->GetImagesSize(), FALSE, 0)));
     unk_184->ReleaseImages();
@@ -16,15 +16,15 @@ CDiskCursor::CDiskCursor()
 
 CDiskCursor::~CDiskCursor()
 {
-    ov1_0212E45C();
+    Release();
 }
 
-void CDiskCursor::ov1_0212E410()
+void CDiskCursor::Load()
 {
     unk_184 = new CActorData("data/cursor_LZ.bin", "cursor", 1, TRUE, NULL);
 }
 
-void CDiskCursor::ov1_0212E45C()
+void CDiskCursor::Release()
 {
     SAFE_DELETE(unk_184);
 }

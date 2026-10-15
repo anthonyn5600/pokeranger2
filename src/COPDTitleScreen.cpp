@@ -49,12 +49,12 @@ COPDTitleScreen::~COPDTitleScreen()
 
 void COPDTitleScreen::Init()
 {
-    m_mesh.ov3_02129AC0(4, 4, -0x80000, -0xC0000, 0, 0, 0x100000, 0xC0000);
+    m_mesh.Init(4, 4, -0x80000, -0xC0000, 0, 0, 0x100000, 0xC0000);
 }
 
 void COPDTitleScreen::Release()
 {
-    m_mesh.ov3_02129C54();
+    m_mesh.Release();
 }
 
 void COPDTitleScreen::Start(COPDTexture *textures)
@@ -127,7 +127,7 @@ void COPDTitleScreen::Start(COPDTexture *textures)
     }
 
     unk_5D0 = 0;
-    ov3_02125CB0();
+    SetupToon();
     unk_008 = 0;
     unk_004 = 0;
     if (unk_613) {
@@ -149,7 +149,7 @@ void COPDTitleScreen::CStarEmitter::func2()
     m_timer = FX32_ONE;
 }
 
-void COPDTitleScreen::ov3_02125CB0()
+void COPDTitleScreen::SetupToon()
 {
     for (int i = 0; i < 32; i++) {
         int c = 31 - i;
@@ -213,7 +213,7 @@ int COPDTitleScreen::Update()
         break;
     }
 
-    unk_2B8.ov3_02129F78();
+    unk_2B8.Update();
     m_sparks.Update(1);
     m_stars.Update(1);
     for (int i = 0; i < 3; i++) {
@@ -255,7 +255,7 @@ void COPDTitleScreen::Render(Camera2D *camera, int flip)
         m_sprites[0].Render(camera);
         m_sprites[1].Render(camera);
         m_sprites[6].Render(camera);
-        unk_2B8.ov3_02129FE0(camera);
+        unk_2B8.Render(camera);
         m_sprites[3].Render(camera);
     }
     if (!unk_613 && !(unk_5D0 & 0x20)) {

@@ -6,7 +6,7 @@
 #include "CEffectActorData.hpp"
 #include "field/CFieldEffect.hpp"
 
-// Effect attached to an actor data object (factory kind 1 = Manpu balloons, incl. FieldScene's ov0_02142F6C(1, 0x25)).
+// Effect attached to an actor data object (factory kind 1 = Manpu balloons, incl. FieldScene's Create(1, 0x25)).
 class CFieldEffectActor : public CFieldEffect {
 public:
     CFieldEffectActor()
@@ -22,7 +22,7 @@ public:
     }
 
     virtual int IsReady();
-    virtual int ov0_02142264(int step);
+    virtual int Update(int step);
 
 public:
     CEffectActorData *unk_18;

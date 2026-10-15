@@ -3,8 +3,8 @@
 #include <nitro.h>
 #include <nnsys.h>
 
+#include "FieldDataRecords.hpp"
 #include "SaveData.hpp"
-#include "UnkClass_02041D80.hpp"
 #include "heap.hpp"
 
 extern SaveData MAIN_BSS_020B26A0;

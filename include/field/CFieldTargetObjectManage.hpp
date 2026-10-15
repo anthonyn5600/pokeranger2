@@ -7,7 +7,7 @@
 #include "field/CFieldActorManage.hpp"
 
 class CFieldTargetObjectManage;
-class UnkStruct_02141F40;
+class FieldTargetObjectScript;
 
 extern CFieldTargetObjectManage *MAIN_BSS_0210CA7C;
 
@@ -16,11 +16,11 @@ class FieldTargetObjectScriptCache {
 public:
     FieldTargetObjectScriptCache();
     ~FieldTargetObjectScriptCache();
-    void ov0_02142068();
-    void *ov0_021420AC(int id, BOOL touch);
+    void Clear();
+    void *Get(int id, BOOL touch);
 
 public:
-    UnkStruct_02141F40 *m_scripts[32];
+    FieldTargetObjectScript *m_scripts[32];
 };
 
 // Defined in ov0
@@ -42,7 +42,7 @@ public:
     virtual void Free();
     virtual BOOL Clear();
 
-    int ov0_0213D1AC(int slot, u16 kind, u16 script, u16 touchScript, int arg5);
+    int Create(int slot, u16 kind, u16 script, u16 touchScript, int arg5);
     int ov0_0213D564();
 
 public:

@@ -30,7 +30,7 @@ public:
     BOOL Update();
     void Reset();
     void Start();
-    void sub_02027A2C();
+    void StartNormalSave();
     void SetStep(UnkStruct_0202773C_Step *step, int arg1, int arg3);
     void NextStep();
     BOOL IsActive();

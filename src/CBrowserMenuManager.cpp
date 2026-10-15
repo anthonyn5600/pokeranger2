@@ -1,6 +1,6 @@
 #include "BrowserScreen.hpp"
 #include "CGame.hpp"
-#include "UnkStruct_020107A8.hpp"
+#include "PokeIdTableEntry.hpp"
 #include "scene/CBrowserMenu.hpp"
 
 BrowserMenuSprite::BrowserMenuSprite()
@@ -64,7 +64,7 @@ void CBrowserMenuManager::SetCursor(CBrowserMenuCursor *cursor)
     cursor->unk_04 = this;
 }
 
-void CBrowserMenuManager::ov21_02120A00(int *list, int count, int sel)
+void CBrowserMenuManager::SetList(int *list, int count, int sel)
 {
     unk_04 = list;
     unk_08 = count;
@@ -173,7 +173,7 @@ BOOL CBrowserMenuManager::UpdateTouch()
     return FALSE;
 }
 
-BOOL CBrowserMenuManager::ov21_02120D5C()
+BOOL CBrowserMenuManager::CanSelectPrev()
 {
     if (unk_10 != 0) {
         return TRUE;
@@ -181,7 +181,7 @@ BOOL CBrowserMenuManager::ov21_02120D5C()
     return FALSE;
 }
 
-BOOL CBrowserMenuManager::ov21_02120D70()
+BOOL CBrowserMenuManager::CanSelectNext()
 {
     if (unk_10 != unk_08 - 1) {
         return TRUE;
@@ -189,7 +189,7 @@ BOOL CBrowserMenuManager::ov21_02120D70()
     return FALSE;
 }
 
-BOOL CBrowserMenuManager::ov21_02120D8C()
+BOOL CBrowserMenuManager::CanScrollPrev()
 {
     if (unk_14 != 0) {
         return TRUE;
@@ -197,7 +197,7 @@ BOOL CBrowserMenuManager::ov21_02120D8C()
     return FALSE;
 }
 
-BOOL CBrowserMenuManager::ov21_02120DA0()
+BOOL CBrowserMenuManager::CanScrollNext()
 {
     if (unk_14 < unk_08 - GetVisibleCount()) {
         return TRUE;
@@ -205,7 +205,7 @@ BOOL CBrowserMenuManager::ov21_02120DA0()
     return FALSE;
 }
 
-BOOL CBrowserMenuManager::ov21_02120DC8()
+BOOL CBrowserMenuManager::SelectPrev()
 {
     if (!unk_1C) {
         return FALSE;
@@ -237,7 +237,7 @@ BOOL CBrowserMenuManager::ov21_02120DC8()
     return TRUE;
 }
 
-BOOL CBrowserMenuManager::ov21_02120E84()
+BOOL CBrowserMenuManager::SelectNext()
 {
     if (!unk_1C) {
         return FALSE;
@@ -273,7 +273,7 @@ BOOL CBrowserMenuManager::ov21_02120E84()
     return TRUE;
 }
 
-BOOL CBrowserMenuManager::ov21_02120F68()
+BOOL CBrowserMenuManager::PagePrev()
 {
     if (!unk_1C) {
         return FALSE;
@@ -292,7 +292,7 @@ BOOL CBrowserMenuManager::ov21_02120F68()
     return TRUE;
 }
 
-BOOL CBrowserMenuManager::ov21_02120FD8()
+BOOL CBrowserMenuManager::PageNext()
 {
     if (!unk_1C) {
         return FALSE;

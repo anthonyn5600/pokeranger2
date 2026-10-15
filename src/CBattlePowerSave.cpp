@@ -79,13 +79,13 @@ static inline void SetSpriteRes(CSoftwareSprite *sprite, VramImage *image, VramP
 CBattlePowerSave::CBattlePowerSave()
 {
     m_audio = CGame::GetInstance()->m_audioEngine;
-    ov1_021371C4();
-    ov1_02136E08();
+    Init();
+    Load();
     for (int i = 0; i < 20; i++) {
         m_particles[i] = new BattleParticle();
     }
     m_pool = new BattleParticlePool(m_particles, 20);
-    m_pool->ov1_02136BD0(1);
+    m_pool->SetPolygonId(1);
     m_maxLevel = 2;
     m_chargeTimes[0] = 100;
     m_chargeTimes[1] = 120;
@@ -99,10 +99,10 @@ CBattlePowerSave::CBattlePowerSave()
 
 CBattlePowerSave::~CBattlePowerSave()
 {
-    ov1_02136FB8();
+    Release();
 }
 
-void CBattlePowerSave::ov1_02136E08()
+void CBattlePowerSave::Load()
 {
     char arcPath[0x60];
     char ncbr[0x60];
@@ -128,7 +128,7 @@ void CBattlePowerSave::ov1_02136E08()
     m_burstAnim = m_burstRes->m_anim->Create(1, 0);
 }
 
-void CBattlePowerSave::ov1_02136FB8()
+void CBattlePowerSave::Release()
 {
     for (int i = 0; i < 20; i++) {
         SAFE_DELETE(m_particles[i]);
@@ -140,10 +140,10 @@ void CBattlePowerSave::ov1_02136FB8()
     SAFE_DELETE(m_burstRes);
 }
 
-void CBattlePowerSave::ov1_02137094(Point2D pos)
+void CBattlePowerSave::Hold(Point2D pos)
 {
     if (m_flags & 1) {
-        if (!ov1_021374FC(pos)) {
+        if (!IsNearTouchStart(pos)) {
             m_flags &= ~3;
             m_holdTimer = 0;
             m_chargeTimer = 0;
@@ -158,23 +158,23 @@ void CBattlePowerSave::ov1_02137094(Point2D pos)
     m_center = pos;
 }
 
-void CBattlePowerSave::ov1_02137144()
+void CBattlePowerSave::StopHold()
 {
     m_flags &= ~3;
     m_holdTimer = 0;
-    ov1_021371F0();
+    ResetCharge();
     m_audio->StopSe(0x32);
     m_flags &= ~0x10;
     m_flags &= ~0x20;
 }
 
-void CBattlePowerSave::ov1_02137194()
+void CBattlePowerSave::PlayLevelUpAnim()
 {
     m_res[1]->m_anim->Restart(m_anim[1]);
     m_flags |= 4;
 }
 
-void CBattlePowerSave::ov1_021371C4()
+void CBattlePowerSave::Init()
 {
     m_flags = 0;
     m_tick = 0;
@@ -185,14 +185,14 @@ void CBattlePowerSave::ov1_021371C4()
     m_ratio = 0;
 }
 
-void CBattlePowerSave::ov1_021371F0()
+void CBattlePowerSave::ResetCharge()
 {
     m_flashTimer = 0;
     m_level = 0;
     m_chargeTimer = 0;
 }
 
-void CBattlePowerSave::ov1_0213720C()
+void CBattlePowerSave::SpawnChargeParticle()
 {
     CGame *game = CGame::GetInstance();
     Point2D pos = m_center;
@@ -203,14 +203,14 @@ void CBattlePowerSave::ov1_0213720C()
     fx32 radius = MATH_Rand32(rand32, 0x10000) + 0x18000;
     fx32 dx = FX32_MUL(radius, FX_CosIdx(angle));
     fx32 dy = FX32_MUL(radius, FX_SinIdx(angle));
-    BattleParticle *particle = m_pool->ov1_02136B24(0x14, pos.x + dx, pos.y + dy, 0, 0x3000, 0x13FF);
-    particle->ov1_02136A40(FX32_MUL(FX_CosIdx(angle), -0x1333), 0x1000);
-    particle->ov1_02136A58(FX32_MUL(FX_SinIdx(angle), -0x1333), 0x1000);
-    particle->ov1_02136A88(0xC, 0x1F);
-    particle->ov1_02136AA0(0x1000, 4);
+    BattleParticle *particle = m_pool->Spawn(0x14, pos.x + dx, pos.y + dy, 0, 0x3000, 0x13FF);
+    particle->SetVelocityX(FX32_MUL(FX_CosIdx(angle), -0x1333), 0x1000);
+    particle->SetVelocityY(FX32_MUL(FX_SinIdx(angle), -0x1333), 0x1000);
+    particle->SetAlphaFade(0xC, 0x1F);
+    particle->SetScaleFade(0x1000, 4);
 }
 
-void CBattlePowerSave::ov1_021373FC()
+void CBattlePowerSave::SpawnStreak()
 {
     CGame *game = CGame::GetInstance();
     PowerStreak *streak = &m_streaks[m_streakNext];
@@ -229,7 +229,7 @@ void CBattlePowerSave::ov1_021373FC()
     }
 }
 
-BOOL CBattlePowerSave::ov1_021374FC(Point2D pos)
+BOOL CBattlePowerSave::IsNearTouchStart(Point2D pos)
 {
     fx64 dx = m_touchStart.x - pos.x;
     fx64 dy = m_touchStart.y - pos.y;
@@ -250,11 +250,11 @@ void CBattlePowerSave::vfunc_08()
             if (m_chargeTimer == m_chargeTimes[m_level]) {
                 m_level++;
                 m_chargeTimer = 0;
-                ov1_02137194();
+                PlayLevelUpAnim();
                 m_audio->StopSe(0x32);
                 m_audio->PlaySe(0x33);
                 m_flags &= ~0x10;
-                ov1_02137D44(m_level);
+                StartBurst(m_level);
             } else {
                 m_chargeTimer++;
                 if (!(m_flags & 0x10)) {
@@ -278,9 +278,9 @@ void CBattlePowerSave::vfunc_08()
     m_alpha = (0x1F000 - FX32_MUL(t, 0xF000)) >> FX32_SHIFT;
     unk_198 = m_motion.GetPos();
     if ((m_flags & 2) && m_level < m_maxLevel && (m_tick & 1)) {
-        ov1_0213720C();
+        SpawnChargeParticle();
     }
-    m_pool->ov1_02136AEC();
+    m_pool->Update();
     m_res[0]->m_anim->UpdateAll();
     if (m_flags & 4) {
         CellAnimController *anim = m_res[1]->m_anim;
@@ -336,7 +336,7 @@ void CBattlePowerSave::vfunc_08()
         return;
     }
     if (m_tick & 1) {
-        ov1_021373FC();
+        SpawnStreak();
     }
     for (u8 i = 0; i < 0x30; i++) {
         PowerStreak *streak = &m_streaks[i];
@@ -361,33 +361,33 @@ void CBattlePowerSave::vfunc_08()
     }
 }
 
-BOOL CBattlePowerSave::ov1_02137ABC()
+BOOL CBattlePowerSave::IsCharging()
 {
     return (m_flags & 2) != 0;
 }
 
-u16 CBattlePowerSave::ov1_02137AD4()
+u16 CBattlePowerSave::GetLevel()
 {
     return m_level;
 }
 
-fx32 CBattlePowerSave::ov1_02137ADC()
+fx32 CBattlePowerSave::GetLevelScale()
 {
     return sLevelScales[m_level];
 }
 
 void CBattlePowerSave::vfunc_0C(Camera2D *camera)
 {
-    if (ov1_02137ABC() && !(m_flags & 4) && !(m_flags & 8)) {
+    if (IsCharging() && !(m_flags & 4) && !(m_flags & 8)) {
         ov1_02137B94(camera);
-        m_pool->ov1_02136B88(camera);
+        m_pool->Render(camera);
     }
     if (m_flags & 4) {
-        ov1_02137B98(camera);
+        DrawLevelUp(camera);
     }
-    ov1_02137C3C(camera);
+    DrawBurst(camera);
     if ((m_flags & 2) && m_level < m_maxLevel) {
-        ov1_02137CF0(camera);
+        DrawStreaks(camera);
     }
 }
 
@@ -399,7 +399,7 @@ void CBattlePowerSave::ov1_02137B94(Camera2D *camera)
 {
 }
 
-void CBattlePowerSave::ov1_02137B98(Camera2D *camera)
+void CBattlePowerSave::DrawLevelUp(Camera2D *camera)
 {
     CSoftwareSprite *sprite = m_sprite;
     sprite->SetImage((UnkClass_CPrimitive_ImageProxy *)m_res[1]->m_image, NULL);
@@ -412,7 +412,7 @@ void CBattlePowerSave::ov1_02137B98(Camera2D *camera)
     sprite->Render(camera);
 }
 
-void CBattlePowerSave::ov1_02137C3C(Camera2D *camera)
+void CBattlePowerSave::DrawBurst(Camera2D *camera)
 {
     if (!(m_flags & 0x20)) {
         return;
@@ -426,7 +426,7 @@ void CBattlePowerSave::ov1_02137C3C(Camera2D *camera)
     m_burst.Render(camera);
 }
 
-void CBattlePowerSave::ov1_02137CF0(Camera2D *camera)
+void CBattlePowerSave::DrawStreaks(Camera2D *camera)
 {
     for (u8 i = 0; i < 0x30; i++) {
         if (m_streaks[i].m_active) {
@@ -435,7 +435,7 @@ void CBattlePowerSave::ov1_02137CF0(Camera2D *camera)
     }
 }
 
-void CBattlePowerSave::ov1_02137D44(u8 level)
+void CBattlePowerSave::StartBurst(u8 level)
 {
     if (level == 0) {
         return;
@@ -446,7 +446,7 @@ void CBattlePowerSave::ov1_02137D44(u8 level)
     m_flags |= 0x20;
 }
 
-int CBattlePowerSave::ov1_02137D7C(int z)
+int CBattlePowerSave::SetZ(int z)
 {
     CSoftwareSprite *sprite = m_sprite;
     z += sprite->GetCellNumOAMAttrs(sprite->m_cellDataIdx);

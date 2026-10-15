@@ -45,23 +45,23 @@ CFieldPartnerPokemon::~CFieldPartnerPokemon()
 void CFieldPartnerPokemon::Process(CFieldMap *map)
 {
     UpdateScript();
-    unk_EC.ov0_02152B04();
+    unk_EC.Update();
     Update(map);
 }
 
 BOOL CFieldPartnerPokemon::UpdateMove(CFieldMap *map)
 {
-    ov0_0213E4F0();
+    UpdateTargetClearScript();
     ov0_02138628();
     BOOL result = CFieldActor::UpdateMove(map);
-    unk_EC.ov0_02158988();
+    unk_EC.UpdateHeight();
     if (result) {
         s_game->m_audioEngine->PlayStream(unk_268, 0x40);
     }
     return result;
 }
 
-BOOL CFieldPartnerPokemon::ov0_0213E3E4(u16 kind, u8 arg1)
+BOOL CFieldPartnerPokemon::LoadTargetClearScript(u16 kind, u8 arg1)
 {
     char path[0x34];
     u32 heapId = s_game->unk_14A8;
@@ -77,7 +77,7 @@ BOOL CFieldPartnerPokemon::ov0_0213E3E4(u16 kind, u8 arg1)
     return TRUE;
 }
 
-BOOL CFieldPartnerPokemon::ov0_0213E4BC(u32 targetId)
+BOOL CFieldPartnerPokemon::RunTargetClearScript(u32 targetId)
 {
     if (unk_274 == NULL) {
         return FALSE;
@@ -86,7 +86,7 @@ BOOL CFieldPartnerPokemon::ov0_0213E4BC(u32 targetId)
     return unk_274->Run(m_id, targetId);
 }
 
-void CFieldPartnerPokemon::ov0_0213E4F0()
+void CFieldPartnerPokemon::UpdateTargetClearScript()
 {
     if (unk_278 && unk_274 != NULL) {
         unk_274->Step();

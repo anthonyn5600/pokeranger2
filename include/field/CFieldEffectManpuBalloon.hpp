@@ -15,7 +15,7 @@ public:
         unk_28 = 0;
     }
     virtual ~CFieldEffectManpuBalloon();
-    virtual int ov0_02142264(int step);
+    virtual int Update(int step);
     virtual void SetType(int type);
     virtual int Draw(Camera2D *camera);
 

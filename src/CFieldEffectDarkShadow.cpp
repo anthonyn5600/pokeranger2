@@ -86,7 +86,7 @@ int CFieldEffectDarkShadow::SetParam(int param, int value)
         break;
     case 17:
         if (MAIN_BSS_0210CA40 != NULL) {
-            CFieldActor *actor = MAIN_BSS_0210CA40->ov0_02123060(value);
+            CFieldActor *actor = MAIN_BSS_0210CA40->FindActor(value);
             if (actor != NULL) {
                 m_layer = actor->m_layer;
             }
@@ -102,7 +102,7 @@ int CFieldEffectDarkShadow::SetParam(int param, int value)
     return ret;
 }
 
-int CFieldEffectDarkShadow::ov0_02142264(int step)
+int CFieldEffectDarkShadow::Update(int step)
 {
     if (m_scaleMover.Update(step)) {
         const Point2D &cur = m_scaleMover.cur;
@@ -129,7 +129,7 @@ int CFieldEffectDarkShadow::ov0_02142264(int step)
             }
         }
     }
-    int state = CFieldEffect::ov0_02142264(step);
+    int state = CFieldEffect::Update(step);
     for (int i = 0; i < m_count; i++) {
         int d = m_rotSpeed * m_rotSpeeds[i];
         m_sprites[i].m_rotAngle = d + m_sprites[i].m_rotAngle;
@@ -137,7 +137,7 @@ int CFieldEffectDarkShadow::ov0_02142264(int step)
     return state;
 }
 
-int CFieldEffectDarkShadow::ov0_02142344(Camera2D *camera)
+int CFieldEffectDarkShadow::Render(Camera2D *camera)
 {
     if (m_state != 0 && m_state != 4) {
         int angle;
@@ -174,12 +174,12 @@ int CFieldEffectDarkShadow::ov0_02142344(Camera2D *camera)
     return 0;
 }
 
-int CFieldEffectDarkShadow::ov0_0214239C(int layer)
+int CFieldEffectDarkShadow::GetDrawCount(int layer)
 {
     return 1;
 }
 
-void CFieldEffectDarkShadow::sub_02033388(const Point2D &pos, int arg1)
+void CFieldEffectDarkShadow::ScaleTo(const Point2D &pos, int arg1)
 {
     m_scaleMover.Start(m_scale, pos, arg1);
     if (arg1 == 0) {
@@ -188,10 +188,10 @@ void CFieldEffectDarkShadow::sub_02033388(const Point2D &pos, int arg1)
     }
 }
 
-void CFieldEffectDarkShadow::sub_0203331C(const Point2D &pos, int arg1)
+void CFieldEffectDarkShadow::MoveTo(const Point2D &pos, int arg1)
 {
     Point2D cur;
-    CPrimitiveRECT::sub_02003C00(&cur, &m_rect);
+    CPrimitiveRECT::GetPos(&cur, &m_rect);
     m_posMover.Start(cur, pos, arg1);
 }
 

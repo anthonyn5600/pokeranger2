@@ -12,15 +12,15 @@
 
 BattleStatusIconGfx::BattleStatusIconGfx()
 {
-    ov1_02128EB0();
+    Load();
 }
 
 BattleStatusIconGfx::~BattleStatusIconGfx()
 {
-    ov1_021290D4();
+    Release();
 }
 
-void BattleStatusIconGfx::ov1_02128EB0()
+void BattleStatusIconGfx::Load()
 {
     char path[0x60];
     const char *archive = "BST";
@@ -54,7 +54,7 @@ void BattleStatusIconGfx::ov1_02128EB0()
     }
 }
 
-void BattleStatusIconGfx::ov1_021290D4()
+void BattleStatusIconGfx::Release()
 {
     for (int i = 1; i < 5; i++) {
         SAFE_DELETE(m_image[i]);
@@ -82,7 +82,7 @@ BattleStatusIcon::~BattleStatusIcon()
     SAFE_DELETE(m_sprite);
 }
 
-void BattleStatusIcon::ov1_02129274(BattleStatusIconGfx *data)
+void BattleStatusIcon::SetData(BattleStatusIconGfx *data)
 {
     m_data = data;
     m_sprite->m_cellDataIdx = 0;
@@ -91,7 +91,7 @@ void BattleStatusIcon::ov1_02129274(BattleStatusIconGfx *data)
     }
 }
 
-void BattleStatusIcon::ov1_021292CC()
+void BattleStatusIcon::Update()
 {
     if (!unk_08) {
         return;
@@ -105,7 +105,7 @@ void BattleStatusIcon::ov1_021292CC()
     m_data->GetAnim(m_state)->Update(m_animIds[m_state]);
 }
 
-void BattleStatusIcon::ov1_02129368(Camera2D *camera)
+void BattleStatusIcon::Render(Camera2D *camera)
 {
     m_sprite->m_coords[0] = m_pos.x;
     m_sprite->m_coords[1] = m_pos.y - m_offsetY;
@@ -117,7 +117,7 @@ void BattleStatusIcon::ov1_021293D4(Camera2D *camera)
 {
 }
 
-void BattleStatusIcon::ov1_021293D8(int state)
+void BattleStatusIcon::SetStatus(int state)
 {
     m_state = state;
     if (state == 0) {
@@ -133,7 +133,7 @@ void BattleStatusIcon::ov1_021293D8(int state)
     unk_08 = TRUE;
 }
 
-int BattleStatusIcon::ov1_02129490(int z)
+int BattleStatusIcon::SetZ(int z)
 {
     z += m_sprite->GetCellNumOAMAttrs(m_sprite->m_cellDataIdx);
     m_sprite->m_z = z;

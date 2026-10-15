@@ -1,5 +1,5 @@
 #include "FieldSyscallSets.hpp"
-#include "UnkStruct_02044464.hpp"
+#include "ScriptVM.hpp"
 #include "field/CFieldEnemy.hpp"
 #include "field/CFieldEnemyManage.hpp"
 #include "scene/CFieldScene.hpp"
@@ -11,16 +11,16 @@ extern "C" {
 void LogError(const char *fmt, ...);
 void LogInfo(const char *fmt, ...);
 int ov0_021485E0(int *args);
-int ov0_021485E8(int *args);
-int ov0_02148CF8(int *args);
-int ov0_02148D08(int *args);
+int Sys_EnemyCommand(int *args);
+int Sys_GetEnemyManage(int *args);
+int Sys_EnemyManageCommand(int *args);
 }
 
 static ScriptSyscall sFieldEnemySyscalls[] = {
     (ScriptSyscall)ov0_021485E0,
-    (ScriptSyscall)ov0_021485E8,
-    (ScriptSyscall)ov0_02148CF8,
-    (ScriptSyscall)ov0_02148D08,
+    (ScriptSyscall)Sys_EnemyCommand,
+    (ScriptSyscall)Sys_GetEnemyManage,
+    (ScriptSyscall)Sys_EnemyManageCommand,
 };
 
 FieldEnemySyscalls::FieldEnemySyscalls()
@@ -31,7 +31,7 @@ FieldEnemySyscalls::~FieldEnemySyscalls()
 {
 }
 
-void FieldEnemySyscalls::ov0_021485C8()
+void FieldEnemySyscalls::Register()
 {
     Script_RegisterSyscalls(0xA, sFieldEnemySyscalls);
 }
@@ -69,7 +69,7 @@ int ov0_021485E0(int *args)
     return 0;
 }
 
-int ov0_021485E8(int *args)
+int Sys_EnemyCommand(int *args)
 {
     int cmd = args[0];
     CFieldEnemy *enemy = (CFieldEnemy *)args[1];
@@ -167,10 +167,10 @@ int ov0_021485E8(int *args)
         enemy->m_flags &= ~0x400;
         return 0;
     case 37:
-        return enemy->ov0_021343B8(args[2]);
+        return enemy->PlayEnemyAnime(args[2]);
     case 38:
         if (MAIN_BSS_0210CA40 != NULL) {
-            MAIN_BSS_0210CA40->ov0_02122F08(enemy);
+            MAIN_BSS_0210CA40->StartEnemyBattle(enemy);
         }
         return 0;
     case 39:
@@ -178,10 +178,10 @@ int ov0_021485E8(int *args)
     case 40:
         return enemy->unk_13C;
     case 41:
-        enemy->ov0_02134FCC();
+        enemy->EnableTargetObject();
         return 0;
     case 42:
-        enemy->ov0_021351AC();
+        enemy->DisableTargetObject();
         return 0;
     case 43:
         return enemy->unk_141;
@@ -223,7 +223,7 @@ int ov0_021485E8(int *args)
     case 55:
         return enemy->unk_E8;
     case 56:
-        enemy->ov0_02135250();
+        enemy->PlayCry();
         return 0;
     case 57:
         return enemy->unk_E4;
@@ -246,15 +246,15 @@ int ov0_021485E8(int *args)
     case 64:
         return enemy->unk_164;
     case 65:
-        return (int)enemy->ov0_02135278();
+        return (int)enemy->GetTargetObject();
     case 66: {
-        enemy->unk_168.ov0_02152AD0(enemy, (Point2D) { args[2], args[3] }, args[4]);
+        enemy->unk_168.SetTarget(enemy, (Point2D) { args[2], args[3] }, args[4]);
         return 0;
     }
     case 67:
         return enemy->unk_168.unk_44;
     case 68:
-        enemy->sub_02032A44(args[2]);
+        enemy->SetMoveSequence(args[2]);
         return 0;
     case 69:
         return enemy->unk_168.unk_C0;
@@ -291,12 +291,12 @@ static void ov0_02148CDC(VecFx32 *out, CFieldEnemy *enemy)
 
 extern "C" {
 
-int ov0_02148CF8(int *args)
+int Sys_GetEnemyManage(int *args)
 {
     return (int)MAIN_BSS_0210CA5C;
 }
 
-int ov0_02148D08(int *args)
+int Sys_EnemyManageCommand(int *args)
 {
     int cmd = args[0];
     CFieldEnemyManage *manage = (CFieldEnemyManage *)args[1];
@@ -310,13 +310,13 @@ int ov0_02148D08(int *args)
         int base = manage->CountActors();
         fx32 x = args[3];
         fx32 y = args[4];
-        slot = manage->ov0_02135E30(base, args[2], 0, 0);
+        slot = manage->Create(base, args[2], 0, 0);
         CFieldEnemy *enemy = (CFieldEnemy *)manage->Get(slot);
         if (enemy != NULL) {
             enemy->SetPosXY(x, y);
             enemy->unk_18 = x;
             enemy->unk_1C = y;
-            manage->ov0_02136384();
+            manage->AddTargets();
         } else {
             LogInfo("scriptAddEnemyError");
         }
@@ -332,10 +332,10 @@ int ov0_02148D08(int *args)
     case 2:
         return manage->CountActors();
     case 3:
-        manage->ov0_0213669C(args[2], args[3]);
+        manage->ChangeScript(args[2], args[3]);
         return 0;
     case 4:
-        manage->ov0_02136730(args[2]);
+        manage->RestoreScript(args[2]);
         return 0;
     case 5: {
         CFieldEnemy *enemy = FindByUnk13C(manage, args[2]);
@@ -367,13 +367,13 @@ int ov0_02148D08(int *args)
         int base = manage->CountActors();
         fx32 x = args[3];
         fx32 y = args[4];
-        slot = manage->ov0_02135E30(base, args[2], args[5], 0);
+        slot = manage->Create(base, args[2], args[5], 0);
         CFieldEnemy *enemy = (CFieldEnemy *)manage->Get(slot);
         if (enemy != NULL) {
             enemy->SetPosXY(x, y);
             enemy->unk_18 = x;
             enemy->unk_1C = y;
-            manage->ov0_02136384();
+            manage->AddTargets();
         } else {
             LogInfo("scriptAddEnemyAndSetScriptIDError");
         }

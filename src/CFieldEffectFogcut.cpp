@@ -47,7 +47,7 @@ CFieldEffectFogcut::CFieldEffectFogcut()
 {
     CFieldEffectAttackActorData *data = new CFieldEffectAttackActorData();
     if (data != NULL) {
-        data->ov0_0214FFF0(0x6E, 1, 1);
+        data->Load(0x6E, 1, 1);
         CellAnimController *cac = data->GetCac(0);
         if (cac != NULL) {
             m_cacId = cac->Create(1, 0);
@@ -73,9 +73,9 @@ CFieldEffectFogcut::~CFieldEffectFogcut()
     SAFE_DELETE(unk_18);
 }
 
-int CFieldEffectFogcut::ov0_02142264(int step)
+int CFieldEffectFogcut::Update(int step)
 {
-    CFieldEffectActor::ov0_02142264(step);
+    CFieldEffectActor::Update(step);
     m_forceField.m_angle += 0x200;
     m_system.Update(step);
     if (unk_18 != NULL) {
@@ -93,7 +93,7 @@ int CFieldEffectFogcut::ov0_02142264(int step)
     return m_state;
 }
 
-int CFieldEffectFogcut::ov0_02142344(Camera2D *camera)
+int CFieldEffectFogcut::Render(Camera2D *camera)
 {
     m_system.Draw(camera);
     return 0;
@@ -104,19 +104,19 @@ void CFieldEffectFogcut::AddPoint(int angle, fx32 x, fx32 y)
     m_emitter.Add(angle, 0x7FFF, x, y);
 }
 
-void CFieldEffectFogcut::ov0_0214234C(Point2D pos, int arg1, int arg2, int arg3, int arg4)
+void CFieldEffectFogcut::StartAt(Point2D pos, int arg1, int arg2, int arg3, int arg4)
 {
 }
 
-BOOL CFieldEffectFogcut::ov0_021421F0(int inTime, int holdTime, int outTime)
+BOOL CFieldEffectFogcut::Start(int inTime, int holdTime, int outTime)
 {
     m_forceField.Reset(m_pos);
-    return CFieldEffect::ov0_021421F0(inTime, holdTime, outTime);
+    return CFieldEffect::Start(inTime, holdTime, outTime);
 }
 
-int CFieldEffectFogcut::ov0_02142240(int outTime)
+int CFieldEffectFogcut::Stop(int outTime)
 {
-    return CFieldEffect::ov0_02142240(outTime);
+    return CFieldEffect::Stop(outTime);
 }
 
 int CFieldEffectFogcut::SetParam(int param, int value)

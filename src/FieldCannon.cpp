@@ -39,10 +39,10 @@ FieldCannons::FieldCannons()
 
 FieldCannons::~FieldCannons()
 {
-    ov0_02159D70();
+    Clear();
 }
 
-void FieldCannons::ov0_02159970()
+void FieldCannons::RestoreSaved()
 {
     SaveData *save = &MAIN_BSS_020B26A0;
     if (MAIN_BSS_020B26A0.unk_81B0 != 6) {
@@ -72,12 +72,12 @@ void FieldCannons::ov0_02159970()
             param.unk_14.r = FX32_CONST(16);
             CFieldCannon *cannon;
             if (unk_00 & (1 << index)) {
-                cannon = ov0_02159DFC(index);
+                cannon = GetCannon(index);
             } else {
-                cannon = ov0_02159DFC(ov0_02159B84(save->unk_8434, index, 1));
+                cannon = GetCannon(CreateCannon(save->unk_8434, index, 1));
             }
-            cannon->ov0_0215A434(&param, frame, unit);
-            cannon->ov0_0215A384(TRUE);
+            cannon->RestoreShot(&param, frame, unit);
+            cannon->SetEnabled(TRUE);
         }
     }
 }
@@ -92,7 +92,7 @@ int FieldCannons::ov0_02159B24()
     return -1;
 }
 
-int FieldCannons::ov0_02159B5C()
+int FieldCannons::FindFreeSlot()
 {
     for (int i = 0; i < 10; i++) {
         if (!(unk_00 & (1 << i))) {
@@ -102,7 +102,7 @@ int FieldCannons::ov0_02159B5C()
     return -1;
 }
 
-int FieldCannons::ov0_02159B84(int type, int index, int mode)
+int FieldCannons::CreateCannon(int type, int index, int mode)
 {
     if (mode == 1) {
         MAIN_BSS_020B26A0.unk_8434 = type;
@@ -125,7 +125,7 @@ int FieldCannons::ov0_02159B84(int type, int index, int mode)
         if (cannon == NULL) {
             return -1;
         }
-        slot = ov0_02159B5C();
+        slot = FindFreeSlot();
         if (slot == -1) {
             return -1;
         }
@@ -139,7 +139,7 @@ int FieldCannons::ov0_02159B84(int type, int index, int mode)
     return slot;
 }
 
-void FieldCannons::ov0_02159CA8()
+void FieldCannons::Release()
 {
     unk_00 = 0;
     unk_02 = 0;
@@ -156,30 +156,30 @@ void ov0_02159D30(u16 type)
     }
 }
 
-void FieldCannons::ov0_02159D70()
+void FieldCannons::Clear()
 {
-    ov0_02159CA8();
+    Release();
 }
 
-void FieldCannons::ov0_02159D7C()
+void FieldCannons::Update()
 {
     for (u16 i = 0; i < 10; i++) {
         if (unk_04[i] != NULL) {
-            unk_04[i]->ov0_0215A010();
+            unk_04[i]->UpdateShots();
         }
     }
 }
 
-void FieldCannons::ov0_02159DB4(DrawObjectList *renderLists, FieldShadow *hud)
+void FieldCannons::Draw(DrawObjectList *renderLists, FieldShadow *hud)
 {
     for (u16 i = 0; i < 10; i++) {
         if (unk_04[i] != NULL) {
-            unk_04[i]->ov0_0215A25C(renderLists, hud);
+            unk_04[i]->DrawShots(renderLists, hud);
         }
     }
 }
 
-CFieldCannon *FieldCannons::ov0_02159DFC(int index)
+CFieldCannon *FieldCannons::GetCannon(int index)
 {
     if (index >= 10) {
         return NULL;
@@ -196,25 +196,25 @@ CFieldCannon::CFieldCannon(u16 type)
     }
     unk_E2 = type;
     unk_E0 = 0;
-    ov0_02159ED0();
+    InitShots();
 }
 
 CFieldCannon::~CFieldCannon()
 {
-    ov0_02159F28();
+    ReleaseShots();
 }
 
-void CFieldCannon::ov0_02159ED0()
+void CFieldCannon::InitShots()
 {
-    ov0_02159F28();
+    ReleaseShots();
     unk_EC = new FieldCannonParam;
-    ov0_02159F88();
+    ResetParam();
     for (int i = 0; i < 4; i++) {
         unk_F0[i] = new CFieldCannonUnit(unk_E2);
     }
 }
 
-void CFieldCannon::ov0_02159F28()
+void CFieldCannon::ReleaseShots()
 {
     SAFE_DELETE(unk_EC);
     for (int i = 0; i < 4; i++) {
@@ -222,7 +222,7 @@ void CFieldCannon::ov0_02159F28()
     }
 }
 
-void CFieldCannon::ov0_02159F88()
+void CFieldCannon::ResetParam()
 {
     if (unk_EC == NULL) {
         return;
@@ -241,22 +241,22 @@ void CFieldCannon::ov0_02159F88()
     unk_EC->unk_14.r = FX32_CONST(16);
 }
 
-void CFieldCannon::ov0_0215A010()
+void CFieldCannon::UpdateShots()
 {
-    if (!ov0_0215A3A4()) {
+    if (!IsEnabled()) {
         return;
     }
-    if (ov0_0215A2BC()) {
+    if (IsFieldBusy()) {
         return;
     }
     if (!(unk_EC->unk_0C & 4)) {
         unk_E0++;
         if (unk_E0 == unk_EC->unk_02) {
             u16 index = 0;
-            if (ov0_0215A33C(&index)) {
-                unk_F0[index]->ov0_0215ABA4();
-                unk_F0[index]->ov0_0215AAA4(unk_EC);
-                unk_F0[index]->ov0_0215AA60(TRUE);
+            if (FindFreeShot(&index)) {
+                unk_F0[index]->ResetShot();
+                unk_F0[index]->SetShotParam(unk_EC);
+                unk_F0[index]->SetEnabled(TRUE);
                 unk_E8->PlayGroupSe(0x5C, 0x62);
             }
             unk_E0 = 0;
@@ -265,47 +265,47 @@ void CFieldCannon::ov0_0215A010()
     SaveData *save = &MAIN_BSS_020B26A0;
     for (u16 i = 0; i < 4; i++) {
         u16 id = unk_E4 * 4 + 0x20 + i;
-        FieldCannonUnitParam *param = unk_F0[i]->ov0_0215ABF0();
-        if (unk_F0[i]->ov0_0215AA80()) {
-            if (ov0_0215A3A4()) {
+        FieldCannonUnitParam *param = unk_F0[i]->GetShotParam();
+        if (unk_F0[i]->IsEnabled()) {
+            if (IsEnabled()) {
                 if (!(param->unk_0A & 2)) {
                     u16 frame = unk_F0[i]->unk_E0;
-                    u16 life = unk_F0[i]->ov0_0215ABF0()->unk_08;
+                    u16 life = unk_F0[i]->GetShotParam()->unk_08;
                     fx32 speed = param->unk_10;
                     save->SetFlagKind(id & 0x3FF, 6);
                     save->SetFlagCount(id & 0x3FF, frame, 1);
                     save->SetFlagValue(id & 0x3FF, life);
                     SetCannonShot(id, param->unk_14.pos, param->unk_00, speed, (u8)param->unk_06 | ((u8)param->unk_02 << 8));
                 }
-                unk_F0[i]->ov0_0215A698();
-                if (!unk_F0[i]->ov0_0215AA80()) {
+                unk_F0[i]->UpdateShot();
+                if (!unk_F0[i]->IsEnabled()) {
                     save->unk_81B4[id & 0x3FF] = 0;
                 }
             } else {
-                unk_F0[i]->ov0_0215AA60(FALSE);
+                unk_F0[i]->SetEnabled(FALSE);
             }
         }
     }
 }
 
-void CFieldCannon::ov0_0215A25C(DrawObjectList *renderLists, FieldShadow *hud)
+void CFieldCannon::DrawShots(DrawObjectList *renderLists, FieldShadow *hud)
 {
-    if (!ov0_0215A3A4()) {
+    if (!IsEnabled()) {
         return;
     }
     for (u16 i = 0; i < 4; i++) {
-        if (unk_F0[i]->ov0_0215AA80()) {
+        if (unk_F0[i]->IsEnabled()) {
             unk_F0[i]->Draw(renderLists, hud);
         }
     }
 }
 
-BOOL CFieldCannon::ov0_0215A2BC()
+BOOL CFieldCannon::IsFieldBusy()
 {
     BOOL ret = FALSE;
     FieldScriptLauncher *runner = MAIN_BSS_0210CA44;
     CFieldScene *scene = MAIN_BSS_0210CA40;
-    if (runner != NULL && runner->ov0_0213FEEC()) {
+    if (runner != NULL && runner->IsBusy()) {
         ret = TRUE;
     }
     if (scene != NULL) {
@@ -318,10 +318,10 @@ BOOL CFieldCannon::ov0_0215A2BC()
     return ret;
 }
 
-BOOL CFieldCannon::ov0_0215A33C(u16 *index)
+BOOL CFieldCannon::FindFreeShot(u16 *index)
 {
     for (u16 i = 0; i < 4; i++) {
-        if (!unk_F0[i]->ov0_0215AA80()) {
+        if (!unk_F0[i]->IsEnabled()) {
             *index = i;
             return TRUE;
         }
@@ -329,7 +329,7 @@ BOOL CFieldCannon::ov0_0215A33C(u16 *index)
     return FALSE;
 }
 
-void CFieldCannon::ov0_0215A384(BOOL active)
+void CFieldCannon::SetEnabled(BOOL active)
 {
     if (active) {
         unk_EC->unk_0C |= 1;
@@ -338,7 +338,7 @@ void CFieldCannon::ov0_0215A384(BOOL active)
     }
 }
 
-BOOL CFieldCannon::ov0_0215A3A4()
+BOOL CFieldCannon::IsEnabled()
 {
     if (unk_EC->unk_0C & 1) {
         return TRUE;
@@ -346,13 +346,13 @@ BOOL CFieldCannon::ov0_0215A3A4()
     return FALSE;
 }
 
-void CFieldCannon::ov0_0215A3BC(int x, int y)
+void CFieldCannon::SetOrigin(int x, int y)
 {
     Point2D pos = { x << FX32_SHIFT, y << FX32_SHIFT };
     unk_EC->unk_14.pos = pos;
 }
 
-void CFieldCannon::ov0_0215A3D4(int angle, int speed, int interval, int arg4, int arg5, int arg6, int arg7, int arg8)
+void CFieldCannon::SetParams(int angle, int speed, int interval, int arg4, int arg5, int arg6, int arg7, int arg8)
 {
     unk_EC->unk_00 = angle;
     unk_EC->unk_10 = (u16)speed;
@@ -364,15 +364,15 @@ void CFieldCannon::ov0_0215A3D4(int angle, int speed, int interval, int arg4, in
     unk_EC->unk_14.r = arg4;
 }
 
-void CFieldCannon::ov0_0215A434(FieldCannonParam *param, u16 frame, u16 index)
+void CFieldCannon::RestoreShot(FieldCannonParam *param, u16 frame, u16 index)
 {
     if (unk_F0[index] == NULL) {
         return;
     }
-    unk_F0[index]->ov0_0215ABA4();
-    unk_F0[index]->ov0_0215AAA4(param);
+    unk_F0[index]->ResetShot();
+    unk_F0[index]->SetShotParam(param);
     unk_F0[index]->unk_E0 = frame;
-    unk_F0[index]->ov0_0215AA60(TRUE);
+    unk_F0[index]->SetEnabled(TRUE);
     unk_F0[index]->SetPos(param->unk_14.pos);
 }
 
@@ -382,19 +382,19 @@ CFieldCannonUnit::CFieldCannonUnit(u16 type)
     unk_E2 = type;
     unk_E4 = MAIN_BSS_0210CA48;
     unk_E0 = 0;
-    ov0_0215A5A4();
+    Init();
 }
 
 CFieldCannonUnit::~CFieldCannonUnit()
 {
-    ov0_0215A604();
+    Release();
 }
 
-void CFieldCannonUnit::ov0_0215A5A4()
+void CFieldCannonUnit::Init()
 {
-    ov0_0215A604();
+    Release();
     unk_E8 = new FieldCannonUnitParam;
-    ov0_0215A628();
+    ResetParam();
     u16 id = 0;
     if (unk_E2 == 0) {
         id = 0x154;
@@ -405,12 +405,12 @@ void CFieldCannonUnit::ov0_0215A5A4()
     CreateDrawObject(2, id, 0, 6, 0);
 }
 
-void CFieldCannonUnit::ov0_0215A604()
+void CFieldCannonUnit::Release()
 {
     SAFE_DELETE(unk_E8);
 }
 
-void CFieldCannonUnit::ov0_0215A628()
+void CFieldCannonUnit::ResetParam()
 {
     if (unk_E8 == NULL) {
         return;
@@ -428,7 +428,7 @@ void CFieldCannonUnit::ov0_0215A628()
     unk_E8->unk_14.r = FX32_CONST(16);
 }
 
-void CFieldCannonUnit::ov0_0215A698()
+void CFieldCannonUnit::UpdateShot()
 {
     if (!(unk_E8->unk_0A & 1)) {
         return;
@@ -437,7 +437,7 @@ void CFieldCannonUnit::ov0_0215A698()
     unk_E8->unk_14.pos = pos;
     if (unk_E8->unk_0A & 2) {
         if (GetAnimState() == 0) {
-            ov0_0215AA60(FALSE);
+            SetEnabled(FALSE);
         }
     } else {
         pos.x += FX32_MUL(unk_E8->unk_10, FX_CosIdx(unk_E8->unk_00));
@@ -452,7 +452,7 @@ void CFieldCannonUnit::ov0_0215A698()
             Point2D playerPos = unk_E4->GetPos();
             ApproxLength(pos.x - playerPos.x, pos.y - playerPos.y);
             Point2D d = (const Point2D &)playerPos - pos;
-            unk_E4->ov0_021333A0(d.x, d.y, unk_E8->unk_06, unk_E8->unk_02, -1);
+            unk_E4->KnockBack(d.x, d.y, unk_E8->unk_06, unk_E8->unk_02, -1);
         }
         if (!(unk_E8->unk_0A & 2)) {
             unk_E0++;
@@ -465,7 +465,7 @@ void CFieldCannonUnit::ov0_0215A698()
     Update(NULL);
 }
 
-void CFieldCannonUnit::ov0_0215AA60(BOOL active)
+void CFieldCannonUnit::SetEnabled(BOOL active)
 {
     if (active) {
         unk_E8->unk_0A |= 1;
@@ -474,7 +474,7 @@ void CFieldCannonUnit::ov0_0215AA60(BOOL active)
     }
 }
 
-BOOL CFieldCannonUnit::ov0_0215AA80()
+BOOL CFieldCannonUnit::IsEnabled()
 {
     if (unk_E8->unk_0A & 1) {
         return TRUE;
@@ -482,12 +482,12 @@ BOOL CFieldCannonUnit::ov0_0215AA80()
     return FALSE;
 }
 
-void CFieldCannonUnit::ov0_0215AA98(u16 flags)
+void CFieldCannonUnit::SetFlags(u16 flags)
 {
     unk_E8->unk_0A = flags;
 }
 
-void CFieldCannonUnit::ov0_0215AAA4(FieldCannonParam *param)
+void CFieldCannonUnit::SetShotParam(FieldCannonParam *param)
 {
     if (unk_E8 == NULL) {
         return;
@@ -504,15 +504,15 @@ void CFieldCannonUnit::ov0_0215AAA4(FieldCannonParam *param)
     SetPos(unk_E8->unk_14.pos);
 }
 
-void CFieldCannonUnit::ov0_0215ABA4()
+void CFieldCannonUnit::ResetShot()
 {
     unk_E0 = 0;
-    ov0_0215AA98(0);
+    SetFlags(0);
     PlayAnim(2, 0);
     SetUnk004Bit8();
 }
 
-FieldCannonUnitParam *CFieldCannonUnit::ov0_0215ABF0()
+FieldCannonUnitParam *CFieldCannonUnit::GetShotParam()
 {
     return unk_E8;
 }

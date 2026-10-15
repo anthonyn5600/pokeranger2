@@ -32,12 +32,12 @@ public:
     virtual ~CFieldNpc();
     virtual void Process(CFieldMap *map);
     virtual BOOL UpdateMove(CFieldMap *map);
-    virtual BOOL sub_0203DA38();
+    virtual BOOL Talk();
     virtual void StopMotion();
-    virtual void sub_02032A44(int sequence);
+    virtual void SetMoveSequence(int sequence);
 
     void LoadScript(int npcId);
-    void ov0_0213C5DC();
+    void ApplyFloatHeight();
 
 public:
     int unk_E0;

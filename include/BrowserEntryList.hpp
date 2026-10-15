@@ -1,29 +1,29 @@
-#ifndef POKERANGER2_UNKCLASS_021226C0_HPP
-#define POKERANGER2_UNKCLASS_021226C0_HPP
+#ifndef POKERANGER2_BROWSERENTRYLIST_HPP
+#define POKERANGER2_BROWSERENTRYLIST_HPP
 
 #include <nitro.h>
 
 #include "common.hpp"
 
 // Encyclopedia entry
-struct UnkStruct_02123618 {
+struct BrowserEntry {
     u16 no; // >= 1000: special entries
     u16 id; // record id for PokeIdTable_Get
     u64 unk_04;
 };
 
-STATIC_SIZE_ASSERT(UnkStruct_02123618, 0xC);
+STATIC_SIZE_ASSERT(BrowserEntry, 0xC);
 
-extern UnkStruct_02123618 OVERLAY21_DATA_02123618[0x10E];
+extern BrowserEntry OVERLAY21_DATA_02123618[0x10E];
 extern int OVERLAY21_BSS_021242C4;
 
 // Defined in ov21
-class UnkClass_021226C0 {
+class BrowserEntryList {
 public:
-    UnkClass_021226C0();
-    ~UnkClass_021226C0();
+    BrowserEntryList();
+    ~BrowserEntryList();
 
-    void ov21_02122724(u32 mode, int arg);
+    void Filter(u32 mode, int arg);
     int ov21_02122A8C();
 
 public:
@@ -37,6 +37,6 @@ public:
     int unk_85C[25];
 };
 
-STATIC_SIZE_ASSERT(UnkClass_021226C0, 0x8C0);
+STATIC_SIZE_ASSERT(BrowserEntryList, 0x8C0);
 
-#endif // POKERANGER2_UNKCLASS_021226C0_HPP
+#endif // POKERANGER2_BROWSERENTRYLIST_HPP

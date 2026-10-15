@@ -19,15 +19,15 @@ RangerNetMissionList::RangerNetMissionList(CGame *game, RangerNetMenu *menu)
 {
     unk_5F0 = game;
     unk_058 = menu;
-    ov11_0211CDE8();
+    Init();
 }
 
 RangerNetMissionList::~RangerNetMissionList()
 {
-    ov11_0211CF40();
+    Release();
 }
 
-void RangerNetMissionList::ov11_0211CDE8()
+void RangerNetMissionList::Init()
 {
     unk_000 = 0;
     unk_018 = NULL;
@@ -41,7 +41,7 @@ void RangerNetMissionList::ov11_0211CDE8()
     unk_068 = -1;
 }
 
-void RangerNetMissionList::ov11_0211CE20()
+void RangerNetMissionList::Update()
 {
     int step = 60 / unk_5F0->unk_146C.GetFps();
     if (unk_064 < 0x780) {
@@ -73,24 +73,24 @@ void RangerNetMissionList::ov11_0211CE20()
     }
 }
 
-void RangerNetMissionList::ov11_0211CF04()
+void RangerNetMissionList::Draw()
 {
-    ov11_0211D02C();
+    Render();
 }
 
-void RangerNetMissionList::ov11_0211CF10()
+void RangerNetMissionList::PrintText()
 {
-    ov11_0211D8C4();
+    PrintPendingText();
 }
 
-void RangerNetMissionList::ov11_0211CF1C()
+void RangerNetMissionList::LoadPalette()
 {
     if (unk_018 != NULL) {
         unk_5F0->unk_1494->LoadPalette();
     }
 }
 
-void RangerNetMissionList::ov11_0211CF40()
+void RangerNetMissionList::Release()
 {
     SAFE_DELETE(unk_008);
     SAFE_DELETE(unk_00C);
@@ -108,7 +108,7 @@ static inline void DrawActor(CFieldActor *actor, Camera2D *camera)
     }
 }
 
-void RangerNetMissionList::ov11_0211D02C()
+void RangerNetMissionList::Render()
 {
     if (unk_018 == NULL) {
         return;
@@ -135,7 +135,7 @@ void RangerNetMissionList::ov11_0211D02C()
     }
 }
 
-void RangerNetMissionList::ov11_0211D0D0()
+void RangerNetMissionList::LoadGraphics()
 {
     static RNMissionEntry sMissionEntries[6] = {
         { 0x12, 0 },
@@ -176,7 +176,7 @@ void RangerNetMissionList::ov11_0211D0D0()
     unk_01C[5] = unk_018->AddSprite(4, 0x80, 0x60, 1);
     unk_01C[6] = unk_018->AddSprite(5, 0x80, 0x60, 1);
     unk_01C[0] = unk_018->AddSprite(8, 0x80, 0x60, 1);
-    ov11_0211DED0();
+    HideSprites();
 
     GX_SetVisiblePlane(GX_PLANEMASK_BG0 | GX_PLANEMASK_BG1 | GX_PLANEMASK_BG2 | GX_PLANEMASK_BG3 | GX_PLANEMASK_OBJ);
     unk_5F0->unk_1494->SetupBG(3, GX_BG_SCRBASE_0x6000, GX_BG_CHARBASE_0x18000);
@@ -200,7 +200,7 @@ void RangerNetMissionList::ov11_0211D0D0()
     }
 }
 
-void RangerNetMissionList::ov11_0211D4C0(int mode)
+void RangerNetMissionList::SetLayout(int mode)
 {
     if (unk_068 == mode) {
         return;
@@ -208,7 +208,7 @@ void RangerNetMissionList::ov11_0211D4C0(int mode)
     unk_068 = mode;
     unk_5F0->unk_1494->SetupBG(3, GX_BG_SCRBASE_0x6000, GX_BG_CHARBASE_0x18000);
     unk_5F0->unk_1494->FreeWindows();
-    ov11_0211DED0();
+    HideSprites();
     GX_SetVisiblePlane(GX_GetVisiblePlane() | GX_PLANEMASK_BG3);
     switch (mode) {
     case 0:
@@ -243,23 +243,23 @@ void RangerNetMissionList::ov11_0211D4C0(int mode)
     unk_018->WriteOam();
 }
 
-BOOL RangerNetMissionList::ov11_0211D7D4(int a, int b, MessageTable *c)
+BOOL RangerNetMissionList::ShowMessage(int a, int b, MessageTable *c)
 {
     unk_06C = a;
     ov11_0211D860(a);
-    ov11_0211D880(b, c);
+    SetMessage(b, c);
     return TRUE;
 }
 
-BOOL RangerNetMissionList::ov11_0211D804(int idx)
+BOOL RangerNetMissionList::ShowMission(int idx)
 {
     unk_5EC = idx;
     unk_06C = 2;
     ov11_0211D860(2);
-    ov11_0211D880(1, unk_040[idx]);
-    ov11_0211D8A0(2);
-    ov11_0211D8A0(3);
-    ov11_0211D8A0(4);
+    SetMessage(1, unk_040[idx]);
+    AddMessage(2);
+    AddMessage(3);
+    AddMessage(4);
     return TRUE;
 }
 
@@ -267,22 +267,22 @@ void RangerNetMissionList::ov11_0211D860(int mode)
 {
 }
 
-BOOL RangerNetMissionList::ov11_0211D864()
+BOOL RangerNetMissionList::Load()
 {
-    ov11_0211D0D0();
-    ov11_0211CF1C();
+    LoadGraphics();
+    LoadPalette();
     return TRUE;
 }
 
-void RangerNetMissionList::ov11_0211D880(int a, MessageTable *b)
+void RangerNetMissionList::SetMessage(int a, MessageTable *b)
 {
     unk_004 = 1;
     unk_070 = b;
     unk_09C = 0;
-    ov11_0211D8A0(a);
+    AddMessage(a);
 }
 
-void RangerNetMissionList::ov11_0211D8A0(int v)
+void RangerNetMissionList::AddMessage(int v)
 {
     if (unk_09C < 10) {
         unk_074[unk_09C] = v;
@@ -290,14 +290,14 @@ void RangerNetMissionList::ov11_0211D8A0(int v)
     }
 }
 
-void RangerNetMissionList::ov11_0211D8C4()
+void RangerNetMissionList::PrintPendingText()
 {
     TextPrinter *tb;
     if (unk_004 == 0) {
         return;
     }
     unk_004 = 0;
-    ov11_0211D4C0(unk_06C);
+    SetLayout(unk_06C);
     switch (unk_06C) {
     case 0:
         break;
@@ -338,8 +338,8 @@ void RangerNetMissionList::ov11_0211D8C4()
         tb->Print(1, 0, 2, 3, (u8 *)unk_070->GetString(0x12), 0, 0);
         tb = unk_5F0->unk_1494;
         tb->Print(1, 0x8C, 0xE, 3, (u8 *)unk_070->GetString(0x13), 0, 0);
-        unk_058->ov11_0212331C(0, 0x50, 0x26, -1, 3, 1, 5);
-        unk_058->ov11_02123228(0, 0x64, 0x32, 3, 1);
+        unk_058->PrintNumber(0, 0x50, 0x26, -1, 3, 1, 5);
+        unk_058->PrintApplicationNo(0, 0x64, 0x32, 3, 1);
         break;
     case 4:
         if (unk_070 == NULL) {
@@ -359,13 +359,13 @@ void RangerNetMissionList::ov11_0211D8C4()
         tb->Print(1, 0, 2, 3, (u8 *)unk_070->GetString(0x11), 0, 0);
         tb = unk_5F0->unk_1494;
         tb->Print(1, 0x8C, 0xE, 3, (u8 *)unk_070->GetString(0x12), 0, 0);
-        unk_058->ov11_0212331C(0, 0x50, 0x26, -1, 3, 1, 5);
-        unk_058->ov11_02123598(0, 0x50, 0x32, 0, 3, 1);
+        unk_058->PrintNumber(0, 0x50, 0x26, -1, 3, 1, 5);
+        unk_058->PrintTrainerName(0, 0x50, 0x32, 0, 3, 1);
         break;
     }
 }
 
-void RangerNetMissionList::ov11_0211DED0()
+void RangerNetMissionList::HideSprites()
 {
     for (int i = 1; i < 7; i++) {
         if (unk_01C[i] != NULL) {

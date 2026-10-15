@@ -304,7 +304,7 @@ int FieldScreenEffectManage::FindByType(int type)
     return -1;
 }
 
-int FieldScreenEffectManage::sub_02035D38(int type)
+int FieldScreenEffectManage::SetPrimaryEffect(int type)
 {
     if (type > 0 && m_effects != NULL) {
         if (m_effects[0] != NULL && type == m_effects[0]->GetType()) {
@@ -363,7 +363,7 @@ BOOL FieldScreenEffectManage::sub_02035F50(int type, int arg)
     if (type > 0 && m_effects != NULL) {
         for (int i = 0; i < m_count; i++) {
             if (m_effects[i] != NULL && type == m_effects[i]->GetType()) {
-                ((CFieldSEFKomorebi *)m_effects[i])->sub_02037330(arg);
+                ((CFieldSEFKomorebi *)m_effects[i])->ResetAlpha(arg);
                 return TRUE;
             }
         }

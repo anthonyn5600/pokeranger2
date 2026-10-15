@@ -15,12 +15,12 @@ struct D6Work {
 
 static D6Work *sWork;
 
-void ov11_0212BB6C(u8 cmd, u8 *data);
-BOOL ov11_0212BEA0(u16 aid);
-u16 ov11_0212C154();
-BOOL ov11_0212C198(u8 cmd, u8 *data);
+void CommSys_SendDataFixedSizeServer(u8 cmd, u8 *data);
+BOOL CommSys_IsPlayerConnected(u16 aid);
+u16 CommSys_CurNetId();
+BOOL CommSys_SendDataFixedSize(u8 cmd, u8 *data);
 
-void ov11_021298C4(int arg)
+void CommTool_Init(int arg)
 {
     if (sWork == NULL) {
         sWork = (D6Work *)Heap_Alloc(sizeof(D6Work));
@@ -34,7 +34,7 @@ void ov11_021298C4(int arg)
     sWork->unk_252 = 0;
 }
 
-void ov11_02129944()
+void CommTool_Delete()
 {
     if (sWork != NULL) {
         Heap_Free(sWork);
@@ -42,52 +42,52 @@ void ov11_02129944()
     sWork = NULL;
 }
 
-void ov11_02129970(u8 aid, int size, u8 *data)
+void CommTiming_RecvSyncNo(u8 aid, int size, u8 *data)
 {
     u8 value = data[0];
-    if (ov11_0212C154() != 0) {
+    if (CommSys_CurNetId() != 0) {
         return;
     }
     u8 msg[2];
     msg[0] = aid;
     msg[1] = value;
-    ov11_0212BB6C(0x12, msg);
+    CommSys_SendDataFixedSizeServer(0x12, msg);
     sWork->unk_010[aid] = value;
     for (u16 i = 0; i < 8; i++) {
-        if (ov11_0212BEA0(i) && value != sWork->unk_010[i]) {
+        if (CommSys_IsPlayerConnected(i) && value != sWork->unk_010[i]) {
             return;
         }
     }
-    ov11_0212BB6C(0x11, &value);
+    CommSys_SendDataFixedSizeServer(0x11, &value);
 }
 
-void ov11_02129A1C(int aid, int size, const u8 *data)
+void CommTiming_RecvPlayerSyncNo(int aid, int size, const u8 *data)
 {
     sWork->unk_010[data[0]] = data[1];
 }
 
-void ov11_02129A3C(int aid, int size, const u8 *data)
+void CommTiming_RecvSyncState(int aid, int size, const u8 *data)
 {
     sWork->unk_250 = data[0];
 }
 
-void ov11_02129A54(u8 v)
+void CommTiming_StartSync(u8 v)
 {
     sWork->unk_251 = v;
     sWork->unk_252 = 1;
 }
 
-void ov11_02129A74()
+void CommTiming_Update()
 {
     if (sWork != NULL && sWork->unk_252 != 0) {
-        if (!ov11_0212C198(0x10, &sWork->unk_251)) {
+        if (!CommSys_SendDataFixedSize(0x10, &sWork->unk_251)) {
             return;
         }
         sWork->unk_252 = 0;
     }
 }
 
-BOOL ov11_02129AC0(u8 v)
+BOOL CommTiming_IsSyncState(u8 v)
 {
     if (sWork == NULL) {
         return TRUE;
@@ -95,24 +95,24 @@ BOOL ov11_02129AC0(u8 v)
     return sWork->unk_250 == v;
 }
 
-void ov11_02129AEC(int aid, int size, const u8 *data)
+void CommList_Recv(int aid, int size, const u8 *data)
 {
     sWork->unk_000[aid][0] = data[0];
     sWork->unk_000[aid][1] = data[1];
 }
 
-u32 ov11_02129B14()
+u32 CommList_Size()
 {
     return sizeof(sWork->unk_000[0]);
 }
 
-void ov11_02129B1C(int idx, int size, const void *data)
+void CommTool_RecvTempData(int idx, int size, const void *data)
 {
     sWork->unk_248[idx] = 1;
     MI_CpuCopy8(data, sWork->unk_018[idx], sizeof(sWork->unk_018[0]));
 }
 
-u32 ov11_02129B58()
+u32 CommTool_TempDataSize()
 {
     return sizeof(sWork->unk_018[0]);
 }

@@ -38,7 +38,7 @@ public:
     void ClearPrimary();
     CFieldScreenEffectObjectBase *CreateEffect(int type);
     int FindByType(int type);
-    int sub_02035D38(int type);
+    int SetPrimaryEffect(int type);
     BOOL StartEffect(int type, int fadeIn, int hold, int fadeOut);
     BOOL StopEffect(int type, int fadeOut);
     BOOL IsEffectActive(int type);

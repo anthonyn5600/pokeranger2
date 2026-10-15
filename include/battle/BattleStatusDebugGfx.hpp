@@ -14,8 +14,8 @@ class BattleStatusDebugGfx {
 public:
     BattleStatusDebugGfx();
     ~BattleStatusDebugGfx();
-    void ov1_021294E4();
-    void ov1_02129638();
+    void Load();
+    void Release();
 
 public:
     VramImage *m_image;

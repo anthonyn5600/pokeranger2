@@ -70,7 +70,7 @@ void CFieldEffectDarknessClear::Load()
     m_texture.m_sizeS = GX_TEXSIZE_S32;
     m_texture.m_sizeT = GX_TEXSIZE_T32;
     NtfTextureParam *texture = &m_texture;
-    ov0_021423E8(texture);
+    SetParticleRes(texture);
 }
 
 int CFieldEffectDarknessClear::SetParam(int param, int value)
@@ -96,7 +96,7 @@ int CFieldEffectDarknessClear::SetParam(int param, int value)
 template TFieldParticle<CSimpleSpriteNTF>::~TFieldParticle();
 template TFieldParticle<CSimpleSpriteNTF>::TFieldParticle();
 
-BOOL CFieldEffectDarknessClear::ov0_021421F0(int inTime, int holdTime, int outTime)
+BOOL CFieldEffectDarknessClear::Start(int inTime, int holdTime, int outTime)
 {
     if (outTime <= 0) {
         outTime = 0xB4;
@@ -104,19 +104,19 @@ BOOL CFieldEffectDarknessClear::ov0_021421F0(int inTime, int holdTime, int outTi
     m_emitter.m_lifeMin = holdTime;
     m_emitter.m_lifeMax = outTime;
     m_forceField.m_delay = holdTime << 12;
-    return TFieldEffectParticle<CSimpleSpriteNTF>::ov0_021421F0(0, holdTime, outTime);
+    return TFieldEffectParticle<CSimpleSpriteNTF>::Start(0, holdTime, outTime);
 }
 
 template void TFieldParticleEmitter<CSimpleSpriteNTF>::func2();
 
-int CFieldEffectDarknessClear::ov0_02142344(Camera2D *camera)
+int CFieldEffectDarknessClear::Render(Camera2D *camera)
 {
     TFieldParticleSystem<CSimpleSpriteNTF> *system = m_system;
     if (system != NULL) {
         system->m_offset.x = -camera->unk_1C;
         system->m_offset.y = -camera->unk_20;
     }
-    return TFieldEffectParticle<CSimpleSpriteNTF>::ov0_02142344(camera);
+    return TFieldEffectParticle<CSimpleSpriteNTF>::Render(camera);
 }
 
 void CFieldEffectDarknessClear::CForceField::Apply(TFieldParticle<CSimpleSpriteNTF> *p, int dt)
@@ -209,7 +209,7 @@ void CFieldEffectDarknessClear2::Load()
     m_texture.m_sizeS = GX_TEXSIZE_S32;
     m_texture.m_sizeT = GX_TEXSIZE_T32;
     NtfTextureParam *texture = &m_texture;
-    ov0_021423E8(texture);
+    SetParticleRes(texture);
 }
 
 int CFieldEffectDarknessClear2::SetParam(int param, int value)
@@ -232,7 +232,7 @@ int CFieldEffectDarknessClear2::SetParam(int param, int value)
     return ret;
 }
 
-BOOL CFieldEffectDarknessClear2::ov0_021421F0(int inTime, int holdTime, int outTime)
+BOOL CFieldEffectDarknessClear2::Start(int inTime, int holdTime, int outTime)
 {
     if (outTime <= 0) {
         outTime = 0xB4;
@@ -241,7 +241,7 @@ BOOL CFieldEffectDarknessClear2::ov0_021421F0(int inTime, int holdTime, int outT
     m_emitter.m_lifeMax = outTime;
     m_forceField.m_delay = holdTime << 12;
     m_forceField.m_center = m_emitter.m_pos;
-    return TFieldEffectParticle<CSimpleSpriteNTF>::ov0_021421F0(0, holdTime, outTime);
+    return TFieldEffectParticle<CSimpleSpriteNTF>::Start(0, holdTime, outTime);
 }
 
 // DC2 runs the particle system update itself instead of calling the base inline. Reconstructed shape (the original's
@@ -274,10 +274,10 @@ static inline void UpdateParticlesW(TFieldParticleSystem<CSimpleSpriteNTF> *sys,
     }
 }
 
-int CFieldEffectDarknessClear2::ov0_02142264(int step)
+int CFieldEffectDarknessClear2::Update(int step)
 {
     m_emitter.m_index = 0;
-    int state = CFieldEffect::ov0_02142264(step);
+    int state = CFieldEffect::Update(step);
     if (state != 4 && m_system != NULL) {
         TFieldParticleSystem<CSimpleSpriteNTF> *sys = m_system;
         int dt = step * sys->m_speed;
@@ -303,22 +303,22 @@ int CFieldEffectDarknessClear2::ov0_02142264(int step)
     return state;
 }
 
-// Never called (mwld strips it): makes mwcc emit the template's ov0_02142264 right after DC2's, as in the original.
+// Never called (mwld strips it): makes mwcc emit the template's Update right after DC2's, as in the original.
 int DarknessClear2_EmitBaseUpdate(CFieldEffectDarknessClear2 *self, int step)
 {
-    return self->TFieldEffectParticle<CSimpleSpriteNTF>::ov0_02142264(step);
+    return self->TFieldEffectParticle<CSimpleSpriteNTF>::Update(step);
 }
 
 template u32 TFieldParticleEmitter<CSimpleSpriteNTF>::Update(int dt);
 
-int CFieldEffectDarknessClear2::ov0_02142344(Camera2D *camera)
+int CFieldEffectDarknessClear2::Render(Camera2D *camera)
 {
     TFieldParticleSystem<CSimpleSpriteNTF> *system = m_system;
     if (system != NULL) {
         system->m_offset.x = -camera->unk_1C;
         system->m_offset.y = -camera->unk_20;
     }
-    return TFieldEffectParticle<CSimpleSpriteNTF>::ov0_02142344(camera);
+    return TFieldEffectParticle<CSimpleSpriteNTF>::Render(camera);
 }
 
 void CFieldEffectDarknessClear2::CForceField::Apply(TFieldParticle<CSimpleSpriteNTF> *p, int dt)

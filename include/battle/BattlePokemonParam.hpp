@@ -1,12 +1,12 @@
-#ifndef POKERANGER2_BATTLE_UNKSTRUCT_0212DFEC_HPP
-#define POKERANGER2_BATTLE_UNKSTRUCT_0212DFEC_HPP
+#ifndef POKERANGER2_BATTLE_BATTLEPOKEMONPARAM_HPP
+#define POKERANGER2_BATTLE_BATTLEPOKEMONPARAM_HPP
 
 #include <nitro.h>
 
 #include "common.hpp"
 
-// Battle pokemon parameter record (BattlePokemonTable::ov1_0212DFEC)
-struct UnkStruct_0212DFEC {
+// Battle pokemon parameter record (BattlePokemonTable::GetEntry)
+struct BattlePokemonParam {
     u16 unk_00;
     u16 unk_02;
     u8 unk_04;
@@ -30,4 +30,4 @@ struct UnkStruct_0212DFEC {
     u8 unk_17;
 };
 
-#endif // POKERANGER2_BATTLE_UNKSTRUCT_0212DFEC_HPP
+#endif // POKERANGER2_BATTLE_BATTLEPOKEMONPARAM_HPP

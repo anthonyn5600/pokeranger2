@@ -34,9 +34,9 @@ CFieldEffectManpuAse::~CFieldEffectManpuAse()
     }
 }
 
-int CFieldEffectManpuAse::ov0_02142264(int step)
+int CFieldEffectManpuAse::Update(int step)
 {
-    int state = CFieldEffectActor::ov0_02142264(step);
+    int state = CFieldEffectActor::Update(step);
     if (state != 0 && state != 4) {
         CellAnimController *cac = unk_18->GetCac(0);
         if (IsVisible() && cac != NULL) {

@@ -22,14 +22,14 @@
 #include "file/CNCLRFile.hpp"
 #include "heap.hpp"
 
-struct UnkStruct_0208AC1C {
+struct ChapterInfo {
     char name[0x10];
     u32 mapId;
     int x;
     int y;
 };
 
-extern UnkStruct_0208AC1C s_c000First_0208ac1c[];
+extern ChapterInfo s_c000First_0208ac1c[];
 extern SaveData MAIN_BSS_020B26A0;
 
 struct StaffrollEvent {
@@ -93,10 +93,10 @@ u32 CStaffrollScene::func0()
             if (event->frame == unk_2C) {
                 switch (event->type) {
                 case 0:
-                    unk_24->ov25_0211F048(event->picture, 5, event->arg0, event->arg1, event->arg0, event->arg1);
+                    unk_24->Show(event->picture, 5, event->arg0, event->arg1, event->arg0, event->arg1);
                     break;
                 case 1:
-                    unk_24->ov25_0211F16C(event->arg0, event->arg1);
+                    unk_24->StartFadeOut(event->arg0, event->arg1);
                     break;
                 case 2:
                     unk_0C = event->arg0;
@@ -108,7 +108,7 @@ u32 CStaffrollScene::func0()
                     s_game->m_audioEngine->StopBgm(event->arg1);
                     break;
                 case 4:
-                    unk_28->ov25_0211FA54();
+                    unk_28->Start();
                     break;
                 }
             }
@@ -134,8 +134,8 @@ u32 CStaffrollScene::func0()
         y = unk_08 >> FX32_SHIFT;
         prev = old >> FX32_SHIFT;
         if (y != prev) {
-            unk_14->ov25_0211DD30(0, y);
-            unk_10->ov25_0211DD30(0, y + 0xC0);
+            unk_14->SetScroll(0, y);
+            unk_10->SetScroll(0, y + 0xC0);
             int line = y >> 4;
             if (line != prev >> 4) {
                 int lower = line - 1;
@@ -143,16 +143,16 @@ u32 CStaffrollScene::func0()
                 count = unk_18->GetCount();
                 if (lower >= 0) {
                     if (lower < count) {
-                        unk_10->ov25_0211DBBC(0x80, y + 0x180, 3, unk_18->GetString(lower), 2);
+                        unk_10->Print(0x80, y + 0x180, 3, unk_18->GetString(lower), 2);
                     } else {
-                        unk_10->ov25_0211DBBC(0x80, y + 0x180, 3, "", 2);
+                        unk_10->Print(0x80, y + 0x180, 3, "", 2);
                     }
                 }
                 if (upper >= 0) {
                     if (upper < count) {
-                        unk_14->ov25_0211DBBC(0x80, y + 0xC0, 3, unk_18->GetString(upper), 2);
+                        unk_14->Print(0x80, y + 0xC0, 3, unk_18->GetString(upper), 2);
                     } else {
-                        unk_14->ov25_0211DBBC(0x80, y + 0xC0, 3, "", 2);
+                        unk_14->Print(0x80, y + 0xC0, 3, "", 2);
                     }
                 }
             }
@@ -187,14 +187,14 @@ u32 CStaffrollScene::func0()
         }
         break;
     }
-    unk_24->ov25_0211E1B0();
-    unk_28->ov25_0211F890();
+    unk_24->Update();
+    unk_28->Update();
     return -1;
 }
 
 void CStaffrollScene::func1()
 {
-    unk_28->ov25_0211FA20();
+    unk_28->WriteOam();
 }
 
 void CStaffrollScene::func2()
@@ -264,23 +264,23 @@ void CStaffrollScene::func6()
     s_game->m_textboxData->LoadSystemMessages(0);
     unk_10 = new StaffrollText();
     unk_14 = new StaffrollText();
-    unk_10->ov25_0211D6FC(&s_game->unk_14AC->unk_14);
-    unk_14->ov25_0211D6FC(&s_game->unk_14AC->unk_14);
+    unk_10->SetFont(&s_game->unk_14AC->unk_14);
+    unk_14->SetFont(&s_game->unk_14AC->unk_14);
     unk_18 = new MessageTable("/data/message/etc/staffroll");
     CNCLRFile *nclr = new CNCLRFile("data/font/prs_lc_jp.NCLR", 1, 0, 0);
     DC_FlushRange(nclr->unk_B8->pRawData, 0x20);
     GX_LoadBGPltt(nclr->unk_B8->pRawData, 0x1E0, 0x20);
     GXS_LoadBGPltt(nclr->unk_B8->pRawData, 0x1E0, 0x20);
     delete nclr;
-    unk_10->ov25_0211D758(4, 0, 2, 15, 0);
-    unk_14->ov25_0211D758(0, 0, 2, 15, 0);
+    unk_10->Setup(4, 0, 2, 15, 0);
+    unk_14->Setup(0, 0, 2, 15, 0);
     MI_CpuClearFast((void *)HW_DB_BG_VRAM, 0x20);
     G2_SetBG1Control(GX_BG_SCRSIZE_TEXT_256x256, GX_BG_COLORMODE_256, GX_BG_SCRBASE_0x0800, GX_BG_CHARBASE_0x10000, GX_BG_EXTPLTT_01);
     G2_SetBG2ControlText(GX_BG_SCRSIZE_TEXT_256x256, GX_BG_COLORMODE_256, GX_BG_SCRBASE_0x1000, GX_BG_CHARBASE_0x20000);
     G2_SetBG1Priority(1);
     G2_SetBG2Priority(2);
     unk_24 = new StaffrollPictures();
-    unk_24->ov25_0211E108(16, 1, 2);
+    unk_24->Init(16, 1, 2);
     int set = 0;
     if (MAIN_BSS_020B26A0.m_sex != 0) {
         set = 1;
@@ -289,25 +289,25 @@ void CStaffrollScene::func6()
     for (int i = 0; i < 16; i++) {
         OS_SPrintf(arcName, "edu%03d_", pictures[i]);
         OS_SPrintf(name, "edu%03d", pictures[i]);
-        unk_24->ov25_0211EFFC(i, "ending/", arcName, name, 0, 0);
+        unk_24->Load(i, "ending/", arcName, name, 0, 0);
     }
     unk_1C = 0;
     unk_20 = 0;
     unk_2C = 0;
     unk_28 = new StaffrollTheEnd();
-    unk_28->ov25_0211F750();
+    unk_28->Load();
     unk_30 = 0;
 }
 
 void CStaffrollScene::func7()
 {
     if (unk_14 != NULL) {
-        unk_14->ov25_0211DD30(0, 0);
-        unk_14->ov25_0211DD14();
+        unk_14->SetScroll(0, 0);
+        unk_14->Clear();
     }
     if (unk_10 != NULL) {
-        unk_10->ov25_0211DD30(0, 0);
-        unk_10->ov25_0211DD14();
+        unk_10->SetScroll(0, 0);
+        unk_10->Clear();
     }
     SAFE_DELETE(unk_24);
     SAFE_DELETE(unk_10);
@@ -325,20 +325,20 @@ u32 CStaffrollScene::getSceneId()
 StaffrollPicture::StaffrollPicture()
 {
     unk_10 = 0;
-    ov25_0211D5DC();
+    Init();
 }
 
 StaffrollPicture::~StaffrollPicture()
 {
-    ov25_0211D514();
+    Release();
 }
 
-void StaffrollPicture::ov25_0211D514()
+void StaffrollPicture::Release()
 {
     SAFE_DELETE(unk_04);
 }
 
-BOOL StaffrollPicture::ov25_0211D548()
+BOOL StaffrollPicture::UpdateTransfer()
 {
     switch (unk_00) {
     case 1:
@@ -365,13 +365,13 @@ BOOL StaffrollPicture::ov25_0211D548()
     return TRUE;
 }
 
-void StaffrollPicture::ov25_0211D5DC()
+void StaffrollPicture::Init()
 {
     unk_04 = NULL;
     unk_00 = 0;
 }
 
-void StaffrollPicture::ov25_0211D5EC(const char *dir, const char *name, const char *file, u32 charOffset, u32 plttNo)
+void StaffrollPicture::Load(const char *dir, const char *name, const char *file, u32 charOffset, u32 plttNo)
 {
     delete unk_04;
     unk_04 = new BGLayer(unk_10);
@@ -382,7 +382,7 @@ void StaffrollPicture::ov25_0211D5EC(const char *dir, const char *name, const ch
     unk_04->ReleaseArchive();
 }
 
-void StaffrollPicture::ov25_0211D6A8(int bg, int steps)
+void StaffrollPicture::StartTransfer(int bg, int steps)
 {
     unk_00 = 2;
     unk_04->SetBG(bg);
@@ -399,15 +399,15 @@ StaffrollText::StaffrollText()
 
 StaffrollText::~StaffrollText()
 {
-    ov25_0211D704();
+    Release();
 }
 
-void StaffrollText::ov25_0211D6FC(NNSG2dFont *font)
+void StaffrollText::SetFont(NNSG2dFont *font)
 {
     unk_00 = font;
 }
 
-void StaffrollText::ov25_0211D704()
+void StaffrollText::Release()
 {
     SAFE_DELETE(unk_04);
     SAFE_DELETE(unk_08);
@@ -417,9 +417,9 @@ void StaffrollText::ov25_0211D704()
     }
 }
 
-void StaffrollText::ov25_0211D758(int bg, int scrBase, int charBase, int plttNo, int priority)
+void StaffrollText::Setup(int bg, int scrBase, int charBase, int plttNo, int priority)
 {
-    ov25_0211D704();
+    Release();
     unk_04 = new NNSG2dCharCanvas;
     unk_08 = new NNSG2dTextCanvas;
     unk_0C = bg;
@@ -490,7 +490,7 @@ void StaffrollText::ov25_0211D758(int bg, int scrBase, int charBase, int plttNo,
     NNS_G2dCharCanvasInitForBG(unk_04, chr, 32, 32, NNS_G2D_CHARA_COLORMODE_16);
     NNS_G2dTextCanvasInit(unk_08, unk_04, unk_00, 1, 3);
     NNS_G2dMapScrToCharText(scr, 32, 32, 0, 0, NNS_G2D_TEXT_BG_WIDTH_256, 0, plttNo);
-    ov25_0211DD14();
+    Clear();
     unk_1C = (u16 *)Heap_AllocWithAlignment(0x800, 4);
     for (int i = 0; i < 0x400; i++) {
         unk_1C[i] = i | (plttNo << 12);
@@ -499,7 +499,7 @@ void StaffrollText::ov25_0211D758(int bg, int scrBase, int charBase, int plttNo,
     unk_24 = 0;
 }
 
-void StaffrollText::ov25_0211DBBC(int x0, int y0, int color, const char *str, int align)
+void StaffrollText::Print(int x0, int y0, int color, const char *str, int align)
 {
     x0 = (u8)x0;
     y0 = (u8)y0;
@@ -540,12 +540,12 @@ void StaffrollText::ov25_0211DBBC(int x0, int y0, int color, const char *str, in
     }
 }
 
-void StaffrollText::ov25_0211DD14()
+void StaffrollText::Clear()
 {
     MI_CpuClearFast(unk_04->charBase, 0x8000);
 }
 
-void StaffrollText::ov25_0211DD30(int x0, int y0)
+void StaffrollText::SetScroll(int x0, int y0)
 {
     u8 x = x0;
     u8 y = y0;
@@ -659,10 +659,10 @@ StaffrollPictures::StaffrollPictures()
 
 StaffrollPictures::~StaffrollPictures()
 {
-    ov25_0211E174();
+    Release();
 }
 
-void StaffrollPictures::ov25_0211E108(int count, int bg0, int bg1)
+void StaffrollPictures::Init(int count, int bg0, int bg1)
 {
     unk_00 = new StaffrollPicture[count];
     unk_04 = count;
@@ -678,7 +678,7 @@ void StaffrollPictures::ov25_0211E108(int count, int bg0, int bg1)
     unk_2C = NULL;
 }
 
-void StaffrollPictures::ov25_0211E174()
+void StaffrollPictures::Release()
 {
     if (unk_00 != NULL) {
         delete[] unk_00;
@@ -687,12 +687,12 @@ void StaffrollPictures::ov25_0211E174()
     unk_04 = 0;
 }
 
-void StaffrollPictures::ov25_0211E1B0()
+void StaffrollPictures::Update()
 {
     BOOL main = unk_20[unk_28] <= 3;
     BOOL loading = FALSE;
     if (unk_2C != NULL) {
-        if (!unk_2C->ov25_0211D548()) {
+        if (!unk_2C->UpdateTransfer()) {
             unk_2C = NULL;
         } else {
             loading = TRUE;
@@ -703,7 +703,7 @@ void StaffrollPictures::ov25_0211E1B0()
         if (loading) {
             return;
         }
-        ov25_0211F1D4(unk_20[unk_28]);
+        ShowBG(unk_20[unk_28]);
         unk_0C++;
         if (unk_0C >= unk_18) {
             if (main) {
@@ -713,9 +713,9 @@ void StaffrollPictures::ov25_0211E1B0()
                 G2S_BlendNone();
                 GX_SetVisibleWnd(GX_WNDMASK_NONE); // main screen's window mask
             }
-            ov25_0211F5CC(unk_20[unk_28], 0, 0);
-            ov25_0211F5CC(unk_20[!unk_28], 0, 0);
-            ov25_0211F344(unk_20[!unk_28]);
+            SetBGOffset(unk_20[unk_28], 0, 0);
+            SetBGOffset(unk_20[!unk_28], 0, 0);
+            HideBG(unk_20[!unk_28]);
             unk_08 = 2;
             return;
         }
@@ -747,8 +747,8 @@ void StaffrollPictures::ov25_0211E1B0()
             }
             break;
         case 2:
-            ov25_0211F5CC(unk_20[!unk_28], dx, 0);
-            ov25_0211F5CC(unk_20[unk_28], -(0x100 - dx), 0);
+            SetBGOffset(unk_20[!unk_28], dx, 0);
+            SetBGOffset(unk_20[unk_28], -(0x100 - dx), 0);
             if (main) {
                 GX_SetVisibleWnd(GX_WNDMASK_W0);
                 G2_SetWnd0InsidePlane(~(1 << (unk_20[!unk_28] & 3)) & 0x1F, FALSE);
@@ -762,8 +762,8 @@ void StaffrollPictures::ov25_0211E1B0()
             }
             break;
         case 3:
-            ov25_0211F5CC(unk_20[!unk_28], -dx, 0);
-            ov25_0211F5CC(unk_20[unk_28], 0x100 - dx, 0);
+            SetBGOffset(unk_20[!unk_28], -dx, 0);
+            SetBGOffset(unk_20[unk_28], 0x100 - dx, 0);
             if (main) {
                 GX_SetVisibleWnd(GX_WNDMASK_W0);
                 G2_SetWnd0InsidePlane(~(1 << (unk_20[!unk_28] & 3)) & 0x1F, FALSE);
@@ -777,8 +777,8 @@ void StaffrollPictures::ov25_0211E1B0()
             }
             break;
         case 4:
-            ov25_0211F5CC(unk_20[!unk_28], 0, dy);
-            ov25_0211F5CC(unk_20[unk_28], 0, -(0xC0 - dy));
+            SetBGOffset(unk_20[!unk_28], 0, dy);
+            SetBGOffset(unk_20[unk_28], 0, -(0xC0 - dy));
             if (main) {
                 GX_SetVisibleWnd(GX_WNDMASK_W0);
                 G2_SetWnd0InsidePlane(~(1 << (unk_20[!unk_28] & 3)) & 0x1F, FALSE);
@@ -792,8 +792,8 @@ void StaffrollPictures::ov25_0211E1B0()
             }
             break;
         case 5:
-            ov25_0211F5CC(unk_20[!unk_28], 0, -dy);
-            ov25_0211F5CC(unk_20[unk_28], 0, 0xC0 - dy);
+            SetBGOffset(unk_20[!unk_28], 0, -dy);
+            SetBGOffset(unk_20[unk_28], 0, 0xC0 - dy);
             if (main) {
                 GX_SetVisibleWnd(GX_WNDMASK_W0);
                 G2_SetWnd0InsidePlane(~(1 << (unk_20[!unk_28] & 3)) & 0x1F, FALSE);
@@ -820,9 +820,9 @@ void StaffrollPictures::ov25_0211E1B0()
                 G2S_BlendNone();
                 GXS_SetVisibleWnd(GX_WNDMASK_NONE);
             }
-            ov25_0211F5CC(unk_20[unk_28], 0, 0);
-            ov25_0211F5CC(unk_20[!unk_28], 0, 0);
-            ov25_0211F344(unk_20[unk_28]);
+            SetBGOffset(unk_20[unk_28], 0, 0);
+            SetBGOffset(unk_20[!unk_28], 0, 0);
+            HideBG(unk_20[unk_28]);
             if (unk_18 >= 0) {
                 unk_28 = unk_28 == 0 ? 1 : 0;
                 unk_0C = 0;
@@ -853,7 +853,7 @@ void StaffrollPictures::ov25_0211E1B0()
             }
             break;
         case 2:
-            ov25_0211F5CC(unk_20[unk_28], dx, 0);
+            SetBGOffset(unk_20[unk_28], dx, 0);
             if (main) {
                 GX_SetVisibleWnd(GX_WNDMASK_W0);
                 G2_SetWnd0InsidePlane(0x1F, FALSE);
@@ -866,7 +866,7 @@ void StaffrollPictures::ov25_0211E1B0()
             }
             break;
         case 3:
-            ov25_0211F5CC(unk_20[unk_28], -dx, 0);
+            SetBGOffset(unk_20[unk_28], -dx, 0);
             if (main) {
                 GX_SetVisibleWnd(GX_WNDMASK_W0);
                 G2_SetWnd0InsidePlane(0x1F, FALSE);
@@ -879,7 +879,7 @@ void StaffrollPictures::ov25_0211E1B0()
             }
             break;
         case 4:
-            ov25_0211F5CC(unk_20[unk_28], 0, dy);
+            SetBGOffset(unk_20[unk_28], 0, dy);
             if (main) {
                 GX_SetVisibleWnd(GX_WNDMASK_W0);
                 G2_SetWnd0InsidePlane(0x1F, FALSE);
@@ -892,7 +892,7 @@ void StaffrollPictures::ov25_0211E1B0()
             }
             break;
         case 5:
-            ov25_0211F5CC(unk_20[unk_28], 0, -dy);
+            SetBGOffset(unk_20[unk_28], 0, -dy);
             if (main) {
                 GX_SetVisibleWnd(GX_WNDMASK_W0);
                 G2_SetWnd0InsidePlane(0x1F, FALSE);
@@ -913,20 +913,20 @@ void StaffrollPictures::ov25_0211E1B0()
     }
 }
 
-void StaffrollPictures::ov25_0211EFFC(int idx, const char *dir, const char *name, const char *file, u32 charOffset, u32 plttNo)
+void StaffrollPictures::Load(int idx, const char *dir, const char *name, const char *file, u32 charOffset, u32 plttNo)
 {
     if (idx >= unk_04) {
         return;
     }
-    unk_00[idx].ov25_0211D5EC(dir, name, file, charOffset, plttNo);
+    unk_00[idx].Load(dir, name, file, charOffset, plttNo);
 }
 
-void StaffrollPictures::ov25_0211F048(int idx, int steps, int type, int duration, int outType, int outDuration)
+void StaffrollPictures::Show(int idx, int steps, int type, int duration, int outType, int outDuration)
 {
     if (idx >= unk_04) {
         return;
     }
-    unk_00[idx].ov25_0211D6A8(unk_20[!unk_28], steps);
+    unk_00[idx].StartTransfer(unk_20[!unk_28], steps);
     unk_2C = &unk_00[idx];
     switch (type) {
     default:
@@ -936,7 +936,7 @@ void StaffrollPictures::ov25_0211F048(int idx, int steps, int type, int duration
             unk_08 = 1;
             unk_28 = unk_28 == 0 ? 1 : 0;
         } else {
-            ov25_0211F16C(outType, outDuration);
+            StartFadeOut(outType, outDuration);
             unk_08 = 3;
         }
         break;
@@ -947,8 +947,8 @@ void StaffrollPictures::ov25_0211F048(int idx, int steps, int type, int duration
     case 6:
         unk_08 = 1;
         unk_28 = unk_28 == 0 ? 1 : 0;
-        ov25_0211F4C0(unk_20[unk_28], 2);
-        ov25_0211F4C0(unk_20[!unk_28], 1);
+        SetBGPriority(unk_20[unk_28], 2);
+        SetBGPriority(unk_20[!unk_28], 1);
         break;
     }
     unk_10 = type;
@@ -956,7 +956,7 @@ void StaffrollPictures::ov25_0211F048(int idx, int steps, int type, int duration
     unk_0C = 0;
 }
 
-void StaffrollPictures::ov25_0211F16C(int type, int duration)
+void StaffrollPictures::StartFadeOut(int type, int duration)
 {
     unk_08 = 3;
     unk_14 = type;
@@ -971,7 +971,7 @@ void StaffrollPictures::ov25_0211F16C(int type, int duration)
     }
 }
 
-void StaffrollPictures::ov25_0211F1D4(int bg)
+void StaffrollPictures::ShowBG(int bg)
 {
     switch (bg) {
     case 0:
@@ -1001,7 +1001,7 @@ void StaffrollPictures::ov25_0211F1D4(int bg)
     }
 }
 
-void StaffrollPictures::ov25_0211F344(int bg)
+void StaffrollPictures::HideBG(int bg)
 {
     switch (bg) {
     case 0:
@@ -1031,7 +1031,7 @@ void StaffrollPictures::ov25_0211F344(int bg)
     }
 }
 
-void StaffrollPictures::ov25_0211F4C0(int bg, int priority)
+void StaffrollPictures::SetBGPriority(int bg, int priority)
 {
     switch (bg) {
     case 0:
@@ -1061,7 +1061,7 @@ void StaffrollPictures::ov25_0211F4C0(int bg, int priority)
     }
 }
 
-void StaffrollPictures::ov25_0211F5CC(int bg, int x, int y)
+void StaffrollPictures::SetBGOffset(int bg, int x, int y)
 {
     switch (bg) {
     case 0:
@@ -1103,12 +1103,12 @@ StaffrollTheEnd::StaffrollTheEnd()
 
 StaffrollTheEnd::~StaffrollTheEnd()
 {
-    ov25_0211F840();
+    Release();
 }
 
-BOOL StaffrollTheEnd::ov25_0211F750()
+BOOL StaffrollTheEnd::Load()
 {
-    ov25_0211F840();
+    Release();
     unk_00 = new OamSpriteSet((GXOamAttr *)&s_game->unk_0424[0], 0, TRUE, 0x40);
     unk_00->Load("data/ending", "edobj000", 0, 0);
     unk_0C = unk_00->AddSprite(0, -0x20, 0x40, 0);
@@ -1120,7 +1120,7 @@ BOOL StaffrollTheEnd::ov25_0211F750()
     return TRUE;
 }
 
-BOOL StaffrollTheEnd::ov25_0211F840()
+BOOL StaffrollTheEnd::Release()
 {
     SAFE_DELETE(unk_00);
     unk_04 = NULL;
@@ -1131,7 +1131,7 @@ BOOL StaffrollTheEnd::ov25_0211F840()
     return TRUE;
 }
 
-BOOL StaffrollTheEnd::ov25_0211F890()
+BOOL StaffrollTheEnd::Update()
 {
     switch (unk_10) {
     case 1:
@@ -1187,7 +1187,7 @@ BOOL StaffrollTheEnd::ov25_0211F890()
     return TRUE;
 }
 
-BOOL StaffrollTheEnd::ov25_0211FA20()
+BOOL StaffrollTheEnd::WriteOam()
 {
     if (unk_00 != NULL && unk_10 >= 1 && unk_10 <= 8) {
         unk_00->WriteOam();
@@ -1195,7 +1195,7 @@ BOOL StaffrollTheEnd::ov25_0211FA20()
     return TRUE;
 }
 
-BOOL StaffrollTheEnd::ov25_0211FA54()
+BOOL StaffrollTheEnd::Start()
 {
     unk_10 = 1;
     return TRUE;

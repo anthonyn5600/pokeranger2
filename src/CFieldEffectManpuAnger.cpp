@@ -19,16 +19,16 @@ CFieldEffectManpuAnger::~CFieldEffectManpuAnger()
 {
 }
 
-BOOL CFieldEffectManpuAnger::ov0_021421F0(int inTime, int holdTime, int outTime)
+BOOL CFieldEffectManpuAnger::Start(int inTime, int holdTime, int outTime)
 {
     m_emitter.m_actor = unk_1C;
     m_emitter.func2();
-    return CFieldEffect::ov0_021421F0(inTime, holdTime, outTime);
+    return CFieldEffect::Start(inTime, holdTime, outTime);
 }
 
-int CFieldEffectManpuAnger::ov0_02142264(int step)
+int CFieldEffectManpuAnger::Update(int step)
 {
-    int state = CFieldEffectActor::ov0_02142264(step);
+    int state = CFieldEffectActor::Update(step);
     if (state != 0 && state != 4) {
         m_system.Update(step);
     }

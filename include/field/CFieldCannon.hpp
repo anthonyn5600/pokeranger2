@@ -11,7 +11,7 @@ class CFieldCannonUnit;
 class CFieldPlayer;
 class AudioEngine;
 
-// Shot settings of a cannon (CFieldCannon::unk_EC); each shot copies them into a unit (ov0_0215AAA4).
+// Shot settings of a cannon (CFieldCannon::unk_EC); each shot copies them into a unit (SetShotParam).
 struct FieldCannonParam {
     u16 unk_00; // angle
     u16 unk_02; // frames between shots
@@ -47,18 +47,18 @@ public:
     CFieldCannon(u16 type);
     virtual ~CFieldCannon();
 
-    void ov0_02159ED0();
-    void ov0_02159F28();
-    void ov0_02159F88();
-    void ov0_0215A010();
-    void ov0_0215A25C(DrawObjectList *renderLists, FieldShadow *hud);
-    BOOL ov0_0215A2BC();
-    BOOL ov0_0215A33C(u16 *index);
-    void ov0_0215A384(BOOL active);
-    BOOL ov0_0215A3A4();
-    void ov0_0215A3BC(int x, int y);
-    void ov0_0215A3D4(int angle, int speed, int interval, int arg4, int arg5, int arg6, int arg7, int arg8);
-    void ov0_0215A434(FieldCannonParam *param, u16 frame, u16 index);
+    void InitShots();
+    void ReleaseShots();
+    void ResetParam();
+    void UpdateShots();
+    void DrawShots(DrawObjectList *renderLists, FieldShadow *hud);
+    BOOL IsFieldBusy();
+    BOOL FindFreeShot(u16 *index);
+    void SetEnabled(BOOL active);
+    BOOL IsEnabled();
+    void SetOrigin(int x, int y);
+    void SetParams(int angle, int speed, int interval, int arg4, int arg5, int arg6, int arg7, int arg8);
+    void RestoreShot(FieldCannonParam *param, u16 frame, u16 index);
 
     u16 unk_E0;
     u16 unk_E2;
@@ -76,16 +76,16 @@ public:
     CFieldCannonUnit(u16 type);
     virtual ~CFieldCannonUnit();
 
-    void ov0_0215A5A4();
-    void ov0_0215A604();
-    void ov0_0215A628();
-    void ov0_0215A698();
-    void ov0_0215AA60(BOOL active);
-    BOOL ov0_0215AA80();
-    void ov0_0215AA98(u16 flags);
-    void ov0_0215AAA4(FieldCannonParam *param);
-    void ov0_0215ABA4();
-    FieldCannonUnitParam *ov0_0215ABF0();
+    void Init();
+    void Release();
+    void ResetParam();
+    void UpdateShot();
+    void SetEnabled(BOOL active);
+    BOOL IsEnabled();
+    void SetFlags(u16 flags);
+    void SetShotParam(FieldCannonParam *param);
+    void ResetShot();
+    FieldCannonUnitParam *GetShotParam();
 
     u16 unk_E0;
     u16 unk_E2;

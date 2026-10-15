@@ -9,15 +9,15 @@
 #include "TextboxManager.hpp"
 #include "common.hpp"
 
-struct UnkStruct_0210C1C0;
-struct UnkStruct_0210C228;
+struct FieldEffectSaveBuffer;
+struct FieldEnemySaveBuffer;
 
-extern UnkStruct_0210C1C0 MAIN_BSS_0210C1C0;
-extern UnkStruct_0210C228 MAIN_BSS_0210C228;
+extern FieldEffectSaveBuffer MAIN_BSS_0210C1C0;
+extern FieldEnemySaveBuffer MAIN_BSS_0210C228;
 
 extern "C" {
-void sub_0202A4A0(UnkStruct_0210C1C0 *obj);
-void sub_0202A4D8(UnkStruct_0210C228 *obj);
+void FieldEffectSaveBuffer_Build(FieldEffectSaveBuffer *obj);
+void FieldEnemySaveBuffer_Build(FieldEnemySaveBuffer *obj);
 }
 
 UnkStruct_0202773C_Step DAT_0208c0ec[] = {
@@ -128,7 +128,7 @@ void SaveDialog::Start()
     unk_14->m_audioEngine->AddSeGroup(0x45);
 }
 
-void SaveDialog::sub_02027A2C()
+void SaveDialog::StartNormalSave()
 {
     unk_14->m_audioEngine->StopStream2(0);
     unk_14->m_audioEngine->StopStream(0);
@@ -168,8 +168,8 @@ void SaveDialog::NextStep()
         unk_14->SaveBgmState();
         SAFE_DELETE(unk_08);
         unk_08 = new SaveManager(1);
-        sub_0202A4A0(&MAIN_BSS_0210C1C0);
-        sub_0202A4D8(&MAIN_BSS_0210C228);
+        FieldEffectSaveBuffer_Build(&MAIN_BSS_0210C1C0);
+        FieldEnemySaveBuffer_Build(&MAIN_BSS_0210C228);
         unk_08->Save(unk_10);
     }
 

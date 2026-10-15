@@ -18,10 +18,10 @@ static inline void SetSpriteRes(CSoftwareSprite *sprite, VramImage *image, VramP
 
 COPDCaptureLine::~COPDCaptureLine()
 {
-    ov3_02129280();
+    Release();
 }
 
-void COPDCaptureLine::ov3_02129198(int count)
+void COPDCaptureLine::Init(int count)
 {
     if (unk_1C != NULL) {
         delete[] unk_1C;
@@ -41,7 +41,7 @@ void COPDCaptureLine::ov3_02129198(int count)
     unk_24 = unk_28 = 0;
 }
 
-void COPDCaptureLine::ov3_02129280()
+void COPDCaptureLine::Release()
 {
     if (m_res != NULL && m_cellId != 0 && m_res->m_anim != NULL) {
         m_res->m_anim->Remove(m_cellId);
@@ -55,7 +55,7 @@ void COPDCaptureLine::ov3_02129280()
     unk_20 = 0;
 }
 
-void COPDCaptureLine::ov3_021292FC(Point2D *points, int count)
+void COPDCaptureLine::SetPoints(Point2D *points, int count)
 {
     if ((u32)count < 2) {
         return;
@@ -186,7 +186,7 @@ static void BindLineTexture(COPDCaptureLine *line)
     G3_TexPlttBase(tex->m_tex.m_plttAddr, (GXTexFmt)tex->unk_1C);
 }
 
-void COPDCaptureLine::ov3_02129A4C()
+void COPDCaptureLine::UpdateAnim()
 {
     if (m_res->m_anim != NULL) {
         m_res->m_anim->UpdateAll();

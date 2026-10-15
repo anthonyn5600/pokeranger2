@@ -88,7 +88,7 @@ void CConfScene::func5()
     GXS_DispOn();
 }
 
-void CConfScene::ov3_02121674()
+void CConfScene::SetupBG()
 {
     G2S_SetBG0Offset(0, 0);
     G2S_SetBG1Offset(0, 0);
@@ -97,7 +97,7 @@ void CConfScene::ov3_02121674()
     G2S_SetBG1Control(GX_BG_SCRSIZE_TEXT_256x256, GX_BG_COLORMODE_16, GX_BG_SCRBASE_0x6800, GX_BG_CHARBASE_0x00000, GX_BG_EXTPLTT_01);
 }
 
-void CConfScene::ov3_021216A8()
+void CConfScene::DrawMessage()
 {
     TextWindow win = { 24, 4, 4, 19, 0, 4, 6 };
     SubTextPrinter *printer = GetPrinter(m_game);
@@ -110,7 +110,7 @@ void CConfScene::ov3_021216A8()
 
 void CConfScene::func6()
 {
-    ov3_02121674();
+    SetupBG();
     unk_1C = new BGLayer((int)m_game);
     unk_1C->SetBG(5);
     unk_1C->LoadArchive("menu/", "title004_bg_");
@@ -139,9 +139,9 @@ void CConfScene::func6()
         delete file;
     }
 
-    ov3_021216A8();
-    ov3_021219BC();
-    ov3_02121A28();
+    DrawMessage();
+    LoadSprites();
+    CreateYesNoButtons();
 
     unk_30 = new CPrimitiveSPHERE();
     unk_30->m_circle.r = 0x20000;
@@ -155,13 +155,13 @@ void CConfScene::func6()
     p->y = -0x20000;
 }
 
-void CConfScene::ov3_021219BC()
+void CConfScene::LoadSprites()
 {
     unk_28 = new OamSpriteSet((GXOamAttr *)&m_game->unk_0424[0x18], m_game->unk_14A8, TRUE, 0x40);
     unk_28->Load("data/menu", "title003_00", 0, 0);
 }
 
-void CConfScene::ov3_02121A28()
+void CConfScene::CreateYesNoButtons()
 {
     unk_20 = unk_28->AddSprite(0, 0x40, 0x60, 0);
     unk_10 = unk_28->unk_24;
@@ -178,7 +178,7 @@ void CConfScene::func7()
     SAFE_DELETE(unk_34);
 }
 
-void CConfScene::ov3_02121B4C(int scale)
+void CConfScene::SetButtonScale(int scale)
 {
     MtxFx22 mtx;
     mtx._00 = scale;
@@ -191,7 +191,7 @@ void CConfScene::ov3_02121B4C(int scale)
 u32 CConfScene::func0()
 {
     int ret = -1;
-    ov3_02121B4C(unk_18);
+    SetButtonScale(unk_18);
     unk_28->Update();
 
     if ((u16)(m_game->unk_0014->unk_0002 & PAD_BUTTON_A)) {

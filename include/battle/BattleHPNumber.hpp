@@ -16,14 +16,14 @@ class BattleHPNumber {
 public:
     BattleHPNumber();
     ~BattleHPNumber();
-    void ov1_02128970(Camera2D *camera);
+    void Render(Camera2D *camera);
 
     inline void SetPos(Point2D pos)
     {
         m_pos.x = pos.x;
         m_pos.y = pos.y;
     }
-    void ov1_0212891C(BattleHPNumberGfx *arg0);
+    void SetData(BattleHPNumberGfx *arg0);
 
 public:
     Point2D m_pos;

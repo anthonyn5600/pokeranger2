@@ -8,7 +8,7 @@
 #include "file/CBinaryFileMes.hpp"
 #include "scene/CEncyclopediaScene.hpp"
 
-int ov22_021214CC(NNSG2dFont *font, int hSpace, u8 **str);
+int GetTextLineWidth(NNSG2dFont *font, int hSpace, u8 **str);
 
 static const struct {
     int unk_00;
@@ -35,16 +35,16 @@ void CEncycItemDescriptionScreen::func0(EncycAnimLoader *loader)
     BGS_LoadScr("menu/", "md001_bg_", 5, "md001_01", 1, 0, 0, 0x800);
     BGS_LoadScr("menu/", "md001_bg_", 6, "md001_02", 1, 0, 0, 0x800);
     BGS_LoadScr("menu/", "md001_bg_", 7, "md001_03", 1, 0, 0, 0x800);
-    unk_18 = loader->ov22_0211F3F0("data/menu", "md001_00", 1, -1);
-    unk_20[1].ov22_0211F134(1, unk_18, 0, 1, 240, 116, 32, 24, 0);
+    unk_18 = loader->Load("data/menu", "md001_00", 1, -1);
+    unk_20[1].Init(1, unk_18, 0, 1, 240, 116, 32, 24, 0);
     unk_20[1].SetListener(this);
-    unk_20[0].ov22_0211F134(0, unk_18, 2, 3, 16, 116, 32, 24, 0);
+    unk_20[0].Init(0, unk_18, 2, 3, 16, 116, 32, 24, 0);
     unk_20[0].SetListener(this);
-    loader->ov22_0211F4A4(unk_18, 0);
-    ov22_0211E4AC();
+    loader->ReserveOam(unk_18, 0);
+    LoadMessages();
 }
 
-void CEncycItemDescriptionScreen::ov22_0211E4AC()
+void CEncycItemDescriptionScreen::LoadMessages()
 {
     CBinaryFileMes mes(sMenuMes.path, 1);
     unk_CC = new UnkStruct_0211E4AC;
@@ -75,7 +75,7 @@ void CEncycItemDescriptionScreen::func1()
     SAFE_DELETE(unk_18);
 }
 
-void CEncycItemDescriptionScreen::ov22_0211E66C(int group)
+void CEncycItemDescriptionScreen::SetGroup(int group)
 {
     if (group < 0 || group >= 3) {
         group = 0;
@@ -106,9 +106,9 @@ void CEncycItemDescriptionScreen::func3(EncycMainScreen *display)
     text->AllocWindows(1);
     text->InitWindow(0, 32, 32, 0, 0, 0, 0, 2);
     unk_10 = 0;
-    ov22_0211EF04(unk_10);
-    ov22_0211EA78(unk_10);
-    unk_60->ov22_0211F3C8();
+    LoadPicture(unk_10);
+    DrawPage(unk_10);
+    unk_60->ResetInput();
     unk_04 = 0;
 }
 
@@ -127,7 +127,7 @@ int CEncycItemDescriptionScreen::func4()
         switch (unk_0C) {
         case 1:
             if (!game->m_mainFade->IsActive() && !game->m_subFade->IsActive()) {
-                ov22_0211EF04(unk_10);
+                LoadPicture(unk_10);
                 unk_0C = 2;
                 game->m_mainFade->Start(3, 15);
             }
@@ -141,7 +141,7 @@ int CEncycItemDescriptionScreen::func4()
         unk_20[1].unk_14 = game->unk_0014->unk_0000 & PAD_KEY_RIGHT;
         unk_20[0].unk_14 = game->unk_0014->unk_0000 & PAD_KEY_LEFT;
         for (int i = 0; i <= 1; i++) {
-            unk_20[i].ov22_0211F1D0();
+            unk_20[i].Update();
         }
         if (unk_14) {
             game->m_mainFade->Start(4, 15);
@@ -151,8 +151,8 @@ int CEncycItemDescriptionScreen::func4()
         if (unk_18 != NULL) {
             unk_18->Update();
         }
-        unk_60->ov22_0211F1D0();
-        unk_60->ov22_0211F2A4();
+        unk_60->Update();
+        unk_60->UpdateAnim();
         if ((u16)(game->unk_0014->unk_0002 & PAD_BUTTON_B)) {
             func6();
         }
@@ -164,7 +164,7 @@ int CEncycItemDescriptionScreen::func4()
         break;
     }
     for (int i = 0; i <= 1; i++) {
-        unk_20[i].ov22_0211F2A4();
+        unk_20[i].UpdateAnim();
     }
     return ret;
 }
@@ -175,7 +175,7 @@ void CEncycItemDescriptionScreen::func5()
         unk_18->WriteOam();
     }
     if (unk_1C != NULL) {
-        unk_1C->ov22_0211F928();
+        unk_1C->Render();
     }
 }
 
@@ -189,17 +189,17 @@ void CEncycItemDescriptionScreen::func6()
     game->m_subFade->Start(4, 15);
 }
 
-void CEncycItemDescriptionScreen::ov22_0211EA78(int page)
+void CEncycItemDescriptionScreen::DrawPage(int page)
 {
     FontSet *font;
     u8 *str;
     SubTextPrinter *text;
-    unk_20[0].ov22_0211F398(unk_10 > 0 ? TRUE : FALSE);
+    unk_20[0].SetVisible(unk_10 > 0 ? TRUE : FALSE);
     BOOL next = unk_64 != NULL ? TRUE : FALSE;
     if (next) {
         next = unk_10 < unk_64->GetPageCount() - 1 ? TRUE : FALSE;
     }
-    unk_20[1].ov22_0211F398(next);
+    unk_20[1].SetVisible(next);
     text = CGame::GetInstance()->unk_1498;
     text->ClearWindow(0);
     if (unk_64 == NULL) {
@@ -213,21 +213,21 @@ void CEncycItemDescriptionScreen::ov22_0211EA78(int page)
     font = CGame::GetInstance()->unk_14AC;
     str = unk_CC->unk_08[page + 9].unk_04;
     u8 *tmp = str;
-    text->Print(0, (10 - ov22_021214CC(&font->unk_14, 1, &tmp)) / 2 + 221, 180, 1, str, FALSE, 0);
+    text->Print(0, (10 - GetTextLineWidth(&font->unk_14, 1, &tmp)) / 2 + 221, 180, 1, str, FALSE, 0);
     str = unk_CC->unk_08[30].unk_04;
     tmp = str;
-    text->Print(0, (10 - ov22_021214CC(&font->unk_14, 1, &tmp)) / 2 + 232, 180, 1, str, FALSE, 0);
+    text->Print(0, (10 - GetTextLineWidth(&font->unk_14, 1, &tmp)) / 2 + 232, 180, 1, str, FALSE, 0);
     str = unk_CC->unk_08[unk_64->GetPageCount() + 8].unk_04;
     tmp = str;
-    text->Print(0, (10 - ov22_021214CC(&font->unk_14, 1, &tmp)) / 2 + 243, 180, 1, str, FALSE, 0);
+    text->Print(0, (10 - GetTextLineWidth(&font->unk_14, 1, &tmp)) / 2 + 243, 180, 1, str, FALSE, 0);
 }
 
-BOOL CEncycItemDescriptionScreen::ov22_0211ED04()
+BOOL CEncycItemDescriptionScreen::NextPage()
 {
     if (unk_64 != NULL && unk_10 < unk_64->GetPageCount() - 1) {
         int prev = unk_64->GetPicture(unk_10);
         unk_10++;
-        ov22_0211EA78(unk_10);
+        DrawPage(unk_10);
         CGame::GetInstance()->m_audioEngine->PlaySe(0xFA);
         return prev != unk_64->GetPicture(unk_10) ? TRUE : FALSE;
     }
@@ -235,12 +235,12 @@ BOOL CEncycItemDescriptionScreen::ov22_0211ED04()
     return FALSE;
 }
 
-BOOL CEncycItemDescriptionScreen::ov22_0211EE10()
+BOOL CEncycItemDescriptionScreen::PrevPage()
 {
     if (unk_10 > 0) {
         int prev = unk_64->GetPicture(unk_10);
         unk_10--;
-        ov22_0211EA78(unk_10);
+        DrawPage(unk_10);
         CGame::GetInstance()->m_audioEngine->PlaySe(0xFA);
         return prev != unk_64->GetPicture(unk_10) ? TRUE : FALSE;
     }
@@ -248,12 +248,12 @@ BOOL CEncycItemDescriptionScreen::ov22_0211EE10()
     return FALSE;
 }
 
-void CEncycItemDescriptionScreen::ov22_0211EF04(int page)
+void CEncycItemDescriptionScreen::LoadPicture(int page)
 {
     char archive[0x60];
     char file[0x60];
     int i;
-    UnkStruct_02120FA8 *marker;
+    EncycMarker *marker;
     u8 x;
     u8 y;
     int arg;
@@ -267,11 +267,11 @@ void CEncycItemDescriptionScreen::ov22_0211EF04(int page)
     int picture = unk_64->GetPicture(page);
     OS_SPrintf(archive, "data/menu/rd%03d_LZ.bin", picture);
     OS_SPrintf(file, "rd%03d.nbfs", picture);
-    unk_1C->ov22_0211F7B8(archive, file);
-    unk_1C->ov22_0211F8A8();
+    unk_1C->LoadBitmap(archive, file);
+    unk_1C->ClearLabels();
     count = unk_64->GetMarkerCount(page);
     for (i = 0; i < count; i++) {
-        marker = unk_64->ov22_0211F0F0(page, i);
+        marker = unk_64->GetMarker(page, i);
         if (marker != NULL) {
             x = marker->unk_00;
             y = marker->unk_01;
@@ -290,10 +290,10 @@ void CEncycItemDescriptionScreen::ov22_0211EF04(int page)
             }
             pair = unk_64;
             idx = marker->unk_04 + 1;
-            if (idx >= pair->unk_0C.ov22_02120AD8()) {
-                idx = pair->unk_0C.ov22_02120AD8() - 1;
+            if (idx >= pair->unk_0C.GetCount()) {
+                idx = pair->unk_0C.GetCount() - 1;
             }
-            unk_1C->ov22_0211F8C4(x, y, color, pair->unk_0C.ov22_02120AE0(idx), arg);
+            unk_1C->AddLabel(x, y, color, pair->unk_0C.GetString(idx), arg);
         }
     }
 }
@@ -302,20 +302,20 @@ void CEncycItemDescriptionScreen::OnPushButton(int id)
 {
     switch (id) {
     case 0:
-        unk_14 = ov22_0211EE10();
+        unk_14 = PrevPage();
         break;
     case 1:
-        unk_14 = ov22_0211ED04();
+        unk_14 = NextPage();
         break;
     }
 }
 
-UnkStruct_02120FA8 *EncycDictionary::ov22_0211F0F0(int page, int idx)
+EncycMarker *EncycDictionary::GetMarker(int page, int idx)
 {
     if (unk_18 == NULL) {
         return NULL;
     }
-    return unk_18->ov22_02120FA8(page, idx);
+    return unk_18->GetMarker(page, idx);
 }
 
 CEncycItemDescriptionScreen::~CEncycItemDescriptionScreen()

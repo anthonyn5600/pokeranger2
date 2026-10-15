@@ -17,7 +17,7 @@ CFieldEffectParabolaBullet::CFieldEffectParabolaBullet(int kind)
         } else {
             count = 1;
         }
-        data->ov0_0214FFF0(kind, 1, count);
+        data->Load(kind, 1, count);
     }
     unk_18 = data;
     for (int i = 0; i < 2; i++) {
@@ -51,9 +51,9 @@ CFieldEffectParabolaBullet::~CFieldEffectParabolaBullet()
     SAFE_DELETE(unk_18);
 }
 
-int CFieldEffectParabolaBullet::ov0_02142264(int step)
+int CFieldEffectParabolaBullet::Update(int step)
 {
-    int state = CFieldEffectActor::ov0_02142264(step);
+    int state = CFieldEffectActor::Update(step);
     if (unk_18 != NULL) {
         unk_18->Update();
     }
@@ -89,7 +89,7 @@ int CFieldEffectParabolaBullet::ov0_02142264(int step)
     return state;
 }
 
-int CFieldEffectParabolaBullet::ov0_02142344(Camera2D *camera)
+int CFieldEffectParabolaBullet::Render(Camera2D *camera)
 {
     if (m_state != 0 && m_index >= 0) {
         CellAnimController *cac = unk_18->GetCac(m_index);
@@ -125,7 +125,7 @@ int CFieldEffectParabolaBullet::SetParam(int param, int value)
     return ret;
 }
 
-BOOL CFieldEffectParabolaBullet::ov0_021421F0(int inTime, int holdTime, int outTime)
+BOOL CFieldEffectParabolaBullet::Start(int inTime, int holdTime, int outTime)
 {
     Point2D dir = m_end - m_pos;
     if (FX32_MUL(dir.x, dir.x) + FX32_MUL(dir.y, dir.y) != 0) {
@@ -146,7 +146,7 @@ BOOL CFieldEffectParabolaBullet::ov0_021421F0(int inTime, int holdTime, int outT
     } else {
         m_gravity = 0;
     }
-    return CFieldEffect::ov0_021421F0(0, holdTime, 0);
+    return CFieldEffect::Start(0, holdTime, 0);
 }
 
 void CFieldEffectParabolaBullet::InitSprites()

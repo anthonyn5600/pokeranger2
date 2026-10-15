@@ -8,9 +8,9 @@
 #include "GridOverlay.hpp"
 #include "OamSprite.hpp"
 #include "OamSpriteSet.hpp"
+#include "PokeIdTableEntry.hpp"
 #include "ScriptManager.hpp"
 #include "TextboxManager.hpp"
-#include "UnkStruct_020107A8.hpp"
 #include "battle/BattleInfoPanel.hpp"
 #include "interpolation.hpp"
 #include "scene/CBattleScene.hpp"
@@ -64,14 +64,14 @@ static inline void PlaySe(int se)
 
 BattleAssistMenu::BattleAssistMenu(void *table, BattlePokemonTable *params, BattleInfoPanel *info, GridOverlay *window)
 {
-    ov1_0213B27C();
+    Load();
     m_table = table;
     m_params = params;
     m_info = info;
     m_window = window;
     m_selected = FALSE;
     m_index = 0;
-    ov1_0213C67C(0x42E);
+    SetZ(0x42E);
     for (int i = 0; i < 8; i++) {
         m_rects[i].SetSize(0x30000, 0x30000);
     }
@@ -107,7 +107,7 @@ BattleAssistMenu::BattleAssistMenu(void *table, BattlePokemonTable *params, Batt
     m_sprite6C8.SetXY(0x70000, -0x50000);
     m_sprite714.SetXY(0, -0x54000);
     m_sprite760.SetXY(0, -0x36000);
-    ov1_0213CAC8();
+    ScatterBubbles();
     for (u8 i = 0; i < 8; i++) {
         m_slots[i].m_alpha = 14;
     }
@@ -118,10 +118,10 @@ BattleAssistMenu::BattleAssistMenu(void *table, BattlePokemonTable *params, Batt
 
 BattleAssistMenu::~BattleAssistMenu()
 {
-    ov1_0213B454();
+    Release();
 }
 
-void BattleAssistMenu::ov1_0213B27C()
+void BattleAssistMenu::Load()
 {
     m_resSlots = new GraphicsSet("BAM", "data/interface/i062_LZ.bin", "BAM:i062_00.NCBR", "BAM:i062.NCLR", "BAM:i062_00.NCER", "BAM:i062_00.cac");
     m_anim = m_resSlots->m_anim;
@@ -134,7 +134,7 @@ void BattleAssistMenu::ov1_0213B27C()
     m_res064 = new GraphicsSet("BAM", "data/interface/i064_LZ.bin", "BAM:i064_00.NCBR", "BAM:i064.NCLR", "BAM:i064_00.NCER", NULL);
 }
 
-void BattleAssistMenu::ov1_0213B454()
+void BattleAssistMenu::Release()
 {
     SAFE_DELETE(m_resSlots);
     SAFE_DELETE(m_res060);
@@ -143,41 +143,41 @@ void BattleAssistMenu::ov1_0213B454()
     SAFE_DELETE(m_res064);
 }
 
-void BattleAssistMenu::ov1_0213B528(CTouchPanel *touch)
+void BattleAssistMenu::Update(CTouchPanel *touch)
 {
     m_timer++;
     switch (m_state) {
     case 1:
-        ov1_0213B6B0();
+        UpdateOpen();
         break;
     case 2:
-        ov1_0213B6D0();
+        UpdateSlotsIn();
         break;
     case 3:
-        ov1_0213B7C0(touch);
+        UpdateSelect(touch);
         break;
     case 4:
-        ov1_0213BC04();
+        UpdateSlotsOut();
         break;
     case 5:
-        ov1_0213BCEC();
+        UpdateConfirm();
         break;
     case 6:
-        ov1_0213BD0C();
+        UpdateSendIn();
         break;
     case 7:
-        ov1_0213BDC0();
+        UpdateCry();
         break;
     case 8:
-        ov1_0213BE30();
+        UpdateSendOut();
         break;
     case 9:
-        ov1_0213BEE0();
+        UpdateFadeOut();
         break;
     }
     for (u8 i = 0; i < 8; i++) {
         m_motions[i].Update();
-        ov1_0213C838(i, m_motions[i].m_pos.x, m_motions[i].m_pos.y);
+        SetSlotPos(i, m_motions[i].m_pos.x, m_motions[i].m_pos.y);
     }
     m_anim->UpdateAll();
     for (u8 i = 0; i < 3; i++) {
@@ -190,11 +190,11 @@ void BattleAssistMenu::ov1_0213B528(CTouchPanel *touch)
             m_bubbles[i][j].SetPos(pos);
         }
     }
-    ov1_0213BF20();
-    m_info->ov1_0213E32C(0);
+    UpdatePalettePulse();
+    m_info->Update(0);
 }
 
-void BattleAssistMenu::ov1_0213B6B0()
+void BattleAssistMenu::UpdateOpen()
 {
     if (m_timer >= 8) {
         m_timer = 0;
@@ -202,32 +202,32 @@ void BattleAssistMenu::ov1_0213B6B0()
     }
 }
 
-void BattleAssistMenu::ov1_0213B6D0()
+void BattleAssistMenu::UpdateSlotsIn()
 {
     switch (m_timer) {
     case 4:
-        ov1_0213C8E8(0);
+        MoveSlotIn(0);
         break;
     case 8:
-        ov1_0213C8E8(1);
+        MoveSlotIn(1);
         break;
     case 12:
-        ov1_0213C8E8(2);
+        MoveSlotIn(2);
         break;
     case 16:
-        ov1_0213C8E8(3);
+        MoveSlotIn(3);
         break;
     case 20:
-        ov1_0213C8E8(4);
+        MoveSlotIn(4);
         break;
     case 24:
-        ov1_0213C8E8(5);
+        MoveSlotIn(5);
         break;
     case 28:
-        ov1_0213C8E8(6);
+        MoveSlotIn(6);
         break;
     case 32:
-        ov1_0213C8E8(7);
+        MoveSlotIn(7);
         break;
     }
     if (m_timer >= 48) {
@@ -236,7 +236,7 @@ void BattleAssistMenu::ov1_0213B6D0()
     }
 }
 
-void BattleAssistMenu::ov1_0213B7C0(CTouchPanel *touch)
+void BattleAssistMenu::UpdateSelect(CTouchPanel *touch)
 {
     if (((CBattleScene *)CGame::GetInstance()->currentScene)->unk_0014 != 0 && (u16)(CGame::GetInstance()->unk_0014->unk_0002 & 2)) {
         m_cancel = TRUE;
@@ -267,12 +267,12 @@ void BattleAssistMenu::ov1_0213B7C0(CTouchPanel *touch)
         }
         m_selected = TRUE;
         m_index = i;
-        UnkStruct_020107A8 *info = PokeIdTable_Get(m_table, m_ids[m_index]);
-        ov1_0213CA78(info->unk_04);
-        u16 msg = ((CBattleScene *)CGame::GetInstance()->currentScene)->ov1_0211F010(m_ids[m_index]);
+        PokeIdTableEntry *info = PokeIdTable_Get(m_table, m_ids[m_index]);
+        RunAssistScript(info->unk_04);
+        u16 msg = ((CBattleScene *)CGame::GetInstance()->currentScene)->GetAssistTime(m_ids[m_index]);
         int result = m_info->ov1_0213ECB4(info->unk_04, info->unk_05, info->unk_06);
         m_result = result;
-        m_info->ov1_0213E8BC(msg);
+        m_info->SetTime(msg);
         m_info->ov1_0213E68C();
         switch (result) {
         case 0:
@@ -308,9 +308,9 @@ void BattleAssistMenu::ov1_0213B7C0(CTouchPanel *touch)
         m_window->Close();
         CBattleScene *scene = (CBattleScene *)CGame::GetInstance()->currentScene;
         if (m_partner && m_index == 0) {
-            scene->ov1_0211EF74(m_ids[m_index], 1);
+            scene->StartPokemonAssist(m_ids[m_index], 1);
         } else {
-            scene->ov1_0211EF74(m_ids[m_index], 0);
+            scene->StartPokemonAssist(m_ids[m_index], 0);
         }
         PlaySe(0xC);
         m_timer = 0;
@@ -331,40 +331,40 @@ void BattleAssistMenu::ov1_0213B7C0(CTouchPanel *touch)
     PlaySe(0xC);
 }
 
-void BattleAssistMenu::ov1_0213BC04()
+void BattleAssistMenu::UpdateSlotsOut()
 {
     switch (m_timer) {
     case 4:
-        ov1_0213C9B8(0);
+        MoveSlotOut(0);
         break;
     case 8:
-        ov1_0213C9B8(1);
+        MoveSlotOut(1);
         break;
     case 12:
-        ov1_0213C9B8(2);
+        MoveSlotOut(2);
         break;
     case 16:
-        ov1_0213C9B8(3);
+        MoveSlotOut(3);
         break;
     case 20:
-        ov1_0213C9B8(4);
+        MoveSlotOut(4);
         break;
     case 24:
-        ov1_0213C9B8(5);
+        MoveSlotOut(5);
         break;
     case 28:
-        ov1_0213C9B8(6);
+        MoveSlotOut(6);
         break;
     case 32:
-        ov1_0213C9B8(7);
+        MoveSlotOut(7);
         break;
     }
     if (m_timer >= 48) {
-        ov1_0213C60C();
+        Close();
     }
 }
 
-void BattleAssistMenu::ov1_0213BCEC()
+void BattleAssistMenu::UpdateConfirm()
 {
     if (m_timer >= 64) {
         m_timer = 0;
@@ -372,7 +372,7 @@ void BattleAssistMenu::ov1_0213BCEC()
     }
 }
 
-void BattleAssistMenu::ov1_0213BD0C()
+void BattleAssistMenu::UpdateSendIn()
 {
     if (m_timer == 1) {
         Point2D zero = { 0, 0 };
@@ -385,7 +385,7 @@ void BattleAssistMenu::ov1_0213BD0C()
     }
 }
 
-void BattleAssistMenu::ov1_0213BDC0()
+void BattleAssistMenu::UpdateCry()
 {
     if (m_timer == 1) {
         u16 cry = PokeIdTable_Get(CGame::GetInstance()->unk_1434, m_ids[m_index])->unk_00;
@@ -397,7 +397,7 @@ void BattleAssistMenu::ov1_0213BDC0()
     }
 }
 
-void BattleAssistMenu::ov1_0213BE30()
+void BattleAssistMenu::UpdateSendOut()
 {
     if (m_timer == 1) {
         Point2D zero = { 0, 0 };
@@ -410,16 +410,16 @@ void BattleAssistMenu::ov1_0213BE30()
     }
 }
 
-void BattleAssistMenu::ov1_0213BEE0()
+void BattleAssistMenu::UpdateFadeOut()
 {
     u8 alpha = LinearInterpolate(31, 1, m_timer, 16);
-    ov1_0213CBD8(alpha);
+    SetAlpha(alpha);
     if (m_timer >= 16) {
-        ov1_0213C60C();
+        Close();
     }
 }
 
-void BattleAssistMenu::ov1_0213BF20()
+void BattleAssistMenu::UpdatePalettePulse()
 {
     if (m_fadeDir) {
         if (++m_fade >= 64) {
@@ -440,7 +440,7 @@ void BattleAssistMenu::ov1_0213BF20()
     GX_LoadOBJPltt(m_palette, 0xE0, sizeof(m_palette));
 }
 
-void BattleAssistMenu::ov1_0213BFFC(Camera2D *camera)
+void BattleAssistMenu::Render(Camera2D *camera)
 {
     switch (m_state) {
     case 0:
@@ -449,11 +449,11 @@ void BattleAssistMenu::ov1_0213BFFC(Camera2D *camera)
     case 2:
     case 3:
     case 4:
-        ov1_0213C0F8(camera);
-        ov1_0213C090(camera);
-        ov1_0213C2A0(camera);
+        RenderIcons(camera);
+        RenderSlots(camera);
+        RenderCancelButton(camera);
         if (m_selected) {
-            ov1_0213C264(camera);
+            RenderOkButton(camera);
         }
         break;
     case 5:
@@ -461,13 +461,13 @@ void BattleAssistMenu::ov1_0213BFFC(Camera2D *camera)
     case 7:
     case 8:
     case 9:
-        ov1_0213C1A8(camera, m_index);
-        ov1_0213C1D8(camera);
+        RenderIcon(camera, m_index);
+        RenderBubbles(camera);
         break;
     }
 }
 
-void BattleAssistMenu::ov1_0213C090(Camera2D *camera)
+void BattleAssistMenu::RenderSlots(Camera2D *camera)
 {
     for (u8 i = 0; i < 8; i++) {
         u16 cell = m_anim->GetCell(m_animIds[i]);
@@ -476,7 +476,7 @@ void BattleAssistMenu::ov1_0213C090(Camera2D *camera)
     }
 }
 
-void BattleAssistMenu::ov1_0213C0F8(Camera2D *camera)
+void BattleAssistMenu::RenderIcons(Camera2D *camera)
 {
     GXOamAttr *oam = (GXOamAttr *)CGame::GetInstance()->unk_0024;
     for (u8 i = 0; i < m_count; i++) {
@@ -491,12 +491,12 @@ void BattleAssistMenu::ov1_0213C0F8(Camera2D *camera)
     }
 }
 
-void BattleAssistMenu::ov1_0213C1A8(Camera2D *camera, u8 index)
+void BattleAssistMenu::RenderIcon(Camera2D *camera, u8 index)
 {
     m_icons[index]->Write((GXOamAttr *)CGame::GetInstance()->unk_0024, 0, 0);
 }
 
-void BattleAssistMenu::ov1_0213C1D8(Camera2D *camera)
+void BattleAssistMenu::RenderBubbles(Camera2D *camera)
 {
     for (u8 i = 0; i < 3; i++) {
         for (u8 j = 0; j < 6; j++) {
@@ -507,18 +507,18 @@ void BattleAssistMenu::ov1_0213C1D8(Camera2D *camera)
     m_sprite7AC.Render(camera);
 }
 
-void BattleAssistMenu::ov1_0213C264(Camera2D *camera)
+void BattleAssistMenu::RenderOkButton(Camera2D *camera)
 {
     m_sprite67C.Render(camera);
     m_sprite714.Render(camera);
 }
 
-void BattleAssistMenu::ov1_0213C2A0(Camera2D *camera)
+void BattleAssistMenu::RenderCancelButton(Camera2D *camera)
 {
     m_sprite6C8.Render(camera);
 }
 
-void BattleAssistMenu::ov1_0213C2BC(int count, OamSpriteSet **sprites, u16 *ids, u8 mask, BOOL partner)
+void BattleAssistMenu::Open(int count, OamSpriteSet **sprites, u16 *ids, u8 mask, BOOL partner)
 {
     m_dispcnt = GX_GetOBJVRamModeChar();
     GX_SetOBJVRamModeChar(GX_OBJVRAMMODE_CHAR_1D_32K);
@@ -541,13 +541,13 @@ void BattleAssistMenu::ov1_0213C2BC(int count, OamSpriteSet **sprites, u16 *ids,
         // Read through a pointer cast: taking pos's address keeps the optimizer from replacing this argument
         // with its own copy of sSlotStart (fake, needed for the frame layout)
         m_motions[i].SetPos(*(Point2D *)&pos);
-        ov1_0213C838(i, pos.x, pos.y);
+        SetSlotPos(i, pos.x, pos.y);
     }
     m_selected = FALSE;
     m_index = 0;
     m_cancel = TRUE;
-    ov1_0213CAC8();
-    ov1_0213CBD8(31);
+    ScatterBubbles();
+    SetAlpha(31);
     m_mask = mask;
     m_partner = partner;
     for (int i = 0; i < 8; i++) {
@@ -565,7 +565,7 @@ void BattleAssistMenu::ov1_0213C2BC(int count, OamSpriteSet **sprites, u16 *ids,
         if (!(m_mask & (1 << i))) {
             m_anim->SetAnim(m_animIds[i], 0);
         } else {
-            switch (m_info->ov1_0213EC40(PokeIdTable_Get(m_table, m_ids[i])->unk_04)) {
+            switch (m_info->GetAssistEffectiveness(PokeIdTable_Get(m_table, m_ids[i])->unk_04)) {
             case 0:
                 m_anim->SetAnim(m_animIds[i], 0);
                 break;
@@ -584,12 +584,12 @@ void BattleAssistMenu::ov1_0213C2BC(int count, OamSpriteSet **sprites, u16 *ids,
     m_state = 1;
 }
 
-int BattleAssistMenu::ov1_0213C5F4()
+int BattleAssistMenu::IsCancelled()
 {
     return m_cancel;
 }
 
-u8 BattleAssistMenu::ov1_0213C5FC()
+u8 BattleAssistMenu::GetSelectedIndex()
 {
     return m_index;
 }
@@ -599,7 +599,7 @@ int BattleAssistMenu::ov1_0213C604()
     return m_result;
 }
 
-void BattleAssistMenu::ov1_0213C60C()
+void BattleAssistMenu::Close()
 {
     GX_SetOBJVRamModeChar((GXOBJVRamModeChar)m_dispcnt);
     GX_SetVisiblePlane(GX_PLANEMASK_BG0);
@@ -612,7 +612,7 @@ void BattleAssistMenu::ov1_0213C60C()
     m_state = 0;
 }
 
-int BattleAssistMenu::ov1_0213C67C(int z)
+int BattleAssistMenu::SetZ(int z)
 {
     for (u8 i = 0; i < 8; i++) {
         z += m_slots[i].GetCellNumOAMAttrs(m_slots[i].m_cellDataIdx) + 1;
@@ -643,7 +643,7 @@ int BattleAssistMenu::ov1_0213C67C(int z)
     return z;
 }
 
-void BattleAssistMenu::ov1_0213C838(u8 index, fx32 x, fx32 y)
+void BattleAssistMenu::SetSlotPos(u8 index, fx32 x, fx32 y)
 {
     m_slots[index].SetXY(x, y);
     m_rects[index].SetPos(x, y);
@@ -658,7 +658,7 @@ void BattleAssistMenu::ov1_0213C838(u8 index, fx32 x, fx32 y)
     }
 }
 
-void BattleAssistMenu::ov1_0213C8E8(u8 index)
+void BattleAssistMenu::MoveSlotIn(u8 index)
 {
     if (index >= m_count) {
         return;
@@ -674,7 +674,7 @@ void BattleAssistMenu::ov1_0213C8E8(u8 index)
     PlaySe(0xC);
 }
 
-void BattleAssistMenu::ov1_0213C9B8(u8 index)
+void BattleAssistMenu::MoveSlotOut(u8 index)
 {
     if (index >= m_count) {
         return;
@@ -690,7 +690,7 @@ void BattleAssistMenu::ov1_0213C9B8(u8 index)
     PlaySe(0xC);
 }
 
-void BattleAssistMenu::ov1_0213CA78(int type)
+void BattleAssistMenu::RunAssistScript(int type)
 {
     char name[16];
     OS_SPrintf(name, "sAssist%03d", (u8)type);
@@ -699,7 +699,7 @@ void BattleAssistMenu::ov1_0213CA78(int type)
     ScriptManager_Run(game->m_scriptManager, name);
 }
 
-void BattleAssistMenu::ov1_0213CAC8()
+void BattleAssistMenu::ScatterBubbles()
 {
     CGame *game = CGame::GetInstance();
     for (u8 i = 0; i < 3; i++) {
@@ -712,7 +712,7 @@ void BattleAssistMenu::ov1_0213CAC8()
     }
 }
 
-void BattleAssistMenu::ov1_0213CBD8(int alpha)
+void BattleAssistMenu::SetAlpha(int alpha)
 {
     m_sprite760.m_alpha = alpha;
     m_sprite7AC.m_alpha = alpha;

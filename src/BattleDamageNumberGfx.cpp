@@ -1,31 +1,31 @@
-#include "battle/UnkClass_02128A60.hpp"
+#include "battle/BattleDamageNumberGfx.hpp"
 
 #include "CPlayerHPGauge.hpp"
-#include "battle/UnkClass_02128B24.hpp"
+#include "battle/BattleDamageNumber.hpp"
 #include "interpolation.hpp"
 #include "primitive/CSoftwareSprite.hpp"
 
-UnkClass_02128A60::UnkClass_02128A60()
+BattleDamageNumberGfx::BattleDamageNumberGfx()
 {
-    ov1_02128A88();
+    Load();
 }
 
-UnkClass_02128A60::~UnkClass_02128A60()
+BattleDamageNumberGfx::~BattleDamageNumberGfx()
 {
-    ov1_02128AF0();
+    Release();
 }
 
-void UnkClass_02128A60::ov1_02128A88()
+void BattleDamageNumberGfx::Load()
 {
     m_res = new GraphicsSet("BDN", "/data/interface/i069_LZ.bin", "BDN:i069_00.NCBR", "BDN:i069.NCLR", "BDN:i069_00.NCER", "BDN:i069_00.cac");
 }
 
-void UnkClass_02128A60::ov1_02128AF0()
+void BattleDamageNumberGfx::Release()
 {
     SAFE_DELETE(m_res);
 }
 
-UnkClass_02128B24::UnkClass_02128B24()
+BattleDamageNumber::BattleDamageNumber()
 {
     m_pos.x = 0;
     m_pos.y = 0;
@@ -38,12 +38,12 @@ UnkClass_02128B24::UnkClass_02128B24()
     m_data = NULL;
 }
 
-UnkClass_02128B24::~UnkClass_02128B24()
+BattleDamageNumber::~BattleDamageNumber()
 {
     SAFE_DELETE(m_sprite);
 }
 
-void UnkClass_02128B24::ov1_02128BE4(UnkClass_02128A60 *data)
+void BattleDamageNumber::SetData(BattleDamageNumberGfx *data)
 {
     m_data = data;
     m_sprite->SetImage((UnkClass_CPrimitive_ImageProxy *)data->m_res->m_image, NULL);
@@ -52,7 +52,7 @@ void UnkClass_02128B24::ov1_02128BE4(UnkClass_02128A60 *data)
     m_sprite->m_cellDataIdx = 0;
 }
 
-void UnkClass_02128B24::ov1_02128C2C()
+void BattleDamageNumber::Update()
 {
     if (m_state == 0) {
         return;
@@ -60,15 +60,15 @@ void UnkClass_02128B24::ov1_02128C2C()
     m_timer++;
     switch (m_state) {
     case 1:
-        ov1_02128DD4();
+        UpdateHold();
         break;
     case 2:
-        ov1_02128DF4();
+        UpdateFadeOut();
         break;
     }
 }
 
-void UnkClass_02128B24::ov1_02128C70(Camera2D *camera)
+void BattleDamageNumber::Render(Camera2D *camera)
 {
     if (m_state == 0) {
         return;
@@ -102,7 +102,7 @@ void UnkClass_02128B24::ov1_02128C70(Camera2D *camera)
     m_sprite->Render(camera);
 }
 
-void UnkClass_02128B24::ov1_02128DD4()
+void BattleDamageNumber::UpdateHold()
 {
     if (m_timer >= 10) {
         m_state = 2;
@@ -110,7 +110,7 @@ void UnkClass_02128B24::ov1_02128DD4()
     }
 }
 
-void UnkClass_02128B24::ov1_02128DF4()
+void BattleDamageNumber::UpdateFadeOut()
 {
     if (m_timer >= 20) {
         m_state = 0;
@@ -119,7 +119,7 @@ void UnkClass_02128B24::ov1_02128DF4()
     m_sprite->m_alpha = (u8)LinearInterpolate(31, 1, m_timer, 20);
 }
 
-void UnkClass_02128B24::ov1_02128E34(Point2D pos, int value)
+void BattleDamageNumber::Show(Point2D pos, int value)
 {
     m_state = 1;
     m_timer = 0;
@@ -127,7 +127,7 @@ void UnkClass_02128B24::ov1_02128E34(Point2D pos, int value)
     m_value = value;
 }
 
-int UnkClass_02128B24::ov1_02128E74(int z)
+int BattleDamageNumber::SetZ(int z)
 {
     m_zDigits = z;
     z++;

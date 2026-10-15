@@ -35,12 +35,12 @@ class FieldScriptLauncher;
 class CFieldPlayerInputControlManage;
 class CFieldEffectManage;
 class TouchDotLine;
-class UnkClass_0214B984;
+class FieldDebugFlags;
 class FieldDebugMenu;
 class UnkClass_0214FB28;
 class UnkClass_0214FD4C;
 class FieldCannons;
-class UnkClass_0216D5F4;
+class FieldTimerDisplay;
 
 // Defined in ov0
 class CFieldScene : public CScene {
@@ -58,33 +58,33 @@ public:
     virtual void func7();
     virtual u32 getSceneId();
 
-    void ov0_02121758(int fps);
-    static void ov0_021220AC(void *arg0);
-    BOOL ov0_021220D0(u32 mapId, BOOL arg1);
-    BOOL ov0_02122EF4();
-    void ov0_02122F08(CFieldEnemy *enemy);
-    void ov0_02122FEC(u32 arg0, u32 arg1, u32 arg2);
-    CFieldActor *ov0_02123060(u32 id);
-    CFieldActor *ov0_021232A8();
+    void UpdateTouchLine(int fps);
+    static void ApplyPaletteAnimsCallback(void *arg0);
+    BOOL LoadMap(u32 mapId, BOOL arg1);
+    BOOL RunMapScript();
+    void StartEnemyBattle(CFieldEnemy *enemy);
+    void AddBattleEnemy(u32 arg0, u32 arg1, u32 arg2);
+    CFieldActor *FindActor(u32 id);
+    CFieldActor *GetTouchedActor();
     void ov0_02123AEC(int arg0, int arg1);
-    void ov0_02123E58(int arg0);
-    void ov0_02123FEC(u32 arg0, int arg1);
-    void ov0_02124054();
-    void ov0_021240AC(int waza, int level, const char *name);
-    void ov0_0212419C();
-    void ov0_021241B8();
-    void ov0_02124210();
-    void ov0_021244DC();
-    void ov0_021244FC();
-    void ov0_0212451C();
-    void ov0_02124588(int arg0, int arg1);
-    void ov0_021245C4(int arg0);
+    void StopActorMotion(int arg0);
+    void SetHint(u32 arg0, int arg1);
+    void ClearHint();
+    void SetFieldWaza(int waza, int level, const char *name);
+    void ClearFieldWaza();
+    void ShowHint();
+    void SaveActorStates();
+    void BuildEffectSaveBuffer();
+    void BuildEnemySaveBuffer();
+    void ClearAllOutlines();
+    void ShowScreenOverlay(int arg0, int arg1);
+    void HideScreenOverlay(int arg0);
     int ov0_02124604();
-    void ov0_021247E4();
-    void ov0_021248DC();
+    void LockPlayerControl();
+    void UnlockPlayerControl();
     BOOL ov0_02124BFC();
-    void ov0_021248EC();
-    BOOL ov0_02124C30(Point2D *pos);
+    void AddMapIcons();
+    BOOL ClampCameraPos(Point2D *pos);
 
 public:
     CGame *m_game;
@@ -111,7 +111,7 @@ public:
     SubScreenIconMenu *m_iconMenu;
     FieldCannons *m_cannons;
     TitleBanner *m_banner;
-    UnkClass_0216D5F4 *unk_0064;
+    FieldTimerDisplay *unk_0064;
     u32 unk_0068;
     int unk_006C;
     int unk_0070;
@@ -135,7 +135,7 @@ public:
     CPlayerHPGauge *m_hpGauge;
     TouchDotLine *m_touchLine;
     FieldSyscallSets *m_syscallSets;
-    UnkClass_0214B984 *unk_00E4;
+    FieldDebugFlags *unk_00E4;
     FieldDebugMenu *m_debugMenu;
     u32 unk_00EC;
     int unk_00F0;

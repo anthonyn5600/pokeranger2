@@ -15,13 +15,13 @@ class CaptureLineTrail {
 public:
     CaptureLineTrail();
     ~CaptureLineTrail(); // ov1_0212E8FC
-    void ov1_0212E940();
-    void ov1_0212E998(Camera2D *camera);
-    void ov1_0212EA1C(Point2D pos);
-    void ov1_0212EA7C(Point2D pos);
-    void ov1_0212EAD4();
-    void ov1_0212EB20(fx32 width);
-    int ov1_0212EDB4(int z);
+    void Update();
+    void Render(Camera2D *camera);
+    void Start(Point2D pos);
+    void AddPoint(Point2D pos);
+    void Close();
+    void UpdateQuads(fx32 width);
+    int SetZ(int z);
 
 public:
     u16 m_count;

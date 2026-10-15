@@ -19,7 +19,7 @@ struct SlimePuddle {
     u8 alpha;
 };
 
-// Saved state (ov0_02142390 / ov0_02142388).
+// Saved state (SaveState / RestoreState).
 struct SlimeSave {
     u8 type; // bits 6-7 = kind
     u8 mask; // bit 7 = fading out
@@ -42,17 +42,17 @@ public:
     {
         return 0x12;
     }
-    virtual void ov0_021423A4()
+    virtual void Destroy()
     {
         m_flags = 0;
     }
-    virtual BOOL ov0_021421F0(int inTime, int holdTime, int outTime);
-    virtual int ov0_02142264(int step);
-    virtual int ov0_02142344(Camera2D *camera);
-    virtual int ov0_0214239C(int layer);
+    virtual BOOL Start(int inTime, int holdTime, int outTime);
+    virtual int Update(int step);
+    virtual int Render(Camera2D *camera);
+    virtual int GetDrawCount(int layer);
     virtual int SetParam(int param, int value);
-    virtual int ov0_02142390(void *buf, void *end);
-    virtual BOOL ov0_02142388(const void *data);
+    virtual int SaveState(void *buf, void *end);
+    virtual BOOL RestoreState(const void *data);
 
     void Init(int type, CEffectActorData *data, int kind);
     void Reset(BOOL keepParam);
@@ -60,8 +60,8 @@ public:
     void UpdatePuddle(int i);
     void InitSprites();
     BOOL IsTouchingPlayer(const Point2D *pos);
-    void ov0_021633B8();
-    void ov0_021633CC();
+    void StopPuddles();
+    void StartPuddles();
 
 public:
     SlimePuddle m_puddles[5];

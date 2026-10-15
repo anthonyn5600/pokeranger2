@@ -126,17 +126,17 @@ public:
         unk_DC = state;
     }
 
-    void ov3_0211CD2C();
-    void ov3_0211CD6C();
-    void ov3_0211CD8C();
-    void ov3_0211D1B0();
-    void ov3_0211DD90();
-    void ov3_0211DF20();
-    void ov3_021202E0();
-    void ov3_0212038C(int msg);
-    void ov3_02120634();
+    void SetupBG();
+    void DrawMenu();
+    void DrawContinueMenu();
+    void DrawNewGameMenu();
+    void CreateMenuSprites();
+    void RemoveMenuSprites();
+    void InitMessageWindow();
+    void DrawMessage(int msg);
+    void CreateYesNoButtons();
     void ov3_0212069C();
-    void ov3_021206E8(int y);
+    void SetButtonScale(int y);
 
 public:
     AudioEngine *m_audioEngine;

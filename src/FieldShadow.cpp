@@ -119,12 +119,12 @@ extern "C" int Actor_ShowManpu(CFieldActor *actor, int type, int arg2)
     if (actor != NULL && (mgr = MAIN_BSS_0210CA60) != NULL) {
         id = actor->unk_D0;
         if (id != 0) {
-            CFieldEffectManpu *effect = (CFieldEffectManpu *)mgr->ov0_02143088(id);
+            CFieldEffectManpu *effect = (CFieldEffectManpu *)mgr->Get(id);
             if (effect != NULL) {
                 if (effect->unk_24 == 0xD || effect->unk_24 == 9) {
                     return 0;
                 }
-                mgr->ov0_021430D8(id);
+                mgr->Remove(id);
             }
         }
 
@@ -177,14 +177,14 @@ extern "C" int Actor_ShowManpu(CFieldActor *actor, int type, int arg2)
         }
 
         if (kind >= 0) {
-            id = mgr->ov0_02142F6C(1, kind);
+            id = mgr->Create(1, kind);
             actor->unk_D0 = id;
-            CFieldEffectManpu *effect = (CFieldEffectManpu *)mgr->ov0_02143088(id);
+            CFieldEffectManpu *effect = (CFieldEffectManpu *)mgr->Get(id);
             if (effect != NULL) {
                 effect->SetType(type);
                 effect->unk_1C = actor;
-                effect->ov0_021421F0(arg0, arg2, 0);
-                effect->ov0_02142264(0);
+                effect->Start(arg0, arg2, 0);
+                effect->Update(0);
             }
         }
     }
@@ -206,9 +206,9 @@ extern "C" void Actor_HideManpu(CFieldActor *actor)
     if (id == 0 || mgr == NULL) {
         return;
     }
-    CFieldEffectManpu *effect = (CFieldEffectManpu *)mgr->ov0_02143088(id);
+    CFieldEffectManpu *effect = (CFieldEffectManpu *)mgr->Get(id);
     if (effect != NULL && effect->unk_1C == actor) {
-        mgr->ov0_021430D8(id);
+        mgr->Remove(id);
     }
     actor->unk_D0 = 0;
 }

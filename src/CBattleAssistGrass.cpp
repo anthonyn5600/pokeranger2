@@ -10,7 +10,7 @@
 #include "battle/CBattleEnemyData.hpp"
 #include "fx_utils.hpp"
 
-extern "C" u16 ov1_0212EE98(int assistType, int idx);
+extern "C" u16 GetAssistEffectTime(int assistType, int idx);
 
 CBattleAssistGrass::CBattleAssistGrass(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3)
     : CBattleAssist(effects, effectData, params, arg3)
@@ -35,9 +35,9 @@ int CBattleAssistGrass::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleE
         if (!(slot->m_flags & 1)) {
             continue;
         }
-        if ((slot->m_flags & 4) && !slot->m_effect->ov1_0212747C()) {
-            slot->m_effect->ov1_02127454(0x20, 1);
-            slot->m_effect->ov1_021273A0(8, slot->m_size);
+        if ((slot->m_flags & 4) && !slot->m_effect->IsAnimActive()) {
+            slot->m_effect->PlayAction(0x20, 1);
+            slot->m_effect->SetAnimSequence(8, slot->m_size);
             slot->m_flags &= ~4;
         }
         slot->m_timer++;
@@ -51,7 +51,7 @@ int CBattleAssistGrass::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleE
         for (u8 i = 0; i < 8; i++) {
             if (enemies[i] != NULL && enemies[i]->IsAlive() && enemies[i]->IsTargetable() && !enemies[i]->ov1_02126424()) {
                 if (CircleHitCircle(circle, enemies[i]->m_sphere.m_circle, NULL)) {
-                    u16 duration = ov1_0212EE98(vfunc_10(), 0);
+                    u16 duration = GetAssistEffectTime(vfunc_10(), 0);
                     switch (enemies[i]->unk_184->unk_18->unk_03) {
                     case 2:
                     case 8:
@@ -68,16 +68,16 @@ int CBattleAssistGrass::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleE
                         duration = FX32_MUL(duration << FX32_SHIFT, 0xC00) >> FX32_SHIFT;
                         break;
                     }
-                    enemies[i]->ov1_021263A4(3, duration);
+                    enemies[i]->SetStatus(3, duration);
                     if (!(slot->m_flags & 2)) {
-                        slot->m_effect->ov1_02127454(0x20, 2);
-                        slot->m_effect->ov1_021273A0(9, slot->m_size);
+                        slot->m_effect->PlayAction(0x20, 2);
+                        slot->m_effect->SetAnimSequence(9, slot->m_size);
                         m_bound++;
                         slot->m_flags |= 2;
                     }
                 } else if (slot->m_flags & 2) {
-                    slot->m_effect->ov1_02127454(0x20, 1);
-                    slot->m_effect->ov1_021273A0(8, slot->m_size);
+                    slot->m_effect->PlayAction(0x20, 1);
+                    slot->m_effect->SetAnimSequence(8, slot->m_size);
                     m_bound--;
                     slot->m_flags &= ~2;
                 }
@@ -92,11 +92,11 @@ int CBattleAssistGrass::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleE
     if (touch->unk_04 != 0) {
         m_last.x = (touch->unk_0A.x - 0x80) << FX32_SHIFT;
         m_last.y = (touch->unk_0A.y - 0x60) << FX32_SHIFT;
-    } else if (disk->ov1_0212C5C0()) {
+    } else if (disk->IsActive()) {
         fx32 x = (touch->unk_0A.x - 0x80) << FX32_SHIFT;
         fx32 y = (touch->unk_0A.y - 0x60) << FX32_SHIFT;
         if (ApproxLength(x - m_last.x, y - m_last.y) >= 0x10000) {
-            ov1_02131FE4(x, y);
+            SpawnGrass(x, y);
             unk_14->PlaySe(0x12F);
             m_last.x = x;
             m_last.y = y;
@@ -116,13 +116,13 @@ void CBattleAssistGrass::vfunc_0C()
     unk_14->StopSe(0x130);
 }
 
-GrassSlot *CBattleAssistGrass::ov1_02131FE4(fx32 x, fx32 y)
+GrassSlot *CBattleAssistGrass::SpawnGrass(fx32 x, fx32 y)
 {
     GrassSlot *slot = &m_slots[m_next];
     if (slot->m_effect != NULL) {
-        slot->m_effect->ov1_02127300();
+        slot->m_effect->Terminate();
     }
-    slot->m_effect = ov1_0212EE3C();
+    slot->m_effect = GetFreeEffect();
     if (slot->m_effect == NULL) {
         return NULL;
     }
@@ -134,9 +134,9 @@ GrassSlot *CBattleAssistGrass::ov1_02131FE4(fx32 x, fx32 y)
     } else {
         slot->m_size = 0;
     }
-    slot->m_effect->ov1_021270FC(unk_0C[0]);
-    slot->m_effect->ov1_02127454(0x20, 0);
-    slot->m_effect->ov1_021273A0(7, slot->m_size);
+    slot->m_effect->Start(unk_0C[0]);
+    slot->m_effect->PlayAction(0x20, 0);
+    slot->m_effect->SetAnimSequence(7, slot->m_size);
     CBattleAttackEffect *effect = slot->m_effect;
     effect->m_motion.SetX(x);
     effect->m_motion.SetY(y);

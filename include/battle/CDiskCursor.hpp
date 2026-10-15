@@ -14,8 +14,8 @@ public:
     virtual void vfunc_08();
     virtual void vfunc_0C(Camera2D *camera);
     virtual void vfunc_10(Camera2D *camera);
-    void ov1_0212E410();
-    void ov1_0212E45C();
+    void Load();
+    void Release();
 
 public:
     CActorData *unk_184;

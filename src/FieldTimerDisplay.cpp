@@ -1,10 +1,10 @@
-#include "UnkClass_0216D5F4.hpp"
+#include "FieldTimerDisplay.hpp"
 
 #include <nitro.h>
 
 #include "CPlayerHPGauge.hpp"
 
-void UnkClass_0216D5F4::Init(GraphicsSet *gfx)
+void FieldTimerDisplay::Init(GraphicsSet *gfx)
 {
     unk_00.unk_38 = (UnkClass_CPrimitive_ImageProxy *)gfx->m_image;
     unk_00.unk_3C = (UnkClass_CPrimitive_ImagePaletteProxy *)gfx->m_palette;
@@ -13,19 +13,19 @@ void UnkClass_0216D5F4::Init(GraphicsSet *gfx)
     unk_00.SetSize(0x10000, 0x20000);
 }
 
-static inline void DrawGlyph(UnkClass_0216D5F4 *timer, fx32 u1, fx32 u2, fx32 x, Camera2D *camera)
+static inline void DrawGlyph(FieldTimerDisplay *timer, fx32 u1, fx32 u2, fx32 x, Camera2D *camera)
 {
     timer->unk_00.SetTexCoords(u1, 0, u2, 0x10000);
     timer->unk_00.SetPos(x, -0x4F000);
     timer->unk_00.Render(camera);
 }
 
-static inline void DrawDigit(UnkClass_0216D5F4 *timer, int d, fx32 x, Camera2D *camera)
+static inline void DrawDigit(FieldTimerDisplay *timer, int d, fx32 x, Camera2D *camera)
 {
     DrawGlyph(timer, d << 16, (d * 16 + 10) << 12, x, camera);
 }
 
-void UnkClass_0216D5F4::Draw(int time, fx32 z, Camera2D *camera)
+void FieldTimerDisplay::Draw(int time, fx32 z, Camera2D *camera)
 {
     int secs = time / 60;
     int min = secs / 60;

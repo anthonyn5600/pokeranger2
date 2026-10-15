@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "Collision.hpp"
-#include "UnkStruct_02044464.hpp"
+#include "ScriptVM.hpp"
 #include "common.hpp"
 
 // vector<T *> uses the vector<unsigned long> code, whose instances come from MSL_CPP (msl_thread.o, in main).
@@ -147,19 +147,19 @@ public:
     CFieldMap();
     ~CFieldMap();
 
-    void ov0_02124D98(const char *name);
-    void ov0_02124E48();
-    void ov0_02124E9C();
-    void ov0_02124EE4();
-    void ov0_021251D8(BOOL runScript, int fps);
-    void ov0_02125338(Camera2D *camera);
-    int ov0_0212546C(int group);
-    FieldMapTextures *ov0_0212550C(void *data, int id);
-    CFieldMapLayerBase *ov0_02125904(void *data, int group, int index);
-    FieldMapAnimQuad *ov0_02125CA8(void *data, int index);
-    FieldMapPaletteAnim *ov0_02125CE8(void *data, int index);
-    BOOL ov0_02125D28(u8 group, const char *name, u32 heapId);
-    void ov0_02126658();
+    void LoadScript(const char *name);
+    void RunScript();
+    void ReleaseScript();
+    void Release();
+    void Update(BOOL runScript, int fps);
+    void Draw(Camera2D *camera);
+    int GetCharacterDepth(int group);
+    FieldMapTextures *LoadTextures(void *data, int id);
+    CFieldMapLayerBase *CreateLayer(void *data, int group, int index);
+    FieldMapAnimQuad *CreateAnimQuad(void *data, int index);
+    FieldMapPaletteAnim *CreatePaletteAnim(void *data, int index);
+    BOOL Load(u8 group, const char *name, u32 heapId);
+    void ApplyPaletteAnims();
 
     // Attribute layer of a layer group.
     inline CFieldMapLayerAttribute *GetAttributeLayer(int i)
@@ -209,7 +209,7 @@ public:
     FieldMapInfo m_info;
     CBinaryFile *unk_4C;
     int unk_50;
-    UnkStruct_02044464 unk_54;
+    ScriptVM unk_54;
     void *unk_78;
     void *unk_7C;
 };

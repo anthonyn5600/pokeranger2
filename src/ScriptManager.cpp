@@ -3,7 +3,7 @@
 #include <nitro.h>
 #include <string.h>
 
-#include "UnkStruct_02044464.hpp"
+#include "ScriptVM.hpp"
 #include "file/CBinaryFile.hpp"
 #include "sub_02044440.hpp"
 
@@ -39,7 +39,7 @@ public:
     void *m_script;
     CBinaryFile *m_file;
     char m_name[0x10];
-    UnkStruct_02044464 m_vm;
+    ScriptVM m_vm;
     u32 m_stack[0x80];
     int m_state;
     char m_next[0x10];

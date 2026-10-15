@@ -11,7 +11,7 @@ CFieldEffectLaser::CFieldEffectLaser(int kind)
 {
     CFieldEffectAttackActorData *data = new CFieldEffectAttackActorData();
     if (data != NULL) {
-        data->ov0_0214FFF0(kind, 1, 3);
+        data->Load(kind, 1, 3);
     }
     unk_18 = data;
     for (int i = 0; i < 3; i++) {
@@ -51,9 +51,9 @@ CFieldEffectLaser::~CFieldEffectLaser()
     SAFE_DELETE(unk_18);
 }
 
-int CFieldEffectLaser::ov0_02142264(int step)
+int CFieldEffectLaser::Update(int step)
 {
-    int state = CFieldEffectActor::ov0_02142264(step);
+    int state = CFieldEffectActor::Update(step);
     if (state != 0 && state != 4 && unk_18 != NULL) {
         unk_18->Update();
     }
@@ -85,7 +85,7 @@ int CFieldEffectLaser::ov0_02142264(int step)
     return state;
 }
 
-int CFieldEffectLaser::ov0_02142344(Camera2D *camera)
+int CFieldEffectLaser::Render(Camera2D *camera)
 {
     if (m_state != 4 && m_state != 0) {
         m_sprites[0].SetPos(m_pos);
@@ -133,7 +133,7 @@ int CFieldEffectLaser::SetParam(int param, int value)
     return ret;
 }
 
-BOOL CFieldEffectLaser::ov0_021421F0(int inTime, int holdTime, int outTime)
+BOOL CFieldEffectLaser::Start(int inTime, int holdTime, int outTime)
 {
     m_head.x = m_pos.x;
     m_head.y = m_pos.y;
@@ -166,7 +166,7 @@ BOOL CFieldEffectLaser::ov0_021421F0(int inTime, int holdTime, int outTime)
     for (int i = 0; i < 3; i++) {
         m_sprites[i].m_rotAngle = angle;
     }
-    return CFieldEffect::ov0_021421F0(inTime, holdTime, outTime);
+    return CFieldEffect::Start(inTime, holdTime, outTime);
 }
 
 void CFieldEffectLaser::InitSprites()

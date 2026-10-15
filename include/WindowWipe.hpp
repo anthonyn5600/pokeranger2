@@ -18,12 +18,12 @@ public:
 
     void Start(int x, int y, u16 duration, u16 mode);
     void Update();
-    void sub_0200E4A8();
+    void Apply();
     u8 Clamp(int value, int min, int max);
     void SetVisibleWnd(int windows);
     void sub_0200E614(int buffer, int radius);
     void BuildCircle(int buffer, int radius);
-    void sub_0200E834();
+    void Advance();
     int GetRadius();
     BOOL sub_0200E91C();
 

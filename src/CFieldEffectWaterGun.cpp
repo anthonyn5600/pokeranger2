@@ -11,7 +11,7 @@ CFieldEffectWaterGun::CFieldEffectWaterGun(int id)
 {
     CFieldEffectAttackActorData *data = new CFieldEffectAttackActorData();
     if (data != NULL) {
-        data->ov0_0214FFF0(id, 1, 3);
+        data->Load(id, 1, 3);
     }
     unk_18 = data;
     for (int i = 0; i < 2; i++) {
@@ -50,9 +50,9 @@ CFieldEffectWaterGun::~CFieldEffectWaterGun()
     SAFE_DELETE(unk_18);
 }
 
-int CFieldEffectWaterGun::ov0_02142264(int step)
+int CFieldEffectWaterGun::Update(int step)
 {
-    int state = CFieldEffectActor::ov0_02142264(step);
+    int state = CFieldEffectActor::Update(step);
     if (state != 0 && state != 4) {
         m_animator.Reset();
         if (state == 1) {
@@ -68,7 +68,7 @@ int CFieldEffectWaterGun::ov0_02142264(int step)
     return state;
 }
 
-int CFieldEffectWaterGun::ov0_02142344(Camera2D *camera)
+int CFieldEffectWaterGun::Render(Camera2D *camera)
 {
     int i;
     int state = m_state;
@@ -122,7 +122,7 @@ int CFieldEffectWaterGun::SetParam(int param, int value)
     return ret;
 }
 
-BOOL CFieldEffectWaterGun::ov0_021421F0(int inTime, int holdTime, int outTime)
+BOOL CFieldEffectWaterGun::Start(int inTime, int holdTime, int outTime)
 {
     m_pos = m_start;
     Point2D dir = m_end - m_pos;
@@ -144,7 +144,7 @@ BOOL CFieldEffectWaterGun::ov0_021421F0(int inTime, int holdTime, int outTime)
     m_emitter.m_angle = angle;
     m_emitter.SetDir(dir);
     m_emitter.func2();
-    return CFieldEffect::ov0_021421F0(inTime, holdTime, outTime);
+    return CFieldEffect::Start(inTime, holdTime, outTime);
 }
 
 void CFieldEffectWaterGun::CEmitter::func2()

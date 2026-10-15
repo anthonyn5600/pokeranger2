@@ -136,7 +136,7 @@ BOOL CFieldSEFKomorebi::Unload()
     return TRUE;
 }
 
-void CFieldSEFKomorebi::sub_02037330(int arg)
+void CFieldSEFKomorebi::ResetAlpha(int arg)
 {
     m_drawAlpha = m_alpha;
 }

@@ -87,7 +87,7 @@ void CContinueScene::func5()
     GXS_DispOn();
 }
 
-void CContinueScene::ov3_02120CF4()
+void CContinueScene::InitMessageWindow()
 {
     TextWindow win = { 24, 4, 4, 19, 0, 4, 6 };
     SubTextPrinter *printer = GetPrinter(m_game);
@@ -95,10 +95,10 @@ void CContinueScene::ov3_02120CF4()
     printer->SetupBG();
     printer->AllocWindows(1);
     printer->InitWindow(0, win.width, win.height, win.left, win.top, 0x20, 0, 2);
-    ov3_02120D90(unk_0E);
+    DrawMessage(unk_0E);
 }
 
-void CContinueScene::ov3_02120D90(int sel)
+void CContinueScene::DrawMessage(int sel)
 {
     TextWindow win = { 24, 4, 4, 19, 0, 4, 6 };
     SubTextPrinter *printer = GetPrinter(m_game);
@@ -141,9 +141,9 @@ void CContinueScene::func6()
         delete file;
     }
 
-    ov3_02120CF4();
-    ov3_021210A4();
-    ov3_02121110();
+    InitMessageWindow();
+    LoadSprites();
+    CreateYesNoButtons();
 
     unk_34 = new CPrimitiveSPHERE();
     unk_34->m_circle.r = 0x20000;
@@ -157,13 +157,13 @@ void CContinueScene::func6()
     p->y = -0x20000;
 }
 
-void CContinueScene::ov3_021210A4()
+void CContinueScene::LoadSprites()
 {
     unk_2C = new OamSpriteSet((GXOamAttr *)&m_game->unk_0424[0x18], m_game->unk_14A8, TRUE, 0x40);
     unk_2C->Load("data/menu", "title003_00", 0, 0);
 }
 
-void CContinueScene::ov3_02121110()
+void CContinueScene::CreateYesNoButtons()
 {
     unk_24 = unk_2C->AddSprite(0, 0x40, 0x60, 0);
     unk_14 = unk_2C->unk_24;
@@ -180,7 +180,7 @@ void CContinueScene::func7()
     SAFE_DELETE(unk_38);
 }
 
-void CContinueScene::ov3_02121234(int scale)
+void CContinueScene::SetButtonScale(int scale)
 {
     MtxFx22 mtx;
     mtx._00 = scale;
@@ -192,7 +192,7 @@ void CContinueScene::ov3_02121234(int scale)
 
 u32 CContinueScene::func0()
 {
-    ov3_02121234(unk_1C);
+    SetButtonScale(unk_1C);
     unk_2C->Update();
 
     CTouchPanel *tp = m_game->touchPanel;
@@ -208,7 +208,7 @@ u32 CContinueScene::func0()
                 } else if (unk_0E == 1) {
                     unk_0E = 0;
                 }
-                ov3_02120D90(unk_0E);
+                DrawMessage(unk_0E);
                 unk_24->unk_14 = 1;
                 unk_28->unk_14 = 1;
                 m_flags &= ~1;

@@ -8,7 +8,7 @@
 extern u16 g_animFps;
 
 fx32 sub_02007DE4(u16 value);
-int sub_02007DF0(int count, u16 dir, int arg2);
+int GetDirectionIndex(int count, u16 dir, int arg2);
 
 struct AnimCmd {
     u8 op;

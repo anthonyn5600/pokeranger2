@@ -23,7 +23,7 @@ int CBattleAssistRecover::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattl
         }
         disk->unk_19C = hp;
         unk_1C->SetCurrentHP(hp);
-        unk_1C->StartHeal(ov1_02134354(unk_04));
+        unk_1C->StartHeal(GetHealAnim(unk_04));
         unk_14->PlaySe(0x143);
         m_flags |= 1;
     } else if (!unk_1C->IsHealing()) {
@@ -37,7 +37,7 @@ void CBattleAssistRecover::vfunc_0C()
 {
 }
 
-u8 CBattleAssistRecover::ov1_02134354(u8 amount)
+u8 CBattleAssistRecover::GetHealAnim(u8 amount)
 {
     if (amount <= 5) {
         return 0;

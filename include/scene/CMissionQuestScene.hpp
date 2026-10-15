@@ -20,7 +20,7 @@ public:
     virtual void func7();
     virtual u32 getSceneId();
 
-    void ov8_0211CAD4();
+    void Create();
 
 public:
     CGame *m_game;

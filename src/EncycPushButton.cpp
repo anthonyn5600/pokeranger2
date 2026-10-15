@@ -6,7 +6,7 @@
 #include "file/CArchiveGuard.hpp"
 #include "scene/CEncyclopediaScene.hpp"
 
-BOOL EncycPushButton::ov22_0211F134(int id, OamSpriteSet *anims, int animNormal, int animPressed, int x, int y, int w, int h, int priority)
+BOOL EncycPushButton::Init(int id, OamSpriteSet *anims, int animNormal, int animPressed, int x, int y, int w, int h, int priority)
 {
     unk_00 = id;
     unk_04[0] = anims->AddSprite(animNormal, x, y, priority);
@@ -20,7 +20,7 @@ BOOL EncycPushButton::ov22_0211F134(int id, OamSpriteSet *anims, int animNormal,
     return FALSE;
 }
 
-void EncycPushButton::ov22_0211F1D0()
+void EncycPushButton::Update()
 {
     if (unk_1F && unk_04[0] != NULL && unk_04[1] != NULL) {
         BOOL fire = FALSE;
@@ -44,7 +44,7 @@ void EncycPushButton::ov22_0211F1D0()
     }
 }
 
-void EncycPushButton::ov22_0211F2A4()
+void EncycPushButton::UpdateAnim()
 {
     if (unk_1F && unk_04[0] != NULL && unk_04[1] != NULL) {
         if (!unk_1E) {
@@ -60,7 +60,7 @@ void EncycPushButton::ov22_0211F2A4()
     }
 }
 
-void EncycPushButton::ov22_0211F344(BOOL arg0)
+void EncycPushButton::SetEnabled(BOOL arg0)
 {
     unk_1E = arg0;
     if (unk_04[0] != NULL) {
@@ -71,7 +71,7 @@ void EncycPushButton::ov22_0211F344(BOOL arg0)
     }
 }
 
-void EncycPushButton::ov22_0211F398(BOOL enabled)
+void EncycPushButton::SetVisible(BOOL enabled)
 {
     unk_1F = enabled;
     if (unk_1F) {
@@ -85,7 +85,7 @@ void EncycPushButton::ov22_0211F398(BOOL enabled)
     }
 }
 
-void EncycPushButton::ov22_0211F3C8()
+void EncycPushButton::ResetInput()
 {
     unk_10 = 0;
     unk_14 = 0;
@@ -99,7 +99,7 @@ EncycAnimLoader::EncycAnimLoader()
     unk_08 = 0;
 }
 
-OamSpriteSet *EncycAnimLoader::ov22_0211F3F0(const char *dir, const char *name, int plttCount, int oamIdx)
+OamSpriteSet *EncycAnimLoader::Load(const char *dir, const char *name, int plttCount, int oamIdx)
 {
     CGame *game = CGame::GetInstance();
     if (oamIdx < 0) {
@@ -113,7 +113,7 @@ OamSpriteSet *EncycAnimLoader::ov22_0211F3F0(const char *dir, const char *name, 
     return anims;
 }
 
-void EncycAnimLoader::ov22_0211F4A4(OamSpriteSet *anims, int oamIdx)
+void EncycAnimLoader::ReserveOam(OamSpriteSet *anims, int oamIdx)
 {
     if (oamIdx < 0) {
         oamIdx = unk_08;
@@ -132,10 +132,10 @@ EncycMainScreen::EncycMainScreen()
 
 EncycMainScreen::~EncycMainScreen()
 {
-    ov22_0211F6F8();
+    Release();
 }
 
-void EncycMainScreen::ov22_0211F594()
+void EncycMainScreen::Init()
 {
     MtxFx22 mtx;
 
@@ -159,16 +159,16 @@ void EncycMainScreen::ov22_0211F594()
     unk_08->SetOrtho(0, 0xC0000, 0, 0x100000, -0x400000, 0x800000, 0x400000);
 }
 
-void EncycMainScreen::ov22_0211F6F8()
+void EncycMainScreen::Release()
 {
     SAFE_DELETE(unk_08);
 }
 
-void EncycMainScreen::ov22_0211F72C()
+void EncycMainScreen::InitTexts()
 {
     FontSet *font = CGame::GetInstance()->unk_14AC;
     void *scr = G2_GetBG1ScrPtr();
-    unk_0C.ov22_02121024(&font->unk_14, scr, G2_GetBG1CharPtr(), 0, 0, 0, 32, 24, 1, 6);
+    unk_0C.Init(&font->unk_14, scr, G2_GetBG1CharPtr(), 0, 0, 0, 32, 24, 1, 6);
     unk_354 = 0;
     for (int i = 0; i < 8; i++) {
         unk_34[i].unk_60 = i;
@@ -191,27 +191,27 @@ static inline void LoadDCB(const char *archive, const char *file)
     GX_LoadBG3Scr(bin.unk_4C, 0, bin.unk_50);
 }
 
-void EncycMainScreen::ov22_0211F7B8(const char *archive, const char *file)
+void EncycMainScreen::LoadBitmap(const char *archive, const char *file)
 {
     LoadDCB(archive, file);
 }
 
-void EncycMainScreen::ov22_0211F8A8()
+void EncycMainScreen::ClearLabels()
 {
-    unk_0C.ov22_02121110();
+    unk_0C.Clear();
     unk_354 = 0;
 }
 
-BOOL EncycMainScreen::ov22_0211F8C4(int x, int y, int color, const char *label, int arg4)
+BOOL EncycMainScreen::AddLabel(int x, int y, int color, const char *label, int arg4)
 {
     if (unk_354 < 8) {
-        unk_34[unk_354].ov22_0212112C(&unk_0C, x, y, color, label, arg4);
+        unk_34[unk_354].DrawLabel(&unk_0C, x, y, color, label, arg4);
         unk_354++;
     }
     return TRUE;
 }
 
-void EncycMainScreen::ov22_0211F928()
+void EncycMainScreen::Render()
 {
     if (unk_08 == NULL) {
         return;
@@ -221,6 +221,6 @@ void EncycMainScreen::ov22_0211F928()
     unk_08->ApplyView();
     G3_StoreMtx(0);
     for (int i = 0; i < unk_354; i++) {
-        unk_34[i].ov22_021213F0(unk_08);
+        unk_34[i].Render(unk_08);
     }
 }

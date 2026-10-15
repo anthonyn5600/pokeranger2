@@ -15,28 +15,28 @@ BattleDebugMenu::~BattleDebugMenu()
     SAFE_DELETE(unk_04);
 }
 
-void BattleDebugMenu::ov1_02135C2C()
+void BattleDebugMenu::ResetResult()
 {
     unk_04->SetValue(0, 0);
     unk_04->SetValue(1, 0);
 }
 
-void BattleDebugMenu::ov1_02135C58()
+void BattleDebugMenu::Update()
 {
     unk_04->Update();
 }
 
-int BattleDebugMenu::ov1_02135C68()
+int BattleDebugMenu::IsActive()
 {
     return unk_04->IsActive();
 }
 
-int BattleDebugMenu::ov1_02135C78()
+int BattleDebugMenu::GetResultId()
 {
     return unk_04->GetValue(0);
 }
 
-int BattleDebugMenu::ov1_02135C8C()
+int BattleDebugMenu::GetResultValue()
 {
     return unk_04->GetValue(1);
 }

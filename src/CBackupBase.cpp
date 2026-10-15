@@ -33,7 +33,7 @@ BOOL CBackupBase::Init()
         }
         unk_04 = TRUE;
     }
-    if (sub_0202B72C()) {
+    if (TestRead()) {
         return TRUE;
     }
     Finalize();
@@ -50,7 +50,7 @@ BOOL CBackupBase::Finalize()
     return TRUE;
 }
 
-BOOL CBackupBase::sub_0202B72C()
+BOOL CBackupBase::TestRead()
 {
     u8 buf;
     BOOL result = FALSE;

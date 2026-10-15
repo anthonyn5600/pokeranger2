@@ -3,10 +3,10 @@
 #include "BrightnessFade.hpp"
 #include "CGame.hpp"
 #include "DisplayUtil.hpp"
+#include "DownloadStationScan.hpp"
 #include "TextboxManager.hpp"
-#include "UnkClass_0212F3DC.hpp"
 
-static void ov11_0213251C(void *arg);
+static void ApplyBrightness(void *arg);
 
 CCompanyLogoScene::CCompanyLogoScene()
 {
@@ -33,11 +33,11 @@ CCompanyLogoScene::~CCompanyLogoScene()
 u32 CCompanyLogoScene::func0()
 {
     if (unk_20 != 0) {
-        unk_20 = unk_1C->ov11_0212F46C();
+        unk_20 = unk_1C->Update();
     }
     switch (unk_08) {
     case 0:
-        unk_0C->sub_02028408(1);
+        unk_0C->CheckHeader(1);
         unk_08 = 1;
     case 1: {
         u32 result = unk_0C->Update();
@@ -70,7 +70,7 @@ u32 CCompanyLogoScene::func0()
         break;
     }
     case 2:
-        unk_0C->sub_02028408(0);
+        unk_0C->CheckHeader(0);
         unk_08 = 3;
         break;
     case 3: {
@@ -133,7 +133,7 @@ u32 CCompanyLogoScene::func0()
             brightness = unk_04 * 31 / 10;
             brightness |= brightness << 16;
         }
-        s_game->AddVBlankCallback(ov11_0213251C, (void *)brightness);
+        s_game->AddVBlankCallback(ApplyBrightness, (void *)brightness);
         break;
     }
     case 8: {
@@ -145,7 +145,7 @@ u32 CCompanyLogoScene::func0()
         } else {
             brightness = 0x1F | (((10 - unk_04) * 31 / 10) << 16);
         }
-        s_game->AddVBlankCallback(ov11_0213251C, (void *)brightness);
+        s_game->AddVBlankCallback(ApplyBrightness, (void *)brightness);
         break;
     }
     case 9:
@@ -286,7 +286,7 @@ void CCompanyLogoScene::func7()
 }
 
 // VBlank callback: arg = main brightness | sub brightness << 16
-static void ov11_0213251C(void *arg)
+static void ApplyBrightness(void *arg)
 {
     int brightness = (int)arg;
     G2_SetBlendBrightness(GX_BLEND_PLANEMASK_BG0, (u16)brightness);

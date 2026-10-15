@@ -11,22 +11,22 @@ class BattleParticle {
 public:
     BattleParticle();
     ~BattleParticle();
-    void ov1_02136760();
-    void ov1_0213680C();
-    void ov1_02136840();
-    void ov1_02136874();
-    void ov1_021368A8();
-    void ov1_021368D0();
+    void Update();
+    void UpdateX();
+    void UpdateY();
+    void UpdateZ();
+    void UpdateAlpha();
+    void UpdateScale();
     void ov1_021368F8();
-    void ov1_021368FC();
-    void ov1_02136930(Camera2D *camera, GXDLInfo *dl);
-    void ov1_021369FC(u16 duration, fx32 x, fx32 y, fx32 z, fx32 size, u16 color);
-    void ov1_02136A40(fx32 x, fx32 y);
-    void ov1_02136A58(fx32 x, fx32 y);
-    void ov1_02136A70(fx32 x, fx32 y);
-    void ov1_02136A88(u8 arg0, u8 arg1);
-    void ov1_02136AA0(fx32 arg0, int arg1);
-    void ov1_02136AB8(fx32 x, fx32 y, int arg2);
+    void UpdateAcceleration();
+    void Render(Camera2D *camera, GXDLInfo *dl);
+    void Init(u16 duration, fx32 x, fx32 y, fx32 z, fx32 size, u16 color);
+    void SetVelocityX(fx32 x, fx32 y);
+    void SetVelocityY(fx32 x, fx32 y);
+    void SetVelocityZ(fx32 x, fx32 y);
+    void SetAlphaFade(u8 arg0, u8 arg1);
+    void SetScaleFade(fx32 arg0, int arg1);
+    void SetAcceleration(fx32 x, fx32 y, int arg2);
 
 public:
     CPrimitiveQUAD m_quad;

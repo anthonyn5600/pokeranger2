@@ -2,7 +2,7 @@
 
 CBattleResultParameter::CBattleResultParameter()
 {
-    sub_02010D04(this);
+    BattleResultParameter_Reset(this);
 }
 
 CBattleResultParameter::~CBattleResultParameter()
@@ -11,7 +11,7 @@ CBattleResultParameter::~CBattleResultParameter()
 
 extern "C" {
 
-void sub_02010D04(CBattleResultParameter *obj)
+void BattleResultParameter_Reset(CBattleResultParameter *obj)
 {
     MI_CpuClear8(obj, sizeof(strBattleResultParameter));
     obj->unk_04 = 0xFF;

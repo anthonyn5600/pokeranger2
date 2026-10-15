@@ -1,26 +1,26 @@
 #include "FieldSyscallSets.hpp"
-#include "UnkStruct_02044464.hpp"
+#include "ScriptVM.hpp"
 #include "field/CFieldPlayer.hpp"
 
 extern CFieldPlayer *MAIN_BSS_0210CA48;
 
 extern "C" {
 int ov0_021499A4(int *args);
-int ov0_021499AC(int *args);
-int ov0_021499BC(int *args);
+int Sys_GetPlayer(int *args);
+int Sys_PlayerCommand(int *args);
 }
 
 static ScriptSyscall sFieldPlayerSyscalls[] = {
     (ScriptSyscall)ov0_021499A4,
-    (ScriptSyscall)ov0_021499AC,
-    (ScriptSyscall)ov0_021499BC,
+    (ScriptSyscall)Sys_GetPlayer,
+    (ScriptSyscall)Sys_PlayerCommand,
 };
 
 FieldPlayerSyscalls::FieldPlayerSyscalls() {}
 
 FieldPlayerSyscalls::~FieldPlayerSyscalls() {}
 
-void FieldPlayerSyscalls::ov0_0214998C() {
+void FieldPlayerSyscalls::Register() {
   Script_RegisterSyscalls(0xC, sFieldPlayerSyscalls);
 }
 
@@ -28,9 +28,9 @@ extern "C" {
 
 int ov0_021499A4(int *args) { return 0; }
 
-int ov0_021499AC(int *args) { return (int)MAIN_BSS_0210CA48; }
+int Sys_GetPlayer(int *args) { return (int)MAIN_BSS_0210CA48; }
 
-int ov0_021499BC(int *args) {
+int Sys_PlayerCommand(int *args) {
   CFieldPlayer *player = MAIN_BSS_0210CA48;
   int cmd = args[0];
   if (player == NULL) {
@@ -47,7 +47,7 @@ int ov0_021499BC(int *args) {
     player->unk_E4 = args[2];
     break;
   case 2:
-    return player->ov0_021333A0(args[2], args[3], args[4], args[5], -1);
+    return player->KnockBack(args[2], args[3], args[4], args[5], -1);
   case 3:
     return player->unk_E0;
   }

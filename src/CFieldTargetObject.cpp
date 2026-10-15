@@ -79,16 +79,16 @@ CFieldTargetObject::~CFieldTargetObject()
     SAFE_DELETE(unk_F8);
 }
 
-BOOL CFieldTargetObject::sub_0203DA38()
+BOOL CFieldTargetObject::Talk()
 {
     if (MAIN_BSS_0210CA44 != NULL && unk_F8 != NULL && HasScriptBlock(unk_F8)) {
-        MAIN_BSS_0210CA44->ov0_0213FC24(this, "main", -1);
+        MAIN_BSS_0210CA44->LaunchActorScript(this, "main", -1);
         return TRUE;
     }
     return FALSE;
 }
 
-BOOL CFieldTargetObject::ov0_0213CD3C()
+BOOL CFieldTargetObject::CallNormal()
 {
     GetScript()->unk_38 = -1;
     m_script->Call(this, "Normal");
@@ -96,7 +96,7 @@ BOOL CFieldTargetObject::ov0_0213CD3C()
     return TRUE;
 }
 
-BOOL CFieldTargetObject::ov0_0213CD78(int arg)
+BOOL CFieldTargetObject::CallTargetClear(int arg)
 {
     GetScript()->unk_38 = arg;
     m_script->Call(this, "TargetClear");
@@ -104,7 +104,7 @@ BOOL CFieldTargetObject::ov0_0213CD78(int arg)
     return TRUE;
 }
 
-BOOL CFieldTargetObject::ov0_0213CDB4(int arg)
+BOOL CFieldTargetObject::CallTargetInit(int arg)
 {
     BOOL result = FALSE;
     CFieldTargetObjectActorScript *script = GetScript();
@@ -142,7 +142,7 @@ void CFieldTargetObject::PlayAnim(int arg0, int arg1)
     }
 }
 
-BOOL CFieldTargetObject::ov0_0213CF30(CFieldActorScript *script, void *block)
+BOOL CFieldTargetObject::SetTouchScript(CFieldActorScript *script, void *block)
 {
     if (unk_F8 == NULL && script != NULL) {
         unk_F8 = script;
@@ -154,7 +154,7 @@ BOOL CFieldTargetObject::ov0_0213CF30(CFieldActorScript *script, void *block)
     return TRUE;
 }
 
-BOOL CFieldTargetObject::ov0_0213CF60(const char *func)
+BOOL CFieldTargetObject::RunTouchScript(const char *func)
 {
     if (unk_F8 != NULL && func != NULL) {
         if (unk_F8->Call(this, func)) {
@@ -166,14 +166,14 @@ BOOL CFieldTargetObject::ov0_0213CF60(const char *func)
     return FALSE;
 }
 
-void CFieldTargetObject::ov0_0213CFBC()
+void CFieldTargetObject::UpdateTouchScript()
 {
     if (unk_FC && unk_F8 != NULL) {
         unk_F8->Step();
     }
 }
 
-BOOL CFieldTargetObject::ov0_0213CFDC()
+BOOL CFieldTargetObject::HasTouchScript()
 {
     if (unk_F8 != NULL && HasScriptBlock(unk_F8)) {
         return TRUE;

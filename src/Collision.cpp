@@ -62,7 +62,7 @@ BOOL CircleHitCircle(Circle arg0, Circle arg1, Point2D *arg2)
     return FALSE;
 }
 
-BOOL CircleInSector(Circle arg0, UnkStruct_02006238 arg1)
+BOOL CircleInSector(Circle arg0, Sector arg1)
 {
     Circle v0 = {
         .pos = {
@@ -147,7 +147,7 @@ BOOL SegmentHitSegment(PointPair2D arg0, PointPair2D arg1, Point2D *arg2, BOOL a
     return TRUE;
 }
 
-BOOL sub_02006610(PointPair2D arg0, PointPair2D arg1, Point2D *arg2)
+BOOL SegmentHitSegmentBBox(PointPair2D arg0, PointPair2D arg1, Point2D *arg2)
 {
     if (arg0.p1.x >= arg0.p2.x) {
         if ((arg0.p1.x < arg1.p1.x && arg0.p1.x < arg1.p2.x) || (arg0.p2.x > arg1.p1.x && arg0.p2.x > arg1.p2.x)) {
@@ -373,7 +373,7 @@ BOOL SegmentHitRect(PointPair2D arg0, Rectangle arg1, Point2D *arg2)
     return res;
 }
 
-BOOL sub_02006E30(Circle arg0, Rectangle arg1, Point2D *arg2, s32 arg3)
+BOOL CircleHitRectEdge(Circle arg0, Rectangle arg1, Point2D *arg2, s32 arg3)
 {
     if (MATH_ABS(arg0.pos.x - arg1.pos.x) >= arg0.r + (arg1.size.x >> 1) || MATH_ABS(arg0.pos.y - arg1.pos.y) >= arg0.r + (arg1.size.y >> 1)) {
         return FALSE;

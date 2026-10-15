@@ -47,7 +47,7 @@ void BattleStartParam_Reset(BattleStartParam *obj)
     obj->m_overrideFlags = 0;
 }
 
-void sub_0201094C(BattleStartParam *obj, u32 arg1)
+void BattleStartParam_SetNextScene(BattleStartParam *obj, u32 arg1)
 {
     obj->unk_00 = arg1;
 }
@@ -62,17 +62,17 @@ void BattleStartParam_SetStylerLevel(BattleStartParam *obj, u8 arg1)
     obj->m_stylerLevel = arg1;
 }
 
-void sub_02010964(BattleStartParam *obj, BOOL arg1)
+void BattleStartParam_SetHasPartner(BattleStartParam *obj, BOOL arg1)
 {
     obj->unk_06 = arg1 ? TRUE : FALSE;
 }
 
-void sub_02010978(BattleStartParam *obj, u32 arg1)
+void BattleStartParam_SetPartnerEnergy(BattleStartParam *obj, u32 arg1)
 {
     obj->unk_08 = arg1;
 }
 
-void sub_02010980(BattleStartParam *obj, u32 arg1)
+void BattleStartParam_SetPartnerMaxEnergy(BattleStartParam *obj, u32 arg1)
 {
     obj->unk_0C = arg1;
 }
@@ -184,7 +184,7 @@ void BattleStartParam_SetBannerType(BattleStartParam *obj, u16 arg1)
     obj->m_overrideFlags |= 8;
 }
 
-u32 sub_02010B24(BattleStartParam *obj)
+u32 BattleStartParam_GetNextScene(BattleStartParam *obj)
 {
     return obj->unk_00;
 }
@@ -199,17 +199,17 @@ u8 BattleStartParam_GetStylerLevel(BattleStartParam *obj)
     return obj->m_stylerLevel;
 }
 
-BOOL sub_02010B3C(BattleStartParam *obj)
+BOOL BattleStartParam_HasPartner(BattleStartParam *obj)
 {
     return obj->unk_06 ? TRUE : FALSE;
 }
 
-u32 sub_02010B50(BattleStartParam *obj)
+u32 BattleStartParam_GetPartnerEnergy(BattleStartParam *obj)
 {
     return obj->unk_08;
 }
 
-u32 sub_02010B58(BattleStartParam *obj)
+u32 BattleStartParam_GetPartnerMaxEnergy(BattleStartParam *obj)
 {
     return obj->unk_0C;
 }

@@ -71,7 +71,7 @@ CFieldEnemy::~CFieldEnemy()
 {
 }
 
-int CFieldEnemy::ov0_021343B8(int index)
+int CFieldEnemy::PlayEnemyAnime(int index)
 {
     if (index >= 0 && index < 3) {
         switch (unk_132[index]) {
@@ -120,7 +120,7 @@ void CFieldEnemy::Process(CFieldMap *map)
     }
     switch (unk_EC) {
     case 0:
-        if (ov0_02134D60(unk_F0)) {
+        if (IsPlayerInRange(unk_F0)) {
             unk_EC = 1;
             s_game->m_audioEngine->sub_02034D44(0, 0x40);
             m_flags &= ~1;
@@ -143,14 +143,14 @@ void CFieldEnemy::Process(CFieldMap *map)
                     }
                 }
             }
-            ov0_021352E4(1);
+            SpawnGroundEffect(1);
         }
         break;
     case 1:
-        if (ov0_02134D60(unk_124 >> FX32_SHIFT)) {
+        if (IsPlayerInRange(unk_124 >> FX32_SHIFT)) {
             unk_EC = 4;
             if (MAIN_BSS_0210CA40 != NULL) {
-                MAIN_BSS_0210CA40->ov0_02122F08(this);
+                MAIN_BSS_0210CA40->StartEnemyBattle(this);
             }
         }
         if (!IsUnk00CSet()) {
@@ -159,7 +159,7 @@ void CFieldEnemy::Process(CFieldMap *map)
         break;
     case 2:
         m_flags &= ~2;
-        if (ov0_02134D60(unk_F0)) {
+        if (IsPlayerInRange(unk_F0)) {
             s_game->m_audioEngine->PlaySe(0x10A);
             unk_EC = 3;
             m_flags &= ~1;
@@ -167,17 +167,17 @@ void CFieldEnemy::Process(CFieldMap *map)
         }
         break;
     case 3: {
-        if (ov0_02134D60(unk_124 >> FX32_SHIFT)) {
+        if (IsPlayerInRange(unk_124 >> FX32_SHIFT)) {
             CFieldScene *scene = MAIN_BSS_0210CA40;
             if (unk_130 != 0) {
                 fx32 dist = FX_Sqrt(unk_148 << FX32_SHIFT);
                 Point2D v = player->GetPos() - GetPos();
                 v.x = FX_Div(v.x, dist);
                 v.y = FX_Div(v.y, dist);
-                player->ov0_021333A0(v.x, v.y, 10, unk_130, -1);
+                player->KnockBack(v.x, v.y, 10, unk_130, -1);
             } else if (scene != NULL) {
                 unk_EC = 4;
-                scene->ov0_02122F08(this);
+                scene->StartEnemyBattle(this);
             }
         }
         int height = GetBaseHeight();
@@ -194,14 +194,14 @@ void CFieldEnemy::Process(CFieldMap *map)
             if (unk_A0 > 0) {
                 m_flags |= 2;
             }
-            ov0_021352E4(0);
+            SpawnGroundEffect(0);
             unk_EC = 4;
         }
         break;
     }
     case 4:
         if (m_flags & 0x400) {
-            ov0_02134F70();
+            CheckPlayerContact();
         }
         UpdateScript();
         if (--unk_164 < 0) {
@@ -209,7 +209,7 @@ void CFieldEnemy::Process(CFieldMap *map)
         }
         break;
     }
-    unk_168.ov0_02152B04();
+    unk_168.Update();
     Update(map);
     ov0_0213524C();
 }
@@ -217,7 +217,7 @@ void CFieldEnemy::Process(CFieldMap *map)
 BOOL CFieldEnemy::UpdateMove(CFieldMap *map)
 {
     BOOL result = CFieldActor::UpdateMove(map);
-    unk_168.ov0_02158988();
+    unk_168.UpdateHeight();
     ov0_0213524C();
     if (result) {
         s_game->m_audioEngine->PlayStream(unk_E4, 0x40);
@@ -225,7 +225,7 @@ BOOL CFieldEnemy::UpdateMove(CFieldMap *map)
     return result;
 }
 
-BOOL CFieldEnemy::ov0_02134D60(int radius)
+BOOL CFieldEnemy::IsPlayerInRange(int radius)
 {
     CFieldPlayer *player = MAIN_BSS_0210CA48;
     if (player != NULL) {
@@ -247,17 +247,17 @@ void CFieldEnemy::ov0_02134F00()
 {
     m_flags |= 1;
     SetBaseHeight(0);
-    unk_168.ov0_0215674C(0xE);
+    unk_168.SetSequence(0xE);
 }
 
 void CFieldEnemy::ov0_02134F38()
 {
     m_flags |= 1;
     SetBaseHeight(0xDC000);
-    unk_168.ov0_0215674C(0xF);
+    unk_168.SetSequence(0xF);
 }
 
-void CFieldEnemy::ov0_02134F70()
+void CFieldEnemy::CheckPlayerContact()
 {
     CFieldPlayer *player = MAIN_BSS_0210CA48;
     if (player == NULL) {
@@ -266,12 +266,12 @@ void CFieldEnemy::ov0_02134F70()
     if (player->m_layer != m_layer) {
         return;
     }
-    if (ov0_02134D60(unk_124 >> FX32_SHIFT) && MAIN_BSS_0210CA40 != NULL) {
-        MAIN_BSS_0210CA40->ov0_02122F08(this);
+    if (IsPlayerInRange(unk_124 >> FX32_SHIFT) && MAIN_BSS_0210CA40 != NULL) {
+        MAIN_BSS_0210CA40->StartEnemyBattle(this);
     }
 }
 
-void CFieldEnemy::ov0_02134FCC()
+void CFieldEnemy::EnableTargetObject()
 {
     CFieldTargetObjectManage *manage = MAIN_BSS_0210CA7C;
     if (manage == NULL || unk_13C < 0) {
@@ -287,7 +287,7 @@ void CFieldEnemy::ov0_02134FCC()
     m_flags |= 0x800;
 }
 
-void CFieldEnemy::ov0_021351AC()
+void CFieldEnemy::DisableTargetObject()
 {
     CFieldTargetObjectManage *manage = MAIN_BSS_0210CA7C;
     if (manage == NULL || unk_13C < 0) {
@@ -299,7 +299,7 @@ void CFieldEnemy::ov0_021351AC()
     }
     Actor_HideManpu(target);
     target->unk_20 = 0;
-    target->sub_0202D394();
+    target->OnDisable();
     m_flags &= ~0x800;
 }
 
@@ -307,12 +307,12 @@ void CFieldEnemy::ov0_0213524C()
 {
 }
 
-void CFieldEnemy::ov0_02135250()
+void CFieldEnemy::PlayCry()
 {
     s_game->m_audioEngine->PlayStream(unk_E4, 0x40);
 }
 
-CFieldActor *CFieldEnemy::ov0_02135278()
+CFieldActor *CFieldEnemy::GetTargetObject()
 {
     CFieldTargetObjectManage *manage = MAIN_BSS_0210CA7C;
     if (manage != NULL && unk_13C >= 0) {
@@ -321,7 +321,7 @@ CFieldActor *CFieldEnemy::ov0_02135278()
     return NULL;
 }
 
-void CFieldEnemy::ov0_021352E4(int arg1)
+void CFieldEnemy::SpawnGroundEffect(int arg1)
 {
     CFieldEffectManage *manage = MAIN_BSS_0210CA60;
     if (manage == NULL) {
@@ -342,7 +342,7 @@ void CFieldEnemy::ov0_021352E4(int arg1)
         break;
     case 1:
     case 6:
-        effect = manage->ov0_02143088(manage->ov0_02142F6C(0xB, 0));
+        effect = manage->Get(manage->Create(0xB, 0));
         if (effect == NULL) {
             return;
         }
@@ -352,12 +352,12 @@ void CFieldEnemy::ov0_021352E4(int arg1)
         effect->SetParam(2, y >> FX32_SHIFT);
         effect->SetParam(3, 0);
         effect->SetParam(4, 0);
-        effect->ov0_021421F0(0, -1, 0);
+        effect->Start(0, -1, 0);
         break;
     case 3:
     case 4:
     case 8:
-        effect = manage->ov0_02143088(manage->ov0_02142F6C(0xA, 0));
+        effect = manage->Get(manage->Create(0xA, 0));
         if (effect == NULL) {
             return;
         }
@@ -366,24 +366,24 @@ void CFieldEnemy::ov0_021352E4(int arg1)
         effect->SetParam(2, (y >> FX32_SHIFT) + 8);
         effect->SetParam(3, 16);
         effect->SetParam(4, 0);
-        effect->ov0_021421F0(0, -1, 0);
+        effect->Start(0, -1, 0);
         break;
     case 2:
     case 5:
-        effect = manage->ov0_02143088(manage->ov0_02142F6C(0x26, 0));
+        effect = manage->Get(manage->Create(0x26, 0));
         if (effect == NULL) {
             return;
         }
         effect->SetParam(1, x >> FX32_SHIFT);
         effect->SetParam(2, (y >> FX32_SHIFT) + 8);
-        effect->ov0_021421F0(0, -1, 0);
+        effect->Start(0, -1, 0);
         break;
     case 7:
     case 9:
     case 10:
         break;
     case 11:
-        effect = manage->ov0_02143088(manage->ov0_02142F6C(0xA, 0));
+        effect = manage->Get(manage->Create(0xA, 0));
         if (effect == NULL) {
             return;
         }
@@ -393,7 +393,7 @@ void CFieldEnemy::ov0_021352E4(int arg1)
         effect->SetParam(3, 16);
         effect->SetParam(4, 0);
         effect->SetParam(19, 1);
-        effect->ov0_021421F0(0, -1, 0);
+        effect->Start(0, -1, 0);
         break;
     case 12:
     case 13:
@@ -410,22 +410,22 @@ void CFieldEnemy::ov0_021352E4(int arg1)
     }
 }
 
-void CFieldEnemy::ov0_021356BC(void *buf, void *end)
+void CFieldEnemy::SaveState(void *buf, void *end)
 {
-    unk_168.ov0_0215844C(buf, end);
+    unk_168.SaveState(buf, end);
 }
 
-void CFieldEnemy::ov0_021356CC(void *data)
+void CFieldEnemy::RestoreState(void *data)
 {
-    unk_168.ov0_021585B8(data);
+    unk_168.RestoreState(data);
 }
 
-void CFieldEnemy::sub_0202D394()
+void CFieldEnemy::OnDisable()
 {
-    unk_168.ov0_02158954();
+    unk_168.StopPuddles();
 }
 
-void CFieldEnemy::ov0_021356EC()
+void CFieldEnemy::ResetToHome()
 {
     // SetPosXY written out: the declaration order of these locals is the original's register order.
     fx32 y = unk_1C;
@@ -446,7 +446,7 @@ void CFieldEnemy::ov0_021356EC()
     sub_0201287C_();
 }
 
-void CFieldEnemy::sub_02032A44(int arg0)
+void CFieldEnemy::SetMoveSequence(int arg0)
 {
-    unk_168.ov0_0215674C(arg0);
+    unk_168.SetSequence(arg0);
 }

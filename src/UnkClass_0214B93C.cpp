@@ -1,5 +1,5 @@
 #include "FieldSyscallSets.hpp"
-#include "UnkStruct_02044464.hpp"
+#include "ScriptVM.hpp"
 
 extern "C" {
 int ov0_0214B95C(int *args);
@@ -25,7 +25,7 @@ UnkClass_0214B93C::~UnkClass_0214B93C()
 {
 }
 
-void UnkClass_0214B93C::ov0_0214B944()
+void UnkClass_0214B93C::Register()
 {
     Script_RegisterSyscalls(0xF, sSyscalls_0F);
 }

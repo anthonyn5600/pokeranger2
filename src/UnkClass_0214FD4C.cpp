@@ -41,7 +41,7 @@ void UnkClass_0214FD4C::Release()
     SAFE_DELETE(m_res);
 }
 
-void UnkClass_0214FD4C::ov0_0214FEF0()
+void UnkClass_0214FD4C::Update()
 {
     if (m_flags & 1) {
         if (++m_frame >= 4) {
@@ -50,13 +50,13 @@ void UnkClass_0214FD4C::ov0_0214FEF0()
     }
 }
 
-void UnkClass_0214FD4C::ov0_0214FF20(Camera2D *camera)
+void UnkClass_0214FD4C::Draw(Camera2D *camera)
 {
     m_sprite->m_z = m_z;
     m_sprite->Render(camera);
 }
 
-void UnkClass_0214FD4C::ov0_0214FF44()
+void UnkClass_0214FD4C::Press()
 {
     m_frame = 0;
     m_flags |= 1;

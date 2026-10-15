@@ -13,7 +13,7 @@ YSortedActorList::~YSortedActorList()
 {
 }
 
-BOOL YSortedActorList::ov1_02137DF8(CActor *actor)
+BOOL YSortedActorList::Add(CActor *actor)
 {
     if (actor == NULL) {
         return FALSE;
@@ -42,13 +42,13 @@ BOOL YSortedActorList::ov1_02137DF8(CActor *actor)
     return TRUE;
 }
 
-void YSortedActorList::ov1_02137EE8()
+void YSortedActorList::Clear()
 {
     m_actors.clear();
     m_count = 0;
 }
 
-int YSortedActorList::ov1_02137F28(Camera2D *camera)
+int YSortedActorList::Render(Camera2D *camera)
 {
     int z = m_z;
     for (std::list<CActor *>::iterator it = m_actors.begin(); it != m_actors.end(); ++it) {

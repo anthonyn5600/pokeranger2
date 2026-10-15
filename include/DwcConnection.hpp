@@ -12,11 +12,11 @@ class DwcConnection {
 public:
     DwcConnection(CGame *game);
     ~DwcConnection();
-    void ov11_02130310();
-    int ov11_0213031C();
-    void ov11_0213038C();
-    int ov11_02130398();
-    void ov11_021304B4();
+    void Init();
+    int InitDwc();
+    void StartConnect();
+    int UpdateConnect();
+    void StartUtility();
 
 public:
     u16 unk_00; // connection state

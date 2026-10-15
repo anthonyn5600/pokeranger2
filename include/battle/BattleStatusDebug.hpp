@@ -14,7 +14,7 @@ class BattleStatusDebug {
 public:
     BattleStatusDebug(); // ov1_021296C8
     ~BattleStatusDebug(); // ov1_02129750
-    void ov1_02129784(BattleStatusDebugGfx *data);
+    void SetData(BattleStatusDebugGfx *data);
 
 public:
     u8 unk_00[0xC];

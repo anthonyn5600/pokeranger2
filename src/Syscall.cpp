@@ -7,12 +7,14 @@
 #include "CPlayerHPGauge.hpp"
 #include "CTPEmulator.hpp"
 #include "CameraController.hpp"
+#include "FieldDataRecords.hpp"
 #include "FieldEventRectManage.hpp"
 #include "FieldScreenEffectManage.hpp"
 #include "FieldSubScreen.hpp"
 #include "GlobalValues.hpp"
 #include "Log.hpp"
 #include "PadInput.hpp"
+#include "PokeIdTableEntry.hpp"
 #include "SaveData.hpp"
 #include "SaveDialog.hpp"
 #include "SaveManager.hpp"
@@ -20,8 +22,6 @@
 #include "SubScreenIconMenu.hpp"
 #include "TextboxManager.hpp"
 #include "TitleBanner.hpp"
-#include "UnkClass_02041D80.hpp"
-#include "UnkStruct_020107A8.hpp"
 #include "WindowWipe.hpp"
 #include "YesNoPrompt.hpp"
 #include "common.hpp"
@@ -347,7 +347,7 @@ static inline void RaisePokemonState(SaveData *save, int i, u32 state)
 
 extern "C" {
 
-int sub_0202BC74(const s8 *src, s8 *dst, int len)
+int CopyStringUpper(const s8 *src, s8 *dst, int len)
 {
     int count = 0;
     if (src != NULL && dst != NULL && len != 0) {
@@ -371,7 +371,7 @@ CFieldActor *FindScriptActor(u32 id)
     if (MAIN_BSS_0210CA40 == NULL) {
         return NULL;
     }
-    return MAIN_BSS_0210CA40->ov0_02123060(id);
+    return MAIN_BSS_0210CA40->FindActor(id);
 }
 
 CFieldActor *FindEnemyActor(u32 id)
@@ -541,7 +541,7 @@ int Sys_PlayPartnerCry(int *args)
         u32 kinds[20] = { 0x1F, 0x5C, 0x63, 0xA7, 0xA1, 0xA4, 0xAA, 0xAF, 0xB6, 0xB7, 0xBC, 0xD2, 0xD5, 0xD7, 0xD9, 0xDC, 0xE2, 0x101, 0x102, 0x103 };
         u32 strms[20] = { 0x42, 0xC8, 0xD7, 0x189, 0x183, 0x186, 0x18C, 0x191, 0x198, 0x19A, 0x1A1, 0x1B7, 0x1BB, 0x1BE, 0x1C1, 0x1C5, 0x1CB, 0x18C, 0x1A1, 0x1BE };
         for (int i = 0; i < 20; i++) {
-            if (manage->ov0_0213A520(kinds[i])) {
+            if (manage->FindPartnerPokemon(kinds[i])) {
                 Audio()->PlayStream(strms[i], 0x40);
                 return 0;
             }
@@ -620,7 +620,7 @@ int Sys_CheckBrowserComplete(int *args)
     return 0;
 }
 
-int sub_0202C768(int *args)
+int Sys_ShowPokemonInfo(int *args)
 {
     SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     RaisePokemonState(save, args[1], 1);
@@ -806,7 +806,7 @@ int Sys_ActorFaceMoveDir(int *args)
     return 0;
 }
 
-int sub_0202CD8C(int *args)
+int Sys_ActorFaceActor(int *args)
 {
     CFieldActor *a = FindScriptActor(args[0]);
     CFieldActor *b = FindScriptActor(args[1]);
@@ -844,7 +844,7 @@ int Sys_StopActorLookAt(int *args)
     return 0;
 }
 
-int sub_0202CEDC(int *args)
+int Sys_ActorsFaceEachOther(int *args)
 {
     CFieldActor *a = FindScriptActor(args[0]);
     CFieldActor *b = FindScriptActor(args[1]);
@@ -888,7 +888,7 @@ int Sys_SetActorDir(int *args)
     return 0;
 }
 
-int sub_0202D0D0(int *args)
+int Sys_ActorFacePos(int *args)
 {
     CFieldActor *actor = FindScriptActor(args[0]);
     Point2D pos;
@@ -1024,7 +1024,7 @@ int Sys_DisableActor(int *args, int argc)
             if (actor != NULL) {
                 Actor_HideManpu(actor);
                 actor->unk_20 = 0;
-                actor->sub_0202D394();
+                actor->OnDisable();
             }
         }
     }
@@ -1032,7 +1032,7 @@ int Sys_DisableActor(int *args, int argc)
 }
 }
 
-void CFieldActor::sub_0202D394()
+void CFieldActor::OnDisable()
 {
 }
 
@@ -1065,7 +1065,7 @@ int Sys_EnableActor(int *args, int argc)
     return 0;
 }
 
-int sub_0202D448(int *args, int argc)
+int Sys_DisableActor2(int *args, int argc)
 {
     SaveData *save = &MAIN_BSS_020B26A0;
     if (argc >= 2) {
@@ -1076,14 +1076,14 @@ int sub_0202D448(int *args, int argc)
             if (actor != NULL) {
                 Actor_HideManpu(actor);
                 actor->unk_20 = 0;
-                actor->sub_0202D394();
+                actor->OnDisable();
             }
         }
     }
     return 0;
 }
 
-int sub_0202D4FC(int *args, int argc)
+int Sys_EnableActor2(int *args, int argc)
 {
     SaveData *save = &MAIN_BSS_020B26A0;
     if (argc >= 2) {
@@ -1131,7 +1131,7 @@ int Sys_HideManpu(int *args)
     return 0;
 }
 
-int sub_0202D608(int *args)
+int Sys_ShowEnemyManpu(int *args)
 {
     CFieldActorManage *manage = MAIN_BSS_0210CA5C;
     int id = args[0];
@@ -1146,7 +1146,7 @@ int sub_0202D608(int *args)
     return 0;
 }
 
-int sub_0202D680(int *args)
+int Sys_HideEnemyManpu(int *args)
 {
     CFieldActorManage *manage = MAIN_BSS_0210CA5C;
     u32 id = args[0];
@@ -1201,7 +1201,7 @@ void CFieldActor::StopMotion()
 }
 
 extern "C" {
-int sub_0202D85C(int *args)
+int Sys_IsActorMoving(int *args)
 {
     CFieldActor *actor = FindScriptActor(args[0]);
     if (actor != NULL && actor->IsUnk00CSet()) {
@@ -1210,7 +1210,7 @@ int sub_0202D85C(int *args)
     return 0;
 }
 
-int sub_0202D8BC(int *args)
+int Sys_SetActorPos(int *args)
 {
     CFieldActor *actor = FindScriptActor(args[0]);
     if (actor != NULL) {
@@ -1258,7 +1258,7 @@ int Sys_SetActorMoveDir(int *args)
     return 0;
 }
 
-int sub_0202D9C0(int *args)
+int Sys_IsActorMoving2(int *args)
 {
     CFieldActor *actor = FindScriptActor(args[0]);
     if (actor != NULL) {
@@ -1357,7 +1357,7 @@ int sub_0202DD48(int *args)
     return 0;
 }
 
-int sub_0202DD88(int *args)
+int Sys_JumpActor(int *args)
 {
     CFieldActor *actor = FindScriptActor(args[0]);
     if (actor != NULL) {
@@ -1381,7 +1381,7 @@ int sub_0202DD88(int *args)
     return 0;
 }
 
-int sub_0202DEE8(int *args)
+int Sys_JumpActorEx(int *args)
 {
     CFieldActor *actor = FindScriptActor(args[0]);
     if (actor != NULL) {
@@ -1421,7 +1421,7 @@ int sub_0202E068(int *args)
     return 0;
 }
 
-int sub_0202E070(u32 *args)
+int Sys_ActorPartyAdd(u32 *args)
 {
     u32 id = args[0];
     int kind = -1;
@@ -1445,12 +1445,12 @@ int sub_0202E070(u32 *args)
             flags = 0xE;
         }
         if (MAIN_BSS_0210CA4C != NULL) {
-            MAIN_BSS_0210CA4C->ov0_0213A360(id, species, flags, isPokemon, TRUE);
+            MAIN_BSS_0210CA4C->AddToParty(id, species, flags, isPokemon, TRUE);
         }
         if (!isPokemon) {
             FieldSubScreen *subScreen = FieldSubScreen::GetInstance();
             if (subScreen != NULL) {
-                subScreen->sub_02022B20();
+                subScreen->RefreshPartyPanel();
             }
         }
     } else {
@@ -1514,11 +1514,11 @@ int sub_0202E210(int *args)
     if (MAIN_BSS_0210CA4C == NULL) {
         return -1;
     }
-    MAIN_BSS_0210CA4C->ov0_0213A360(id, kind, 0xE, FALSE, TRUE);
+    MAIN_BSS_0210CA4C->AddToParty(id, kind, 0xE, FALSE, TRUE);
     return 0;
 }
 
-int sub_0202E330(int *args)
+int Sys_ActorPartyLeave(int *args)
 {
     CFieldPartnerManage *manage = MAIN_BSS_0210CA4C;
     u32 id = args[1];
@@ -1534,7 +1534,7 @@ int sub_0202E330(int *args)
                 LogInfo("*************");
             }
         }
-        manage->ov0_0213A050(id);
+        manage->LeaveParty(id);
         SaveData_RemoveFromParty(&MAIN_BSS_020B26A0, id);
         LogInfo("party leave : %x", id);
         return 0;
@@ -1543,7 +1543,7 @@ int sub_0202E330(int *args)
     return -1;
 }
 
-int sub_0202E43C(int *args)
+int Sys_ActorPartyLeave2(int *args)
 {
     CFieldPartnerManage *manage = MAIN_BSS_0210CA4C;
     u32 id = args[1];
@@ -1559,7 +1559,7 @@ int sub_0202E43C(int *args)
                 LogInfo("*************");
             }
         }
-        manage->ov0_0213A084(id);
+        manage->RemoveFromParty(id);
         SaveData_RemoveFromParty(&MAIN_BSS_020B26A0, id);
         LogInfo("party leave : %x", id);
         return 0;
@@ -1578,7 +1578,7 @@ int sub_0202E550(int *args)
     return 0;
 }
 
-int sub_0202E558(int *args)
+int Sys_MoveActorToCamera(int *args)
 {
     CFieldActor *actor = FindScriptActor(args[0]);
     if (actor != NULL) {
@@ -1597,7 +1597,7 @@ int sub_0202E558(int *args)
     return 0;
 }
 
-int sub_0202E61C(int *args)
+int Sys_IsActorMovingTo(int *args)
 {
     CFieldActor *actor = FindScriptActor(args[0]);
     if (actor != NULL) {
@@ -1682,7 +1682,7 @@ int Sys_IsActorJumping(int *args)
     return 0;
 }
 
-int sub_0202E81C(int *args)
+int Sys_GetActorState(int *args)
 {
     int id = args[0];
     CFieldActor *actor = FindScriptActor(id);
@@ -1722,7 +1722,7 @@ int sub_0202E81C(int *args)
     return 0;
 }
 
-int sub_0202E9C0(int *args)
+int Sys_GetEnemyState(int *args)
 {
     int id = args[0];
     CFieldActor *actor = FindEnemyActor(id);
@@ -1739,7 +1739,7 @@ int sub_0202E9C0(int *args)
     return 0;
 }
 
-int sub_0202EA5C(int *args)
+int Sys_SetActorState(int *args)
 {
     int id = args[0];
     int value = args[1];
@@ -1796,7 +1796,7 @@ static inline void StartOutline(CFieldActor *actor, u16 color, int time)
     }
 }
 
-int sub_0202EC08(int *args)
+int Sys_StartActorOutlineByType(int *args)
 {
     CFieldActor *actor = FindScriptActor(args[0]);
     if (actor != NULL) {
@@ -1847,10 +1847,10 @@ int Sys_StopActorOutline(int *args)
     return 0;
 }
 
-int sub_0202EDFC(int *args)
+int Sys_ClearAllOutlines(int *args)
 {
     if (MAIN_BSS_0210CA40 != NULL) {
-        MAIN_BSS_0210CA40->ov0_0212451C();
+        MAIN_BSS_0210CA40->ClearAllOutlines();
     }
     return 0;
 }
@@ -2003,7 +2003,7 @@ int sub_0202F0E4(int *args)
 {
     CFieldActor *actor = FindScriptActor(args[0]);
     if ((((int)actor->m_id >> 24) & 0xFF) == 6) {
-        UnkStruct_020107A8 *record = PokeIdTable_Get(s_game->unk_1434, ((CFieldPartner *)actor)->unk_200);
+        PokeIdTableEntry *record = PokeIdTable_Get(s_game->unk_1434, ((CFieldPartner *)actor)->unk_200);
         if (record != NULL) {
             return record->unk_06;
         }
@@ -2014,7 +2014,7 @@ int sub_0202F0E4(int *args)
 int Sys_ResetBattleParams(int *args)
 {
     BattleStartParam_Reset(s_game->unk_143C);
-    sub_02010D04(s_game->unk_1444);
+    BattleResultParameter_Reset(s_game->unk_1444);
     return 0;
 }
 
@@ -2036,7 +2036,7 @@ int Sys_ClearSaveName(int *args)
     return 0;
 }
 
-int sub_0202F1C0(int *args)
+int Sys_StartEventBattle(int *args)
 {
     CFieldScene *scene = MAIN_BSS_0210CA40;
     CBattleResultParameter *battle = s_game->unk_1444;
@@ -2047,10 +2047,10 @@ int sub_0202F1C0(int *args)
     return 0;
 }
 
-int sub_0202F208(int *args)
+int Sys_AddBattleEnemy2(int *args)
 {
     if (MAIN_BSS_0210CA40 != NULL) {
-        MAIN_BSS_0210CA40->ov0_02122FEC(args[0], -1, -1);
+        MAIN_BSS_0210CA40->AddBattleEnemy(args[0], -1, -1);
     }
     return 0;
 }
@@ -2087,7 +2087,7 @@ int sub_0202F2AC(int *args)
     return 0;
 }
 
-int sub_0202F2B4(int *args)
+int Sys_GetBattleResult(int *args)
 {
     CBattleResultParameter *battle = s_game->unk_1444;
     if (battle != NULL) {
@@ -2102,7 +2102,7 @@ int sub_0202F2D8(int *args)
     return 0;
 }
 
-int sub_0202F300(int *args)
+int Sys_StartEventBattle2(int *args)
 {
     CFieldScene *scene = MAIN_BSS_0210CA40;
     CBattleResultParameter *battle = s_game->unk_1444;
@@ -2186,7 +2186,7 @@ int Sys_RestoreSave(int *args)
         for (int i = 0; i < 2; i++) {
             PartnerSlot *partner = save->GetPartner(i);
             if (partner != NULL && partner->unk_00 != 0) {
-                int index = manage->ov0_02139920(partner->unk_04, partner->unk_08, 0x1E16, TRUE, TRUE);
+                int index = manage->Create(partner->unk_04, partner->unk_08, 0x1E16, TRUE, TRUE);
                 if (index >= 0) {
                     CFieldActor *actor = manage->Get(index);
                     if (actor != NULL) {
@@ -2201,7 +2201,7 @@ int Sys_RestoreSave(int *args)
         for (int i = 0; i < 10; i++) {
             PartyEntry *record = SaveData_GetEntry(save, i);
             if (record != NULL && (record->m_flags & 1)) {
-                manage->ov0_02139920((record->m_index & 0xFFF) | (((record->m_mapId & 0xFFF) << 12) | 0x6000000),
+                manage->Create((record->m_index & 0xFFF) | (((record->m_mapId & 0xFFF) << 12) | 0x6000000),
                     record->m_kind,
                     0xE,
                     FALSE,
@@ -2216,7 +2216,7 @@ int Sys_RestoreSave(int *args)
     }
     FieldSubScreen *subScreen = FieldSubScreen::GetInstance();
     if (subScreen != NULL) {
-        subScreen->sub_02022B20();
+        subScreen->RefreshPartyPanel();
     }
     return 0;
 }
@@ -2251,7 +2251,7 @@ int sub_0202F7A4(int *args)
     return 0;
 }
 
-int sub_0202F7AC(int *args, int argc)
+int Sys_OpenSaveDialog(int *args, int argc)
 {
     if (MAIN_BSS_0210CA40 != NULL) {
         MAIN_BSS_0210CA40->m_flags |= 0x200000;
@@ -2299,7 +2299,7 @@ int sub_0202F7AC(int *args, int argc)
         }
     }
     SaveDialog::Create();
-    SaveDialog::GetInstance()->sub_02027A2C();
+    SaveDialog::GetInstance()->StartNormalSave();
     return 0;
 }
 
@@ -2325,7 +2325,7 @@ int Sys_SetNextScript(int *args)
     return 0;
 }
 
-int sub_0202FA24(int *args)
+int Sys_GetPlayerInputDir(int *args)
 {
     if (MAIN_BSS_0210CA70 != NULL) {
         return MAIN_BSS_0210CA70[2];
@@ -2367,8 +2367,8 @@ int Sys_SetSex(int *args)
     CFieldPlayer *player;
     if (save->m_sex != old && (player = MAIN_BSS_0210CA48) != NULL) {
         Point2D pos = player->GetPos();
-        player->ov0_02132F14(save->m_sex, GetForm(save), save->m_areaType);
-        player->ov0_02132FA0(save->unk_8802);
+        player->LoadModel(save->m_sex, GetForm(save), save->m_areaType);
+        player->SetRideMode(save->unk_8802);
         player->SetPos(pos);
     }
     return 0;
@@ -2382,7 +2382,7 @@ int Sys_SetRangerClass(int *args)
     if (before != SaveData_GetPartyCapacity(save, 0xFF)) {
         FieldSubScreen *subScreen = FieldSubScreen::GetInstance();
         if (subScreen != NULL) {
-            subScreen->sub_02022B20();
+            subScreen->RefreshPartyPanel();
         }
     }
     return 0;
@@ -2396,8 +2396,8 @@ int Sys_SetRangerGrade(int *args)
     CFieldPlayer *player;
     if (((save->m_rangerClassGrade >> 4) & 0xF) != old && (player = MAIN_BSS_0210CA48) != NULL) {
         Point2D pos = player->GetPos();
-        player->ov0_02132F14(save->m_sex, GetForm(save), save->m_areaType);
-        player->ov0_02132FA0(save->unk_8802);
+        player->LoadModel(save->m_sex, GetForm(save), save->m_areaType);
+        player->SetRideMode(save->unk_8802);
         player->SetPos(pos);
     }
     return 0;
@@ -2468,9 +2468,9 @@ int Sys_GetHP(int *args)
     return 0;
 }
 
-int sub_0202FF38(int *args)
+int Sys_OpenRangerNetAGB(int *args)
 {
-    sub_020010E4();
+    RequestRangerNetAGB();
     return 0;
 }
 
@@ -2478,7 +2478,7 @@ int sub_0202FF48(int *args)
 {
     CFieldActor *actor = FindScriptActor(args[0]);
     if (actor != NULL) {
-        UnkStruct_020107A8 *record;
+        PokeIdTableEntry *record;
         switch (((int)actor->m_id >> 24) & 0xFF) {
         case 1:
             record = PokeIdTable_Get(s_game->unk_1434, ((CFieldEnemy *)actor)->unk_E8);
@@ -2497,7 +2497,7 @@ int sub_0202FF48(int *args)
     return 0;
 }
 
-int sub_0202FFE4(int *args)
+int Sys_GetActorPokemonKind(int *args)
 {
     CFieldActor *actor = FindScriptActor(args[0]);
     FieldData *table = MAIN_BSS_0210CA6C;
@@ -2692,7 +2692,7 @@ int sub_0203054C(int *args)
 {
     FieldSubScreen *subScreen = FieldSubScreen::GetInstance();
     if (subScreen != NULL) {
-        subScreen->sub_02022EC4();
+        subScreen->HidePicture();
         subScreen->SwitchToDefaultPanel();
     }
     return 0;
@@ -2707,7 +2707,7 @@ int Sys_SwitchSubScreenToMap(int *args)
     return 0;
 }
 
-int sub_0203059C(int *args)
+int Sys_UpdateTouch(int *args)
 {
     s_game->touchPanelEmulator->func0();
     return 0;
@@ -2731,7 +2731,7 @@ int Sys_DragTouch(int *args)
     return 0;
 }
 
-int sub_0203064C(int *args)
+int Sys_GetTouchState(int *args)
 {
     return s_game->touchPanelEmulator->unk_30;
 }
@@ -2850,7 +2850,7 @@ int Sys_StopCameraShake(int *args)
     return 0;
 }
 
-int sub_02030B40(int *args, int argc)
+int Sys_ChangeMap(int *args, int argc)
 {
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (scene != NULL) {
@@ -2929,7 +2929,7 @@ int Sys_DisableEventRect(int *args, int argc)
     return 0;
 }
 
-int sub_02030D24(int *args, int argc)
+int Sys_EnableEventRect2(int *args, int argc)
 {
     SaveData *save = &MAIN_BSS_020B26A0;
     if (argc >= 2) {
@@ -2949,7 +2949,7 @@ int sub_02030D24(int *args, int argc)
     return 0;
 }
 
-int sub_02030DA8(int *args, int argc)
+int Sys_DisableEventRect2(int *args, int argc)
 {
     SaveData *save = &MAIN_BSS_020B26A0;
     if (argc >= 2) {
@@ -2969,7 +2969,7 @@ int sub_02030DA8(int *args, int argc)
     return 0;
 }
 
-int sub_02030E2C(int *args)
+int Sys_Teleport(int *args)
 {
     ov0_02161FD4(args[0]);
     return 0;
@@ -3018,18 +3018,18 @@ int sub_02030EE0(int *args)
     return MAIN_BSS_0210CA78->sub_02035F50(type, arg);
 }
 
-int sub_02030F08(int *args)
+int Sys_ShowScreenOverlay(int *args)
 {
     if (MAIN_BSS_0210CA40 != NULL) {
-        MAIN_BSS_0210CA40->ov0_02124588((u8)args[0], args[1]);
+        MAIN_BSS_0210CA40->ShowScreenOverlay((u8)args[0], args[1]);
     }
     return 0;
 }
 
-int sub_02030F38(int *args)
+int Sys_HideScreenOverlay(int *args)
 {
     if (MAIN_BSS_0210CA40 != NULL) {
-        MAIN_BSS_0210CA40->ov0_021245C4((u8)args[0]);
+        MAIN_BSS_0210CA40->HideScreenOverlay((u8)args[0]);
     }
     return 0;
 }
@@ -3281,7 +3281,7 @@ int Sys_EndBrowserFanfare(int *args)
     return 0;
 }
 
-int sub_020318B4(int *args)
+int Sys_StartChapter(int *args)
 {
     SaveData *save = &MAIN_BSS_020B26A0;
     const char *name = s_c000First_0208ac1c[args[0]].name;
@@ -3377,7 +3377,7 @@ int Sys_SetQuestValue(int *args)
     return 0;
 }
 
-int sub_02031C50(int *args)
+int Sys_HidePartners(int *args)
 {
     CFieldPartnerManage *manage = MAIN_BSS_0210CA4C;
     if (manage != NULL) {
@@ -3392,7 +3392,7 @@ int sub_02031C50(int *args)
     return 0;
 }
 
-int sub_02031CB4(int *args)
+int Sys_ShowPartners(int *args)
 {
     CFieldPartnerManage *manage = MAIN_BSS_0210CA4C;
     if (manage != NULL) {
@@ -3426,12 +3426,12 @@ int sub_02031E30(int *args)
     return MAIN_BSS_0210CA4C->ov0_0213B048();
 }
 
-int sub_02031E54(int *args)
+int Sys_ArePartnersHidden(int *args)
 {
     if (MAIN_BSS_0210CA4C == NULL) {
         return 0;
     }
-    return MAIN_BSS_0210CA4C->ov0_0213B0F0();
+    return MAIN_BSS_0210CA4C->ArePartnersHidden();
 }
 
 int sub_02031E78(int *args)
@@ -3478,12 +3478,12 @@ int sub_02031F28(int *args)
     return 0;
 }
 
-int sub_02031F50(int *args)
+int Sys_CountPartnerPokemon(int *args)
 {
     return MAIN_BSS_0210CA4C->unk_88;
 }
 
-int sub_02031F64(int *args)
+int Sys_CountPartnerPokemonOfKind(int *args)
 {
     u32 kind = args[0];
     CFieldPartnerManage *manage = MAIN_BSS_0210CA4C;
@@ -3501,7 +3501,7 @@ int sub_02031F64(int *args)
     return n;
 }
 
-int sub_02031FD4(int *args)
+int Sys_IsInParty(int *args)
 {
     u32 id = args[0];
     int type;
@@ -3524,13 +3524,13 @@ int sub_02031FD4(int *args)
     return 0;
 }
 
-int sub_02032080(int *args)
+int Sys_FindPartnerNpc(int *args)
 {
     u32 kind = args[0];
     if (MAIN_BSS_0210CA4C == NULL) {
         return 0;
     }
-    return MAIN_BSS_0210CA4C->ov0_0213A4C4(kind);
+    return MAIN_BSS_0210CA4C->FindPartnerNpc(kind);
 }
 
 int Sys_IsPartnerPresent(int *args)
@@ -3538,13 +3538,13 @@ int Sys_IsPartnerPresent(int *args)
     return FindScriptActor(1) != NULL ? TRUE : FALSE;
 }
 
-int sub_020320C4(int *args)
+int Sys_FindPartnerPokemon(int *args)
 {
     u32 kind = args[0];
     if (MAIN_BSS_0210CA4C == NULL) {
         return 0;
     }
-    return MAIN_BSS_0210CA4C->ov0_0213A520(kind);
+    return MAIN_BSS_0210CA4C->FindPartnerPokemon(kind);
 }
 
 int Sys_SetPartnerNpcName(int *args)
@@ -3598,7 +3598,7 @@ int Sys_ClearPartyEntryPartner(int *args)
     return 0;
 }
 
-int sub_020321F8(int *args)
+int Sys_RemoveNonPartnerParty(int *args)
 {
     CFieldPartnerManage *manage = MAIN_BSS_0210CA4C;
     SaveData *save = &MAIN_BSS_020B26A0;
@@ -3612,7 +3612,7 @@ int sub_020321F8(int *args)
                     idx++;
                 } else {
                     u32 id = (record->m_index & 0xFFF) | (((record->m_mapId & 0xFFF) << 12) | 0x6000000);
-                    manage->ov0_0213A050(id);
+                    manage->LeaveParty(id);
                     SaveData_RemoveFromParty(save, id);
                 }
             }
@@ -3651,7 +3651,7 @@ int sub_0203238C(int *args)
     return 0;
 }
 
-int sub_020323B4(int *args)
+int Sys_CountPartnerNpcs(int *args)
 {
     return MAIN_BSS_0210CA4C->unk_84;
 }
@@ -3672,7 +3672,7 @@ int sub_020323C8(int *args)
     return 0;
 }
 
-int sub_020324A8(int *args)
+int Sys_GetAreaId(int *args)
 {
     if (MAIN_BSS_0210CA6C == NULL) {
         return 0;
@@ -3680,7 +3680,7 @@ int sub_020324A8(int *args)
     return FieldData_GetMap(MAIN_BSS_0210CA6C, MAIN_BSS_020B26A0.m_mapId)->unk_00;
 }
 
-int sub_020324DC(int *args)
+int Sys_CreateEffect(int *args)
 {
     CFieldEffectManage *manage = MAIN_BSS_0210CA60;
     if (manage == NULL) {
@@ -3688,17 +3688,17 @@ int sub_020324DC(int *args)
     }
     u32 i = args[0];
     if ((int)i >= 0 && i < 41) {
-        return manage->ov0_02142F6C(sEffectParams[i].arg1, sEffectParams[i].arg2);
+        return manage->Create(sEffectParams[i].arg1, sEffectParams[i].arg2);
     }
     return 0;
 }
 
-int sub_02032538(int *args)
+int Sys_StartEffect(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
-        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->Get(args[0]);
         if (effect != NULL) {
-            effect->ov0_021421F0(args[1], args[2], args[3]);
+            effect->Start(args[1], args[2], args[3]);
         }
     }
     return 0;
@@ -3707,19 +3707,19 @@ int sub_02032538(int *args)
 int Sys_HasEffect(int *args)
 {
     u16 id = args[0];
-    if (MAIN_BSS_0210CA60 != NULL && MAIN_BSS_0210CA60->ov0_02143088(id) != NULL) {
+    if (MAIN_BSS_0210CA60 != NULL && MAIN_BSS_0210CA60->Get(id) != NULL) {
         return TRUE;
     }
     return FALSE;
 }
 
-int sub_020325C0(int *args)
+int Sys_RemoveEffect(int *args)
 {
     u16 id = args[0];
     if (MAIN_BSS_0210CA60 == NULL) {
         return 0;
     }
-    return MAIN_BSS_0210CA60->ov0_021430D8(id);
+    return MAIN_BSS_0210CA60->Remove(id);
 }
 
 int sub_020325F0(int *args)
@@ -3728,12 +3728,12 @@ int sub_020325F0(int *args)
     CFieldEffectManage *manage = MAIN_BSS_0210CA60;
     switch (type) {
     case 1:
-        return manage->ov0_02142F6C(0x1F, 0);
+        return manage->Create(0x1F, 0);
     }
     return 0;
 }
 
-int sub_02032624(int *args)
+int Sys_StartEffectAt(int *args)
 {
     u16 id = args[0];
     CFieldEffectManage *manage = MAIN_BSS_0210CA60;
@@ -3744,10 +3744,10 @@ int sub_02032624(int *args)
     int b = args[4];
     int c = args[5];
     if (manage != NULL) {
-        CFieldEffect *effect = manage->ov0_02143088(id);
+        CFieldEffect *effect = manage->Get(id);
         if (effect != NULL) {
-            effect->ov0_0214234C(pos, 0, 0, 0, 0);
-            effect->ov0_021421F0(a, b, c);
+            effect->StartAt(pos, 0, 0, 0, 0);
+            effect->Start(a, b, c);
         }
     }
     return 0;
@@ -3756,40 +3756,40 @@ int sub_02032624(int *args)
 int Sys_HasEffect2(int *args)
 {
     u16 id = args[0];
-    if (MAIN_BSS_0210CA60 != NULL && MAIN_BSS_0210CA60->ov0_02143088(id) != NULL) {
+    if (MAIN_BSS_0210CA60 != NULL && MAIN_BSS_0210CA60->Get(id) != NULL) {
         return TRUE;
     }
     return FALSE;
 }
 
-int sub_02032708(int *args)
+int Sys_StopEffect(int *args)
 {
     u16 id = args[0];
     int value = args[1];
     if (MAIN_BSS_0210CA60 != NULL) {
         if (value == -1) {
-            return MAIN_BSS_0210CA60->ov0_021430D8(id);
+            return MAIN_BSS_0210CA60->Remove(id);
         }
-        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(id);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->Get(id);
         if (effect != NULL) {
-            return effect->ov0_02142240(value);
+            return effect->Stop(value);
         }
     }
     return 0;
 }
 
-int sub_02032768(int *args)
+int Sys_ShowEnemiesManpu(int *args)
 {
     if (MAIN_BSS_0210CA5C != NULL) {
-        MAIN_BSS_0210CA5C->ov0_0213690C(args[0], args[1]);
+        MAIN_BSS_0210CA5C->ShowManpuAll(args[0], args[1]);
     }
     return 0;
 }
 
-int sub_02032794(int *args)
+int Sys_HideEnemiesManpu(int *args)
 {
     if (MAIN_BSS_0210CA5C != NULL) {
-        MAIN_BSS_0210CA5C->ov0_02136968();
+        MAIN_BSS_0210CA5C->HideManpuAll();
     }
     return 0;
 }
@@ -3886,7 +3886,7 @@ int sub_020329E0(int *args)
     return 0;
 }
 
-int sub_020329FC(int *args)
+int Sys_UnmuteActorSounds(int *args)
 {
     MAIN_BSS_0210CA74 &= ~1;
     return 0;
@@ -3896,13 +3896,13 @@ int sub_02032A18(int *args)
 {
     CFieldActor *actor = FindScriptActor(args[0]);
     if (actor != NULL) {
-        actor->sub_02032A44(0x10);
+        actor->SetMoveSequence(0x10);
     }
     return 0;
 }
 }
 
-void CFieldActor::sub_02032A44(int arg0)
+void CFieldActor::SetMoveSequence(int arg0)
 {
 }
 
@@ -3911,12 +3911,12 @@ int sub_02032A48(int *args)
 {
     CFieldActor *actor = FindScriptActor(args[0]);
     if (actor != NULL) {
-        actor->sub_02032A44(1);
+        actor->SetMoveSequence(1);
     }
     return 0;
 }
 
-int sub_02032A74(int *args)
+int Sys_LoadEffect(int *args)
 {
     CFieldEffectManage *manage = MAIN_BSS_0210CA60;
     if (manage != NULL) {
@@ -3966,133 +3966,133 @@ int sub_02032A74(int *args)
     return 0;
 }
 
-int sub_02032BAC(int *args)
+int Sys_CreateEffect2(int *args)
 {
     CFieldEffectManage *manage = MAIN_BSS_0210CA60;
     if (manage != NULL) {
         switch (args[0]) {
         case 0:
-            return manage->ov0_02142F6C(9, 0);
+            return manage->Create(9, 0);
         case 1:
-            return manage->ov0_02142F6C(0xB, 0);
+            return manage->Create(0xB, 0);
         case 2:
-            return manage->ov0_02142F6C(0xA, 0);
+            return manage->Create(0xA, 0);
         case 8:
-            return manage->ov0_02142F6C(0x26, 0);
+            return manage->Create(0x26, 0);
         case 9:
-            return manage->ov0_02142F6C(0x13, 0);
+            return manage->Create(0x13, 0);
         case 10:
-            return manage->ov0_02142F6C(0x14, 1);
+            return manage->Create(0x14, 1);
         case 11:
-            return manage->ov0_02142F6C(0x15, 0);
+            return manage->Create(0x15, 0);
         case 12:
-            return manage->ov0_02142F6C(0x16, 2);
+            return manage->Create(0x16, 2);
         case 13:
-            return manage->ov0_02142F6C(0x17, 1);
+            return manage->Create(0x17, 1);
         case 14:
-            return manage->ov0_02142F6C(0xE, -12);
+            return manage->Create(0xE, -12);
         case 15:
-            return manage->ov0_02142F6C(0x18, 0);
+            return manage->Create(0x18, 0);
         case 16:
-            return manage->ov0_02142F6C(0x19, 0);
+            return manage->Create(0x19, 0);
         case 17:
-            return manage->ov0_02142F6C(0x1A, 0);
+            return manage->Create(0x1A, 0);
         case 18:
-            return manage->ov0_02142F6C(0x1B, 0);
+            return manage->Create(0x1B, 0);
         case 20:
-            return manage->ov0_02142F6C(0x1C, 0);
+            return manage->Create(0x1C, 0);
         case 21:
-            return manage->ov0_02142F6C(0x1C, 1);
+            return manage->Create(0x1C, 1);
         case 22:
-            return manage->ov0_02142F6C(0x1E, 0);
+            return manage->Create(0x1E, 0);
         case 19:
-            return manage->ov0_02142F6C(9, 1);
+            return manage->Create(9, 1);
         case 100:
-            return manage->ov0_02142F6C(0x22, 0);
+            return manage->Create(0x22, 0);
         case 102:
-            return manage->ov0_02142F6C(0x20, 0x79);
+            return manage->Create(0x20, 0x79);
         case 103:
-            return manage->ov0_02142F6C(0x20, 0x78);
+            return manage->Create(0x20, 0x78);
         case 3:
-            return manage->ov0_02142F6C(0xE, 10);
+            return manage->Create(0xE, 10);
         case 4:
-            return manage->ov0_02142F6C(0xF, 12);
+            return manage->Create(0xF, 12);
         case 5:
-            return manage->ov0_02142F6C(0x10, 0);
+            return manage->Create(0x10, 0);
         case 6:
-            return manage->ov0_02142F6C(0x11, 13);
+            return manage->Create(0x11, 13);
         case 7:
-            return manage->ov0_02142F6C(0xE, 14);
+            return manage->Create(0xE, 14);
         case 200:
-            return manage->ov0_02142F6C(0xC, 0);
+            return manage->Create(0xC, 0);
         case 201:
-            return manage->ov0_02142F6C(0xD, 0);
+            return manage->Create(0xD, 0);
         case 202:
-            return manage->ov0_02142F6C(0x12, 0x84);
+            return manage->Create(0x12, 0x84);
         case 203:
-            return manage->ov0_02142F6C(0x12, 0x85);
+            return manage->Create(0x12, 0x85);
         case 204:
-            return manage->ov0_02142F6C(0x12, 0x486);
+            return manage->Create(0x12, 0x486);
         case 104:
-            return manage->ov0_02142F6C(0x21, 0x6E);
+            return manage->Create(0x21, 0x6E);
         case 105:
-            return manage->ov0_02142F6C(0x1D, 0);
+            return manage->Create(0x1D, 0);
         }
     }
     return 0;
 }
 
-int sub_02032F5C(int *args)
+int Sys_RemoveEffect2(int *args)
 {
     u16 id = args[0];
     if (MAIN_BSS_0210CA60 == NULL) {
         return 0;
     }
-    return MAIN_BSS_0210CA60->ov0_021430D8(id);
+    return MAIN_BSS_0210CA60->Remove(id);
 }
 
-int sub_02032F8C(int *args)
+int Sys_StartEffect2(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
         int a = args[1];
         int b = args[2];
         int c = args[3];
-        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->Get(args[0]);
         if (effect != NULL) {
-            effect->ov0_021421F0(a, b, c);
-            effect->ov0_02142264(0);
+            effect->Start(a, b, c);
+            effect->Update(0);
             if (effect->GetEffectId() == 0x12) {
                 (*(UnkEffectPart **)((u8 *)effect + 0x1EC))->vfunc_1C();
-                static_cast<CFieldEffectSlime *>(effect)->ov0_021633CC();
+                static_cast<CFieldEffectSlime *>(effect)->StartPuddles();
             }
         }
     }
     return 0;
 }
-int sub_02033030(int *args)
+int Sys_StopEffect2(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
         int value = args[1];
-        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->Get(args[0]);
         if (effect != NULL) {
-            effect->ov0_02142240(value);
+            effect->Stop(value);
         }
     }
     return 0;
 }
 
-int sub_0203307C(int *args)
+int Sys_HasEffect3(int *args)
 {
-    if (MAIN_BSS_0210CA60 != NULL && MAIN_BSS_0210CA60->ov0_02143088(args[0]) != NULL) {
+    if (MAIN_BSS_0210CA60 != NULL && MAIN_BSS_0210CA60->Get(args[0]) != NULL) {
         return TRUE;
     }
     return FALSE;
 }
 
-int sub_020330BC(int *args)
+int Sys_SetEffectPos(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
-        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->Get(args[0]);
         if (effect != NULL) {
             effect->SetParam(1, args[1]);
             effect->SetParam(2, args[2]);
@@ -4101,10 +4101,10 @@ int sub_020330BC(int *args)
     }
     return 0;
 }
-int sub_02033134(int *args)
+int Sys_SetEffectSize(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
-        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->Get(args[0]);
         if (effect != NULL) {
             effect->SetParam(3, args[1]);
             effect->SetParam(4, args[2]);
@@ -4114,10 +4114,10 @@ int sub_02033134(int *args)
     return 0;
 }
 
-int sub_020331A4(int *args)
+int Sys_SetEffectParam(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
-        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->Get(args[0]);
         if (effect != NULL) {
             return effect->SetParam(args[1], args[2]);
         }
@@ -4128,9 +4128,9 @@ int sub_020331A4(int *args)
 int sub_020331F4(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
-        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->Get(args[0]);
         if (effect != NULL) {
-            return effect->sub_02033244(args[1], args[2], args[3]);
+            return effect->SetParamArray(args[1], args[2], args[3]);
         }
     }
     return 0;
@@ -4139,7 +4139,7 @@ int sub_020331F4(int *args)
 int sub_0203324C(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
-        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->Get(args[0]);
         if (effect != NULL) {
             return effect->IsReady() == 0 ? TRUE : FALSE;
         }
@@ -4149,12 +4149,12 @@ int sub_0203324C(int *args)
 int sub_020332AC(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
-        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->Get(args[0]);
         if (effect != NULL) {
             Point2D pos;
             pos.x = args[1] << 12;
             pos.y = args[2] << 12;
-            effect->sub_0203331C(pos, args[3]);
+            effect->MoveTo(pos, args[3]);
         }
     }
     return 0;
@@ -4162,40 +4162,40 @@ int sub_020332AC(int *args)
 int sub_02033320(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
-        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->Get(args[0]);
         if (effect != NULL) {
             Point2D pos;
             pos.x = args[1];
             pos.y = args[2];
-            effect->sub_02033388(pos, args[3]);
+            effect->ScaleTo(pos, args[3]);
         }
     }
     return 0;
 }
-int sub_0203338C(int *args)
+int Sys_FadeEffect(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
-        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->Get(args[0]);
         if (effect != NULL) {
             effect->FadeTo(args[1], args[2]);
         }
     }
     return 0;
 }
-int sub_020333DC(int *args)
+int Sys_SetEffectColor(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
-        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->Get(args[0]);
         if (effect != NULL) {
             effect->SetColor(args[1] | (args[2] << 5) | (args[3] << 10));
         }
     }
     return 0;
 }
-int sub_02033444(int *args)
+int Sys_SetEffectPos2(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
-        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->Get(args[0]);
         if (effect != NULL) {
             effect->SetParam(1, args[1]);
             effect->SetParam(2, args[2]);
@@ -4205,10 +4205,10 @@ int sub_02033444(int *args)
     return 0;
 }
 
-int sub_020334B4(int *args)
+int Sys_SetEffectTarget(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
-        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->Get(args[0]);
         if (effect != NULL) {
             effect->SetParam(9, args[1]);
             effect->SetParam(10, args[2]);
@@ -4217,10 +4217,10 @@ int sub_020334B4(int *args)
     return 0;
 }
 
-int sub_0203351C(int *args)
+int Sys_SetEffectParam2(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
-        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->Get(args[0]);
         if (effect != NULL) {
             return effect->SetParam(args[1], args[2]);
         }
@@ -4228,13 +4228,13 @@ int sub_0203351C(int *args)
     return 0;
 }
 
-int sub_0203356C(int *args)
+int Sys_StopEffect3(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
         int value = args[1];
-        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->Get(args[0]);
         if (effect != NULL) {
-            effect->ov0_02142240(value);
+            effect->Stop(value);
         }
     }
     return 0;
@@ -4243,7 +4243,7 @@ int sub_0203356C(int *args)
 int sub_020335B8(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
-        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->Get(args[0]);
         if (effect != NULL) {
             return effect->IsReady() == 0 ? TRUE : FALSE;
         }
@@ -4254,14 +4254,14 @@ int sub_020335B8(int *args)
 int sub_02033610(int *args)
 {
     if (MAIN_BSS_0210CA60 != NULL) {
-        CFieldEffect *effect = MAIN_BSS_0210CA60->ov0_02143088(args[0]);
+        CFieldEffect *effect = MAIN_BSS_0210CA60->Get(args[0]);
         if (effect != NULL) {
-            effect->sub_0203365C(args[1]);
+            effect->SetSe(args[1]);
         }
     }
     return 0;
 }
-int sub_02033660(int *args)
+int Sys_HealHP(int *args)
 {
     SaveData *save = &MAIN_BSS_020B26A0;
     if (MAIN_BSS_0210CA40 == NULL || save == NULL) {
@@ -4283,7 +4283,7 @@ int sub_02033660(int *args)
     return 0;
 }
 
-int sub_020336E4(int *args)
+int Sys_IsHPHealing(int *args)
 {
     if (MAIN_BSS_0210CA40 == NULL) {
         return 0;
@@ -4302,7 +4302,7 @@ static inline u32 GetCaptureState(SaveData *save, int group, int i)
     return 0;
 }
 
-int sub_02033718(int *args)
+int Sys_SetEncycItemSeen(int *args)
 {
     int group = args[0];
     int i = args[1];
@@ -4315,7 +4315,7 @@ int sub_02033718(int *args)
     return 0;
 }
 
-int sub_020337EC(int *args)
+int Sys_ResetTimer(int *args)
 {
     SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     save->m_timer = 0;
@@ -4325,7 +4325,7 @@ int sub_020337EC(int *args)
     return 0;
 }
 
-int sub_0203381C(int *args)
+int Sys_StartCountdown(int *args)
 {
     SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     save->m_timer = args[0];
@@ -4334,7 +4334,7 @@ int sub_0203381C(int *args)
     return 0;
 }
 
-int sub_02033844(int *args)
+int Sys_StartCountUp(int *args)
 {
     int limit = args[0];
     SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
@@ -4344,7 +4344,7 @@ int sub_02033844(int *args)
     return 0;
 }
 
-int sub_0203386C(int *args)
+int Sys_StopTimer(int *args)
 {
     SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     // fake: the second (merged) store keeps `save` a base register, like the original's add #0x8000
@@ -4353,7 +4353,7 @@ int sub_0203386C(int *args)
     return 0;
 }
 
-int sub_02033884(int *args)
+int Sys_ResumeCountdown(int *args)
 {
     SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     // fake: the second (merged) store keeps `save` a base register, like the original's add #0x8000
@@ -4362,7 +4362,7 @@ int sub_02033884(int *args)
     return 0;
 }
 
-int sub_020338A0(int *args)
+int Sys_ResumeCountUp(int *args)
 {
     SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     // fake: the second (merged) store keeps `save` a base register, like the original's add #0x8000
@@ -4371,21 +4371,21 @@ int sub_020338A0(int *args)
     return 0;
 }
 
-int sub_020338BC(int *args)
+int Sys_ShowTimer(int *args)
 {
     SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     save->unk_7F60 |= 2;
     return 0;
 }
 
-int sub_020338DC(int *args)
+int Sys_HideTimer(int *args)
 {
     SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     save->unk_7F60 &= ~2;
     return 0;
 }
 
-int sub_020338FC(int *args)
+int Sys_GetTimer(int *args)
 {
     SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     if (save != NULL) {
@@ -4394,7 +4394,7 @@ int sub_020338FC(int *args)
     return 0;
 }
 
-int sub_02033918(int *args)
+int Sys_SetTimer(int *args)
 {
     SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     int value = args[0];
@@ -4486,7 +4486,7 @@ int sub_02033B6C(int *args)
     if (MAIN_BSS_0210CA3C == NULL) {
         MAIN_BSS_0210CA3C = new SaveManager(1);
     }
-    MAIN_BSS_0210CA3C->sub_02028408(0);
+    MAIN_BSS_0210CA3C->CheckHeader(0);
     return 0;
 }
 
@@ -4559,30 +4559,30 @@ ScriptSyscall gScriptSyscalls[] = {
     (ScriptSyscall)Sys_CameraFollowPlayer,
     (ScriptSyscall)Sys_FixActorDir,
     (ScriptSyscall)Sys_ActorFaceMoveDir,
-    (ScriptSyscall)sub_0202CD8C,
+    (ScriptSyscall)Sys_ActorFaceActor,
     (ScriptSyscall)Sys_ActorLookAt,
     (ScriptSyscall)Sys_StopActorLookAt,
-    (ScriptSyscall)sub_0202CEDC,
+    (ScriptSyscall)Sys_ActorsFaceEachOther,
     (ScriptSyscall)Sys_SetActorDir,
-    (ScriptSyscall)sub_0202D0D0,
+    (ScriptSyscall)Sys_ActorFacePos,
     (ScriptSyscall)Sys_GetActorX,
     (ScriptSyscall)Sys_GetActorY,
     (ScriptSyscall)Sys_GetActorHeight,
     (ScriptSyscall)Sys_GetActorDir8,
     (ScriptSyscall)Sys_DisableActor,
     (ScriptSyscall)Sys_EnableActor,
-    (ScriptSyscall)sub_0202D448,
-    (ScriptSyscall)sub_0202D4FC,
+    (ScriptSyscall)Sys_DisableActor2,
+    (ScriptSyscall)Sys_EnableActor2,
     (ScriptSyscall)Sys_ShowManpu,
     (ScriptSyscall)Sys_HideManpu,
     (ScriptSyscall)Sys_MoveActorTo,
     (ScriptSyscall)Sys_MoveActorToFast,
     (ScriptSyscall)Sys_StopActor,
-    (ScriptSyscall)sub_0202D85C,
-    (ScriptSyscall)sub_0202D8BC,
+    (ScriptSyscall)Sys_IsActorMoving,
+    (ScriptSyscall)Sys_SetActorPos,
     (ScriptSyscall)Sys_SetActorHeight,
     (ScriptSyscall)Sys_SetActorMoveDir,
-    (ScriptSyscall)sub_0202D9C0,
+    (ScriptSyscall)Sys_IsActorMoving2,
     (ScriptSyscall)Sys_IsActorOutOfRange,
     (ScriptSyscall)sub_0202DB00,
     (ScriptSyscall)sub_0202DB70,
@@ -4591,20 +4591,20 @@ ScriptSyscall gScriptSyscalls[] = {
     (ScriptSyscall)Sys_GetActorAnimState,
     (ScriptSyscall)Sys_SetActorAnimSpeed,
     (ScriptSyscall)sub_0202DD48,
-    (ScriptSyscall)sub_0202DD88,
+    (ScriptSyscall)Sys_JumpActor,
     (ScriptSyscall)sub_0202E060,
     (ScriptSyscall)sub_0202E068,
-    (ScriptSyscall)sub_0202E070,
-    (ScriptSyscall)sub_0202E330,
+    (ScriptSyscall)Sys_ActorPartyAdd,
+    (ScriptSyscall)Sys_ActorPartyLeave,
     (ScriptSyscall)sub_0202E548,
     (ScriptSyscall)sub_0202E550,
-    (ScriptSyscall)sub_0202E558,
-    (ScriptSyscall)sub_0202E61C,
+    (ScriptSyscall)Sys_MoveActorToCamera,
+    (ScriptSyscall)Sys_IsActorMovingTo,
     (ScriptSyscall)Sys_ResetBattleParams,
     (ScriptSyscall)Sys_SetSaveName2,
     (ScriptSyscall)Sys_ClearSaveName,
-    (ScriptSyscall)sub_0202F1C0,
-    (ScriptSyscall)sub_0202F208,
+    (ScriptSyscall)Sys_StartEventBattle,
+    (ScriptSyscall)Sys_AddBattleEnemy2,
     (ScriptSyscall)Sys_SetBattleBgm,
     (ScriptSyscall)Sys_SetBattleCaptureBg,
     (ScriptSyscall)sub_0202F294,
@@ -4617,7 +4617,7 @@ ScriptSyscall gScriptSyscalls[] = {
     (ScriptSyscall)sub_0202F794,
     (ScriptSyscall)sub_0202F79C,
     (ScriptSyscall)sub_0202F7A4,
-    (ScriptSyscall)sub_0202F7AC,
+    (ScriptSyscall)Sys_OpenSaveDialog,
     (ScriptSyscall)Sys_UpdateSaveDialog,
     (ScriptSyscall)Sys_SetNextScript,
     (ScriptSyscall)Sys_FadeOutBlack,
@@ -4630,13 +4630,13 @@ ScriptSyscall gScriptSyscalls[] = {
     (ScriptSyscall)sub_02030AD0,
     (ScriptSyscall)Sys_StartCameraShake,
     (ScriptSyscall)Sys_StopCameraShake,
-    (ScriptSyscall)sub_02030B40,
+    (ScriptSyscall)Sys_ChangeMap,
     (ScriptSyscall)Sys_SetSaveName,
     (ScriptSyscall)Sys_HasSaveName,
     (ScriptSyscall)Sys_EnableEventRect,
     (ScriptSyscall)Sys_DisableEventRect,
-    (ScriptSyscall)sub_02030D24,
-    (ScriptSyscall)sub_02030DA8,
+    (ScriptSyscall)Sys_EnableEventRect2,
+    (ScriptSyscall)Sys_DisableEventRect2,
     (ScriptSyscall)Sys_PlayMissionReceive,
     (ScriptSyscall)Sys_ShowMissionStart,
     (ScriptSyscall)Sys_EndMissionStart,
@@ -4644,27 +4644,27 @@ ScriptSyscall gScriptSyscalls[] = {
     (ScriptSyscall)Sys_EndMissionClear,
     (ScriptSyscall)Sys_EnterQuest,
     (ScriptSyscall)Sys_ShowQuestClear,
-    (ScriptSyscall)sub_020318B4,
+    (ScriptSyscall)Sys_StartChapter,
     (ScriptSyscall)sub_020319C4,
     (ScriptSyscall)Sys_GetChapterValue,
     (ScriptSyscall)Sys_SetChapterValue,
     (ScriptSyscall)Sys_GetGlobalValue,
     (ScriptSyscall)Sys_SetGlobalValue,
-    (ScriptSyscall)sub_02031C50,
-    (ScriptSyscall)sub_02031CB4,
+    (ScriptSyscall)Sys_HidePartners,
+    (ScriptSyscall)Sys_ShowPartners,
     (ScriptSyscall)sub_02031E00,
     (ScriptSyscall)sub_02031E30,
     (ScriptSyscall)sub_02031E78,
-    (ScriptSyscall)sub_02031F50,
-    (ScriptSyscall)sub_02031F64,
-    (ScriptSyscall)sub_02031FD4,
-    (ScriptSyscall)sub_0202FA24,
+    (ScriptSyscall)Sys_CountPartnerPokemon,
+    (ScriptSyscall)Sys_CountPartnerPokemonOfKind,
+    (ScriptSyscall)Sys_IsInParty,
+    (ScriptSyscall)Sys_GetPlayerInputDir,
     (ScriptSyscall)Sys_StartScreenEffect,
     (ScriptSyscall)Sys_StopScreenEffect,
     (ScriptSyscall)Sys_IsScreenEffectActive,
     (ScriptSyscall)sub_02030EE0,
-    (ScriptSyscall)sub_020324DC,
-    (ScriptSyscall)sub_02032538,
+    (ScriptSyscall)Sys_CreateEffect,
+    (ScriptSyscall)Sys_StartEffect,
     (ScriptSyscall)Sys_HasEffect,
     (ScriptSyscall)Sys_IsMissionStartBusy,
     (ScriptSyscall)Sys_IsMissionClearBusy,
@@ -4672,7 +4672,7 @@ ScriptSyscall gScriptSyscalls[] = {
     (ScriptSyscall)Sys_PlayMissionBridgeBgm,
     (ScriptSyscall)Sys_GetChapter,
     (ScriptSyscall)Sys_IsActorEnabled,
-    (ScriptSyscall)sub_020325C0,
+    (ScriptSyscall)Sys_RemoveEffect,
     (ScriptSyscall)sub_020319E8,
     (ScriptSyscall)Sys_IsQuestCleared,
     (ScriptSyscall)Sys_GetQuestId,
@@ -4687,7 +4687,7 @@ ScriptSyscall gScriptSyscalls[] = {
     (ScriptSyscall)Sys_SetActorNotSolid,
     (ScriptSyscall)Sys_ClearActorNotSolid,
     (ScriptSyscall)Sys_MoveActorToSlow,
-    (ScriptSyscall)sub_02032080,
+    (ScriptSyscall)Sys_FindPartnerNpc,
     (ScriptSyscall)Sys_SetPartnerFlags,
     (ScriptSyscall)Sys_TestPartnerFlags,
     (ScriptSyscall)Sys_IsPartnerPresent,
@@ -4698,18 +4698,18 @@ ScriptSyscall gScriptSyscalls[] = {
     (ScriptSyscall)Sys_SetHP,
     (ScriptSyscall)Sys_GetMaxHP,
     (ScriptSyscall)Sys_GetHP,
-    (ScriptSyscall)sub_0202FF38,
+    (ScriptSyscall)Sys_OpenRangerNetAGB,
     (ScriptSyscall)sub_0202FF48,
-    (ScriptSyscall)sub_0202FFE4,
-    (ScriptSyscall)sub_020320C4,
+    (ScriptSyscall)Sys_GetActorPokemonKind,
+    (ScriptSyscall)Sys_FindPartnerPokemon,
     (ScriptSyscall)Sys_SetSeVolume,
     (ScriptSyscall)Sys_SetScriptArg,
     (ScriptSyscall)sub_02030068,
     (ScriptSyscall)Sys_ShowMessageEx,
-    (ScriptSyscall)sub_0202E81C,
-    (ScriptSyscall)sub_0202EC08,
+    (ScriptSyscall)Sys_GetActorState,
+    (ScriptSyscall)Sys_StartActorOutlineByType,
     (ScriptSyscall)Sys_StopActorOutline,
-    (ScriptSyscall)sub_0202EDFC,
+    (ScriptSyscall)Sys_ClearAllOutlines,
     (ScriptSyscall)Sys_HideActor,
     (ScriptSyscall)Sys_UnhideActor,
     (ScriptSyscall)Sys_SetPartnerNpcName,
@@ -4718,24 +4718,24 @@ ScriptSyscall gScriptSyscalls[] = {
     (ScriptSyscall)Sys_ExitQuestCleared,
     (ScriptSyscall)Sys_GetMissionId,
     (ScriptSyscall)sub_020325F0,
-    (ScriptSyscall)sub_02032624,
+    (ScriptSyscall)Sys_StartEffectAt,
     (ScriptSyscall)Sys_HasEffect2,
-    (ScriptSyscall)sub_02032708,
-    (ScriptSyscall)sub_0202F2B4,
+    (ScriptSyscall)Sys_StopEffect,
+    (ScriptSyscall)Sys_GetBattleResult,
     (ScriptSyscall)Sys_FadeActorAlpha,
     (ScriptSyscall)Sys_ShakeActor,
     (ScriptSyscall)Sys_StopActorShake,
     (ScriptSyscall)sub_02032850,
     (ScriptSyscall)Sys_SetAudioVar,
     (ScriptSyscall)Sys_GetAudioVar,
-    (ScriptSyscall)sub_02032BAC,
-    (ScriptSyscall)sub_02032F5C,
-    (ScriptSyscall)sub_02032F8C,
-    (ScriptSyscall)sub_02033030,
-    (ScriptSyscall)sub_0203307C,
-    (ScriptSyscall)sub_020330BC,
-    (ScriptSyscall)sub_02033134,
-    (ScriptSyscall)sub_020331A4,
+    (ScriptSyscall)Sys_CreateEffect2,
+    (ScriptSyscall)Sys_RemoveEffect2,
+    (ScriptSyscall)Sys_StartEffect2,
+    (ScriptSyscall)Sys_StopEffect2,
+    (ScriptSyscall)Sys_HasEffect3,
+    (ScriptSyscall)Sys_SetEffectPos,
+    (ScriptSyscall)Sys_SetEffectSize,
+    (ScriptSyscall)Sys_SetEffectParam,
     (ScriptSyscall)Sys_SetActorOnTop,
     (ScriptSyscall)Sys_ClearActorOnTop,
     (ScriptSyscall)sub_0203324C,
@@ -4744,20 +4744,20 @@ ScriptSyscall gScriptSyscalls[] = {
     (ScriptSyscall)Sys_RotateActor,
     (ScriptSyscall)Sys_StartActorBlink,
     (ScriptSyscall)Sys_StopActorBlink,
-    (ScriptSyscall)sub_02030F08,
-    (ScriptSyscall)sub_02030F38,
+    (ScriptSyscall)Sys_ShowScreenOverlay,
+    (ScriptSyscall)Sys_HideScreenOverlay,
     (ScriptSyscall)Sys_HideActorShadow,
     (ScriptSyscall)Sys_ShowActorShadow,
-    (ScriptSyscall)sub_02033444,
-    (ScriptSyscall)sub_020334B4,
-    (ScriptSyscall)sub_0203351C,
-    (ScriptSyscall)sub_0203356C,
-    (ScriptSyscall)sub_02033660,
-    (ScriptSyscall)sub_020336E4,
+    (ScriptSyscall)Sys_SetEffectPos2,
+    (ScriptSyscall)Sys_SetEffectTarget,
+    (ScriptSyscall)Sys_SetEffectParam2,
+    (ScriptSyscall)Sys_StopEffect3,
+    (ScriptSyscall)Sys_HealHP,
+    (ScriptSyscall)Sys_IsHPHealing,
     (ScriptSyscall)sub_0202F0E4,
     (ScriptSyscall)Sys_FreeCamera,
     (ScriptSyscall)Sys_OpenStyler,
-    (ScriptSyscall)sub_02030E2C,
+    (ScriptSyscall)Sys_Teleport,
     (ScriptSyscall)Sys_SetPartyEntrySelected,
     (ScriptSyscall)Sys_ClearPartyEntrySelected,
     (ScriptSyscall)Sys_SetPartyEntryPartner,
@@ -4769,15 +4769,15 @@ ScriptSyscall gScriptSyscalls[] = {
     (ScriptSyscall)Sys_ShowField,
     (ScriptSyscall)sub_020300B8,
     (ScriptSyscall)Sys_LoadSystemSe,
-    (ScriptSyscall)sub_02032A74,
+    (ScriptSyscall)Sys_LoadEffect,
     (ScriptSyscall)sub_02032858,
     (ScriptSyscall)Sys_GameOver,
     (ScriptSyscall)Sys_StartStaffroll,
     (ScriptSyscall)Sys_OpenSuitePicture,
     (ScriptSyscall)Sys_OpenRecord,
     (ScriptSyscall)sub_020329E0,
-    (ScriptSyscall)sub_020329FC,
-    (ScriptSyscall)sub_0202DEE8,
+    (ScriptSyscall)Sys_UnmuteActorSounds,
+    (ScriptSyscall)Sys_JumpActorEx,
     (ScriptSyscall)sub_0203289C,
     (ScriptSyscall)Sys_ShowTitleBanner,
     (ScriptSyscall)Sys_IsTitleBannerActive,
@@ -4793,8 +4793,8 @@ ScriptSyscall gScriptSyscalls[] = {
     (ScriptSyscall)Sys_GetPartnerMood,
     (ScriptSyscall)Sys_OpenNameInput,
     (ScriptSyscall)sub_02030F68,
-    (ScriptSyscall)sub_0202D608,
-    (ScriptSyscall)sub_0202D680,
+    (ScriptSyscall)Sys_ShowEnemyManpu,
+    (ScriptSyscall)Sys_HideEnemyManpu,
     (ScriptSyscall)Sys_ReceiveMission,
     (ScriptSyscall)Sys_PlayPartnerCry,
     (ScriptSyscall)Sys_SetTargetOffset,
@@ -4805,29 +4805,29 @@ ScriptSyscall gScriptSyscalls[] = {
     (ScriptSyscall)Sys_ClearMission,
     (ScriptSyscall)sub_020332AC,
     (ScriptSyscall)sub_02033320,
-    (ScriptSyscall)sub_0203338C,
-    (ScriptSyscall)sub_020333DC,
-    (ScriptSyscall)sub_0202F300,
-    (ScriptSyscall)sub_0202E9C0,
+    (ScriptSyscall)Sys_FadeEffect,
+    (ScriptSyscall)Sys_SetEffectColor,
+    (ScriptSyscall)Sys_StartEventBattle2,
+    (ScriptSyscall)Sys_GetEnemyState,
     (ScriptSyscall)sub_02033610,
     (ScriptSyscall)Sys_EndDownloadMission,
     (ScriptSyscall)sub_0203044C,
-    (ScriptSyscall)sub_02033718,
-    (ScriptSyscall)sub_020337EC,
-    (ScriptSyscall)sub_0203381C,
-    (ScriptSyscall)sub_02033844,
-    (ScriptSyscall)sub_0203386C,
-    (ScriptSyscall)sub_02033884,
-    (ScriptSyscall)sub_020338A0,
-    (ScriptSyscall)sub_020338BC,
-    (ScriptSyscall)sub_020338DC,
-    (ScriptSyscall)sub_020338FC,
-    (ScriptSyscall)sub_02033918,
+    (ScriptSyscall)Sys_SetEncycItemSeen,
+    (ScriptSyscall)Sys_ResetTimer,
+    (ScriptSyscall)Sys_StartCountdown,
+    (ScriptSyscall)Sys_StartCountUp,
+    (ScriptSyscall)Sys_StopTimer,
+    (ScriptSyscall)Sys_ResumeCountdown,
+    (ScriptSyscall)Sys_ResumeCountUp,
+    (ScriptSyscall)Sys_ShowTimer,
+    (ScriptSyscall)Sys_HideTimer,
+    (ScriptSyscall)Sys_GetTimer,
+    (ScriptSyscall)Sys_SetTimer,
     (ScriptSyscall)sub_02033934,
     (ScriptSyscall)Sys_StartQuest,
     (ScriptSyscall)Sys_IsQuestActive,
-    (ScriptSyscall)sub_020321F8,
-    (ScriptSyscall)sub_0202EA5C,
+    (ScriptSyscall)Sys_RemoveNonPartnerParty,
+    (ScriptSyscall)Sys_SetActorState,
     (ScriptSyscall)sub_020331F4,
     (ScriptSyscall)Sys_ShowSubScreenPicture,
     (ScriptSyscall)sub_0203054C,
@@ -4849,16 +4849,16 @@ ScriptSyscall gScriptSyscalls[] = {
     (ScriptSyscall)sub_02031F28,
     (ScriptSyscall)sub_020322B0,
     (ScriptSyscall)Sys_SwitchSubScreenToMap,
-    (ScriptSyscall)sub_0203059C,
+    (ScriptSyscall)Sys_UpdateTouch,
     (ScriptSyscall)Sys_PressTouch,
     (ScriptSyscall)Sys_ReleaseTouch,
     (ScriptSyscall)Sys_DragTouch,
-    (ScriptSyscall)sub_0203064C,
+    (ScriptSyscall)Sys_GetTouchState,
     (ScriptSyscall)Sys_SetTouchMode,
     (ScriptSyscall)Sys_SetSubScreenIdleReturn,
     (ScriptSyscall)sub_0203238C,
-    (ScriptSyscall)sub_02032768,
-    (ScriptSyscall)sub_02032794,
+    (ScriptSyscall)Sys_ShowEnemiesManpu,
+    (ScriptSyscall)Sys_HideEnemiesManpu,
     (ScriptSyscall)sub_02032A18,
     (ScriptSyscall)sub_02032A48,
     (ScriptSyscall)Sys_BackupSave,
@@ -4875,18 +4875,18 @@ ScriptSyscall gScriptSyscalls[] = {
     (ScriptSyscall)Sys_SetBattlePartnerMood,
     (ScriptSyscall)Sys_CheckBrowserComplete,
     (ScriptSyscall)Sys_PlayGroupSe,
-    (ScriptSyscall)sub_0202C768,
-    (ScriptSyscall)sub_020323B4,
-    (ScriptSyscall)sub_020324A8,
+    (ScriptSyscall)Sys_ShowPokemonInfo,
+    (ScriptSyscall)Sys_CountPartnerNpcs,
+    (ScriptSyscall)Sys_GetAreaId,
     (ScriptSyscall)Sys_SetQuestEntered,
     (ScriptSyscall)Sys_IsQuestEntered,
     (ScriptSyscall)sub_02031EA8,
-    (ScriptSyscall)sub_02031E54,
+    (ScriptSyscall)Sys_ArePartnersHidden,
     (ScriptSyscall)sub_020323C8,
     (ScriptSyscall)sub_0202F0A8,
     (ScriptSyscall)sub_02031ED8,
     (ScriptSyscall)Sys_AddPokemonRide,
-    (ScriptSyscall)sub_0202E43C,
+    (ScriptSyscall)Sys_ActorPartyLeave2,
     (ScriptSyscall)Sys_GetCameraX,
     (ScriptSyscall)Sys_GetCameraY,
     (ScriptSyscall)sub_02033B6C,

@@ -4,10 +4,10 @@
 #include <nitro.h>
 
 #include "BGLayer.hpp"
+#include "BrowserEntryList.hpp"
 #include "CGame.hpp"
 #include "MessageTable.hpp"
 #include "RegionMap.hpp"
-#include "UnkClass_021226C0.hpp"
 #include "common.hpp"
 
 // Defined in ov21
@@ -16,21 +16,21 @@ public:
     BrowserSubScreen(CGame *game);
     ~BrowserSubScreen();
 
-    void ov21_021220B8();
-    void ov21_02122114();
-    void ov21_0212212C();
+    void Init();
+    void Update();
+    void Render();
     void ov21_02122144();
-    void ov21_02122168();
-    void ov21_02122180();
-    void ov21_02122214();
-    void ov21_02122368();
-    void ov21_021223FC();
-    void ov21_021224B4(const UnkStruct_02123618 *entry);
-    void ov21_021224E4(const UnkStruct_02123618 *entry);
-    BOOL ov21_02122534();
-    void ov21_021225F8(u16 id);
-    void ov21_02122608();
-    void ov21_021226AC();
+    void LoadPalette();
+    void Release();
+    void Load();
+    void SetupBg();
+    void LoadToVram();
+    void SetEntry(const BrowserEntry *entry);
+    void ShowEntry(const BrowserEntry *entry);
+    BOOL ShowHabitat();
+    void SetArea(u16 id);
+    void ApplyPending();
+    void SetCurrentArea();
 
 public:
     u16 unk_00;
@@ -38,7 +38,7 @@ public:
     RegionMap *unk_08;
     u32 unk_0C;
     MessageTable *unk_10;
-    UnkStruct_02123618 unk_14;
+    BrowserEntry unk_14;
     u32 unk_20;
     int unk_24[6];
     BGLayer *unk_3C;

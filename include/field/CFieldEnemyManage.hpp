@@ -14,10 +14,10 @@ class CFieldEnemyManage;
 extern CFieldEnemyManage *MAIN_BSS_0210CA5C;
 
 // One loaded enemy script (data/Script/field/actor/FieldEnemyScript%d.fsb).
-class UnkStruct_021357DC {
+class FieldEnemyScript {
 public:
-    UnkStruct_021357DC();
-    ~UnkStruct_021357DC();
+    FieldEnemyScript();
+    ~FieldEnemyScript();
     void Load(const char *path);
 
     u16 unk_00;
@@ -33,7 +33,7 @@ public:
     void *Get(u32 id);
     void Clear();
 
-    UnkStruct_021357DC *m_scripts[64];
+    FieldEnemyScript *m_scripts[64];
 };
 
 // FieldEnemyManage.cpp (ov0)
@@ -57,15 +57,15 @@ public:
     virtual void UpdateAll(CFieldMap *map, BOOL update);
     virtual void BuildData(void *buf, int size);
 
-    int ov0_02135E30(int slot, u16 kind, u16 script, int arg4);
+    int Create(int slot, u16 kind, u16 script, int arg4);
     u32 ov0_02136320(int type);
-    void ov0_02136384();
-    void ov0_0213669C(u32 id, u16 script);
-    void ov0_02136730(u32 id);
-    void ov0_02136878();
-    void ov0_0213690C(int arg1, int arg2);
-    void ov0_02136968();
-    void ov0_021369DC(CFieldEnemy *enemy);
+    void AddTargets();
+    void ChangeScript(u32 id, u16 script);
+    void RestoreScript(u32 id);
+    void RestoreSavedEnemies();
+    void ShowManpuAll(int arg1, int arg2);
+    void HideManpuAll();
+    void ResetEnemy(CFieldEnemy *enemy);
 
 public:
     FieldEnemyScriptCache *unk_14;

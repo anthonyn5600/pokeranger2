@@ -16,11 +16,11 @@ class UnkClass_0212770C {
 public:
     UnkClass_0212770C();
     ~UnkClass_0212770C();
-    void ov1_02127780();
-    void ov1_02127810(Camera2D *camera);
-    void ov1_02127854(UnkClass_021274AC *data);
-    void ov1_02127888(int cell, u16 duration);
-    int ov1_021278BC(int z);
+    void Update();
+    void Render(Camera2D *camera);
+    void SetData(UnkClass_021274AC *data);
+    void Show(int cell, u16 duration);
+    int SetZ(int z);
 
     inline void SetPos(Point2D pos)
     {

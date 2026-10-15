@@ -3,10 +3,10 @@
 
 // Command queues of the Ranger Net packet layer (0212C304..0212C89C); pokeplatinum unk_020322D8.c
 
-u16 ov11_0212CBA4(int cmd); // RangerNetCommCmd.cpp
-void ov11_0212C2E4(); // RangerNetCommSystem.cpp
+u16 CommCmd_PacketSizeOf(int cmd); // RangerNetCommCmd.cpp
+void CommSys_SetError(); // RangerNetCommSystem.cpp
 
-CommQueue *ov11_0212C304(CommQueueMan *pool)
+CommQueue *CommQueue_GetFree(CommQueueMan *pool)
 {
     CommQueue *node = pool->nodes;
     for (int i = 0; i < pool->count; i++) {
@@ -18,7 +18,7 @@ CommQueue *ov11_0212C304(CommQueueMan *pool)
     return NULL;
 }
 
-BOOL ov11_0212C33C(CommQueueMan *pool)
+BOOL CommQueue_IsEmpty(CommQueueMan *pool)
 {
     CommQueue *node = pool->nodes;
     for (int i = 0; i < pool->count; i++) {
@@ -30,7 +30,7 @@ BOOL ov11_0212C33C(CommQueueMan *pool)
     return TRUE;
 }
 
-BOOL ov11_0212C378(CommQueueList *list)
+BOOL CommQueueList_PopHead(CommQueueList *list)
 {
     if (list->head != NULL) {
         CommQueue *next = list->head->next;
@@ -46,7 +46,7 @@ BOOL ov11_0212C378(CommQueueList *list)
     return FALSE;
 }
 
-BOOL ov11_0212C3B8(CommQueueCursor *cursor, u8 v)
+BOOL CommQueueCursor_WriteByte(CommQueueCursor *cursor, u8 v)
 {
     *cursor->ptr = v;
     cursor->ptr++;
@@ -56,9 +56,9 @@ BOOL ov11_0212C3B8(CommQueueCursor *cursor, u8 v)
     return FALSE;
 }
 
-BOOL ov11_0212C3E4(CommQueue *node, CommQueueCursor *cursor)
+BOOL CommQueue_WriteHeader(CommQueue *node, CommQueueCursor *cursor)
 {
-    u16 size = ov11_0212CBA4(node->cmd);
+    u16 size = CommCmd_PacketSizeOf(node->cmd);
     if (size == 0xFFFF) {
         if (cursor->size < 3) {
             node->started = 0;
@@ -68,21 +68,21 @@ BOOL ov11_0212C3E4(CommQueue *node, CommQueueCursor *cursor)
         node->started = 0;
         return TRUE;
     }
-    ov11_0212C3B8(cursor, node->cmd);
+    CommQueueCursor_WriteByte(cursor, node->cmd);
     if (size != 0xFFFF) {
         node->size = size;
     } else {
-        ov11_0212C3B8(cursor, node->size >> 8);
-        ov11_0212C3B8(cursor, node->size);
+        CommQueueCursor_WriteByte(cursor, node->size >> 8);
+        CommQueueCursor_WriteByte(cursor, node->size);
     }
     node->started = 1;
     return FALSE;
 }
 
-BOOL ov11_0212C4A0(CommQueue *node, CommQueueCursor *cursor, CommRing *ring, BOOL partial)
+BOOL CommQueue_WriteData(CommQueue *node, CommQueueCursor *cursor, CommRing *ring, BOOL partial)
 {
     int hdr;
-    if (ov11_0212CBA4(node->cmd) == 0xFFFF) {
+    if (CommCmd_PacketSizeOf(node->cmd) == 0xFFFF) {
         hdr = 3;
     } else {
         hdr = 1;
@@ -90,12 +90,12 @@ BOOL ov11_0212C4A0(CommQueue *node, CommQueueCursor *cursor, CommRing *ring, BOO
     if (cursor->size < node->size + hdr && !partial) {
         return FALSE;
     }
-    if (node->started != 1 && ov11_0212C3E4(node, cursor)) {
+    if (node->started != 1 && CommQueue_WriteHeader(node, cursor)) {
         return FALSE;
     }
     if (cursor->size < node->size) {
         if (node->inRing) {
-            ov11_0212C938(ring, cursor->ptr, cursor->size);
+            CommRing_Read(ring, cursor->ptr, cursor->size);
         } else {
             for (int i = 0; i < cursor->size; i++) {
                 cursor->ptr[i] = node->data[i];
@@ -107,7 +107,7 @@ BOOL ov11_0212C4A0(CommQueue *node, CommQueueCursor *cursor, CommRing *ring, BOO
         return TRUE;
     }
     if (node->inRing) {
-        ov11_0212C938(ring, cursor->ptr, node->size);
+        CommRing_Read(ring, cursor->ptr, node->size);
     } else {
         MI_CpuCopy8(node->data, cursor->ptr, node->size);
     }
@@ -116,22 +116,22 @@ BOOL ov11_0212C4A0(CommQueue *node, CommQueueCursor *cursor, CommRing *ring, BOO
     return TRUE;
 }
 
-BOOL ov11_0212C5FC(CommQueueMan *pool, u8 cmd, u8 *data, u16 size, int unused, BOOL toRing)
+BOOL CommQueue_Write(CommQueueMan *pool, u8 cmd, u8 *data, u16 size, int unused, BOOL toRing)
 {
-    CommQueue *node = ov11_0212C304(pool);
+    CommQueue *node = CommQueue_GetFree(pool);
     if (node == NULL) {
         return FALSE;
     }
-    u16 len = ov11_0212CBA4(cmd);
+    u16 len = CommCmd_PacketSizeOf(cmd);
     if (len == 0xFFFF) {
         len = size;
     }
     if (toRing) {
-        if (len + 3 >= ov11_0212CA20(pool->ring)) {
+        if (len + 3 >= CommRing_RemainingSize(pool->ring)) {
             return FALSE;
         }
-        ov11_0212C8B8(pool->ring, data, len, 0x108);
-        ov11_0212CA54(pool->ring);
+        CommRing_Write(pool->ring, data, len, 0x108);
+        CommRing_UpdateEndPos(pool->ring);
         node->inRing = 1;
     }
     node->size = len;
@@ -148,7 +148,7 @@ BOOL ov11_0212C5FC(CommQueueMan *pool, u8 cmd, u8 *data, u16 size, int unused, B
     return TRUE;
 }
 
-CommQueue *ov11_0212C6C0(CommQueueMan *pool)
+CommQueue *CommQueue_GetCurrent(CommQueueMan *pool)
 {
     if (pool->cur != NULL) {
         return pool->cur;
@@ -162,28 +162,28 @@ CommQueue *ov11_0212C6C0(CommQueueMan *pool)
     return NULL;
 }
 
-void ov11_0212C6F0(CommQueueMan *pool)
+void CommQueue_Advance(CommQueueMan *pool)
 {
     if (pool->cur != NULL) {
         pool->cur = NULL;
         return;
     }
-    if (ov11_0212C378(&pool->lists[0])) {
+    if (CommQueueList_PopHead(&pool->lists[0])) {
         return;
     }
-    ov11_0212C378(&pool->lists[1]);
+    CommQueueList_PopHead(&pool->lists[1]);
 }
 
-BOOL ov11_0212C724(CommQueueMan *pool, CommQueueCursor *cursor, BOOL partial)
+BOOL CommQueue_FillBuffer(CommQueueMan *pool, CommQueueCursor *cursor, BOOL partial)
 {
     BOOL first = TRUE;
     while (cursor->size > 0) {
-        CommQueue *node = ov11_0212C6C0(pool);
+        CommQueue *node = CommQueue_GetCurrent(pool);
         if (node == NULL) {
             break;
         }
-        ov11_0212C6F0(pool);
-        if (!ov11_0212C4A0(node, cursor, pool->ring, first)) {
+        CommQueue_Advance(pool);
+        if (!CommQueue_WriteData(node, cursor, pool->ring, first)) {
             pool->cur = node;
             break;
         }
@@ -201,7 +201,7 @@ BOOL ov11_0212C724(CommQueueMan *pool, CommQueueCursor *cursor, BOOL partial)
     return TRUE;
 }
 
-void ov11_0212C7FC(CommQueueMan *pool, int count, CommRing *ring)
+void CommQueueMan_Init(CommQueueMan *pool, int count, CommRing *ring)
 {
     MI_CpuFill8(pool, 0, sizeof(CommQueueMan));
     pool->nodes = (CommQueue *)Heap_Alloc(count * sizeof(CommQueue));
@@ -210,7 +210,7 @@ void ov11_0212C7FC(CommQueueMan *pool, int count, CommRing *ring)
     pool->ring = ring;
 }
 
-void ov11_0212C840(CommQueueMan *pool)
+void CommQueueMan_Reset(CommQueueMan *pool)
 {
     MI_CpuFill8(pool->nodes, 0, pool->count * sizeof(CommQueue));
     pool->lists[0].head = NULL;
@@ -220,7 +220,7 @@ void ov11_0212C840(CommQueueMan *pool)
     pool->cur = NULL;
 }
 
-void ov11_0212C878(CommQueueMan *pool)
+void CommQueueMan_Delete(CommQueueMan *pool)
 {
     if (pool->nodes != NULL) {
         Heap_Free(pool->nodes);

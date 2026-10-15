@@ -1,24 +1,24 @@
-#include "battle/UnkClass_021281B4.hpp"
+#include "battle/BattleEffectivenessMarkGfx.hpp"
 
 #include "CellAnimController.hpp"
 #include "VramImage.hpp"
 #include "VramPalette.hpp"
-#include "battle/UnkClass_02128414.hpp"
+#include "battle/BattleEffectivenessMark.hpp"
 #include "file/CArchiveGuard.hpp"
 #include "file/CNCERFile.hpp"
 #include "primitive/CSoftwareSprite.hpp"
 
-UnkClass_021281B4::UnkClass_021281B4()
+BattleEffectivenessMarkGfx::BattleEffectivenessMarkGfx()
 {
-    ov1_021281DC();
+    Load();
 }
 
-UnkClass_021281B4::~UnkClass_021281B4()
+BattleEffectivenessMarkGfx::~BattleEffectivenessMarkGfx()
 {
-    ov1_0212835C();
+    Release();
 }
 
-void UnkClass_021281B4::ov1_021281DC()
+void BattleEffectivenessMarkGfx::Load()
 {
     CArchiveGuard *guard = new CArchiveGuard("BSW", "data/interface/i028_LZ.bin", 1, 1, 0, NULL, 0);
 
@@ -39,7 +39,7 @@ void UnkClass_021281B4::ov1_021281DC()
     SAFE_DELETE(guard);
 }
 
-void UnkClass_021281B4::ov1_0212835C()
+void BattleEffectivenessMarkGfx::Release()
 {
     SAFE_DELETE(m_image);
     SAFE_DELETE(m_palette);
@@ -49,7 +49,7 @@ void UnkClass_021281B4::ov1_0212835C()
     NNS_GfdFreeLnkPlttVram(m_plttKey);
 }
 
-UnkClass_02128414::UnkClass_02128414()
+BattleEffectivenessMark::BattleEffectivenessMark()
 {
     m_data = NULL;
     unk_08 = FALSE;
@@ -57,13 +57,13 @@ UnkClass_02128414::UnkClass_02128414()
     m_sprite->m_z = 0x3FF;
 }
 
-UnkClass_02128414::~UnkClass_02128414()
+BattleEffectivenessMark::~BattleEffectivenessMark()
 {
     m_data->m_anim->Remove(m_animId);
     SAFE_DELETE(m_sprite);
 }
 
-void UnkClass_02128414::ov1_0212849C()
+void BattleEffectivenessMark::Update()
 {
     if (!unk_08) {
         return;
@@ -71,7 +71,7 @@ void UnkClass_02128414::ov1_0212849C()
     m_data->m_anim->Update(m_animId);
 }
 
-void UnkClass_02128414::ov1_021284C0(Camera2D *camera)
+void BattleEffectivenessMark::Render(Camera2D *camera)
 {
     if (!unk_08) {
         return;
@@ -84,7 +84,7 @@ void UnkClass_02128414::ov1_021284C0(Camera2D *camera)
     }
 }
 
-void UnkClass_02128414::ov1_0212854C(UnkClass_021281B4 *data)
+void BattleEffectivenessMark::SetData(BattleEffectivenessMarkGfx *data)
 {
     m_data = data;
     m_sprite->SetImage((UnkClass_CPrimitive_ImageProxy *)data->m_image, NULL);
@@ -93,14 +93,14 @@ void UnkClass_02128414::ov1_0212854C(UnkClass_021281B4 *data)
     m_animId = data->m_anim->Create(1, 0);
 }
 
-void UnkClass_02128414::ov1_02128598(int anim)
+void BattleEffectivenessMark::Show(int anim)
 {
     unk_08 = TRUE;
     m_data->m_anim->SetAnim(m_animId, anim);
     m_data->m_anim->Restart(m_animId);
 }
 
-int UnkClass_02128414::ov1_021285D4(int z)
+int BattleEffectivenessMark::SetZ(int z)
 {
     z += m_sprite->GetCellNumOAMAttrs(m_sprite->m_cellDataIdx);
     m_sprite->m_z = z;

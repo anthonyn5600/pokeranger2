@@ -239,7 +239,7 @@ public:
 
     BOOL Load();
     BOOL Unload();
-    void sub_02037330(int arg);
+    void ResetAlpha(int arg);
 
 public:
     int unk_20;

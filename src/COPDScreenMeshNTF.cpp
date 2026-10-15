@@ -6,10 +6,10 @@
 
 COPDScreenMeshNTF::~COPDScreenMeshNTF()
 {
-    ov3_02129C54();
+    Release();
 }
 
-void COPDScreenMeshNTF::ov3_02129AC0(int columns, int rows, fx32 x, fx32 y, fx32 s0, fx32 t0, fx32 s1, fx32 t1)
+void COPDScreenMeshNTF::Init(int columns, int rows, fx32 x, fx32 y, fx32 s0, fx32 t0, fx32 s1, fx32 t1)
 {
     unk_24 = columns;
     unk_26 = rows;
@@ -31,7 +31,7 @@ void COPDScreenMeshNTF::ov3_02129AC0(int columns, int rows, fx32 x, fx32 y, fx32
     }
 }
 
-void COPDScreenMeshNTF::ov3_02129C54()
+void COPDScreenMeshNTF::Release()
 {
     if (unk_1C != NULL) {
         delete[] unk_1C;

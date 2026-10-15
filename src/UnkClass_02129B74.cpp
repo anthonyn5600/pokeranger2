@@ -3,7 +3,7 @@
 #include "CellAnimController.hpp"
 #include "VramImage.hpp"
 #include "VramPalette.hpp"
-#include "battle/UnkClass_02129DD4.hpp"
+#include "battle/CaptureEffect.hpp"
 #include "file/CArchiveGuard.hpp"
 #include "file/CNCERFile.hpp"
 #include "interpolation.hpp"
@@ -12,15 +12,15 @@
 
 UnkClass_02129B74::UnkClass_02129B74()
 {
-    ov1_02129B9C();
+    Load();
 }
 
 UnkClass_02129B74::~UnkClass_02129B74()
 {
-    ov1_02129D1C();
+    Release();
 }
 
-void UnkClass_02129B74::ov1_02129B9C()
+void UnkClass_02129B74::Load()
 {
     CArchiveGuard *guard = new CArchiveGuard("BCE", "data/interface/i033_LZ.bin", 1, 1, 0, NULL, 0);
 
@@ -41,7 +41,7 @@ void UnkClass_02129B74::ov1_02129B9C()
     SAFE_DELETE(guard);
 }
 
-void UnkClass_02129B74::ov1_02129D1C()
+void UnkClass_02129B74::Release()
 {
     SAFE_DELETE(m_image);
     SAFE_DELETE(m_palette);
@@ -51,7 +51,7 @@ void UnkClass_02129B74::ov1_02129D1C()
     NNS_GfdFreeLnkPlttVram(m_plttKey);
 }
 
-UnkClass_02129DD4::UnkClass_02129DD4()
+CaptureEffect::CaptureEffect()
 {
     m_data = NULL;
     unk_14 = FALSE;
@@ -61,7 +61,7 @@ UnkClass_02129DD4::UnkClass_02129DD4()
     m_sphere->m_color = GX_RGB(31, 31, 31);
 }
 
-UnkClass_02129DD4::~UnkClass_02129DD4()
+CaptureEffect::~CaptureEffect()
 {
     m_data->m_anim->Remove(m_animId);
     SAFE_DELETE(unk_04);
@@ -69,7 +69,7 @@ UnkClass_02129DD4::~UnkClass_02129DD4()
     SAFE_DELETE(m_sphere);
 }
 
-void UnkClass_02129DD4::ov1_02129ED4()
+void CaptureEffect::Update()
 {
     if (!unk_14) {
         return;
@@ -89,7 +89,7 @@ void UnkClass_02129DD4::ov1_02129ED4()
     m_data->m_anim->Update(m_animId);
 }
 
-void UnkClass_02129DD4::ov1_02129FD0(Camera2D *camera)
+void CaptureEffect::Render(Camera2D *camera)
 {
     if (!unk_14) {
         return;
@@ -104,7 +104,7 @@ void UnkClass_02129DD4::ov1_02129FD0(Camera2D *camera)
     }
 }
 
-void UnkClass_02129DD4::ov1_0212A058(UnkClass_02129B74 *data)
+void CaptureEffect::SetData(UnkClass_02129B74 *data)
 {
     m_data = data;
     unk_04->SetImage((UnkClass_CPrimitive_ImageProxy *)data->m_image, NULL);
@@ -117,7 +117,7 @@ void UnkClass_02129DD4::ov1_0212A058(UnkClass_02129B74 *data)
     m_animId = data->m_anim->Create(1, 0);
 }
 
-int UnkClass_02129DD4::ov1_0212A0D8(int z)
+int CaptureEffect::SetZ(int z)
 {
     m_sphere->m_z = z;
     z += unk_04->GetCellNumOAMAttrs(unk_04->m_cellDataIdx);

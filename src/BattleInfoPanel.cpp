@@ -19,8 +19,8 @@
 
 extern "C" {
 u8 *NameTables_GetPokemonName(NameTables *obj, u32 i);
-void sub_0202BC74(const u8 *src, u8 *dst, int len);
-fx32 ov1_0212EE80(int assistType, int type);
+void CopyStringUpper(const u8 *src, u8 *dst, int len);
+fx32 GetAssistTypeRate(int assistType, int type);
 }
 
 #define LOAD_MESSAGES(table, path)                                                                         \
@@ -69,7 +69,7 @@ static inline void SetRotation(MtxFx22 *mtx, fx32 sinVal, fx32 cosVal)
     mtx->_11 = cosVal;
 }
 
-static void ov1_0213E708(void *arg);
+static void ApplyBGAffineCallback(void *arg);
 
 BattleInfoPanel::BattleInfoPanel(CGame *game)
 {
@@ -103,11 +103,11 @@ BattleInfoPanel::BattleInfoPanel(CGame *game)
     m_blinkPal = 1;
     m_blinkDir = 0;
     m_nclr = NULL;
-    ov1_0213DE88();
-    ov1_0213D018();
-    ov1_0213DF20();
-    ov1_0213E29C();
-    ov1_0213E7C4(1);
+    InitDisplay();
+    Load();
+    InitWindows();
+    ClearAllWindows();
+    SetAssistInfoHidden(1);
     ov1_0213EF14(0);
     for (int i = 0; i < 8; i++) {
         unk_70[i] = 0;
@@ -116,10 +116,10 @@ BattleInfoPanel::BattleInfoPanel(CGame *game)
 
 BattleInfoPanel::~BattleInfoPanel()
 {
-    ov1_0213CD40();
+    Release();
 }
 
-void BattleInfoPanel::ov1_0213CD40()
+void BattleInfoPanel::Release()
 {
     SAFE_DELETE(unk_164);
     SAFE_DELETE(unk_168);
@@ -134,16 +134,16 @@ void BattleInfoPanel::ov1_0213CD40()
     GXS_SetGraphicsMode(GX_BGMODE_0);
 }
 
-void BattleInfoPanel::ov1_0213D018()
+void BattleInfoPanel::Load()
 {
-    m_game->unk_0C24->sub_020027E8();
-    m_game->unk_0C28->sub_020027E8();
-    ov1_0213D058(0x12);
-    ov1_0213DA14();
-    ov1_0213D614();
+    m_game->unk_0C24->FlushArea();
+    m_game->unk_0C28->FlushArea();
+    LoadBG(0x12);
+    LoadSprites();
+    LoadMessages();
 }
 
-void BattleInfoPanel::ov1_0213D058(int palette)
+void BattleInfoPanel::LoadBG(int palette)
 {
     char nclrName[96];
 
@@ -168,10 +168,10 @@ void BattleInfoPanel::ov1_0213D058(int palette)
     delete nscr2;
     delete ncgr;
     delete archive;
-    ov1_0213E4CC();
+    ResetRotation();
 }
 
-void BattleInfoPanel::ov1_0213D354(int palette)
+void BattleInfoPanel::LoadPalette(int palette)
 {
     char nclrName[96];
 
@@ -185,7 +185,7 @@ void BattleInfoPanel::ov1_0213D354(int palette)
     delete archive;
 }
 
-void BattleInfoPanel::ov1_0213D458()
+void BattleInfoPanel::LoadBlinkPalette()
 {
     void *pltt = (u8 *)m_nclr->unk_B8->pRawData + m_blinkPal * 32;
     DC_FlushRange(pltt, 0x10);
@@ -202,7 +202,7 @@ void BattleInfoPanel::ov1_0213D490()
     affine->PD = 0x80;
 }
 
-void BattleInfoPanel::ov1_0213D4D0()
+void BattleInfoPanel::UpdateMosaic()
 {
     G2S_SetBGMosaicSize(m_mosaic, m_mosaic);
     G2S_SetOBJMosaicSize(m_mosaic, m_mosaic);
@@ -216,7 +216,7 @@ void BattleInfoPanel::ov1_0213D4D0()
     }
 }
 
-void BattleInfoPanel::ov1_0213D568()
+void BattleInfoPanel::StartMosaic()
 {
     m_mosaic = 15;
     G2S_BG0Mosaic(TRUE);
@@ -232,14 +232,14 @@ void BattleInfoPanel::ov1_0213D568()
     G2S_SetOBJMosaicSize(m_mosaic, m_mosaic);
 }
 
-void BattleInfoPanel::ov1_0213D614()
+void BattleInfoPanel::LoadMessages()
 {
     LOAD_MESSAGES(m_menuMes, "/data/message/etc/menu_mes");
     LOAD_MESSAGES(m_assistMes, "/data/message/etc/assist_mes");
     LOAD_MESSAGES(m_fieldWazaMes, "/data/message/etc/fieldwaza_name");
 }
 
-void BattleInfoPanel::ov1_0213D92C(u16 species)
+void BattleInfoPanel::LoadPokemonIcon(u16 species)
 {
     char name[96];
 
@@ -253,7 +253,7 @@ void BattleInfoPanel::ov1_0213D92C(u16 species)
     m_flags |= 6;
 }
 
-void BattleInfoPanel::ov1_0213DA14()
+void BattleInfoPanel::LoadSprites()
 {
     int charOffset = 0;
     unk_160 = new OamSpriteSet((GXOamAttr *)&m_game->unk_0424[0], m_game->unk_14A8, TRUE, 0x40);
@@ -303,7 +303,7 @@ void BattleInfoPanel::ov1_0213DA14()
     unk_D4 = unk_168->unk_24;
 }
 
-void BattleInfoPanel::ov1_0213DE88()
+void BattleInfoPanel::InitDisplay()
 {
     GXS_SetGraphicsMode(GX_BGMODE_1);
     GXS_SetVisiblePlane(GXS_GetVisiblePlane() | GX_PLANEMASK_BG1 | GX_PLANEMASK_BG2 | GX_PLANEMASK_BG3);
@@ -317,7 +317,7 @@ void BattleInfoPanel::ov1_0213DE88()
     G2S_SetBlendAlpha(GX_BLEND_PLANEMASK_NONE, GX_BLEND_PLANEMASK_BG1 | GX_BLEND_PLANEMASK_BG2 | GX_BLEND_PLANEMASK_BG3 | GX_BLEND_PLANEMASK_OBJ, 8, 8);
 }
 
-void BattleInfoPanel::ov1_0213DF20()
+void BattleInfoPanel::InitWindows()
 {
     m_game->unk_1498->FreeWindows();
     m_game->unk_1498->SetupBG();
@@ -336,31 +336,31 @@ void BattleInfoPanel::ov1_0213DF20()
     m_game->unk_1498->InitWindow(11, 8, 2, 0x14, 0x10, charNo, 0, 2);
 }
 
-void BattleInfoPanel::ov1_0213E0AC(int type, int arg2)
+void BattleInfoPanel::PrintInfo(int type, int arg2)
 {
     if (unk_08 != 0x11) {
         m_game->unk_1498->Print(11, 0, 4, 3, m_menuMes->unk_08[32].unk_04, FALSE, 0);
     }
-    ov1_0213E12C();
-    ov1_0213E1D8(type);
-    ov1_0213E244(arg2);
+    PrintPokemonList();
+    PrintAssistType(type);
+    PrintFieldMove(arg2);
 }
 
-void BattleInfoPanel::ov1_0213E12C()
+void BattleInfoPanel::PrintPokemonList()
 {
     m_game->unk_1498->Print(8, 2, 4, 5, m_menuMes->unk_08[31].unk_04, FALSE, 0);
     for (u8 i = 0; i < 8; i++) {
         if (unk_30[i] != 0) {
             if (unk_70[i] != 0) {
-                ov1_0213EBB4(unk_30[i], i, 7);
+                PrintPokemonName(unk_30[i], i, 7);
             } else {
-                ov1_0213EBB4(unk_30[i], i, 3);
+                PrintPokemonName(unk_30[i], i, 3);
             }
         }
     }
 }
 
-void BattleInfoPanel::ov1_0213E1D8(int type)
+void BattleInfoPanel::PrintAssistType(int type)
 {
     if (type < 0) {
         return;
@@ -371,7 +371,7 @@ void BattleInfoPanel::ov1_0213E1D8(int type)
     m_game->unk_1498->Print(9, 0, 2, 1, m_assistMes->unk_08[type + 1].unk_04, TRUE, -3);
 }
 
-void BattleInfoPanel::ov1_0213E244(u32 index)
+void BattleInfoPanel::PrintFieldMove(u32 index)
 {
     if (index >= 25) {
         index = 25;
@@ -379,28 +379,28 @@ void BattleInfoPanel::ov1_0213E244(u32 index)
     m_game->unk_1498->Print(10, 0, 4, 1, m_fieldWazaMes->unk_08[index].unk_04, TRUE, 2);
 }
 
-void BattleInfoPanel::ov1_0213E29C()
+void BattleInfoPanel::ClearAllWindows()
 {
     for (int i = 0; i < 12; i++) {
         m_game->unk_1498->ClearWindow(i);
     }
 }
 
-void BattleInfoPanel::ov1_0213E2CC()
+void BattleInfoPanel::ClearInfoWindows()
 {
     for (int i = 9; i < 12; i++) {
         m_game->unk_1498->ClearWindow(i);
     }
 }
 
-void BattleInfoPanel::ov1_0213E2FC()
+void BattleInfoPanel::ClearListWindows()
 {
     for (int i = 0; i < 9; i++) {
         m_game->unk_1498->ClearWindow(i);
     }
 }
 
-void BattleInfoPanel::ov1_0213E32C(int arg0)
+void BattleInfoPanel::Update(int arg0)
 {
     if (m_flags & 1) {
         return;
@@ -414,10 +414,10 @@ void BattleInfoPanel::ov1_0213E32C(int arg0)
     unk_164->Update();
     unk_168->Update();
     if (arg0) {
-        ov1_0213E8BC(unk_2E);
+        SetTime(unk_2E);
     }
     if (m_mosaic) {
-        ov1_0213D4D0();
+        UpdateMosaic();
     }
     if (m_blinkTimer < 12) {
         m_blinkTimer++;
@@ -430,21 +430,21 @@ void BattleInfoPanel::ov1_0213E32C(int arg0)
         }
         m_blinkPal += m_blinkDir * -2 + 1;
         m_blinkTimer = 0;
-        ov1_0213D458();
+        LoadBlinkPalette();
     }
     switch (m_rotState) {
     case 0:
-        ov1_0213E52C();
+        UpdateSlideIn();
         break;
     case 2:
-        ov1_0213E60C();
+        UpdateSpin();
         break;
     }
-    ov1_0213E44C();
+    UpdateRotation();
     ov1_0213D490();
 }
 
-void BattleInfoPanel::ov1_0213E44C()
+void BattleInfoPanel::UpdateRotation()
 {
     if (m_angle + 0x100 >= 0xFFFF) {
         m_angle = 0;
@@ -453,23 +453,23 @@ void BattleInfoPanel::ov1_0213E44C()
     fx32 cosVal = FX_CosIdx(m_angle);
     SetRotation(&m_bgMtx, sinVal, cosVal);
     m_flags |= 0x80;
-    m_game->AddVBlankCallback(ov1_0213E708, NULL);
+    m_game->AddVBlankCallback(ApplyBGAffineCallback, NULL);
 }
 
-void BattleInfoPanel::ov1_0213E4CC()
+void BattleInfoPanel::ResetRotation()
 {
     SetRotation(&m_bgMtx, FX_SinIdx(0), FX_CosIdx(0));
     G2S_SetBG3Affine(&m_bgMtx, 0x80, 0x60, m_bgX, m_bgY);
 }
 
-void BattleInfoPanel::ov1_0213E52C()
+void BattleInfoPanel::UpdateSlideIn()
 {
     if (m_rotFrame == 60) {
         m_angle = 0;
         m_rotFrame = 0;
         m_rotState = 1;
-        ov1_0213E12C();
-        ov1_0213D568();
+        PrintPokemonList();
+        StartMosaic();
         return;
     }
     if (m_rotFrame >= 60) {
@@ -492,7 +492,7 @@ void BattleInfoPanel::ov1_0213E52C()
     m_rotFrame++;
 }
 
-void BattleInfoPanel::ov1_0213E60C()
+void BattleInfoPanel::UpdateSpin()
 {
     if (m_rotFrame == 30) {
         m_angle = 0;
@@ -521,7 +521,7 @@ void BattleInfoPanel::ov1_0213E68C()
     m_rotState = 2;
 }
 
-void BattleInfoPanel::ov1_0213E6B0()
+void BattleInfoPanel::ApplyBGAffine()
 {
     if (!(m_flags & 0x80)) {
         return;
@@ -530,20 +530,20 @@ void BattleInfoPanel::ov1_0213E6B0()
     m_flags &= ~0x80;
 }
 
-static void ov1_0213E708(void *arg)
+static void ApplyBGAffineCallback(void *arg)
 {
     if (sInstance != NULL) {
-        sInstance->ov1_0213E6B0();
+        sInstance->ApplyBGAffine();
     }
 }
 
-void BattleInfoPanel::ov1_0213E728()
+void BattleInfoPanel::Render()
 {
     if (m_flags & 1) {
-        sub_02001210();
+        ReportFrameTime();
         return;
     }
-    if (!ov1_0213F01C()) {
+    if (!IsListVisible()) {
         return;
     }
     if ((m_flags & 2) && (m_flags & 4)) {
@@ -561,12 +561,12 @@ void BattleInfoPanel::ov1_0213E728()
     }
 }
 
-void BattleInfoPanel::ov1_0213E7B8()
+void BattleInfoPanel::RefreshPokemonList()
 {
-    ov1_0213E12C();
+    PrintPokemonList();
 }
 
-void BattleInfoPanel::ov1_0213E7C4(int hide)
+void BattleInfoPanel::SetAssistInfoHidden(int hide)
 {
     for (int i = 0; i < 3; i++) {
         if (hide == 0) {
@@ -589,12 +589,12 @@ void BattleInfoPanel::ov1_0213E7C4(int hide)
     unk_15C->Update();
 }
 
-void BattleInfoPanel::ov1_0213E86C(int digit, int value)
+void BattleInfoPanel::SetTimerDigit(int digit, int value)
 {
     unk_158->SetAnim(unk_A0[digit], value);
 }
 
-void BattleInfoPanel::ov1_0213E884()
+void BattleInfoPanel::SetFieldMoveIcons()
 {
     u8 anim = unk_0F;
     if (anim > 5) {
@@ -604,7 +604,7 @@ void BattleInfoPanel::ov1_0213E884()
     unk_168->SetAnim(unk_D4, anim);
 }
 
-void BattleInfoPanel::ov1_0213E8BC(u16 frames)
+void BattleInfoPanel::SetTime(u16 frames)
 {
     int time = frames;
     if (ov1_0213EF2C() && unk_08 == 0x11) {
@@ -618,16 +618,16 @@ void BattleInfoPanel::ov1_0213E8BC(u16 frames)
     }
     int secTens = seconds / 10;
     int fracTens = fraction / 10;
-    ov1_0213E86C(0, secTens);
-    ov1_0213E86C(1, seconds - secTens * 10);
-    ov1_0213E86C(2, fracTens);
-    ov1_0213E86C(3, fraction - fracTens * 10);
+    SetTimerDigit(0, secTens);
+    SetTimerDigit(1, seconds - secTens * 10);
+    SetTimerDigit(2, fracTens);
+    SetTimerDigit(3, fraction - fracTens * 10);
     unk_158->Update();
 }
 
-int BattleInfoPanel::ov1_0213E9B4(int assistType, int type)
+int BattleInfoPanel::GetEffectiveness(int assistType, int type)
 {
-    fx32 rate = ov1_0212EE80(assistType, type);
+    fx32 rate = GetAssistTypeRate(assistType, type);
     if (rate == FX32_ONE) {
         return 0;
     }
@@ -640,17 +640,17 @@ int BattleInfoPanel::ov1_0213E9B4(int assistType, int type)
     return 0;
 }
 
-void BattleInfoPanel::ov1_0213E9E4(u16 arg0)
+void BattleInfoPanel::SetTimeLeft(u16 arg0)
 {
     unk_2E = arg0;
 }
 
-int BattleInfoPanel::ov1_0213E9EC()
+int BattleInfoPanel::GetListY()
 {
     return 0x29;
 }
 
-void BattleInfoPanel::ov1_0213E9F4(u8 count)
+void BattleInfoPanel::SetPokemonCount(u8 count)
 {
     if (count < 1) {
         return;
@@ -659,15 +659,15 @@ void BattleInfoPanel::ov1_0213E9F4(u8 count)
         return;
     }
     unk_90 = count;
-    ov1_0213EA3C(count, ov1_0213E9EC());
+    LayoutList(count, GetListY());
 }
 
-void BattleInfoPanel::ov1_0213EA2C(u8 index)
+void BattleInfoPanel::SetCaptured(u8 index)
 {
     unk_70[index] = TRUE;
 }
 
-void BattleInfoPanel::ov1_0213EA3C(int count, int y)
+void BattleInfoPanel::LayoutList(int count, int y)
 {
     for (int i = 0; i < 8; i++) {
         unk_F0[i]->unk_14 = FALSE;
@@ -687,7 +687,7 @@ void BattleInfoPanel::ov1_0213EA3C(int count, int y)
     m_count = count;
 }
 
-void BattleInfoPanel::ov1_0213EB14(int mode, int index)
+void BattleInfoPanel::SetEffectMark(int mode, int index)
 {
     if (mode == 0) {
         unk_110[index]->unk_14 = FALSE;
@@ -703,26 +703,26 @@ void BattleInfoPanel::ov1_0213EB14(int mode, int index)
     unk_160->Update();
 }
 
-u8 *BattleInfoPanel::ov1_0213EB9C(u16 id)
+u8 *BattleInfoPanel::GetPokemonName(u16 id)
 {
     return NameTables_GetPokemonName(m_game->m_nameTables, id);
 }
 
-void BattleInfoPanel::ov1_0213EBB4(u16 id, int index, int color)
+void BattleInfoPanel::PrintPokemonName(u16 id, int index, int color)
 {
     u8 name[32];
 
     m_game->unk_1498->ClearWindow(index);
-    sub_0202BC74(ov1_0213EB9C(id), name, 0x1F);
+    CopyStringUpper(GetPokemonName(id), name, 0x1F);
     m_game->unk_1498->Print(index, 4, 4, color, name, FALSE, 0);
 }
 
-void BattleInfoPanel::ov1_0213EC34(u8 arg0, u8 arg1)
+void BattleInfoPanel::SetPokemonType(u8 arg0, u8 arg1)
 {
     unk_91[arg1] = arg0;
 }
 
-int BattleInfoPanel::ov1_0213EC40(u8 type)
+int BattleInfoPanel::GetAssistEffectiveness(u8 type)
 {
     int result = 0;
     for (u8 i = 0; i < 8; i++) {
@@ -730,7 +730,7 @@ int BattleInfoPanel::ov1_0213EC40(u8 type)
             break;
         }
         if (unk_70[i] == 0) {
-            int rate = ov1_0213E9B4(type, unk_91[i]);
+            int rate = GetEffectiveness(type, unk_91[i]);
             if (rate == 1) {
                 result = 1;
             }
@@ -747,11 +747,11 @@ int BattleInfoPanel::ov1_0213ECB4(int arg0, int arg1, int arg2)
     unk_08 = arg0;
     unk_0E = arg1;
     unk_0F = arg2;
-    ov1_0213D354(arg0);
-    ov1_0213E29C();
-    ov1_0213E0AC(arg0, arg1);
-    ov1_0213E7C4(0);
-    ov1_0213E884();
+    LoadPalette(arg0);
+    ClearAllWindows();
+    PrintInfo(arg0, arg1);
+    SetAssistInfoHidden(0);
+    SetFieldMoveIcons();
     ov1_0213EF14(1);
     int result = 0;
     m_flags &= ~4;
@@ -760,33 +760,33 @@ int BattleInfoPanel::ov1_0213ECB4(int arg0, int arg1, int arg2)
             break;
         }
         if (unk_70[i] != 0) {
-            ov1_0213EB14(0, i);
+            SetEffectMark(0, i);
         } else {
-            int rate = ov1_0213E9B4(arg0, unk_91[i]);
+            int rate = GetEffectiveness(arg0, unk_91[i]);
             if (rate == 1) {
                 result = 1;
             }
             if (rate == 2 && result == 0) {
                 result = 2;
             }
-            ov1_0213EB14(rate, i);
+            SetEffectMark(rate, i);
         }
     }
     return result;
 }
 
-void BattleInfoPanel::ov1_0213EDA4(u16 arg0, u8 arg1)
+void BattleInfoPanel::SetPokemonSpecies(u16 arg0, u8 arg1)
 {
     unk_30[arg1] = arg0;
 }
 
-void BattleInfoPanel::ov1_0213EDB0(u8 arg0, u8 arg1, u8 arg2)
+void BattleInfoPanel::SetPartnerInfo(u8 arg0, u8 arg1, u8 arg2)
 {
     unk_04 = arg0;
     unk_0C = arg1;
     unk_0D = arg2;
-    ov1_0213E29C();
-    ov1_0213E0AC(unk_04, unk_0C);
+    ClearAllWindows();
+    PrintInfo(unk_04, unk_0C);
 }
 
 void BattleInfoPanel::ov1_0213EDDC()
@@ -795,26 +795,26 @@ void BattleInfoPanel::ov1_0213EDDC()
     unk_0E = unk_0C;
     unk_0F = unk_0D;
     if (m_flags & 2) {
-        ov1_0213E8BC(unk_2E);
+        SetTime(unk_2E);
         ov1_0213ECB4((u8)unk_04, unk_0C, unk_0D);
         m_flags |= 4;
         return;
     }
-    ov1_0213D354(0x12);
-    ov1_0213E2CC();
+    LoadPalette(0x12);
+    ClearInfoWindows();
     ov1_0213EF14(0);
-    ov1_0213E884();
-    ov1_0213E7C4(1);
-    ov1_0213E12C();
+    SetFieldMoveIcons();
+    SetAssistInfoHidden(1);
+    PrintPokemonList();
     if (ov1_0213EF80()) {
         ov1_0213EF14(1);
     }
     for (u8 i = 0; i < 8; i++) {
-        ov1_0213EB14(0, i);
+        SetEffectMark(0, i);
     }
 }
 
-void BattleInfoPanel::ov1_0213EEB8()
+void BattleInfoPanel::ReleasePokemonIcon()
 {
     m_pokeIcon = NULL;
     SAFE_DELETE(m_pokeObj);
@@ -856,7 +856,7 @@ BOOL BattleInfoPanel::ov1_0213EF80()
     return (m_flags & 0x20) ? TRUE : FALSE;
 }
 
-void BattleInfoPanel::ov1_0213EF94(int arg0)
+void BattleInfoPanel::SetListVisible(int arg0)
 {
     if (arg0) {
         m_flags |= 0x200;
@@ -868,10 +868,10 @@ void BattleInfoPanel::ov1_0213EF94(int arg0)
     for (int i = 0; i < m_count; i++) {
         unk_F0[i]->SetVisible(arg0);
     }
-    ov1_0213E2FC();
+    ClearListWindows();
 }
 
-u32 BattleInfoPanel::ov1_0213F01C()
+u32 BattleInfoPanel::IsListVisible()
 {
     return m_flags & 0x200;
 }

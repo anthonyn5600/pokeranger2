@@ -15,8 +15,8 @@ class BattleStatusIconGfx {
 public:
     BattleStatusIconGfx();
     ~BattleStatusIconGfx();
-    void ov1_02128EB0();
-    void ov1_021290D4();
+    void Load();
+    void Release();
 
     inline VramImage *GetImage(u8 idx)
     {

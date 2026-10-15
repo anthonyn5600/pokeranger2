@@ -328,9 +328,9 @@ public:
     u32 unk_81B0;
     u32 unk_81B4[0x50];
     s16 unk_82F4[0xA0]; // per-flag position x, y (unk_81B4)
-    u8 unk_8434; // cannon type (FieldCannons::ov0_02159B84)
+    u8 unk_8434; // cannon type (FieldCannons::CreateCannon)
     u8 unk_8435;
-    // per-flag cannon shot state (flags 0x20..0x4F, CFieldCannon::ov0_0215A010)
+    // per-flag cannon shot state (flags 0x20..0x4F, CFieldCannon::UpdateShots)
     s16 unk_8436[0x50]; // x
     s16 unk_84D6[0x50]; // y
     u16 unk_8576[0x50]; // speed

@@ -28,11 +28,11 @@ public:
     virtual ~CFieldEffectRisingPhoton();
     virtual int GetEffectId();
     virtual int IsReady();
-    virtual BOOL ov0_021421F0(int inTime, int holdTime, int outTime);
-    virtual int ov0_02142264(int step);
-    virtual int ov0_02142344(Camera2D *camera);
+    virtual BOOL Start(int inTime, int holdTime, int outTime);
+    virtual int Update(int step);
+    virtual int Render(Camera2D *camera);
     virtual int SetParam(int param, int value);
-    virtual int sub_02033244(int arg0, int arg1, int arg2);
+    virtual int SetParamArray(int arg0, int arg1, int arg2);
     virtual void SetColor(u16 color);
 
     void LoadTextures();

@@ -12,15 +12,15 @@ extern CFieldScene *MAIN_BSS_0210CA40;
 
 extern "C" {
 BOOL ov0_0213EA6C(Point2D *out, Point2D cell, int floor, int arg3);
-BOOL ov0_0213ED7C(Point2D a, Point2D b, CFieldMapLayerCollision *layer);
-BOOL ov0_0213E668(Point2D pos, fx32 radius, int floor, int arg3);
-BOOL ov0_0213E7C4(Point2D from, fx32 step, Point2D to, int floor, int mode);
-int ov0_0213EF68(Point2D *out, Point2D center, int count, int floor);
+BOOL PartnerPath_CanReachCell(Point2D a, Point2D b, CFieldMapLayerCollision *layer);
+BOOL PartnerPath_IsBlocked(Point2D pos, fx32 radius, int floor, int arg3);
+BOOL PartnerPath_HasWallBetween(Point2D from, fx32 step, Point2D to, int floor, int mode);
+int PartnerPath_FindFreeCells(Point2D *out, Point2D center, int count, int floor);
 }
 
 void CFieldPartnerManage::ov0_0213A96C(BOOL keep, u32 id, BOOL warp)
 {
-    CFieldActor *player = unk_90->ov0_02123060(0);
+    CFieldActor *player = unk_90->FindActor(0);
     Point2D pos;
     pos = player->GetPos();
     int kind0 = 0;
@@ -69,14 +69,14 @@ void CFieldPartnerManage::ov0_0213A96C(BOOL keep, u32 id, BOOL warp)
         ov0_02139E14(2);
         for (int j = 0; j < 11; j++) {
             if (order[j] != NULL) {
-                order[j]->ov0_02136CFC(keep, pos, 30);
+                order[j]->MoveLinearTo(keep, pos, 30);
                 order[j] = NULL;
             }
         }
     } else {
         // `keep` is 0 here, but the original passes the variable (it stays live and spills `warp`).
         ov0_02139E14(3);
-        ov0_0213B410(kind0);
+        FindCirclePositions(kind0);
         Point2D npcPos[4];
         ov0_0213BB54(npcPos, npcs);
         int a = 0;
@@ -88,12 +88,12 @@ void CFieldPartnerManage::ov0_0213A96C(BOOL keep, u32 id, BOOL warp)
                     partner->SetPos(player->GetPos());
                 }
                 if (partner->IsKind0()) {
-                    partner->ov0_02136CFC(keep, unk_14[a++], 30);
+                    partner->MoveLinearTo(keep, unk_14[a++], 30);
                 } else {
-                    partner->ov0_02136CFC(keep, npcPos[b++], 30);
+                    partner->MoveLinearTo(keep, npcPos[b++], 30);
                 }
                 partner->SetLayer(player->m_layer);
-                partner->sub_02032A44(1);
+                partner->SetMoveSequence(1);
                 order[j] = NULL;
             }
         }
@@ -107,7 +107,7 @@ void CFieldPartnerManage::ov0_0213A96C(BOOL keep, u32 id, BOOL warp)
 
 void CFieldPartnerManage::ov0_0213AD8C(BOOL warp)
 {
-    CFieldActor *player = unk_90->ov0_02123060(0);
+    CFieldActor *player = unk_90->FindActor(0);
     Point2D pos = player->GetPos();
     int kind0 = 0;
     int npcs = 0;
@@ -138,12 +138,12 @@ void CFieldPartnerManage::ov0_0213AD8C(BOOL warp)
                 partner->SetPos(player->GetPos());
             }
             if (partner->IsKind0()) {
-                partner->ov0_02136CFC(FALSE, unk_14[a++], 30);
+                partner->MoveLinearTo(FALSE, unk_14[a++], 30);
             } else {
-                partner->ov0_02136CFC(FALSE, npcPos[b++], 30);
+                partner->MoveLinearTo(FALSE, npcPos[b++], 30);
             }
             partner->SetLayer(player->m_layer);
-            partner->sub_02032A44(1);
+            partner->SetMoveSequence(1);
             order[j] = NULL;
         }
     }
@@ -167,7 +167,7 @@ BOOL CFieldPartnerManage::ov0_0213B048()
     return FALSE;
 }
 
-BOOL CFieldPartnerManage::ov0_0213B0F0()
+BOOL CFieldPartnerManage::ArePartnersHidden()
 {
     for (int i = 0; i < m_count; i++) {
         CFieldPartner *partner = (CFieldPartner *)Get(i);
@@ -183,7 +183,7 @@ void CFieldPartnerManage::ov0_0213B150(u32 id)
     if (id == 0) {
         return;
     }
-    CFieldPartner *partner = (CFieldPartner *)unk_90->ov0_02123060(id);
+    CFieldPartner *partner = (CFieldPartner *)unk_90->FindActor(id);
     if (partner == NULL) {
         return;
     }
@@ -195,7 +195,7 @@ void CFieldPartnerManage::ov0_0213B184(u32 id)
     if (id == 0) {
         return;
     }
-    CFieldPartner *partner = (CFieldPartner *)unk_90->ov0_02123060(id);
+    CFieldPartner *partner = (CFieldPartner *)unk_90->FindActor(id);
     if (partner == NULL) {
         return;
     }
@@ -217,8 +217,8 @@ void CFieldPartnerManage::ov0_0213B1BC()
     if (count > 8) {
         count = 8;
     }
-    CFieldActor *player = unk_90->ov0_02123060(0);
-    int n = ov0_0213EF68(unk_14, player->GetPos(), count, player->m_layer);
+    CFieldActor *player = unk_90->FindActor(0);
+    int n = PartnerPath_FindFreeCells(unk_14, player->GetPos(), count, player->m_layer);
     for (int i = 0; i < m_count; i++) {
         CFieldPartner *partner = (CFieldPartner *)Get(i);
         if (partner != NULL && partner->IsKind0()) {
@@ -243,7 +243,7 @@ void CFieldPartnerManage::ov0_0213B340()
     if (unk_84 == 0) {
         return;
     }
-    CFieldActor *player = unk_90->ov0_02123060(0);
+    CFieldActor *player = unk_90->FindActor(0);
     Point2D pos = player->GetPos();
     for (int i = 0; i < m_count; i++) {
         CFieldPartner *partner = (CFieldPartner *)Get(i);
@@ -253,7 +253,7 @@ void CFieldPartnerManage::ov0_0213B340()
     }
 }
 
-void CFieldPartnerManage::ov0_0213B410(int count)
+void CFieldPartnerManage::FindCirclePositions(int count)
 {
     fx32 step[9] = {
         FX_Div(300 << 16, FX32_CONST(360)),
@@ -294,7 +294,7 @@ void CFieldPartnerManage::ov0_0213B410(int count)
     if (count > 8) {
         count = 8;
     }
-    CFieldActor *player = unk_90->ov0_02123060(0);
+    CFieldActor *player = unk_90->FindActor(0);
     Point2D pos = player->GetPos();
     int n = 0;
     fx32 angle = start[count - 1];
@@ -307,7 +307,7 @@ void CFieldPartnerManage::ov0_0213B410(int count)
         p.x = pos.x - FX32_MUL(r0, FX_SinIdx((u16)(angle + st * i)));
         p.y = pos.y - FX32_MUL(r0, FX_CosIdx((u16)(angle + st * i)));
         if (p.x > 0x14000 && p.y > 0x14000) {
-            if (!ov0_0213E668(p, 0x14000, player->m_layer, 0)) {
+            if (!PartnerPath_IsBlocked(p, 0x14000, player->m_layer, 0)) {
                 unk_14[n].x = p.x;
                 unk_14[n].y = p.y;
                 n++;
@@ -321,8 +321,8 @@ void CFieldPartnerManage::ov0_0213B410(int count)
         p.x = pos.x - FX32_MUL(r1, FX_SinIdx((u16)(angle + st * i)));
         p.y = pos.y - FX32_MUL(r1, FX_CosIdx((u16)(angle + st * i)));
         if (p.x > 0x14000 && p.y > 0x14000) {
-            if (!ov0_0213E668(p, 0x14000, player->m_layer, 0)) {
-                if (!ov0_0213E7C4(p, 0x14000, pos, player->m_layer, 0)) {
+            if (!PartnerPath_IsBlocked(p, 0x14000, player->m_layer, 0)) {
+                if (!PartnerPath_HasWallBetween(p, 0x14000, pos, player->m_layer, 0)) {
                     unk_14[n].x = p.x;
                     unk_14[n].y = p.y;
                     n++;
@@ -336,7 +336,7 @@ void CFieldPartnerManage::ov0_0213B410(int count)
         p.x = pos.x - FX32_MUL(r2, FX_SinIdx((u16)(angle + st * i)));
         p.y = pos.y - FX32_MUL(r2, FX_CosIdx((u16)(angle + st * i)));
         if (p.x > 0x14000 && p.y > 0x14000) {
-            if (!ov0_0213E668(p, 0x14000, player->m_layer, 0)) {
+            if (!PartnerPath_IsBlocked(p, 0x14000, player->m_layer, 0)) {
                 unk_14[n].x = p.x;
                 unk_14[n].y = p.y;
                 n++;
@@ -352,8 +352,8 @@ void CFieldPartnerManage::ov0_0213B410(int count)
         p.x = pos.x - FX32_MUL(r3, FX_SinIdx((u16)(angle + st * i)));
         p.y = pos.y - FX32_MUL(r3, FX_CosIdx((u16)(angle + st * i)));
         if (p.x > 0x14000 && p.y > 0x14000) {
-            if (!ov0_0213E668(p, 0x14000, player->m_layer, 0)) {
-                if (!ov0_0213E7C4(p, 0x14000, pos, player->m_layer, 0)) {
+            if (!PartnerPath_IsBlocked(p, 0x14000, player->m_layer, 0)) {
+                if (!PartnerPath_HasWallBetween(p, 0x14000, pos, player->m_layer, 0)) {
                     unk_14[n].x = p.x;
                     unk_14[n].y = p.y;
                     n++;
@@ -381,7 +381,7 @@ void CFieldPartnerManage::ov0_0213BB54(Point2D *out, int count)
     if (count == 0) {
         return;
     }
-    CFieldActor *player = unk_90->ov0_02123060(0);
+    CFieldActor *player = unk_90->FindActor(0);
     Point2D pos = player->GetPos();
     int floor = player->m_layer;
     Point2D cell;
@@ -422,8 +422,8 @@ void CFieldPartnerManage::ov0_0213BDE8(int count)
     if (count == 0) {
         return;
     }
-    CFieldActor *player = unk_90->ov0_02123060(0);
-    ov0_0213EF68(unk_14, player->GetPos(), count, player->m_layer);
+    CFieldActor *player = unk_90->FindActor(0);
+    PartnerPath_FindFreeCells(unk_14, player->GetPos(), count, player->m_layer);
 }
 
 void CFieldPartnerManage::ov0_0213BE94(Point2D *out, int count)
@@ -434,7 +434,7 @@ void CFieldPartnerManage::ov0_0213BE94(Point2D *out, int count)
     if (count == 0) {
         return;
     }
-    CFieldActor *player = unk_90->ov0_02123060(0);
+    CFieldActor *player = unk_90->FindActor(0);
     Point2D pos = player->GetPos();
     CFieldMap *map = MAIN_BSS_0210CA40->m_map;
     int floor = player->m_layer;
@@ -457,8 +457,8 @@ void CFieldPartnerManage::ov0_0213BE94(Point2D *out, int count)
                 Point2D p = near;
                 p.x <<= 16;
                 p.y <<= 16;
-                if (!ov0_0213E668(p, 0x7000, floor, 0)) {
-                    if (layer == NULL || ov0_0213ED7C(near, cell, layer)) {
+                if (!PartnerPath_IsBlocked(p, 0x7000, floor, 0)) {
+                    if (layer == NULL || PartnerPath_CanReachCell(near, cell, layer)) {
                         slots[n] = near;
                         n++;
                     }

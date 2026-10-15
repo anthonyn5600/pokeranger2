@@ -79,27 +79,27 @@ static u32 sUnused; // second word of the TU's .bss: only ov11_RangerNetWhUnused
 #define RAND_INIT(x) (sWork->rand = (u32)(x))
 #define RAND()       (sWork->rand = sWork->rand * 69069UL + 12345)
 
-int ov11_02128EE0(); // D4
+int CommManager_GetCommType(); // D4
 
-BOOL ov11_021273B4();
-BOOL ov11_021275E4();
-BOOL ov11_02127760();
-BOOL ov11_02127844();
-BOOL ov11_021278A0();
-int ov11_02127ABC();
-u16 ov11_02127C20(u16 channel);
-WMErrCode ov11_02127D7C(WMCallbackFunc callback, u16 channel);
-s16 ov11_02127DE0(u16 bitmap);
-BOOL ov11_02127FD4();
-void ov11_02128220();
-void ov11_0212825C();
+BOOL WH_StateInStartParent();
+BOOL WH_StateInStartParentMP();
+BOOL WH_StateInEndParent();
+BOOL WH_StateInEndChild();
+BOOL WH_StateInReset();
+int WH_GetConnectedCount();
+u16 WH_StateInMeasureChannel(u16 channel);
+WMErrCode WH_MeasureChannel(WMCallbackFunc callback, u16 channel);
+s16 WH_SelectChannel(u16 bitmap);
+BOOL WH_StateInInitialize();
+void WH_Reset();
+void WH_Finalize();
 
-void ov11_021272F8(int state)
+void WH_ChangeSysState(int state)
 {
     sWork->sysState = state;
 }
 
-void ov11_02127310(int code)
+void WH_SetError(int code)
 {
     if (sWork->sysState == WH_SYSSTATE_ERROR || sWork->sysState == WH_SYSSTATE_FATAL) {
         return;
@@ -107,36 +107,36 @@ void ov11_02127310(int code)
     sWork->errCode = code;
 }
 
-void ov11_0212737C(void *arg);
+void WH_StateOutSetParentParam(void *arg);
 
-BOOL ov11_02127334()
+BOOL WH_StateInSetParentParam()
 {
-    ov11_021272F8(WH_SYSSTATE_BUSY);
-    WMErrCode result = WM_SetParentParameter(ov11_0212737C, &sWork->parentParam);
+    WH_ChangeSysState(WH_SYSSTATE_BUSY);
+    WMErrCode result = WM_SetParentParameter(WH_StateOutSetParentParam, &sWork->parentParam);
     if (result != WM_ERRCODE_OPERATING) {
-        ov11_02127310(result);
-        ov11_021272F8(WH_SYSSTATE_ERROR);
+        WH_SetError(result);
+        WH_ChangeSysState(WH_SYSSTATE_ERROR);
         return FALSE;
     }
     return TRUE;
 }
 
-void ov11_0212737C(void *arg)
+void WH_StateOutSetParentParam(void *arg)
 {
     WMCallback *cb = (WMCallback *)arg;
     if (cb->errcode != WM_ERRCODE_SUCCESS) {
-        ov11_02127310(cb->errcode);
-        ov11_021272F8(WH_SYSSTATE_ERROR);
+        WH_SetError(cb->errcode);
+        WH_ChangeSysState(WH_SYSSTATE_ERROR);
         return;
     }
-    if (!ov11_021273B4()) {
-        ov11_021272F8(WH_SYSSTATE_ERROR);
+    if (!WH_StateInStartParent()) {
+        WH_ChangeSysState(WH_SYSSTATE_ERROR);
     }
 }
 
-void ov11_0212744C(void *arg);
+void WH_StateOutStartParent(void *arg);
 
-BOOL ov11_021273B4()
+BOOL WH_StateInStartParent()
 {
     if (sWork->sysState == WH_SYSSTATE_CONNECTED || sWork->sysState == WH_SYSSTATE_KEYSHARING || sWork->sysState == WH_SYSSTATE_DATASHARING) {
         return TRUE;
@@ -145,9 +145,9 @@ BOOL ov11_021273B4()
     DC_InvalidateRange(&status->wep_flag, 4);
     status->wep_flag = 0;
     DC_FlushRange(&status->wep_flag, 4);
-    WMErrCode result = WM_StartParent(ov11_0212744C);
+    WMErrCode result = WM_StartParent(WH_StateOutStartParent);
     if (result != WM_ERRCODE_OPERATING) {
-        ov11_02127310(result);
+        WH_SetError(result);
         return FALSE;
     }
     sWork->myAid = 0;
@@ -155,14 +155,14 @@ BOOL ov11_021273B4()
     return TRUE;
 }
 
-void ov11_0212744C(void *arg)
+void WH_StateOutStartParent(void *arg)
 {
     WMStartParentCallback *cb = (WMStartParentCallback *)arg;
     const u16 target_bitmap = (u16)(1 << cb->aid);
 
     if (cb->errcode != WM_ERRCODE_SUCCESS) {
-        ov11_02127310(cb->errcode);
-        ov11_021272F8(WH_SYSSTATE_ERROR);
+        WH_SetError(cb->errcode);
+        WH_ChangeSysState(WH_SYSSTATE_ERROR);
         return;
     }
 
@@ -171,11 +171,11 @@ void ov11_0212744C(void *arg)
         sWork->beaconCount++;
         break;
     case WM_STATECODE_CONNECTED:
-        if (sWork->unk_135F == 1 || sWork->unk_135E == 1 || ov11_02127ABC() >= sWork->maxChildren || cb->ssid[0] != ov11_02128EE0() || memcmp("DP", &cb->ssid[1], 3) != 0) {
+        if (sWork->unk_135F == 1 || sWork->unk_135E == 1 || WH_GetConnectedCount() >= sWork->maxChildren || cb->ssid[0] != CommManager_GetCommType() || memcmp("DP", &cb->ssid[1], 3) != 0) {
             WMErrCode result = WM_Disconnect(NULL, cb->aid);
             if (result != WM_ERRCODE_OPERATING) {
-                ov11_02127310(result);
-                ov11_021272F8(WH_SYSSTATE_ERROR);
+                WH_SetError(result);
+                WH_ChangeSysState(WH_SYSSTATE_ERROR);
             }
             break;
         }
@@ -190,36 +190,36 @@ void ov11_0212744C(void *arg)
     case WM_STATECODE_DISCONNECTED_FROM_MYSELF:
         break;
     case WM_STATECODE_PARENT_START:
-        if (!ov11_021275E4()) {
-            ov11_021272F8(WH_SYSSTATE_ERROR);
+        if (!WH_StateInStartParentMP()) {
+            WH_ChangeSysState(WH_SYSSTATE_ERROR);
         }
         break;
     }
 }
 
-void ov11_0212767C(void *arg);
+void WH_StateOutStartParentMP(void *arg);
 
-BOOL ov11_021275E4()
+BOOL WH_StateInStartParentMP()
 {
     if (sWork->sysState == WH_SYSSTATE_CONNECTED || sWork->sysState == WH_SYSSTATE_KEYSHARING || sWork->sysState == WH_SYSSTATE_DATASHARING) {
         return TRUE;
     }
-    ov11_021272F8(WH_SYSSTATE_CONNECTED);
-    WMErrCode result = WM_StartMP(ov11_0212767C, (u16 *)sWork->recvBuffer, (u16)sWork->recvBufferSize, (u16 *)sWork->sendBuffer, (u16)sWork->sendBufferSize, 1);
+    WH_ChangeSysState(WH_SYSSTATE_CONNECTED);
+    WMErrCode result = WM_StartMP(WH_StateOutStartParentMP, (u16 *)sWork->recvBuffer, (u16)sWork->recvBufferSize, (u16 *)sWork->sendBuffer, (u16)sWork->sendBufferSize, 1);
     if (result != WM_ERRCODE_OPERATING) {
-        ov11_02127310(result);
+        WH_SetError(result);
         return FALSE;
     }
     return TRUE;
 }
 
-void ov11_0212767C(void *arg)
+void WH_StateOutStartParentMP(void *arg)
 {
     WMStartMPCallback *cb = (WMStartMPCallback *)arg;
 
     if (cb->errcode != WM_ERRCODE_SUCCESS) {
-        ov11_02127310(cb->errcode);
-        ov11_021272F8(WH_SYSSTATE_ERROR);
+        WH_SetError(cb->errcode);
+        WH_ChangeSysState(WH_SYSSTATE_ERROR);
         return;
     }
 
@@ -231,7 +231,7 @@ void ov11_0212767C(void *arg)
                 break;
             }
         }
-        ov11_021272F8(WH_SYSSTATE_CONNECTED);
+        WH_ChangeSysState(WH_SYSSTATE_CONNECTED);
         break;
     case WM_STATECODE_MPEND_IND:
         break;
@@ -241,152 +241,152 @@ void ov11_0212767C(void *arg)
     }
 }
 
-void ov11_02127730(void *arg);
+void WH_StateOutEndParentMP(void *arg);
 
-BOOL ov11_02127700()
+BOOL WH_StateInEndParentMP()
 {
-    ov11_021272F8(WH_SYSSTATE_BUSY);
-    WMErrCode result = WM_EndMP(ov11_02127730);
+    WH_ChangeSysState(WH_SYSSTATE_BUSY);
+    WMErrCode result = WM_EndMP(WH_StateOutEndParentMP);
     if (result != WM_ERRCODE_OPERATING) {
-        ov11_02127310(result);
+        WH_SetError(result);
         return FALSE;
     }
     return TRUE;
 }
 
-void ov11_02127730(void *arg)
+void WH_StateOutEndParentMP(void *arg)
 {
     WMCallback *cb = (WMCallback *)arg;
     if (cb->errcode != WM_ERRCODE_SUCCESS) {
-        ov11_02127310(cb->errcode);
-        ov11_02128220();
+        WH_SetError(cb->errcode);
+        WH_Reset();
         return;
     }
-    if (!ov11_02127760()) {
-        ov11_02128220();
+    if (!WH_StateInEndParent()) {
+        WH_Reset();
         return;
     }
 }
 
-void ov11_02127788(void *arg);
+void WH_StateOutEndParent(void *arg);
 
-BOOL ov11_02127760()
+BOOL WH_StateInEndParent()
 {
-    WMErrCode result = WM_EndParent(ov11_02127788);
+    WMErrCode result = WM_EndParent(WH_StateOutEndParent);
     if (result != WM_ERRCODE_OPERATING) {
-        ov11_02127310(result);
+        WH_SetError(result);
         return FALSE;
     }
     return TRUE;
 }
 
-void ov11_02127788(void *arg)
+void WH_StateOutEndParent(void *arg)
 {
     WMCallback *cb = (WMCallback *)arg;
     if (cb->errcode != WM_ERRCODE_SUCCESS) {
-        ov11_02127310(cb->errcode);
+        WH_SetError(cb->errcode);
         return;
     }
-    ov11_021272F8(WH_SYSSTATE_IDLE);
+    WH_ChangeSysState(WH_SYSSTATE_IDLE);
 }
 
-BOOL ov11_021277AC()
+BOOL WH_EndScan()
 {
     if (sWork->sysState != WH_SYSSTATE_SCANNING) {
         return FALSE;
     }
-    ov11_021272F8(WH_SYSSTATE_BUSY);
+    WH_ChangeSysState(WH_SYSSTATE_BUSY);
     return TRUE;
 }
 
-void ov11_02127810(void *arg);
+void WH_StateOutEndChildMP(void *arg);
 
-BOOL ov11_021277E0()
+BOOL WH_StateInEndChildMP()
 {
-    ov11_021272F8(WH_SYSSTATE_BUSY);
-    WMErrCode result = WM_EndMP(ov11_02127810);
+    WH_ChangeSysState(WH_SYSSTATE_BUSY);
+    WMErrCode result = WM_EndMP(WH_StateOutEndChildMP);
     if (result != WM_ERRCODE_OPERATING) {
-        ov11_02127310(result);
+        WH_SetError(result);
         return FALSE;
     }
     return TRUE;
 }
 
-void ov11_02127810(void *arg)
+void WH_StateOutEndChildMP(void *arg)
 {
     WMCallback *cb = (WMCallback *)arg;
     if (cb->errcode != WM_ERRCODE_SUCCESS) {
-        ov11_02127310(cb->errcode);
-        ov11_0212825C();
+        WH_SetError(cb->errcode);
+        WH_Finalize();
         return;
     }
-    if (!ov11_02127844()) {
-        ov11_021272F8(WH_SYSSTATE_ERROR);
+    if (!WH_StateInEndChild()) {
+        WH_ChangeSysState(WH_SYSSTATE_ERROR);
     }
 }
 
-void ov11_0212787C(void *arg);
+void WH_StateOutEndChild(void *arg);
 
-BOOL ov11_02127844()
+BOOL WH_StateInEndChild()
 {
-    ov11_021272F8(WH_SYSSTATE_BUSY);
-    WMErrCode result = WM_Disconnect(ov11_0212787C, 0);
+    WH_ChangeSysState(WH_SYSSTATE_BUSY);
+    WMErrCode result = WM_Disconnect(WH_StateOutEndChild, 0);
     if (result != WM_ERRCODE_OPERATING) {
-        ov11_02127310(result);
-        ov11_02128220();
+        WH_SetError(result);
+        WH_Reset();
         return FALSE;
     }
     return TRUE;
 }
 
-void ov11_0212787C(void *arg)
+void WH_StateOutEndChild(void *arg)
 {
     WMCallback *cb = (WMCallback *)arg;
     if (cb->errcode != WM_ERRCODE_SUCCESS) {
-        ov11_02127310(cb->errcode);
+        WH_SetError(cb->errcode);
         return;
     }
-    ov11_021272F8(WH_SYSSTATE_IDLE);
+    WH_ChangeSysState(WH_SYSSTATE_IDLE);
 }
 
-void ov11_021278D0(void *arg);
+void WH_StateOutReset(void *arg);
 
-BOOL ov11_021278A0()
+BOOL WH_StateInReset()
 {
-    ov11_021272F8(WH_SYSSTATE_BUSY);
-    WMErrCode result = WM_Reset(ov11_021278D0);
+    WH_ChangeSysState(WH_SYSSTATE_BUSY);
+    WMErrCode result = WM_Reset(WH_StateOutReset);
     if (result != WM_ERRCODE_OPERATING) {
-        ov11_02127310(result);
+        WH_SetError(result);
         return FALSE;
     }
     return TRUE;
 }
 
-void ov11_021278D0(void *arg)
+void WH_StateOutReset(void *arg)
 {
     WMCallback *cb = (WMCallback *)arg;
     if (cb->errcode != WM_ERRCODE_SUCCESS) {
-        ov11_021272F8(WH_SYSSTATE_ERROR);
-        ov11_02127310(cb->errcode);
+        WH_ChangeSysState(WH_SYSSTATE_ERROR);
+        WH_SetError(cb->errcode);
         return;
     }
-    ov11_021272F8(WH_SYSSTATE_IDLE);
+    WH_ChangeSysState(WH_SYSSTATE_IDLE);
 }
 
-void ov11_02127984(void *arg);
+void WH_StateOutSetMPData(void *arg);
 
-BOOL ov11_02127904(const void *data, u16 size, int port, WHSendCallbackFunc callback)
+BOOL WH_StateInSetMPData(const void *data, u16 size, int port, WHSendCallbackFunc callback)
 {
     DC_FlushRange(sWork->sendBuffer, sWork->sendBufferSize);
-    WMErrCode result = WM_SetMPDataToPortEx(ov11_02127984, (void *)callback, (const u16 *)data, size, 0xFFFF, (u16)port, 2);
+    WMErrCode result = WM_SetMPDataToPortEx(WH_StateOutSetMPData, (void *)callback, (const u16 *)data, size, 0xFFFF, (u16)port, 2);
     return result == WM_ERRCODE_OPERATING;
 }
 
-void ov11_02127984(void *arg)
+void WH_StateOutSetMPData(void *arg)
 {
     WMPortSendCallback *cb = (WMPortSendCallback *)arg;
     if (cb->errcode != WM_ERRCODE_SUCCESS && cb->errcode != WM_ERRCODE_SEND_FAILED) {
-        ov11_02127310(cb->errcode);
+        WH_SetError(cb->errcode);
         return;
     }
     if (cb->arg != NULL) {
@@ -395,11 +395,11 @@ void ov11_02127984(void *arg)
     }
 }
 
-void ov11_021279C4(void *arg)
+void WH_PortReceiveCallback(void *arg)
 {
     WMPortRecvCallback *cb = (WMPortRecvCallback *)arg;
     if (cb->errcode != WM_ERRCODE_SUCCESS) {
-        ov11_02127310(cb->errcode);
+        WH_SetError(cb->errcode);
     } else if (sWork->receiverFunc != NULL) {
         if (cb->state == WM_STATECODE_PORT_INIT) {
         } else if (cb->state == WM_STATECODE_PORT_RECV) {
@@ -410,34 +410,34 @@ void ov11_021279C4(void *arg)
     }
 }
 
-void ov11_02127A3C(void *arg)
+void WH_StateOutEnd(void *arg)
 {
     WMCallback *cb = (WMCallback *)arg;
     if (cb->errcode != WM_ERRCODE_SUCCESS) {
-        ov11_021272F8(WH_SYSSTATE_FATAL);
+        WH_ChangeSysState(WH_SYSSTATE_FATAL);
         return;
     }
     WVR_TerminateAsync(NULL, NULL);
-    ov11_021272F8(WH_SYSSTATE_STOP);
+    WH_ChangeSysState(WH_SYSSTATE_STOP);
 }
 
-void ov11_02127A70(u32 ggid)
+void WH_SetGgid(u32 ggid)
 {
     sWork->parentParam.ggid = ggid;
 }
 
-void ov11_02127A84(void *info, u16 length)
+void WH_SetUserGameInfo(void *info, u16 length)
 {
     sWork->parentParam.userGameInfo = (u16 *)info;
     sWork->parentParam.userGameInfoLength = length;
 }
 
-u16 ov11_02127AA4()
+u16 WH_GetBitmap()
 {
     return sWork->connectBitmap;
 }
 
-int ov11_02127ABC()
+int WH_GetConnectedCount()
 {
     u16 count = 0;
     u16 bitmap = sWork->connectBitmap;
@@ -450,17 +450,17 @@ int ov11_02127ABC()
     return count;
 }
 
-int ov11_02127B08()
+int WH_GetSystemState()
 {
     return sWork->sysState;
 }
 
-int ov11_02127B20()
+int WH_GetLastError()
 {
     return sWork->errCode;
 }
 
-BOOL ov11_02127B38()
+BOOL WH_StartMeasureChannel()
 {
     u16 result;
     u8 macAddr[6];
@@ -472,27 +472,27 @@ BOOL ov11_02127B38()
     sWork->channel = 0;
     sWork->channelBusyRatio = 100 + 1;
 
-    ov11_021272F8(WH_SYSSTATE_BUSY);
+    WH_ChangeSysState(WH_SYSSTATE_BUSY);
 
-    result = ov11_02127C20(1);
+    result = WH_StateInMeasureChannel(1);
 
     if (result == WH_ERRCODE_NOMORE_CHANNEL) {
-        ov11_02127310(WH_ERRCODE_NOMORE_CHANNEL);
-        ov11_021272F8(WH_SYSSTATE_ERROR);
+        WH_SetError(WH_ERRCODE_NOMORE_CHANNEL);
+        WH_ChangeSysState(WH_SYSSTATE_ERROR);
         return FALSE;
     }
 
     if (result != WM_ERRCODE_OPERATING) {
-        ov11_02127310(result);
-        ov11_021272F8(WH_SYSSTATE_ERROR);
+        WH_SetError(result);
+        WH_ChangeSysState(WH_SYSSTATE_ERROR);
         return FALSE;
     }
     return TRUE;
 }
 
-void ov11_02127CBC(void *arg);
+void WH_StateOutMeasureChannel(void *arg);
 
-u16 ov11_02127C20(u16 channel)
+u16 WH_StateInMeasureChannel(u16 channel)
 {
     WMErrCode result;
     u16 allowedChannel;
@@ -500,13 +500,13 @@ u16 ov11_02127C20(u16 channel)
     allowedChannel = WM_GetAllowedChannel();
 
     if (allowedChannel == 0x8000) {
-        ov11_02127310(WM_ERRCODE_ILLEGAL_STATE);
-        ov11_021272F8(WH_SYSSTATE_ERROR);
+        WH_SetError(WM_ERRCODE_ILLEGAL_STATE);
+        WH_ChangeSysState(WH_SYSSTATE_ERROR);
         return WM_ERRCODE_ILLEGAL_STATE;
     }
     if (allowedChannel == 0) {
-        ov11_02127310(WH_ERRCODE_NO_RADIO);
-        ov11_021272F8(WH_SYSSTATE_ERROR);
+        WH_SetError(WH_ERRCODE_NO_RADIO);
+        WH_ChangeSysState(WH_SYSSTATE_ERROR);
         return WH_ERRCODE_NOMORE_CHANNEL;
     }
 
@@ -517,22 +517,22 @@ u16 ov11_02127C20(u16 channel)
         }
     }
 
-    result = ov11_02127D7C(ov11_02127CBC, channel);
+    result = WH_MeasureChannel(WH_StateOutMeasureChannel, channel);
     if (result != WM_ERRCODE_OPERATING) {
         return result;
     }
     return result;
 }
 
-void ov11_02127CBC(void *arg)
+void WH_StateOutMeasureChannel(void *arg)
 {
     u16 result;
     u16 channel;
     WMMeasureChannelCallback *cb = (WMMeasureChannelCallback *)arg;
 
     if (cb->errcode != WM_ERRCODE_SUCCESS) {
-        ov11_02127310(cb->errcode);
-        ov11_021272F8(WH_SYSSTATE_ERROR);
+        WH_SetError(cb->errcode);
+        WH_ChangeSysState(WH_SYSSTATE_ERROR);
         return;
     }
 
@@ -544,32 +544,32 @@ void ov11_02127CBC(void *arg)
         sWork->channelBitmap |= 1 << (channel - 1);
     }
 
-    result = ov11_02127C20((u16)(channel + 1));
+    result = WH_StateInMeasureChannel((u16)(channel + 1));
 
     if (result == WH_ERRCODE_NOMORE_CHANNEL) {
-        ov11_021272F8(WH_SYSSTATE_MEASURECHANNEL);
+        WH_ChangeSysState(WH_SYSSTATE_MEASURECHANNEL);
         return;
     }
 
     if (result != WM_ERRCODE_OPERATING) {
-        ov11_021272F8(WH_SYSSTATE_ERROR);
+        WH_ChangeSysState(WH_SYSSTATE_ERROR);
         return;
     }
 }
 
-WMErrCode ov11_02127D7C(WMCallbackFunc callback, u16 channel)
+WMErrCode WH_MeasureChannel(WMCallbackFunc callback, u16 channel)
 {
     return WM_MeasureChannel(callback, 3, 17, channel, 30);
 }
 
-u16 ov11_02127D9C()
+u16 WH_GetMeasureChannel()
 {
-    ov11_021272F8(WH_SYSSTATE_IDLE);
-    sWork->channel = (u16)ov11_02127DE0(sWork->channelBitmap);
+    WH_ChangeSysState(WH_SYSSTATE_IDLE);
+    sWork->channel = (u16)WH_SelectChannel(sWork->channelBitmap);
     return sWork->channel;
 }
 
-s16 ov11_02127DE0(u16 bitmap)
+s16 WH_SelectChannel(u16 bitmap)
 {
     s16 i;
     s16 channel = 0;
@@ -604,7 +604,7 @@ s16 ov11_02127DE0(u16 bitmap)
     return 0;
 }
 
-BOOL ov11_02127ED0()
+BOOL WH_Initialize()
 {
     sWork = (WhWork *)Heap_AllocWithAlignment(sizeof(WhWork), 32);
     sWork->recvBufferSize = 0;
@@ -620,68 +620,68 @@ BOOL ov11_02127ED0()
     sWork->maxChildren = 8;
     sWork->unk_1351 = 0;
     sWork->unk_135E = 0;
-    if (!ov11_02127FD4()) {
+    if (!WH_StateInInitialize()) {
         return FALSE;
     }
     return TRUE;
 }
 
-u32 ov11_02127FA4()
+u32 WH_GetHeapSize()
 {
     return sizeof(WhWork) + 32;
 }
 
-void ov11_02127FB0(void *arg)
+void WH_IndicateHandler(void *arg)
 {
     WMIndCallback *cb = (WMIndCallback *)arg;
     if (cb->errcode == WM_ERRCODE_FIFO_ERROR) {
-        ov11_021272F8(WH_SYSSTATE_ERROR);
-        ov11_02127310(WH_ERRCODE_FATAL);
+        WH_ChangeSysState(WH_SYSSTATE_ERROR);
+        WH_SetError(WH_ERRCODE_FATAL);
     }
 }
 
-void ov11_0212801C(void *arg);
+void WH_StateOutInitialize(void *arg);
 
-BOOL ov11_02127FD4()
+BOOL WH_StateInInitialize()
 {
-    ov11_021272F8(WH_SYSSTATE_BUSY);
-    WMErrCode result = WM_Initialize(sWork, ov11_0212801C, 2);
+    WH_ChangeSysState(WH_SYSSTATE_BUSY);
+    WMErrCode result = WM_Initialize(sWork, WH_StateOutInitialize, 2);
     if (result != WM_ERRCODE_OPERATING) {
-        ov11_02127310(result);
-        ov11_021272F8(WH_SYSSTATE_FATAL);
+        WH_SetError(result);
+        WH_ChangeSysState(WH_SYSSTATE_FATAL);
         return FALSE;
     }
     return TRUE;
 }
 
-void ov11_0212801C(void *arg)
+void WH_StateOutInitialize(void *arg)
 {
     WMErrCode result;
     WMCallback *cb = (WMCallback *)arg;
 
     if (cb->errcode != WM_ERRCODE_SUCCESS) {
-        ov11_02127310(cb->errcode);
-        ov11_021272F8(WH_SYSSTATE_FATAL);
+        WH_SetError(cb->errcode);
+        WH_ChangeSysState(WH_SYSSTATE_FATAL);
         return;
     }
 
-    result = WM_SetIndCallback(ov11_02127FB0);
+    result = WM_SetIndCallback(WH_IndicateHandler);
     if (result != WM_ERRCODE_SUCCESS) {
-        ov11_02127310(result);
-        ov11_021272F8(WH_SYSSTATE_FATAL);
+        WH_SetError(result);
+        WH_ChangeSysState(WH_SYSSTATE_FATAL);
         return;
     }
 
-    ov11_021272F8(WH_SYSSTATE_IDLE);
+    WH_ChangeSysState(WH_SYSSTATE_IDLE);
 }
 
-BOOL ov11_0212806C(int mode, u16 tgid, u16 channel, u16 maxEntry, u16 beaconPeriod, int entryFlag)
+BOOL WH_ParentConnect(int mode, u16 tgid, u16 channel, u16 maxEntry, u16 beaconPeriod, int entryFlag)
 {
     sWork->recvBufferSize = 0x1C0;
     sWork->sendBufferSize = 0xE0;
 
     sWork->connectMode = mode;
-    ov11_021272F8(WH_SYSSTATE_BUSY);
+    WH_ChangeSysState(WH_SYSSTATE_BUSY);
 
     sWork->parentParam.tgid = tgid;
     sWork->parentParam.channel = channel;
@@ -710,7 +710,7 @@ BOOL ov11_0212806C(int mode, u16 tgid, u16 channel, u16 maxEntry, u16 beaconPeri
     case WH_CONNECTMODE_MP_PARENT:
     case WH_CONNECTMODE_KS_PARENT:
     case WH_CONNECTMODE_DS_PARENT:
-        return ov11_02127334();
+        return WH_StateInSetParentParam();
     default:
         break;
     }
@@ -718,11 +718,11 @@ BOOL ov11_0212806C(int mode, u16 tgid, u16 channel, u16 maxEntry, u16 beaconPeri
     return FALSE;
 }
 
-void ov11_021281CC(WHReceiverFunc proc, int port)
+void WH_SetReceiver(WHReceiverFunc proc, int port)
 {
     sWork->receiverFunc = proc;
-    if (WM_SetPortCallback((u16)port, ov11_021279C4, NULL) != WM_ERRCODE_SUCCESS) {
-        ov11_021272F8(WH_SYSSTATE_ERROR);
+    if (WM_SetPortCallback((u16)port, WH_PortReceiveCallback, NULL) != WM_ERRCODE_SUCCESS) {
+        WH_ChangeSysState(WH_SYSSTATE_ERROR);
         while (TRUE) {
         }
     }
@@ -730,82 +730,82 @@ void ov11_021281CC(WHReceiverFunc proc, int port)
 
 extern "C" BOOL thunk_FUN_overlay_11__02127904(const void *data, u16 size, int port, WHSendCallbackFunc callback)
 {
-    return ov11_02127904(data, size, port, callback);
+    return WH_StateInSetMPData(data, size, port, callback);
 }
 
-void ov11_02128220()
+void WH_Reset()
 {
     if (sWork->sysState == WH_SYSSTATE_SCANNING) {
         while (TRUE) {
         }
     }
-    if (!ov11_021278A0()) {
-        ov11_021272F8(WH_SYSSTATE_FATAL);
+    if (!WH_StateInReset()) {
+        WH_ChangeSysState(WH_SYSSTATE_FATAL);
     }
 }
 
-void ov11_0212825C()
+void WH_Finalize()
 {
     if (sWork->sysState == WH_SYSSTATE_IDLE) {
         return;
     }
 
     if (sWork->sysState != WH_SYSSTATE_KEYSHARING && sWork->sysState != WH_SYSSTATE_DATASHARING && sWork->sysState != WH_SYSSTATE_CONNECTED) {
-        ov11_021272F8(WH_SYSSTATE_BUSY);
-        ov11_02128220();
+        WH_ChangeSysState(WH_SYSSTATE_BUSY);
+        WH_Reset();
         return;
     }
 
-    ov11_021272F8(WH_SYSSTATE_BUSY);
+    WH_ChangeSysState(WH_SYSSTATE_BUSY);
 
     switch (sWork->connectMode) {
     case WH_CONNECTMODE_DS_CHILD:
     case WH_CONNECTMODE_MP_CHILD:
-        if (!ov11_021277E0()) {
-            ov11_02128220();
+        if (!WH_StateInEndChildMP()) {
+            WH_Reset();
         }
         break;
     case WH_CONNECTMODE_DS_PARENT:
     case WH_CONNECTMODE_MP_PARENT:
-        if (!ov11_02127700()) {
-            ov11_02128220();
+        if (!WH_StateInEndParentMP()) {
+            WH_Reset();
         }
         break;
     }
 }
 
-BOOL ov11_021282FC()
+BOOL WH_End()
 {
-    ov11_021272F8(WH_SYSSTATE_BUSY);
-    WMErrCode result = WM_End(ov11_02127A3C);
+    WH_ChangeSysState(WH_SYSSTATE_BUSY);
+    WMErrCode result = WM_End(WH_StateOutEnd);
     if (result != WM_ERRCODE_OPERATING) {
-        ov11_021272F8(WH_SYSSTATE_ERROR);
+        WH_ChangeSysState(WH_SYSSTATE_ERROR);
         return FALSE;
     }
     return TRUE;
 }
 
-u16 ov11_02128330()
+u16 WH_GetCurrentAid()
 {
     return sWork->myAid;
 }
 
-BOOL ov11_02128348()
+BOOL WH_IsSysStateIdle()
 {
     return sWork->sysState == WH_SYSSTATE_IDLE;
 }
 
-BOOL ov11_0212836C()
+BOOL WH_IsSysStateBusy()
 {
     return sWork->sysState == WH_SYSSTATE_BUSY;
 }
 
-BOOL ov11_02128390()
+BOOL WH_IsSysStateError()
 {
     return sWork->sysState == WH_SYSSTATE_ERROR;
 }
 
-BOOL ov11_021283B4()
+BOOL WH_IsSysStateScan()
 {
     if (sWork != NULL) {
         return sWork->sysState == WH_SYSSTATE_SCANNING;
@@ -813,7 +813,7 @@ BOOL ov11_021283B4()
     return FALSE;
 }
 
-void ov11_021283E8(void *info, int length, u32 ggid, int tgid)
+void WH_SetGameInfo(void *info, int length, u32 ggid, int tgid)
 {
     if (sWork->sysState != WH_SYSSTATE_CONNECTED) {
         return;
@@ -821,12 +821,12 @@ void ov11_021283E8(void *info, int length, u32 ggid, int tgid)
     WM_SetGameInfo(NULL, (u16 *)info, (u16)length, ggid, (u16)tgid, WM_ATTR_FLAG_ENTRY);
 }
 
-void ov11_02128444()
+void WH_ResetBeaconCount()
 {
     sWork->beaconCount = 0;
 }
 
-u8 ov11_02128460()
+u8 WH_GetPauseConnection()
 {
     return sWork->unk_135E;
 }

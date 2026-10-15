@@ -5,7 +5,7 @@
 #include "field/CFieldEffectManpuPos.hpp"
 #include "fx_utils.hpp"
 
-int CFieldEffectManpuJumping::ov0_02142264(int step)
+int CFieldEffectManpuJumping::Update(int step)
 {
     fx32 scale = 0x1000;
     Point2D pos = GetBalloonPos(unk_1C);
@@ -29,7 +29,7 @@ int CFieldEffectManpuJumping::ov0_02142264(int step)
     m_sprite.SetScale(0x1000, scale);
     m_sprite.m_cellDataIdx = 0;
     m_sprite.SetPos(pos);
-    return CFieldEffectActor::ov0_02142264(step);
+    return CFieldEffectActor::Update(step);
 }
 
 int CFieldEffectManpuJumping::Draw(Camera2D *camera)
@@ -41,12 +41,12 @@ int CFieldEffectManpuJumping::Draw(Camera2D *camera)
     return 0;
 }
 
-BOOL CFieldEffectManpuJumping::ov0_021421F0(int inTime, int holdTime, int outTime)
+BOOL CFieldEffectManpuJumping::Start(int inTime, int holdTime, int outTime)
 {
     if (inTime > 0) {
         inTime += 4;
     }
-    return CFieldEffect::ov0_021421F0(inTime, holdTime, outTime);
+    return CFieldEffect::Start(inTime, holdTime, outTime);
 }
 
 CFieldEffectManpuJumping::~CFieldEffectManpuJumping()

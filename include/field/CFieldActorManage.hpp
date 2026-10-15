@@ -22,7 +22,7 @@ public:
     virtual BOOL Clear();
     virtual void UpdateAll(CFieldMap *map, BOOL update);
     virtual BOOL SetActorPos(int index, fx32 x, fx32 y);
-    virtual BOOL sub_0203F278(int index, int arg1, int arg2);
+    virtual BOOL SetActorHomePos(int index, int arg1, int arg2);
     virtual void DeactivateAll();
     virtual void ActivateAll();
     virtual void SetPosAll(Point2D pos);

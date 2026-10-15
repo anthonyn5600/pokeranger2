@@ -3,6 +3,7 @@
 #include "Collision.hpp"
 #include "MathUtil.hpp"
 #include "SaveData.hpp"
+#include "battle/BattleEffectivenessMark.hpp"
 #include "battle/BattleParamTable.hpp"
 #include "battle/CBattleAssist.hpp"
 #include "battle/CBattleAttackEffect.hpp"
@@ -10,11 +11,10 @@
 #include "battle/CBattleEnemy.hpp"
 #include "battle/CBattleEnemyData.hpp"
 #include "battle/StylerLine.hpp"
-#include "battle/UnkClass_02128414.hpp"
 #include "fx_utils.hpp"
 
-extern "C" fx32 ov1_0212EE80(int assistType, int type);
-extern "C" u16 ov1_0212EE98(int assistType, int idx);
+extern "C" fx32 GetAssistTypeRate(int assistType, int type);
+extern "C" u16 GetAssistEffectTime(int assistType, int idx);
 
 CBattleAssistIce::CBattleAssistIce(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3)
     : CBattleAssist(effects, effectData, params, arg3)
@@ -33,19 +33,19 @@ int CBattleAssistIce::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEne
     unk_04--;
     for (u8 i = 0; i < 4; i++) {
         if (m_effects[i] != NULL && !m_effects[i]->HasData()) {
-            m_effects[i]->ov1_02127300();
+            m_effects[i]->Terminate();
             m_effects[i] = NULL;
         }
     }
     m_disk = disk;
-    ov1_021329C8(enemies);
+    UpdateEffects(enemies);
     Point2D pos;
     pos.x = (touch->unk_0A.x - 0x80) << FX32_SHIFT;
     pos.y = (touch->unk_0A.y - 0x60) << FX32_SHIFT;
     if (touch->unk_04 != 0) {
         m_last = pos;
         u8 idx = 0;
-        if (ov1_02132BD4(&idx)) {
+        if (CreateEffect(&idx)) {
             m_selected = idx;
             m_effects[idx]->m_motion.SetPos(pos);
             m_flags |= 1;
@@ -64,7 +64,7 @@ int CBattleAssistIce::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEne
                 unk_14->PlaySe(0x124);
             }
             m_effects[m_selected]->m_motion.SetPos(pos);
-            m_slots[m_selected].level = ov1_021330DC(m_disk->unk_1B8->unk_54CC);
+            m_slots[m_selected].level = GetLevelFromLength(m_disk->unk_1B8->unk_54CC);
         }
         if (m_timer == 10) {
             m_last = pos;
@@ -82,7 +82,7 @@ int CBattleAssistIce::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEne
                 unk_14->PlaySe(0x125);
                 m_slots[m_selected].thrown = 1;
             } else {
-                m_effects[m_selected]->ov1_02127300();
+                m_effects[m_selected]->Terminate();
                 m_effects[m_selected] = NULL;
             }
         }
@@ -93,22 +93,22 @@ int CBattleAssistIce::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEne
         case 0:
             break;
         case 1:
-            if (!m_freeze[i].effect->ov1_0212747C()) {
+            if (!m_freeze[i].effect->IsAnimActive()) {
                 m_freeze[i].state = 2;
-                m_freeze[i].effect->ov1_021273A0(8, m_freeze[i].size);
+                m_freeze[i].effect->SetAnimSequence(8, m_freeze[i].size);
             }
             break;
         case 2:
             if (enemies[i]->unk_18C == 0 || !enemies[i]->HasData()) {
                 m_freeze[i].state = 3;
-                m_freeze[i].effect->ov1_021273A0(9, m_freeze[i].size);
+                m_freeze[i].effect->SetAnimSequence(9, m_freeze[i].size);
                 unk_14->PlaySe(0x151);
             }
             break;
         case 3:
-            if (!m_freeze[i].effect->ov1_0212747C()) {
+            if (!m_freeze[i].effect->IsAnimActive()) {
                 m_freeze[i].state = 0;
-                m_freeze[i].effect->ov1_02127300();
+                m_freeze[i].effect->Terminate();
                 m_freeze[i].effect = NULL;
             }
             break;
@@ -117,7 +117,7 @@ int CBattleAssistIce::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEne
     return 1;
 }
 
-void CBattleAssistIce::ov1_021329C8(CBattleEnemy **enemies)
+void CBattleAssistIce::UpdateEffects(CBattleEnemy **enemies)
 {
     for (u8 i = 0; i < 4; i++) {
         if (m_effects[i] == NULL || !m_effects[i]->HasData()) {
@@ -127,17 +127,17 @@ void CBattleAssistIce::ov1_021329C8(CBattleEnemy **enemies)
         if ((m_flags & 1) && m_selected == i) {
             continue;
         }
-        if (m_effects[i]->IsUnk100Clear() && ov1_02132CAC(m_effects[i], enemies, m_slots[i].level)) {
+        if (m_effects[i]->IsUnk100Clear() && HitEnemies(m_effects[i], enemies, m_slots[i].level)) {
             m_effects[i]->m_motion.m_mode = 0;
-            m_effects[i]->ov1_02127454(0x20, 2);
-            m_effects[i]->ov1_02127388(FALSE);
+            m_effects[i]->PlayAction(0x20, 2);
+            m_effects[i]->SetCollisionEnabled(FALSE);
             m_slots[i].state = 2;
         }
         if (m_effects[i]->IsUnk100Clear() && m_slots[i].thrown == 1) {
             if (m_slots[i].timer == 0x78) {
                 m_effects[i]->m_motion.m_mode = 0;
-                m_effects[i]->ov1_02127454(0x20, 2);
-                m_effects[i]->ov1_02127388(FALSE);
+                m_effects[i]->PlayAction(0x20, 2);
+                m_effects[i]->SetCollisionEnabled(FALSE);
                 m_slots[i].state = 2;
                 m_slots[i].thrown = 0;
                 m_slots[i].timer = 0;
@@ -145,14 +145,14 @@ void CBattleAssistIce::ov1_021329C8(CBattleEnemy **enemies)
                 m_slots[i].timer++;
             }
         }
-        if (m_slots[i].state == 2 && !m_effects[i]->ov1_0212747C()) {
-            m_effects[i]->ov1_02127300();
+        if (m_slots[i].state == 2 && !m_effects[i]->IsAnimActive()) {
+            m_effects[i]->Terminate();
             m_effects[i] = NULL;
         }
     }
 }
 
-BOOL CBattleAssistIce::ov1_02132B78(u8 *idx)
+BOOL CBattleAssistIce::FindFreeSlot(u8 *idx)
 {
     for (u8 i = 0; i < 4; i++) {
         if (m_effects[i] == NULL || !m_effects[i]->HasData()) {
@@ -163,13 +163,13 @@ BOOL CBattleAssistIce::ov1_02132B78(u8 *idx)
     return FALSE;
 }
 
-BOOL CBattleAssistIce::ov1_02132BD4(u8 *outIdx)
+BOOL CBattleAssistIce::CreateEffect(u8 *outIdx)
 {
     u8 idx = 0;
-    if (!ov1_02132B78(&idx)) {
+    if (!FindFreeSlot(&idx)) {
         return FALSE;
     }
-    CBattleAttackEffect *effect = ov1_0212EE3C();
+    CBattleAttackEffect *effect = GetFreeEffect();
     if (effect == NULL) {
         return FALSE;
     }
@@ -178,16 +178,16 @@ BOOL CBattleAssistIce::ov1_02132BD4(u8 *outIdx)
     m_slots[idx].timer = 0;
     m_slots[idx].scale = 0x800;
     m_slots[idx].growth = 0;
-    effect->ov1_021270FC(unk_0C[0]);
-    effect->ov1_02127454(0x20, 0);
-    effect->ov1_02127388(TRUE);
+    effect->Start(unk_0C[0]);
+    effect->PlayAction(0x20, 0);
+    effect->SetCollisionEnabled(TRUE);
     effect->ScaleTo(0, 0x800, 0x800);
     m_effects[idx] = effect;
     *outIdx = idx;
     return TRUE;
 }
 
-BOOL CBattleAssistIce::ov1_02132CAC(CBattleAttackEffect *effect, CBattleEnemy **enemies, u8 level)
+BOOL CBattleAssistIce::HitEnemies(CBattleAttackEffect *effect, CBattleEnemy **enemies, u8 level)
 {
     Circle area;
     Circle circle = effect->m_sphere.m_circle;
@@ -195,21 +195,21 @@ BOOL CBattleAssistIce::ov1_02132CAC(CBattleAttackEffect *effect, CBattleEnemy **
     for (int i = 0; i < 8; i++) {
         if (enemies[i] != NULL && enemies[i]->IsAlive() && enemies[i]->IsTargetable()
             && CircleHitCircle(area, enemies[i]->m_sphere.m_circle, NULL)) {
-            u16 power = unk_10->ov1_0212F32C(vfunc_10(), MAIN_BSS_020B26A0.m_stylerLevel, level);
-            fx32 rate = ov1_0212EE80(vfunc_10(), enemies[i]->unk_184->unk_18->unk_03);
-            enemies[i]->ov1_02126310((u16)(FX32_MUL(rate, power << FX32_SHIFT) >> FX32_SHIFT), TRUE);
+            u16 power = unk_10->GetAssistPower(vfunc_10(), MAIN_BSS_020B26A0.m_stylerLevel, level);
+            fx32 rate = GetAssistTypeRate(vfunc_10(), enemies[i]->unk_184->unk_18->unk_03);
+            enemies[i]->TakeDamage((u16)(FX32_MUL(rate, power << FX32_SHIFT) >> FX32_SHIFT), TRUE);
             if (rate == 0x1000) {
                 unk_14->PlaySe(0x126);
-                enemies[i]->unk_1A8->ov1_02128598(0);
+                enemies[i]->unk_1A8->Show(0);
             } else if (rate > 0x1000) {
                 unk_14->PlaySe(0x144);
-                enemies[i]->unk_1A8->ov1_02128598(1);
+                enemies[i]->unk_1A8->Show(1);
             } else if (rate < 0x1000) {
                 unk_14->PlaySe(0x145);
-                enemies[i]->unk_1A8->ov1_02128598(2);
+                enemies[i]->unk_1A8->Show(2);
             }
-            enemies[i]->ov1_021263A4(4, ov1_0212EE98(vfunc_10(), level));
-            ov1_02132FD4(&m_freeze[i], enemies[i]);
+            enemies[i]->SetStatus(4, GetAssistEffectTime(vfunc_10(), level));
+            StartFreeze(&m_freeze[i], enemies[i]);
             return TRUE;
         }
     }
@@ -234,7 +234,7 @@ void CBattleAssistIce::vfunc_0C()
 {
     if (m_flags & 1) {
         if (m_effects[m_selected] != NULL && m_effects[m_selected]->HasData()) {
-            m_effects[m_selected]->ov1_02127300();
+            m_effects[m_selected]->Terminate();
             m_effects[m_selected] = NULL;
         }
         m_flags &= ~1;
@@ -248,12 +248,12 @@ void CBattleAssistIce::vfunc_0C()
     unk_14->StopSe(0x151);
 }
 
-void CBattleAssistIce::ov1_02132FD4(IceFreeze *freeze, CBattleEnemy *enemy)
+void CBattleAssistIce::StartFreeze(IceFreeze *freeze, CBattleEnemy *enemy)
 {
     if (freeze->effect != NULL) {
-        freeze->effect->ov1_02127300();
+        freeze->effect->Terminate();
     }
-    freeze->effect = ov1_0212EE3C();
+    freeze->effect = GetFreeEffect();
     if (freeze->effect == NULL) {
         return;
     }
@@ -267,8 +267,8 @@ void CBattleAssistIce::ov1_02132FD4(IceFreeze *freeze, CBattleEnemy *enemy)
     } else {
         freeze->size = 1;
     }
-    freeze->effect->ov1_021270FC(unk_0C[1]);
-    freeze->effect->ov1_021273A0(7, freeze->size);
+    freeze->effect->Start(unk_0C[1]);
+    freeze->effect->SetAnimSequence(7, freeze->size);
     Point2D pos = enemy->m_motion.m_pos;
     pos += enemy->unk_484;
     pos.y -= enemy->m_bobHeight + (enemy->m_height + enemy->m_jumpHeight);
@@ -276,7 +276,7 @@ void CBattleAssistIce::ov1_02132FD4(IceFreeze *freeze, CBattleEnemy *enemy)
     unk_14->PlaySe(0x150);
 }
 
-u8 CBattleAssistIce::ov1_021330DC(u32 value)
+u8 CBattleAssistIce::GetLevelFromLength(u32 value)
 {
     if (value >= 0x28) {
         return 2;

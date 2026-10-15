@@ -6,8 +6,8 @@
 #include "BattleStartParam.hpp"
 #include "CBattleResultParameter.hpp"
 #include "CGame.hpp"
+#include "PokeIdTableEntry.hpp"
 #include "SaveData.hpp"
-#include "UnkStruct_020107A8.hpp"
 
 extern "C" {
 void SaveData_LotTimeCheck(SaveData *save);
@@ -147,12 +147,12 @@ void CBattleToFieldScene::func6()
 
     if (kind != 0) {
         for (int i = 0; i < enemyCount; i++) {
-            UnkStruct_020107A8 *rec = PokeIdTable_Get(table, result->unk_38[(u8)i]);
+            PokeIdTableEntry *rec = PokeIdTable_Get(table, result->unk_38[(u8)i]);
             RaisePokemonState(save, rec->unk_00, 1);
         }
     } else {
         for (int i = 0; i < enemyCount; i++) {
-            UnkStruct_020107A8 *rec = PokeIdTable_Get(table, result->unk_38[(u8)i]);
+            PokeIdTableEntry *rec = PokeIdTable_Get(table, result->unk_38[(u8)i]);
             RaisePokemonState(save, rec->unk_00, 2);
             SetCaptureCount(save, rec->unk_00, save->m_captureCounts[rec->unk_00] + 1);
             LowerPokemonState2(save, rec->unk_00, result->unk_6A);

@@ -7,15 +7,15 @@
 CMapDispScreen::CMapDispScreen(CGame *game)
 {
     unk_3C = game;
-    ov28_0211D19C();
+    Init();
 }
 
 CMapDispScreen::~CMapDispScreen()
 {
-    ov28_0211D380();
+    Release();
 }
 
-void CMapDispScreen::ov28_0211D19C()
+void CMapDispScreen::Init()
 {
     unk_00 = 0;
     unk_18 = NULL;
@@ -30,7 +30,7 @@ void CMapDispScreen::ov28_0211D19C()
     unk_08->m_pathBuilder = &unk_40;
 }
 
-void CMapDispScreen::ov28_0211D218()
+void CMapDispScreen::Update()
 {
     if (unk_18 != NULL) {
         unk_18->Update();
@@ -49,7 +49,7 @@ void CMapDispScreen::ov28_0211D218()
     case 5:
         break;
     case 1:
-        ov28_0211D794();
+        UpdateInput();
         break;
     case 6:
         if (unk_08 != NULL && !unk_08->Quit()) {
@@ -61,20 +61,20 @@ void CMapDispScreen::ov28_0211D218()
         if (unk_08 != NULL && !unk_08->IsDone()) {
             break;
         }
-        ov28_0211DA24();
+        FadeOut();
         unk_00 = 2;
         break;
     }
 }
 
-void CMapDispScreen::ov28_0211D2DC()
+void CMapDispScreen::Render()
 {
     if (unk_0C != NULL) {
         unk_0C->Render();
     }
     switch (unk_00) {
     case 2:
-        if (!ov28_0211DA68()) {
+        if (!IsFading()) {
             unk_00 = 4;
         }
     case 1:
@@ -82,25 +82,25 @@ void CMapDispScreen::ov28_0211D2DC()
     case 5:
     case 6:
     case 7:
-        ov28_0211D450();
+        WriteOam();
         break;
     }
 }
 
-void CMapDispScreen::ov28_0211D344()
+void CMapDispScreen::OnVBlank()
 {
     if (unk_0C != NULL) {
         unk_0C->sub_0202A5F8();
     }
-    ov28_0211D8AC();
+    DrawPlaceName();
 }
 
-void CMapDispScreen::ov28_0211D368()
+void CMapDispScreen::LoadPalette()
 {
     unk_3C->unk_1494->LoadPalette();
 }
 
-void CMapDispScreen::ov28_0211D380()
+void CMapDispScreen::Release()
 {
     unk_3C->unk_146C.SetFps(30);
     unk_3C->unk_1494->FreeWindows();
@@ -110,14 +110,14 @@ void CMapDispScreen::ov28_0211D380()
     SAFE_DELETE(unk_0C);
 }
 
-void CMapDispScreen::ov28_0211D450()
+void CMapDispScreen::WriteOam()
 {
     if (unk_18 != NULL) {
         unk_18->WriteOam();
     }
 }
 
-void CMapDispScreen::ov28_0211D468()
+void CMapDispScreen::Load()
 {
     GX_SetVisiblePlane(GX_PLANEMASK_BG0 | GX_PLANEMASK_BG2 | GX_PLANEMASK_OBJ);
     GX_SetOBJVRamModeChar(GX_OBJVRAMMODE_CHAR_1D_32K);
@@ -148,24 +148,24 @@ void CMapDispScreen::ov28_0211D468()
     if (unk_08 != NULL) {
         unk_08->SetupBG();
     }
-    ov28_0211D980();
+    SelectCurrentArea();
     unk_3C->unk_1494->FreeWindows();
     unk_3C->unk_1494->SetupBG(0, GX_BG_SCRBASE_0x6000, GX_BG_CHARBASE_0x00000);
     unk_3C->unk_1494->AllocWindows(1);
     unk_3C->unk_1494->InitWindow(0, 0x10, 2, 1, 0, 0xD, 0, 2);
 }
 
-BOOL CMapDispScreen::ov28_0211D700()
+BOOL CMapDispScreen::Start()
 {
     unk_00 = 1;
-    ov28_0211D718();
+    Setup();
     return TRUE;
 }
 
-BOOL CMapDispScreen::ov28_0211D718()
+BOOL CMapDispScreen::Setup()
 {
-    ov28_0211D468();
-    ov28_0211D368();
+    Load();
+    LoadPalette();
     unk_3C->unk_146C.SetFps(60);
     return TRUE;
 }
@@ -217,7 +217,7 @@ static const u16 sPlaceRsc[][2] = {
     { 0x2C, 0x20B },
 };
 
-void CMapDispScreen::ov28_0211D748(int id)
+void CMapDispScreen::RequestPlaceRsc(int id)
 {
     CMapDispRscLoader *loader = unk_08;
     if (loader == NULL) {
@@ -233,12 +233,12 @@ void CMapDispScreen::ov28_0211D748(int id)
     loader->Request(rsc);
 }
 
-void CMapDispScreen::ov28_0211D794()
+void CMapDispScreen::UpdateInput()
 {
     u32 cancel = (u16)(unk_3C->unk_0014->unk_0002 & PAD_BUTTON_B);
     BOOL touched = unk_20[3]->GetTouchTrigger() ? TRUE : FALSE;
     if (touched | cancel) {
-        ov28_0211D844();
+        Close();
         return;
     }
     s16 kind;
@@ -247,16 +247,16 @@ void CMapDispScreen::ov28_0211D794()
     switch ((u16)kind) {
     case 1:
         unk_3C->m_audioEngine->PlaySe(0xFA);
-        ov28_0211D980();
+        SelectCurrentArea();
         break;
     case 6:
         unk_3C->m_audioEngine->PlaySe(0xFA);
-        ov28_0211D9AC(id);
+        SelectArea(id);
         break;
     }
 }
 
-void CMapDispScreen::ov28_0211D844()
+void CMapDispScreen::Close()
 {
     unk_3C->m_audioEngine->PlaySe(0x103);
     if (unk_08 != NULL) {
@@ -264,17 +264,17 @@ void CMapDispScreen::ov28_0211D844()
         return;
     }
     unk_00 = 2;
-    ov28_0211DA24();
+    FadeOut();
 }
 
-void CMapDispScreen::ov28_0211D88C(u16 id)
+void CMapDispScreen::ShowPlace(u16 id)
 {
-    ov28_0211D748(id);
+    RequestPlaceRsc(id);
     unk_38 = id;
     unk_04 = 1;
 }
 
-void CMapDispScreen::ov28_0211D8AC()
+void CMapDispScreen::DrawPlaceName()
 {
     if (!unk_04) {
         return;
@@ -294,25 +294,25 @@ void CMapDispScreen::ov28_0211D8AC()
     text->Print(0, 0, 3, 3, (u8 *)unk_14->GetString(idx), TRUE, 0);
 }
 
-void CMapDispScreen::ov28_0211D980()
+void CMapDispScreen::SelectCurrentArea()
 {
     u16 id = unk_0C->unk_56;
-    ov28_0211D9D0(id, 1);
-    ov28_0211D88C(id);
+    SetAreaMarker(id, 1);
+    ShowPlace(id);
 }
 
-void CMapDispScreen::ov28_0211D9AC(u16 id)
+void CMapDispScreen::SelectArea(u16 id)
 {
-    ov28_0211D9D0(id, 3);
-    ov28_0211D88C(id);
+    SetAreaMarker(id, 3);
+    ShowPlace(id);
 }
 
-void CMapDispScreen::ov28_0211D9D0(u16 id, int mode)
+void CMapDispScreen::SetAreaMarker(u16 id, int mode)
 {
-    unk_0C->sub_0202B50C(id, mode);
+    unk_0C->SetAreaMarker(id, mode);
 }
 
-void CMapDispScreen::ov28_0211D9E0()
+void CMapDispScreen::FadeIn()
 {
     if (unk_3C != NULL) {
         unk_3C->m_subFade->Start(3, 15);
@@ -320,7 +320,7 @@ void CMapDispScreen::ov28_0211D9E0()
     }
 }
 
-void CMapDispScreen::ov28_0211DA24()
+void CMapDispScreen::FadeOut()
 {
     if (unk_3C != NULL) {
         unk_3C->m_subFade->Start(4, 15);
@@ -328,7 +328,7 @@ void CMapDispScreen::ov28_0211DA24()
     }
 }
 
-BOOL CMapDispScreen::ov28_0211DA68()
+BOOL CMapDispScreen::IsFading()
 {
     if (unk_3C->m_subFade->IsActive() || unk_3C->m_subFade->IsActive()) {
         return TRUE;
@@ -336,7 +336,7 @@ BOOL CMapDispScreen::ov28_0211DA68()
     return FALSE;
 }
 
-int CMapDispScreen::ov28_0211DAB0()
+int CMapDispScreen::GetResult()
 {
     return unk_00 != 4 ? -1 : 0;
 }

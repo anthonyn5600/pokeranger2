@@ -9,7 +9,7 @@ CFieldEffectCharge::CFieldEffectCharge()
 {
     CFieldEffectAttackActorData *data = new CFieldEffectAttackActorData();
     if (data != NULL) {
-        data->ov0_0214FFF0(0x64, 1, 1);
+        data->Load(0x64, 1, 1);
     }
     unk_18 = data;
     m_pos.x = m_pos.y = 0;
@@ -31,16 +31,16 @@ CFieldEffectCharge::~CFieldEffectCharge()
     SAFE_DELETE(unk_18);
 }
 
-int CFieldEffectCharge::ov0_02142264(int step)
+int CFieldEffectCharge::Update(int step)
 {
-    int state = CFieldEffectActor::ov0_02142264(step);
+    int state = CFieldEffectActor::Update(step);
     if (state != 0 && state != 4) {
         unk_18->Update();
     }
     return m_state;
 }
 
-int CFieldEffectCharge::ov0_02142344(Camera2D *camera)
+int CFieldEffectCharge::Render(Camera2D *camera)
 {
     CellAnimController *cac = unk_18->GetCac(0);
     if (cac != NULL) {
@@ -52,11 +52,11 @@ int CFieldEffectCharge::ov0_02142344(Camera2D *camera)
     return 1;
 }
 
-void CFieldEffectCharge::ov0_0214234C(Point2D pos, int arg1, int arg2, int arg3, int arg4)
+void CFieldEffectCharge::StartAt(Point2D pos, int arg1, int arg2, int arg3, int arg4)
 {
 }
 
-BOOL CFieldEffectCharge::ov0_021421F0(int inTime, int holdTime, int outTime)
+BOOL CFieldEffectCharge::Start(int inTime, int holdTime, int outTime)
 {
     Point2D pos;
     pos.y = m_pos.y + FX32_MUL(FX_CosIdx(0x1B00), 0x30000);
@@ -66,12 +66,12 @@ BOOL CFieldEffectCharge::ov0_021421F0(int inTime, int holdTime, int outTime)
     pos.x = m_pos.x - 0x4A000;
     pos.y = m_pos.y + 0x4A000;
     m_sprites[1].SetPos(pos);
-    return CFieldEffect::ov0_021421F0(inTime, holdTime, outTime);
+    return CFieldEffect::Start(inTime, holdTime, outTime);
 }
 
-int CFieldEffectCharge::ov0_02142240(int outTime)
+int CFieldEffectCharge::Stop(int outTime)
 {
-    return CFieldEffect::ov0_02142240(outTime);
+    return CFieldEffect::Stop(outTime);
 }
 
 int CFieldEffectCharge::SetParam(int param, int value)

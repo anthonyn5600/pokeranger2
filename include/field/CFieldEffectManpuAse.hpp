@@ -12,7 +12,7 @@ class CFieldEffectManpuAse : public CFieldEffectManpu {
 public:
     CFieldEffectManpuAse(CEffectActorData *data, AnimSlotPool *slots);
     virtual ~CFieldEffectManpuAse();
-    virtual int ov0_02142264(int step);
+    virtual int Update(int step);
     virtual int Draw(Camera2D *camera);
     virtual void SetDepth(fx32 z);
 

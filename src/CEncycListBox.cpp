@@ -9,7 +9,7 @@
 #include "file/CNCLRFile.hpp"
 #include "scene/CEncyclopediaScene.hpp"
 
-int ov22_021214CC(NNSG2dFont *font, int hSpace, u8 **str);
+int GetTextLineWidth(NNSG2dFont *font, int hSpace, u8 **str);
 
 EncycListBoxGroup::EncycListBoxGroup()
 {
@@ -48,7 +48,7 @@ CEncycListBox::~CEncycListBox()
     SAFE_DELETE_ARRAY(unk_6C);
 }
 
-BOOL CEncycListBox::ov22_0211FAD4(int arg0, OamSpriteSet *anims, int arg2, int arg3, int arg4, int arg5, u32 arg6, int arg7, int arg8, int arg9, int argA)
+BOOL CEncycListBox::Init(int arg0, OamSpriteSet *anims, int arg2, int arg3, int arg4, int arg5, u32 arg6, int arg7, int arg8, int arg9, int argA)
 {
     unk_04 = arg0;
     unk_10 = arg6;
@@ -72,7 +72,7 @@ BOOL CEncycListBox::ov22_0211FAD4(int arg0, OamSpriteSet *anims, int arg2, int a
     return FALSE;
 }
 
-void CEncycListBox::ov22_0211FBE4()
+void CEncycListBox::UpdateCursorVisible()
 {
     if (unk_3C == NULL) {
         return;
@@ -84,7 +84,7 @@ void CEncycListBox::ov22_0211FBE4()
     unk_3C->SetVisible(show);
 }
 
-void CEncycListBox::ov22_0211FC24(int group, UnkStruct_0211D918 *lines, int count)
+void CEncycListBox::SetGroupLines(int group, EncycListLine *lines, int count)
 {
     if (group < 0) {
         return;
@@ -99,7 +99,7 @@ void CEncycListBox::ov22_0211FC24(int group, UnkStruct_0211D918 *lines, int coun
     unk_6C[group].unk_04 = lines;
 }
 
-void CEncycListBox::ov22_0211FC58()
+void CEncycListBox::CursorDown()
 {
     EncycListBoxGroup *g = &unk_6C[unk_18];
     if (g->unk_00 == 0) {
@@ -137,7 +137,7 @@ void CEncycListBox::ov22_0211FC58()
     CGame::GetInstance()->m_audioEngine->PlaySe(0xFD);
 }
 
-void CEncycListBox::ov22_0211FD74()
+void CEncycListBox::CursorUp()
 {
     if (unk_2C != unk_30) {
         return;
@@ -165,7 +165,7 @@ void CEncycListBox::ov22_0211FD74()
     CGame::GetInstance()->m_audioEngine->PlaySe(0xFD);
 }
 
-void CEncycListBox::ov22_0211FE18()
+void CEncycListBox::PageDown()
 {
     int top = unk_20 == unk_1C ? unk_1C + 8 : unk_20 + 8;
     int max = unk_6C[unk_18].unk_00 - 8;
@@ -177,15 +177,15 @@ void CEncycListBox::ov22_0211FE18()
     }
     if (top != unk_1C) {
         unk_1C = unk_20 = top;
-        ov22_021205B8(1);
-        ov22_0211FF20();
+        NotifyCursor(1);
+        Refresh();
         CGame::GetInstance()->m_audioEngine->PlaySe(0x108);
         return;
     }
     CGame::GetInstance()->m_audioEngine->PlaySe(0xFD);
 }
 
-void CEncycListBox::ov22_0211FEA8()
+void CEncycListBox::PageUp()
 {
     int top = unk_20 == unk_1C ? unk_1C - 8 : unk_20 - 8;
     if (top < 0) {
@@ -193,15 +193,15 @@ void CEncycListBox::ov22_0211FEA8()
     }
     if (top != unk_1C) {
         unk_1C = unk_20 = top;
-        ov22_021205B8(1);
-        ov22_0211FF20();
+        NotifyCursor(1);
+        Refresh();
         CGame::GetInstance()->m_audioEngine->PlaySe(0x108);
         return;
     }
     CGame::GetInstance()->m_audioEngine->PlaySe(0xFD);
 }
 
-void CEncycListBox::ov22_0211FF20()
+void CEncycListBox::Refresh()
 {
     SubTextPrinter *text = CGame::GetInstance()->unk_1498;
     if (unk_6C == NULL) {
@@ -211,7 +211,7 @@ void CEncycListBox::ov22_0211FF20()
         text->ClearWindow(i);
     }
     for (int i = 0; i < 16; i++) {
-        ov22_021204D8(unk_1C + i - 3);
+        DrawLine(unk_1C + i - 3);
     }
     unk_34 = (256 - (unk_0C - (unk_1C & 0xF) * 16)) & 0xFF;
     G2S_SetBG0Offset(0, unk_34);
@@ -230,7 +230,7 @@ void CEncycListBox::ov22_0211FF20()
     }
 }
 
-void CEncycListBox::ov22_0212005C()
+void CEncycListBox::UpdateInput()
 {
     s32 group;
     EncycListBoxGroup *groups = unk_6C;
@@ -253,7 +253,7 @@ void CEncycListBox::ov22_0212005C()
                     unk_3C->SetPos(unk_28, unk_2C);
                     sel = unk_1C + ((unk_2C - (unk_0C + 8)) >> 4);
                     game->m_audioEngine->PlaySe(0xFA);
-                    ov22_021205B8(1);
+                    NotifyCursor(1);
                 }
             }
         } else if ((u16)(game->unk_0014->unk_0002 & PAD_BUTTON_A)) {
@@ -274,7 +274,7 @@ static inline void SetBlink(OamSprite *sprite, u8 timer)
     sprite->SetVisible(timer < 6 ? TRUE : FALSE);
 }
 
-void CEncycListBox::ov22_021201B0()
+void CEncycListBox::UpdateScroll()
 {
     if (unk_6C[unk_18].unk_00 == 0) {
         return;
@@ -294,7 +294,7 @@ void CEncycListBox::ov22_021201B0()
         }
         unk_3C->SetPos(unk_28, unk_2C);
         if (unk_30 == unk_2C) {
-            ov22_021205B8(1);
+            NotifyCursor(1);
         }
         unk_40 = 0;
     }
@@ -305,19 +305,19 @@ void CEncycListBox::ov22_021201B0()
             unk_34 &= 0xFF;
             if (!(unk_34 & 0xF)) {
                 unk_1C++;
-                ov22_021205B8(1);
-                ov22_021204D8(unk_1C + 12);
+                NotifyCursor(1);
+                DrawLine(unk_1C + 12);
             }
         } else {
             unk_34 -= 2;
             unk_34 &= 0xFF;
             if (!(unk_34 & 0xF)) {
                 unk_1C--;
-                ov22_021205B8(1);
-                ov22_021204D8(unk_1C - 3);
+                NotifyCursor(1);
+                DrawLine(unk_1C - 3);
             }
         }
-        ov22_02120348(down);
+        UpdateLineSprites(down);
         unk_40 = 0;
     }
     if (unk_3C == NULL) {
@@ -329,7 +329,7 @@ void CEncycListBox::ov22_021201B0()
     SetBlink(unk_3C, unk_40);
 }
 
-void CEncycListBox::ov22_02120348(BOOL down)
+void CEncycListBox::UpdateLineSprites(BOOL down)
 {
     EncycListBoxGroup *group;
     int i;
@@ -360,7 +360,7 @@ static inline void SetSpriteVisible(OamSprite *sprite, int count)
     sprite->SetVisible(count != 0 ? TRUE : FALSE);
 }
 
-void CEncycListBox::ov22_02120414(int group)
+void CEncycListBox::SelectGroup(int group)
 {
     if (unk_18 != group) {
         EncycListBoxGroup *prev = &unk_6C[unk_18];
@@ -373,14 +373,14 @@ void CEncycListBox::ov22_02120414(int group)
         EncycListBoxGroup *next = &prev[idx];
         unk_1C = unk_20 = next->unk_08;
         unk_2C = unk_30 = unk_0C + (next->unk_0C - next->unk_08) * 16 + 8;
-        ov22_0211FF20();
+        Refresh();
         unk_3C->SetPos(unk_28, unk_2C);
         SetSpriteVisible(unk_3C, prev[idx].unk_00);
     }
-    ov22_021205B8(1);
+    NotifyCursor(1);
 }
 
-void CEncycListBox::ov22_021204D8(int line)
+void CEncycListBox::DrawLine(int line)
 {
     EncycListBoxGroup *group = &unk_6C[unk_18];
     if (line < 0) {
@@ -395,7 +395,7 @@ void CEncycListBox::ov22_021204D8(int line)
     text->Print(row, 32, 3, 3, group->unk_04[line].unk_00, FALSE, 0);
 }
 
-int CEncycListBox::ov22_02120560(int group)
+int CEncycListBox::GetLineCount(int group)
 {
     if (group >= 0 && group < unk_68 && unk_6C != NULL) {
         return unk_6C[group].unk_00;
@@ -403,13 +403,13 @@ int CEncycListBox::ov22_02120560(int group)
     return 0;
 }
 
-void CEncycListBox::ov22_0212058C()
+void CEncycListBox::ApplyScroll()
 {
     G2S_SetBG0Offset(0, unk_34);
     G2S_SetBG3Offset(0, unk_34);
 }
 
-void CEncycListBox::ov22_021205B8(int arg0)
+void CEncycListBox::NotifyCursor(int arg0)
 {
     if (unk_38 == NULL) {
         return;
@@ -461,7 +461,7 @@ EncycRadioButtonGroup::~EncycRadioButtonGroup()
     SAFE_DELETE_ARRAY(unk_08);
 }
 
-void EncycRadioButtonGroup::ov22_021206DC(int idx, OamSpriteSet *anims, int animOn, int animOff, int x, int y, int w, int h, int arg8, const char *label)
+void EncycRadioButtonGroup::AddButton(int idx, OamSpriteSet *anims, int animOn, int animOff, int x, int y, int w, int h, int arg8, const char *label)
 {
     if (unk_08 == NULL) {
         return;
@@ -481,7 +481,7 @@ void EncycRadioButtonGroup::ov22_021206DC(int idx, OamSpriteSet *anims, int anim
     }
 }
 
-void EncycRadioButtonGroup::ov22_021207E8(int idx, OamSpriteSet *anims, int anim, int x, int y, int arg5)
+void EncycRadioButtonGroup::AddNewMark(int idx, OamSpriteSet *anims, int anim, int x, int y, int arg5)
 {
     for (int i = 0; i < unk_04; i++) {
         if (unk_08[i].unk_00 >= 0 && idx == unk_08[i].unk_00) {
@@ -491,7 +491,7 @@ void EncycRadioButtonGroup::ov22_021207E8(int idx, OamSpriteSet *anims, int anim
     }
 }
 
-void EncycRadioButtonGroup::ov22_0212086C(int idx, BOOL flag)
+void EncycRadioButtonGroup::SetNewMarkVisible(int idx, BOOL flag)
 {
     for (int i = 0; i < unk_04; i++) {
         if (unk_08[i].unk_00 >= 0 && idx == unk_08[i].unk_00) {
@@ -501,7 +501,7 @@ void EncycRadioButtonGroup::ov22_0212086C(int idx, BOOL flag)
     }
 }
 
-void EncycRadioButtonGroup::ov22_021208DC(int idx)
+void EncycRadioButtonGroup::Select(int idx)
 {
     for (int i = 0; i < unk_04; i++) {
         if (unk_08[i].unk_00 >= 0) {
@@ -520,11 +520,11 @@ void EncycRadioButtonGroup::ov22_021208DC(int idx)
     unk_0C->OnRadioButton(unk_00, idx);
 }
 
-void EncycRadioButtonGroup::ov22_0212098C()
+void EncycRadioButtonGroup::Update()
 {
     for (int i = 0; i < unk_04; i++) {
         if (unk_08[i].unk_04 != NULL && unk_08[i].unk_04->GetTouchTrigger()) {
-            ov22_021208DC(unk_08[i].unk_00);
+            Select(unk_08[i].unk_00);
             return;
         }
     }
@@ -539,12 +539,12 @@ EncycMessageStrings::EncycMessageStrings()
 
 EncycMessageStrings::~EncycMessageStrings()
 {
-    ov22_02120B04();
+    Release();
 }
 
-int EncycMessageStrings::ov22_02120A24(const char *path)
+int EncycMessageStrings::Load(const char *path)
 {
-    ov22_02120B04();
+    Release();
     if (path != NULL) {
         unk_00 = new CBinaryFileMes(path, 0);
         if (unk_00 != NULL) {
@@ -566,12 +566,12 @@ int EncycMessageStrings::ov22_02120A24(const char *path)
     return 0;
 }
 
-int EncycMessageStrings::ov22_02120AD8()
+int EncycMessageStrings::GetCount()
 {
     return unk_04;
 }
 
-const char *EncycMessageStrings::ov22_02120AE0(int idx)
+const char *EncycMessageStrings::GetString(int idx)
 {
     if (idx >= 0 && idx < unk_04) {
         return unk_08[idx];
@@ -579,7 +579,7 @@ const char *EncycMessageStrings::ov22_02120AE0(int idx)
     return NULL;
 }
 
-void EncycMessageStrings::ov22_02120B04()
+void EncycMessageStrings::Release()
 {
     SAFE_DELETE_ARRAY(unk_08);
     SAFE_DELETE(unk_00);
@@ -599,14 +599,14 @@ EncycEntries::EncycEntries()
 
 EncycEntries::~EncycEntries()
 {
-    ov22_02120E80();
+    Release();
 }
 
-BOOL EncycEntries::ov22_02120BB4(const char *path)
+BOOL EncycEntries::Load(const char *path)
 {
     BOOL ret = FALSE;
     if (path != NULL) {
-        unk_20.ov22_02120A24("/data/message/etc/dictionary_mes");
+        unk_20.Load("/data/message/etc/dictionary_mes");
         CBinaryFile bin(path, 1, 0, CGame::GetInstance()->unk_14A8, NULL, 0);
         if (bin.unk_4C != NULL) {
             u16 *p = (u16 *)bin.unk_4C + 3;
@@ -616,7 +616,7 @@ BOOL EncycEntries::ov22_02120BB4(const char *path)
                 unk_00 += unk_04[i];
             }
             if (unk_00 > 0) {
-                unk_10 = new UnkStruct_02120F34[unk_00];
+                unk_10 = new EncycEntry[unk_00];
                 if (unk_10 != NULL) {
                     int n = *p++;
                     if (n > 0) {
@@ -630,7 +630,7 @@ BOOL EncycEntries::ov22_02120BB4(const char *path)
                     n = *p++;
                     if (n > 0) {
                         u32 size = n * 8;
-                        unk_18 = (UnkStruct_02120FA8 *)new u8[size];
+                        unk_18 = (EncycMarker *)new u8[size];
                         if (unk_18 != NULL) {
                             MI_CpuCopy8(p, unk_18, size);
                         }
@@ -648,11 +648,11 @@ BOOL EncycEntries::ov22_02120BB4(const char *path)
                     for (int i = 0; i < unk_00; i++) {
                         int first = p[0];
                         int pages = p[1];
-                        UnkStruct_02120F34 *e = &unk_10[i];
+                        EncycEntry *e = &unk_10[i];
                         e->unk_08 = first;
                         e->unk_0C = pages;
                         p += 2;
-                        unk_10[i].unk_00 = (u8 *)unk_20.ov22_02120AE0(i + 1);
+                        unk_10[i].unk_00 = (u8 *)unk_20.GetString(i + 1);
                         if (unk_14 != NULL) {
                             unk_10[i].unk_10 = unk_14 + first;
                         }
@@ -686,20 +686,20 @@ BOOL EncycEntries::ov22_02120BB4(const char *path)
     return ret;
 }
 
-void EncycEntries::ov22_02120E80()
+void EncycEntries::Release()
 {
     SAFE_DELETE_ARRAY(unk_1C);
     SAFE_DELETE_ARRAY(unk_18);
     SAFE_DELETE_ARRAY(unk_14);
     SAFE_DELETE_ARRAY(unk_10);
-    unk_20.ov22_02120B04();
+    unk_20.Release();
     for (int i = 0; i < 3; i++) {
         unk_04[i] = 0;
     }
     unk_00 = 0;
 }
 
-int EncycEntries::ov22_02120F14(int group)
+int EncycEntries::GetCount(int group)
 {
     if (group >= 0 && group < 3) {
         return unk_04[group];
@@ -707,7 +707,7 @@ int EncycEntries::ov22_02120F14(int group)
     return 0;
 }
 
-UnkStruct_02120F34 *EncycEntries::ov22_02120F34(int group, int idx)
+EncycEntry *EncycEntries::GetEntry(int group, int idx)
 {
     if (unk_10 != NULL && group >= 0 && group < 3 && idx >= 0 && idx < unk_04[group]) {
         int base = 0;
@@ -719,9 +719,9 @@ UnkStruct_02120F34 *EncycEntries::ov22_02120F34(int group, int idx)
     return NULL;
 }
 
-UnkStruct_02120FA8 *UnkStruct_02120F34::ov22_02120FA8(int page, int idx)
+EncycMarker *EncycEntry::GetMarker(int page, int idx)
 {
-    UnkStruct_02120FA8 *markers;
+    EncycMarker *markers;
     if (unk_14 != NULL && (markers = unk_18) != NULL && page >= 0 && page < unk_0C) {
         for (int i = 0; i < page; i++) {
             int n = unk_14[i];
@@ -741,27 +741,27 @@ UnkStruct_02120FA8 *UnkStruct_02120F34::ov22_02120FA8(int page, int idx)
     return NULL;
 }
 
-void EncycTextCanvas::ov22_02121024(NNSG2dFont *font, void *scr, void *chr, int charNo, int x, int y, int w, int h, int hSpace, int vSpace)
+void EncycTextCanvas::Init(NNSG2dFont *font, void *scr, void *chr, int charNo, int x, int y, int w, int h, int hSpace, int vSpace)
 {
     NNS_G2dCharCanvasInitForBG(&unk_10, (u8 *)chr + (charNo << 5), w, h, NNS_G2D_CHARA_COLORMODE_16);
     NNS_G2dTextCanvasInit(&unk_00, &unk_10, font, hSpace, vSpace);
     NNS_G2dMapScrToCharText(scr, w, h, x, y, NNS_G2D_TEXT_BG_WIDTH_256, charNo, 14);
-    ov22_021210B8();
+    LoadPalette();
 }
 
-void EncycTextCanvas::ov22_021210B8()
+void EncycTextCanvas::LoadPalette()
 {
     CNCLRFile nclr("data/font/prs_lc_jp.NCLR", 1, 0, 0);
     DC_FlushRange(nclr.unk_B8->pRawData, 0x20);
     GX_LoadBGPltt(nclr.unk_B8->pRawData, 0x1C0, 0x20);
 }
 
-void EncycTextCanvas::ov22_02121110()
+void EncycTextCanvas::Clear()
 {
     NNS_G2dCharCanvasClear(&unk_10, 0);
 }
 
-void EncycTextRenderer::ov22_0212112C(EncycTextCanvas *canvas, int x, int y, int color, const char *label, int flags)
+void EncycTextRenderer::DrawLabel(EncycTextCanvas *canvas, int x, int y, int color, const char *label, int flags)
 {
     int width;
     int lines;
@@ -773,7 +773,7 @@ void EncycTextRenderer::ov22_0212112C(EncycTextCanvas *canvas, int x, int y, int
     lines = 1;
     if (pos != NULL) {
         do {
-            int w = ov22_021214CC(font, hSpace, &pos);
+            int w = GetTextLineWidth(font, hSpace, &pos);
             if (w > width) {
                 width = w;
             }
@@ -811,15 +811,15 @@ void EncycTextRenderer::ov22_0212112C(EncycTextCanvas *canvas, int x, int y, int
         }
         break;
     }
-    ov22_021212A4(x, y, width, height, flags);
+    SetFrame(x, y, width, height, flags);
     if (!(flags & 0x100)) {
         y += 2;
         x += 4;
     }
-    ov22_02121304(canvas, label, x, y, color, width, flags);
+    DrawText(canvas, label, x, y, color, width, flags);
 }
 
-void EncycTextRenderer::ov22_021212A4(int x, int y, int w, int h, int flags)
+void EncycTextRenderer::SetFrame(int x, int y, int w, int h, int flags)
 {
     fx32 top, left;
     if (flags & 0x100) {
@@ -834,7 +834,7 @@ void EncycTextRenderer::ov22_021212A4(int x, int y, int w, int h, int flags)
     unk_00.SetVertexCoordinates(left, top, left, bottom, right, bottom, right, top, 0);
 }
 
-void EncycTextRenderer::ov22_02121304(EncycTextCanvas *canvas, const char *text, int x, int y, int color, int width, int flags)
+void EncycTextRenderer::DrawText(EncycTextCanvas *canvas, const char *text, int x, int y, int color, int width, int flags)
 {
     int py = y;
     NNSG2dFont *font = (NNSG2dFont *)canvas->unk_00.pFont;
@@ -850,19 +850,19 @@ void EncycTextRenderer::ov22_02121304(EncycTextCanvas *canvas, const char *text,
         switch (flags & 3) {
         case 1:
             str = pos;
-            px = x + ((width + 1) / 2 - (ov22_021214CC(font, hSpace, &str) + 1) / 2);
+            px = x + ((width + 1) / 2 - (GetTextLineWidth(font, hSpace, &str) + 1) / 2);
             break;
         case 2:
             str = pos;
-            px = x + (width - ov22_021214CC(font, hSpace, &str));
+            px = x + (width - GetTextLineWidth(font, hSpace, &str));
             break;
         }
-        ov22_021215C8(canvas, hSpace, px, py, color, &pos);
+        DrawLine(canvas, hSpace, px, py, color, &pos);
         py += linefeed;
     } while (pos != NULL);
 }
 
-void EncycTextRenderer::ov22_021213F0(Camera2D *camera)
+void EncycTextRenderer::Render(Camera2D *camera)
 {
     unk_00.m_z = unk_60 * 3 + 1;
     unk_00.m_alpha = 31;
@@ -881,7 +881,7 @@ void EncycTextRenderer::ov22_021213F0(Camera2D *camera)
     G3_PopMtx(1);
 }
 
-int ov22_021214CC(NNSG2dFont *font, int hSpace, u8 **str)
+int GetTextLineWidth(NNSG2dFont *font, int hSpace, u8 **str)
 {
     if (str == NULL) {
         return 0;
@@ -925,7 +925,7 @@ int ov22_021214CC(NNSG2dFont *font, int hSpace, u8 **str)
     return width;
 }
 
-void EncycTextRenderer::ov22_021215C8(EncycTextCanvas *canvas, int hSpace, int x, int y, int color, u8 **str)
+void EncycTextRenderer::DrawLine(EncycTextCanvas *canvas, int hSpace, int x, int y, int color, u8 **str)
 {
     if (str == NULL) {
         return;

@@ -501,9 +501,9 @@ u16 DAT_0208c55c[] = {
     0x0000,
 };
 
-UnkStruct_0210C1C0 MAIN_BSS_0210C1C0;
+FieldEffectSaveBuffer MAIN_BSS_0210C1C0;
 
-void sub_0202A4A0(UnkStruct_0210C1C0 *obj)
+void FieldEffectSaveBuffer_Build(FieldEffectSaveBuffer *obj)
 {
     MI_CpuFill8(obj, 0, sizeof(obj->unk_00));
     if (obj->unk_64 != NULL) {

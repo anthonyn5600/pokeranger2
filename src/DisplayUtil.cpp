@@ -22,11 +22,11 @@ void SetupBGFonts()
     SetupSubBGFont();
 }
 
-void sub_02007D78()
+void FlushBGFonts()
 {
     CGame *game = CGame::GetInstance();
-    game->unk_0C24->sub_020027E8();
-    game->unk_0C28->sub_020027E8();
+    game->unk_0C24->FlushArea();
+    game->unk_0C28->FlushArea();
 }
 
 void LoadOam()

@@ -15,8 +15,8 @@ class UnkClass_02129B74 {
 public:
     UnkClass_02129B74();
     ~UnkClass_02129B74();
-    void ov1_02129B9C();
-    void ov1_02129D1C();
+    void Load();
+    void Release();
 
 public:
     VramImage *m_image;

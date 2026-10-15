@@ -87,7 +87,7 @@ void ParamTableFile::Parse()
     }
 }
 
-s32 ParamTableFile::sub_0200D390()
+s32 ParamTableFile::GetRowCount()
 {
     return unk_1C;
 }

@@ -49,7 +49,7 @@ int CFieldEffectFuwanteWind::SetParam(int param, int value)
     return ret;
 }
 
-int CFieldEffectFuwanteWind::ov0_02142344(Camera2D *camera)
+int CFieldEffectFuwanteWind::Render(Camera2D *camera)
 {
     if (m_system != NULL) {
         m_system->Draw(camera);
@@ -134,7 +134,7 @@ void CFieldEffectFuwanteWindFactory::Reset()
 
 BOOL CFieldEffectFuwanteWindFactory::Load()
 {
-    m_data.ov0_021503B8(0x69, TRUE);
+    m_data.Load(0x69, TRUE);
     if (m_cells != NULL) {
         delete[] m_cells;
         m_cells = NULL;
@@ -176,7 +176,7 @@ CFieldEffect *CFieldEffectFuwanteWindFactory::Create(int arg)
 {
     CFieldEffectFuwanteWind *effect = new CFieldEffectFuwanteWind();
     if (effect != NULL) {
-        effect->ov0_021423E8(FieldEffectSpriteRes(m_data.GetNcbr(0), m_data.GetPalette(), m_data.GetNcer(0)));
+        effect->SetParticleRes(FieldEffectSpriteRes(m_data.GetNcbr(0), m_data.GetPalette(), m_data.GetNcer(0)));
         u16 *cells = m_cells;
         effect->m_animator.m_cac = m_data.GetCac(0);
         effect->m_animator.m_cells = cells;

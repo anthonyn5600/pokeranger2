@@ -15,8 +15,8 @@ class UnkClass_021278E8 {
 public:
     UnkClass_021278E8();
     ~UnkClass_021278E8();
-    void ov1_02127910();
-    void ov1_02127A90();
+    void Load();
+    void Release();
 
 public:
     VramImage *m_image;

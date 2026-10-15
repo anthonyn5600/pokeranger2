@@ -21,7 +21,7 @@ BOOL CFieldMapLayerEnemy::Load(void *data)
     if (manage != NULL) {
         int base = manage->CountActors();
         for (int i = 0; i < m_count; i++) {
-            int slot = manage->ov0_02135E30(base + i, m_entries[i].unk_06, m_entries[i].unk_08, 0);
+            int slot = manage->Create(base + i, m_entries[i].unk_06, m_entries[i].unk_08, 0);
             if (slot >= 0) {
                 u16 dir = (m_entries[i].dir + 1) << 14;
                 CFieldEnemy *enemy = (CFieldEnemy *)manage->Get(slot);
@@ -46,7 +46,7 @@ BOOL CFieldMapLayerEnemy::Load(void *data)
                 } else {
                     Actor_HideManpu(enemy);
                     enemy->unk_20 = 0;
-                    enemy->sub_0202D394();
+                    enemy->OnDisable();
                 }
                 if (m_entries[i].hidden == 2) {
                     enemy->unk_244 = TRUE;

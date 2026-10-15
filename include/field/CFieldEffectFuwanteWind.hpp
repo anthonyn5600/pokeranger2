@@ -47,7 +47,7 @@ public:
     {
         return 26;
     }
-    virtual int ov0_02142344(Camera2D *camera);
+    virtual int Render(Camera2D *camera);
     virtual int SetParam(int param, int value);
     virtual TFieldParticleEmitter<CSoftwareSprite> *GetEmitter()
     {

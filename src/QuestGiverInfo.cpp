@@ -6,7 +6,7 @@
 #include "TextPrinter.hpp"
 #include "scene/CQuestListScene.hpp"
 
-static UnkStruct_021213AC sQuestActors[61] = {
+static QuestGiverActor sQuestActors[61] = {
     { 0x39, 0x04 },
     { 0x2B, 0x04 },
     { 0x2E, 0x04 },
@@ -70,19 +70,19 @@ static UnkStruct_021213AC sQuestActors[61] = {
     { 0x3E, 0x16 },
 };
 
-static void ov27_02120E2C(void *arg);
+static void GiverThreadMain(void *arg);
 
 QuestGiverInfo::QuestGiverInfo()
 {
-    ov27_0212062C();
+    Init();
 }
 
 QuestGiverInfo::~QuestGiverInfo()
 {
-    ov27_02120758();
+    Release();
 }
 
-void QuestGiverInfo::ov27_0212062C()
+void QuestGiverInfo::Init()
 {
     unk_0000 = -1;
     unk_0005 = FALSE;
@@ -93,11 +93,11 @@ void QuestGiverInfo::ov27_0212062C()
     unk_01F0 = 0;
     unk_0008 = -1;
     OS_InitMessageQueue(&unk_12BC, unk_12DC, 1);
-    OS_CreateThread(&unk_01FC, ov27_02120E2C, this, unk_02BC + sizeof(unk_02BC), sizeof(unk_02BC), 20);
+    OS_CreateThread(&unk_01FC, GiverThreadMain, this, unk_02BC + sizeof(unk_02BC), sizeof(unk_02BC), 20);
     OS_WakeupThreadDirect(&unk_01FC);
 }
 
-void QuestGiverInfo::ov27_021206B4()
+void QuestGiverInfo::Update()
 {
     G2_SetBG1Offset(0, -((int)CGame::GetInstance()->unk_15D0 >> FX32_SHIFT));
     if (unk_0010 == NULL) {
@@ -115,16 +115,16 @@ void QuestGiverInfo::ov27_021206B4()
     }
 }
 
-void QuestGiverInfo::ov27_02120748()
+void QuestGiverInfo::Render()
 {
-    ov27_021207E4();
+    Draw();
 }
 
-void QuestGiverInfo::ov27_02120754()
+void QuestGiverInfo::OnVBlank()
 {
 }
 
-void QuestGiverInfo::ov27_02120758()
+void QuestGiverInfo::Release()
 {
     CGame::GetInstance()->unk_1494->FreeWindows();
     SAFE_DELETE(unk_000C);
@@ -141,7 +141,7 @@ static inline void DrawActor(CFieldActor *actor, Camera2D *camera)
     }
 }
 
-void QuestGiverInfo::ov27_021207E4()
+void QuestGiverInfo::Draw()
 {
     if (unk_0010 == NULL) {
         return;
@@ -159,7 +159,7 @@ void QuestGiverInfo::ov27_021207E4()
     }
 }
 
-void QuestGiverInfo::ov27_02120870(BOOL noInfo)
+void QuestGiverInfo::Load(BOOL noInfo)
 {
     CGame *game = CGame::GetInstance();
     GX_SetVisiblePlane(GX_PLANEMASK_BG1 | GX_PLANEMASK_BG2 | GX_PLANEMASK_OBJ);
@@ -212,7 +212,7 @@ void QuestGiverInfo::ov27_02120870(BOOL noInfo)
     unk_000C->SetOrtho(0, 0xC0000, 0, 0x100000, -0x400000, 0x800000, 0x400000);
 }
 
-BOOL QuestGiverInfo::ov27_02120CA8(QLMessageStrings *info, int questId, BOOL notCleared)
+BOOL QuestGiverInfo::SetQuest(QLMessageStrings *info, int questId, BOOL notCleared)
 {
     unk_002C = info;
     unk_0005 = notCleared;
@@ -221,13 +221,13 @@ BOOL QuestGiverInfo::ov27_02120CA8(QLMessageStrings *info, int questId, BOOL not
     return TRUE;
 }
 
-BOOL QuestGiverInfo::ov27_02120CC4(BOOL noInfo)
+BOOL QuestGiverInfo::Setup(BOOL noInfo)
 {
-    ov27_02120870(noInfo);
+    Load(noInfo);
     return TRUE;
 }
 
-void QuestGiverInfo::ov27_02120CD4()
+void QuestGiverInfo::DrawTexts()
 {
     TextPrinter *text = CGame::GetInstance()->unk_1494;
     text->ClearWindow(0);
@@ -235,14 +235,14 @@ void QuestGiverInfo::ov27_02120CD4()
     text->ClearWindow(2);
     text->ClearWindow(3);
     if (unk_01F1 && unk_002C != NULL) {
-        text->Print(0, 0, 2, 3, (u8 *)unk_002C->ov27_0211FB38(unk_0005 ? 5 : 1), 1, 0);
-        text->Print(1, 0, 0, 3, (u8 *)unk_002C->ov27_0211FB38(2), 1, 0);
-        text->Print(2, 0, 0, 3, (u8 *)unk_002C->ov27_0211FB38(3), 1, 0);
-        text->Print(3, 2, 6, 1, (u8 *)unk_002C->ov27_0211FB38(unk_0005 ? 6 : 4), 0, 0);
+        text->Print(0, 0, 2, 3, (u8 *)unk_002C->GetString(unk_0005 ? 5 : 1), 1, 0);
+        text->Print(1, 0, 0, 3, (u8 *)unk_002C->GetString(2), 1, 0);
+        text->Print(2, 0, 0, 3, (u8 *)unk_002C->GetString(3), 1, 0);
+        text->Print(3, 2, 6, 1, (u8 *)unk_002C->GetString(unk_0005 ? 6 : 4), 0, 0);
     }
 }
 
-static void ov27_02120E2C(void *arg)
+static void GiverThreadMain(void *arg)
 {
     QuestGiverInfo *p = (QuestGiverInfo *)arg;
     if (p == NULL) {
@@ -254,11 +254,11 @@ static void ov27_02120E2C(void *arg)
         if ((int)msg < 0) {
             break;
         }
-        p->ov27_02120E70((int)msg);
+        p->LoadGiver((int)msg);
     }
 }
 
-void QuestGiverInfo::ov27_02120E70(int questId)
+void QuestGiverInfo::LoadGiver(int questId)
 {
     if (unk_0000 == questId) {
         return;
@@ -274,6 +274,6 @@ void QuestGiverInfo::ov27_02120E70(int questId)
         unk_0030[1 - unk_01F0].m_drawObject->m_actor->SetDir(0x4000);
     }
     unk_01F0 = 1 - unk_01F0;
-    ov27_02120CD4();
+    DrawTexts();
     unk_0000 = questId;
 }

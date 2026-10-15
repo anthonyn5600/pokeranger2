@@ -10,8 +10,8 @@
 #include "CardBackupInfo.hpp"
 #include "Collision.hpp"
 #include "Log.hpp"
-#include "UnkStruct_02044464.hpp"
-#include "UnkUnion_020843E0.hpp"
+#include "ScriptVM.hpp"
+#include "TextColorTable.hpp"
 #include "fx_utils.hpp"
 #include "heap.hpp"
 
@@ -31,10 +31,10 @@ class FieldEventRectManage;
 class FieldScreenEffectManage;
 class FieldScriptLauncher;
 class SaveManager;
-class UnkClass_0214B984;
+class FieldDebugFlags;
 
-// Same layout as the local definitions in CFieldScene.cpp, Syscall.cpp, UnkClass_0214B984.cpp, CStaffrollScene.cpp.
-struct UnkStruct_0208AC1C {
+// Same layout as the local definitions in CFieldScene.cpp, Syscall.cpp, FieldDebugFlags.cpp, CStaffrollScene.cpp.
+struct ChapterInfo {
     char name[0x10];
     u32 mapId;
     int x;
@@ -92,7 +92,7 @@ extern const u8 DAT_020843c8[8] = { 0xE3, 0x80, 0x80, 0x20, 0x00 };
 
 extern const u32 DAT_020843d0[4] = { 0, 1, 2, 1 };
 
-extern const UnkUnion_020843E0 DAT_020843e0 = { { 0, 1, 4, 7, 10, 13 } };
+extern const TextColorTable DAT_020843e0 = { { 0, 1, 4, 7, 10, 13 } };
 
 // Camera shake offsets per phase (CameraController.cpp).
 extern const fx32 DAT_020843f8[6] = { -FX32_ONE, FX32_ONE, -FX32_ONE, FX32_ONE, -FX32_ONE, FX32_ONE };
@@ -151,7 +151,7 @@ fx32 MAIN_BSS_020AF338 = FX32_DIV(FX32_CONST(60), (fx64)(DAT_0208aafa << FX32_SH
 // ---- asm/arm9_0208AC1C.s (.data) ----
 
 // Start map and position of each chapter's "First" script.
-UnkStruct_0208AC1C s_c000First_0208ac1c[] = {
+ChapterInfo s_c000First_0208ac1c[] = {
     { "c000First", 0, 360, 360 }, // 0
     { "c001First", 0, 0, 0 }, // 1
     { "c002First", 47, 216, 168 }, // 2
@@ -244,7 +244,7 @@ FieldEventRectManage *MAIN_BSS_0210CA58;
 CFieldEnemyManage *MAIN_BSS_0210CA5C;
 CFieldEffectManage *MAIN_BSS_0210CA60;
 FieldDrawActorDataPool *MAIN_BSS_0210CA64;
-UnkClass_0214B984 *MAIN_BSS_0210CA68;
+FieldDebugFlags *MAIN_BSS_0210CA68;
 FieldData *MAIN_BSS_0210CA6C;
 CFieldPlayerInputControlManage *MAIN_BSS_0210CA70;
 // Flag word (FieldActor.cpp, Syscall.cpp: u32) that CFieldScene.cpp clears as a void *: pointer-sized so that its

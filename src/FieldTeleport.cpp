@@ -1,8 +1,8 @@
 #include <nitro.h>
 
 #include "FieldData.hpp"
+#include "FieldDataRecords.hpp"
 #include "SaveData.hpp"
-#include "UnkClass_02041D80.hpp"
 
 extern FieldData *MAIN_BSS_0210CA6C;
 
@@ -38,7 +38,7 @@ static inline void SetTeleportPos(SaveData *save, u16 x, u16 y, u16 z)
 
 extern "C" {
 
-TeleportPoint *ov0_02161F2C(int area)
+TeleportPoint *FindTeleportPoint(int area)
 {
     for (int i = 0; sTeleportPoints[i].area != -1; i++) {
         if (area == sTeleportPoints[i].area) {
@@ -48,10 +48,10 @@ TeleportPoint *ov0_02161F2C(int area)
     return sTeleportPoints;
 }
 
-void ov0_02161F88(void)
+void SetTeleportPointFromMap(void)
 {
-    UnkStruct_02041D80 *map = FieldData_GetMap(MAIN_BSS_0210CA6C, MAIN_BSS_020B26A0.m_mapId);
-    TeleportPoint *point = ov0_02161F2C(map->unk_00);
+    FieldMapData *map = FieldData_GetMap(MAIN_BSS_0210CA6C, MAIN_BSS_020B26A0.m_mapId);
+    TeleportPoint *point = FindTeleportPoint(map->unk_00);
     SetTeleportPos(&MAIN_BSS_020B26A0, point->x, point->y, point->z);
 }
 

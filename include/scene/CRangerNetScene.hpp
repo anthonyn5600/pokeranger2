@@ -21,7 +21,7 @@ public:
     virtual void func7();
     virtual u32 getSceneId();
 
-    void ov11_0211CAE4();
+    void Init();
 
 public:
     CGame *m_game;

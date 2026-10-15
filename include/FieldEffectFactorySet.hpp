@@ -15,11 +15,11 @@ public:
 
     ~FieldEffectFactorySet()
     {
-        ov0_021518F4();
+        Release();
     }
 
-    void ov0_021518B8(CFieldEffectManage *mgr);
-    void ov0_021518F4();
+    void Create(CFieldEffectManage *mgr);
+    void Release();
 
 public:
     FieldEffectFactories *unk_00;

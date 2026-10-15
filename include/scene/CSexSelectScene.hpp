@@ -27,29 +27,29 @@ public:
     virtual void func7();
     virtual u32 getSceneId();
 
-    void ov19_0211CD54();
-    void ov19_0211CDA0();
-    void ov19_0211CFC0();
-    void ov19_0211D070();
-    void ov19_0211D17C();
-    void ov19_0211D300();
-    void ov19_0211D4A0();
-    void ov19_0211D540();
-    void ov19_0211D9B0();
-    void ov19_0211DAE8();
-    void ov19_0211DC24();
-    void ov19_0211DD7C();
-    void ov19_0211DE04();
-    void ov19_0211DEF8();
-    void ov19_0211DF74();
-    void ov19_0211DFD8();
-    void ov19_0211E140();
-    void ov19_0211E16C();
-    void ov19_0211E1A0();
-    void ov19_0211E1D0();
-    void ov19_0211E200();
-    void ov19_0211E270();
-    void ov19_0211E308();
+    void ReleaseSprites();
+    void LoadBG();
+    void ShowQuestion();
+    void CreateTouchRects();
+    void LoadPlayerGraphics();
+    void LoadSprites();
+    void LoadBoyAnim();
+    void LoadGirlAnim();
+    void UpdateSelect();
+    void UpdateMoveToCenter();
+    void UpdateMoveBack();
+    void UpdateConfirm();
+    void UpdateDarken();
+    void UpdateEffectAnim();
+    void UpdateWait();
+    void UpdatePlayerAnim();
+    void DrawDarkRect();
+    void WriteEffectOam();
+    void DrawPlayer();
+    void DrawPlayerAnim();
+    void DrawGirlStill();
+    void DrawBoyAnim();
+    void DrawGirlAnim();
 
 public:
     u16 unk_04; // state

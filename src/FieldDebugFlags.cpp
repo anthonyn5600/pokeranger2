@@ -5,7 +5,7 @@
 // had dead static tables that left no trace). sUnusedNames below and the declaration order of the .bss statics and
 // tables were computed to match (~/scratch/ov0/fb984/construct2.py, NOTES.md there); find the real source order.
 
-#include "UnkClass_0214B984.hpp"
+#include "FieldDebugFlags.hpp"
 
 #include <nitro.h>
 #include <string.h>
@@ -14,16 +14,16 @@
 #include "CGame.hpp"
 #include "CPlayerHPGauge.hpp"
 #include "DebugProcess.hpp"
+#include "FieldDataRecords.hpp"
 #include "FieldDebugMenu.hpp"
 #include "FieldEventRectManage.hpp"
 #include "FieldScreenEffectManage.hpp"
 #include "FieldSubScreen.hpp"
 #include "GlobalValues.hpp"
 #include "MissionQuestData.hpp"
+#include "PokeIdTableEntry.hpp"
 #include "SaveData.hpp"
 #include "TextboxManager.hpp"
-#include "UnkClass_02041D80.hpp"
-#include "UnkStruct_020107A8.hpp"
 #include "common.hpp"
 #include "field/CFieldEffect.hpp"
 #include "field/CFieldEffectManage.hpp"
@@ -37,7 +37,7 @@
 #include "field/FieldPartnerIndex.hpp"
 #include "scene/CFieldScene.hpp"
 
-extern UnkClass_0214B984 *MAIN_BSS_0210CA68;
+extern FieldDebugFlags *MAIN_BSS_0210CA68;
 extern FieldDebugMenu *MAIN_BSS_0210CA80;
 extern FieldData *MAIN_BSS_0210CA6C;
 extern SaveData MAIN_BSS_020B26A0;
@@ -61,26 +61,26 @@ void SaveData_SetPartnerCount(SaveData *save, int idx, u32 value);
 void SaveData_SetPlayTime(SaveData *save, u32 hours, u8 minutes, u8 seconds);
 }
 
-struct UnkStruct_0208AC1C {
+struct ChapterInfo {
     char name[0x10];
     u32 mapId;
     int x;
     int y;
 };
 
-extern UnkStruct_0208AC1C s_c000First_0208ac1c[];
+extern ChapterInfo s_c000First_0208ac1c[];
 extern u16 DAT_0208c55c[];
 
 extern "C" {
 }
 
-UnkClass_0214B984::UnkClass_0214B984()
+FieldDebugFlags::FieldDebugFlags()
 {
     MAIN_BSS_0210CA68 = this;
     unk_00 = 0;
 }
 
-UnkClass_0214B984::~UnkClass_0214B984()
+FieldDebugFlags::~FieldDebugFlags()
 {
     MAIN_BSS_0210CA68 = NULL;
 }
@@ -479,11 +479,11 @@ static char sStoryLine1[32];
 
 extern "C" {
 
-const char *ov0_0214B9B0(int id)
+const char *Debug_GetMapName(int id)
 {
     strcpy(sMapName, "error");
     if (MAIN_BSS_0210CA6C != NULL) {
-        UnkStruct_02041D80 *map = FieldData_GetMap(MAIN_BSS_0210CA6C, id);
+        FieldMapData *map = FieldData_GetMap(MAIN_BSS_0210CA6C, id);
         if (map != NULL) {
             if (id > 0) {
                 if (map->unk_02 == 0xFF) {
@@ -499,7 +499,7 @@ const char *ov0_0214B9B0(int id)
     return sMapName;
 }
 
-int ov0_0214BAAC()
+int Debug_GetMapCount()
 {
     int count = 0;
     if (MAIN_BSS_0210CA6C != NULL) {
@@ -508,7 +508,7 @@ int ov0_0214BAAC()
     return count;
 }
 
-int ov0_0214BACC()
+int Debug_GetMapID()
 {
     return MAIN_BSS_020B26A0.m_mapId;
 }
@@ -535,7 +535,7 @@ void Debug_SetTargetID(int id)
     sTargetId = id;
 }
 
-const char *ov0_0214BB38(int id)
+const char *Debug_GetTargetName(int id)
 {
     strcpy(sTargetName, "NONE");
     if (id > 0 && MAIN_BSS_0210CA6C != NULL) {
@@ -547,7 +547,7 @@ const char *ov0_0214BB38(int id)
     return sTargetName;
 }
 
-int ov0_0214BBCC()
+int Debug_GetTargetCount()
 {
     int count = 0;
     if (MAIN_BSS_0210CA6C != NULL) {
@@ -574,7 +574,7 @@ void Debug_DoScriptID(int scriptId)
         return;
     }
     int count = targets->CountActors();
-    int index = targets->ov0_0213D1AC(count, sTargetId, scriptId, 0, 0);
+    int index = targets->Create(count, sTargetId, scriptId, 0, 0);
     if (index < 0) {
         return;
     }
@@ -604,7 +604,7 @@ void Debug_SetPosx(int x)
         return;
     }
     player->SetPosXY(x << FX32_SHIFT, player->GetY());
-    player->ov0_021307B0(NULL, NULL, NULL, NULL, 0);
+    player->UpdateInput(NULL, NULL, NULL, NULL, 0);
 }
 
 int Debug_GetPosy()
@@ -624,7 +624,7 @@ void Debug_SetPosy(int y)
         return;
     }
     player->SetPosXY(player->GetX(), y << FX32_SHIFT);
-    player->ov0_021307B0(NULL, NULL, NULL, NULL, 0);
+    player->UpdateInput(NULL, NULL, NULL, NULL, 0);
 }
 
 void Debug_DoGameend(int on)
@@ -636,7 +636,7 @@ void Debug_DoGameend(int on)
 
 int Debug_GetDebprim()
 {
-    UnkClass_0214B984 *debug = MAIN_BSS_0210CA68;
+    FieldDebugFlags *debug = MAIN_BSS_0210CA68;
     if (debug != NULL && (debug->unk_00 & 1)) {
         // always 0: the bit shifted out (a plain `return 0` lets IRO fold the test away)
         return (debug->unk_00 & 1) >> 1;
@@ -646,7 +646,7 @@ int Debug_GetDebprim()
 
 void Debug_SetDebprim(int on)
 {
-    UnkClass_0214B984 *debug = MAIN_BSS_0210CA68;
+    FieldDebugFlags *debug = MAIN_BSS_0210CA68;
     if (debug != NULL) {
         u32 flags = debug->unk_00;
         if (on) {
@@ -658,7 +658,7 @@ void Debug_SetDebprim(int on)
     }
 }
 
-int ov0_0214C010()
+int Debug_GetHPGauge()
 {
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (scene != NULL) {
@@ -667,7 +667,7 @@ int ov0_0214C010()
     return 0;
 }
 
-void ov0_0214C040(int on)
+void Debug_SetHPGauge(int on)
 {
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (scene != NULL) {
@@ -721,7 +721,7 @@ void Debug_SetRangCls(int rank)
     save->m_rangerClassGrade = (save->m_rangerClassGrade & 0xF0) | (u8)rank;
     FieldSubScreen *obj = FieldSubScreen::GetInstance();
     if (obj != NULL) {
-        obj->sub_02022B20();
+        obj->RefreshPartyPanel();
     }
 }
 
@@ -743,8 +743,8 @@ void Debug_SetRangGrd(int grade)
         return;
     }
     Point2D pos = player->GetPos();
-    player->ov0_02132F14(save->m_sex, (u8)((save->m_rangerClassGrade >> 4) & 0xF), save->m_areaType);
-    player->ov0_02132FA0(save->unk_8802);
+    player->LoadModel(save->m_sex, (u8)((save->m_rangerClassGrade >> 4) & 0xF), save->m_areaType);
+    player->SetRideMode(save->unk_8802);
     player->SetPos(pos);
 }
 
@@ -766,14 +766,14 @@ void Debug_SetPlyrSex(int sex)
         return;
     }
     Point2D pos = player->GetPos();
-    player->ov0_02132F14(save->m_sex, (u8)((save->m_rangerClassGrade >> 4) & 0xF), save->m_areaType);
-    player->ov0_02132FA0(save->unk_8802);
+    player->LoadModel(save->m_sex, (u8)((save->m_rangerClassGrade >> 4) & 0xF), save->m_areaType);
+    player->SetRideMode(save->unk_8802);
     player->SetPos(pos);
 }
 
 int Debug_GetCollFree()
 {
-    UnkClass_0214B984 *debug = MAIN_BSS_0210CA68;
+    FieldDebugFlags *debug = MAIN_BSS_0210CA68;
     if (debug != NULL && (debug->unk_00 & 2)) {
         return 1;
     }
@@ -782,7 +782,7 @@ int Debug_GetCollFree()
 
 void Debug_SetCollFree(int on)
 {
-    UnkClass_0214B984 *debug = MAIN_BSS_0210CA68;
+    FieldDebugFlags *debug = MAIN_BSS_0210CA68;
     if (debug != NULL) {
         u32 flags = debug->unk_00;
         if (on) {
@@ -794,17 +794,17 @@ void Debug_SetCollFree(int on)
     }
 }
 
-const char *ov0_0214C4A0(int kind)
+const char *Debug_GetPokeName(int kind)
 {
     strcpy(sPokeName, "error");
-    UnkStruct_020107A8 *info = PokeIdTable_Get(s_game->unk_1434, kind);
+    PokeIdTableEntry *info = PokeIdTable_Get(s_game->unk_1434, kind);
     if (info != NULL) {
         OS_SPrintf(sPokeName, "%03d)p%03d_%02d", kind, info->unk_00, info->unk_02);
     }
     return sPokeName;
 }
 
-int ov0_0214C540()
+int Debug_GetPokeCount()
 {
     int count = 0;
     if (MAIN_BSS_0210CA6C != NULL) {
@@ -831,7 +831,7 @@ void Debug_SetPokeAdd(int kind)
     u32 id = (slot & 0xFFF) | 0x1FFF000;
     CFieldPartnerManage *partners;
     if (SaveData_AddToParty(save, id, kind, -1) && (partners = MAIN_BSS_0210CA4C) != NULL) {
-        partners->ov0_02139920(id, kind, 0xE, 0, 1);
+        partners->Create(id, kind, 0xE, 0, 1);
         FieldActorManage_RestartAllScripts(partners);
         if (HasPartnerIndex((u16)kind)) {
             PartyEntry *entry = SaveData_FindEntry(save, id);
@@ -844,7 +844,7 @@ void Debug_SetPokeAdd(int kind)
 
 int Debug_GetEvArea()
 {
-    UnkClass_0214B984 *debug = MAIN_BSS_0210CA68;
+    FieldDebugFlags *debug = MAIN_BSS_0210CA68;
     if (debug != NULL && (debug->unk_00 & 4)) {
         return 1;
     }
@@ -853,7 +853,7 @@ int Debug_GetEvArea()
 
 void Debug_SetEvArea(int on)
 {
-    UnkClass_0214B984 *debug = MAIN_BSS_0210CA68;
+    FieldDebugFlags *debug = MAIN_BSS_0210CA68;
     if (debug != NULL) {
         u32 flags = debug->unk_00;
         if (on) {
@@ -871,7 +871,7 @@ void Debug_SetEvArea(int on)
 
 int Debug_GetEncFree()
 {
-    UnkClass_0214B984 *debug = MAIN_BSS_0210CA68;
+    FieldDebugFlags *debug = MAIN_BSS_0210CA68;
     if (debug != NULL && (debug->unk_00 & 8)) {
         return 1;
     }
@@ -880,7 +880,7 @@ int Debug_GetEncFree()
 
 void Debug_SetEncFree(int on)
 {
-    UnkClass_0214B984 *debug = MAIN_BSS_0210CA68;
+    FieldDebugFlags *debug = MAIN_BSS_0210CA68;
     if (debug != NULL) {
         u32 flags = debug->unk_00;
         if (on) {
@@ -894,7 +894,7 @@ void Debug_SetEncFree(int on)
 
 int Debug_GetProcLoad()
 {
-    UnkClass_0214B984 *debug = MAIN_BSS_0210CA68;
+    FieldDebugFlags *debug = MAIN_BSS_0210CA68;
     if (debug != NULL && (debug->unk_00 & 0x10)) {
         return 1;
     }
@@ -903,7 +903,7 @@ int Debug_GetProcLoad()
 
 void Debug_SetProcLoad(int on)
 {
-    UnkClass_0214B984 *debug = MAIN_BSS_0210CA68;
+    FieldDebugFlags *debug = MAIN_BSS_0210CA68;
     if (debug != NULL) {
         u32 flags = debug->unk_00;
         if (on) {
@@ -915,7 +915,7 @@ void Debug_SetProcLoad(int on)
     }
 }
 
-int ov0_0214C790()
+int Debug_GetChapter()
 {
     return s_game->m_missionQuestData->m_chapter;
 }
@@ -928,7 +928,7 @@ void Debug_SetChapJump(int chapter)
         PartnerSlot *partner = MAIN_BSS_020B26A0.GetPartner(i);
         if (partner != NULL && partner->unk_00 != 0) {
             if (partners != NULL) {
-                partners->ov0_0213A050(partner->unk_04);
+                partners->LeaveParty(partner->unk_04);
             }
             partner->unk_00 = 0;
         }
@@ -952,7 +952,7 @@ void Debug_SetChapJump(int chapter)
     MissionQuestData_SetChapter(s_game->m_missionQuestData, chapter);
 }
 
-void ov0_0214C900()
+void Debug_DoTexVramInfo()
 {
     NNS_GfdDumpLnkTexVramManager();
 }
@@ -966,7 +966,7 @@ void Debug_DoUpperDbgInfo()
 {
     FieldSubScreen *obj = FieldSubScreen::GetInstance();
     if (obj != NULL) {
-        obj->sub_02022D04();
+        obj->ShowDebugInfo();
     }
 }
 
@@ -1029,7 +1029,7 @@ void Debug_SetWeather(int weather)
     LogInfo("****************************************");
     FieldScreenEffectManage *control = MAIN_BSS_0210CA78;
     control->ClearPrimary();
-    control->sub_02035D38(weather);
+    control->SetPrimaryEffect(weather);
     control->StartEffect(weather, 120, -1, 0);
     if (weather != 0) {
         return;
@@ -1134,62 +1134,62 @@ void Debug_SetTestEff(int type)
     u16 id;
     switch (type) {
     case 0:
-        id = manage->ov0_02142F6C(0x13, 0);
+        id = manage->Create(0x13, 0);
         break;
     case 1:
-        id = manage->ov0_02142F6C(0x13, 1);
+        id = manage->Create(0x13, 1);
         break;
     case 2:
-        id = manage->ov0_02142F6C(0x13, 2);
+        id = manage->Create(0x13, 2);
         break;
     case 3:
-        id = manage->ov0_02142F6C(0x14, 0);
+        id = manage->Create(0x14, 0);
         break;
     case 4:
-        id = manage->ov0_02142F6C(0x14, 1);
+        id = manage->Create(0x14, 1);
         break;
     case 5:
-        id = manage->ov0_02142F6C(0x14, 2);
+        id = manage->Create(0x14, 2);
         break;
     case 6:
-        id = manage->ov0_02142F6C(0x16, 0);
+        id = manage->Create(0x16, 0);
         break;
     case 7:
-        id = manage->ov0_02142F6C(0x16, 1);
+        id = manage->Create(0x16, 1);
         break;
     case 8:
-        id = manage->ov0_02142F6C(0x15, 0);
+        id = manage->Create(0x15, 0);
         break;
     case 9:
-        id = manage->ov0_02142F6C(0x15, 1);
+        id = manage->Create(0x15, 1);
         break;
     case 10:
-        id = manage->ov0_02142F6C(0x17, 0);
+        id = manage->Create(0x17, 0);
         break;
     case 11:
-        id = manage->ov0_02142F6C(0x17, 0);
+        id = manage->Create(0x17, 0);
         break;
     case 12:
-        id = manage->ov0_02142F6C(0x17, 1);
+        id = manage->Create(0x17, 1);
         break;
     case 13:
-        id = manage->ov0_02142F6C(0x17, 1);
+        id = manage->Create(0x17, 1);
         break;
     case 14:
-        id = manage->ov0_02142F6C(0x1B, 0);
+        id = manage->Create(0x1B, 0);
         break;
     case 15:
-        id = manage->ov0_02142F6C(0x1C, 0);
+        id = manage->Create(0x1C, 0);
         break;
     case 16:
-        id = manage->ov0_02142F6C(0x1C, 1);
+        id = manage->Create(0x1C, 1);
         break;
     case 17:
-        id = manage->ov0_02142F6C(0x1D, 1);
+        id = manage->Create(0x1D, 1);
         break;
     case 18:
     case 19:
-        id = manage->ov0_02142F6C(0x1E, 0);
+        id = manage->Create(0x1E, 0);
         break;
     default:
         id = 0;
@@ -1198,7 +1198,7 @@ void Debug_SetTestEff(int type)
     if (id == 0) {
         return;
     }
-    CFieldEffect *effect = manage->ov0_02143088(id);
+    CFieldEffect *effect = manage->Get(id);
     if (effect == NULL) {
         return;
     }
@@ -1208,17 +1208,17 @@ void Debug_SetTestEff(int type)
     if (effect->GetEffectId() == 0x13) {
         effect->SetColor(0x421F);
         effect->SetParam(2, y >> FX32_SHIFT);
-        effect->ov0_021421F0(0, -1, 0);
+        effect->Start(0, -1, 0);
         return;
     }
     if (effect->GetEffectId() == 0x15) {
         effect->SetParam(2, (y >> FX32_SHIFT) - 0x40);
-        effect->ov0_021421F0(type == 9 ? 5 : 4, 0, 60);
+        effect->Start(type == 9 ? 5 : 4, 0, 60);
         return;
     }
     if (effect->GetEffectId() == 0x17) {
         effect->SetParam(2, y >> FX32_SHIFT);
-        effect->ov0_021421F0(0, 30, 180);
+        effect->Start(0, 30, 180);
         if (type == 11 || type == 13) {
             CGame::GetInstance()->m_mainFade->Start(3, 180);
         }
@@ -1226,21 +1226,21 @@ void Debug_SetTestEff(int type)
     }
     if (effect->GetEffectId() == 0x1B) {
         effect->SetParam(2, y >> FX32_SHIFT);
-        effect->ov0_021421F0(30, 0, 30);
+        effect->Start(30, 0, 30);
         return;
     }
     if (effect->GetEffectId() == 0x1E) {
         effect->SetParam(2, y >> FX32_SHIFT);
         effect->SetParam(0x1B, (y >> FX32_SHIFT) + 0x40);
         if (type == 19) {
-            effect->ov0_021421F0(60, 180, 150);
+            effect->Start(60, 180, 150);
         } else {
-            effect->ov0_021421F0(60, -1, 60);
+            effect->Start(60, -1, 60);
         }
         return;
     }
     effect->SetParam(2, y >> FX32_SHIFT);
-    effect->ov0_021421F0(0, -1, 0);
+    effect->Start(0, -1, 0);
 }
 
 int Debug_GetNormalG()
@@ -1754,9 +1754,9 @@ void Debug_DoVisitAll(int on)
     }
 }
 
-const char *ov0_0214DD8C()
+const char *Debug_GetCurrentMapName()
 {
-    return ov0_0214B9B0(ov0_0214BACC());
+    return Debug_GetMapName(Debug_GetMapID());
 }
 
 int Debug_MAIN_GetQuest()
@@ -1769,7 +1769,7 @@ int Debug_GetMission()
     return MAIN_BSS_020B2638.m_missionId;
 }
 
-const char *ov0_0214DDBC()
+const char *Debug_GetLastMes()
 {
     TextboxManager *textbox = s_game->m_textboxData;
     const char *kinds[] = { "SYS", "AREA", "CHAP", "QUE", "BAT" };
@@ -1787,14 +1787,14 @@ void Debug_SetQuest(int quest)
     sQuestIdx = quest;
 }
 
-const char *ov0_0214DE44(int quest)
+const char *Debug_GetQuestName(int quest)
 {
     MissionQuestData *quests = (MissionQuestData *)(void *)&MAIN_BSS_020B2638;
     OS_SPrintf(sQuestListName, "%02d)%s", quest, sQuestStates[GetQuestState(quests, quest)]);
     return sQuestListName;
 }
 
-int ov0_0214DEC8()
+int Debug_GetQuestCount()
 {
     return 0x3E;
 }
@@ -1831,13 +1831,13 @@ void Debug_SetQuestSta(int state)
     }
 }
 
-const char *ov0_0214E000(int state)
+const char *Debug_GetQuestStaName(int state)
 {
     OS_SPrintf(sQuestName, "%02d)%s", sQuestIdx, sQuestStates[state]);
     return sQuestName;
 }
 
-int ov0_0214E038()
+int Debug_GetQuestStaCount()
 {
     return 5;
 }
@@ -1941,26 +1941,26 @@ void Debug_Encyclopedia_SetEncWord(int i)
     sEncWordIdx = i;
 }
 
-int ov0_0214E89C()
+int Debug_GetEncCount()
 {
     return 64;
 }
 
-const char *ov0_0214E8A4(int i)
+const char *Debug_GetEncMapName(int i)
 {
     SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     OS_SPrintf(sEncMapName, "%02d)%s", i, sEncStates[GetEncState(save, 0, i)]);
     return sEncMapName;
 }
 
-const char *ov0_0214E918(int i)
+const char *Debug_GetEncCaptName(int i)
 {
     SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     OS_SPrintf(sEncCaptName, "%02d)%s", i, sEncStates[GetEncState(save, 1, i)]);
     return sEncCaptName;
 }
 
-const char *ov0_0214E98C(int i)
+const char *Debug_GetEncWordName(int i)
 {
     SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     OS_SPrintf(sEncWordName, "%02d)%s", i, sEncStates[GetEncState(save, 2, i)]);
@@ -1984,7 +1984,7 @@ int Debug_EncyclopediaMap_GetEncMap()
     return GetEncState(save, 0, sEncMapIdx);
 }
 
-const char *ov0_0214EACC(int state)
+const char *Debug_GetEncMapStateName(int state)
 {
     OS_SPrintf(sEncMapStateName, "%02d)%s", sEncMapIdx, sEncStates[state]);
     return sEncMapStateName;
@@ -2007,7 +2007,7 @@ int Debug_EncyclopediaCapt_GetEncCapt()
     return GetEncState(save, 1, sEncCaptIdx);
 }
 
-const char *ov0_0214EBD0(int state)
+const char *Debug_GetEncCaptStateName(int state)
 {
     OS_SPrintf(sEncCaptStateName, "%02d)%s", sEncCaptIdx, sEncStates[state]);
     return sEncCaptStateName;
@@ -2030,13 +2030,13 @@ int Debug_EncyclopediaWord_GetEncWord()
     return GetEncState(save, 2, sEncWordIdx);
 }
 
-const char *ov0_0214ECD4(int state)
+const char *Debug_GetEncWordStateName(int state)
 {
     OS_SPrintf(sEncWordStateName, "%02d)%s", sEncWordIdx, sEncStates[state]);
     return sEncWordStateName;
 }
 
-int ov0_0214ED0C()
+int Debug_GetEncStateCount()
 {
     return 3;
 }
@@ -2191,7 +2191,7 @@ void Debug_SetObjDisp(int on)
     }
 }
 
-int ov0_0214F0A4()
+int Debug_GetZero()
 {
     return 0;
 }
@@ -2299,7 +2299,7 @@ void Debug_RangerRecord_SetPtAssCnt(int index)
     sAssistIdx = index;
 }
 
-const char *ov0_0214F488(int index)
+const char *Debug_GetPtAssCntName(int index)
 {
     switch (index) {
     case 0:
@@ -2360,7 +2360,7 @@ const char *ov0_0214F488(int index)
     return sAssistName;
 }
 
-int ov0_0214F6DC()
+int Debug_GetPtAssCntCount()
 {
     return 17;
 }
@@ -2435,13 +2435,13 @@ void Debug_SetPlyTime(int seconds)
     MAIN_BSS_020B26A0.m_lastDate = date;
 }
 
-const char *ov0_0214F904(int seconds)
+const char *Debug_GetPlyTimeName(int seconds)
 {
     OS_SPrintf(sPlayTime, "%02d:%02d:%02d", seconds / 3600, (seconds % 3600) / 60, seconds % 60);
     return sPlayTime;
 }
 
-int ov0_0214F990()
+int Debug_GetPlyTimeMax()
 {
     return 359999;
 }
@@ -2472,11 +2472,11 @@ DebugMenuItem sCustom2Items[] = {
 const char *sManpuNames[] = { "HINT_A(R", "HINT_A(B", "HINT_A(G", "HINT_B", "BIKKURI", "HATENA", "IKARI", "ASE", "KIZUKI", "DOKARIMO", "MOBARIMO", "ARIENAI!", "DARKRIE", "GOKIGEN", "SGOKIGEN" };
 
 DebugMenuItem sEventChapterItems[] = {
-    { "ChapJump", 1, 2, 2, 0, (void *)ov0_0214C790, (void *)Debug_SetChapJump, (void *)76, 0 },
+    { "ChapJump", 1, 2, 2, 0, (void *)Debug_GetChapter, (void *)Debug_SetChapJump, (void *)76, 0 },
 };
 
 DebugMenuItem sQuestStatusItems[] = {
-    { "QuestSta", 5, 1, 1, 0, (void *)Debug_GetQuestSta, (void *)Debug_SetQuestSta, (void *)ov0_0214E000, (void *)ov0_0214E038 },
+    { "QuestSta", 5, 1, 1, 0, (void *)Debug_GetQuestSta, (void *)Debug_SetQuestSta, (void *)Debug_GetQuestStaName, (void *)Debug_GetQuestStaCount },
 };
 
 DebugMenuItem sPartnerList0Items[] = {
@@ -2510,21 +2510,21 @@ DebugMenuItem sRangerRecordItems[] = {
     { "LookCnt", 1, 2, 4, 0, (void *)Debug_GetLookCnt, (void *)Debug_SetLookCnt, (void *)99999, 0 },
     { "SaveCnt", 1, 2, 4, 0, (void *)Debug_GetSaveCnt, (void *)Debug_SetSaveCnt, (void *)99999, 0 },
     { "RideCnt", 1, 2, 4, 0, (void *)Debug_GetRideCnt, (void *)Debug_SetRideCnt, (void *)99999, 0 },
-    { "PtAssCnt", 5, 0, 1, 30, (void *)Debug_RangerRecord_GetPtAssCnt, (void *)Debug_RangerRecord_SetPtAssCnt, (void *)ov0_0214F488, (void *)ov0_0214F6DC },
+    { "PtAssCnt", 5, 0, 1, 30, (void *)Debug_RangerRecord_GetPtAssCnt, (void *)Debug_RangerRecord_SetPtAssCnt, (void *)Debug_GetPtAssCntName, (void *)Debug_GetPtAssCntCount },
     { "LineLeng", 7, 2, 4, 0, (void *)Debug_GetLineLeng, (void *)Debug_SetLineLeng, (void *)14545440, 0 },
     { "EnclsCnt", 7, 2, 4, 0, (void *)Debug_GetEnclsCnt, (void *)Debug_SetEnclsCnt, (void *)999999, 0 },
     { "CaptCnt", 1, 2, 4, 0, (void *)Debug_GetCaptCnt, (void *)Debug_SetCaptCnt, (void *)9999, 0 },
     { "EscpCnt", 1, 2, 4, 0, (void *)Debug_GetEscpCnt, (void *)Debug_SetEscpCnt, (void *)9999, 0 },
     { "AssCnt", 1, 2, 4, 0, (void *)Debug_GetAssCnt, (void *)Debug_SetAssCnt, (void *)9999, 0 },
-    { "PlyTime", 5, 2, 4, 0, (void *)Debug_GetPlyTime, (void *)Debug_SetPlyTime, (void *)ov0_0214F904, (void *)ov0_0214F990 },
+    { "PlyTime", 5, 2, 4, 0, (void *)Debug_GetPlyTime, (void *)Debug_SetPlyTime, (void *)Debug_GetPlyTimeName, (void *)Debug_GetPlyTimeMax },
 };
 
 DebugMenuItem sMAINItems[] = {
-    { "Map", 5, 0, 3, 1, 0, 0, (void *)ov0_0214DD8C, 0 },
-    { "Event(Chap", 6, 0, 3, 5, (void *)ov0_0214C790, 0, 0, 0 },
+    { "Map", 5, 0, 3, 1, 0, 0, (void *)Debug_GetCurrentMapName, 0 },
+    { "Event(Chap", 6, 0, 3, 5, (void *)Debug_GetChapter, 0, 0, 0 },
     { "Quest", 6, 0, 3, 32, (void *)Debug_MAIN_GetQuest, 0, 0, 0 },
     { "Mission", 6, 0, 3, 32, (void *)Debug_GetMission, 0, 0, 0 },
-    { "LastMes", 5, 2, 0, 0, 0, 0, (void *)ov0_0214DDBC, 0 },
+    { "LastMes", 5, 2, 0, 0, 0, 0, (void *)Debug_GetLastMes, 0 },
     { "Player", 0, 0, 3, 3, 0, 0, 0, 0 },
     { "DEBPRIM", 4, 2, 3, 0, (void *)Debug_GetDebprim, (void *)Debug_SetDebprim, (void *)sDebugPrimNames, (void *)3 },
     { "DbgInfo", 0, 0, 3, 9, 0, 0, 0, 0 },
@@ -2583,22 +2583,22 @@ const char *sSexNames[] = { "MALE", "FEMALE" };
 const char *sWatchNames[] = { "NONE", "LOOK", "CAPTURE" };
 
 DebugMenuItem sBrowserItems[] = {
-    { "SetWatchAll", 4, 1, 3, 0, (void *)ov0_0214F0A4, (void *)Debug_SetSetWatchAll, (void *)sWatchNames, (void *)3 },
-    { "SPCapture", 4, 1, 3, 0, (void *)ov0_0214F0A4, (void *)Debug_SetSPCapture, (void *)sCaptureNames, (void *)8 },
-    { "Regigigas", 0, 0, 1, 0, (void *)ov0_0214F0A4, (void *)Debug_SetRegigigas, 0, 0 },
+    { "SetWatchAll", 4, 1, 3, 0, (void *)Debug_GetZero, (void *)Debug_SetSetWatchAll, (void *)sWatchNames, (void *)3 },
+    { "SPCapture", 4, 1, 3, 0, (void *)Debug_GetZero, (void *)Debug_SetSPCapture, (void *)sCaptureNames, (void *)8 },
+    { "Regigigas", 0, 0, 1, 0, (void *)Debug_GetZero, (void *)Debug_SetRegigigas, 0, 0 },
 };
 
 const char *sEncStates[] = { "CLOSE", "NEW", "OPEN" };
 
 DebugMenuItem sQuestItems[] = {
-    { "Quest", 5, 0, 1, 7, (void *)Debug_Quest_GetQuest, (void *)Debug_SetQuest, (void *)ov0_0214DE44, (void *)ov0_0214DEC8 },
+    { "Quest", 5, 0, 1, 7, (void *)Debug_Quest_GetQuest, (void *)Debug_SetQuest, (void *)Debug_GetQuestName, (void *)Debug_GetQuestCount },
     { "Quest OPEN ALL", 0, 2, 8, 0, 0, (void *)Debug_DoQuestOpenAll, 0, 0 },
     { "Quest CLOSE ALL", 0, 2, 8, 0, 0, (void *)Debug_DoQuestCloseAll, 0, 0 },
     { "Quest RANDOM", 0, 2, 8, 0, 0, (void *)Debug_DoQuestRandom, 0, 0 },
 };
 
 DebugMenuItem sAddTargetItems[] = {
-    { "TargetID", 5, 2, 2, 0, (void *)Debug_GetTargetID, (void *)Debug_SetTargetID, (void *)ov0_0214BB38, (void *)ov0_0214BBCC },
+    { "TargetID", 5, 2, 2, 0, (void *)Debug_GetTargetID, (void *)Debug_SetTargetID, (void *)Debug_GetTargetName, (void *)Debug_GetTargetCount },
     { "ScriptID", 1, 2, 2, 0, 0, (void *)Debug_DoScriptID, (void *)1000, 0 },
 };
 
@@ -2645,7 +2645,7 @@ DebugMenu sMenus[] = {
 };
 
 DebugMenuItem sAddPartyItems[] = {
-    { "PokeAdd", 5, 2, 2, 0, (void *)Debug_GetPokeAdd, (void *)Debug_SetPokeAdd, (void *)ov0_0214C4A0, (void *)ov0_0214C540 },
+    { "PokeAdd", 5, 2, 2, 0, (void *)Debug_GetPokeAdd, (void *)Debug_SetPokeAdd, (void *)Debug_GetPokeName, (void *)Debug_GetPokeCount },
 };
 
 DebugMenuItem sPartnerList1Items[] = {
@@ -2660,18 +2660,18 @@ DebugMenuItem sPartnerList1Items[] = {
 };
 
 DebugMenuItem sDebugInfoItems[] = {
-    { "TexVramInfo", 0, 1, 1, 0, 0, (void *)ov0_0214C900, 0, 0 },
+    { "TexVramInfo", 0, 1, 1, 0, 0, (void *)Debug_DoTexVramInfo, 0, 0 },
     { "PlttVramInfo", 0, 1, 1, 0, 0, (void *)Debug_DoPlttVramInfo, 0, 0 },
     { "UpperDbgInfo", 0, 1, 1, 0, 0, (void *)Debug_DoUpperDbgInfo, 0, 0 },
     { "ProcLoad", 3, 2, 3, 0, (void *)Debug_GetProcLoad, (void *)Debug_SetProcLoad, 0, 0 },
 };
 
 DebugMenuItem sEncyclopediaMapItems[] = {
-    { "EncMap", 5, 1, 4, 0, (void *)Debug_EncyclopediaMap_GetEncMap, (void *)Debug_EncyclopediaMap_SetEncMap, (void *)ov0_0214EACC, (void *)ov0_0214ED0C },
+    { "EncMap", 5, 1, 4, 0, (void *)Debug_EncyclopediaMap_GetEncMap, (void *)Debug_EncyclopediaMap_SetEncMap, (void *)Debug_GetEncMapStateName, (void *)Debug_GetEncStateCount },
 };
 
 DebugMenuItem sMapItems[] = {
-    { "MapID", 5, 0, 0, 2, (void *)ov0_0214BACC, 0, (void *)ov0_0214B9B0, 0 },
+    { "MapID", 5, 0, 0, 2, (void *)Debug_GetMapID, 0, (void *)Debug_GetMapName, 0 },
     { "CollFree", 3, 2, 2, 0, (void *)Debug_GetCollFree, (void *)Debug_SetCollFree, 0, 0 },
     { "EncFree", 3, 2, 3, 0, (void *)Debug_GetEncFree, (void *)Debug_SetEncFree, 0, 0 },
     { "EvArea", 3, 2, 3, 0, (void *)Debug_GetEvArea, (void *)Debug_SetEvArea, 0, 0 },
@@ -2685,7 +2685,7 @@ DebugMenuItem sPlayerMoveItems[] = {
 };
 
 DebugMenuItem sEncyclopediaCaptItems[] = {
-    { "EncCapt", 5, 1, 4, 0, (void *)Debug_EncyclopediaCapt_GetEncCapt, (void *)Debug_EncyclopediaCapt_SetEncCapt, (void *)ov0_0214EBD0, (void *)ov0_0214ED0C },
+    { "EncCapt", 5, 1, 4, 0, (void *)Debug_EncyclopediaCapt_GetEncCapt, (void *)Debug_EncyclopediaCapt_SetEncCapt, (void *)Debug_GetEncCaptStateName, (void *)Debug_GetEncStateCount },
 };
 
 DebugMenuItem sFogColorItems[] = {
@@ -2705,7 +2705,7 @@ DebugMenuItem sActorDispItems[] = {
     { "EneDisp", 3, 2, 4, 0, (void *)Debug_GetEneDisp, (void *)Debug_SetEneDisp, 0, 0 },
     { "NpcDisp", 3, 2, 4, 0, (void *)Debug_GetNpcDisp, (void *)Debug_SetNpcDisp, 0, 0 },
     { "ObjDisp", 3, 2, 4, 0, (void *)Debug_GetObjDisp, (void *)Debug_SetObjDisp, 0, 0 },
-    { "HPDisp", 3, 2, 4, 0, (void *)ov0_0214C010, (void *)ov0_0214C040, 0, 0 },
+    { "HPDisp", 3, 2, 4, 0, (void *)Debug_GetHPGauge, (void *)Debug_SetHPGauge, 0, 0 },
 };
 
 DebugMenuItem sPlayerItems[] = {
@@ -2718,7 +2718,7 @@ DebugMenuItem sPlayerItems[] = {
     { "PokeAdd", 0, 0, 3, 8, 0, 0, 0, 0 },
     { "Custom", 0, 0, 3, 15, 0, 0, 0, 0 },
     { "PartnerGetFlag", 0, 0, 3, 19, 0, 0, 0, 0 },
-    { "HPGauge", 3, 2, 3, 0, (void *)ov0_0214C010, (void *)ov0_0214C040, 0, 0 },
+    { "HPGauge", 3, 2, 3, 0, (void *)Debug_GetHPGauge, (void *)Debug_SetHPGauge, 0, 0 },
     { "PartnerMood", 0, 0, 3, 26, 0, 0, 0, 0 },
 };
 
@@ -2729,16 +2729,16 @@ DebugMenuItem sSetWeatherItems[] = {
 };
 
 DebugMenuItem sSetActorItems[] = {
-    { "Poke:", 0, 2, 1, 0, 0, (void *)ov0_0214C900, 0, 0 },
-    { "put field", 4, 2, 1, 0, 0, (void *)ov0_0214C900, (void *)sPutFieldNames, (void *)3 },
-    { "put party", 0, 2, 1, 0, 0, (void *)ov0_0214C900, 0, 0 },
+    { "Poke:", 0, 2, 1, 0, 0, (void *)Debug_DoTexVramInfo, 0, 0 },
+    { "put field", 4, 2, 1, 0, 0, (void *)Debug_DoTexVramInfo, (void *)sPutFieldNames, (void *)3 },
+    { "put party", 0, 2, 1, 0, 0, (void *)Debug_DoTexVramInfo, 0, 0 },
     { "view party", 0, 2, 8, 0, 0, (void *)Debug_DoViewParty, 0, 0 },
 };
 
 DebugMenuItem sEncyclopediaItems[] = {
-    { "EncMap", 5, 0, 1, 23, (void *)Debug_Encyclopedia_GetEncMap, (void *)Debug_Encyclopedia_SetEncMap, (void *)ov0_0214E8A4, (void *)ov0_0214E89C },
-    { "EncCapt", 5, 0, 1, 24, (void *)Debug_Encyclopedia_GetEncCapt, (void *)Debug_Encyclopedia_SetEncCapt, (void *)ov0_0214E918, (void *)ov0_0214E89C },
-    { "EncWord", 5, 0, 1, 25, (void *)Debug_Encyclopedia_GetEncWord, (void *)Debug_Encyclopedia_SetEncWord, (void *)ov0_0214E98C, (void *)ov0_0214E89C },
+    { "EncMap", 5, 0, 1, 23, (void *)Debug_Encyclopedia_GetEncMap, (void *)Debug_Encyclopedia_SetEncMap, (void *)Debug_GetEncMapName, (void *)Debug_GetEncCount },
+    { "EncCapt", 5, 0, 1, 24, (void *)Debug_Encyclopedia_GetEncCapt, (void *)Debug_Encyclopedia_SetEncCapt, (void *)Debug_GetEncCaptName, (void *)Debug_GetEncCount },
+    { "EncWord", 5, 0, 1, 25, (void *)Debug_Encyclopedia_GetEncWord, (void *)Debug_Encyclopedia_SetEncWord, (void *)Debug_GetEncWordName, (void *)Debug_GetEncCount },
     { "Disp ALL", 0, 2, 1, 0, 0, (void *)Debug_DoDispAll, 0, 0 },
     { "Hide ALL", 0, 2, 1, 0, 0, (void *)Debug_DoHideAll, 0, 0 },
 };
@@ -2762,11 +2762,11 @@ DebugMenuItem sPartnerAssistCountItems[] = {
 const char *sPutFieldNames[] = { "(none)", "(hide)", "(fall)" };
 
 DebugMenuItem sEncyclopediaWordItems[] = {
-    { "EncWord", 5, 1, 4, 0, (void *)Debug_EncyclopediaWord_GetEncWord, (void *)Debug_EncyclopediaWord_SetEncWord, (void *)ov0_0214ECD4, (void *)ov0_0214ED0C },
+    { "EncWord", 5, 1, 4, 0, (void *)Debug_EncyclopediaWord_GetEncWord, (void *)Debug_EncyclopediaWord_SetEncWord, (void *)Debug_GetEncWordStateName, (void *)Debug_GetEncStateCount },
 };
 
 DebugMenuItem sMapJumpItems[] = {
-    { "MapJump", 5, 3, 3, 0, (void *)ov0_0214BACC, (void *)Debug_SetMapJump, (void *)ov0_0214B9B0, (void *)ov0_0214BAAC },
+    { "MapJump", 5, 3, 3, 0, (void *)Debug_GetMapID, (void *)Debug_SetMapJump, (void *)Debug_GetMapName, (void *)Debug_GetMapCount },
 };
 
 DebugMenuItem sPartnerGetFlagItems[] = {
@@ -2784,7 +2784,7 @@ FieldDebugMenu::FieldDebugMenu(CGame *game)
     unk_08 = NULL;
     unk_0C = NULL;
     unk_10 = 0;
-    ov0_0214FA94(sMenus, sizeof(sMenus) / sizeof(sMenus[0]));
+    SetMenus(sMenus, sizeof(sMenus) / sizeof(sMenus[0]));
 }
 
 FieldDebugMenu::~FieldDebugMenu()
@@ -2794,13 +2794,13 @@ FieldDebugMenu::~FieldDebugMenu()
     MAIN_BSS_0210CA80 = NULL;
 }
 
-void FieldDebugMenu::ov0_0214FA94(DebugMenu *menus, int count)
+void FieldDebugMenu::SetMenus(DebugMenu *menus, int count)
 {
     unk_0C = menus;
     unk_10 = count;
 }
 
-void FieldDebugMenu::ov0_0214FAA0()
+void FieldDebugMenu::Reset()
 {
     unk_04->SetValue(0, 0);
     unk_08 = unk_0C;
@@ -2810,12 +2810,12 @@ void FieldDebugMenu::ov0_0214FAA0()
     }
 }
 
-void FieldDebugMenu::ov0_0214FB08()
+void FieldDebugMenu::Update()
 {
     unk_04->Update();
 }
 
-BOOL FieldDebugMenu::ov0_0214FB18()
+BOOL FieldDebugMenu::IsActive()
 {
     return unk_04->IsActive();
 }

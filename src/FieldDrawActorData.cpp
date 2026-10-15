@@ -29,7 +29,7 @@ void CFieldDrawActorData::LoadData(int type, u16 id, int form, u16 mask, BOOL us
             LoadArchived(type, id, form, mask, arcName, 0, 1, useTransfer);
         }
     } else {
-        sub_020409B4(id, form, mask, 0, arcName);
+        LoadTarget(id, form, mask, 0, arcName);
     }
     unk_18 = type;
     unk_1C = id;
@@ -55,7 +55,7 @@ void CFieldDrawActorData::LoadData(int type, u16 id, int form, u16 mask, BOOL us
     SAFE_DELETE(m_archive);
 }
 
-void CFieldDrawActorData::sub_020409B4(u16 id, int form, u16 mask, u32 heapId, const char *arcName)
+void CFieldDrawActorData::LoadTarget(u16 id, int form, u16 mask, u32 heapId, const char *arcName)
 {
     char name[0x60];
     char path[0x60];
@@ -108,15 +108,15 @@ void CFieldDrawActorData::sub_020409B4(u16 id, int form, u16 mask, u32 heapId, c
 
     if (mask & 1) {
         OS_SPrintf(file, "%s:%s", arc, name);
-        sub_02014CEC(&m_anims[index], file, heapId, FALSE);
+        LoadAnimFromArchive(&m_anims[index], file, heapId, FALSE);
         m_anims[index].id = 0;
         index++;
     }
 
     if (mask & 2) {
         OS_SPrintf(file, "%s:%s_s", arc, name);
-        if (!sub_02014EA4(&m_anims[index], base, file, image, 0, FALSE)) {
-            sub_02014CEC(&m_anims[index], file, heapId, FALSE);
+        if (!LoadAnimWithImageFromArchive(&m_anims[index], base, file, image, 0, FALSE)) {
+            LoadAnimFromArchive(&m_anims[index], file, heapId, FALSE);
         } else {
             image = m_anims[index].image;
         }
@@ -126,8 +126,8 @@ void CFieldDrawActorData::sub_020409B4(u16 id, int form, u16 mask, u32 heapId, c
 
     if (mask & 4) {
         OS_SPrintf(file, "%s:%s_a", arc, name);
-        if (!sub_02014EA4(&m_anims[index], base, file, image, 0, FALSE)) {
-            sub_02014CEC(&m_anims[index], file, heapId, FALSE);
+        if (!LoadAnimWithImageFromArchive(&m_anims[index], base, file, image, 0, FALSE)) {
+            LoadAnimFromArchive(&m_anims[index], file, heapId, FALSE);
         } else {
             image = m_anims[index].image;
         }
@@ -137,8 +137,8 @@ void CFieldDrawActorData::sub_020409B4(u16 id, int form, u16 mask, u32 heapId, c
 
     if (mask & 8) {
         OS_SPrintf(file, "%s:%s_c", arc, name);
-        if (!sub_02014EA4(&m_anims[index], base, file, image, 0, FALSE)) {
-            sub_02014CEC(&m_anims[index], file, heapId, FALSE);
+        if (!LoadAnimWithImageFromArchive(&m_anims[index], base, file, image, 0, FALSE)) {
+            LoadAnimFromArchive(&m_anims[index], file, heapId, FALSE);
         }
         m_anims[index].id = 3;
     }
@@ -166,7 +166,7 @@ void CFieldDrawActorData::Release()
     unk_30 = 0;
 }
 
-void CFieldDrawActorData::sub_02040DB8()
+void CFieldDrawActorData::ForceRelease()
 {
     if (!unk_28 && unk_2C != 0) {
         NNS_GfdFreeLnkTexVram(unk_2C);
@@ -235,7 +235,7 @@ FieldDrawActorDataPool::FieldDrawActorDataPool()
 FieldDrawActorDataPool::~FieldDrawActorDataPool()
 {
     for (int i = 0; i < m_count; i++) {
-        m_data[i].sub_02040DB8();
+        m_data[i].ForceRelease();
     }
     SAFE_DELETE_ARRAY(m_data);
     m_count = 0;
@@ -279,7 +279,7 @@ CActorDataPartner::~CActorDataPartner()
 void CActorDataPartner::Release()
 {
     if (unk_34 != 0) {
-        sub_02040DB8();
+        ForceRelease();
         unk_34 = 0;
     }
 }
@@ -294,7 +294,7 @@ void CActorDataPartner::AllocVram()
     }
 }
 
-void CActorDataPartner::sub_02041230(int type, u16 id, int form, u16 mask)
+void CActorDataPartner::Assign(int type, u16 id, int form, u16 mask)
 {
     if (unk_34 != 0) {
         Release();

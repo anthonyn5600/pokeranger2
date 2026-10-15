@@ -9,7 +9,7 @@
 
 class Camera2D;
 
-// Map layers, one list per layer group. CFieldMap::ov0_02125904 creates them from the map file's MLG chunks.
+// Map layers, one list per layer group. CFieldMap::CreateLayer creates them from the map file's MLG chunks.
 // The base and CharacterPriority layers are inline-only (their vtables live in FieldMap.cpp); every other
 // layer type has its own source file.
 class CFieldMapLayerBase {

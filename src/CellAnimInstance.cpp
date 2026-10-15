@@ -9,7 +9,7 @@ fx32 sub_02007DE4(u16 value)
     return (s16)value << 4;
 }
 
-int sub_02007DF0(int count, u16 dir, int arg2)
+int GetDirectionIndex(int count, u16 dir, int arg2)
 {
     switch (count) {
     case 4:
@@ -174,7 +174,7 @@ void CellAnimInstance::Init(u32 arg0, u32 arg1)
 
 BOOL CellAnimInstance::SetDirection(u16 dir)
 {
-    int index = sub_02007DF0(unk_2E, dir, unk_48);
+    int index = GetDirectionIndex(unk_2E, dir, unk_48);
     if (unk_11 == index) {
         return FALSE;
     }

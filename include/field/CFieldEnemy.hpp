@@ -13,25 +13,25 @@ class CFieldEnemy : public CFieldActor {
 public:
     CFieldEnemy();
     virtual ~CFieldEnemy();
-    virtual void sub_0202D394();
+    virtual void OnDisable();
     virtual void Process(CFieldMap *map);
     virtual BOOL UpdateMove(CFieldMap *map);
-    virtual void sub_02032A44(int arg0);
+    virtual void SetMoveSequence(int arg0);
 
-    int ov0_021343B8(int index);
-    BOOL ov0_02134D60(int radius);
+    int PlayEnemyAnime(int index);
+    BOOL IsPlayerInRange(int radius);
     void ov0_02134F00();
     void ov0_02134F38();
-    void ov0_02134F70();
-    void ov0_02134FCC();
-    void ov0_021351AC();
+    void CheckPlayerContact();
+    void EnableTargetObject();
+    void DisableTargetObject();
     void ov0_0213524C();
-    void ov0_02135250();
-    CFieldActor *ov0_02135278();
-    void ov0_021352E4(int arg1);
-    void ov0_021356BC(void *buf, void *end);
-    void ov0_021356CC(void *data);
-    void ov0_021356EC();
+    void PlayCry();
+    CFieldActor *GetTargetObject();
+    void SpawnGroundEffect(int arg1);
+    void SaveState(void *buf, void *end);
+    void RestoreState(void *data);
+    void ResetToHome();
 
     inline Point2D GetUnk158()
     {

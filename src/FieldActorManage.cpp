@@ -94,7 +94,7 @@ BOOL CFieldActorManage::SetActorPos(int index, fx32 x, fx32 y)
     return FALSE;
 }
 
-BOOL CFieldActorManage::sub_0203F278(int index, int arg1, int arg2)
+BOOL CFieldActorManage::SetActorHomePos(int index, int arg1, int arg2)
 {
     CFieldActor *actor;
     if (index < m_count && m_actors != NULL && (actor = m_actors[index]) != NULL) {
@@ -378,7 +378,7 @@ BOOL CFieldActorManage::SweepCollide(PointPair2D *move, fx32 radius, int layer, 
                         } else {
                             circle.pos = move->p2;
                         }
-                        if (sub_02006E30(circle, rect, &pos, 4)) {
+                        if (CircleHitRectEdge(circle, rect, &pos, 4)) {
                             if (out != NULL) {
                                 *out = sub_0200732C(&circle, &pos);
                             }
@@ -501,7 +501,7 @@ void CFieldActorManage::DeactivateAll()
         if (actor != NULL) {
             Actor_HideManpu(actor);
             actor->unk_20 = 0;
-            actor->sub_0202D394();
+            actor->OnDisable();
         }
     }
 }

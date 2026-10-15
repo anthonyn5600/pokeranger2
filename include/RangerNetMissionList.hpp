@@ -16,25 +16,25 @@ class RangerNetMenu;
 // helper owned by RangerNetMenu::unk_724 (new'd with size 0x5F4)
 class RangerNetMissionList {
 public:
-    void ov11_0211CE20();
-    void ov11_0211CF04(); // thunk to ov11_0211D02C
-    void ov11_0211CF10(); // thunk to ov11_0211D8C4
+    void Update();
+    void Draw(); // thunk to Render
+    void PrintText(); // thunk to PrintPendingText
     RangerNetMissionList(CGame *game, RangerNetMenu *menu);
     ~RangerNetMissionList();
-    void ov11_0211CDE8();
-    void ov11_0211CF1C();
-    void ov11_0211CF40();
-    void ov11_0211D02C();
-    void ov11_0211D0D0();
-    void ov11_0211D4C0(int mode);
-    BOOL ov11_0211D804(int idx);
-    void ov11_0211D8C4();
-    BOOL ov11_0211D7D4(int a, int b, MessageTable *c);
+    void Init();
+    void LoadPalette();
+    void Release();
+    void Render();
+    void LoadGraphics();
+    void SetLayout(int mode);
+    BOOL ShowMission(int idx);
+    void PrintPendingText();
+    BOOL ShowMessage(int a, int b, MessageTable *c);
     void ov11_0211D860(int mode);
-    BOOL ov11_0211D864();
-    void ov11_0211D880(int a, MessageTable *b);
-    void ov11_0211D8A0(int v);
-    void ov11_0211DED0();
+    BOOL Load();
+    void SetMessage(int a, MessageTable *b);
+    void AddMessage(int v);
+    void HideSprites();
 
     u16 unk_000;
     int unk_004;

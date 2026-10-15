@@ -91,15 +91,15 @@ u32 CSoftwareSprite::Render(Camera2D *camera)
     u16 v0 = 0;
 
     if (unk_2C != NULL) {
-        v0 += sub_0200527C(camera);
+        v0 += RenderFromImage(camera);
     } else if (unk_30 != NULL) {
-        v0 += sub_020058BC(camera);
+        v0 += RenderFromCellBuffer(camera);
     }
 
     return v0;
 }
 
-u16 CSoftwareSprite::sub_0200527C(Camera2D *camera)
+u16 CSoftwareSprite::RenderFromImage(Camera2D *camera)
 {
     UnkClass_CPrimitive_ImagePaletteProxy *v3;
     UnkClass_CPrimitive_ImageProxy *v4;
@@ -234,7 +234,7 @@ u16 CSoftwareSprite::sub_0200527C(Camera2D *camera)
     return cellData->numOAMAttrs;
 }
 
-u16 CSoftwareSprite::sub_020058BC(Camera2D *camera)
+u16 CSoftwareSprite::RenderFromCellBuffer(Camera2D *camera)
 {
     UnkClass_CPrimitive_ImagePaletteProxy *v3;
     UnkClass_CPrimitive_ImageProxy *v4;

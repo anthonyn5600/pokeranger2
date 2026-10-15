@@ -1,6 +1,6 @@
 #include "battle/CBattleAttackEffect.hpp"
 
-#include "UnkStruct_02044464.hpp"
+#include "ScriptVM.hpp"
 #include "battle/CBattleAttackEffectData.hpp"
 #include "battle/CBattleEnemy.hpp"
 #include "file/CNANRFile.hpp"
@@ -37,19 +37,19 @@ void CBattleAttackEffect::vfunc_08()
         switch (unk_194) {
         case 0:
             if (!target->HasData()) {
-                ov1_02127300();
+                Terminate();
                 return;
             }
             break;
         case 1:
             if (!target->IsAlive()) {
-                ov1_02127300();
+                Terminate();
                 return;
             }
             break;
         case 2:
             if (!target->HasData()) {
-                ov1_02127300();
+                Terminate();
                 return;
             }
             break;
@@ -76,13 +76,13 @@ void CBattleAttackEffect::vfunc_08()
         m_sprite->SetPos(m_motion.GetPos() + unk_190->m_motion.GetPos());
     }
     if (unk_184->unk_18->unk_04 == 2) {
-        if (unk_18C != ov1_02127484(m_dir)) {
-            unk_18C = ov1_02127484(m_dir);
-            ov1_021273A0(unk_18D, unk_18C);
+        if (unk_18C != GetDirAnimSeq(m_dir)) {
+            unk_18C = GetDirAnimSeq(m_dir);
+            SetAnimSequence(unk_18D, unk_18C);
         }
     }
 
-    UnkStruct_0212E008 *entry = unk_184->unk_18;
+    BattleEffectParam *entry = unk_184->unk_18;
     Circle circle = entry->GetCircle();
     fx32 scaleX = unk_11C.value;
     circle.pos.x = FX32_MUL(circle.pos.x, scaleX);
@@ -97,7 +97,7 @@ void CBattleAttackEffect::vfunc_08()
     m_sphere.SetCircle(circle);
 }
 
-void CBattleAttackEffect::ov1_02126F90()
+void CBattleAttackEffect::RunScript()
 {
     if (!HasData()) {
         return;
@@ -145,12 +145,12 @@ void CBattleAttackEffect::vfunc_10(Camera2D *camera)
     }
 }
 
-void CBattleAttackEffect::ov1_021270FC(CBattleAttackEffectData *data)
+void CBattleAttackEffect::Start(CBattleAttackEffectData *data)
 {
     SetData(data);
     unk_184 = data;
     unk_188 = 0;
-    ov1_021273A0(7, 0);
+    SetAnimSequence(7, 0);
     ScaleTo(0, FX32_ONE, FX32_ONE);
     FadeAlpha(0, 0x1F);
     m_sprite->m_rotAngle = 0;
@@ -158,9 +158,9 @@ void CBattleAttackEffect::ov1_021270FC(CBattleAttackEffectData *data)
     FaceMoveDir();
     Circle circle = data->unk_18->GetCircle();
     if (circle.r == 0) {
-        ov1_02127388(FALSE);
+        SetCollisionEnabled(FALSE);
     } else {
-        ov1_02127388(TRUE);
+        SetCollisionEnabled(TRUE);
     }
     m_motion.m_mode = 0;
     Jump(0, 1);
@@ -178,12 +178,12 @@ void CBattleAttackEffect::ov1_021270FC(CBattleAttackEffectData *data)
     ScriptVM_Start(&m_vm, data->m_script, "proc");
 }
 
-void CBattleAttackEffect::ov1_02127280()
+void CBattleAttackEffect::Clear()
 {
     ClearData();
 }
 
-void CBattleAttackEffect::ov1_0212728C(CBattleEnemy *target, int mode)
+void CBattleAttackEffect::AttachTo(CBattleEnemy *target, int mode)
 {
     if (HasData()) {
         unk_190 = target;
@@ -191,7 +191,7 @@ void CBattleAttackEffect::ov1_0212728C(CBattleEnemy *target, int mode)
     }
 }
 
-void CBattleAttackEffect::ov1_021272AC()
+void CBattleAttackEffect::StartVanish()
 {
     if (unk_184 == NULL || unk_184->m_script == NULL) {
         return;
@@ -201,19 +201,19 @@ void CBattleAttackEffect::ov1_021272AC()
     ScriptVM_Start(&m_vm, unk_184->m_script, "vanish");
 }
 
-void CBattleAttackEffect::ov1_02127300()
+void CBattleAttackEffect::Terminate()
 {
     if (unk_184 != NULL && unk_184->m_script != NULL) {
         ScriptVM_Reset(&m_vm);
         *--m_vm.unk_04 = m_index;
         ScriptVM_CallFunction(&m_vm, unk_184->m_script, "terminate", 1);
     }
-    ov1_02127280();
+    Clear();
     unk_188 = 0;
     unk_190 = NULL;
 }
 
-void CBattleAttackEffect::ov1_02127370(BOOL arg0)
+void CBattleAttackEffect::SetShadowVisible(BOOL arg0)
 {
     if (arg0) {
         m_flags &= ~0x200;
@@ -222,7 +222,7 @@ void CBattleAttackEffect::ov1_02127370(BOOL arg0)
     }
 }
 
-void CBattleAttackEffect::ov1_02127388(BOOL arg0)
+void CBattleAttackEffect::SetCollisionEnabled(BOOL arg0)
 {
     if (arg0) {
         m_flags &= ~0x100;
@@ -231,7 +231,7 @@ void CBattleAttackEffect::ov1_02127388(BOOL arg0)
     }
 }
 
-void CBattleAttackEffect::ov1_021273A0(u8 anim, u16 seq)
+void CBattleAttackEffect::SetAnimSequence(u8 anim, u16 seq)
 {
     const NNSG2dAnimSequence *sequence = NNS_G2dGetAnimSequenceByIdx(unk_184->m_nanr[anim]->unk_B8, seq);
     CActorAnim *actorAnim = unk_184->GetAnim(anim);
@@ -240,27 +240,27 @@ void CBattleAttackEffect::ov1_021273A0(u8 anim, u16 seq)
     unk_18D = anim;
 }
 
-void CBattleAttackEffect::ov1_02127408(u8 anim)
+void CBattleAttackEffect::PlayAnim(u8 anim)
 {
     if (unk_184->unk_18->unk_04 == 2) {
-        unk_18C = ov1_02127484(m_dir);
-        ov1_021273A0(anim, unk_18C);
+        unk_18C = GetDirAnimSeq(m_dir);
+        SetAnimSequence(anim, unk_18C);
     } else {
-        ov1_021273A0(anim, 0);
+        SetAnimSequence(anim, 0);
     }
 }
 
-void CBattleAttackEffect::ov1_02127454(int action, u32 sub)
+void CBattleAttackEffect::PlayAction(int action, u32 sub)
 {
-    ov1_02127408(unk_184->GetAnimId(action, sub));
+    PlayAnim(unk_184->GetAnimId(action, sub));
 }
 
-BOOL CBattleAttackEffect::ov1_0212747C()
+BOOL CBattleAttackEffect::IsAnimActive()
 {
     return m_cellAnim.animCtrl.bActive;
 }
 
-int CBattleAttackEffect::ov1_02127484(u16 dir)
+int CBattleAttackEffect::GetDirAnimSeq(u16 dir)
 {
     if (dir < 0x4000) {
         return 3;

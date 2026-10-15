@@ -4,7 +4,7 @@
 
 static u32 sAgbCodes[] = { 'B7AJ', 'B7BJ', 'B7CJ', 'B7DJ', 'B7EJ', 'B7JJ', 'B7KJ', 'B7LJ', 'B7NJ', 'B7OJ', 'B7PJ', 'B7QJ', 'B7RJ', 'B7SJ', 'B7TJ', 'B7UJ', 'B7VJ', 'B7WJ', 'B7XJ', 'B7YJ', 0 };
 
-BOOL ov11_0211DF6C()
+BOOL AgbCheck_IsValidGameCode()
 {
     u32 i;
     u32 code;
@@ -19,7 +19,7 @@ BOOL ov11_0211DF6C()
 }
 
 // GBA cartridge check: Pokémon Ranger-series AGB game inserted? (maker code '01')
-BOOL ov11_0211DFE4()
+BOOL AgbCheck_IsValidCartridge()
 {
     CTRDG_Init();
     if (!CTRDG_IsAgbCartridge()) {
@@ -29,13 +29,13 @@ BOOL ov11_0211DFE4()
     if (CTRDG_GetAgbMakerCode() != 0x3130) {
         return FALSE;
     }
-    return ov11_0211DF6C() ? TRUE : FALSE;
+    return AgbCheck_IsValidGameCode() ? TRUE : FALSE;
 }
 
-int ov11_0211E030()
+int AgbCheck_GetMissionNo()
 {
     u32 v;
-    if (!ov11_0211DFE4()) {
+    if (!AgbCheck_IsValidCartridge()) {
         return -1;
     }
     CTRDG_Read32((const u32 *)0x08100004, &v);

@@ -28,7 +28,7 @@ public:
     virtual void Alloc(int capacity);
     virtual void Free();
 
-    int ov0_0213C66C(int slot, int type, u16 kind, u16 script, int arg5);
+    int Create(int slot, int type, u16 kind, u16 script, int arg5);
 };
 
 STATIC_SIZE_ASSERT(CFieldNpcManage, 0x10);

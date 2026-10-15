@@ -53,7 +53,7 @@ CFieldPokeMove::~CFieldPokeMove()
 {
 }
 
-void CFieldPokeMove::ov0_02152AD0(CFieldActor *owner, Point2D target, int arg)
+void CFieldPokeMove::SetTarget(CFieldActor *owner, Point2D target, int arg)
 {
     unk_48 = owner;
     unk_04 = target;
@@ -80,10 +80,10 @@ static inline void SetEnemyDir(CFieldEnemy *enemy, Point2D dir)
 
 // NONMATCHING: the C++ below matches except for the register allocation of the distance block (98.8%, same size).
 // The original's PCode shares the dy difference and pp.x / the in-place dx difference with argument temps of the
-// ov0_021582C4 calls (ip / lr) and loads unk_CC before the pos copy; no source shape, pragma or compiler version tried
+// IsInSight calls (ip / lr) and loads unk_CC before the pos copy; no source shape, pragma or compiler version tried
 // reproduces that, so the original instructions are used.
 #ifdef NONMATCHING
-BOOL CFieldPokeMove::ov0_02152B04()
+BOOL CFieldPokeMove::Update()
 {
     if (unk_AC == NULL) {
         unk_AC = MAIN_BSS_0210CA48;
@@ -100,9 +100,9 @@ BOOL CFieldPokeMove::ov0_02152B04()
         pos = unk_0C;
         if (unk_CC == 0 && !(unk_AC->unk_10C & 1)) {
             if (unk_68 == 5 || unk_AC->m_layer == unk_48->m_layer) {
-                if (ov0_021582C4(pos, unk_AC->GetPos(), unk_6C.unk_02, unk_30, unk_6C.unk_06)) {
+                if (IsInSight(pos, unk_AC->GetPos(), unk_6C.unk_02, unk_30, unk_6C.unk_06)) {
                     unk_C0 = 1;
-                } else if (ov0_021582C4(pos, unk_AC->GetPos(), unk_6C.unk_04, unk_30, unk_6C.unk_08)) {
+                } else if (IsInSight(pos, unk_AC->GetPos(), unk_6C.unk_04, unk_30, unk_6C.unk_08)) {
                     unk_C0 = 2;
                 } else {
                     unk_C0 = 0;
@@ -193,13 +193,13 @@ BOOL CFieldPokeMove::ov0_02152B04()
         ov0_02156290();
         break;
     }
-    ov0_02154A84();
+    ProcSpecialEffect();
     unk_50--;
     return FALSE;
 }
 #else
 // clang-format off
-asm BOOL CFieldPokeMove::ov0_02152B04()
+asm BOOL CFieldPokeMove::Update()
 {
     stmdb sp!, {r3, r4, lr}
     sub sp, sp, #0x74
@@ -364,7 +364,7 @@ asm BOOL CFieldPokeMove::ov0_02152B04()
     str ip, [lr]
     str r3, [lr, #4]
     ldr r3, [lr]
-    bl ov0_021582C4
+    bl IsInSight
     cmp r0, #0
     movne r0, #1
     strne r0, [r4, #0xc0]
@@ -417,7 +417,7 @@ asm BOOL CFieldPokeMove::ov0_02152B04()
     str ip, [lr]
     str r3, [lr, #4]
     ldr r3, [lr]
-    bl ov0_021582C4
+    bl IsInSight
     cmp r0, #0
     movne r0, #2
     strne r0, [r4, #0xc0]
@@ -577,7 +577,7 @@ asm BOOL CFieldPokeMove::ov0_02152B04()
     bl ov0_02156290
 @L0215301C:
     mov r0, r4
-    bl ov0_02154A84
+    bl ProcSpecialEffect
     ldr r1, [r4, #0x50]
     mov r0, #0
     sub r1, r1, #1
@@ -592,7 +592,7 @@ int CFieldPokeMove::ov0_02153040()
 {
     switch (unk_4E) {
     case 0:
-        ov0_02156A8C();
+        BeginSequence();
         unk_30.x = FX_CosIdx(unk_48->GetDir());
         unk_30.y = FX_SinIdx(unk_48->GetDir());
         unk_38 = GetPlayerPos() - (Point2D) { unk_0C.x, unk_0C.y };
@@ -601,12 +601,12 @@ int CFieldPokeMove::ov0_02153040()
         unk_38.y = FX32_MUL(unk_38.y, inv);
         SetUnk04(GetPlayerPos());
         unk_4C = unk_6C.unk_14;
-        if (ov0_02158894(unk_38, unk_6C.unk_10)) {
-            ov0_0215674C(1);
+        if (IsBlockedAhead(unk_38, unk_6C.unk_10)) {
+            SetSequence(1);
         } else {
-            ov0_021582B4(4, 30);
+            ShowManpu(4, 30);
             if (unk_68 != 5) {
-                ov0_0215826C();
+                PlayCry();
             }
             if (unk_68 == 9) {
                 unk_4E = 10;
@@ -617,7 +617,7 @@ int CFieldPokeMove::ov0_02153040()
         break;
     case 1:
         if (unk_6C.unk_3C == 0) {
-            if (ov0_02157F0C(&unk_30, &unk_38, unk_4C)) {
+            if (TurnToward(&unk_30, &unk_38, unk_4C)) {
                 unk_4E = 2;
             }
         } else {
@@ -628,11 +628,11 @@ int CFieldPokeMove::ov0_02153040()
         break;
     case 2:
         SetUnk04(GetPlayerPos());
-        int next = ov0_02156B30(&unk_24, unk_6C.unk_10, -1);
+        int next = Move(&unk_24, unk_6C.unk_10, -1);
         if (next != 0) {
-            ov0_0215674C(next);
+            SetSequence(next);
         } else if (unk_50 <= 0) {
-            ov0_0215674C(1);
+            SetSequence(1);
         }
         break;
     case 3:
@@ -644,7 +644,7 @@ int CFieldPokeMove::ov0_02153040()
     case 9:
         break;
     case 10:
-        if (ov0_02157F0C(&unk_30, &unk_38, unk_4C)) {
+        if (TurnToward(&unk_30, &unk_38, unk_4C)) {
             unk_4E = 11;
         }
         unk_48->sub_020128EC_(FX_Atan2Idx(unk_30.y, unk_30.x));
@@ -662,7 +662,7 @@ int CFieldPokeMove::ov0_02153040()
         unk_4E = 15;
         break;
     case 15:
-        ov0_0215674C(1);
+        SetSequence(1);
         break;
     }
     return 0;
@@ -672,7 +672,7 @@ int CFieldPokeMove::ov0_02153538()
 {
     switch (unk_4E) {
     case 0: {
-        ov0_02156A8C();
+        BeginSequence();
         unk_30.x = FX_CosIdx(unk_48->GetDir());
         unk_30.y = FX_SinIdx(unk_48->GetDir());
         unk_38 = unk_0C - GetPlayerPos();
@@ -685,8 +685,8 @@ int CFieldPokeMove::ov0_02153538()
         target.y = unk_0C.y + FX32_MUL(unk_38.y, dist);
         SetUnk04(target);
         unk_4C = unk_6C.unk_14;
-        ov0_021582B4(7, 30);
-        if (unk_68 != 5 && ov0_02158894(unk_38, unk_6C.unk_10)) {
+        ShowManpu(7, 30);
+        if (unk_68 != 5 && IsBlockedAhead(unk_38, unk_6C.unk_10)) {
             if (unk_48->unk_64.x > unk_0C.x) {
                 if (unk_48->unk_64.y > unk_0C.y) {
                     unk_4E = 10;
@@ -702,7 +702,7 @@ int CFieldPokeMove::ov0_02153538()
             }
         } else {
             if (unk_68 != 5) {
-                ov0_0215826C();
+                PlayCry();
             }
             unk_4E = 1;
         }
@@ -710,7 +710,7 @@ int CFieldPokeMove::ov0_02153538()
     }
     case 1:
         if (unk_6C.unk_3C == 0) {
-            if (ov0_02157F0C(&unk_30, &unk_38, unk_4C)) {
+            if (TurnToward(&unk_30, &unk_38, unk_4C)) {
                 unk_4E = 2;
             }
         } else {
@@ -719,8 +719,8 @@ int CFieldPokeMove::ov0_02153538()
         unk_48->sub_020128EC_(FX_Atan2Idx(unk_30.y, unk_30.x));
         break;
     case 2:
-        if (ov0_02156B30(&unk_24, unk_6C.unk_10, -1) != 0) {
-            ov0_0215674C(1);
+        if (Move(&unk_24, unk_6C.unk_10, -1) != 0) {
+            SetSequence(1);
         }
         break;
     case 10:
@@ -734,18 +734,18 @@ int CFieldPokeMove::ov0_02153538()
         fx32 inv = FX_InvSqrt(FX32_MUL(unk_38.x, unk_38.x) + FX32_MUL(unk_38.y, unk_38.y));
         unk_38.x = FX32_MUL(unk_38.x, inv);
         unk_38.y = FX32_MUL(unk_38.y, inv);
-        ov0_021582B4(7, 30);
-        if (ov0_02158894(unk_38, unk_6C.unk_10)) {
+        ShowManpu(7, 30);
+        if (IsBlockedAhead(unk_38, unk_6C.unk_10)) {
             dir = unk_38;
             unk_38.x = FX32_MUL(dir.x, c) - FX32_MUL(dir.y, s);
             unk_38.y = FX32_MUL(dir.y, c) + FX32_MUL(dir.x, s);
             inv = FX_InvSqrt(FX32_MUL(unk_38.x, unk_38.x) + FX32_MUL(unk_38.y, unk_38.y));
             unk_38.x = FX32_MUL(unk_38.x, inv);
             unk_38.y = FX32_MUL(unk_38.y, inv);
-            ov0_02158894(unk_38, unk_6C.unk_10);
+            IsBlockedAhead(unk_38, unk_6C.unk_10);
         } else {
             if (unk_68 != 5) {
-                ov0_0215826C();
+                PlayCry();
             }
             fx32 dist = FX32_MUL(unk_6C.unk_10, unk_6C.unk_1A << FX32_SHIFT);
             Point2D target;
@@ -765,7 +765,7 @@ BOOL CFieldPokeMove::ov0_02153B60(int step)
 {
     BOOL ok;
     if (step <= 0) {
-        ok = !ov0_02158928(unk_04, unk_6C.unk_1C, unk_B4);
+        ok = !CollidesAt(unk_04, unk_6C.unk_1C, unk_B4);
     } else {
         fx32 dist = FX32_MUL(unk_6C.unk_10, unk_6C.unk_1A << FX32_SHIFT);
         u16 angle = (((step - 1) >> 1) + 1) * 0x1000;
@@ -780,7 +780,7 @@ BOOL CFieldPokeMove::ov0_02153B60(int step)
         Point2D pos;
         pos.x = unk_0C.x + FX32_MUL(dx, dist);
         pos.y = unk_0C.y + FX32_MUL(dy, dist);
-        ok = !ov0_02158928(pos, unk_6C.unk_1C, unk_B4);
+        ok = !CollidesAt(pos, unk_6C.unk_1C, unk_B4);
         if (behind) {
             Point2D pp = GetPlayerPos();
             if (ApproxLength(pos.x - pp.x, pos.y - pp.y) < 0x20000) {
@@ -809,13 +809,13 @@ int CFieldPokeMove::ov0_02153D78()
             unk_4E = step << 8;
         }
         if (step >= 16) {
-            ov0_0215674C(1);
+            SetSequence(1);
         }
         break;
     }
     case 1:
         unk_48->sub_reset();
-        if (ov0_021580F8(0) == -1) {
+        if (PlayEnemyAnime(0) == -1) {
             unk_48->sub_02012A3C_(7, 0x1800, 0x800);
             unk_4E = 4;
             unk_50 = 7;
@@ -823,13 +823,13 @@ int CFieldPokeMove::ov0_02153D78()
             unk_4E = 2;
         }
         if (unk_CC == 0) {
-            ov0_02158294(0x56, 0x5C);
+            PlayGroupSe(0x56, 0x5C);
         }
         break;
     case 2:
         if (unk_48->GetAnimState() == 0) {
             unk_4E = 3;
-            ov0_021580F8(1);
+            PlayEnemyAnime(1);
             fx32 y = unk_04.y;
             // Reusing step makes this x a split live range, which gets the original's register.
             step = unk_04.x;
@@ -839,7 +839,7 @@ int CFieldPokeMove::ov0_02153D78()
     case 3:
         if (unk_48->GetAnimState() == 0) {
             unk_48->sub_show();
-            ov0_0215674C(1);
+            SetSequence(1);
         }
         break;
     case 4:
@@ -869,7 +869,7 @@ int CFieldPokeMove::ov0_02153D78()
     case 7:
         if (unk_48->GetScale() == 0x1000 || unk_50 <= 0) {
             unk_48->sub_show();
-            ov0_0215674C(1);
+            SetSequence(1);
         }
         break;
     }
@@ -880,7 +880,7 @@ int CFieldPokeMove::ov0_02154210()
 {
     switch (unk_4E) {
     case 0: {
-        ov0_02156A8C();
+        BeginSequence();
         unk_30.x = FX_CosIdx(unk_48->GetDir());
         unk_30.y = FX_SinIdx(unk_48->GetDir());
         unk_38 = GetPlayerPos() - (Point2D) { unk_0C.x, unk_0C.y };
@@ -896,7 +896,7 @@ int CFieldPokeMove::ov0_02154210()
     }
     case 1:
         if (unk_6C.unk_3C == 0) {
-            if (ov0_02157F0C(&unk_30, &unk_38, unk_4C)) {
+            if (TurnToward(&unk_30, &unk_38, unk_4C)) {
                 unk_4E = 2;
             }
         } else {
@@ -905,7 +905,7 @@ int CFieldPokeMove::ov0_02154210()
         unk_48->sub_020128EC_(FX_Atan2Idx(unk_30.y, unk_30.x));
         break;
     case 2:
-        ov0_0215674C(6);
+        SetSequence(6);
         break;
     }
     return 0;
@@ -915,11 +915,11 @@ int CFieldPokeMove::ov0_021545EC()
 {
     switch (unk_4E) {
     case 0:
-        ov0_021582B4(4, 30);
-        ov0_0215826C();
-        ov0_02156A8C();
+        ShowManpu(4, 30);
+        PlayCry();
+        BeginSequence();
         unk_48->sub_reset();
-        ov0_021580F8(0);
+        PlayEnemyAnime(0);
         unk_4E = 1;
         break;
     case 1:
@@ -927,15 +927,15 @@ int CFieldPokeMove::ov0_021545EC()
             unk_48->sub_show();
             CFieldEffectManage *manage = MAIN_BSS_0210CA60;
             FieldScreenEffectManage *fade = MAIN_BSS_0210CA78;
-            CFieldEffect *effect = manage->ov0_02143088(manage->ov0_02142F6C(0xC, 0));
+            CFieldEffect *effect = manage->Get(manage->Create(0xC, 0));
             if (effect != NULL) {
                 effect->SetParam(1, unk_0C.x >> FX32_SHIFT);
                 effect->SetParam(2, (unk_0C.y - unk_0C.z) >> FX32_SHIFT);
                 effect->SetParam(18, unk_6C.unk_27);
-                effect->ov0_021421F0(0, -1, 0);
+                effect->Start(0, -1, 0);
             }
             if (fade != NULL) {
-                fade->sub_02035D38(6);
+                fade->SetPrimaryEffect(6);
                 fade->StartEffect(6, 15, 30, 150);
             }
             unk_50 = 120;
@@ -944,7 +944,7 @@ int CFieldPokeMove::ov0_021545EC()
         break;
     case 2:
         if (unk_50 <= 0) {
-            ov0_0215674C(1);
+            SetSequence(1);
         }
         break;
     }
@@ -955,23 +955,23 @@ int CFieldPokeMove::ov0_02154810()
 {
     switch (unk_4E) {
     case 0:
-        ov0_021582B4(4, 30);
-        ov0_0215826C();
-        ov0_02156A8C();
+        ShowManpu(4, 30);
+        PlayCry();
+        BeginSequence();
         unk_48->sub_reset();
-        ov0_021580F8(0);
+        PlayEnemyAnime(0);
         unk_4E = 1;
         break;
     case 1:
         if (unk_48->GetAnimState() == 0) {
             CFieldEffectManage *manage = MAIN_BSS_0210CA60;
-            CFieldEffect *effect = manage->ov0_02143088(manage->ov0_02142F6C(0xD, 0));
+            CFieldEffect *effect = manage->Get(manage->Create(0xD, 0));
             if (effect != NULL) {
                 effect->SetParam(1, unk_0C.x >> FX32_SHIFT);
                 effect->SetParam(2, unk_0C.y >> FX32_SHIFT);
                 effect->SetParam(18, unk_6C.unk_27);
-                effect->ov0_021421F0(0, -1, 0);
-                ov0_02158294(0x57, 0x5D);
+                effect->Start(0, -1, 0);
+                PlayGroupSe(0x57, 0x5D);
             }
             unk_50 = 60;
             unk_4E = 2;
@@ -980,21 +980,21 @@ int CFieldPokeMove::ov0_02154810()
     case 2:
         if (unk_50 <= 0) {
             unk_48->sub_reset();
-            ov0_021580F8(1);
+            PlayEnemyAnime(1);
             unk_4E = 3;
         }
         break;
     case 3:
         if (unk_48->GetAnimState() == 0) {
             unk_48->sub_show();
-            ov0_0215674C(1);
+            SetSequence(1);
         }
         break;
     }
     return 0;
 }
 
-int CFieldPokeMove::ov0_02154A84()
+int CFieldPokeMove::ProcSpecialEffect()
 {
     if (unk_CC == 0 && unk_6C.unk_00 >= 16 && unk_6C.unk_00 <= 18 && unk_B8 == 0) {
         CFieldEffectManage *manage = MAIN_BSS_0210CA60;
@@ -1014,31 +1014,31 @@ int CFieldPokeMove::ov0_02154A84()
                 LogError("ProcSpecaialEffect() ScriptID=%d");
                 break;
             }
-            for (u16 id = manage->ov0_02143024(0); id != 0; id = manage->ov0_02143024(id)) {
-                CFieldEffectSlime *slime = (CFieldEffectSlime *)manage->ov0_02143088(id);
+            for (u16 id = manage->GetNext(0); id != 0; id = manage->GetNext(id)) {
+                CFieldEffectSlime *slime = (CFieldEffectSlime *)manage->Get(id);
                 if (slime != NULL && slime->GetEffectId() == 0x12 && slime->m_actor == unk_48 && !(slime->m_flags & 0x8000)) {
                     unk_B8 = id;
                     break;
                 }
             }
             if (unk_B8 == 0) {
-                unk_B8 = manage->ov0_02142F6C(0x12, arg);
-                CFieldEffectSlime *slime = (CFieldEffectSlime *)manage->ov0_02143088(unk_B8);
+                unk_B8 = manage->Create(0x12, arg);
+                CFieldEffectSlime *slime = (CFieldEffectSlime *)manage->Get(unk_B8);
                 if (slime != NULL) {
                     slime->m_actor = unk_48;
                     slime->SetParam(18, unk_6C.unk_27);
-                    slime->ov0_021421F0(0, -1, 0);
+                    slime->Start(0, -1, 0);
                 }
             }
         }
     }
     if (unk_B8 != 0 && MAIN_BSS_0210CA60 != NULL) {
-        CFieldEffectSlime *slime = (CFieldEffectSlime *)MAIN_BSS_0210CA60->ov0_02143088(unk_B8);
+        CFieldEffectSlime *slime = (CFieldEffectSlime *)MAIN_BSS_0210CA60->Get(unk_B8);
         if (slime != NULL) {
             if (unk_44 == 1) {
-                slime->ov0_021633B8();
+                slime->StopPuddles();
             } else {
-                slime->ov0_021633CC();
+                slime->StartPuddles();
             }
         }
     }
@@ -1053,8 +1053,8 @@ static inline void SetActorPos(CFieldActor *actor, fx32 x, fx32 y, fx32 z)
 
 int CFieldPokeMove::ov0_02154C30()
 {
-    ov0_021582B4(4, 30);
-    ov0_0215674C(1);
+    ShowManpu(4, 30);
+    SetSequence(1);
     return 0;
 }
 
@@ -1065,9 +1065,9 @@ int CFieldPokeMove::ov0_02154C58()
     fx32 x;
     switch (unk_4E) {
     case 0:
-        ov0_021582B4(4, 30);
-        ov0_0215826C();
-        ov0_02156A8C();
+        ShowManpu(4, 30);
+        PlayCry();
+        BeginSequence();
         unk_30.x = FX_CosIdx(unk_48->GetDir());
         unk_30.y = FX_SinIdx(unk_48->GetDir());
         unk_38 = GetPlayerPos() - (Point2D) { unk_0C.x, unk_0C.y };
@@ -1080,7 +1080,7 @@ int CFieldPokeMove::ov0_02154C58()
         break;
     case 1:
         if (unk_6C.unk_3C == 0) {
-            if (ov0_02157F0C(&unk_30, &unk_38, unk_4C)) {
+            if (TurnToward(&unk_30, &unk_38, unk_4C)) {
                 unk_4E = 2;
             }
         } else {
@@ -1091,7 +1091,7 @@ int CFieldPokeMove::ov0_02154C58()
     case 2:
         unk_48->sub_reset();
         unk_48->m_flags &= ~0x400;
-        ov0_021580F8(2);
+        PlayEnemyAnime(2);
         unk_4E = 3;
         unk_24.x = FX32_MUL(unk_30.x, 0x6000);
         unk_24.y = FX32_MUL(unk_30.y, 0x6000);
@@ -1099,11 +1099,11 @@ int CFieldPokeMove::ov0_02154C58()
         unk_50 = 60;
         break;
     case 3:
-        if (ov0_02158420()) {
+        if (IsTouchingPlayer()) {
             fx32 dx = unk_AC->GetPos().x - unk_0C.x;
             fx32 dy = unk_AC->GetPos().y - unk_0C.y;
             fx32 inv = FX_InvSqrt(FX32_MUL(dx, dx) + FX32_MUL(dy, dy));
-            unk_AC->ov0_021333A0(FX32_MUL(dx, inv), FX32_MUL(dy, inv), 10, unk_6C.unk_27, -1);
+            unk_AC->KnockBack(FX32_MUL(dx, inv), FX32_MUL(dy, inv), 10, unk_6C.unk_27, -1);
             unk_4E = 5;
         } else {
             unk_24.z -= 0x800;
@@ -1136,10 +1136,10 @@ int CFieldPokeMove::ov0_02154C58()
         break;
     case 4:
         unk_48->m_flags |= 0x400;
-        ov0_0215674C(1);
+        SetSequence(1);
         break;
     case 5:
-        ov0_02158294(0x49, 0x4F);
+        PlayGroupSe(0x49, 0x4F);
         unk_24.x = FX32_MUL(-unk_30.x, FX32_ONE);
         unk_24.y = FX32_MUL(-unk_30.y, FX32_ONE);
         unk_24.z = 0x2000;
@@ -1184,8 +1184,8 @@ PokeMoveVec PokeMoveVec::operator=(const PokeMoveVec &other)
 
 int CFieldPokeMove::ov0_02155558()
 {
-    ov0_021582B4(4, 30);
-    ov0_0215674C(1);
+    ShowManpu(4, 30);
+    SetSequence(1);
     return 0;
 }
 
@@ -1199,7 +1199,7 @@ int CFieldPokeMove::ov0_02155588()
     fx32 speed;
     switch (unk_4E) {
     case 0: {
-        ov0_02156A8C();
+        BeginSequence();
         int range = unk_6C.unk_04;
         speed = FX32_MUL(range << FX32_SHIFT, (fx64)0x555);
         range *= range;
@@ -1218,8 +1218,8 @@ int CFieldPokeMove::ov0_02155588()
             unk_24.x = FX32_MUL(unk_30.x, (fx64)0x3000);
             unk_24.y = FX32_MUL(unk_30.y, (fx64)0x3000);
             unk_48->sub_020128EC_(FX_Atan2Idx(unk_30.y, unk_30.x));
-            ov0_0215826C();
-            ov0_02158B5C(1);
+            PlayCry();
+            SpawnGroundEffect(1);
             unk_4E = 1;
         }
         break;
@@ -1242,7 +1242,7 @@ int CFieldPokeMove::ov0_02155588()
         }
         break;
     case 2:
-        ov0_0215674C(1);
+        SetSequence(1);
         break;
     }
     fx32 y = unk_0C.y;
@@ -1261,7 +1261,7 @@ int CFieldPokeMove::ov0_021558F4()
         int sq = unk_6C.unk_02;
         sq *= sq;
         if (unk_C8 <= sq) {
-            ov0_02158294(0x99, 0x91);
+            PlayGroupSe(0x99, 0x91);
             unk_0C.z = 0x96000;
             unk_48->m_flags &= ~1;
             unk_24.z = 0;
@@ -1276,12 +1276,12 @@ int CFieldPokeMove::ov0_021558F4()
         unk_0C.z += unk_24.z;
         if (unk_0C.z < 0) {
             unk_0C.z = 0;
-            ov0_02158B5C(0);
+            SpawnGroundEffect(0);
             unk_4E = 2;
         }
         break;
     case 2:
-        ov0_0215674C(1);
+        SetSequence(1);
         break;
     }
     unk_48->SetBaseHeight(unk_0C.z);
@@ -1298,7 +1298,7 @@ int CFieldPokeMove::ov0_021559F8()
     switch (unk_4E) {
     case 0:
         unk_48->m_flags &= ~0x400;
-        ((CFieldEnemy *)unk_48)->ov0_02134FCC();
+        ((CFieldEnemy *)unk_48)->EnableTargetObject();
         unk_48->m_flags |= 1;
         unk_48->m_flags |= 0x200;
         unk_4E = 1;
@@ -1320,15 +1320,15 @@ int CFieldPokeMove::ov0_02155A90()
 {
     switch (unk_4E) {
     case 0:
-        ov0_0215826C();
+        PlayCry();
         unk_48->sub_reset();
         unk_48->m_flags &= ~0x400;
-        ov0_021580F8(1);
+        PlayEnemyAnime(1);
         unk_4E = 1;
         break;
     case 1:
         if (unk_48->GetAnimState() == 0) {
-            ((CFieldEnemy *)unk_48)->ov0_02134FCC();
+            ((CFieldEnemy *)unk_48)->EnableTargetObject();
             unk_48->m_flags |= 1;
             unk_48->m_flags |= 0x200;
             unk_4E = 2;
@@ -1342,12 +1342,12 @@ int CFieldPokeMove::ov0_02155A90()
 
 int CFieldPokeMove::ov0_02155B88()
 {
-    ((CFieldEnemy *)unk_48)->ov0_021351AC();
+    ((CFieldEnemy *)unk_48)->DisableTargetObject();
     unk_48->m_flags &= ~1;
     unk_48->m_flags &= ~0x200;
     unk_48->m_flags |= 0x400;
     unk_48->sub_show();
-    ov0_0215674C(1);
+    SetSequence(1);
     return 0;
 }
 
@@ -1355,20 +1355,20 @@ int CFieldPokeMove::ov0_02155C20()
 {
     switch (unk_4E) {
     case 0:
-        ((CFieldEnemy *)unk_48)->ov0_021351AC();
+        ((CFieldEnemy *)unk_48)->DisableTargetObject();
         unk_48->m_flags &= ~1;
         unk_48->m_flags &= ~0x200;
         if (unk_B0 != 0x1C7) {
-            ov0_0215826C();
+            PlayCry();
         }
-        ov0_021580F8(0);
+        PlayEnemyAnime(0);
         unk_4E = 1;
         break;
     case 1:
         if (unk_48->GetAnimState() == 0) {
             unk_48->m_flags |= 0x400;
             unk_48->sub_show();
-            ov0_0215674C(1);
+            SetSequence(1);
         }
         break;
     }
@@ -1377,11 +1377,11 @@ int CFieldPokeMove::ov0_02155C20()
 
 int CFieldPokeMove::ov0_02155D38()
 {
-    if (ov0_02158420()) {
+    if (IsTouchingPlayer()) {
         fx32 dx = unk_AC->GetPos().x - unk_0C.x;
         fx32 dy = unk_AC->GetPos().y - unk_0C.y;
         fx32 inv = FX_InvSqrt(FX32_MUL(dx, dx) + FX32_MUL(dy, dy));
-        unk_AC->ov0_021333A0(FX32_MUL(dx, inv), FX32_MUL(dy, inv), 10, unk_6C.unk_27, -1);
+        unk_AC->KnockBack(FX32_MUL(dx, inv), FX32_MUL(dy, inv), 10, unk_6C.unk_27, -1);
     }
     return 0;
 }
@@ -1392,7 +1392,7 @@ int CFieldPokeMove::ov0_02155EA0()
     switch (unk_4E) {
     case 0:
         unk_48->sub_reset();
-        ov0_021580F8(1);
+        PlayEnemyAnime(1);
         unk_4E = 1;
         unk_50 = 60;
         break;
@@ -1405,7 +1405,7 @@ int CFieldPokeMove::ov0_02155EA0()
     case 2:
         busy = FALSE;
         unk_48->m_flags &= ~0x400;
-        ov0_02156A8C();
+        BeginSequence();
         unk_30.x = FX_CosIdx(unk_48->GetDir());
         unk_30.y = FX_SinIdx(unk_48->GetDir());
         unk_38 = unk_04 - GetPos();
@@ -1422,8 +1422,8 @@ int CFieldPokeMove::ov0_02155EA0()
         break;
     case 4:
         busy = FALSE;
-        if (ov0_02156B30(&unk_24, unk_6C.unk_10, 10) != 0) {
-            ov0_021580F8(0);
+        if (Move(&unk_24, unk_6C.unk_10, 10) != 0) {
+            PlayEnemyAnime(0);
             unk_4E = 5;
             unk_50 = 60;
         }
@@ -1432,7 +1432,7 @@ int CFieldPokeMove::ov0_02155EA0()
         if (unk_50 <= 0) {
             unk_48->sub_show();
             unk_48->m_flags |= 0x400;
-            ov0_0215674C(1);
+            SetSequence(1);
         }
         break;
     default:
@@ -1447,9 +1447,9 @@ int CFieldPokeMove::ov0_02156194()
 {
     switch (unk_4E) {
     case 0:
-        ov0_021582B4(4, 30);
-        ov0_021580F8(0);
-        ov0_0215826C();
+        ShowManpu(4, 30);
+        PlayEnemyAnime(0);
+        PlayCry();
         if (unk_48->GetAnimState() == -1) {
             unk_50 = 60;
             unk_4E = 1;
@@ -1459,12 +1459,12 @@ int CFieldPokeMove::ov0_02156194()
         break;
     case 1:
         if (unk_50 <= 0) {
-            ov0_0215674C(1);
+            SetSequence(1);
         }
         break;
     case 2:
         if (unk_48->GetAnimState() == 0) {
-            ov0_0215674C(1);
+            SetSequence(1);
         }
         break;
     }
@@ -1475,7 +1475,7 @@ int CFieldPokeMove::ov0_02156290()
 {
     switch (unk_4E) {
     case 0:
-        ov0_02156A8C();
+        BeginSequence();
         unk_30.x = FX_CosIdx(unk_48->GetDir());
         unk_30.y = FX_SinIdx(unk_48->GetDir());
         unk_48->PlayAnim(2, 0);
@@ -1485,7 +1485,7 @@ int CFieldPokeMove::ov0_02156290()
         unk_38.y = FX32_MUL(unk_38.y, inv);
         SetUnk04(GetPlayerPos());
         unk_4C = unk_6C.unk_14;
-        ov0_021582B4(8, 60);
+        ShowManpu(8, 60);
         unk_4E = 1;
         break;
     case 1: {
@@ -1494,7 +1494,7 @@ int CFieldPokeMove::ov0_02156290()
         unk_38.x = FX32_MUL(unk_38.x, inv);
         unk_38.y = FX32_MUL(unk_38.y, inv);
         SetUnk04(GetPlayerPos());
-        ov0_02157F0C(&unk_30, &unk_38, unk_4C);
+        TurnToward(&unk_30, &unk_38, unk_4C);
         unk_48->sub_020128EC_(FX_Atan2Idx(unk_30.y, unk_30.x));
         break;
     }
@@ -1502,7 +1502,7 @@ int CFieldPokeMove::ov0_02156290()
     return 0;
 }
 
-void CFieldPokeMove::ov0_0215674C(int sequence)
+void CFieldPokeMove::SetSequence(int sequence)
 {
     unk_44 = sequence;
     unk_4E = 0;
@@ -1540,7 +1540,7 @@ int CFieldPokeMove::ov0_02156898()
 {
     switch (unk_4E) {
     case 0:
-        ov0_02156A8C();
+        BeginSequence();
         unk_30.x = FX_CosIdx(unk_48->GetDir());
         unk_30.y = FX_SinIdx(unk_48->GetDir());
         unk_38 = unk_04 - GetPos();
@@ -1552,7 +1552,7 @@ int CFieldPokeMove::ov0_02156898()
         break;
     case 1:
         if (unk_6C.unk_3C == 0) {
-            if (ov0_02157F0C(&unk_30, &unk_38, unk_4C)) {
+            if (TurnToward(&unk_30, &unk_38, unk_4C)) {
                 unk_4E = 2;
             }
         } else {
@@ -1561,9 +1561,9 @@ int CFieldPokeMove::ov0_02156898()
         unk_48->sub_020128EC_(FX_Atan2Idx(unk_30.y, unk_30.x));
         break;
     case 2: {
-        int next = ov0_02156B30(&unk_24, unk_6C.unk_0C, -1);
+        int next = Move(&unk_24, unk_6C.unk_0C, -1);
         if (next != 0) {
-            ov0_0215674C(next);
+            SetSequence(next);
         }
         break;
     }
@@ -1574,7 +1574,7 @@ int CFieldPokeMove::ov0_02156898()
     return 0;
 }
 
-void CFieldPokeMove::ov0_02156A8C()
+void CFieldPokeMove::BeginSequence()
 {
     unk_0C.x = unk_48->GetX();
     unk_0C.y = unk_48->GetY();
@@ -1586,7 +1586,7 @@ void CFieldPokeMove::ov0_02156A8C()
     unk_40 = 0;
 }
 
-int CFieldPokeMove::ov0_02156B30(PokeMoveVec *vel, fx32 speed, int mode)
+int CFieldPokeMove::Move(PokeMoveVec *vel, fx32 speed, int mode)
 {
     if (mode == -1) {
         mode = unk_68;
@@ -1621,14 +1621,14 @@ int CFieldPokeMove::ov0_02156BC0(PokeMoveVec *vel, fx32 speed)
     if (unk_54 != 0) {
         unk_54--;
     }
-    ov0_0215674C(6);
+    SetSequence(6);
     return 0;
 }
 
 int CFieldPokeMove::ov0_02156BE4(PokeMoveVec *vel, fx32 speed)
 {
     BOOL done = FALSE;
-    if (ov0_02158B34(speed)) {
+    if (IsNearTarget(speed)) {
         unk_58 = 1;
     }
     if (unk_54 != 0 && --unk_54 == 0) {
@@ -1639,7 +1639,7 @@ int CFieldPokeMove::ov0_02156BE4(PokeMoveVec *vel, fx32 speed)
     fx32 inv = FX_InvSqrt(FX32_MUL(unk_38.x, unk_38.x) + FX32_MUL(unk_38.y, unk_38.y));
     unk_38.x = FX32_MUL(unk_38.x, inv);
     unk_38.y = FX32_MUL(unk_38.y, inv);
-    ov0_02157F0C(&unk_30, &unk_38, unk_4C);
+    TurnToward(&unk_30, &unk_38, unk_4C);
     unk_48->sub_020128EC_(FX_Atan2Idx(unk_30.y, unk_30.x));
     vel->x = FX32_MUL(unk_30.x, speed);
     vel->y = FX32_MUL(unk_30.y, speed);
@@ -1671,7 +1671,7 @@ int CFieldPokeMove::ov0_02156E68(PokeMoveVec *vel, fx32 speed)
         fx32 inv = FX_InvSqrt(FX32_MUL(unk_38.x, unk_38.x) + FX32_MUL(unk_38.y, unk_38.y));
         unk_38.x = FX32_MUL(unk_38.x, inv);
         unk_38.y = FX32_MUL(unk_38.y, inv);
-        ov0_02157F0C(&unk_30, &unk_38, unk_4C);
+        TurnToward(&unk_30, &unk_38, unk_4C);
         unk_48->sub_020128EC_(FX_Atan2Idx(unk_30.y, unk_30.x));
         if (unk_0C.z == 0) {
             vel->z = unk_6C.unk_2C << FX32_SHIFT;
@@ -1684,7 +1684,7 @@ int CFieldPokeMove::ov0_02156E68(PokeMoveVec *vel, fx32 speed)
             fx32 inv = FX_InvSqrt(FX32_MUL(unk_38.x, unk_38.x) + FX32_MUL(unk_38.y, unk_38.y));
             unk_38.x = FX32_MUL(unk_38.x, inv);
             unk_38.y = FX32_MUL(unk_38.y, inv);
-            ov0_02157F0C(&unk_30, &unk_38, unk_4C);
+            TurnToward(&unk_30, &unk_38, unk_4C);
             unk_48->sub_020128EC_(FX_Atan2Idx(unk_30.y, unk_30.x));
             vel->x = FX32_MUL(unk_30.x, (fx64)speed);
             vel->y = FX32_MUL(unk_30.y, (fx64)speed);
@@ -1711,7 +1711,7 @@ int CFieldPokeMove::ov0_02156E68(PokeMoveVec *vel, fx32 speed)
             unk_48->SetBaseHeight(unk_18.z);
             CommitNext(this);
         }
-        if (ov0_02158B34(speed)) {
+        if (IsNearTarget(speed)) {
             unk_58 = 1;
         }
         if (unk_58 != 0 && unk_0C.z == 0) {
@@ -1736,7 +1736,7 @@ int CFieldPokeMove::ov0_021572F4(PokeMoveVec *vel, fx32 speed)
         fx32 inv = FX_InvSqrt(FX32_MUL(unk_38.x, unk_38.x) + FX32_MUL(unk_38.y, unk_38.y));
         unk_38.x = FX32_MUL(unk_38.x, inv);
         unk_38.y = FX32_MUL(unk_38.y, inv);
-        ov0_02157F0C(&unk_30, &unk_38, unk_4C);
+        TurnToward(&unk_30, &unk_38, unk_4C);
         unk_48->sub_020128EC_(FX_Atan2Idx(unk_30.y, unk_30.x));
         if (unk_0C.z == 0) {
             vel->z = unk_6C.unk_2C << FX32_SHIFT;
@@ -1749,7 +1749,7 @@ int CFieldPokeMove::ov0_021572F4(PokeMoveVec *vel, fx32 speed)
             fx32 inv = FX_InvSqrt(FX32_MUL(unk_38.x, unk_38.x) + FX32_MUL(unk_38.y, unk_38.y));
             unk_38.x = FX32_MUL(unk_38.x, inv);
             unk_38.y = FX32_MUL(unk_38.y, inv);
-            ov0_02157F0C(&unk_30, &unk_38, unk_4C);
+            TurnToward(&unk_30, &unk_38, unk_4C);
             unk_48->sub_020128EC_(FX_Atan2Idx(unk_30.y, unk_30.x));
             vel->x = FX32_MUL(unk_30.x, (fx64)speed);
             vel->y = FX32_MUL(unk_30.y, (fx64)speed);
@@ -1777,7 +1777,7 @@ int CFieldPokeMove::ov0_021572F4(PokeMoveVec *vel, fx32 speed)
             unk_48->SetBaseHeight(unk_18.z);
             CommitNext(this);
         }
-        if (ov0_02158B34(speed)) {
+        if (IsNearTarget(speed)) {
             unk_58 = 1;
         }
         if (unk_58 != 0 && unk_0C.z == 0) {
@@ -1791,7 +1791,7 @@ int CFieldPokeMove::ov0_02157764(PokeMoveVec *vel, fx32 speed)
 {
     BOOL done = FALSE;
     unk_B4 |= 2;
-    if (ov0_02158B34(speed)) {
+    if (IsNearTarget(speed)) {
         unk_58 = 1;
     }
     if (unk_54 != 0 && --unk_54 == 0) {
@@ -1802,7 +1802,7 @@ int CFieldPokeMove::ov0_02157764(PokeMoveVec *vel, fx32 speed)
     fx32 inv = FX_InvSqrt(FX32_MUL(unk_38.x, unk_38.x) + FX32_MUL(unk_38.y, unk_38.y));
     unk_38.x = FX32_MUL(unk_38.x, inv);
     unk_38.y = FX32_MUL(unk_38.y, inv);
-    ov0_02157F0C(&unk_30, &unk_38, unk_4C);
+    TurnToward(&unk_30, &unk_38, unk_4C);
     unk_48->sub_020128EC_(FX_Atan2Idx(unk_30.y, unk_30.x));
     vel->x = FX32_MUL(unk_30.x, speed);
     vel->y = FX32_MUL(unk_30.y, speed);
@@ -1832,7 +1832,7 @@ int CFieldPokeMove::ov0_02157764(PokeMoveVec *vel, fx32 speed)
 int CFieldPokeMove::ov0_02157A70(PokeMoveVec *vel, fx32 speed)
 {
     BOOL done = FALSE;
-    if (ov0_02158B34(speed)) {
+    if (IsNearTarget(speed)) {
         unk_58 = 1;
     }
     if (unk_54 != 0 && --unk_54 == 0) {
@@ -1843,7 +1843,7 @@ int CFieldPokeMove::ov0_02157A70(PokeMoveVec *vel, fx32 speed)
     fx32 inv = FX_InvSqrt(FX32_MUL(unk_38.x, unk_38.x) + FX32_MUL(unk_38.y, unk_38.y));
     unk_38.x = FX32_MUL(unk_38.x, inv);
     unk_38.y = FX32_MUL(unk_38.y, inv);
-    ov0_02157F0C(&unk_30, &unk_38, unk_4C);
+    TurnToward(&unk_30, &unk_38, unk_4C);
     unk_48->sub_020128EC_(FX_Atan2Idx(unk_30.y, unk_30.x));
     vel->x = FX32_MUL(unk_30.x, speed);
     vel->y = FX32_MUL(unk_30.y, speed);
@@ -1868,7 +1868,7 @@ int CFieldPokeMove::ov0_02157A70(PokeMoveVec *vel, fx32 speed)
 int CFieldPokeMove::ov0_02157CF4(PokeMoveVec *vel, fx32 speed)
 {
     BOOL done = FALSE;
-    if (ov0_02158B34(speed)) {
+    if (IsNearTarget(speed)) {
         unk_58 = 1;
     }
     if (unk_54 != 0 && --unk_54 == 0) {
@@ -1878,7 +1878,7 @@ int CFieldPokeMove::ov0_02157CF4(PokeMoveVec *vel, fx32 speed)
     fx32 len = ApproxLength(unk_38.x, unk_38.y);
     unk_38.x = FX32_DIV(unk_38.x, len);
     unk_38.y = FX32_DIV(unk_38.y, len);
-    ov0_02157F0C(&unk_30, &unk_38, unk_4C);
+    TurnToward(&unk_30, &unk_38, unk_4C);
     unk_48->sub_020128EC_(FX_Atan2Idx(unk_30.y, unk_30.x));
     vel->x = FX32_MUL(unk_30.x, speed);
     vel->y = FX32_MUL(unk_30.y, speed);
@@ -1892,7 +1892,7 @@ int CFieldPokeMove::ov0_02157CF4(PokeMoveVec *vel, fx32 speed)
     return done;
 }
 
-BOOL CFieldPokeMove::ov0_02157F0C(Point2D *dir, Point2D *target, u16 maxAngle)
+BOOL CFieldPokeMove::TurnToward(Point2D *dir, Point2D *target, u16 maxAngle)
 {
     if (target->x == 0 && target->y == 0) {
         return TRUE;
@@ -1910,32 +1910,32 @@ BOOL CFieldPokeMove::ov0_02157F0C(Point2D *dir, Point2D *target, u16 maxAngle)
         r.x = FX32_MUL(dir->x, FX_CosIdx(maxAngle)) - FX32_MUL(dir->y, -FX_SinIdx(maxAngle));
         r.y = FX32_MUL(dir->x, -FX_SinIdx(maxAngle)) + FX32_MUL(dir->y, FX_CosIdx(maxAngle));
     }
-    ov0_021580D0(r.x, r.y);
-    ov0_021580D0(dir->x, dir->y);
+    Length(r.x, r.y);
+    Length(dir->x, dir->y);
     *dir = r;
     return FALSE;
 }
 
-int CFieldPokeMove::ov0_02158070()
+int CFieldPokeMove::GetTargetDistSq()
 {
     int dx = (unk_04.x - unk_0C.x) >> FX32_SHIFT;
     int dy = (unk_04.y - unk_0C.y) >> FX32_SHIFT;
     return dx * dx + dy * dy;
 }
 
-fx32 CFieldPokeMove::ov0_0215809C(fx32 x1, fx32 y1, fx32 x2, fx32 y2)
+fx32 CFieldPokeMove::Distance(fx32 x1, fx32 y1, fx32 x2, fx32 y2)
 {
     fx32 dx = x1 - x2;
     fx32 dy = y1 - y2;
     return FX_Sqrt(FX32_MUL(dx, dx) + FX32_MUL(dy, dy));
 }
 
-fx32 CFieldPokeMove::ov0_021580D0(fx32 x, fx32 y)
+fx32 CFieldPokeMove::Length(fx32 x, fx32 y)
 {
     return FX_Sqrt(FX32_MUL(x, x) + FX32_MUL(y, y));
 }
 
-int CFieldPokeMove::ov0_021580F8(int anim)
+int CFieldPokeMove::PlayEnemyAnime(int anim)
 {
     if (anim >= 0 && anim < 3) {
         u8 kind;
@@ -1984,22 +1984,22 @@ int CFieldPokeMove::ov0_021580F8(int anim)
     return -1;
 }
 
-void CFieldPokeMove::ov0_0215826C()
+void CFieldPokeMove::PlayCry()
 {
     s_game->m_audioEngine->PlayStream(unk_B0, 0x40);
 }
 
-void CFieldPokeMove::ov0_02158294(int group, int index)
+void CFieldPokeMove::PlayGroupSe(int group, int index)
 {
     s_game->m_audioEngine->PlayGroupSe(group, index);
 }
 
-int CFieldPokeMove::ov0_021582B4(int type, int arg)
+int CFieldPokeMove::ShowManpu(int type, int arg)
 {
     return Actor_ShowManpu(unk_48, type, arg);
 }
 
-BOOL CFieldPokeMove::ov0_021582C4(Point2D from, Point2D to, int range, Point2D dir, int angle)
+BOOL CFieldPokeMove::IsInSight(Point2D from, Point2D to, int range, Point2D dir, int angle)
 {
     if (angle == 0) {
         return FALSE;
@@ -2030,7 +2030,7 @@ BOOL CFieldPokeMove::ov0_021582C4(Point2D from, Point2D to, int range, Point2D d
     return back == TRUE ? TRUE : FALSE;
 }
 
-BOOL CFieldPokeMove::ov0_02158420()
+BOOL CFieldPokeMove::IsTouchingPlayer()
 {
     int r = (unk_6C.unk_1C + unk_AC->unk_E0) >> FX32_SHIFT;
     r *= r;
@@ -2074,7 +2074,7 @@ static inline u16 GetAnimNo(CFieldActor *actor)
 static inline u8 GetAnimFrameD(CFieldDrawObject *obj)
 {
     if (obj->m_actor != NULL) {
-        return obj->m_actor->sub_02012E1C();
+        return obj->m_actor->GetAnimLoopCount();
     }
     return 0;
 }
@@ -2110,7 +2110,7 @@ static inline void SetUnkC0(CFieldActor *actor, u8 value)
     }
 }
 
-int CFieldPokeMove::ov0_0215844C(void *buf, void *end)
+int CFieldPokeMove::SaveState(void *buf, void *end)
 {
     PokeMoveSave save;
     MI_CpuFill8(&save, 0, sizeof(save));
@@ -2136,7 +2136,7 @@ int CFieldPokeMove::ov0_0215844C(void *buf, void *end)
     return sizeof(save);
 }
 
-BOOL CFieldPokeMove::ov0_021585B8(void *data)
+BOOL CFieldPokeMove::RestoreState(void *data)
 {
     PokeMoveSave *save = (PokeMoveSave *)data;
     unk_44 = save->seq;
@@ -2160,7 +2160,7 @@ BOOL CFieldPokeMove::ov0_021585B8(void *data)
         unk_48->m_drawObject->m_actor->GetAnimScriptPos();
     }
     if (unk_48->m_drawObject != NULL && unk_48->m_drawObject->m_actor != NULL) {
-        unk_48->m_drawObject->m_actor->sub_02012E1C();
+        unk_48->m_drawObject->m_actor->GetAnimLoopCount();
     }
     int count = 0xFFFF;
     while (count--) {
@@ -2177,14 +2177,14 @@ BOOL CFieldPokeMove::ov0_021585B8(void *data)
     unk_48->m_flags |= save->flags;
     SetShown(unk_48, (unk_48->m_flags & 8) ? TRUE : FALSE);
     if (unk_48->m_flags & 0x800) {
-        ((CFieldEnemy *)unk_48)->ov0_02134FCC();
+        ((CFieldEnemy *)unk_48)->EnableTargetObject();
     } else {
-        ((CFieldEnemy *)unk_48)->ov0_021351AC();
+        ((CFieldEnemy *)unk_48)->DisableTargetObject();
     }
     return TRUE;
 }
 
-BOOL CFieldPokeMove::ov0_02158894(Point2D dir, fx32 scale)
+BOOL CFieldPokeMove::IsBlockedAhead(Point2D dir, fx32 scale)
 {
     PointPair2D move;
     move.p1 = unk_0C;
@@ -2193,7 +2193,7 @@ BOOL CFieldPokeMove::ov0_02158894(Point2D dir, fx32 scale)
     return IsBlocked(move, unk_64, unk_B4) ? TRUE : FALSE;
 }
 
-BOOL CFieldPokeMove::ov0_02158928(const Point2D &pos, fx32 radius, u32 flags)
+BOOL CFieldPokeMove::CollidesAt(const Point2D &pos, fx32 radius, u32 flags)
 {
     if (unk_BC == 0) {
         return FALSE;
@@ -2201,17 +2201,17 @@ BOOL CFieldPokeMove::ov0_02158928(const Point2D &pos, fx32 radius, u32 flags)
     return unk_48->CheckCircleCollision(pos, radius, flags);
 }
 
-void CFieldPokeMove::ov0_02158954()
+void CFieldPokeMove::StopPuddles()
 {
     if (unk_B8 != 0 && MAIN_BSS_0210CA60 != NULL) {
-        CFieldEffectSlime *slime = (CFieldEffectSlime *)MAIN_BSS_0210CA60->ov0_02143088(unk_B8);
+        CFieldEffectSlime *slime = (CFieldEffectSlime *)MAIN_BSS_0210CA60->Get(unk_B8);
         if (slime != NULL) {
-            slime->ov0_021633B8();
+            slime->StopPuddles();
         }
     }
 }
 
-void CFieldPokeMove::ov0_02158988()
+void CFieldPokeMove::UpdateHeight()
 {
     unk_D4 ^= 0xFF;
     if (s_game->unk_146C.GetFps() == 60 && unk_D4 == 0) {
@@ -2254,7 +2254,7 @@ void CFieldPokeMove::ov0_02158988()
     }
 }
 
-BOOL CFieldPokeMove::ov0_02158B34(fx32 radius)
+BOOL CFieldPokeMove::IsNearTarget(fx32 radius)
 {
     int r = radius >> FX32_SHIFT;
     int limit;
@@ -2263,10 +2263,10 @@ BOOL CFieldPokeMove::ov0_02158B34(fx32 radius)
     } else {
         limit = r * r;
     }
-    return ov0_02158070() <= limit;
+    return GetTargetDistSq() <= limit;
 }
 
-void CFieldPokeMove::ov0_02158B5C(int arg1)
+void CFieldPokeMove::SpawnGroundEffect(int arg1)
 {
     CFieldEffectManage *manage = MAIN_BSS_0210CA60;
     if (manage == NULL) {
@@ -2288,7 +2288,7 @@ void CFieldPokeMove::ov0_02158B5C(int arg1)
         break;
     case 1:
     case 6:
-        effect = manage->ov0_02143088(manage->ov0_02142F6C(0xB, 0));
+        effect = manage->Get(manage->Create(0xB, 0));
         if (effect == NULL) {
             return;
         }
@@ -2298,12 +2298,12 @@ void CFieldPokeMove::ov0_02158B5C(int arg1)
         effect->SetParam(2, y >> FX32_SHIFT);
         effect->SetParam(3, 0);
         effect->SetParam(4, 0);
-        effect->ov0_021421F0(0, -1, 0);
+        effect->Start(0, -1, 0);
         break;
     case 3:
     case 4:
     case 8:
-        effect = manage->ov0_02143088(manage->ov0_02142F6C(0xA, 0));
+        effect = manage->Get(manage->Create(0xA, 0));
         if (effect == NULL) {
             return;
         }
@@ -2312,24 +2312,24 @@ void CFieldPokeMove::ov0_02158B5C(int arg1)
         effect->SetParam(2, (y >> FX32_SHIFT) + 8);
         effect->SetParam(3, 16);
         effect->SetParam(4, 0);
-        effect->ov0_021421F0(0, -1, 0);
+        effect->Start(0, -1, 0);
         break;
     case 2:
     case 5:
-        effect = manage->ov0_02143088(manage->ov0_02142F6C(0x26, 0));
+        effect = manage->Get(manage->Create(0x26, 0));
         if (effect == NULL) {
             return;
         }
         effect->SetParam(1, x >> FX32_SHIFT);
         effect->SetParam(2, (y >> FX32_SHIFT) + 8);
-        effect->ov0_021421F0(0, -1, 0);
+        effect->Start(0, -1, 0);
         break;
     case 7:
     case 9:
     case 10:
         break;
     case 11:
-        effect = manage->ov0_02143088(manage->ov0_02142F6C(0xA, 0));
+        effect = manage->Get(manage->Create(0xA, 0));
         if (effect == NULL) {
             return;
         }
@@ -2339,7 +2339,7 @@ void CFieldPokeMove::ov0_02158B5C(int arg1)
         effect->SetParam(3, 16);
         effect->SetParam(4, 0);
         effect->SetParam(19, 1);
-        effect->ov0_021421F0(0, -1, 0);
+        effect->Start(0, -1, 0);
         break;
     case 12:
     case 13:
@@ -2356,7 +2356,7 @@ void CFieldPokeMove::ov0_02158B5C(int arg1)
     }
 }
 
-void CFieldPokeMove::ov0_02158F38()
+void CFieldPokeMove::ApplyFloatHeight()
 {
     switch (unk_44) {
     case 1:

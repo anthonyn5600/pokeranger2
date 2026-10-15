@@ -2,7 +2,7 @@
 
 #include <nitro.h>
 
-#include "UnkClass_02041D80.hpp"
+#include "FieldDataRecords.hpp"
 #include "common.hpp"
 #include "field/CFieldPokeMove.hpp"
 #include "file/CBinaryFile.hpp"
@@ -27,7 +27,7 @@ void FieldData::Load(const char *path, int heapId)
     unk_08 = (FieldEnemyData *)(data + offsets[2] + 8);
     unk_0C = (FieldTargetObjectData *)(data + offsets[3] + 8);
     unk_04 = (u32 *)(data + offsets[4] + 8);
-    unk_10 = (UnkStruct_02041D80 *)(data + offsets[5] + 8);
+    unk_10 = (FieldMapData *)(data + offsets[5] + 8);
 }
 
 extern "C" u32 *FieldData_GetNpc(FieldData *obj, int kind)
@@ -54,7 +54,7 @@ extern "C" FieldTargetObjectData *FieldData_GetTargetObject(FieldData *obj, int 
     return NULL;
 }
 
-extern "C" UnkStruct_02041D80 *FieldData_GetMap(FieldData *obj, u32 mapId)
+extern "C" FieldMapData *FieldData_GetMap(FieldData *obj, u32 mapId)
 {
     if (obj->unk_10 != NULL) {
         return &obj->unk_10[mapId];

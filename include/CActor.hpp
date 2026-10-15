@@ -94,7 +94,7 @@ public:
     int GetGhostAlpha(int index);
     fx32 GetGhostScale(int index);
     u16 GetAnimScriptPos();
-    u8 sub_02012E1C();
+    u8 GetAnimLoopCount();
     void RestartAnim();
     void MoveCurveAtSpeed(Point2D *end, Point2D *ctrl, int speed);
 

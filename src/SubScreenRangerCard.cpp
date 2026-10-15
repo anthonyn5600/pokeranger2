@@ -16,7 +16,7 @@
 extern "C" {
 u8 *NameTables_GetFieldMoveName(NameTables *obj, u32 i);
 u8 *NameTables_GetPokemonName(NameTables *obj, u32 i);
-void sub_0202BC74(const u8 *src, u8 *dst, int len);
+void CopyStringUpper(const u8 *src, u8 *dst, int len);
 }
 
 struct TextWindow {

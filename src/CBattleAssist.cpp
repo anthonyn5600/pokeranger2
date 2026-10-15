@@ -59,7 +59,7 @@ CBattleAssist::~CBattleAssist()
 {
 }
 
-CBattleAttackEffect *CBattleAssist::ov1_0212EE3C()
+CBattleAttackEffect *CBattleAssist::GetFreeEffect()
 {
     for (int i = 0; i < 0x20; i++) {
         if (!unk_08[i]->HasData()) {
@@ -69,12 +69,12 @@ CBattleAttackEffect *CBattleAssist::ov1_0212EE3C()
     return NULL;
 }
 
-extern "C" fx32 ov1_0212EE80(int assistType, int type)
+extern "C" fx32 GetAssistTypeRate(int assistType, int type)
 {
     return sAssistTypeRates[assistType][type];
 }
 
-extern "C" u16 ov1_0212EE98(int assistType, int idx)
+extern "C" u16 GetAssistEffectTime(int assistType, int idx)
 {
     return sAssistTimes[assistType][idx];
 }

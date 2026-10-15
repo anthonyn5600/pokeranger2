@@ -20,8 +20,8 @@ public:
     virtual void ReleaseVram();
 
     void LoadData(int type, u16 id, int form, u16 mask, BOOL useTransfer, const char *arcName, BOOL alloc);
-    void sub_020409B4(u16 id, int form, u16 mask, u32 heapId, const char *arcName);
-    void sub_02040DB8();
+    void LoadTarget(u16 id, int form, u16 mask, u32 heapId, const char *arcName);
+    void ForceRelease();
     void LoadToVram();
     void LoadPaletteDeferred();
 
@@ -66,7 +66,7 @@ public:
     virtual void AllocVram();
     virtual void ReleaseVram();
 
-    void sub_02041230(int type, u16 id, int form, u16 mask);
+    void Assign(int type, u16 id, int form, u16 mask);
 
 public:
     u32 unk_34;

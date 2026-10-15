@@ -17,24 +17,24 @@ class CaptureResultBanner {
 public:
     CaptureResultBanner(u16 type);
     ~CaptureResultBanner();
-    void ov1_0213F0C8(u16 type);
-    void ov1_0213F2B4();
-    void ov1_0213F338();
-    void ov1_0213F3D4();
-    void ov1_0213F41C();
-    void ov1_0213F490();
-    void ov1_0213F504();
-    void ov1_0213F578();
-    void ov1_0213F5A0();
-    void ov1_0213F608();
-    void ov1_0213F688();
-    void ov1_0213F6D0();
-    void ov1_0213F794();
-    void ov1_0213F7E4();
-    void ov1_0213F82C(Camera2D *camera);
-    void ov1_0213F8B4();
-    void ov1_0213F960(int state);
-    int ov1_0213F970(int z);
+    void Load(u16 type);
+    void Release();
+    void Update();
+    void UpdateStart();
+    void UpdateRingOpenX();
+    void UpdateRingOpenY();
+    void UpdateSlideIn();
+    void UpdateWait();
+    void UpdateBannerAnim();
+    void UpdateFlash();
+    void UpdateCloseTextbox();
+    void UpdateSlideOut();
+    void UpdateRingCloseY();
+    void UpdateRingCloseX();
+    void Render(Camera2D *camera);
+    void Start();
+    void SetState(int state);
+    int SetZ(int z);
 
     inline BOOL IsActive()
     {

@@ -39,9 +39,9 @@ void CFieldEffectPoisonGas::Init(CEffectActorData *data, int kind)
     MI_CpuFill8(m_puffs, 0, sizeof(m_puffs));
 }
 
-int CFieldEffectPoisonGas::ov0_02142264(int step)
+int CFieldEffectPoisonGas::Update(int step)
 {
-    int state = CFieldEffectActor::ov0_02142264(step);
+    int state = CFieldEffectActor::Update(step);
     if (state != 0 && state != 4) {
         int alive = 0;
         for (int i = 0; i < 4; i++) {
@@ -56,7 +56,7 @@ int CFieldEffectPoisonGas::ov0_02142264(int step)
                 } else {
                     CFieldEffectManage *mgr = MAIN_BSS_0210CA60;
                     if (mgr->unk_87C == 0 && IsTouchingPlayer(&m_puffs[i].pos)) {
-                        mgr->unk_7B0.ov0_02163A08(m_kind, 0, m_puffs[i].pos.x >> 12, m_puffs[i].pos.y >> 12, m_param);
+                        mgr->unk_7B0.CallEventHandle(m_kind, 0, m_puffs[i].pos.x >> 12, m_puffs[i].pos.y >> 12, m_param);
                         m_puffs[i].life = 0;
                     }
                 }
@@ -64,13 +64,13 @@ int CFieldEffectPoisonGas::ov0_02142264(int step)
             }
         }
         if (alive == 0) {
-            ov0_02142240(0);
+            Stop(0);
         }
     }
     return state;
 }
 
-int CFieldEffectPoisonGas::ov0_02142344(Camera2D *camera)
+int CFieldEffectPoisonGas::Render(Camera2D *camera)
 {
     if (m_state != 0 && m_state != 4) {
         CellAnimController *cac = unk_18->GetCac(0);
@@ -117,7 +117,7 @@ int CFieldEffectPoisonGas::SetParam(int param, int value)
     return ret;
 }
 
-BOOL CFieldEffectPoisonGas::ov0_021421F0(int inTime, int holdTime, int outTime)
+BOOL CFieldEffectPoisonGas::Start(int inTime, int holdTime, int outTime)
 {
     for (int i = 0; i < 4; i++) {
         m_puffs[i].life = 0x5A;
@@ -139,7 +139,7 @@ BOOL CFieldEffectPoisonGas::ov0_021421F0(int inTime, int holdTime, int outTime)
     m_puffs[2].accel.y = 0x21;
     m_puffs[3].accel.x = 0x21;
     m_puffs[3].accel.y = 0x21;
-    return CFieldEffect::ov0_021421F0(0, -1, 0);
+    return CFieldEffect::Start(0, -1, 0);
 }
 
 void CFieldEffectPoisonGas::InitSprites()
@@ -154,7 +154,7 @@ void CFieldEffectPoisonGas::InitSprites()
 
 BOOL CFieldEffectPoisonGas::IsTouchingPlayer(const Point2D *pos)
 {
-    CFieldPlayer *player = (CFieldPlayer *)MAIN_BSS_0210CA40->ov0_02123060(0);
+    CFieldPlayer *player = (CFieldPlayer *)MAIN_BSS_0210CA40->FindActor(0);
     fx32 range = player->unk_E0 + 0xB000;
     Point2D d = player->GetPos() - *pos;
     if (ApproxLength(d.x, d.y) < range) {
@@ -163,7 +163,7 @@ BOOL CFieldEffectPoisonGas::IsTouchingPlayer(const Point2D *pos)
     return FALSE;
 }
 
-int CFieldEffectPoisonGas::ov0_02142390(void *buf, void *end)
+int CFieldEffectPoisonGas::SaveState(void *buf, void *end)
 {
     PoisonGasSave save;
     u8 mask = 0;
@@ -187,7 +187,7 @@ int CFieldEffectPoisonGas::ov0_02142390(void *buf, void *end)
     return sizeof(save);
 }
 
-BOOL CFieldEffectPoisonGas::ov0_02142388(const void *data)
+BOOL CFieldEffectPoisonGas::RestoreState(const void *data)
 {
     const PoisonGasSave *save = (const PoisonGasSave *)data;
     int count = 0;
@@ -223,7 +223,7 @@ BOOL CFieldEffectPoisonGas::ov0_02142388(const void *data)
         m_puffs[3].vel.y = -0xE66;
         m_puffs[3].accel.x = 0x21;
         m_puffs[3].accel.y = 0x21;
-        CFieldEffect::ov0_021421F0(0, -1, 0);
+        CFieldEffect::Start(0, -1, 0);
         return TRUE;
     }
     return FALSE;
@@ -234,7 +234,7 @@ CFieldEffectPoisonGasFactory::CFieldEffectPoisonGasFactory(CFieldEffectManage *m
     , m_pool(NULL)
 {
     if (mgr != NULL) {
-        m_kind = mgr->unk_7B0.ov0_02163904(0);
+        m_kind = mgr->unk_7B0.LoadScript(0);
     }
 }
 
@@ -260,7 +260,7 @@ CFieldEffect *CFieldEffectPoisonGasFactory::Create(int arg)
 
 BOOL CFieldEffectPoisonGasFactory::Load()
 {
-    if (m_data.ov0_0214FFF0(0x13, 1, 1)) {
+    if (m_data.Load(0x13, 1, 1)) {
         SAFE_DELETE_ARRAY(m_pool);
         m_pool = new CFieldEffectPoisonGas[3];
         for (int i = 0; i < 3; i++) {

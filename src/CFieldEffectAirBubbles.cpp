@@ -18,7 +18,7 @@ int CFieldEffectAirBubbles::SetParam(int param, int value)
     return TFieldEffectParticle<CSoftwareSprite>::SetParam(param, value);
 }
 
-BOOL CFieldEffectAirBubbles::ov0_0216D050(fx32 x, fx32 y)
+BOOL CFieldEffectAirBubbles::Emit(fx32 x, fx32 y)
 {
     m_emitter.Start(x, y, MATH_Rand32(&CGame::GetInstance()->m_rand32, 2) + 2);
     return TRUE;

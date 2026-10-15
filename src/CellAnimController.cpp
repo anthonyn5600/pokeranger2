@@ -236,7 +236,7 @@ u16 CellAnimController::GetScriptPos(u16 id)
     }
 }
 
-u8 CellAnimController::sub_02008D38(u16 id)
+u8 CellAnimController::GetLoopCount(u16 id)
 {
     CellAnimInstance *anim = Find(id);
     if (anim == NULL) {

@@ -51,7 +51,7 @@ void CGame::sub_0200FAEC()
     unk_15E0 = 1;
 }
 
-void CGame::sub_0200FB28()
+void CGame::ResetForRestart()
 {
     sub_0200FAEC();
     unk_0008 = -1;
@@ -142,8 +142,8 @@ void CGame::OnVBlank()
 
     m_mainFade->UpdateAndApply();
     m_subFade->UpdateAndApply();
-    m_mainWipe->sub_0200E4A8();
-    m_subWipe->sub_0200E4A8();
+    m_mainWipe->Apply();
+    m_subWipe->Apply();
     // VCOUNT is read and dropped (likely a debug print stripped from the final build)
     GX_GetVCount();
     unk_146C.CountVBlank();

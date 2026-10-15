@@ -28,9 +28,9 @@ static inline void SetSpriteGraphics(CSoftwareSprite *sprite,
 StylerLine::StylerLine()
 {
     unk_54C0 = 0;
-    ov1_021232CC();
-    ov1_02124548(0, 0);
-    ov1_021243CC(FX32_CONST(32), FX32_CONST(32));
+    Load();
+    Reset(0, 0);
+    ExtendTo(FX32_CONST(32), FX32_CONST(32));
     unk_54C8 = 0;
     m_maxCount = 0x60;
     m_width = 0x3800;
@@ -43,10 +43,10 @@ StylerLine::StylerLine()
 
 StylerLine::~StylerLine()
 {
-    ov1_021235E8();
+    Release();
 }
 
-void StylerLine::ov1_021232CC()
+void StylerLine::Load()
 {
     char arcPath[0x60];
     char ncbrPath[0x60];
@@ -101,9 +101,9 @@ void StylerLine::ov1_021232CC()
     m_rect.m_z = -16;
 }
 
-void StylerLine::ov1_021235E8()
+void StylerLine::Release()
 {
-    ov1_02124DEC();
+    ReleaseTypeGfx();
     SAFE_DELETE(m_image);
     SAFE_DELETE(m_palette);
     SAFE_DELETE(m_cells);
@@ -114,14 +114,14 @@ void StylerLine::ov1_021235E8()
     NNS_GfdFreeLnkPlttVram(m_plttKey);
 }
 
-void StylerLine::ov1_0212372C(Camera2D *camera)
+void StylerLine::Render(Camera2D *camera)
 {
     if (m_state == 1) {
-        ov1_02123A9C(camera);
+        RenderPowered(camera);
     } else if (m_state == 2) {
-        ov1_02123A9C(camera);
+        RenderPowered(camera);
     } else {
-        ov1_02123774(camera);
+        RenderNormal(camera);
     }
     ov1_02123770(camera);
 }
@@ -130,7 +130,7 @@ void StylerLine::ov1_02123770(Camera2D *camera)
 {
 }
 
-void StylerLine::ov1_02123774(Camera2D *camera)
+void StylerLine::RenderNormal(Camera2D *camera)
 {
     u16 shift = camera->unk_28;
     m_sprite0.Render(camera);
@@ -157,11 +157,11 @@ void StylerLine::ov1_02123774(Camera2D *camera)
     G3_Begin(GX_BEGIN_QUAD_STRIP);
     G3_Color(GX_RGB(31, 31, 31));
 
-    u16 idx = ov1_02124AD4(0);
+    u16 idx = GetIndex(0);
     Point2D *prev = NULL;
     u16 i = 0;
     do {
-        idx = ov1_02124AD4(i);
+        idx = GetIndex(i);
         u16 angle;
         Point2D *dir;
         if (prev != NULL) {
@@ -187,7 +187,7 @@ void StylerLine::ov1_02123774(Camera2D *camera)
     G3_End();
 }
 
-void StylerLine::ov1_02123A9C(Camera2D *camera)
+void StylerLine::RenderPowered(Camera2D *camera)
 {
     u16 shift = camera->unk_28;
 
@@ -230,7 +230,7 @@ void StylerLine::ov1_02123A9C(Camera2D *camera)
     G3_TexPlttBase(unk_64FC->m_plttAddr, GX_TEXFMT_NONE);
     G3_Begin(GX_BEGIN_QUAD_STRIP);
 
-    u16 idx = ov1_02124AD4(0);
+    u16 idx = GetIndex(0);
     Point2D *prev = NULL;
     u16 i = 0;
     do {
@@ -240,7 +240,7 @@ void StylerLine::ov1_02123A9C(Camera2D *camera)
             colorIdx++;
         }
         G3_Color(sFlashColors[colorIdx]);
-        idx = ov1_02124AD4(i);
+        idx = GetIndex(i);
         u16 angle;
         Point2D *dir;
         if (prev != NULL) {
@@ -267,7 +267,7 @@ void StylerLine::ov1_02123A9C(Camera2D *camera)
     G3_End();
 }
 
-void StylerLine::ov1_0212402C()
+void StylerLine::Update()
 {
     u16 cell;
     if (m_image2 != NULL) {
@@ -313,7 +313,7 @@ void StylerLine::ov1_0212402C()
     }
 }
 
-void StylerLine::ov1_021242D0(fx32 x, fx32 y)
+void StylerLine::AddSegment(fx32 x, fx32 y)
 {
     CPrimitiveLINE *line = &m_lines[m_head];
     line->m_points.p2.x = x;
@@ -323,19 +323,19 @@ void StylerLine::ov1_021242D0(fx32 x, fx32 y)
     m_dirs[m_head].x = end.x - start.x;
     m_dirs[m_head].y = end.y - start.y;
     m_head++;
-    m_head = ov1_02124AB8(m_head);
+    m_head = WrapIndex(m_head);
     line = &m_lines[m_head];
     line->m_points.p1.x = x;
     line->m_points.p1.y = y;
     m_count++;
     if (m_count > m_maxCount) {
         m_tail++;
-        m_tail = ov1_02124AB8(m_tail);
+        m_tail = WrapIndex(m_tail);
         m_count = m_maxCount;
     }
 }
 
-u8 StylerLine::ov1_021243CC(fx32 x, fx32 y)
+u8 StylerLine::ExtendTo(fx32 x, fx32 y)
 {
     Point2D target = { x, y };
     CPrimitiveLINE *line = &m_lines[m_head];
@@ -348,7 +348,7 @@ u8 StylerLine::ov1_021243CC(fx32 x, fx32 y)
     if (len >= FX32_CONST(8)) {
         int steps = FX_Whole(FX32_DIV(len, FX32_CONST(8)));
         for (int i = 0; i < steps; i++) {
-            ov1_021242D0(m_lines[m_head].m_points.p1.x + FX32_MUL(ux, FX32_CONST(8)),
+            AddSegment(m_lines[m_head].m_points.p1.x + FX32_MUL(ux, FX32_CONST(8)),
                 m_lines[m_head].m_points.p1.y + FX32_MUL(uy, FX32_CONST(8)));
             unk_54C8++;
             unk_54CC++;
@@ -359,7 +359,7 @@ u8 StylerLine::ov1_021243CC(fx32 x, fx32 y)
     return count;
 }
 
-void StylerLine::ov1_02124548(fx32 x, fx32 y)
+void StylerLine::Reset(fx32 x, fx32 y)
 {
     m_count = 0;
     m_tail = 0;
@@ -372,7 +372,7 @@ void StylerLine::ov1_02124548(fx32 x, fx32 y)
     m_lines[0].m_points.p1.y = y;
 }
 
-BOOL StylerLine::ov1_02124588(PointPair2D seg)
+BOOL StylerLine::FindCrossing(PointPair2D seg)
 {
     u16 idx;
     for (u16 i = 0; i < m_count - 1; i++) {
@@ -380,7 +380,7 @@ BOOL StylerLine::ov1_02124588(PointPair2D seg)
         if (idx >= 0x60) {
             idx -= 0x60;
         }
-        if (sub_02006610(m_lines[idx].m_points, seg, NULL)) {
+        if (SegmentHitSegmentBBox(m_lines[idx].m_points, seg, NULL)) {
             m_hitIndex = idx;
             return TRUE;
         }
@@ -388,7 +388,7 @@ BOOL StylerLine::ov1_02124588(PointPair2D seg)
     return FALSE;
 }
 
-BOOL StylerLine::ov1_02124650(fx32 x, fx32 y)
+BOOL StylerLine::IsInsideLoop(fx32 x, fx32 y)
 {
     Point2D pos = { x, y };
     if (!PointInRect(pos, m_rect.m_rectangle, 0)) {
@@ -429,7 +429,7 @@ BOOL StylerLine::ov1_02124650(fx32 x, fx32 y)
     return FALSE;
 }
 
-void StylerLine::ov1_02124828(u16 hit)
+void StylerLine::CutAt(u16 hit)
 {
     if (hit == m_tail) {
         Point2D pos = m_lines[m_head].GetStart();
@@ -453,12 +453,12 @@ void StylerLine::ov1_02124828(u16 hit)
         if (i == m_head) {
             return;
         }
-        i = ov1_02124AB8(i + 1);
+        i = WrapIndex(i + 1);
         m_count++;
     }
 }
 
-void StylerLine::ov1_021248E8(u16 from, u16 to)
+void StylerLine::BuildLoop(u16 from, u16 to)
 {
     m_lines2Count = 0;
     u16 i = from;
@@ -469,7 +469,7 @@ void StylerLine::ov1_021248E8(u16 from, u16 to)
             break;
         }
         m_lines2Count++;
-        i = ov1_02124AB8(i + 1);
+        i = WrapIndex(i + 1);
     }
 
     m_lines2[m_lines2Count].SetStart(m_lines2[m_lines2Count - 1].GetEnd());
@@ -502,17 +502,17 @@ void StylerLine::ov1_021248E8(u16 from, u16 to)
     m_rect.m_rectangle.size.y = maxY - minY;
 }
 
-u16 StylerLine::ov1_02124AB8(u16 index)
+u16 StylerLine::WrapIndex(u16 index)
 {
     return index >= 0x60 ? (u16)(index - 0x60) : index;
 }
 
-u16 StylerLine::ov1_02124AD4(u16 i)
+u16 StylerLine::GetIndex(u16 i)
 {
-    return ov1_02124AB8(i + m_tail);
+    return WrapIndex(i + m_tail);
 }
 
-void StylerLine::ov1_02124AF4(u16 arg0)
+void StylerLine::SetMaxCount(u16 arg0)
 {
     if (arg0 >= 0x60) {
         m_maxCount = 0x60;
@@ -521,7 +521,7 @@ void StylerLine::ov1_02124AF4(u16 arg0)
     }
 }
 
-void StylerLine::ov1_02124B08(int type)
+void StylerLine::LoadTypeGfx(int type)
 {
     char arcPath[0x60];
     char ncbrPath[0x60];
@@ -529,7 +529,7 @@ void StylerLine::ov1_02124B08(int type)
     char ncerPath[0x60];
     char cacPath[0x60];
 
-    ov1_02124DEC();
+    ReleaseTypeGfx();
     u8 id = sTypeFileIds[type];
     OS_SPrintf(arcPath, "data/interface/i%03d_LZ.bin", id);
     OS_SPrintf(ncbrPath, "BAL:i%03d_00.NCBR", id);
@@ -574,7 +574,7 @@ void StylerLine::ov1_02124B08(int type)
     }
 }
 
-void StylerLine::ov1_02124DEC()
+void StylerLine::ReleaseTypeGfx()
 {
     if (m_image2 == NULL) {
         return;
@@ -588,10 +588,10 @@ void StylerLine::ov1_02124DEC()
     NNS_GfdFreeLnkPlttVram(m_plttKey2);
     unk_54B4 = 0;
     unk_54B8 = FX32_CONST(8);
-    ov1_02124F08();
+    SetNormal();
 }
 
-void StylerLine::ov1_02124F08()
+void StylerLine::SetNormal()
 {
     m_width = 0x3800;
     SetSpriteGraphics(&m_sprite0, m_image, m_palette, m_cells);
@@ -599,7 +599,7 @@ void StylerLine::ov1_02124F08()
     m_state = 0;
 }
 
-void StylerLine::ov1_02124F64()
+void StylerLine::SetPowerLevel1()
 {
     unk_54A6 = 0;
     unk_54D0 = 0;
@@ -607,7 +607,7 @@ void StylerLine::ov1_02124F64()
     m_state = 1;
 }
 
-void StylerLine::ov1_02124F84()
+void StylerLine::SetPowerLevel2()
 {
     m_state = 2;
 }

@@ -6,8 +6,8 @@ BattleParamTable::BattleParamTable(const char *path, u32 arg1)
 {
     ParamTableFile *reader = new ParamTableFile(arg1);
     reader->Load(path);
-    m_count = reader->sub_0200D390();
-    m_entries = new UnkStruct_0212F310[m_count];
+    m_count = reader->GetRowCount();
+    m_entries = new BattleParamEntry[m_count];
     u32 value = 0;
     for (int i = 0; i < m_count; i++) {
         reader->GetValue(i, 1, &value);
@@ -72,7 +72,7 @@ BattleParamTable::~BattleParamTable()
     }
 }
 
-UnkStruct_0212F310 *BattleParamTable::ov1_0212F310(int id)
+BattleParamEntry *BattleParamTable::GetEntry(int id)
 {
     if (id > m_count) {
         return NULL;
@@ -80,10 +80,10 @@ UnkStruct_0212F310 *BattleParamTable::ov1_0212F310(int id)
     return &m_entries[id];
 }
 
-u16 BattleParamTable::ov1_0212F32C(int kind, u16 id, u16 index)
+u16 BattleParamTable::GetAssistPower(int kind, u16 id, u16 index)
 {
     u16 result = 0;
-    UnkStruct_0212F310 *entry = ov1_0212F310(id);
+    BattleParamEntry *entry = GetEntry(id);
     switch (kind) {
     case 0:
         result = entry->unk_00;

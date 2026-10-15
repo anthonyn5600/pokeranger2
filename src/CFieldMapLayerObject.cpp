@@ -45,7 +45,7 @@ BOOL CFieldMapLayerObject::Load(void *data)
     if (manage != NULL) {
         int base = manage->CountActors();
         for (int i = 0; i < count; i++) {
-            int slot = manage->ov0_0213D1AC(base + i, m_entries[i].unk_06, m_entries[i].unk_08, m_entries[i].unk_0A, 0);
+            int slot = manage->Create(base + i, m_entries[i].unk_06, m_entries[i].unk_08, m_entries[i].unk_0A, 0);
             if (slot >= 0) {
                 CFieldTargetObject *obj = (CFieldTargetObject *)manage->Get(slot);
                 fx32 y = m_entries[i].y << FX32_SHIFT;

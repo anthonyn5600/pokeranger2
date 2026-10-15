@@ -11,16 +11,16 @@ class CSoftwareSprite;
 class GraphicsSet;
 
 // Defined in ov0
-// Field icon i044 (FMB archive), animated for 4 frames after ov0_0214FF44
+// Field icon i044 (FMB archive), animated for 4 frames after Press
 class UnkClass_0214FD4C {
 public:
     UnkClass_0214FD4C();
     ~UnkClass_0214FD4C();
     void Init(); // ov0_0214FD74
     void Release(); // ov0_0214FE74
-    void ov0_0214FEF0();
-    void ov0_0214FF20(Camera2D *camera);
-    void ov0_0214FF44();
+    void Update();
+    void Draw(Camera2D *camera);
+    void Press();
 
 public:
     u8 m_flags;

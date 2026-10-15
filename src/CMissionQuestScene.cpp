@@ -11,7 +11,7 @@ extern FieldData *MAIN_BSS_0210CA6C;
 CMissionQuestScene::CMissionQuestScene(CGame *game)
 {
     m_game = game;
-    ov8_0211CAD4();
+    Create();
 }
 
 CMissionQuestScene::~CMissionQuestScene()
@@ -20,7 +20,7 @@ CMissionQuestScene::~CMissionQuestScene()
     SAFE_DELETE(unk_08);
 }
 
-void CMissionQuestScene::ov8_0211CAD4()
+void CMissionQuestScene::Create()
 {
     unk_08 = new MissionQuestMap(m_game);
 }
@@ -66,8 +66,8 @@ void CMissionQuestScene::func6()
 {
     m_game->InitVramManagers(0x20000, 0, 0x4000);
     if (unk_08 != NULL) {
-        unk_08->ov8_0211D310();
-        unk_08->ov8_0211D688();
+        unk_08->Start();
+        unk_08->FadeIn();
     }
 }
 
@@ -79,8 +79,8 @@ void CMissionQuestScene::func7()
 u32 CMissionQuestScene::func0()
 {
     if (unk_08 != NULL) {
-        unk_08->ov8_0211CD8C();
-        if (unk_08->ov8_0211D758() != -1) {
+        unk_08->Update();
+        if (unk_08->GetResult() != -1) {
             return 6;
         }
     }
@@ -90,14 +90,14 @@ u32 CMissionQuestScene::func0()
 void CMissionQuestScene::func1()
 {
     if (unk_08 != NULL) {
-        unk_08->ov8_0211CE08();
+        unk_08->Render();
     }
 }
 
 void CMissionQuestScene::func2()
 {
     if (unk_08 != NULL) {
-        unk_08->ov8_0211CE78();
+        unk_08->OnVBlank();
     }
 }
 
@@ -109,15 +109,15 @@ u32 CMissionQuestScene::getSceneId()
 MissionQuestMap::MissionQuestMap(CGame *game)
 {
     unk_40 = game;
-    ov8_0211CD2C();
+    Init();
 }
 
 MissionQuestMap::~MissionQuestMap()
 {
-    ov8_0211CECC();
+    Release();
 }
 
-void MissionQuestMap::ov8_0211CD2C()
+void MissionQuestMap::Init()
 {
     unk_00 = 0;
     unk_18 = NULL;
@@ -132,7 +132,7 @@ void MissionQuestMap::ov8_0211CD2C()
     unk_08 = new RegionMap(unk_40);
 }
 
-void MissionQuestMap::ov8_0211CD8C()
+void MissionQuestMap::Update()
 {
     if (unk_18 != NULL) {
         unk_18->Update();
@@ -141,7 +141,7 @@ void MissionQuestMap::ov8_0211CD8C()
         unk_1C->Update();
     }
     if (unk_0C != NULL) {
-        unk_0C->ov8_0211D818();
+        unk_0C->Update();
     }
     if (unk_08 != NULL) {
         unk_08->Update();
@@ -154,50 +154,50 @@ void MissionQuestMap::ov8_0211CD8C()
     case 5:
         break;
     case 1:
-        ov8_0211D358();
+        UpdateInput();
         break;
     }
 }
 
-void MissionQuestMap::ov8_0211CE08()
+void MissionQuestMap::Render()
 {
     if (unk_0C != NULL) {
-        unk_0C->ov8_0211D8A0();
+        unk_0C->Render();
     }
     if (unk_08 != NULL) {
         unk_08->Render();
     }
     switch (unk_00) {
     case 2:
-        if (!ov8_0211D710()) {
+        if (!IsFading()) {
             unk_00 = 4;
         }
     case 1:
     case 3:
     case 5:
-        ov8_0211CFC4();
+        WriteOam();
         break;
     }
 }
 
-void MissionQuestMap::ov8_0211CE78()
+void MissionQuestMap::OnVBlank()
 {
     if (unk_0C != NULL) {
-        unk_0C->ov8_0211D8AC();
+        unk_0C->OnVBlank();
     }
     if (unk_08 != NULL) {
         unk_08->sub_0202A5F8();
     }
-    ov8_0211D488();
+    DrawPlaceName();
 }
 
 void MissionQuestMap::ov8_0211CEAC()
 {
-    ov8_0211D55C();
+    ShowMissionPlace();
     unk_40->unk_1498->LoadPalette();
 }
 
-void MissionQuestMap::ov8_0211CECC()
+void MissionQuestMap::Release()
 {
     unk_40->unk_146C.SetFps(30);
     unk_40->unk_1498->FreeWindows();
@@ -208,7 +208,7 @@ void MissionQuestMap::ov8_0211CECC()
     SAFE_DELETE(unk_08);
 }
 
-void MissionQuestMap::ov8_0211CFC4()
+void MissionQuestMap::WriteOam()
 {
     if (unk_18 != NULL) {
         unk_18->WriteOam();
@@ -218,7 +218,7 @@ void MissionQuestMap::ov8_0211CFC4()
     }
 }
 
-void MissionQuestMap::ov8_0211CFF0()
+void MissionQuestMap::Load()
 {
     GXS_SetVisiblePlane(GX_PLANEMASK_BG0 | GX_PLANEMASK_BG2 | GX_PLANEMASK_OBJ);
     GXS_SetOBJVRamModeChar(GX_OBJVRAMMODE_CHAR_1D_32K);
@@ -256,36 +256,36 @@ void MissionQuestMap::ov8_0211CFF0()
     unk_40->unk_1498->AllocWindows(1);
     unk_40->unk_1498->InitWindow(0, 0x10, 2, 1, 0, 0xD, 0, 2);
     unk_0C = new MissionQuestInfo(unk_40);
-    unk_0C->ov8_0211E148();
-    ov8_0211D628();
+    unk_0C->Setup();
+    SelectCurrentArea();
 }
 
-BOOL MissionQuestMap::ov8_0211D310()
+BOOL MissionQuestMap::Start()
 {
     unk_00 = 1;
-    ov8_0211D328();
+    Setup();
     return TRUE;
 }
 
-BOOL MissionQuestMap::ov8_0211D328()
+BOOL MissionQuestMap::Setup()
 {
-    ov8_0211CFF0();
+    Load();
     ov8_0211CEAC();
     unk_40->unk_146C.SetFps(60);
     return TRUE;
 }
 
-void MissionQuestMap::ov8_0211D358()
+void MissionQuestMap::UpdateInput()
 {
     u32 cancel = (u16)(unk_40->unk_0014->unk_0002 & PAD_BUTTON_B);
     BOOL touched = unk_24[3]->GetTouchTrigger() ? TRUE : FALSE;
     if (touched | cancel) {
-        ov8_0211D444();
+        Close();
         return;
     }
     if (unk_24[0]->unk_14 != 0 && unk_24[0]->GetTouchTrigger()) {
         unk_40->m_audioEngine->PlaySe(0xFA);
-        ov8_0211D604();
+        SelectMissionPlace();
         return;
     }
     s16 kind;
@@ -294,29 +294,29 @@ void MissionQuestMap::ov8_0211D358()
     switch ((u16)kind) {
     case 1:
         unk_40->m_audioEngine->PlaySe(0xFA);
-        ov8_0211D628();
+        SelectCurrentArea();
         break;
     case 6:
         unk_40->m_audioEngine->PlaySe(0xFA);
-        ov8_0211D654(id);
+        SelectArea(id);
         break;
     }
 }
 
-void MissionQuestMap::ov8_0211D444()
+void MissionQuestMap::Close()
 {
     unk_40->m_audioEngine->PlaySe(0x103);
     unk_00 = 2;
-    ov8_0211D6CC();
+    FadeOut();
 }
 
-void MissionQuestMap::ov8_0211D478(u16 id)
+void MissionQuestMap::RequestPlaceName(u16 id)
 {
     unk_3C = id;
     unk_04 = 1;
 }
 
-void MissionQuestMap::ov8_0211D488()
+void MissionQuestMap::DrawPlaceName()
 {
     if (!unk_04) {
         return;
@@ -336,18 +336,18 @@ void MissionQuestMap::ov8_0211D488()
     text->Print(0, 0, 3, 3, (u8 *)unk_14->GetString(idx), TRUE, 0);
 }
 
-void MissionQuestMap::ov8_0211D55C()
+void MissionQuestMap::ShowMissionPlace()
 {
     if (unk_40->m_missionQuestData->m_missionState == 0) {
         unk_24[0]->unk_14 = 0;
         return;
     }
-    unk_3E = unk_0C->ov8_0211E32C();
+    unk_3E = unk_0C->GetMissionPlace();
     unk_24[0]->unk_14 = 1;
-    ov8_0211D5B8(0, unk_3E);
+    SetSpriteToArea(0, unk_3E);
 }
 
-void MissionQuestMap::ov8_0211D5B8(int idx, u16 id)
+void MissionQuestMap::SetSpriteToArea(int idx, u16 id)
 {
     if (unk_08 == NULL) {
         return;
@@ -358,31 +358,31 @@ void MissionQuestMap::ov8_0211D5B8(int idx, u16 id)
     unk_24[idx]->SetPos(x, y);
 }
 
-void MissionQuestMap::ov8_0211D604()
+void MissionQuestMap::SelectMissionPlace()
 {
-    ov8_0211D678(unk_3E, 1);
-    ov8_0211D478(unk_3E);
+    SetAreaMarker(unk_3E, 1);
+    RequestPlaceName(unk_3E);
 }
 
-void MissionQuestMap::ov8_0211D628()
+void MissionQuestMap::SelectCurrentArea()
 {
     u16 id = unk_08->unk_56;
-    ov8_0211D678(id, 1);
-    ov8_0211D478(id);
+    SetAreaMarker(id, 1);
+    RequestPlaceName(id);
 }
 
-void MissionQuestMap::ov8_0211D654(u16 id)
+void MissionQuestMap::SelectArea(u16 id)
 {
-    ov8_0211D678(id, 3);
-    ov8_0211D478(id);
+    SetAreaMarker(id, 3);
+    RequestPlaceName(id);
 }
 
-void MissionQuestMap::ov8_0211D678(u16 id, int mode)
+void MissionQuestMap::SetAreaMarker(u16 id, int mode)
 {
-    unk_08->sub_0202B50C(id, mode);
+    unk_08->SetAreaMarker(id, mode);
 }
 
-void MissionQuestMap::ov8_0211D688()
+void MissionQuestMap::FadeIn()
 {
     if (unk_40 != NULL) {
         unk_40->m_subFade->Start(3, 15);
@@ -390,7 +390,7 @@ void MissionQuestMap::ov8_0211D688()
     }
 }
 
-void MissionQuestMap::ov8_0211D6CC()
+void MissionQuestMap::FadeOut()
 {
     if (unk_40 != NULL) {
         unk_40->m_subFade->Start(4, 15);
@@ -398,7 +398,7 @@ void MissionQuestMap::ov8_0211D6CC()
     }
 }
 
-BOOL MissionQuestMap::ov8_0211D710()
+BOOL MissionQuestMap::IsFading()
 {
     if (unk_40->m_subFade->IsActive() || unk_40->m_subFade->IsActive()) {
         return TRUE;
@@ -406,7 +406,7 @@ BOOL MissionQuestMap::ov8_0211D710()
     return FALSE;
 }
 
-int MissionQuestMap::ov8_0211D758()
+int MissionQuestMap::GetResult()
 {
     return unk_00 != 4 ? -1 : 0;
 }

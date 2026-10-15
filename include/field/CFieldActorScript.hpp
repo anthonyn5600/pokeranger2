@@ -3,7 +3,7 @@
 
 #include <nitro.h>
 
-#include "UnkStruct_02044464.hpp"
+#include "ScriptVM.hpp"
 #include "common.hpp"
 
 class CFieldActor;
@@ -20,7 +20,7 @@ public:
 
 public:
     int unk_04;
-    UnkStruct_02044464 unk_08;
+    ScriptVM unk_08;
     void *unk_2C;
     u32 *unk_30;
     int unk_34;

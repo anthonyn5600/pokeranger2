@@ -59,19 +59,19 @@ public:
 };
 
 // Quest giver and place per quest
-struct UnkStruct_021213AC {
+struct QuestGiverActor {
     u16 actorId;
     u16 placeId;
 };
 
 // One quest list entry
-struct UnkStruct_0211DE28 {
+struct QLListLine {
     const char *unk_00; // title
     int unk_04; // 0 = open, 1 = cleared, 2 = current
     int unk_08; // quest id
 };
 
-STATIC_SIZE_ASSERT(UnkStruct_0211DE28, 0xC);
+STATIC_SIZE_ASSERT(QLListLine, 0xC);
 
 // Defined in ov27
 // Message file split into its strings
@@ -80,9 +80,9 @@ public:
     QLMessageStrings();
     ~QLMessageStrings();
 
-    int ov27_0211FA84(const char *path);
-    const char *ov27_0211FB38(int idx);
-    void ov27_0211FB5C();
+    int Load(const char *path);
+    const char *GetString(int idx);
+    void Release();
 
 public:
     CBinaryFileMes *unk_00;
@@ -98,9 +98,9 @@ class QLBlinkMarks {
 public:
     QLBlinkMarks();
 
-    BOOL ov27_0211F8C8(OamSpriteSet *anims, int animOff, int animOn, int x, int y, int priority);
-    void ov27_0211F954(BOOL enabled);
-    void ov27_0211F9C0();
+    BOOL Init(OamSpriteSet *anims, int animOff, int animOn, int x, int y, int priority);
+    void SetEnabled(BOOL enabled);
+    void Update();
 
 public:
     u8 unk_00; // enabled
@@ -121,7 +121,7 @@ public:
 
 public:
     int unk_00; // line count
-    UnkStruct_0211DE28 *unk_04; // lines
+    QLListLine *unk_04; // lines
     int unk_08; // saved top line
     int unk_0C; // saved cursor line
 };
@@ -134,25 +134,25 @@ public:
     CQLListBox(int count);
     virtual ~CQLListBox();
 
-    BOOL ov27_0211E958(int id, OamSpriteSet *anims, int animCursor, int animNormal, int animCleared, int animCurrent, int x, int y, int w, int h, int argA, int argB, int argC, void *rows);
-    void ov27_0211EACC();
-    void ov27_0211EB84(int group, UnkStruct_0211DE28 *lines, int count);
-    int ov27_0211EBB8();
-    void ov27_0211EBEC(int line);
-    void ov27_0211EC68();
-    void ov27_0211ED84();
-    void ov27_0211EE28();
-    void ov27_0211EEB8();
-    void ov27_0211EF30();
-    void ov27_0211EFC4(int dy, int line);
-    void ov27_0211F140();
-    void ov27_0211F294();
-    void ov27_0211F470(BOOL down);
-    void ov27_0211F4B0(int group);
-    void ov27_0211F574(int line);
-    int ov27_0211F648(int group);
-    void ov27_0211F674();
-    void ov27_0211F714(u8 changed);
+    BOOL Init(int id, OamSpriteSet *anims, int animCursor, int animNormal, int animCleared, int animCurrent, int x, int y, int w, int h, int argA, int argB, int argC, void *rows);
+    void Start();
+    void SetGroupLines(int group, QLListLine *lines, int count);
+    int GetCursor();
+    void SetCursor(int line);
+    void CursorDown();
+    void CursorUp();
+    void PageDown();
+    void PageUp();
+    void Refresh();
+    void PlaceLineSprites(int dy, int line);
+    void UpdateInput();
+    void UpdateScroll();
+    void UpdateLineSprites(BOOL down);
+    void SelectGroup(int group);
+    void DrawLine(int line);
+    int GetLineCount(int group);
+    void ApplyScroll();
+    void NotifyCursor(u8 changed);
 
     void SetListener(IQLListBoxEventListener *listener)
     {
@@ -195,8 +195,8 @@ class QLAnimLoader {
 public:
     QLAnimLoader();
 
-    OamSpriteSet *ov27_0211E2B8(const char *dir, const char *name, int plttCount, int oamIdx);
-    void ov27_0211E374(OamSpriteSet *anims, int oamIdx);
+    OamSpriteSet *Load(const char *dir, const char *name, int plttCount, int oamIdx);
+    void ReserveOam(OamSpriteSet *anims, int oamIdx);
 
 public:
     u32 unk_00; // char offset
@@ -226,14 +226,14 @@ public:
         MI_CpuClear8(unk_08, sizeof(unk_08));
     }
 
-    BOOL ov27_0211E394(int id, OamSpriteSet *anims, int animNormal, int animPressed, int x, int y, int w, int h, int priority, int type);
-    void ov27_0211E438();
-    void ov27_0211E460();
-    void ov27_0211E598();
-    void ov27_0211E64C();
-    void ov27_0211E688();
-    void ov27_0211E708();
-    void ov27_0211E7CC();
+    BOOL Init(int id, OamSpriteSet *anims, int animNormal, int animPressed, int x, int y, int w, int h, int priority, int type);
+    void Update();
+    void UpdateNormal();
+    void UpdateBlink();
+    void UpdateAnim();
+    void UpdateAnimNormal();
+    void UpdateAnimBlink();
+    void ResetInput();
 
 public:
     int unk_00; // type
@@ -259,17 +259,17 @@ public:
     QuestGiverInfo();
     ~QuestGiverInfo();
 
-    void ov27_0212062C();
-    void ov27_021206B4();
-    void ov27_02120748();
-    void ov27_02120754();
-    void ov27_02120758();
-    void ov27_021207E4();
-    void ov27_02120870(BOOL noInfo);
-    BOOL ov27_02120CA8(QLMessageStrings *info, int questId, BOOL notCleared);
-    BOOL ov27_02120CC4(BOOL noInfo);
-    void ov27_02120CD4();
-    void ov27_02120E70(int questId);
+    void Init();
+    void Update();
+    void Render();
+    void OnVBlank();
+    void Release();
+    void Draw();
+    void Load(BOOL noInfo);
+    BOOL SetQuest(QLMessageStrings *info, int questId, BOOL notCleared);
+    BOOL Setup(BOOL noInfo);
+    void DrawTexts();
+    void LoadGiver(int questId);
 
 public:
     int unk_0000; // shown quest
@@ -310,14 +310,14 @@ public:
     virtual void OnListBoxEvent1(int id, int cursor, u32 flags, u8 changed);
     virtual void OnListBoxEvent2();
 
-    void ov27_0211D0E0();
-    void ov27_0211D150();
-    void ov27_0211DB4C();
-    void ov27_0211DBB4();
-    void ov27_0211DC64();
-    void ov27_0211DDC0();
-    void ov27_0211DE28();
-    int ov27_0211E204();
+    void SaveSubDisplay();
+    void RestoreSubDisplay();
+    void Exit();
+    void SetupBG();
+    void LoadBG();
+    void LoadBGToVram();
+    void LoadQuests();
+    int GetSelectedQuestId();
 
 public:
     struct {
@@ -333,7 +333,7 @@ public:
     int unk_338; // quest count
     QLMessageStrings *unk_33C; // quest infos
     QLMessageStrings unk_340;
-    UnkStruct_0211DE28 *unk_34C;
+    QLListLine *unk_34C;
     int unk_350; // saved sub BG mode
     int unk_354; // saved sub visible windows
     GXWndPlane unk_358; // saved sub window 0 inside plane
@@ -351,31 +351,31 @@ public:
     QuestListMap(CGame *game);
     ~QuestListMap();
 
-    void ov27_0211FBD0();
-    BOOL ov27_0211FC2C();
-    void ov27_0211FCE4();
-    void ov27_0211FD34();
-    void ov27_0211FD58();
-    void ov27_0211FD70();
-    void ov27_0211FE2C();
-    void ov27_0211FE58();
-    void ov27_02120068();
-    void ov27_02120128();
-    void ov27_021201AC(u16 idx);
-    BOOL ov27_021201DC();
-    void ov27_0212020C();
-    void ov27_021202F8();
-    void ov27_0212032C(u16 id);
-    void ov27_0212033C();
-    void ov27_02120410(u16 idx);
-    void ov27_02120444(int idx, u16 id);
-    void ov27_02120490();
-    void ov27_021204B4();
-    void ov27_021204E0(u16 id);
-    void ov27_02120504(u16 id, int mode);
-    void ov27_02120514();
-    void ov27_0212053C();
-    BOOL ov27_02120564();
+    void Init();
+    BOOL Update();
+    void Render();
+    void OnVBlank();
+    void LoadPalette();
+    void Release();
+    void WriteOam();
+    void Load();
+    void LoadToVram();
+    void SetupBG();
+    void Start(u16 idx);
+    BOOL Setup();
+    void UpdateInput();
+    void Close();
+    void RequestPlaceName(u16 id);
+    void DrawPlaceName();
+    void ShowQuestPlace(u16 idx);
+    void SetSpriteToArea(int idx, u16 id);
+    void SelectQuestPlace();
+    void SelectCurrentArea();
+    void SelectArea(u16 id);
+    void SetAreaMarker(u16 id, int mode);
+    void FadeIn();
+    void FadeOut();
+    BOOL IsFading();
 
 public:
     u16 unk_00; // state

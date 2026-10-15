@@ -1,14 +1,14 @@
-#include "UnkClass_021226C0.hpp"
+#include "BrowserEntryList.hpp"
 
 #include "CGame.hpp"
+#include "PokeIdTableEntry.hpp"
 #include "SaveData.hpp"
-#include "UnkStruct_020107A8.hpp"
 
 extern SaveData MAIN_BSS_020B26A0;
 
 int OVERLAY21_BSS_021242C4;
 
-UnkStruct_02123618 OVERLAY21_DATA_02123618[0x10E] = {
+BrowserEntry OVERLAY21_DATA_02123618[0x10E] = {
     { 1, 81, 0x1000000000000662ULL },
     { 2, 12, 0x1000000001F80200ULL },
     { 3, 13, 0x1000000018080000ULL },
@@ -321,20 +321,20 @@ static inline u32 GetPokemonState(SaveData *save, int i)
     return 0;
 }
 
-UnkClass_021226C0::UnkClass_021226C0()
+BrowserEntryList::BrowserEntryList()
 {
     unk_000 = 0x10E;
     MI_CpuClearFast(unk_814, sizeof(unk_814));
     MI_CpuClearFast(unk_85C, sizeof(unk_85C));
     unk_810 = ov21_02122A8C();
-    ov21_02122724(0, 0);
+    Filter(0, 0);
 }
 
-UnkClass_021226C0::~UnkClass_021226C0()
+BrowserEntryList::~BrowserEntryList()
 {
 }
 
-void UnkClass_021226C0::ov21_02122724(u32 mode, int arg)
+void BrowserEntryList::Filter(u32 mode, int arg)
 {
     CGame *game = CGame::GetInstance();
     SaveData *save = &MAIN_BSS_020B26A0;
@@ -356,7 +356,7 @@ void UnkClass_021226C0::ov21_02122724(u32 mode, int arg)
     case 1:
         unk_80C = 0;
         for (int i = 0; i < unk_000; i++) {
-            UnkStruct_020107A8 *rec = PokeIdTable_Get(game->unk_1434, OVERLAY21_DATA_02123618[i].id);
+            PokeIdTableEntry *rec = PokeIdTable_Get(game->unk_1434, OVERLAY21_DATA_02123618[i].id);
             u16 no = rec->unk_00;
             if (rec->unk_04 == arg) {
                 if (OVERLAY21_BSS_021242C4 != 0 || GetPokemonState(save, no) == 2) {
@@ -369,7 +369,7 @@ void UnkClass_021226C0::ov21_02122724(u32 mode, int arg)
     case 2:
         unk_80C = 0;
         for (int i = 0; i < unk_000; i++) {
-            UnkStruct_020107A8 *rec = PokeIdTable_Get(game->unk_1434, OVERLAY21_DATA_02123618[i].id);
+            PokeIdTableEntry *rec = PokeIdTable_Get(game->unk_1434, OVERLAY21_DATA_02123618[i].id);
             u16 no = rec->unk_00;
             if (rec->unk_05 == arg) {
                 if (OVERLAY21_BSS_021242C4 != 0 || GetPokemonState(save, no) == 2) {
@@ -398,13 +398,13 @@ void UnkClass_021226C0::ov21_02122724(u32 mode, int arg)
     }
 }
 
-int UnkClass_021226C0::ov21_02122A8C()
+int BrowserEntryList::ov21_02122A8C()
 {
     CGame *game = CGame::GetInstance();
     SaveData *save = &MAIN_BSS_020B26A0;
     int seen = 0;
     for (int i = 0; i < unk_000; i++) {
-        UnkStruct_020107A8 *rec = PokeIdTable_Get(game->unk_1434, OVERLAY21_DATA_02123618[i].id);
+        PokeIdTableEntry *rec = PokeIdTable_Get(game->unk_1434, OVERLAY21_DATA_02123618[i].id);
         u16 no = rec->unk_00;
         if (OVERLAY21_BSS_021242C4 != 0 || GetPokemonState(save, no) != 0) {
             seen = i + 1;

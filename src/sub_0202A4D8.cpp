@@ -2,9 +2,9 @@
 
 #include "SaveDataBuffer.hpp"
 
-UnkStruct_0210C228 MAIN_BSS_0210C228;
+FieldEnemySaveBuffer MAIN_BSS_0210C228;
 
-void sub_0202A4D8(UnkStruct_0210C228 *obj)
+void FieldEnemySaveBuffer_Build(FieldEnemySaveBuffer *obj)
 {
     MI_CpuFill8(obj, 0, sizeof(obj->unk_000));
     if (obj->unk_804 != NULL) {

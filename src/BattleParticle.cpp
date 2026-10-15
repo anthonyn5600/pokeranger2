@@ -13,36 +13,36 @@ BattleParticle::~BattleParticle()
 {
 }
 
-void BattleParticle::ov1_02136760()
+void BattleParticle::Update()
 {
     if (m_timer == 0) {
         return;
     }
     if (m_flags & 1) {
-        ov1_0213680C();
+        UpdateX();
     }
     if (m_flags & 2) {
-        ov1_02136840();
+        UpdateY();
     }
     if (m_flags & 4) {
-        ov1_02136874();
+        UpdateZ();
     }
     if (m_flags & 8) {
-        ov1_021368A8();
+        UpdateAlpha();
     }
     if (m_flags & 0x10) {
-        ov1_021368D0();
+        UpdateScale();
     }
     if (m_flags & 0x20) {
         ov1_021368F8();
     }
     if (m_flags & 0x80) {
-        ov1_021368FC();
+        UpdateAcceleration();
     }
     m_timer--;
 }
 
-void BattleParticle::ov1_0213680C()
+void BattleParticle::UpdateX()
 {
     if (m_ax != FX32_ONE) {
         m_vx = FX32_MUL(m_vx, m_ax);
@@ -50,7 +50,7 @@ void BattleParticle::ov1_0213680C()
     m_x += m_vx;
 }
 
-void BattleParticle::ov1_02136840()
+void BattleParticle::UpdateY()
 {
     if (m_ay != FX32_ONE) {
         m_vy = FX32_MUL(m_vy, m_ay);
@@ -58,7 +58,7 @@ void BattleParticle::ov1_02136840()
     m_y += m_vy;
 }
 
-void BattleParticle::ov1_02136874()
+void BattleParticle::UpdateZ()
 {
     if (m_az != FX32_ONE) {
         m_vz = FX32_MUL(m_vz, m_az);
@@ -66,12 +66,12 @@ void BattleParticle::ov1_02136874()
     m_z += m_vz;
 }
 
-void BattleParticle::ov1_021368A8()
+void BattleParticle::UpdateAlpha()
 {
     m_alpha = LinearInterpolate(m_alphaFrom, m_alphaTo, m_duration - m_timer, m_duration);
 }
 
-void BattleParticle::ov1_021368D0()
+void BattleParticle::UpdateScale()
 {
     m_scale = LinearInterpolate(m_scaleFrom, m_scaleTo, m_duration - m_timer, m_duration);
 }
@@ -80,14 +80,14 @@ void BattleParticle::ov1_021368F8()
 {
 }
 
-void BattleParticle::ov1_021368FC()
+void BattleParticle::UpdateAcceleration()
 {
     m_vx += m_dvx;
     m_vy += m_dvy;
     m_vz += m_dvz;
 }
 
-void BattleParticle::ov1_02136930(Camera2D *camera, GXDLInfo *dl)
+void BattleParticle::Render(Camera2D *camera, GXDLInfo *dl)
 {
     if (m_timer == 0 || m_alpha == 0) {
         return;
@@ -107,7 +107,7 @@ void BattleParticle::ov1_02136930(Camera2D *camera, GXDLInfo *dl)
     }
 }
 
-void BattleParticle::ov1_021369FC(u16 duration, fx32 x, fx32 y, fx32 z, fx32 size, u16 color)
+void BattleParticle::Init(u16 duration, fx32 x, fx32 y, fx32 z, fx32 size, u16 color)
 {
     m_flags = 0;
     m_x = x;
@@ -121,42 +121,42 @@ void BattleParticle::ov1_021369FC(u16 duration, fx32 x, fx32 y, fx32 z, fx32 siz
     m_timer = duration;
 }
 
-void BattleParticle::ov1_02136A40(fx32 x, fx32 y)
+void BattleParticle::SetVelocityX(fx32 x, fx32 y)
 {
     m_flags |= 1;
     m_vx = x;
     m_ax = y;
 }
 
-void BattleParticle::ov1_02136A58(fx32 x, fx32 y)
+void BattleParticle::SetVelocityY(fx32 x, fx32 y)
 {
     m_flags |= 2;
     m_vy = x;
     m_ay = y;
 }
 
-void BattleParticle::ov1_02136A70(fx32 x, fx32 y)
+void BattleParticle::SetVelocityZ(fx32 x, fx32 y)
 {
     m_flags |= 4;
     m_vz = x;
     m_az = y;
 }
 
-void BattleParticle::ov1_02136A88(u8 arg0, u8 arg1)
+void BattleParticle::SetAlphaFade(u8 arg0, u8 arg1)
 {
     m_flags |= 8;
     m_alphaFrom = arg0;
     m_alphaTo = arg1;
 }
 
-void BattleParticle::ov1_02136AA0(fx32 arg0, int arg1)
+void BattleParticle::SetScaleFade(fx32 arg0, int arg1)
 {
     m_flags |= 0x10;
     m_scaleFrom = arg0;
     m_scaleTo = arg1;
 }
 
-void BattleParticle::ov1_02136AB8(fx32 x, fx32 y, int arg2)
+void BattleParticle::SetAcceleration(fx32 x, fx32 y, int arg2)
 {
     m_flags |= 0x80;
     m_dvx = x;
@@ -175,17 +175,17 @@ BattleParticlePool::~BattleParticlePool()
 {
 }
 
-void BattleParticlePool::ov1_02136AEC()
+void BattleParticlePool::Update()
 {
     for (int i = 0; i < m_count; i++) {
-        m_items[i]->ov1_02136760();
+        m_items[i]->Update();
     }
 }
 
-BattleParticle *BattleParticlePool::ov1_02136B24(u16 arg0, fx32 x, fx32 y, int arg3, fx32 arg4, u16 color)
+BattleParticle *BattleParticlePool::Spawn(u16 arg0, fx32 x, fx32 y, int arg3, fx32 arg4, u16 color)
 {
     BattleParticle *item = m_items[m_next];
-    item->ov1_021369FC(arg0, x, y, arg3, arg4, color);
+    item->Init(arg0, x, y, arg3, arg4, color);
     m_next++;
     if (m_next >= m_count) {
         m_next = 0;
@@ -193,14 +193,14 @@ BattleParticle *BattleParticlePool::ov1_02136B24(u16 arg0, fx32 x, fx32 y, int a
     return item;
 }
 
-void BattleParticlePool::ov1_02136B88(Camera2D *camera)
+void BattleParticlePool::Render(Camera2D *camera)
 {
     for (int i = 0; i < m_count; i++) {
-        m_items[i]->ov1_02136930(camera, NULL);
+        m_items[i]->Render(camera, NULL);
     }
 }
 
-void BattleParticlePool::ov1_02136BD0(int arg0)
+void BattleParticlePool::SetPolygonId(int arg0)
 {
     for (int i = 0; i < m_count; i++) {
         m_items[i]->m_quad.m_polygonID = arg0;

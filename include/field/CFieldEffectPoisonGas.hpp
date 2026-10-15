@@ -18,7 +18,7 @@ struct PoisonGasPuff {
     u8 alpha;
 };
 
-// Saved state (ov0_02142390 / ov0_02142388).
+// Saved state (SaveState / RestoreState).
 struct PoisonGasSave {
     u8 type;
     u8 mask;
@@ -42,16 +42,16 @@ public:
     {
         return 0xC;
     }
-    virtual void ov0_021423A4()
+    virtual void Destroy()
     {
         m_used = FALSE;
     }
-    virtual BOOL ov0_021421F0(int inTime, int holdTime, int outTime);
-    virtual int ov0_02142264(int step);
-    virtual int ov0_02142344(Camera2D *camera);
+    virtual BOOL Start(int inTime, int holdTime, int outTime);
+    virtual int Update(int step);
+    virtual int Render(Camera2D *camera);
     virtual int SetParam(int param, int value);
-    virtual int ov0_02142390(void *buf, void *end);
-    virtual BOOL ov0_02142388(const void *data);
+    virtual int SaveState(void *buf, void *end);
+    virtual BOOL RestoreState(const void *data);
 
     void Init(CEffectActorData *data, int kind);
     void InitSprites();

@@ -44,8 +44,8 @@ public:
 
     CFieldEffectManpuAnger(CEffectActorData *data);
     virtual ~CFieldEffectManpuAnger();
-    virtual BOOL ov0_021421F0(int inTime, int holdTime, int outTime);
-    virtual int ov0_02142264(int step);
+    virtual BOOL Start(int inTime, int holdTime, int outTime);
+    virtual int Update(int step);
     virtual int Draw(Camera2D *camera);
     virtual void SetDepth(fx32 z);
 

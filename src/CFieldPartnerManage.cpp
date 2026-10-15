@@ -4,10 +4,10 @@
 
 #include "CGame.hpp"
 #include "CPlayerHPGauge.hpp"
+#include "FieldDataRecords.hpp"
 #include "FieldSubScreen.hpp"
+#include "PokeIdTableEntry.hpp"
 #include "SaveData.hpp"
-#include "UnkClass_02041D80.hpp"
-#include "UnkStruct_020107A8.hpp"
 #include "field/CFieldEffectManpu.hpp"
 #include "field/CFieldPartnerNpc.hpp"
 #include "field/CFieldPartnerPokemon.hpp"
@@ -94,12 +94,12 @@ void CFieldPartnerManage::Free()
 
 void CFieldPartnerManage::UpdateAll(CFieldMap *map, BOOL update)
 {
-    CFieldPlayer *player = (CFieldPlayer *)MAIN_BSS_0210CA40->ov0_02123060(0);
+    CFieldPlayer *player = (CFieldPlayer *)MAIN_BSS_0210CA40->FindActor(0);
     if (update) {
         if (player->ov0_0213416C()) {
             return;
         }
-        ov0_0213B0F0();
+        ArePartnersHidden();
         if (m_actors == NULL) {
             return;
         }
@@ -116,11 +116,11 @@ void CFieldPartnerManage::UpdateAll(CFieldMap *map, BOOL update)
                 continue;
             }
             partner->Process(map);
-            partner->ov0_02139164();
+            partner->UpdateTrail();
         }
     } else {
         unk_94 = 5;
-        ov0_0213B0F0();
+        ArePartnersHidden();
         if (m_actors == NULL) {
             return;
         }
@@ -130,14 +130,14 @@ void CFieldPartnerManage::UpdateAll(CFieldMap *map, BOOL update)
                 continue;
             }
             partner->UpdateMove(map);
-            partner->ov0_02139164();
+            partner->UpdateTrail();
         }
     }
 }
 
 void CFieldPartnerManage::DrawAll(DrawObjectList *renderLists, FieldShadow *hud)
 {
-    CFieldPlayer *player = (CFieldPlayer *)MAIN_BSS_0210CA40->ov0_02123060(0);
+    CFieldPlayer *player = (CFieldPlayer *)MAIN_BSS_0210CA40->FindActor(0);
     if (player->ov0_0213416C()) {
         return;
     }
@@ -163,7 +163,7 @@ static inline void SetUnk70(CFieldActor *actor, fx32 x, fx32 y)
     actor->unk_74 = y;
 }
 
-int CFieldPartnerManage::ov0_02139920(u32 id, u16 kind, u16 flags, int type, int arg5)
+int CFieldPartnerManage::Create(u32 id, u16 kind, u16 flags, int type, int arg5)
 {
     for (int i = 0; i < m_count; i++) {
         if (Get(i) != NULL || unk_8C == NULL) {
@@ -186,7 +186,7 @@ int CFieldPartnerManage::ov0_02139920(u32 id, u16 kind, u16 flags, int type, int
             SetUnk70(partner, data->unk_02 << FX32_SHIFT, data->unk_03 << FX32_SHIFT);
         } else {
             FieldEnemyData *data = FieldData_GetEnemy(table, kind);
-            UnkStruct_020107A8 *info = PokeIdTable_Get(s_game->unk_1434, kind);
+            PokeIdTableEntry *info = PokeIdTable_Get(s_game->unk_1434, kind);
             CFieldPartnerPokemon *pokemon = new CFieldPartnerPokemon();
             pokemon->unk_EC.unk_B0 = pokemon->unk_268 = info->unk_00;
             pokemon->unk_E8 = (int)data;
@@ -205,7 +205,7 @@ int CFieldPartnerManage::ov0_02139920(u32 id, u16 kind, u16 flags, int type, int
             pokemon->SetId((id & 0xFFFFFF) | 0x6000000);
             pokemon->SetUnkBC(info->unk_0A, info->unk_0B);
             pokemon->SetUnkBE(info->unk_0C, info->unk_0D);
-            pokemon->ov0_0213E3E4(info->unk_00, info->unk_02);
+            pokemon->LoadTargetClearScript(info->unk_00, info->unk_02);
             Rectangle bounds = { { info->unk_07 << FX32_SHIFT, info->unk_08 << FX32_SHIFT },
                 { info->unk_09 << FX32_SHIFT, info->unk_09 << FX32_SHIFT } };
             pokemon->unk_24.pos.x = bounds.pos.x;
@@ -215,8 +215,8 @@ int CFieldPartnerManage::ov0_02139920(u32 id, u16 kind, u16 flags, int type, int
             pokemon->m_bushMode = info->unk_0E;
             pokemon->unk_D6 = info->unk_0F;
             SetUnk70(pokemon, data->unk_3D << FX32_SHIFT, data->unk_3E << FX32_SHIFT);
-            ov0_0213A57C(kind, pokemon);
-            pokemon->SetLayer(MAIN_BSS_0210CA40->ov0_02123060(0)->m_layer);
+            InitPartnerPokemon(kind, pokemon);
+            pokemon->SetLayer(MAIN_BSS_0210CA40->FindActor(0)->m_layer);
             if (HasPartnerIndex(kind)) {
                 pokemon->unk_1E8 = unk_84;
                 ov0_0213A2B4();
@@ -288,14 +288,14 @@ void CFieldPartnerManage::ov0_02139F98(fx32 x, fx32 y, int dir)
         if (partner != NULL) {
             partner->SetPosXY(x, y);
             partner->SetLayer(dir);
-            partner->sub_02032A44(1);
+            partner->SetMoveSequence(1);
         }
     }
 }
 
-void CFieldPartnerManage::ov0_0213A050(u32 id)
+void CFieldPartnerManage::LeaveParty(u32 id)
 {
-    int result = ov0_0213A084(id);
+    int result = RemoveFromParty(id);
     if (result < 0) {
         return;
     }
@@ -304,7 +304,7 @@ void CFieldPartnerManage::ov0_0213A050(u32 id)
     }
     FieldSubScreen *obj = FieldSubScreen::GetInstance();
     if (obj != NULL) {
-        obj->sub_02022B20();
+        obj->RefreshPartyPanel();
     }
 }
 
@@ -341,7 +341,7 @@ inline BOOL CFieldPartnerManage::RemovePartner(u32 target)
     return FALSE;
 }
 
-int CFieldPartnerManage::ov0_0213A084(u32 id)
+int CFieldPartnerManage::RemoveFromParty(u32 id)
 {
     // `target` first holds the type: reused, its id range becomes a late split temp (colored after the inlines'
     // locals); the int -> u32 copy keeps copy propagation from removing the first range.
@@ -391,7 +391,7 @@ BOOL CFieldPartnerManage::Clear()
     return CFieldActorManage::Clear();
 }
 
-void CFieldPartnerManage::ov0_0213A360(u32 id, u16 kind, u16 flags, int type, int arg5)
+void CFieldPartnerManage::AddToParty(u32 id, u16 kind, u16 flags, int type, int arg5)
 {
     SaveData *save = &MAIN_BSS_020B26A0;
     if (type == 1) {
@@ -402,7 +402,7 @@ void CFieldPartnerManage::ov0_0213A360(u32 id, u16 kind, u16 flags, int type, in
                 slot->unk_00 = 1;
                 slot->unk_04 = id;
                 slot->unk_08 = kind;
-                ov0_02139920(id, kind, flags, type, arg5);
+                Create(id, kind, flags, type, arg5);
                 FieldActorManage_RestartAllScripts(this);
                 return;
             }
@@ -417,13 +417,13 @@ void CFieldPartnerManage::ov0_0213A360(u32 id, u16 kind, u16 flags, int type, in
         }
         if (newId != 0) {
             SaveData_AddToParty(save, newId, kind, -1);
-            ov0_02139920(newId, kind, flags, type, arg5);
+            Create(newId, kind, flags, type, arg5);
         }
         FieldActorManage_RestartAllScripts(this);
     }
 }
 
-u32 CFieldPartnerManage::ov0_0213A4C4(u32 kind)
+u32 CFieldPartnerManage::FindPartnerNpc(u32 kind)
 {
     int i;
     int count = m_count;
@@ -436,7 +436,7 @@ u32 CFieldPartnerManage::ov0_0213A4C4(u32 kind)
     return 0;
 }
 
-u32 CFieldPartnerManage::ov0_0213A520(u32 kind)
+u32 CFieldPartnerManage::FindPartnerPokemon(u32 kind)
 {
     int i;
     int count = m_count;
@@ -449,7 +449,7 @@ u32 CFieldPartnerManage::ov0_0213A520(u32 kind)
     return 0;
 }
 
-BOOL CFieldPartnerManage::ov0_0213A57C(u16 kind, CFieldPartner *partner)
+BOOL CFieldPartnerManage::InitPartnerPokemon(u16 kind, CFieldPartner *partner)
 {
     if (HasPartnerIndex(kind)) {
         partner->m_flags |= 0x30;
@@ -458,7 +458,7 @@ BOOL CFieldPartnerManage::ov0_0213A57C(u16 kind, CFieldPartner *partner)
             SaveData *save = &MAIN_BSS_020B26A0;
             CPlayerHPGauge *obj = scene->m_hpGauge;
             if (obj != NULL && save != NULL) {
-                save->unk_0008 = ov0_0213A658(kind);
+                save->unk_0008 = GetPartnerMaxEnergy(kind);
                 obj->SetPartnerVisible(TRUE);
                 obj->SetPartner(save->unk_0004 >> FX32_SHIFT, save->unk_0008);
                 u8 mood = save->m_partnerMoods[PartnerKindToIndex(kind)];
@@ -474,7 +474,7 @@ BOOL CFieldPartnerManage::ov0_0213A57C(u16 kind, CFieldPartner *partner)
     return FALSE;
 }
 
-int CFieldPartnerManage::ov0_0213A658(u16 kind)
+int CFieldPartnerManage::GetPartnerMaxEnergy(u16 kind)
 {
     switch (kind) {
     case 0xD7:
@@ -518,7 +518,7 @@ int CFieldPartnerManage::ov0_0213A658(u16 kind)
     return 0;
 }
 
-void CFieldPartnerManage::ov0_0213A7FC(BOOL arg)
+void CFieldPartnerManage::SetPartnersVisible(BOOL arg)
 {
     int count = m_count;
     for (int i = 0; i < count; i++) {

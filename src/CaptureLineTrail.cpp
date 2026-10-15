@@ -4,24 +4,24 @@
 
 CaptureLineTrail::CaptureLineTrail()
 {
-    ov1_0212EDB4(0);
+    SetZ(0);
 }
 
 CaptureLineTrail::~CaptureLineTrail()
 {
 }
 
-void CaptureLineTrail::ov1_0212E940()
+void CaptureLineTrail::Update()
 {
     if (m_timer == 0) {
         return;
     }
     m_width = FX32_MUL(m_width, 0xE66);
-    ov1_0212EB20(m_width);
+    UpdateQuads(m_width);
     m_timer--;
 }
 
-void CaptureLineTrail::ov1_0212E998(Camera2D *camera)
+void CaptureLineTrail::Render(Camera2D *camera)
 {
     if (m_timer == 0) {
         return;
@@ -33,7 +33,7 @@ void CaptureLineTrail::ov1_0212E998(Camera2D *camera)
     }
 }
 
-void CaptureLineTrail::ov1_0212EA1C(Point2D pos)
+void CaptureLineTrail::Start(Point2D pos)
 {
     m_timer = 0x18;
     m_width = 0x10000;
@@ -42,7 +42,7 @@ void CaptureLineTrail::ov1_0212EA1C(Point2D pos)
     m_lines[0].SetStart(pos);
 }
 
-void CaptureLineTrail::ov1_0212EA7C(Point2D pos)
+void CaptureLineTrail::AddPoint(Point2D pos)
 {
     CPrimitiveLINE *line = &m_lines[m_count];
     line->SetEnd(pos);
@@ -50,7 +50,7 @@ void CaptureLineTrail::ov1_0212EA7C(Point2D pos)
     line->SetStart(pos);
 }
 
-void CaptureLineTrail::ov1_0212EAD4()
+void CaptureLineTrail::Close()
 {
     CPrimitiveLINE *line = &m_lines[m_count];
     CPrimitiveLINE *prev = &m_lines[m_count - 1];
@@ -59,7 +59,7 @@ void CaptureLineTrail::ov1_0212EAD4()
     m_count++;
 }
 
-void CaptureLineTrail::ov1_0212EB20(fx32 width)
+void CaptureLineTrail::UpdateQuads(fx32 width)
 {
     for (int i = 0; i < m_count; i++) {
         Point2D start;
@@ -87,7 +87,7 @@ void CaptureLineTrail::ov1_0212EB20(fx32 width)
     }
 }
 
-int CaptureLineTrail::ov1_0212EDB4(int z)
+int CaptureLineTrail::SetZ(int z)
 {
     for (u16 i = 0; i < 0x62; i++) {
         m_quads[i].m_z = z;

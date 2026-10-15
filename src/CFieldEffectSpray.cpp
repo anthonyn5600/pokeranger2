@@ -24,7 +24,7 @@ CFieldEffectSpray::CFieldEffectSpray(int kind)
 {
     CFieldEffectAttackActorData *data = new CFieldEffectAttackActorData();
     if (data != NULL) {
-        data->ov0_0214FFF0(kind, 1, 1);
+        data->Load(kind, 1, 1);
     }
     unk_18 = data;
     CellAnimController *cac = unk_18->GetCac(0);
@@ -55,9 +55,9 @@ CFieldEffectSpray::~CFieldEffectSpray()
     SAFE_DELETE(unk_18);
 }
 
-int CFieldEffectSpray::ov0_02142264(int step)
+int CFieldEffectSpray::Update(int step)
 {
-    int state = CFieldEffectActor::ov0_02142264(step);
+    int state = CFieldEffectActor::Update(step);
     if (state != 4 && state != 0) {
         if (unk_18 != NULL) {
             unk_18->Update();
@@ -71,7 +71,7 @@ int CFieldEffectSpray::ov0_02142264(int step)
     return state;
 }
 
-int CFieldEffectSpray::ov0_02142344(Camera2D *camera)
+int CFieldEffectSpray::Render(Camera2D *camera)
 {
     if (m_state != 4 && m_state != 0) {
         if (m_state == 3) {
@@ -117,10 +117,10 @@ int CFieldEffectSpray::SetParam(int param, int value)
     return ret;
 }
 
-BOOL CFieldEffectSpray::ov0_021421F0(int inTime, int holdTime, int outTime)
+BOOL CFieldEffectSpray::Start(int inTime, int holdTime, int outTime)
 {
     m_emitter.func2();
-    return CFieldEffect::ov0_021421F0(inTime, holdTime, outTime);
+    return CFieldEffect::Start(inTime, holdTime, outTime);
 }
 
 u32 CFieldEffectSpray::CWaveParticleEmitter::Update(int dt)

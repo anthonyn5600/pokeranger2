@@ -35,7 +35,7 @@ int CFieldPokeMove::ov0_0215900C()
     unk_64 = 0x10000;
     switch (unk_4E) {
     case 0: {
-        ov0_02156A8C();
+        BeginSequence();
         unk_30.x = FX_CosIdx(unk_48->GetDir());
         unk_30.y = FX_SinIdx(unk_48->GetDir());
         unk_38 = unk_04 - (Point2D) { unk_0C.x, unk_0C.y };
@@ -48,7 +48,7 @@ int CFieldPokeMove::ov0_0215900C()
     }
     case 1:
         if (unk_6C.unk_3C == 0) {
-            if (ov0_02157F0C(&unk_30, &unk_38, unk_4C)) {
+            if (TurnToward(&unk_30, &unk_38, unk_4C)) {
                 unk_4E = 2;
             }
         } else {
@@ -60,12 +60,12 @@ int CFieldPokeMove::ov0_0215900C()
             if (t < 0x1000) {
                 t = 0x1000;
             }
-            unk_D8 = FX32_DIV(ov0_0215809C(unk_04.x, unk_04.y, unk_48->GetPos().x, unk_48->GetPos().y), t);
+            unk_D8 = FX32_DIV(Distance(unk_04.x, unk_04.y, unk_48->GetPos().x, unk_48->GetPos().y), t);
         }
         break;
     case 2:
         if (unk_40 != 0) {
-            ov0_0215674C(1);
+            SetSequence(1);
         } else {
             int mul = GetFieldFps() == 60 ? 1 : 2;
             Point2D d = unk_04;
@@ -93,7 +93,7 @@ int CFieldPokeMove::ov0_0215900C()
                     if (t < 0x1000) {
                         t = 0x1000;
                     }
-                    unk_D8 = FX32_DIV(ov0_0215809C(unk_04.x, unk_04.y, unk_48->GetPos().x, unk_48->GetPos().y), t);
+                    unk_D8 = FX32_DIV(Distance(unk_04.x, unk_04.y, unk_48->GetPos().x, unk_48->GetPos().y), t);
                     if (unk_D8 < 0x1000) {
                         unk_D8 = 0x1000;
                     }
@@ -105,9 +105,9 @@ int CFieldPokeMove::ov0_0215900C()
                 unk_0C.x = unk_48->GetPos().x;
                 unk_0C.y = unk_48->GetPos().y;
                 unk_40 = 1;
-                ov0_0215674C(1);
+                SetSequence(1);
             } else {
-                ov0_02156B30(&unk_24, speed, -1);
+                Move(&unk_24, speed, -1);
             }
         }
         break;

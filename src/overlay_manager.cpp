@@ -43,7 +43,7 @@
 #define ALIGN_BYTE(n, a) (((u32)(n) + ALIGN_MASK(a)) & ~ALIGN_MASK(a))
 
 extern "C" {
-void ov0_02124BD4(void);
+void LoadFieldActorData(void);
 
 extern void SDK_MAIN_ARENA_LO(void);
 
@@ -133,7 +133,7 @@ CScene *Scene_LoadByID(u32 id, CGame *game)
 
     case SCENE_FIELD:
         Overlay_LoadByID(FS_OVERLAY_ID(overlay0), FALSE);
-        ov0_02124BD4();
+        LoadFieldActorData();
         scene = (CScene *)new CFieldScene(game);
         break;
 

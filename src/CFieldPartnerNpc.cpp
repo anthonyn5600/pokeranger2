@@ -35,12 +35,12 @@ BOOL CFieldPartnerNpc::UpdateMove(CFieldMap *map)
     return CFieldActor::UpdateMove(map);
 }
 
-BOOL CFieldPartnerNpc::sub_0203DA38()
+BOOL CFieldPartnerNpc::Talk()
 {
     if (m_name[0] == '\0' || MAIN_BSS_0210CA44 == NULL) {
         return FALSE;
     }
-    MAIN_BSS_0210CA44->ov0_0213FB0C(m_name, m_id, -1);
+    MAIN_BSS_0210CA44->LaunchScript(m_name, m_id, -1);
     return TRUE;
 }
 

@@ -5,21 +5,21 @@
 
 #include "CActorData.hpp"
 #include "Collision.hpp"
-#include "UnkStruct_020107A8.hpp"
-#include "battle/UnkStruct_0212DFEC.hpp"
+#include "PokeIdTableEntry.hpp"
+#include "battle/BattlePokemonParam.hpp"
 #include "common.hpp"
 #include "file/CBinaryFile.hpp"
 
 // Defined in ov1
 class CBattleEnemyData : public CActorData {
 public:
-    CBattleEnemyData(u16 id, UnkStruct_020107A8 *info, UnkStruct_0212DFEC *param, u32 arg3);
+    CBattleEnemyData(u16 id, PokeIdTableEntry *info, BattlePokemonParam *param, u32 arg3);
     virtual ~CBattleEnemyData();
 
 public:
     u16 unk_16;
-    UnkStruct_020107A8 *unk_18;
-    UnkStruct_0212DFEC *unk_1C;
+    PokeIdTableEntry *unk_18;
+    BattlePokemonParam *unk_1C;
     Circle unk_20;
     Rectangle unk_2C;
     Point2D unk_3C[3];

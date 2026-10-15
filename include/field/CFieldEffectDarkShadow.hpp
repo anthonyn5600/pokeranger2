@@ -25,12 +25,12 @@ public:
     {
         return 0x16;
     }
-    virtual int ov0_02142264(int step);
-    virtual int ov0_02142344(Camera2D *camera);
-    virtual int ov0_0214239C(int layer);
+    virtual int Update(int step);
+    virtual int Render(Camera2D *camera);
+    virtual int GetDrawCount(int layer);
     virtual int SetParam(int param, int value);
-    virtual void sub_0203331C(const Point2D &pos, int arg1);
-    virtual void sub_02033388(const Point2D &pos, int arg1);
+    virtual void MoveTo(const Point2D &pos, int arg1);
+    virtual void ScaleTo(const Point2D &pos, int arg1);
 
 public:
     CPrimitiveRECT m_rect;

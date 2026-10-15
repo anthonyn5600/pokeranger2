@@ -27,7 +27,7 @@
 
 extern SaveData MAIN_BSS_020B26A0;
 extern "C" u16 SaveData_GetBestPartner(SaveData *save);
-extern "C" u8 sub_020171A0(SaveData *save);
+extern "C" u8 SaveData_CountClearedQuests(SaveData *save);
 extern "C" u8 *NameTables_GetPokemonName(NameTables *obj, u32 i);
 
 #define LOAD_MESSAGES(table, path)                                                                         \
@@ -110,13 +110,13 @@ u32 CRecordScene::func0()
         unk_04 = 0;
         break;
     case 1:
-        ov23_0211CBDC();
+        OpenPage();
         break;
     case 2:
-        ov23_0211CC44(touch);
+        UpdatePage1Input(touch);
         break;
     case 3:
-        ov23_0211CDD4(touch);
+        UpdatePage2Input(touch);
         break;
     case 4:
         switch (s_game->unk_0008) {
@@ -130,7 +130,7 @@ u32 CRecordScene::func0()
     return -1;
 }
 
-void CRecordScene::ov23_0211CBDC()
+void CRecordScene::OpenPage()
 {
     unk_08 = unk_0C;
     unk_04 = 0;
@@ -138,10 +138,10 @@ void CRecordScene::ov23_0211CBDC()
     unk_14 = 0;
     s_game->m_mainFade->Start(3, 10);
     s_game->m_subFade->Start(3, 10);
-    ov23_0211D214();
+    DrawPage();
 }
 
-void CRecordScene::ov23_0211CC44(Point2D touch)
+void CRecordScene::UpdatePage1Input(Point2D touch)
 {
     if ((unk_10 & 2) || (unk_14 & 2)) {
         if (unk_04 != 2) {
@@ -171,7 +171,7 @@ void CRecordScene::ov23_0211CC44(Point2D touch)
     unk_4C->SetAnim(unk_1C, 5);
 }
 
-void CRecordScene::ov23_0211CDD4(Point2D touch)
+void CRecordScene::UpdatePage2Input(Point2D touch)
 {
     PadInput *keys = s_game->unk_0014;
     CTouchPanel *tp = s_game->touchPanel;
@@ -275,26 +275,26 @@ void CRecordScene::func5()
     GXS_DispOn();
 }
 
-void CRecordScene::ov23_0211D214()
+void CRecordScene::DrawPage()
 {
     if (unk_08 == 0) {
-        ov23_0211D270();
-        ov23_0211DEB8();
+        DrawPage1();
+        ShowPage1Buttons();
         return;
     }
     switch (unk_0C) {
     case 2:
-        ov23_0211D270();
-        ov23_0211DEB8();
+        DrawPage1();
+        ShowPage1Buttons();
         break;
     case 3:
-        ov23_0211D870();
-        ov23_0211DEDC();
+        DrawPage2();
+        ShowPage2Buttons();
         break;
     }
 }
 
-void CRecordScene::ov23_0211D270()
+void CRecordScene::DrawPage1()
 {
     {
         int ofs;
@@ -324,11 +324,11 @@ void CRecordScene::ov23_0211D270()
         top->Print(2, upper[2].x, upper[2].y, upper[2].color, m_recodeMes->unk_08[3].unk_04, FALSE, 0);
         top->Print(3, upper[3].x, upper[3].y, upper[3].color, m_recodeMes->unk_08[4].unk_04, FALSE, 0);
         top->Print(4, upper[4].x, upper[4].y, upper[4].color, m_recodeMes->unk_08[5].unk_04, FALSE, 0);
-        ov23_0211E818(7, m_save->m_stepsWalked);
+        FormatNumber(7, m_save->m_stepsWalked);
         top->Print(5, top->GetRemainingWidth(5, (u8 *)unk_24, 0), upper[5].y, upper[5].color, (u8 *)unk_24, FALSE, 0);
-        ov23_0211E818(5, m_save->m_conversations);
+        FormatNumber(5, m_save->m_conversations);
         top->Print(6, top->GetRemainingWidth(6, (u8 *)unk_24, 0), upper[6].y, upper[6].color, (u8 *)unk_24, FALSE, 0);
-        ov23_0211E818(5, m_save->m_targetsChecked);
+        FormatNumber(5, m_save->m_targetsChecked);
         top->Print(7, top->GetRemainingWidth(7, (u8 *)unk_24, 0), upper[7].y, upper[7].color, (u8 *)unk_24, FALSE, 0);
     }
     {
@@ -357,11 +357,11 @@ void CRecordScene::ov23_0211D270()
         text->Print(1, lower[1].x, lower[1].y, lower[1].color, m_recodeMes->unk_08[7].unk_04, FALSE, 0);
         text->Print(2, lower[2].x, lower[2].y, lower[2].color, m_recodeMes->unk_08[8].unk_04, FALSE, 0);
         text->Print(3, lower[3].x, lower[3].y, lower[3].color, m_recodeMes->unk_08[9].unk_04, FALSE, 0);
-        ov23_0211E818(5, m_save->m_saveCount);
+        FormatNumber(5, m_save->m_saveCount);
         text->Print(4, text->GetRemainingWidth(4, (u8 *)unk_24, 0), lower[4].y, lower[4].color, (u8 *)unk_24, FALSE, 0);
-        ov23_0211E818(5, m_save->m_pokemonRides);
+        FormatNumber(5, m_save->m_pokemonRides);
         text->Print(5, text->GetRemainingWidth(5, (u8 *)unk_24, 0), lower[5].y, lower[5].color, (u8 *)unk_24, FALSE, 0);
-        ov23_0211E8A8(sub_020171A0(m_save));
+        FormatQuestCount(SaveData_CountClearedQuests(m_save));
         text->Print(6, text->GetRemainingWidth(6, (u8 *)unk_24, 0), lower[6].y, lower[6].color, (u8 *)unk_24, FALSE, 0);
         int hours = 99;
         int minutes = 59;
@@ -369,12 +369,12 @@ void CRecordScene::ov23_0211D270()
             minutes = m_save->m_playMinutes;
             hours = m_save->m_playHours;
         }
-        ov23_0211E940(hours, minutes);
+        FormatPlayTime(hours, minutes);
         text->Print(7, text->GetRemainingWidth(7, (u8 *)unk_24, 0), lower[7].y, lower[7].color, (u8 *)unk_24, FALSE, 0);
     }
 }
 
-void CRecordScene::ov23_0211D870()
+void CRecordScene::DrawPage2()
 {
     u8 *name;
     u16 nameId = SaveData_GetBestPartner(m_save);
@@ -415,10 +415,10 @@ void CRecordScene::ov23_0211D870()
         top->Print(4, upper[4].x, upper[4].y, upper[4].color, m_recodeMes->unk_08[13].unk_04, FALSE, 0);
         top->Print(5, top->GetRemainingWidth(5, name, 0), upper[5].y, upper[5].color, name, FALSE, 0);
         u16 value = m_save->m_totalCaptures;
-        ov23_0211DF00();
-        ov23_0211E818(4, value);
+        ClearNumberText();
+        FormatNumber(4, value);
         top->Print(6, top->GetRemainingWidth(6, (u8 *)unk_24, 0), upper[6].y, upper[6].color, (u8 *)unk_24, FALSE, 0);
-        ov23_0211E818(4, m_save->m_fledCount);
+        FormatNumber(4, m_save->m_fledCount);
         top->Print(7, top->GetRemainingWidth(7, (u8 *)unk_24, 0), upper[7].y, upper[7].color, (u8 *)unk_24, FALSE, 0);
     }
     {
@@ -447,32 +447,32 @@ void CRecordScene::ov23_0211D870()
         text->Print(1, lower[1].x, lower[1].y, lower[1].color, m_recodeMes->unk_08[15].unk_04, FALSE, 0);
         text->Print(2, lower[2].x, lower[2].y, lower[2].color, m_recodeMes->unk_08[16].unk_04, FALSE, 0);
         text->Print(3, lower[3].x, lower[3].y, lower[3].color, m_recodeMes->unk_08[17].unk_04, FALSE, 0);
-        ov23_0211E818(4, m_save->m_assistsUsed);
+        FormatNumber(4, m_save->m_assistsUsed);
         text->Print(4, text->GetRemainingWidth(4, (u8 *)unk_24, 0), lower[4].y, lower[4].color, (u8 *)unk_24, FALSE, 0);
-        ov23_0211E818(6, m_save->m_captureLineLength * 0x21 / 0x1E0);
+        FormatNumber(6, m_save->m_captureLineLength * 0x21 / 0x1E0);
         text->Print(5, text->GetRemainingWidth(5, (u8 *)unk_24, 0), lower[5].y, lower[5].color, (u8 *)unk_24, FALSE, 0);
-        ov23_0211E818(6, m_save->m_loopCount);
+        FormatNumber(6, m_save->m_loopCount);
         text->Print(6, text->GetRemainingWidth(6, (u8 *)unk_24, 0), lower[6].y, lower[6].color, (u8 *)unk_24, FALSE, 0);
-        ov23_0211E818(7, m_save->m_exp);
+        FormatNumber(7, m_save->m_exp);
         text->Print(7, text->GetRemainingWidth(7, (u8 *)unk_24, 0), lower[7].y, lower[7].color, (u8 *)unk_24, FALSE, 0);
     }
 }
 
-void CRecordScene::ov23_0211DEB8()
+void CRecordScene::ShowPage1Buttons()
 {
     unk_44->unk_14 = TRUE;
     unk_48->unk_14 = FALSE;
     unk_40->unk_14 = FALSE;
 }
 
-void CRecordScene::ov23_0211DEDC()
+void CRecordScene::ShowPage2Buttons()
 {
     unk_44->unk_14 = FALSE;
     unk_48->unk_14 = TRUE;
     unk_40->unk_14 = TRUE;
 }
 
-void CRecordScene::ov23_0211DF00()
+void CRecordScene::ClearNumberText()
 {
     for (int i = 0; i < 0x15; i++) {
         unk_24[i] = 0;
@@ -485,11 +485,11 @@ void CRecordScene::func6()
     unk_08 = 0;
     CGame *game = s_game;
     game->m_textboxData->Init(game->unk_0014, game->touchPanel, &game->unk_14AC->unk_0C, game->m_nameTables, game->unk_0024, game->m_audioEngine, 0x10, 0x4000, 0);
-    ov23_0211E19C();
-    ov23_0211E454();
-    ov23_0211E668();
-    ov23_0211E75C();
-    ov23_0211D214();
+    LoadBG();
+    LoadMessages();
+    LoadSprites();
+    CreateTouchRects();
+    DrawPage();
     s_game->m_mainFade->Start(3, 60);
     s_game->m_subFade->Start(3, 60);
 }
@@ -505,7 +505,7 @@ void CRecordScene::func7()
     s_game->m_textboxData->Reset();
 }
 
-void CRecordScene::ov23_0211E19C()
+void CRecordScene::LoadBG()
 {
     CArchiveGuard *archive = new CArchiveGuard("BGU", "data/menu/mre000_bg_LZ.bin", 1, 1, 0, NULL, 0);
     CBGNCGRFile *ncgr = new CBGNCGRFile("BGU:mre000.NCGR", 1, 0, 0);
@@ -528,13 +528,13 @@ void CRecordScene::ov23_0211E19C()
     delete archive;
 }
 
-void CRecordScene::ov23_0211E454()
+void CRecordScene::LoadMessages()
 {
     LOAD_MESSAGES(m_recodeMes, "/data/message/etc/recode_mes");
     LOAD_MESSAGES(m_menuMes, "data/message/etc/menu_mes");
 }
 
-void CRecordScene::ov23_0211E668()
+void CRecordScene::LoadSprites()
 {
     unk_4C = new OamSpriteSet((GXOamAttr *)&s_game->unk_0024[0], s_game->unk_14A8, FALSE, 0x40);
     unk_4C->Load("data/menu", "mre000_00", 0, 4);
@@ -546,7 +546,7 @@ void CRecordScene::ov23_0211E668()
     unk_20 = unk_4C->unk_24;
 }
 
-void CRecordScene::ov23_0211E75C()
+void CRecordScene::CreateTouchRects()
 {
     unk_50[0] = new CPrimitiveRECT();
     unk_50[0]->SetPos(FX32_CONST(88), FX32_CONST(76));
@@ -559,43 +559,43 @@ void CRecordScene::ov23_0211E75C()
     unk_50[2]->SetSize(FX32_CONST(32), FX32_CONST(32));
 }
 
-void CRecordScene::ov23_0211E818(int digits, u32 value)
+void CRecordScene::FormatNumber(int digits, u32 value)
 {
     MI_CpuFill8(unk_24, 0, sizeof(unk_24));
     for (int i = 0; i < digits; i++) {
-        unk_24[digits - 1 - i] = (int)value / ov23_0211EA18(i, 10) % 10 + '0';
+        unk_24[digits - 1 - i] = (int)value / Pow(i, 10) % 10 + '0';
     }
 }
 
-void CRecordScene::ov23_0211E8A8(int value)
+void CRecordScene::FormatQuestCount(int value)
 {
     MI_CpuFill8(unk_24, 0, sizeof(unk_24));
     for (int i = 0; i < 2; i++) {
-        unk_24[1 - i] = value / ov23_0211EA18(i, 10) % 10 + '0';
+        unk_24[1 - i] = value / Pow(i, 10) % 10 + '0';
     }
     unk_24[2] = '/';
     unk_24[3] = '6';
     unk_24[4] = '0';
 }
 
-void CRecordScene::ov23_0211E940(int hours, int minutes)
+void CRecordScene::FormatPlayTime(int hours, int minutes)
 {
     int i;
     for (i = 0; i < 2; i++) {
-        unk_24[4 - i] = minutes / ov23_0211EA18(i, 10) % 10 + '0';
+        unk_24[4 - i] = minutes / Pow(i, 10) % 10 + '0';
     }
     unk_24[2] = ':';
     for (i = 3; i < 5; i++) {
-        unk_24[4 - i] = hours / ov23_0211EA18(i - 3, 10) % 10 + '0';
+        unk_24[4 - i] = hours / Pow(i - 3, 10) % 10 + '0';
     }
 }
 
-int CRecordScene::ov23_0211EA18(int exp, int base)
+int CRecordScene::Pow(int exp, int base)
 {
     if (exp == 0) {
         return 1;
     }
-    return base * ov23_0211EA18(exp - 1, base);
+    return base * Pow(exp - 1, base);
 }
 
 u32 CRecordScene::getSceneId()

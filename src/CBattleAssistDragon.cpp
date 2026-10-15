@@ -3,16 +3,16 @@
 #include "CameraController.hpp"
 #include "Collision.hpp"
 #include "SaveData.hpp"
+#include "battle/BattleEffectivenessMark.hpp"
 #include "battle/BattleParamTable.hpp"
 #include "battle/CBattleAssist.hpp"
 #include "battle/CBattleAttackEffect.hpp"
 #include "battle/CBattleEnemy.hpp"
 #include "battle/CBattleEnemyData.hpp"
-#include "battle/UnkClass_02128414.hpp"
 #include "fx_utils.hpp"
 
-extern "C" fx32 ov1_0212EE80(int assistType, int type);
-extern "C" u16 ov1_0212EE98(int assistType, int idx);
+extern "C" fx32 GetAssistTypeRate(int assistType, int type);
+extern "C" u16 GetAssistEffectTime(int assistType, int idx);
 
 static const u16 sChargeTimes[] = { 30, 60, 0xFFFF };
 
@@ -35,28 +35,28 @@ int CBattleAssistDragon::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattle
     unk_04--;
     switch (m_state) {
     case 0:
-        ov1_0212F56C(touch);
+        UpdateWait(touch);
         break;
     case 1:
-        ov1_0212F620(touch);
+        UpdateCharge(touch);
         break;
     case 2:
-        ov1_0212F700(touch, disk, enemies);
+        UpdateAttack(touch, disk, enemies);
         break;
     case 3:
-        ov1_0212F9D4();
+        UpdateBurst();
         break;
     }
     for (u8 i = 0; i < 5; i++) {
-        if (m_bursts[i] != NULL && !m_bursts[i]->ov1_0212747C()) {
-            m_bursts[i]->ov1_02127300();
+        if (m_bursts[i] != NULL && !m_bursts[i]->IsAnimActive()) {
+            m_bursts[i]->Terminate();
             m_bursts[i] = NULL;
         }
     }
     return 1;
 }
 
-void CBattleAssistDragon::ov1_0212F56C(CTouchPanel *touch)
+void CBattleAssistDragon::UpdateWait(CTouchPanel *touch)
 {
     if (touch->unk_04 == 0) {
         return;
@@ -70,15 +70,15 @@ void CBattleAssistDragon::ov1_0212F56C(CTouchPanel *touch)
     m_touchArea.pos.x = m_pos.x;
     m_touchArea.pos.y = m_pos.y;
     m_touchArea.r = 0xC000;
-    m_charge = ov1_0212EE3C();
-    m_charge->ov1_021270FC(unk_0C[0]);
-    m_charge->ov1_02127454(0x20, 0);
+    m_charge = GetFreeEffect();
+    m_charge->Start(unk_0C[0]);
+    m_charge->PlayAction(0x20, 0);
     m_charge->m_motion.SetPos(m_pos);
     unk_14->PlaySe(0x13D);
     m_state = 1;
 }
 
-void CBattleAssistDragon::ov1_0212F620(CTouchPanel *touch)
+void CBattleAssistDragon::UpdateCharge(CTouchPanel *touch)
 {
     Point2D pos;
     pos.x = (touch->unk_0A.x - 0x80) << FX32_SHIFT;
@@ -96,10 +96,10 @@ void CBattleAssistDragon::ov1_0212F620(CTouchPanel *touch)
         return;
     }
     m_level++;
-    m_charge->ov1_021273A0(7, m_level);
+    m_charge->SetAnimSequence(7, m_level);
 }
 
-void CBattleAssistDragon::ov1_0212F700(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies)
+void CBattleAssistDragon::UpdateAttack(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies)
 {
     switch (m_frame) {
     case 1:
@@ -107,9 +107,9 @@ void CBattleAssistDragon::ov1_0212F700(CTouchPanel *touch, CBattleDisk *disk, CB
         unk_14->PlaySe(0x13E);
         break;
     case 0x3C: {
-        m_dragon = ov1_0212EE3C();
-        m_dragon->ov1_021270FC(unk_0C[0]);
-        m_dragon->ov1_02127454(0x20, 1);
+        m_dragon = GetFreeEffect();
+        m_dragon->Start(unk_0C[0]);
+        m_dragon->PlayAction(0x20, 1);
         Point2D start = m_pos;
         if (m_pos.x >= 0) {
             start.x -= 0x80000;
@@ -125,9 +125,9 @@ void CBattleAssistDragon::ov1_0212F700(CTouchPanel *touch, CBattleDisk *disk, CB
         break;
     }
     case 0x78:
-        m_dragon->ov1_02127300();
+        m_dragon->Terminate();
         unk_14->PlaySe(0x13F);
-        m_charge->ov1_02127300();
+        m_charge->Terminate();
         m_charge = NULL;
         m_hitArea.pos.x = m_pos.x;
         m_hitArea.pos.y = m_pos.y;
@@ -135,16 +135,16 @@ void CBattleAssistDragon::ov1_0212F700(CTouchPanel *touch, CBattleDisk *disk, CB
         for (u8 i = 0; i < 8; i++) {
             if (enemies[i] != NULL && enemies[i]->IsAlive() && enemies[i]->IsTargetable()
                 && CircleHitCircle(m_hitArea, enemies[i]->m_sphere.m_circle, NULL)) {
-                u16 power = unk_10->ov1_0212F32C(14, MAIN_BSS_020B26A0.m_stylerLevel, m_level);
-                fx32 rate = ov1_0212EE80(vfunc_10(), enemies[i]->unk_184->unk_18->unk_03);
-                enemies[i]->ov1_02126310((u16)(FX32_MUL(rate, power << FX32_SHIFT) >> FX32_SHIFT), TRUE);
-                enemies[i]->ov1_021263A4(2, ov1_0212EE98(vfunc_10(), m_level));
+                u16 power = unk_10->GetAssistPower(14, MAIN_BSS_020B26A0.m_stylerLevel, m_level);
+                fx32 rate = GetAssistTypeRate(vfunc_10(), enemies[i]->unk_184->unk_18->unk_03);
+                enemies[i]->TakeDamage((u16)(FX32_MUL(rate, power << FX32_SHIFT) >> FX32_SHIFT), TRUE);
+                enemies[i]->SetStatus(2, GetAssistEffectTime(vfunc_10(), m_level));
                 if (rate == 0x1000) {
-                    enemies[i]->unk_1A8->ov1_02128598(0);
+                    enemies[i]->unk_1A8->Show(0);
                 } else if (rate > 0x1000) {
-                    enemies[i]->unk_1A8->ov1_02128598(1);
+                    enemies[i]->unk_1A8->Show(1);
                 } else if (rate < 0x1000) {
-                    enemies[i]->unk_1A8->ov1_02128598(2);
+                    enemies[i]->unk_1A8->Show(2);
                 }
             }
         }
@@ -160,9 +160,9 @@ int CBattleAssistDragon::vfunc_10()
     return 14;
 }
 
-void CBattleAssistDragon::ov1_0212F9D4()
+void CBattleAssistDragon::UpdateBurst()
 {
-    if (ov1_0212FA80(m_pos.x, m_pos.y, m_level, m_burstFrame) == TRUE) {
+    if (SpawnBursts(m_pos.x, m_pos.y, m_level, m_burstFrame) == TRUE) {
         unk_44->StopShake();
         m_state = 0;
     }
@@ -172,7 +172,7 @@ void CBattleAssistDragon::ov1_0212F9D4()
 void CBattleAssistDragon::vfunc_0C()
 {
     if (m_state == 1) {
-        m_charge->ov1_02127300();
+        m_charge->Terminate();
         m_charge = NULL;
         m_state = 0;
     }
@@ -181,14 +181,14 @@ void CBattleAssistDragon::vfunc_0C()
     unk_14->StopSe(0x13F);
 }
 
-BOOL CBattleAssistDragon::ov1_0212FA80(fx32 x, fx32 y, u8 level, u8 frame)
+BOOL CBattleAssistDragon::SpawnBursts(fx32 x, fx32 y, u8 level, u8 frame)
 {
     BOOL done = FALSE;
     switch (level) {
     case 0:
         switch (frame) {
         case 1:
-            m_bursts[0] = ov1_0212FBD0(x, y);
+            m_bursts[0] = SpawnBurst(x, y);
             break;
         case 8:
             done = TRUE;
@@ -198,13 +198,13 @@ BOOL CBattleAssistDragon::ov1_0212FA80(fx32 x, fx32 y, u8 level, u8 frame)
     case 1:
         switch (frame) {
         case 1:
-            m_bursts[0] = ov1_0212FBD0(x, y);
+            m_bursts[0] = SpawnBurst(x, y);
             break;
         case 8:
-            m_bursts[1] = ov1_0212FBD0(x - 0x18000, y + 0xC000);
+            m_bursts[1] = SpawnBurst(x - 0x18000, y + 0xC000);
             break;
         case 0x10:
-            m_bursts[2] = ov1_0212FBD0(x + 0x10000, y - 0x12000);
+            m_bursts[2] = SpawnBurst(x + 0x10000, y - 0x12000);
             done = TRUE;
             break;
         }
@@ -212,19 +212,19 @@ BOOL CBattleAssistDragon::ov1_0212FA80(fx32 x, fx32 y, u8 level, u8 frame)
     case 2:
         switch (frame) {
         case 1:
-            m_bursts[0] = ov1_0212FBD0(x, y);
+            m_bursts[0] = SpawnBurst(x, y);
             break;
         case 8:
-            m_bursts[1] = ov1_0212FBD0(x - 0x18000, y + 0xC000);
+            m_bursts[1] = SpawnBurst(x - 0x18000, y + 0xC000);
             break;
         case 0x10:
-            m_bursts[2] = ov1_0212FBD0(x + 0x10000, y - 0x12000);
+            m_bursts[2] = SpawnBurst(x + 0x10000, y - 0x12000);
             break;
         case 0x18:
-            m_bursts[3] = ov1_0212FBD0(x - 0xC000, y - 0x10000);
+            m_bursts[3] = SpawnBurst(x - 0xC000, y - 0x10000);
             break;
         case 0x20:
-            m_bursts[4] = ov1_0212FBD0(x + 0x1C000, y + 0x16000);
+            m_bursts[4] = SpawnBurst(x + 0x1C000, y + 0x16000);
             done = TRUE;
             break;
         }
@@ -233,12 +233,12 @@ BOOL CBattleAssistDragon::ov1_0212FA80(fx32 x, fx32 y, u8 level, u8 frame)
     return done;
 }
 
-CBattleAttackEffect *CBattleAssistDragon::ov1_0212FBD0(fx32 x, fx32 y)
+CBattleAttackEffect *CBattleAssistDragon::SpawnBurst(fx32 x, fx32 y)
 {
-    CBattleAttackEffect *effect = ov1_0212EE3C();
+    CBattleAttackEffect *effect = GetFreeEffect();
     if (effect != NULL) {
-        effect->ov1_021270FC(unk_0C[0]);
-        effect->ov1_02127454(0x20, 2);
+        effect->Start(unk_0C[0]);
+        effect->PlayAction(0x20, 2);
         effect->m_motion.SetX(x);
         effect->m_motion.SetY(y);
     }

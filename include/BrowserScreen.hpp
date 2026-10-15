@@ -3,6 +3,7 @@
 
 #include <nitro.h>
 
+#include "BrowserEntryList.hpp"
 #include "BrowserSubScreen.hpp"
 #include "CGame.hpp"
 #include "Collision.hpp"
@@ -11,12 +12,11 @@
 #include "SubScreenButton.hpp"
 #include "SubScreenPokemonInfo.hpp"
 #include "TextPrinter.hpp"
-#include "UnkClass_021226C0.hpp"
 #include "common.hpp"
 #include "scene/CBrowserMenu.hpp"
 
 // Defined in ov21: a sprite of the browser's screen
-struct UnkStruct_0211CFF4 {
+struct BrowserSprite {
     void Init(OamSpriteSet *anim, u8 no, int x, int y, int priority);
 
     void SetAnim(u8 no)
@@ -33,11 +33,11 @@ struct UnkStruct_0211CFF4 {
     int unk_10; // y
 };
 
-STATIC_SIZE_ASSERT(UnkStruct_0211CFF4, 0x14);
+STATIC_SIZE_ASSERT(BrowserSprite, 0x14);
 
 // Defined in ov21: a touch button of the browser's screen
-struct UnkStruct_0211D040 {
-    UnkStruct_0211D040()
+struct BrowserButton {
+    BrowserButton()
     {
         unk_00 = NULL;
         unk_04 = 0;
@@ -45,13 +45,13 @@ struct UnkStruct_0211D040 {
         unk_10 = 1;
     }
 
-    void Init(UnkStruct_0211CFF4 *sprite, s16 width, s16 height, s16 offsetX, s16 offsetY, u8 type);
+    void Init(BrowserSprite *sprite, s16 width, s16 height, s16 offsetX, s16 offsetY, u8 type);
     BOOL IsTouched();
-    int ov21_0211D0A8();
+    int IsPressed();
     void Press(u8 timer);
     void Update();
 
-    UnkStruct_0211CFF4 *unk_00;
+    BrowserSprite *unk_00;
     u8 unk_04; // timer
     u8 unk_05; // anim no
     u8 unk_06; // pressed anim no
@@ -62,10 +62,10 @@ struct UnkStruct_0211D040 {
     int unk_10;
 };
 
-STATIC_SIZE_ASSERT(UnkStruct_0211D040, 0x14);
+STATIC_SIZE_ASSERT(BrowserButton, 0x14);
 
 // A message file copied into memory
-struct UnkStruct_0211DAB4 {
+struct MessageBank {
     struct Entry {
         u32 size;
         u8 *data;
@@ -82,41 +82,41 @@ public:
     BrowserScreen(CGame *game);
     ~BrowserScreen();
 
-    void ov21_0211D824();
-    void ov21_0211D8D4();
-    void ov21_0211D950();
-    UnkStruct_0211DAB4 *ov21_0211DAB4(const char *path);
-    void ov21_0211DBA0();
-    void ov21_0211E14C();
-    void ov21_0211E600();
-    void ov21_0211E7D8();
-    void ov21_0211E8B4();
-    void ov21_0211ED70();
-    void ov21_0211F1D4();
-    void ov21_0211F260(int x);
-    void ov21_0211F394(u32 mode, int arg, BOOL keep);
-    BOOL ov21_0211F440(int mode, BOOL arg1);
-    void ov21_0211F730(int arg0);
-    void ov21_0211F8E4();
-    void ov21_0211F9E0(BOOL arg0);
-    void ov21_0211FAE8(int row, int id, int no);
-    void ov21_0211FD9C(int mode);
-    void ov21_0211FF20();
-    u16 ov21_0211FFDC(int index);
-    int ov21_02120000(int index);
-    void ov21_0212004C();
-    void ov21_021203A8();
+    void Init();
+    void InitSubScreen();
+    void LoadTextboxFrame();
+    MessageBank *LoadMessageBank(const char *path);
+    void InitText();
+    void InitGraphics();
+    void InitButtons();
+    void InitMenus();
+    void UpdateTouch();
+    void UpdateKeys();
+    void UpdateButtons();
+    void SetSlideX(int x);
+    void ApplyFilter(u32 mode, int arg, BOOL keep);
+    BOOL SwitchPage(int mode, BOOL arg1);
+    void SelectValue(int arg0);
+    void ToggleAreaView();
+    void RefreshSubScreen(BOOL arg0);
+    void PrintRow(int row, int id, int no);
+    void RefreshRows(int mode);
+    void PrintPendingRow();
+    u16 GetEntryId(int index);
+    int GetDexNo(int index);
+    void Update();
+    void Draw();
     void ov21_02120490();
     void ov21_021204B0();
-    void ov21_0211F584(int category);
-    void ov21_0211FF80(int msg);
+    void SetCategory(int category);
+    void PrintHelp(int msg);
 
 public:
     CGame *unk_000;
     SubScreenPokemonInfo *unk_004;
     BrowserSubScreen *unk_008;
     SubScreenButton *unk_00C;
-    UnkClass_021226C0 *unk_010;
+    BrowserEntryList *unk_010;
     CBrowserMenuManagerPokemon *unk_014;
     CBrowserMenuManagerType *unk_018;
     CBrowserMenuManagerIcon *unk_01C;
@@ -146,13 +146,13 @@ public:
     OamSpriteSet *unk_080;
     OamSpriteSet *unk_084[3];
     u32 unk_090;
-    UnkStruct_0211CFF4 unk_094[11];
-    UnkStruct_0211D040 unk_170[11];
+    BrowserSprite unk_094[11];
+    BrowserButton unk_170[11];
     u32 unk_24C;
-    UnkStruct_0211DAB4 *unk_250;
-    UnkStruct_0211DAB4 *unk_254;
-    UnkStruct_0211DAB4 *unk_258;
-    UnkStruct_0211DAB4 *unk_25C;
+    MessageBank *unk_250;
+    MessageBank *unk_254;
+    MessageBank *unk_258;
+    MessageBank *unk_25C;
 };
 
 STATIC_SIZE_ASSERT(BrowserScreen, 0x260);

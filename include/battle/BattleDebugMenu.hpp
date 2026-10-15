@@ -13,11 +13,11 @@ class BattleDebugMenu {
 public:
     BattleDebugMenu(CGame *game);
     ~BattleDebugMenu();
-    void ov1_02135C2C();
-    void ov1_02135C58();
-    int ov1_02135C68();
-    int ov1_02135C78();
-    int ov1_02135C8C();
+    void ResetResult();
+    void Update();
+    int IsActive();
+    int GetResultId();
+    int GetResultValue();
 
 public:
     CGame *m_game;

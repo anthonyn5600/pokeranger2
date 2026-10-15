@@ -4,10 +4,10 @@
 #include <nnsys.h>
 
 #include "CGame.hpp"
+#include "FieldDataRecords.hpp"
 #include "NameTables.hpp"
 #include "SaveData.hpp"
 #include "SubTextPrinter.hpp"
-#include "UnkClass_02041D80.hpp"
 #include "common.hpp"
 #include "file/CBinaryFileMes.hpp"
 

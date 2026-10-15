@@ -18,13 +18,13 @@ class CFieldEffect {
 public:
     CFieldEffect()
     {
-        ov0_021421D0();
+        Reset();
     }
     virtual ~CFieldEffect()
     {
-        ov0_02142380();
+        Finalize();
     }
-    virtual void ov0_021423A4()
+    virtual void Destroy()
     {
         delete this;
     }
@@ -36,51 +36,51 @@ public:
     {
         return 1;
     }
-    virtual int ov0_021421D0();
-    virtual int ov0_02142380()
+    virtual int Reset();
+    virtual int Finalize()
     {
         return TRUE;
     }
-    virtual BOOL ov0_021421F0(int inTime, int holdTime, int outTime);
-    virtual int ov0_02142240(int outTime);
-    virtual int ov0_02142264(int step);
-    virtual int ov0_02142344(Camera2D *camera);
-    virtual int ov0_0214239C(int layer)
+    virtual BOOL Start(int inTime, int holdTime, int outTime);
+    virtual int Stop(int outTime);
+    virtual int Update(int step);
+    virtual int Render(Camera2D *camera);
+    virtual int GetDrawCount(int layer)
     {
         return 0;
     }
-    virtual void ov0_02142398(DrawObjectList *renderLists)
+    virtual void AddToRenderLists(DrawObjectList *renderLists)
     {
     }
-    virtual void ov0_0214234C(Point2D pos, int arg1, int arg2, int arg3, int arg4);
+    virtual void StartAt(Point2D pos, int arg1, int arg2, int arg3, int arg4);
     virtual int SetParam(int param, int value)
     {
         return 0;
     }
-    virtual int sub_02033244(int arg0, int arg1, int arg2)
+    virtual int SetParamArray(int arg0, int arg1, int arg2)
     {
         return 0;
     }
     virtual void SetColor(u16 color)
     {
     }
-    virtual void sub_0203331C(const Point2D &pos, int arg1)
+    virtual void MoveTo(const Point2D &pos, int arg1)
     {
     }
-    virtual void sub_02033388(const Point2D &pos, int arg1)
+    virtual void ScaleTo(const Point2D &pos, int arg1)
     {
     }
     virtual void FadeTo(int arg0, int arg1)
     {
     }
-    virtual void sub_0203365C(int arg0)
+    virtual void SetSe(int arg0)
     {
     }
-    virtual int ov0_02142390(void *buf, void *end)
+    virtual int SaveState(void *buf, void *end)
     {
         return 0;
     }
-    virtual BOOL ov0_02142388(const void *data)
+    virtual BOOL RestoreState(const void *data)
     {
         return 0;
     }

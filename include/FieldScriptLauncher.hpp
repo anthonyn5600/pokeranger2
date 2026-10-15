@@ -14,15 +14,15 @@ public:
     FieldScriptLauncher(CGame *game);
     ~FieldScriptLauncher();
 
-    void ov0_0213F960();
-    void ov0_0213F990();
-    void ov0_0213F9B0(BOOL startPending);
-    BOOL ov0_0213FB0C(const char *label, int arg, int fade);
-    BOOL ov0_0213FC24(CFieldActor *actor, const char *label, int fade);
-    void ov0_0213FD60(const char *label, int arg, int fade);
-    BOOL ov0_0213FDFC(CFieldActor *actor, const char *label, int fade);
-    BOOL ov0_0213FEEC();
-    BOOL ov0_0213FF2C();
+    void Reset();
+    void ClearPending();
+    void Update(BOOL startPending);
+    BOOL LaunchScript(const char *label, int arg, int fade);
+    BOOL LaunchActorScript(CFieldActor *actor, const char *label, int fade);
+    void RunScript(const char *label, int arg, int fade);
+    BOOL RunActorScript(CFieldActor *actor, const char *label, int fade);
+    BOOL IsBusy();
+    BOOL IsRunning();
 
 public:
     CGame *m_game;
@@ -31,7 +31,7 @@ public:
     int unk_28;
     CFieldActor *m_actor;
     BOOL unk_30;
-    int m_pendingKind; // 0 none, 1 global (ov0_0213FB0C), 2 actor (ov0_0213FC24)
+    int m_pendingKind; // 0 none, 1 global (LaunchScript), 2 actor (LaunchActorScript)
     char m_pendingLabel[0x20];
     int m_pendingArg;
     CFieldActor *m_pendingActor;

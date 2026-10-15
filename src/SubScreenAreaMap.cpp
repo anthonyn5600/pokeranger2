@@ -4,11 +4,11 @@
 
 #include "BGLayer.hpp"
 #include "CGame.hpp"
+#include "FieldDataRecords.hpp"
 #include "MessageTable.hpp"
 #include "OamSprite.hpp"
 #include "OamSpriteSet.hpp"
 #include "SubTextPrinter.hpp"
-#include "UnkClass_02041D80.hpp"
 #include "common.hpp"
 
 extern FieldData *MAIN_BSS_0210CA6C;

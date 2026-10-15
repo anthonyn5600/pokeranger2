@@ -7,8 +7,8 @@ BattlePokemonTable::BattlePokemonTable(u32 arg0)
 {
     ParamTableFile *reader = new ParamTableFile(arg0);
     reader->Load("data/param/BattlePokemon.bin");
-    m_count = reader->sub_0200D390();
-    m_entries = new UnkStruct_0212DFEC[m_count];
+    m_count = reader->GetRowCount();
+    m_entries = new BattlePokemonParam[m_count];
     u32 value = 0;
     for (int i = 0; i < m_count; i++) {
         reader->GetValue(i, 1, &value);
@@ -65,7 +65,7 @@ BattlePokemonTable::~BattlePokemonTable()
     }
 }
 
-UnkStruct_0212DFEC *BattlePokemonTable::ov1_0212DFEC(u16 id)
+BattlePokemonParam *BattlePokemonTable::GetEntry(u16 id)
 {
     if (id > m_count) {
         return NULL;
@@ -77,8 +77,8 @@ BattleEffectTable::BattleEffectTable(u32 arg0)
 {
     ParamTableFile *reader = new ParamTableFile(arg0);
     reader->Load("data/param/BattleEffect.bin");
-    m_count = reader->sub_0200D390();
-    m_entries = new UnkStruct_0212E008[m_count];
+    m_count = reader->GetRowCount();
+    m_entries = new BattleEffectParam[m_count];
     u32 value = 0;
     for (int i = 0; i < m_count; i++) {
         m_entries[i].unk_00 = i;

@@ -17,7 +17,7 @@ public:
     u32 RenderWithTexture(Camera2D *camera);
     u32 RenderWithoutTexture(Camera2D *camera);
 
-    static void sub_02003C00(Point2D *arg0, CPrimitiveRECT *arg1);
+    static void GetPos(Point2D *arg0, CPrimitiveRECT *arg1);
 
     inline void SetPos(Point2D pos)
     {

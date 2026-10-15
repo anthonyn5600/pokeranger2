@@ -31,7 +31,7 @@ u32 CQuestListScene::func0()
                 unk_004 = next;
                 if (unk_008[next] != NULL) {
                     if (next == 1) {
-                        unk_374.unk_0C = unk_010.ov27_0211E204();
+                        unk_374.unk_0C = unk_010.GetSelectedQuestId();
                     }
                     CGame *game = CGame::GetInstance();
                     unk_008[unk_004]->func2();
@@ -40,7 +40,7 @@ u32 CQuestListScene::func0()
             }
         }
     }
-    unk_384.ov27_021206B4();
+    unk_384.Update();
     return ret;
 }
 
@@ -50,7 +50,7 @@ void CQuestListScene::func1()
     if (screen != NULL) {
         screen->func5();
     }
-    unk_384.ov27_02120748();
+    unk_384.Render();
 }
 
 void CQuestListScene::func2()
@@ -59,7 +59,7 @@ void CQuestListScene::func2()
     if (screen != NULL) {
         screen->func6();
     }
-    unk_384.ov27_02120754();
+    unk_384.OnVBlank();
 }
 
 void CQuestListScene::func5()
@@ -96,7 +96,7 @@ void CQuestListScene::func5()
     GX_SetDispSelect(GX_DISP_SELECT_MAIN_SUB);
     GX_SetVisiblePlane(GX_PLANEMASK_NONE);
     GXS_SetVisiblePlane(GX_PLANEMASK_NONE);
-    unk_010.ov27_0211D0E0();
+    unk_010.SaveSubDisplay();
     GX_DispOn();
     GXS_DispOn();
     CGame::GetInstance()->unk_146C.SetFps(60);
@@ -114,7 +114,7 @@ void CQuestListScene::func6()
     }
     unk_008[unk_004]->func2();
     unk_008[unk_004]->func3(-1);
-    unk_384.ov27_02120CC4(unk_010.unk_338 == 0 ? TRUE : FALSE);
+    unk_384.Setup(unk_010.unk_338 == 0 ? TRUE : FALSE);
     game->m_mainFade->Start(3, 30);
 }
 
@@ -126,7 +126,7 @@ void CQuestListScene::func7()
             screen->func1();
         }
     }
-    unk_010.ov27_0211D150();
+    unk_010.RestoreSubDisplay();
     GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);
     CGame::GetInstance()->InitVramManagers(0x80000, 0, 0x4000);
 }

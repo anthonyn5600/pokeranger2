@@ -10,7 +10,7 @@
 
 extern FieldData *MAIN_BSS_0210CA6C;
 
-static UnkStruct_021213AC sQuestActors[61] = {
+static QuestGiverActor sQuestActors[61] = {
     { 0x39, 0x04 },
     { 0x2B, 0x04 },
     { 0x2E, 0x04 },
@@ -77,15 +77,15 @@ static UnkStruct_021213AC sQuestActors[61] = {
 QuestListMap::QuestListMap(CGame *game)
 {
     unk_38 = game;
-    ov27_0211FBD0();
+    Init();
 }
 
 QuestListMap::~QuestListMap()
 {
-    ov27_0211FD70();
+    Release();
 }
 
-void QuestListMap::ov27_0211FBD0()
+void QuestListMap::Init()
 {
     unk_00 = 0;
     unk_14 = NULL;
@@ -99,7 +99,7 @@ void QuestListMap::ov27_0211FBD0()
     unk_08 = new RegionMap(unk_38);
 }
 
-BOOL QuestListMap::ov27_0211FC2C()
+BOOL QuestListMap::Update()
 {
     if (unk_14 != NULL) {
         unk_14->Update();
@@ -116,15 +116,15 @@ BOOL QuestListMap::ov27_0211FC2C()
     case 6:
         break;
     case 2:
-        if (ov27_02120564()) {
+        if (IsFading()) {
             break;
         }
         unk_00 = 1;
     case 1:
-        ov27_0212020C();
+        UpdateInput();
         break;
     case 3:
-        if (ov27_02120564()) {
+        if (IsFading()) {
             break;
         }
         unk_00 = 5;
@@ -135,7 +135,7 @@ BOOL QuestListMap::ov27_0211FC2C()
     return TRUE;
 }
 
-void QuestListMap::ov27_0211FCE4()
+void QuestListMap::Render()
 {
     if (unk_08 != NULL) {
         unk_08->Render();
@@ -146,25 +146,25 @@ void QuestListMap::ov27_0211FCE4()
     case 3:
     case 4:
     case 6:
-        ov27_0211FE2C();
+        WriteOam();
         break;
     }
 }
 
-void QuestListMap::ov27_0211FD34()
+void QuestListMap::OnVBlank()
 {
     if (unk_08 != NULL) {
         unk_08->sub_0202A5F8();
     }
-    ov27_0212033C();
+    DrawPlaceName();
 }
 
-void QuestListMap::ov27_0211FD58()
+void QuestListMap::LoadPalette()
 {
     unk_38->unk_1498->LoadPalette();
 }
 
-void QuestListMap::ov27_0211FD70()
+void QuestListMap::Release()
 {
     unk_38->unk_1498->FreeWindows();
     SAFE_DELETE(unk_10);
@@ -173,7 +173,7 @@ void QuestListMap::ov27_0211FD70()
     SAFE_DELETE(unk_08);
 }
 
-void QuestListMap::ov27_0211FE2C()
+void QuestListMap::WriteOam()
 {
     if (unk_14 != NULL) {
         unk_14->WriteOam();
@@ -183,9 +183,9 @@ void QuestListMap::ov27_0211FE2C()
     }
 }
 
-void QuestListMap::ov27_0211FE58()
+void QuestListMap::Load()
 {
-    ov27_02120128();
+    SetupBG();
 
     int charNo = 0;
     int paletteSlot = 2;
@@ -210,9 +210,9 @@ void QuestListMap::ov27_0211FE58()
     unk_10 = new MessageTable("/data/message/etc/place_name");
 }
 
-void QuestListMap::ov27_02120068()
+void QuestListMap::LoadToVram()
 {
-    ov27_02120128();
+    SetupBG();
     if (unk_08 != NULL) {
         unk_08->LoadToVram(FALSE);
     }
@@ -222,14 +222,14 @@ void QuestListMap::ov27_02120068()
     if (unk_18 != NULL) {
         unk_18->CopyToVram();
     }
-    ov27_021204B4();
+    SelectCurrentArea();
     unk_38->unk_1498->FreeWindows();
     unk_38->unk_1498->SetupBG();
     unk_38->unk_1498->AllocWindows(1);
     unk_38->unk_1498->InitWindow(0, 0x10, 2, 1, 0, 0xD, 0, 2);
 }
 
-void QuestListMap::ov27_02120128()
+void QuestListMap::SetupBG()
 {
     GXS_SetVisiblePlane(GX_PLANEMASK_BG0 | GX_PLANEMASK_BG2 | GX_PLANEMASK_OBJ);
     GXS_SetOBJVRamModeChar(GX_OBJVRAMMODE_CHAR_1D_32K);
@@ -243,33 +243,33 @@ void QuestListMap::ov27_02120128()
     G2S_SetBG2Priority(3);
 }
 
-void QuestListMap::ov27_021201AC(u16 idx)
+void QuestListMap::Start(u16 idx)
 {
     unk_00 = 2;
-    ov27_021201DC();
-    ov27_02120410(idx);
-    ov27_02120514();
+    Setup();
+    ShowQuestPlace(idx);
+    FadeIn();
 }
 
-BOOL QuestListMap::ov27_021201DC()
+BOOL QuestListMap::Setup()
 {
-    ov27_02120068();
-    ov27_0211FD58();
+    LoadToVram();
+    LoadPalette();
     unk_38->unk_146C.SetFps(60);
     return TRUE;
 }
 
-void QuestListMap::ov27_0212020C()
+void QuestListMap::UpdateInput()
 {
     u32 cancel = (u16)(unk_38->unk_0014->unk_0002 & PAD_BUTTON_B);
     BOOL touched = unk_20[2]->GetTouchTrigger() ? TRUE : FALSE;
     if (touched | cancel) {
-        ov27_021202F8();
+        Close();
         return;
     }
     if (unk_20[0]->unk_14 != 0 && unk_20[0]->GetTouchTrigger()) {
         unk_38->m_audioEngine->PlaySe(0xFA);
-        ov27_02120490();
+        SelectQuestPlace();
         return;
     }
     s16 kind;
@@ -278,29 +278,29 @@ void QuestListMap::ov27_0212020C()
     switch ((u16)kind) {
     case 1:
         unk_38->m_audioEngine->PlaySe(0xFA);
-        ov27_021204B4();
+        SelectCurrentArea();
         break;
     case 6:
         unk_38->m_audioEngine->PlaySe(0xFA);
-        ov27_021204E0(id);
+        SelectArea(id);
         break;
     }
 }
 
-void QuestListMap::ov27_021202F8()
+void QuestListMap::Close()
 {
     unk_38->m_audioEngine->PlaySe(0x103);
     unk_00 = 3;
-    ov27_0212053C();
+    FadeOut();
 }
 
-void QuestListMap::ov27_0212032C(u16 id)
+void QuestListMap::RequestPlaceName(u16 id)
 {
     unk_34 = id;
     unk_04 = 1;
 }
 
-void QuestListMap::ov27_0212033C()
+void QuestListMap::DrawPlaceName()
 {
     if (!unk_04) {
         return;
@@ -320,14 +320,14 @@ void QuestListMap::ov27_0212033C()
     text->Print(0, 0, 3, 3, (u8 *)unk_10->GetString(idx), TRUE, 0);
 }
 
-void QuestListMap::ov27_02120410(u16 idx)
+void QuestListMap::ShowQuestPlace(u16 idx)
 {
     unk_36 = sQuestActors[idx].placeId;
     unk_20[0]->unk_14 = TRUE;
-    ov27_02120444(0, unk_36);
+    SetSpriteToArea(0, unk_36);
 }
 
-void QuestListMap::ov27_02120444(int idx, u16 id)
+void QuestListMap::SetSpriteToArea(int idx, u16 id)
 {
     if (unk_08 == NULL) {
         return;
@@ -338,45 +338,45 @@ void QuestListMap::ov27_02120444(int idx, u16 id)
     unk_20[idx]->SetPos(x, y);
 }
 
-void QuestListMap::ov27_02120490()
+void QuestListMap::SelectQuestPlace()
 {
-    ov27_02120504(unk_36, 2);
-    ov27_0212032C(unk_36);
+    SetAreaMarker(unk_36, 2);
+    RequestPlaceName(unk_36);
 }
 
-void QuestListMap::ov27_021204B4()
+void QuestListMap::SelectCurrentArea()
 {
     u16 id = unk_08->unk_56;
-    ov27_02120504(id, 2);
-    ov27_0212032C(id);
+    SetAreaMarker(id, 2);
+    RequestPlaceName(id);
 }
 
-void QuestListMap::ov27_021204E0(u16 id)
+void QuestListMap::SelectArea(u16 id)
 {
-    ov27_02120504(id, 3);
-    ov27_0212032C(id);
+    SetAreaMarker(id, 3);
+    RequestPlaceName(id);
 }
 
-void QuestListMap::ov27_02120504(u16 id, int mode)
+void QuestListMap::SetAreaMarker(u16 id, int mode)
 {
-    unk_08->sub_0202B50C(id, mode);
+    unk_08->SetAreaMarker(id, mode);
 }
 
-void QuestListMap::ov27_02120514()
+void QuestListMap::FadeIn()
 {
     if (unk_38 != NULL) {
         unk_38->m_subFade->Start(3, 15);
     }
 }
 
-void QuestListMap::ov27_0212053C()
+void QuestListMap::FadeOut()
 {
     if (unk_38 != NULL) {
         unk_38->m_subFade->Start(4, 15);
     }
 }
 
-BOOL QuestListMap::ov27_02120564()
+BOOL QuestListMap::IsFading()
 {
     if (unk_38->m_subFade->IsActive() || unk_38->m_subFade->IsActive()) {
         return TRUE;

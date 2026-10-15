@@ -14,18 +14,18 @@ struct CommCmdTable {
 
 // RangerNetConnect.cpp, RangerNetCommCmd.cpp
 void ov11_02128634(u8 v);
-u32 ov11_02128654();
-void *ov11_0212865C();
+u32 Connect_GetRecvBufferSize();
+void *Connect_GetRecvBuffer();
 void ov11_02128670(int i);
-void ov11_0212CA60(const CommCmdTable *cmdTable, int count, void *arg);
-int ov11_0212CCF0();
+void CommCmd_Init(const CommCmdTable *cmdTable, int count, void *arg);
+int CommPacketSizeOf_Nothing();
 
 static const CommCmdTable sSessionCmds[] = {
-    { (CommCmdFunc)ov11_02128634, (CommCmdSizeFunc)ov11_02128654, (CommCmdBufferFunc)ov11_0212865C },
-    { (CommCmdFunc)ov11_02128670, ov11_0212CCF0, NULL },
+    { (CommCmdFunc)ov11_02128634, (CommCmdSizeFunc)Connect_GetRecvBufferSize, (CommCmdBufferFunc)Connect_GetRecvBuffer },
+    { (CommCmdFunc)ov11_02128670, CommPacketSizeOf_Nothing, NULL },
 };
 
-void ov11_0212CDF4(int arg)
+void SessionCmd_Init(int arg)
 {
-    ov11_0212CA60(sSessionCmds, 2, (void *)arg);
+    CommCmd_Init(sSessionCmds, 2, (void *)arg);
 }

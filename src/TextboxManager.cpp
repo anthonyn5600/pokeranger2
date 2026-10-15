@@ -8,7 +8,7 @@
 #include "CTouchPanel.hpp"
 #include "PadInput.hpp"
 #include "SaveData.hpp"
-#include "UnkUnion_020843E0.hpp"
+#include "TextColorTable.hpp"
 #include "file/CArchiveGuard.hpp"
 #include "file/CBGNCGRFile.hpp"
 #include "file/CBinaryFileMes.hpp"
@@ -23,7 +23,7 @@ u8 *NameTables_GetNpcName(void *, u32);
 u8 *NameTables_GetFieldMoveName(void *, u32);
 
 extern u8 DAT_020843c8;
-extern UnkUnion_020843E0 DAT_020843e0;
+extern TextColorTable DAT_020843e0;
 extern char s_BGT_0208a848;
 extern char s_data_interface_i059_LZ_bin_0208a84c;
 extern char s_BGT_i059_00_NCGR_0208a868;
@@ -285,7 +285,7 @@ BOOL TextboxManager::ExecControlCode(u32 arg0)
     case 1: {
         ++unk_07C;
 
-        UnkUnion_020843E0 v0 = DAT_020843e0;
+        TextColorTable v0 = DAT_020843e0;
         unk_0AC = v0.raw[*unk_07C & 0xF];
 
         ++unk_07C;

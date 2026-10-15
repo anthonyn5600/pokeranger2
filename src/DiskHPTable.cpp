@@ -15,7 +15,7 @@ DiskHPTable::DiskHPTable(int arg0)
 {
     ParamTableFile *table = new ParamTableFile(arg0);
     table->Load("data/param/DiskHP.bin");
-    m_count = table->sub_0200D390();
+    m_count = table->GetRowCount();
     m_maxEnergy = new u8[m_count];
     m_power = new u16[m_count];
     m_exp = new u16[m_count];
@@ -184,7 +184,7 @@ int DownloadMissionData_Load(DownloadMissionData *obj, u16 list)
 {
     switch (obj->m_step) {
     case 0:
-        obj->m_saveManager->sub_02028408(list + 2);
+        obj->m_saveManager->CheckHeader(list + 2);
         obj->m_step = 1;
         break;
     case 1:

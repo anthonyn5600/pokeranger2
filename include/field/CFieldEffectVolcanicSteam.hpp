@@ -48,8 +48,8 @@ public:
     {
         return 25;
     }
-    virtual int ov0_02142344(Camera2D *camera);
-    virtual void ov0_02142398(DrawObjectList *renderLists);
+    virtual int Render(Camera2D *camera);
+    virtual void AddToRenderLists(DrawObjectList *renderLists);
     virtual int SetParam(int param, int value);
     virtual TFieldParticleForceField<CSimpleSpriteNTF> *GetForceField()
     {

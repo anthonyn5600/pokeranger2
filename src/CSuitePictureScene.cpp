@@ -208,7 +208,7 @@ u32 CSuitePictureScene::func0()
             unk_0014 = unk_0018->msgs;
             unk_001C = unk_0018->unk_0C;
             unk_0020 = unk_0018->unk_10;
-            ov26_0211D3C0(unk_0018->id);
+            LoadPicture(unk_0018->id);
             s_game->m_textboxData->LoadChapterMessages(unk_0018->unk_04);
             unk_0018++;
             if (unk_0020 == 0) {
@@ -302,14 +302,14 @@ void CSuitePictureScene::func6()
         unk_0018 = NULL;
         unk_001C = 120;
         unk_0020 = 1;
-        ov26_0211D3C0(MAIN_BSS_0210CAB0 % 1000);
+        LoadPicture(MAIN_BSS_0210CAB0 % 1000);
         break;
     case 1:
         unk_0018 = sPictureLists[MAIN_BSS_0210CAB0 % 1000];
         unk_0014 = unk_0018->msgs;
         unk_001C = unk_0018->unk_0C;
         unk_0020 = unk_0018->unk_10;
-        ov26_0211D3C0(unk_0018->id);
+        LoadPicture(unk_0018->id);
         s_game->m_textboxData->LoadChapterMessages(unk_0018->unk_04);
         unk_0018++;
         break;
@@ -334,7 +334,7 @@ void CSuitePictureScene::func7()
     s_game->unk_146C.SetFps(30);
 }
 
-void CSuitePictureScene::ov26_0211D3C0(int id)
+void CSuitePictureScene::LoadPicture(int id)
 {
     char arc[30];
     char name[30];

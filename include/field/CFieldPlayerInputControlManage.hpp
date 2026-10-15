@@ -15,7 +15,7 @@ public:
     CFieldPlayerInputControlManage();
     virtual ~CFieldPlayerInputControlManage();
 
-    BOOL ov0_0213FFC4(CFieldScene *scene, PadInput *pad, CTouchPanel *touch);
+    BOOL Update(CFieldScene *scene, PadInput *pad, CTouchPanel *touch);
 
 public:
     u16 unk_04;

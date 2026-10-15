@@ -7,7 +7,7 @@
 CRangerNetScene::CRangerNetScene(CGame *game)
 {
     m_game = game;
-    ov11_0211CAE4();
+    Init();
 }
 
 CRangerNetScene::~CRangerNetScene()
@@ -17,7 +17,7 @@ CRangerNetScene::~CRangerNetScene()
     CPowerManage::SetMode(0);
 }
 
-void CRangerNetScene::ov11_0211CAE4()
+void CRangerNetScene::Init()
 {
     unk_08 = new RangerNetMenu(m_game, 0);
     m_game->unk_146C.SetFps(60);
@@ -67,7 +67,7 @@ void CRangerNetScene::func6()
 {
     m_game->InitVramManagers(0x20000, 0, 0x4000);
     if (unk_08 != NULL) {
-        unk_08->ov11_02121EEC();
+        unk_08->Setup();
     }
 }
 
@@ -79,8 +79,8 @@ void CRangerNetScene::func7()
 u32 CRangerNetScene::func0()
 {
     if (unk_08 != NULL) {
-        unk_08->ov11_0211E2EC();
-        int result = unk_08->ov11_02123FF8();
+        unk_08->Update();
+        int result = unk_08->GetNextScene();
         if (result != -1) {
             switch (result) {
             case 0:
@@ -99,7 +99,7 @@ u32 CRangerNetScene::func0()
 void CRangerNetScene::func1()
 {
     if (unk_08 != NULL) {
-        unk_08->ov11_0211E414();
+        unk_08->Draw();
     }
 }
 

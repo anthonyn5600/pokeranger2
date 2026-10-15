@@ -43,18 +43,18 @@ public:
     void WriteOam();
     void Load(int bg, u8 *oamIndex, int *charNo, int *paletteSlot, BOOL extPltt);
     void LoadToVram(BOOL extPltt);
-    void sub_0202AD78();
+    void UpdateTouch();
     void BlinkCursor();
     void ShowAvailableAreas();
-    BOOL sub_0202AF5C(u64 *flags);
-    BOOL sub_0202B140(u64 *flags);
+    BOOL ShowHabitat(u64 *flags);
+    BOOL HighlightAreas(u64 *flags);
     BOOL IsAreaAvailable(int i, u64 *flags);
     void ShowCurrentArea();
     void SetSpriteToArea(int sprite, u16 id);
     u16 GetAreaId(u32 mapId);
     void GetAreaPos(u16 id, int *x, int *y);
     int FindArea(u16 id);
-    void sub_0202B50C(u16 id, int mode);
+    void SetAreaMarker(u16 id, int mode);
     void GetSelection(s16 *kind, u16 *id);
 
 public:

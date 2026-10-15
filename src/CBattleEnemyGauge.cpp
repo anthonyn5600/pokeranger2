@@ -19,16 +19,16 @@ static inline void SetSpriteRes(CSoftwareSprite *sprite, VramImage *image, VramP
 CBattleEnemyGauge::CBattleEnemyGauge(BattleEnemyGaugeGfx *res)
 {
     m_res = res;
-    ov1_02135D8C();
+    Init();
 }
 
 CBattleEnemyGauge::~CBattleEnemyGauge()
 {
 }
 
-void CBattleEnemyGauge::ov1_02135D8C()
+void CBattleEnemyGauge::Init()
 {
-    ov1_02136248(0x3FF);
+    SetZ(0x3FF);
     m_flags = 0;
     m_hp = 0;
     m_maxHP = 0;
@@ -47,7 +47,7 @@ void CBattleEnemyGauge::ov1_02135D8C()
     }
 }
 
-void CBattleEnemyGauge::ov1_02135E70(int type, u16 hp, u16 maxHP, Point2D pos)
+void CBattleEnemyGauge::Setup(int type, u16 hp, u16 maxHP, Point2D pos)
 {
     m_hp = hp;
     m_maxHP = maxHP;
@@ -74,7 +74,7 @@ void CBattleEnemyGauge::ov1_02135E70(int type, u16 hp, u16 maxHP, Point2D pos)
     m_flags |= 0x10;
 }
 
-void CBattleEnemyGauge::ov1_02135F2C(u16 hp, Point2D pos)
+void CBattleEnemyGauge::SetHP(u16 hp, Point2D pos)
 {
     m_hp = hp;
     m_motion.SetPos(pos);
@@ -96,25 +96,25 @@ void CBattleEnemyGauge::vfunc_08()
     case 0:
         break;
     case 1:
-        ov1_02136344();
+        UpdateDamageIn();
         break;
     case 2:
-        ov1_021363D0();
+        UpdateDamageHold();
         break;
     case 3:
-        ov1_0213642C();
+        UpdateDamageOut();
         break;
     }
 }
 
-BOOL CBattleEnemyGauge::ov1_0213607C()
+BOOL CBattleEnemyGauge::IsVisible()
 {
     return (m_flags & 0x10) != 0;
 }
 
 void CBattleEnemyGauge::vfunc_0C(Camera2D *camera)
 {
-    if (!ov1_0213607C()) {
+    if (!IsVisible()) {
         return;
     }
     CSoftwareSprite *sprite = m_sprite;
@@ -150,7 +150,7 @@ void CBattleEnemyGauge::vfunc_10(Camera2D *camera)
 {
 }
 
-int CBattleEnemyGauge::ov1_02136248(int z)
+int CBattleEnemyGauge::SetZ(int z)
 {
     CSoftwareSprite *sprite = m_sprite;
     z = sprite->GetCellNumOAMAttrs(sprite->m_cellDataIdx);
@@ -164,7 +164,7 @@ int CBattleEnemyGauge::ov1_02136248(int z)
     return m_z;
 }
 
-void CBattleEnemyGauge::ov1_021362A0(int damage)
+void CBattleEnemyGauge::ShowDamage(int damage)
 {
     if ((u32)damage >= 10000) {
         m_damage = 9999;
@@ -180,7 +180,7 @@ void CBattleEnemyGauge::ov1_021362A0(int damage)
     }
 }
 
-void CBattleEnemyGauge::ov1_02136344()
+void CBattleEnemyGauge::UpdateDamageIn()
 {
     m_dmgFrame++;
     if (m_dmgFrame >= 12) {
@@ -195,7 +195,7 @@ void CBattleEnemyGauge::ov1_02136344()
     }
 }
 
-void CBattleEnemyGauge::ov1_021363D0()
+void CBattleEnemyGauge::UpdateDamageHold()
 {
     m_dmgFrame++;
     if (m_dmgFrame >= 0x20) {
@@ -209,7 +209,7 @@ void CBattleEnemyGauge::ov1_021363D0()
     }
 }
 
-void CBattleEnemyGauge::ov1_0213642C()
+void CBattleEnemyGauge::UpdateDamageOut()
 {
     m_dmgFrame++;
     if (m_dmgFrame >= 12) {
@@ -226,15 +226,15 @@ void CBattleEnemyGauge::ov1_0213642C()
 
 BattleEnemyGaugeGfx::BattleEnemyGaugeGfx()
 {
-    ov1_021364D4();
+    Load();
 }
 
 BattleEnemyGaugeGfx::~BattleEnemyGaugeGfx()
 {
-    ov1_02136678();
+    Release();
 }
 
-void BattleEnemyGaugeGfx::ov1_021364D4()
+void BattleEnemyGaugeGfx::Load()
 {
     CArchiveGuard *guard = new CArchiveGuard("BEG", "data/interface/i000_LZ.bin", 1, 1, 0, NULL, 0);
 
@@ -255,7 +255,7 @@ void BattleEnemyGaugeGfx::ov1_021364D4()
     m_digits = new GraphicsSet("BDN", "/data/interface/i070_LZ.bin", "BDN:i070_00.NCBR", "BDN:i070.NCLR", "BDN:i070_00.NCER", "BDN:i070_00.cac");
 }
 
-void BattleEnemyGaugeGfx::ov1_02136678()
+void BattleEnemyGaugeGfx::Release()
 {
     SAFE_DELETE(m_image);
     SAFE_DELETE(m_palette);

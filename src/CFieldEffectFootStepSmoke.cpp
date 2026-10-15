@@ -18,14 +18,14 @@ CFieldEffectFootStepSmoke::~CFieldEffectFootStepSmoke()
 {
 }
 
-void CFieldEffectFootStepSmoke::ov0_021509F4(VramImage *ncbr, VramPalette *palette, CNCERFile *ncer)
+void CFieldEffectFootStepSmoke::SetSmokeRes(VramImage *ncbr, VramPalette *palette, CNCERFile *ncer)
 {
     m_system.m_res.ncbr = ncbr;
     m_system.m_res.palette = palette;
     m_system.m_res.ncer = ncer;
 }
 
-void CFieldEffectFootStepSmoke::ov0_02150A04(VramImage *ncbr, VramPalette *palette, CNCERFile *ncer, CellAnimController *cac)
+void CFieldEffectFootStepSmoke::SetPuffRes(VramImage *ncbr, VramPalette *palette, CNCERFile *ncer, CellAnimController *cac)
 {
     m_cac = cac;
     for (int i = 0; i < 4; i++) {
@@ -40,7 +40,7 @@ void CFieldEffectFootStepSmoke::ov0_02150A04(VramImage *ncbr, VramPalette *palet
     }
 }
 
-void CFieldEffectFootStepSmoke::ov0_02150A94()
+void CFieldEffectFootStepSmoke::ReleasePuffs()
 {
     if (m_cac == NULL) {
         return;
@@ -53,7 +53,7 @@ void CFieldEffectFootStepSmoke::ov0_02150A94()
     }
 }
 
-void CFieldEffectFootStepSmoke::ov0_02150AE8(int idx, int x, int y, int layer)
+void CFieldEffectFootStepSmoke::Emit(int idx, int x, int y, int layer)
 {
     switch (idx) {
     case 2:
@@ -83,7 +83,7 @@ void CFieldEffectFootStepSmoke::ov0_02150AE8(int idx, int x, int y, int layer)
     }
 }
 
-int CFieldEffectFootStepSmoke::ov0_02142264(int step)
+int CFieldEffectFootStepSmoke::Update(int step)
 {
     m_system.Update(step);
     for (int i = 0; i < 4; i++) {
@@ -97,12 +97,12 @@ int CFieldEffectFootStepSmoke::ov0_02142264(int step)
     return 0;
 }
 
-void CFieldEffectFootStepSmoke::ov0_02142398(DrawObjectList *renderLists)
+void CFieldEffectFootStepSmoke::AddToRenderLists(DrawObjectList *renderLists)
 {
     m_emitter.AddToRenderLists(renderLists);
 }
 
-int CFieldEffectFootStepSmoke::ov0_02142344(Camera2D *camera)
+int CFieldEffectFootStepSmoke::Render(Camera2D *camera)
 {
     m_system.Draw(camera);
     CFieldEffectManage *mgr = MAIN_BSS_0210CA60;

@@ -11,7 +11,7 @@ QLAnimLoader::QLAnimLoader()
     unk_08 = 0;
 }
 
-OamSpriteSet *QLAnimLoader::ov27_0211E2B8(const char *dir, const char *name, int plttCount, int oamIdx)
+OamSpriteSet *QLAnimLoader::Load(const char *dir, const char *name, int plttCount, int oamIdx)
 {
     CGame *game = CGame::GetInstance();
     if (oamIdx < 0) {
@@ -26,7 +26,7 @@ OamSpriteSet *QLAnimLoader::ov27_0211E2B8(const char *dir, const char *name, int
     return anims;
 }
 
-void QLAnimLoader::ov27_0211E374(OamSpriteSet *anims, int oamIdx)
+void QLAnimLoader::ReserveOam(OamSpriteSet *anims, int oamIdx)
 {
     if (oamIdx < 0) {
         oamIdx = unk_08;
@@ -37,7 +37,7 @@ void QLAnimLoader::ov27_0211E374(OamSpriteSet *anims, int oamIdx)
     }
 }
 
-BOOL QLPushButton::ov27_0211E394(int id, OamSpriteSet *anims, int animNormal, int animPressed, int x, int y, int w, int h, int priority, int type)
+BOOL QLPushButton::Init(int id, OamSpriteSet *anims, int animNormal, int animPressed, int x, int y, int w, int h, int priority, int type)
 {
     unk_04 = id;
     unk_00 = type;
@@ -52,20 +52,20 @@ BOOL QLPushButton::ov27_0211E394(int id, OamSpriteSet *anims, int animNormal, in
     return FALSE;
 }
 
-void QLPushButton::ov27_0211E438()
+void QLPushButton::Update()
 {
     switch (unk_00) {
     case 0:
     default:
-        ov27_0211E460();
+        UpdateNormal();
         break;
     case 1:
-        ov27_0211E598();
+        UpdateBlink();
         break;
     }
 }
 
-void QLPushButton::ov27_0211E460()
+void QLPushButton::UpdateNormal()
 {
     if (unk_08[0] != NULL && unk_08[1] != NULL) {
         unk_20 = unk_08[0]->GetTouchHold();
@@ -105,7 +105,7 @@ void QLPushButton::ov27_0211E460()
     }
 }
 
-void QLPushButton::ov27_0211E598()
+void QLPushButton::UpdateBlink()
 {
     if (unk_08[0] != NULL && unk_08[1] != NULL) {
         if (unk_30 && unk_28 > 0) {
@@ -128,22 +128,22 @@ void QLPushButton::ov27_0211E598()
     }
 }
 
-void QLPushButton::ov27_0211E64C()
+void QLPushButton::UpdateAnim()
 {
     if (unk_08[0] != NULL && unk_08[1] != NULL) {
         switch (unk_00) {
         case 0:
         default:
-            ov27_0211E688();
+            UpdateAnimNormal();
             break;
         case 1:
-            ov27_0211E708();
+            UpdateAnimBlink();
             break;
         }
     }
 }
 
-void QLPushButton::ov27_0211E688()
+void QLPushButton::UpdateAnimNormal()
 {
     if (!unk_30) {
         unk_08[0]->unk_14 = FALSE;
@@ -157,7 +157,7 @@ void QLPushButton::ov27_0211E688()
     }
 }
 
-void QLPushButton::ov27_0211E708()
+void QLPushButton::UpdateAnimBlink()
 {
     if (unk_30 && unk_28 > 0) {
         if (unk_2C < 8) {
@@ -179,7 +179,7 @@ void QLPushButton::ov27_0211E708()
     }
 }
 
-void QLPushButton::ov27_0211E7CC()
+void QLPushButton::ResetInput()
 {
     unk_14 = 0;
     unk_18 = 0;

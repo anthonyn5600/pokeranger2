@@ -3,8 +3,8 @@
 #include <nitro.h>
 
 #include "CGame.hpp"
+#include "FieldDataRecords.hpp"
 #include "SaveData.hpp"
-#include "UnkClass_02041D80.hpp"
 #include "common.hpp"
 
 extern FieldData *MAIN_BSS_0210CA6C;
@@ -236,7 +236,7 @@ void RegionMap::LoadToVram(BOOL extPltt)
     ShowAvailableAreas();
 }
 
-void RegionMap::sub_0202AD78()
+void RegionMap::UpdateTouch()
 {
     int i;
     if (!unk_60) {
@@ -280,7 +280,7 @@ void RegionMap::ShowAvailableAreas()
     }
 }
 
-BOOL RegionMap::sub_0202AF5C(u64 *flags)
+BOOL RegionMap::ShowHabitat(u64 *flags)
 {
     int i;
     BOOL found = FALSE;
@@ -328,7 +328,7 @@ BOOL RegionMap::sub_0202AF5C(u64 *flags)
     return found;
 }
 
-BOOL RegionMap::sub_0202B140(u64 *flags)
+BOOL RegionMap::HighlightAreas(u64 *flags)
 {
     u64 saved = MAIN_BSS_020B26A0.unk_7F64;
     BOOL found = FALSE;
@@ -430,7 +430,7 @@ int RegionMap::FindArea(u16 id)
     return i;
 }
 
-void RegionMap::sub_0202B50C(u16 id, int mode)
+void RegionMap::SetAreaMarker(u16 id, int mode)
 {
     int idx = 3;
     switch (mode) {
@@ -454,7 +454,7 @@ void RegionMap::sub_0202B50C(u16 id, int mode)
 
 void RegionMap::GetSelection(s16 *kind, u16 *id)
 {
-    sub_0202AD78();
+    UpdateTouch();
     *kind = unk_58;
     *id = unk_54;
 }
