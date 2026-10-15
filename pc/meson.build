@@ -32,6 +32,36 @@ pokeranger2_args = [
 
 pokeranger2_link_args = ['-no-pie', '-Wl,--version-script=' + meson.current_source_dir() / 'exe.map']
 
+# "Who wrote this?" tracking of display memory (pc/glue/vramtrack.cpp): every SDK copy/fill goes through a wrapper
+vramtrack_wraps = [
+    'MI_DmaCopy32',
+    'MI_DmaCopy16',
+    'MI_DmaFill32',
+    'MI_DmaFill16',
+    'MI_DmaCopy32Async',
+    'MI_DmaCopy16Async',
+    'MI_DmaFill32Async',
+    'MI_DmaFill16Async',
+    'MIi_CpuCopy16',
+    'MIi_CpuCopy32',
+    'MIi_CpuCopyFast',
+    'MIi_CpuClear16',
+    'MIi_CpuClear32',
+    'MIi_CpuClearFast',
+    'MI_CpuCopy8',
+    'MI_CpuFill8',
+    'MI_Copy16B',
+    'MI_Copy32B',
+    'MI_Copy36B',
+    'MI_Copy48B',
+    'MI_Copy64B',
+    'MI_Copy128B',
+    'MI_Zero36B',
+]
+foreach w : vramtrack_wraps
+    pokeranger2_link_args += '-Wl,--wrap=' + w
+endforeach
+
 ############################################################
 ###                     DEPENDENCIES                     ###
 ############################################################
@@ -75,8 +105,10 @@ pokeranger2_pc_cxx = [
         'src/pc/PtrCast.cpp',
         'src/pc/SdkCompat.cpp',
         'src/pc/LayoutChecks.cpp',
+        'src/pc/PcDebug.cpp',
         # Stage 1 of replacing libntr: our renderer inside libntr's window
         'glue/ntrgfx_libntr.cpp',
+        'glue/vramtrack.cpp',
     ),
 ]
 

@@ -1,0 +1,95 @@
+#!/usr/bin/env python3
+"""whowrote: who wrote this display memory address? (reads frame_N.writes from a NTRGFX_TRACK=1 dump)
+
+usage: pc/tools/whowrote FRAME.writes REGION:ADDR [--history] [--all-frames]
+  REGION: bgA objA bgB objB banks plttBgA plttObjA plttBgB plttObjB oamA oamB (offsets within that memory;
+          banks = VRAM A..I in LCDC layout: A 0x0, B 0x20000, C 0x40000, D 0x60000, E 0x80000, F 0x90000,
+          G 0x94000, H 0x98000, I 0xA0000)
+  --history   every logged write covering the address (oldest first), not only the last one
+Example: pc/tools/whowrote pc/out/dumps/frame_003900.writes bgA:0x40C0
+
+Stacks are symbolized with addr2line against pc/build/pokeranger2 (built non-PIE, so addresses are fixed).
+Only writes through SDK copy/fill functions are recorded (DMA, GX_Load*, VRAM transfers, MI_Cpu*).
+"""
+import os
+import subprocess
+import sys
+
+BINARY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "build", "pokeranger2")
+
+
+def symbolize(addrs, cache={}):
+    todo = [a for a in addrs if a not in cache]
+    if todo:
+        # return addresses point after the call: look up the call instruction
+        out = subprocess.run(["addr2line", "-f", "-C", "-e", BINARY] + ["%#x" % (int(a, 16) - 1) for a in todo],
+                             capture_output=True, text=True).stdout.split("\n")
+        for i, a in enumerate(todo):
+            func = out[2 * i] if 2 * i < len(out) else "?"
+            loc = out[2 * i + 1] if 2 * i + 1 < len(out) else "?"
+            loc = loc.split(" (")[0]
+            if "/pc/" in loc:
+                loc = loc[loc.index("/pc/") + 1:]
+            cache[a] = (func, loc.replace("pc/build/../", ""))
+    return [cache[a] for a in addrs]
+
+
+def short_func(func):
+    return func.split("(")[0]
+
+
+def main():
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    history = "--history" in sys.argv
+    if len(args) != 2 or ":" not in args[1]:
+        print(__doc__)
+        return 2
+    path, spec = args
+    region, addr = spec.split(":", 1)
+    addr = int(addr, 0)
+
+    sites, owners, writes = {}, [], []
+    frame = "?"
+    for line in open(path):
+        p = line.split()
+        if not p:
+            continue
+        if p[0] == "#" and len(p) > 3:
+            frame = p[3].rstrip(";")
+        elif p[0] == "SITE":
+            sites[p[1]] = (p[2], p[3:])
+        elif p[0] == "OWNER":
+            owners.append((p[1], int(p[2], 16), int(p[3], 16), p[4], int(p[5])))
+        elif p[0] == "WRITE":
+            writes.append((int(p[1]), p[2], int(p[3], 16), int(p[4], 16), p[5]))
+
+    def show(site_id, indent="    "):
+        func, stack = sites[site_id]
+        rows = symbolize(stack)
+        print(f"{indent}via {func}")
+        for (f, loc), a in zip(rows, stack):
+            if f in ("??", "main") or "sim_main.cpp" in loc:
+                continue
+            print(f"{indent}  {short_func(f):40} {loc}")
+
+    print(f"{region}:{addr:#x} (dump taken at frame {frame})")
+    hit = [o for o in owners if o[0] == region and o[1] <= addr < o[2]]
+    if not hit:
+        print("  no recorded writer (never written through an SDK copy/fill, or tracking was off)")
+    else:
+        _, b, e, site, fr = hit[0]
+        print(f"  last write: frame {fr}, block {b:#x}-{e:#x}")
+        show(site)
+    if history:
+        print("  history (oldest first, from the log of recent writes):")
+        for fr, reg, b, e, site in writes:
+            if reg == region and b <= addr < e:
+                func, stack = sites[site]
+                rows = symbolize(stack)
+                game = [short_func(f) for f, loc in rows if "/src/" in loc][:3]
+                print(f"    frame {fr:6}  {reg}:{b:#x}-{e:#x}  {func:16} {' <- '.join(game)}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

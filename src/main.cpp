@@ -5,6 +5,7 @@
 
 #include "CGame.hpp"
 #include "CPowerManage.hpp"
+#include "PcDebug.hpp"
 #include "constants/scene.hpp"
 #include "heap.hpp"
 #include "overlay_manager.hpp"
@@ -64,7 +65,11 @@ void NitroMain(void)
     NNS_FndGetAllocatableSizeForExpHeapEx(*handle, 4);
 
     PrepareSceneDisplay();
+#ifdef PC_PORT
+    v3 = Scene_LoadByID(PcDebug_StartScene(SCENE_RANGER_NET_AGB), s_game);
+#else
     v3 = Scene_LoadByID(SCENE_RANGER_NET_AGB, s_game);
+#endif
     v4 = SCENE_NONE;
     CPowerManage::Initialize();
     CPowerManage::SetMode(0);

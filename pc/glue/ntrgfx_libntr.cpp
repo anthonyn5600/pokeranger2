@@ -8,6 +8,8 @@
 //   NTRGFX_DUMP_EVERY=N      ... every N frames
 //   NTRGFX_DUMP_DIR=dir      where (default ntrgfx_dumps)
 //   NTRGFX_HIDE=A0,BO        leave layers out (see ntrgfx.h)
+//   NTRGFX_TRACK=1           record who writes display memory; dumps then include frame_N.writes (pc/tools/whowrote)
+//   NTRGFX_TRACE=bgA:0x4000-0x4100   print writes to that range as they happen (vramtrack.cpp)
 
 #include <nitro.h>
 #include <set>
@@ -19,6 +21,7 @@
 #include <sys/stat.h>
 
 #include "../ntrgfx/ntrgfx.h"
+#include "vramtrack.hpp"
 
 namespace {
 
@@ -122,7 +125,7 @@ void Dump(uint32_t frame)
     char name[64];
     snprintf(name, sizeof(name), "/frame_%06u", frame);
     std::string path = base + name;
-    if (!NtrGfx_SaveSnapshot((path + ".snap").c_str(), &sMem) || !NtrGfx_SaveFramePPM((path + ".ppm").c_str(), &sFrame)) {
+    if (!NtrGfx_SaveSnapshot((path + ".snap").c_str(), &sMem) || !NtrGfx_SaveFramePPM((path + ".ppm").c_str(), &sFrame) || !VramTrack_Save((path + ".writes").c_str())) {
         fprintf(stderr, "ntrgfx: cannot write %s.*\n", path.c_str());
         return;
     }
@@ -135,6 +138,7 @@ void Dump(uint32_t frame)
 extern "C" int SIM_ExtRenderFrame(uint8_t *rgba)
 {
     static int sEnabled = -1;
+    VramTrack_SetFrame(sFrameNo);
     if (sEnabled < 0) {
         const char *env = getenv("NTRGFX");
         sEnabled = env != NULL && strcmp(env, "1") == 0;
@@ -143,6 +147,7 @@ extern "C" int SIM_ExtRenderFrame(uint8_t *rgba)
         }
     }
     if (!sEnabled) {
+        sFrameNo++;
         return 0;
     }
 

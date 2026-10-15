@@ -5,3 +5,4 @@
 /run/
 /run.log
 !/subprojects/packagefiles/
+/out/

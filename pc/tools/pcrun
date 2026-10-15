@@ -1,0 +1,116 @@
+#!/bin/bash
+# pcrun: run the PC port for testing/debugging, then clean up everything it started.
+#
+#   pc/tools/pcrun [options]
+#
+# Defaults: invisible virtual display (Xvfb), no sound, 60 s, output in pc/out/ (log, screenshots, dumps).
+#   --show            use the real display instead of Xvfb (opens a window)
+#   --sound           keep sound on
+#   --time N          stop after N seconds (default 60)
+#   --scene NAME      start in this scene (PC_START_SCENE; e.g. title, company_logo, field; or a number)
+#   --shot T[,T...]   screenshot at these seconds (out/shot_T.png, both screens stacked, 256x384)
+#   --tap T:X,Y       tap the touch screen at DS coordinates X,Y (0-255, 0-191) at T seconds (repeatable)
+#   --gdb FILE        run under gdb with this command file (batch); its output goes to out/gdb.log
+#   --out DIR         output directory (default pc/out)
+#   --env K=V         extra environment for the game (repeatable), e.g. --env NTRGFX=1
+# Everything else in the environment (NTRGFX, NTRGFX_DUMP_AT, ...) is passed through too.
+# Dumps (NTRGFX_DUMP_*) default to out/dumps.
+
+set -u
+PC_DIR=$(cd "$(dirname "$0")/.." && pwd)
+RUN_DIR="$PC_DIR/run"
+GAME="$PC_DIR/build/pokeranger2"
+
+show=0; sound=0; seconds=60; scene=""; shots=""; taps=(); gdbfile=""; out="$PC_DIR/out"; envs=()
+while [ $# -gt 0 ]; do
+    case "$1" in
+    --show) show=1 ;;
+    --sound) sound=1 ;;
+    --time) seconds=$2; shift ;;
+    --scene) scene=$2; shift ;;
+    --shot) shots=$2; shift ;;
+    --tap) taps+=("$2"); shift ;;
+    --gdb) gdbfile=$(realpath "$2"); shift ;;
+    --out) out=$2; shift ;;
+    --env) envs+=("$2"); shift ;;
+    -h|--help) sed -n '2,20p' "$0"; exit 0 ;;
+    *) echo "pcrun: unknown option $1 (see --help)" >&2; exit 2 ;;
+    esac
+    shift
+done
+
+[ -x "$GAME" ] || { echo "pcrun: $GAME not built (ninja -C pc/build)" >&2; exit 1; }
+[ -d "$RUN_DIR" ] || { echo "pcrun: no run directory; run pc/tools/make_rundir.py" >&2; exit 1; }
+mkdir -p "$out"
+out=$(realpath "$out")
+rm -f "$out"/shot_*.png "$out/game.log" "$out/gdb.log"
+
+pids=()
+cleanup() {
+    for p in "${pids[@]}"; do kill -9 "$p" 2>/dev/null; done
+    # the game itself (child of gdb or of us)
+    [ -n "${gamepid:-}" ] && kill -9 "$gamepid" 2>/dev/null
+    wait 2>/dev/null
+}
+trap cleanup EXIT INT TERM
+
+if [ $show -eq 0 ]; then
+    # first free display number from :99 up
+    d=99
+    while [ -e /tmp/.X11-unix/X$d ] || [ -e /tmp/.X$d-lock ]; do d=$((d + 1)); done
+    Xvfb :$d -screen 0 600x800x24 >/dev/null 2>&1 &
+    pids+=($!)
+    export DISPLAY=:$d
+    for _ in 1 2 3 4 5 6 7 8 9 10; do [ -e /tmp/.X11-unix/X$d ] && break; sleep 0.2; done
+fi
+[ $sound -eq 0 ] && export SDL_AUDIODRIVER=dummy
+[ -n "$scene" ] && export PC_START_SCENE="$scene"
+export NTRGFX_DUMP_DIR="${NTRGFX_DUMP_DIR:-$out/dumps}"
+for e in "${envs[@]}"; do export "$e"; done
+
+cd "$RUN_DIR" || exit 1
+if [ -n "$gdbfile" ]; then
+    gdb -batch -x "$gdbfile" "$GAME" > "$out/gdb.log" 2>&1 &
+else
+    "$GAME" > "$out/game.log" 2>&1 &
+fi
+pids+=($!)
+start=$(date +%s.%N)
+
+# Timed events: screenshots and taps, in time order
+events=$( (for t in ${shots//,/ }; do echo "$t shot"; done
+           for tap in "${taps[@]}"; do echo "${tap%%:*} tap ${tap#*:}"; done) | sort -g)
+
+elapsed() { echo "$(date +%s.%N) - $start" | bc; }
+wait_until() {
+    local d
+    d=$(echo "$1 - $(elapsed)" | bc)
+    (( $(echo "$d > 0" | bc) )) && sleep "$d"
+}
+game_alive() { kill -0 "${pids[-1]}" 2>/dev/null; }
+
+while read -r t kind arg; do
+    [ -z "${t:-}" ] && continue
+    wait_until "$t"
+    game_alive || { echo "pcrun: game exited before ${t}s"; break; }
+    gamepid=$(pgrep -n -x pokeranger2)
+    win=$(xdotool search --pid "$gamepid" 2>/dev/null | tail -1)
+    if [ "$kind" = shot ]; then
+        if [ -n "$win" ]; then
+            xwd -id "$win" -silent | convert xwd:- -scale 256x384\! "$out/shot_$t.png" && echo "pcrun: shot ${t}s -> $out/shot_$t.png"
+        else
+            echo "pcrun: no game window for shot at ${t}s"
+        fi
+    else
+        x=${arg%,*}; y=${arg#*,}
+        # The window shows both screens stacked (256x384 scaled to the window): the touch screen is the lower half
+        geo=$(xdotool getwindowgeometry "$win" 2>/dev/null | awk '/Geometry/{print $2}')
+        w=${geo%x*}; h=${geo#*x}
+        wx=$(( x * w / 256 )); wy=$(( h / 2 + y * h / 384 ))
+        xdotool mousemove --window "$win" "$wx" "$wy" mousedown 1 && sleep 0.15 && xdotool mouseup 1
+        echo "pcrun: tap ${t}s at DS ($x,$y)"
+    fi
+done <<< "$events"
+
+wait_until "$seconds"
+game_alive && echo "pcrun: stopped after ${seconds}s" || echo "pcrun: game exited (see $out/game.log)"
