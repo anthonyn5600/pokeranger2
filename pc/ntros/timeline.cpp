@@ -94,6 +94,16 @@ void Step()
         StartHBlank();
     }
     RunAlarms();
+    Input_Step();
+}
+
+bool SleepFrame()
+{
+    if (sDisplay.sleepFrame == NULL) {
+        return false;
+    }
+    sDisplay.sleepFrame();
+    return true;
 }
 
 } // namespace ntros

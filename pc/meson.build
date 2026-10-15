@@ -107,8 +107,9 @@ pokeranger2_pc_cxx = [
         'src/pc/SdkCompat.cpp',
         'src/pc/LayoutChecks.cpp',
         'src/pc/PcDebug.cpp',
-        # Stage 1 of replacing libntr: our renderer inside libntr's window
+        # Our renderer, controls and game card inside libntr's window
         'glue/cartridge.cpp',
+        'glue/input_libntr.cpp',
         'glue/ntrgfx_libntr.cpp',
         'glue/vramtrack.cpp',
     ),

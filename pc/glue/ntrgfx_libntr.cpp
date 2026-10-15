@@ -40,6 +40,7 @@ extern "C" void SIM_ReadPresentedScreens(u8 *rgba);
 extern "C" void SIM_PreRenderVBlank(void);
 extern "C" void *SIM_Render(void *arg);
 extern "C" void SIM_PostRenderVBlank(void);
+void PcInput_Read(); // input_libntr.cpp
 
 namespace {
 
@@ -440,6 +441,18 @@ void EndFrame()
     SIM_PreRenderVBlank();
     SIM_Render(NULL);
     SIM_PostRenderVBlank();
+    PcInput_Read();
+}
+
+// Sleep mode: dark screens
+void SleepFrame()
+{
+    memset(sFrame, 0, sizeof(sFrame));
+    sFrameReady = true;
+    SIM_PreRenderVBlank();
+    SIM_Render(NULL);
+    SIM_PostRenderVBlank();
+    PcInput_Read();
 }
 
 // Line 192: a pending SWAP_BUFFERS hands the new polygon list to the rendering engine
@@ -451,7 +464,7 @@ void VBlank()
 struct RegisterDisplay {
     RegisterDisplay()
     {
-        static const NtrOsDisplay display = { BeginFrame, DrawLine, EndFrame, VBlank };
+        static const NtrOsDisplay display = { BeginFrame, DrawLine, EndFrame, VBlank, SleepFrame };
         NtrOs_SetDisplay(&display);
     }
 } sRegisterDisplay;

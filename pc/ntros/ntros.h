@@ -4,8 +4,9 @@
 //
 // So far: interrupts (IE/IF/IME, the interrupt table), the display timeline (263 lines per frame: VCOUNT, DISPSTAT,
 // VBlank / HBlank / VCount-match interrupts), the tick clock, alarms, v-alarms, the interrupt waits
-// (OS_WaitVBlankIntr, OS_WaitIrq), threads, and the game card (ROM files from a folder, romfs.cpp;
-// .sav backup memory, card.cpp).
+// (OS_WaitVBlankIntr, OS_WaitIrq), threads, the game card (ROM files from a folder, romfs.cpp; .sav backup memory,
+// card.cpp), and what the ARM7 does for the game: buttons, touch screen and lid (input.cpp, tp.cpp), power and sleep
+// (pm.cpp), the clock (rtc.cpp).
 //
 // Timing model: game code takes no time. The DS clock moves only while the game waits for an interrupt; then the
 // display timeline runs line by line, raising interrupts and drawing lines as the hardware would, until what the
@@ -24,6 +25,7 @@ typedef struct NtrOsDisplay {
     void (*drawLine)(int y); // line y (0..191) is drawn now, with the registers and memory as they are
     void (*endFrame)(void); // line 191 is done: show the picture (and read input, pace to 60 Hz)
     void (*vblank)(void); // line 192 starts, just before the VBlank interrupt (the 3D engine swaps its lists here)
+    void (*sleepFrame)(void); // sleep mode (screens dark, clock stopped): read input and wait a frame
 } NtrOsDisplay;
 void NtrOs_SetDisplay(const NtrOsDisplay *display);
 
@@ -38,6 +40,17 @@ typedef struct NtrOsCartridge {
     const char *saveName; // default save file
 } NtrOsCartridge;
 extern const NtrOsCartridge NtrOs_Cartridge;
+
+// The player's controls. The frontend reports them whenever they change, from a display callback (endFrame,
+// sleepFrame). The game sees buttons at once (KEYINPUT), X/Y and the lid when the ARM7 next looks (every 4 ms) and
+// the pen when it next samples the touch screen.
+typedef struct NtrOsInput {
+    unsigned short buttons; // held buttons, PAD_BUTTON_* / PAD_KEY_* bits (A B Select Start Right Left Up Down R L X Y)
+    int touching; // the pen is on the touch screen
+    int touchX, touchY; // where, in pixels (0..255, 0..191)
+    int lidClosed;
+} NtrOsInput;
+void NtrOs_SetInput(const NtrOsInput *input);
 
 // Current position on the display timeline: frame number (since start), line (0..262)
 unsigned long long NtrOs_GetFrame(void);
