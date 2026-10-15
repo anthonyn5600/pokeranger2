@@ -95,6 +95,8 @@ void Step()
     }
     RunAlarms();
     Input_Step();
+    Pxi_Step();
+    Sound_Step();
 }
 
 bool SleepFrame()

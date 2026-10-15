@@ -106,7 +106,6 @@ using namespace ntros;
 
 extern "C" {
 
-OSIrqFunction OS_IRQTable[OS_IRQ_TABLE_MAX];
 OSIrqCallbackInfo OSi_IrqCallbackInfo[OSi_IRQCALLBACK_NUM];
 OSThreadQueue OSi_IrqThreadQueue;
 
@@ -162,19 +161,35 @@ void OSi_IrqTimer3(void)
     IrqCallback(OSi_IRQCALLBACK_NO_TIMER3, REG_OS_IE_T3_SHIFT);
 }
 
+// The table starts out filled in (as the SDK's is, statically): OS_Init sets up the PXI FIFO's handler before it
+// gets here
+OSIrqFunction OS_IRQTable[OS_IRQ_TABLE_MAX] = {
+    OS_IrqDummy,
+    OS_IrqDummy,
+    OS_IrqDummy,
+    OSi_IrqTimer0,
+    OSi_IrqTimer1,
+    OSi_IrqTimer2,
+    OSi_IrqTimer3,
+    OS_IrqDummy,
+    OSi_IrqDma0,
+    OSi_IrqDma1,
+    OSi_IrqDma2,
+    OSi_IrqDma3,
+    OS_IrqDummy,
+    OS_IrqDummy,
+    OS_IrqDummy,
+    OS_IrqDummy,
+    OS_IrqDummy,
+    OS_IrqDummy,
+    OS_IrqDummy,
+    OS_IrqDummy,
+    OS_IrqDummy,
+    OS_IrqDummy,
+};
+
 void OS_InitIrqTable(void)
 {
-    for (int i = 0; i < OS_IRQ_TABLE_MAX; i++) {
-        OS_IRQTable[i] = OS_IrqDummy;
-    }
-    OS_IRQTable[REG_OS_IE_D0_SHIFT] = OSi_IrqDma0;
-    OS_IRQTable[REG_OS_IE_D1_SHIFT] = OSi_IrqDma1;
-    OS_IRQTable[REG_OS_IE_D2_SHIFT] = OSi_IrqDma2;
-    OS_IRQTable[REG_OS_IE_D3_SHIFT] = OSi_IrqDma3;
-    OS_IRQTable[REG_OS_IE_T0_SHIFT] = OSi_IrqTimer0;
-    OS_IRQTable[REG_OS_IE_T1_SHIFT] = OSi_IrqTimer1;
-    OS_IRQTable[REG_OS_IE_T2_SHIFT] = OSi_IrqTimer2;
-    OS_IRQTable[REG_OS_IE_T3_SHIFT] = OSi_IrqTimer3;
     OS_InitThreadQueue(&OSi_IrqThreadQueue);
 }
 

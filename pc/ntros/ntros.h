@@ -6,7 +6,8 @@
 // VBlank / HBlank / VCount-match interrupts), the tick clock, alarms, v-alarms, the interrupt waits
 // (OS_WaitVBlankIntr, OS_WaitIrq), threads, the game card (ROM files from a folder, romfs.cpp; .sav backup memory,
 // card.cpp), and what the ARM7 does for the game: buttons, touch screen and lid (input.cpp, tp.cpp), power and sleep
-// (pm.cpp), the clock (rtc.cpp).
+// (pm.cpp), the clock (rtc.cpp), sound (the sound driver, sound_*.cpp, on the sound hardware, spu.cpp), and the
+// PXI FIFO between the two CPUs (pxi.cpp).
 //
 // Timing model: game code takes no time. The DS clock moves only while the game waits for an interrupt; then the
 // display timeline runs line by line, raising interrupts and drawing lines as the hardware would, until what the
@@ -51,6 +52,20 @@ typedef struct NtrOsInput {
     int lidClosed;
 } NtrOsInput;
 void NtrOs_SetInput(const NtrOsInput *input);
+
+// Sound: what the sound hardware outputs, stereo 16-bit samples (left, right) at the DS's output rate, about every
+// 8 ms of DS time, on the thread that runs the game.
+#define NTROS_AUDIO_RATE 32728 // 33513982 Hz / 1024 = 32728.5 Hz
+typedef struct NtrOsAudio {
+    void (*samples)(const short *frames, int count);
+} NtrOsAudio;
+void NtrOs_SetAudio(const NtrOsAudio *audio);
+
+// The ARM7's parts ntros doesn't provide yet (wireless, ...) are the port's: words the game sends them go to forward;
+// their answers come back with NtrOs_PxiReply (from any thread).
+typedef void (*NtrOsPxiForward)(int tag, unsigned long long data, int err);
+void NtrOs_SetPxiForward(NtrOsPxiForward forward);
+void NtrOs_PxiReply(int tag, unsigned long long data, int err);
 
 // Current position on the display timeline: frame number (since start), line (0..262)
 unsigned long long NtrOs_GetFrame(void);

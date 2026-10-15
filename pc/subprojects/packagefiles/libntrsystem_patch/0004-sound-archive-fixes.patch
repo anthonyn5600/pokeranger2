@@ -1,0 +1,42 @@
+diff --git a/libraries/snd/src/sndarc.c b/libraries/snd/src/sndarc.c
+index aa33154..d8afe01 100644
+--- a/libraries/snd/src/sndarc.c
++++ b/libraries/snd/src/sndarc.c
+@@ -87,23 +87,13 @@ void NNS_SndArcInit (NNSSndArc * arc, const char * filePath, NNSSndHeapHandle he
+     arc->symbol = NULL;
+     arc->loadBlockSize = 0;
+ 
+-    #ifdef SDK_PORT
+-    result = FS_OpenFile( &arc->file, filePath );
+-    NNS_ASSERTMSG( result, "Cannot open file %s\n", filePath );
+-    if ( ! result ) return;
+-    #else
+     result = FS_ConvertPathToFileID(&arc->fileId, filePath);
+     NNS_ASSERTMSG(result, "Cannot find file %s\n", filePath);
+     if (!result) return;
+-    #endif
+ 
+     FS_InitFile(&arc->file);
+ 
+-    #ifdef SDK_PORT
+-    result = FS_OpenFile(& arc->file, filePath);
+-    #else
+     result = FS_OpenFileFast(&arc->file, arc->fileId);
+-    #endif
+     NNS_ASSERTMSG(result, "Cannot open file %s\n", filePath);
+     if (!result) return;
+ 
+diff --git a/libraries/snd/src/sndarc_stream.c b/libraries/snd/src/sndarc_stream.c
+index 2590446..662129e 100644
+--- a/libraries/snd/src/sndarc_stream.c
++++ b/libraries/snd/src/sndarc_stream.c
+@@ -1290,7 +1290,8 @@ static void MakeWaveData (LoadCommand * command)
+ 
+                     if (blockOffsetSample == 0) {
+                         #ifdef SDK_PORT
+-                        *state = *( (AdpcmState*)srcp + 1 );
++                        *state = *(AdpcmState *)srcp; // the block's header, then its data
++                        srcp += sizeof(AdpcmState);
+                         #else
+                         *state = *((AdpcmState *)srcp)++;
+                         #endif

@@ -50,6 +50,28 @@ void Input_UpdateXY(); // the ARM7 copies X, Y and the lid to HW_BUTTON_XY_BUF
 void Input_SampleTouch(); // the ARM7 measures the touch screen into OS_GetSystemWork()->touch_panel
 const NtrOsInput &Input_Get(); // the controls as the frontend last reported them
 
+// pxi.cpp
+using PxiService = void (*)(int tag, uPtr data, BOOL err);
+void Pxi_SetArm7Service(int tag, PxiService service); // an ARM7 part of ntros takes this tag's words
+void Pxi_SendToArm9(int tag, uPtr data, BOOL err); // a word for the game (FIFO receive interrupt)
+void Pxi_Step(); // after each timeline step: deliver words sent from other threads
+
+// spu.cpp: the sound hardware. Register offsets from 0x04000400; SAD / DAD are host pointers.
+void Spu_Init();
+void Spu_RunTo(uint64_t cycles); // produce the output up to this DS time
+void Spu_FlushOutput(); // hand buffered output to the frontend
+void Spu_Write8(u32 offset, u8 value);
+void Spu_Write16(u32 offset, u16 value);
+void Spu_Write32(u32 offset, u32 value);
+u8 Spu_Read8(u32 offset);
+u32 Spu_Read32(u32 offset);
+void Spu_SetSource(int ch, const void *address);
+void Spu_SetCaptureDestination(int capture, void *address);
+
+// sound_driver.cpp: the ARM7's sound driver
+void Sound_Init(); // the ARM7 starts its sound thread
+void Sound_Step(); // after each timeline step: sound frames and alarms that are due
+
 } // namespace ntros
 
 #endif // NTROS_INTERNAL_HPP

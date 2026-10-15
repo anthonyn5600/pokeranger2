@@ -1812,6 +1812,22 @@ index df9eecb..a5a7372 100644
      'os_profile.c',
      'os_reset.c',
      'os_ownerInfo.c',
+diff --git a/libraries/pxi/src/meson.build b/libraries/pxi/src/meson.build
+index 4106b43..88eb0a3 100644
+--- a/libraries/pxi/src/meson.build
++++ b/libraries/pxi/src/meson.build
+@@ -1,4 +1,11 @@
++if (build_target == 'arm')
+ libpxi_srcs = files(
+     'pxi_init.c',
+     'pxi_fifo.c'
+ )
++else
++# PC port: the FIFO between the CPUs comes from pc/ntros
++libpxi_srcs = files(
++    'pxi_init.c'
++)
++endif
 diff --git a/libraries/rtc/meson.build b/libraries/rtc/meson.build
 index 7bb4e2c..7e7d162 100644
 --- a/libraries/rtc/meson.build
@@ -1901,7 +1917,7 @@ index f6741af..55eaa88 100644
  }
 \ No newline at end of file
 diff --git a/libraries/sim/src/sim_main.cpp b/libraries/sim/src/sim_main.cpp
-index d968038..c240c81 100644
+index d968038..21aa7ff 100644
 --- a/libraries/sim/src/sim_main.cpp
 +++ b/libraries/sim/src/sim_main.cpp
 @@ -3,6 +3,7 @@ extern "C" int NitroSpMain(void *arg);
@@ -1958,7 +1974,26 @@ index d968038..c240c81 100644
  
  void GLAPIENTRY MessageCallback(GLenum source, GLenum type, GLuint id,
                                  GLenum severity, GLsizei length,
-@@ -705,7 +676,11 @@ static void DrawEngine(BOOL isSub) {
+@@ -312,7 +283,7 @@ void *SIM_RenderInit(void *arg) {
+ 
+   SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER |
+            SDL_INIT_JOYSTICK);
+-  SIM_Audio_Init(44100);
++  // PC port: sound comes from pc/ntros (its sound driver and sound hardware; the port opens the audio device)
+ 
+   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+@@ -380,6 +351,9 @@ void *SIM_RenderInit(void *arg) {
+       windowTitle.c_str(), 100, 100, windowWidth, windowHeight,
+       SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+   context = SDL_GL_CreateContext(window);
++  // PC port: the frame limiter below paces the game at the DS's rate; waiting for vsync in the swap would slow the
++  // game (and starve its sound) whenever the desktop throttles the window, e.g. when it loses focus
++  SDL_GL_SetSwapInterval(0);
+ 
+   if(s_SIM_config.fullScreen) {
+     SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+@@ -705,7 +679,11 @@ static void DrawEngine(BOOL isSub) {
        u8 b;
        u8 a;
        for (int j = 0; j < 256; j++) {
@@ -1971,7 +2006,7 @@ index d968038..c240c81 100644
            u8 colorIdx = OBJLine[isSub][j] & 0xFF;
            if (colorIdx) {
              u16 *objPltt =
-@@ -941,6 +916,181 @@ static void HandleJoystickKeyUp(int aKey) {
+@@ -941,6 +919,183 @@ static void HandleJoystickKeyUp(int aKey) {
    }
  }
  
@@ -2067,6 +2102,8 @@ index d968038..c240c81 100644
 +extern "C" __attribute__((weak)) void SIM_ExtG3Command(u32, const u32 *) {}
 +extern "C" __attribute__((weak)) void SIM_ExtG3Fifo(const void *, u32) {}
 +extern "C" void SIM_ExtBeforeSwap(void) __attribute__((weak));
++// The port's frame length in ns (its sound output paces the game); 0: the DS's own
++extern "C" long SIM_ExtFrameNs(void) __attribute__((weak));
 +
 +// For the PC port's own renderer (ntrgfx), until it has its own 3D: this frame's 3D picture, 256x192 RGBA, top row
 +// first
@@ -2153,7 +2190,7 @@ index d968038..c240c81 100644
  void *SIM_Render(void *arg) {
  
    SDL_Event Event;
-@@ -958,6 +1108,8 @@ void *SIM_Render(void *arg) {
+@@ -958,6 +1113,8 @@ void *SIM_Render(void *arg) {
    // Draw the translucent 3D stuff
    G3SIM_DrawItems();
  
@@ -2162,7 +2199,49 @@ index d968038..c240c81 100644
    do {
  #ifdef SDK_TRACY_ENABLE
      TracyCZone(SimRenderZone, 1);
-@@ -1266,38 +1418,39 @@ void *SIM_Render(void *arg) {
+@@ -1117,19 +1274,26 @@ void *SIM_Render(void *arg) {
+         } else if (keyRead == s_SIM_config.padSettings.guiKey) {
+           // Toggle Debug GUI
+           SIM::GUI::Toggle();
+-        } else if (keyRead == s_SIM_config.padSettings.frameCapToggleKey) {
++        } else if (keyRead == s_SIM_config.padSettings.frameCapToggleKey && !(Event.key.keysym.mod & KMOD_ALT) &&
++                   !Event.key.repeat) {
++          // PC port: not as part of Alt+Tab (switching windows turned the frame cap off)
+           // Toggle Frame Cap
+           if (s_SIM_config.capFrameRate) {
+             s_SIM_config.capFrameRate = false;
++            fprintf(stderr, "pc: frame cap off (Tab)\n");
+             s_SIM_config.vsyncInterval = 0; // VSync Off
+           } else {
+             s_SIM_config.capFrameRate = true;
++            fprintf(stderr, "pc: frame cap on (Tab)\n");
+             s_SIM_config.vsyncInterval = 1; // Every V-Blank
+           }
+ 
+-          SDL_GL_SetSwapInterval(s_SIM_config.vsyncInterval);
++          SDL_GL_SetSwapInterval(0); // PC port: never wait for vsync (the frame limiter paces)
+           
+         } else if(keyRead == s_SIM_config.padSettings.frameCapKey) {
++          if (!sFastForward) {
++            fprintf(stderr, "pc: fast forward on (Space)\n");
++          }
+           sFastForward = true;
+           SDL_GL_SetSwapInterval(0);
+         }
+@@ -1175,8 +1339,11 @@ void *SIM_Render(void *arg) {
+           // Select button
+           s_reg_PAD_KEYINPUT = s_reg_PAD_KEYINPUT | 0b0000000000000100;
+         } else if(keyRead == s_SIM_config.padSettings.frameCapKey) {
++          if (sFastForward) {
++            fprintf(stderr, "pc: fast forward off\n");
++          }
+           sFastForward = false;
+-          SDL_GL_SetSwapInterval(s_SIM_config.vsyncInterval);
++          SDL_GL_SetSwapInterval(0); // PC port: never wait for vsync (the frame limiter paces)
+         }
+       }
+       if (Event.type == SDL_JOYBUTTONDOWN) {
+@@ -1266,38 +1433,39 @@ void *SIM_Render(void *arg) {
      SIM::GUI::NewFrame();
      SIM::GUI::Main();
  
@@ -2234,7 +2313,40 @@ index d968038..c240c81 100644
  
      SIM::GUI::Render();
  
-@@ -1325,6 +1478,9 @@ void *SIM_Render(void *arg) {
+@@ -1312,19 +1480,33 @@ void *SIM_Render(void *arg) {
+ #ifdef SDK_TRACY_ENABLE
+     TracyCZoneEnd(SimRenderZone);
+ #endif
+-    // Limit framerate to 60 fps
++    // PC port: limit the frame rate to the DS's (33513982 Hz / (263 * 2130) = 59.8261 fps), or what the port asks
++    // for, with absolute deadlines so frames don't drift; more than 100 ms behind, start over
+     if (s_SIM_config.capFrameRate && !sFastForward) {
+-
+-      // 60 Fps
+-      if (frameNs < 16600000) {
+-        u64 frameTimeRemaining = 16600000 - frameNs;
+-        u64 frameTimeRemainingMs = frameTimeRemaining / 1000000;
+-        if (frameTimeRemainingMs > 1) {
+-          SDL_Delay(frameTimeRemainingMs - 1);
+-        }
++      static struct timespec sDeadline;
++      long kFrameNs = 16715260;
++      if (SIM_ExtFrameNs != NULL && SIM_ExtFrameNs() > 0) {
++        kFrameNs = SIM_ExtFrameNs();
++      }
++      if (sDeadline.tv_sec == 0) {
++        sDeadline = curTime;
++      }
++      sDeadline.tv_nsec += kFrameNs;
++      if (sDeadline.tv_nsec >= 1000000000) {
++        sDeadline.tv_nsec -= 1000000000;
++        sDeadline.tv_sec++;
++      }
++      long long behindNs = (long long)(curTime.tv_sec - sDeadline.tv_sec) * 1000000000 + (curTime.tv_nsec - sDeadline.tv_nsec);
++      if (behindNs > 100000000) {
++        sDeadline = curTime;
++      } else if (behindNs < 0) {
++        clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &sDeadline, NULL);
        }
      }
  
@@ -2244,7 +2356,7 @@ index d968038..c240c81 100644
      SDL_GL_SwapWindow(window);
  
      if(sChangeInternalResAfterRender) {
-@@ -1357,6 +1513,7 @@ void *SIM_Render(void *arg) {
+@@ -1357,6 +1539,7 @@ void *SIM_Render(void *arg) {
    glBindRenderbuffer(GL_RENDERBUFFER, g3RenderBufferId);
  
    // Setup 3D Viewport
@@ -2252,7 +2364,7 @@ index d968038..c240c81 100644
    if (s_reg_GX_POWCNT >> 15) {
      glViewport(0, SIM_NDS_SCREEN_HEIGHT * s_SIM_config.internalResolutionScale,
                 SIM_NDS_SCREEN_WIDTH * s_SIM_config.internalResolutionScale,
-@@ -1397,8 +1554,6 @@ void SIM_PostRenderVBlank() {
+@@ -1397,8 +1580,6 @@ void SIM_PostRenderVBlank() {
      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
      G3SIM_ResetSwapBuffersCall();
    }
@@ -2261,6 +2373,81 @@ index d968038..c240c81 100644
    SDL_SemPost(vcountResetSemaphore);
  }
  
+diff --git a/libraries/snd/src/snd_bank.c b/libraries/snd/src/snd_bank.c
+index c85201b..84551f8 100644
+--- a/libraries/snd/src/snd_bank.c
++++ b/libraries/snd/src/snd_bank.c
+@@ -277,7 +277,11 @@ BOOL SND_WriteInstData (SNDBankData * bank, int prgNo, int key, const struct SND
+     case SND_INST_DIRECTPCM:
+     case SND_INST_NULL:
+     {
++        #ifdef SDK_PORT
++        SNDInstParam * param = (SNDInstParam *)((u8 *)bank + instOffset + 32);
++        #else
+         SNDInstParam * param = (SNDInstParam *)((u8 *)bank + instOffset);
++        #endif
+ 
+         bank->instOffset[prgNo] = (instOffset << 8) | inst->type;
+         *param = inst->param;
+@@ -285,7 +289,11 @@ BOOL SND_WriteInstData (SNDBankData * bank, int prgNo, int key, const struct SND
+     }
+     case SND_INST_DRUM_SET:
+     {
++        #ifdef SDK_PORT
++        SNDDrumSet * drumSet = (SNDDrumSet *)((u8 *)bank + instOffset + 32);
++        #else
+         SNDDrumSet * drumSet = (SNDDrumSet *)((u8 *)bank + instOffset);
++        #endif
+         u8 min = MI_ReadByte(&drumSet->min);
+         u8 max = MI_ReadByte(&drumSet->max);
+ 
+@@ -300,7 +308,11 @@ BOOL SND_WriteInstData (SNDBankData * bank, int prgNo, int key, const struct SND
+     case SND_INST_KEY_SPLIT:
+     {
+         int index = 0;
++        #ifdef SDK_PORT
++        SNDKeySplit * keySplit = (SNDKeySplit *)((u8 *)bank + instOffset + 32);
++        #else
+         SNDKeySplit * keySplit = (SNDKeySplit *)((u8 *)bank + instOffset);
++        #endif
+ 
+         while (key > MI_ReadByte(&keySplit->key[index])) {
+             index++;
+@@ -360,14 +372,22 @@ BOOL SND_GetNextInstData (const SNDBankData * bank, SNDInstData * inst, SNDInstP
+         case SND_INST_DIRECTPCM:
+         case SND_INST_NULL:
+         {
++            #ifdef SDK_PORT
++            const SNDInstParam * param = (const SNDInstParam *)((u8 *)bank + instOffset + 32);
++            #else
+             const SNDInstParam * param = (const SNDInstParam *)((u8 *)bank + instOffset);
++            #endif
+             inst->param = *param;
+             pos->prgNo++;
+             return TRUE;
+         }
+         case SND_INST_DRUM_SET:
+         {
++            #ifdef SDK_PORT
++            const SNDDrumSet * drumSet = (const SNDDrumSet *)((u8 *)bank + instOffset + 32);
++            #else
+             const SNDDrumSet * drumSet = (const SNDDrumSet *)((u8 *)bank + instOffset);
++            #endif
+             for (; pos->index < drumSet->max - drumSet->min + 1; pos->index++) {
+                 *inst = drumSet->instOffset[pos->index];
+                 pos->index++;
+@@ -377,7 +397,11 @@ BOOL SND_GetNextInstData (const SNDBankData * bank, SNDInstData * inst, SNDInstP
+         }
+         case SND_INST_KEY_SPLIT:
+         {
++            #ifdef SDK_PORT
++            const SNDKeySplit * keySplit = (const SNDKeySplit *)((u8 *)bank + instOffset + 32);
++            #else
+             const SNDKeySplit * keySplit = (const SNDKeySplit *)((u8 *)bank + instOffset);
++            #endif
+             for (; pos->index < SND_INST_KEYSPLIT_MAX; pos->index++) {
+                 if (keySplit->key[pos->index] == 0)
+                     break;
 diff --git a/libraries/spi/src/meson.build b/libraries/spi/src/meson.build
 index 79c3bf3..745ba1d 100644
 --- a/libraries/spi/src/meson.build
