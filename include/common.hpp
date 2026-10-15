@@ -1,6 +1,11 @@
 #ifndef POKERANGER2_COMMON_HPP
 #define POKERANGER2_COMMON_HPP
 
+// The PC port builds the C++ version of every NONMATCHING function (the DS build keeps the original asm).
+#if defined(PC_PORT) && !defined(NONMATCHING)
+#define NONMATCHING
+#endif
+
 #ifdef __MWERKS__
 #define GLUE(a, b)               a##b
 #define GLUE2(a, b)              GLUE(a, b)

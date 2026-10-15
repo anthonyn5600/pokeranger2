@@ -2,6 +2,54 @@
 
 #include "CryptoRC4.hpp"
 
+#ifdef PC_PORT
+// Portable versions for the PC port: the same algorithm and context layout as the asm below. A length of 2 GB or more
+// encrypts nothing (the asm skips most such lengths too; it can't occur on the DS).
+
+// The fast context keeps every state byte, i and j in the top 8 bits of a word (see CRYPTO_RC4FastInit), so the
+// index sums wrap by themselves; i is stored masked, j as is.
+void CRYPTO_RC4FastEncrypt(CRYPTORC4FastContext *context, const void *in, u32 length, void *out)
+{
+    u32 *s = context->s;
+    u32 i = context->i;
+    u32 j = context->j;
+    const u8 *src = (const u8 *)in;
+    u8 *dst = (u8 *)out;
+
+    for (s32 n = (s32)length; n > 0; n--) {
+        i += 1 << 24;
+        u32 x = s[i >> 24];
+        j += x;
+        u32 y = s[j >> 24];
+        s[i >> 24] = y;
+        s[j >> 24] = x;
+        *dst++ = *src++ ^ (u8)(s[(x + y) >> 24] >> 24);
+    }
+    context->i = i & 0xFF000000;
+    context->j = j;
+}
+
+void CRYPTO_RC4Encrypt(CRYPTORC4Context *context, const void *in, u32 length, void *out)
+{
+    u8 *s = context->s;
+    u8 i = context->i;
+    u8 j = context->j;
+    const u8 *src = (const u8 *)in;
+    u8 *dst = (u8 *)out;
+
+    for (s32 n = (s32)length; n > 0; n--) {
+        i++;
+        u8 x = s[i];
+        j += x;
+        u8 y = s[j];
+        s[i] = y;
+        s[j] = x;
+        *dst++ = *src++ ^ s[(u8)(x + y)];
+    }
+    context->i = i;
+    context->j = j;
+}
+#else
 // clang-format off
 asm void CRYPTO_RC4FastEncrypt(register CRYPTORC4FastContext *context, register const void *in, register u32 length, register void *out)
 {
@@ -166,3 +214,4 @@ asm void CRYPTO_RC4Encrypt(register CRYPTORC4Context *context, register const vo
     ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 }
 // clang-format on
+#endif
