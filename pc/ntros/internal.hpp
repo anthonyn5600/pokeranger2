@@ -36,6 +36,10 @@ bool ThreadsRunning(); // OS_InitThread done
 // alarm.cpp
 void RunAlarms(); // alarms whose time has come (the SDK runs them from a timer interrupt)
 
+// romfs.cpp
+void RomFs_Init(); // build the ROM's header, file name table and file table from the files folder
+void RomFs_Read(u32 offset, void *dst, u32 len); // read the virtual ROM
+
 } // namespace ntros
 
 #endif // NTROS_INTERNAL_HPP

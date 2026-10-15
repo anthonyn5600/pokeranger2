@@ -3,8 +3,9 @@
 // timing (GBATEK; melonDS as the reference for what the hardware does).
 //
 // So far: interrupts (IE/IF/IME, the interrupt table), the display timeline (263 lines per frame: VCOUNT, DISPSTAT,
-// VBlank / HBlank / VCount-match interrupts), the tick clock, alarms, v-alarms and the interrupt waits
-// (OS_WaitVBlankIntr, OS_WaitIrq).
+// VBlank / HBlank / VCount-match interrupts), the tick clock, alarms, v-alarms, the interrupt waits
+// (OS_WaitVBlankIntr, OS_WaitIrq), threads, and the game card (ROM files from a folder, romfs.cpp;
+// .sav backup memory, card.cpp).
 //
 // Timing model: game code takes no time. The DS clock moves only while the game waits for an interrupt; then the
 // display timeline runs line by line, raising interrupts and drawing lines as the hardware would, until what the
@@ -25,6 +26,18 @@ typedef struct NtrOsDisplay {
     void (*vblank)(void); // line 192 starts, just before the VBlank interrupt (the 3D engine swaps its lists here)
 } NtrOsDisplay;
 void NtrOs_SetDisplay(const NtrOsDisplay *display);
+
+// The game card. The port defines NtrOs_Cartridge (what the ROM header says about the game). The ROM's files come
+// from a folder ($NTR_FILES, else "files"), the backup memory from a raw .sav file ($NTR_SAVE, else saveName).
+typedef struct NtrOsCartridge {
+    const char *title; // header: game title (up to 12 characters)
+    const char *gameCode; // header: 4 characters
+    const char *makerCode; // header: 2 characters
+    unsigned char revision; // header: ROM version
+    int overlays; // ARM9 + ARM7 overlays: they take the first file IDs
+    const char *saveName; // default save file
+} NtrOsCartridge;
+extern const NtrOsCartridge NtrOs_Cartridge;
 
 // Current position on the display timeline: frame number (since start), line (0..262)
 unsigned long long NtrOs_GetFrame(void);

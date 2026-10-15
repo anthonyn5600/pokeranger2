@@ -3,6 +3,8 @@
 ntros_lib = static_library('ntros',
     files(
         'alarm.cpp',
+        'card.cpp',
+        'romfs.cpp',
         'interrupts.cpp',
         'thread.cpp',
         'timeline.cpp',
