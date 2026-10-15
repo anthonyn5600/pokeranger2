@@ -317,7 +317,11 @@ public:
     u32 unk_7EB0[0x20];
     u32 m_encyclopediaStates[3][4];
     u32 unk_7F60;
+#ifdef PC_PORT
+    u64 unk_7F64 __attribute__((packed, aligned(4))); // mwcc aligns u64 to 4: keep the DS save layout
+#else
     u64 unk_7F64;
+#endif
     s16 m_enemyPos[64];
     s16 m_npcPos[64];
     s16 m_objectPos[64];
@@ -390,6 +394,9 @@ public:
     CActorDataPartner m_partyActorData[10];
     u32 m_reloadPartyActorData;
 };
+#ifdef PC_PORT
+static_assert(offsetof(SaveData, m_party) == 0x8804, "SaveData must keep the DS layout (save blocks)");
+#endif
 
 extern SaveData MAIN_BSS_020B26A0;
 

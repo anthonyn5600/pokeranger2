@@ -886,11 +886,46 @@ index 93f3b66..7a04d41 100644
      return a;
      #else
  	return *(volatile GXBg23ControlDCBmp *)REG_DB_BG3CNT_ADDR;
+diff --git a/include/nitro/os/common/interrupt.h b/include/nitro/os/common/interrupt.h
+index e0bf4e3..8d3858e 100644
+--- a/include/nitro/os/common/interrupt.h
++++ b/include/nitro/os/common/interrupt.h
+@@ -110,6 +110,12 @@ void OS_IrqDummy(void);
+ void OS_IrqHandler(void);
+ void OS_IrqHandler_ThreadSwitch(void);
+ 
++#ifdef SDK_PORT
++// PC port (pc/ntros): IME changes can let a pending interrupt through at once, as on hardware
++BOOL OS_EnableIrq(void);
++BOOL OS_DisableIrq(void);
++BOOL OS_RestoreIrq(BOOL enable);
++#else
+ static inline BOOL OS_EnableIrq (void)
+ {
+   #ifdef SDK_PORT
+@@ -134,6 +140,7 @@ static inline BOOL OS_RestoreIrq (BOOL enable)
+ 	reg_OS_IME = (u16)enable;
+ 	return (BOOL)prep;
+ }
++#endif
+ 
+ OSIrqMask OS_SetIrqMask(OSIrqMask intr);
+ 
 diff --git a/libraries/fs/src/fs_file.c b/libraries/fs/src/fs_file.c
-index b5b6523..8bca63d 100644
+index b5b6523..aacbd75 100644
 --- a/libraries/fs/src/fs_file.c
 +++ b/libraries/fs/src/fs_file.c
-@@ -291,9 +291,8 @@ static s32 FSi_ReadFileCore (FSFile *p_file, void *dst, s32 len, BOOL async)
+@@ -187,6 +187,9 @@ void FS_InitFile (FSFile *p_file)
+ 	#endif
+ 	p_file->arc = NULL;
+ 	p_file->stat = 0;
++	#ifdef SDK_PORT
++	p_file->pcFilePtr = NULL; // PC port: not a host file until FS_OpenFile opens one
++	#endif
+ 	#if SDK_VERSION_MAJOR == 5
+     p_file->userdata = NULL;
+     p_file->next = NULL;
+@@ -291,9 +294,8 @@ static s32 FSi_ReadFileCore (FSFile *p_file, void *dst, s32 len, BOOL async)
  		if (!async)
  			p_file->stat |= FS_FILE_STATUS_SYNC;
  
@@ -901,7 +936,118 @@ index b5b6523..8bca63d 100644
  
  		if (!async) {
  			if (FS_WaitAsync(p_file))
-@@ -504,6 +503,16 @@ BOOL FS_OpenFile (FSFile *p_file, const char *path)
+@@ -348,6 +350,10 @@ static s32 FSi_WriteFileCore (FSFile *p_file, const void *src, s32 len, BOOL asy
+ }
+ #endif
+ 
++#ifdef SDK_PORT
++static FILE *FSi_PcOpenIgnoringCase(const char *path);
++#endif
++
+ BOOL FS_ConvertPathToFileID (FSFileID *p_file_id, const char *path)
+ {
+ 	#if SDK_VERSION_MAJOR == 4
+@@ -355,6 +361,29 @@ BOOL FS_ConvertPathToFileID (FSFileID *p_file_id, const char *path)
+ 	FS_ASSERT_ARG(p_file_id && path, FALSE);
+ 	FS_ASSERT_IRQ_ENABLED(FALSE);
+ 
++	#ifdef SDK_PORT
++	{
++		// PC port: ROM files are host files (no ROM image to read the file name table from): a ROM path exists if
++		// the host file does. Archives mounted in memory ("NAME:path") use the SDK's lookup below.
++		const char *colon = strchr(path, ':');
++		BOOL inArchive = colon != NULL && !(colon - path == 3 && strncmp(path, "rom", 3) == 0)
++			&& FS_FindArchive(path, (int)(colon - path)) != NULL;
++		if (!inArchive) {
++			const char *p = (strncmp(path, "rom:", 4) == 0) ? path + 4 : path;
++			if (*p == '/') {
++				p++;
++			}
++			FILE *f = FSi_PcOpenIgnoringCase(p);
++			if (f == NULL) {
++				return FALSE;
++			}
++			fclose(f);
++			p_file_id->arc = FS_FindArchive("rom", 3);
++			p_file_id->file_id = 0;
++			return TRUE;
++		}
++	}
++	#endif
+ 	{
+ 		FSFile dir;
+ 		FS_InitFile(&dir);
+@@ -458,6 +487,9 @@ BOOL FS_OpenFileDirect (FSFile *p_file, FSArchive *p_arc, u32 image_top, u32 ima
+ 
+ BOOL FS_OpenFileFast (FSFile *p_file, FSFileID file_id)
+ {
++	#ifdef SDK_PORT
++	p_file->pcFilePtr = NULL; // PC port: a file in an archive, not a host file
++	#endif
+ 	#if SDK_VERSION_MAJOR == 4
+ 	FS_ASSERT_INIT(FALSE);
+ 	FS_ASSERT_ARG(p_file, FALSE);
+@@ -497,6 +529,59 @@ BOOL FS_OpenFileFast (FSFile *p_file, FSFileID file_id)
+ 	#endif
+ }
+ 
++#ifdef SDK_PORT
++#include <dirent.h>
++#include <strings.h>
++
++// PC port: the DS ROM file system ignores upper/lower case in paths (the game asks for "data/Field/Effect/..." where
++// the ROM has data/field/effect/): open the host file whose path matches, one folder at a time, ignoring case
++static FILE *FSi_PcOpenIgnoringCase(const char *path)
++{
++	FILE *f = fopen(path, "rb");
++	if (f != NULL) {
++		return f;
++	}
++	char resolved[1024];
++	size_t length = 0;
++	const char *p = path;
++	while (*p != '\0') {
++		const char *end = strchr(p, '/');
++		size_t partLength = end != NULL ? (size_t)(end - p) : strlen(p);
++		if (partLength == 0) {
++			p++;
++			continue;
++		}
++		char part[256];
++		if (partLength >= sizeof(part)) {
++			return NULL;
++		}
++		memcpy(part, p, partLength);
++		part[partLength] = '\0';
++		resolved[length] = '\0';
++		DIR *dir = opendir(length == 0 ? "." : resolved);
++		if (dir == NULL) {
++			return NULL;
++		}
++		const char *match = NULL;
++		struct dirent *entry;
++		while ((entry = readdir(dir)) != NULL) {
++			if (strcasecmp(entry->d_name, part) == 0) {
++				match = entry->d_name;
++				break;
++			}
++		}
++		if (match == NULL || length + 1 + strlen(match) + 1 > sizeof(resolved)) {
++			closedir(dir);
++			return NULL;
++		}
++		length += (size_t)snprintf(resolved + length, sizeof(resolved) - length, "%s%s", length == 0 ? "" : "/", match);
++		closedir(dir);
++		p += partLength;
++	}
++	return fopen(resolved, "rb");
++}
++#endif
++
+ BOOL FS_OpenFile (FSFile *p_file, const char *path)
+ {
+ 	#if SDK_VERSION_MAJOR == 5
+@@ -504,6 +589,16 @@ BOOL FS_OpenFile (FSFile *p_file, const char *path)
  	#endif
  	FSFileID id;
  	#ifdef SDK_PORT
@@ -918,6 +1064,84 @@ index b5b6523..8bca63d 100644
  	if(path[0] == 'r'
  		&& path[1] == 'o'
  	&& path[2] == 'm'
+@@ -515,19 +610,7 @@ BOOL FS_OpenFile (FSFile *p_file, const char *path)
+ 	{
+ 		path = path + 1;
+ 	}
+-	p_file->pcFilePtr = NULL;
+-	p_file->pcFilePtr = fopen(path, "rb");
+-	if(p_file->pcFilePtr == NULL) {
+-		// Try opening with lowercase path
+-		char * lowercasePath = malloc(sizeof(char) * strlen(path) + 1);
+-		memset(lowercasePath, 0, sizeof(char) * strlen(path) + 1);
+-		strcpy(lowercasePath, path);
+-		for(int i=0; i < strlen(path); i++) {
+-			lowercasePath[i] = tolower(path[i]);
+-		}
+-		p_file->pcFilePtr = fopen(lowercasePath, "rb");
+-		free(lowercasePath);
+-	}
++	p_file->pcFilePtr = FSi_PcOpenIgnoringCase(path);
+ 	if( p_file->pcFilePtr != NULL )
+ 	{
+ 		p_file->stat |= FS_FILE_STATUS_IS_FILE;
+@@ -542,19 +625,10 @@ BOOL FS_OpenFile (FSFile *p_file, const char *path)
+ 	}
+ 	else
+ 	{
+-        #if FS_FILE_OPEN_DEBUG
+-        char messageBuf[200] = {0};
+-        snprintf(messageBuf, 199, "Failed to open file '%s'.", path);
+-        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "ROM Extraction Required", messageBuf, NULL);
+-        #else
+-        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "ROM Extraction Required", "ROM filesystem is missing. Select 'OK' and choose a NDS ROM file in the next step.", NULL);
+-        #endif
+-
+-        SIM_ShowRomExtractionDialog();
+-
+-        // try again, because the ROM should be extracted at this point
+-        // yes, this is recursive, so if the user is dumb enough to keep extracting the wrong ROM and does this enough times, it will crash
+-        return FS_OpenFile(p_file, path);
++        // PC port: report and fail, as the SDK does for a missing file (libntr's ROM extraction dialog here waited
++        // forever behind the game window)
++        fprintf(stderr, "FS_OpenFile: no file '%s'\n", path);
++        return FALSE;
+ 	}
+ 	#else
+ 	return (FS_ConvertPathToFileID(&id, path) && FS_OpenFileFast(p_file, id));
+diff --git a/libraries/fx/src/fx_mtx43.c b/libraries/fx/src/fx_mtx43.c
+index 1d8207f..ec817e5 100644
+--- a/libraries/fx/src/fx_mtx43.c
++++ b/libraries/fx/src/fx_mtx43.c
+@@ -9,21 +9,15 @@
+ #ifdef SDK_PORT
+ #include "simulator/assert.h"
+ 
++// PC port: as the game's own SDK (NitroSDK patch 0017 of the DS build, matching the ROM), this writes a 4x4
++// identity: 16 words, 1 at words 0, 5, 10 and 15. The game relies on it (CFieldMapLayerUVScroll builds its 4x4
++// texture matrix with it).
+ void MTX_Identity43_(MtxFx43* pDst)
+ {
+-    pDst->_00 = FX32_ONE;
+-    pDst->_01 = 0;
+-    pDst->_02 = 0;
+-    pDst->_10 = 0;
+-    pDst->_11 = FX32_ONE;
+-    pDst->_12 = 0;
+-    pDst->_20 = 0;
+-    pDst->_21 = 0;
+-    pDst->_22 = FX32_ONE;
+-    pDst->_30 = 0;
+-    pDst->_31 = 0;
+-    pDst->_32 = 0;
+-    return;
++    fx32 *p = (fx32 *)pDst;
++    for (int i = 0; i < 16; i++) {
++        p[i] = (i % 5 == 0) ? FX32_ONE : 0;
++    }
+ }
+ 
+ void MTX_Copy43To44_(const MtxFx43* pSrc, MtxFx44* pDst)
 diff --git a/libraries/gx/src/g3_util.c b/libraries/gx/src/g3_util.c
 index 5cf84ea..5f35d54 100644
 --- a/libraries/gx/src/g3_util.c
@@ -1089,6 +1313,41 @@ index b8cf1f4..2360a75 100644
 +    #ifdef SDK_PORT
 +    SIM_ExtG3Command(G3OP_MTX_MULT_4x3, (const u32 *)&m43._00);
 +    #endif
+ }
+diff --git a/libraries/gx/src/g3x.c b/libraries/gx/src/g3x.c
+index ed41f27..d739f9a 100644
+--- a/libraries/gx/src/g3x.c
++++ b/libraries/gx/src/g3x.c
+@@ -236,7 +236,15 @@ int G3X_GetClipMtx (MtxFx44 *m)
+ 	if (G3X_IsGeometryBusy()) {
+ 		return -1;
+ 	} else {
++		#ifdef SDK_PORT
++		// PC port: the result registers are separate variables, not one block
++		static REGType32v *const regs[16] = { &s_reg_G3X_CLIPMTX_RESULT_0, &s_reg_G3X_CLIPMTX_RESULT_1, &s_reg_G3X_CLIPMTX_RESULT_2, &s_reg_G3X_CLIPMTX_RESULT_3, &s_reg_G3X_CLIPMTX_RESULT_4, &s_reg_G3X_CLIPMTX_RESULT_5, &s_reg_G3X_CLIPMTX_RESULT_6, &s_reg_G3X_CLIPMTX_RESULT_7, &s_reg_G3X_CLIPMTX_RESULT_8, &s_reg_G3X_CLIPMTX_RESULT_9, &s_reg_G3X_CLIPMTX_RESULT_10, &s_reg_G3X_CLIPMTX_RESULT_11, &s_reg_G3X_CLIPMTX_RESULT_12, &s_reg_G3X_CLIPMTX_RESULT_13, &s_reg_G3X_CLIPMTX_RESULT_14, &s_reg_G3X_CLIPMTX_RESULT_15 };
++		for (int i = 0; i < 16; i++) {
++			(&m->_00)[i] = (fx32)*regs[i];
++		}
++		#else
+ 		MI_Copy64B((void *)REG_CLIPMTX_RESULT_0_ADDR, &m->_00);
++		#endif
+ 		return 0;
+ 	}
+ }
+@@ -248,7 +256,14 @@ int G3X_GetVectorMtx (MtxFx33 *m)
+ 	if (G3X_IsGeometryBusy()) {
+ 		return -1;
+ 	} else {
++		#ifdef SDK_PORT
++		static REGType32v *const regs[9] = { &s_reg_G3X_VECMTX_RESULT_0, &s_reg_G3X_VECMTX_RESULT_1, &s_reg_G3X_VECMTX_RESULT_2, &s_reg_G3X_VECMTX_RESULT_3, &s_reg_G3X_VECMTX_RESULT_4, &s_reg_G3X_VECMTX_RESULT_5, &s_reg_G3X_VECMTX_RESULT_6, &s_reg_G3X_VECMTX_RESULT_7, &s_reg_G3X_VECMTX_RESULT_8 };
++		for (int i = 0; i < 9; i++) {
++			(&m->_00)[i] = (fx32)*regs[i];
++		}
++		#else
+ 		MI_Copy36B((void *)(REG_VECMTX_RESULT_0_ADDR), &m->_00);
++		#endif
+ 		return 0;
+ 	}
  }
 diff --git a/libraries/gx/src/gx_bgcnt.c b/libraries/gx/src/gx_bgcnt.c
 index 3f6d01d..89dcee3 100644
@@ -1271,6 +1530,38 @@ index 4aa90f9..d4624dc 100644
  
  	if (commandLength == 0) {
  		MIi_CallCallback(callback, arg);
+diff --git a/libraries/os/src/meson.build b/libraries/os/src/meson.build
+index df9eecb..a5a7372 100644
+--- a/libraries/os/src/meson.build
++++ b/libraries/os/src/meson.build
+@@ -1,14 +1,10 @@
++# PC port: interrupts, display timing, tick, alarms, v-alarms, OS_WaitVBlankIntr, threads, mutexes and message
++# queues come from pc/ntros
+ libos_srcs = files(
+-    'os_irqHandler.c',
+-    'os_irqTable.c',
+-    'os_interrupt.c',
+     'os_spinLock.c',
+     'os_printf.c',
+-    'os_thread.c',
+     'os_context.c',
+     'os_emulator.c',
+-    'os_message.c',
+-    'os_mutex.c',
+     'os_cache.c',
+     'os_init.c',
+     'os_arena.c',
+@@ -18,10 +14,6 @@ libos_srcs = files(
+     'os_protectionRegion.c',
+     'os_exception.c',
+     'os_timer.c',
+-    'os_tick.c',
+-    'os_alarm.c',
+-    'os_valarm.c',
+-    'os_system.c',
+     'os_profile.c',
+     'os_reset.c',
+     'os_ownerInfo.c',
 diff --git a/libraries/sim/src/g3_handler.cpp b/libraries/sim/src/g3_handler.cpp
 index 1ded67d..a5de24f 100644
 --- a/libraries/sim/src/g3_handler.cpp
@@ -1314,8 +1605,29 @@ index 86cd85e..e86f72a 100644
                G2SIM_PlotPixel(pixelBuf, r, g, b, i, line, isSub);
              }
            }
+diff --git a/libraries/sim/src/sim_g3_CommandProcessor.cpp b/libraries/sim/src/sim_g3_CommandProcessor.cpp
+index f6741af..55eaa88 100644
+--- a/libraries/sim/src/sim_g3_CommandProcessor.cpp
++++ b/libraries/sim/src/sim_g3_CommandProcessor.cpp
+@@ -651,6 +651,15 @@ void HandleCommandMessage(draw_msg_t *msg) {
+ }
+ 
+ // C APIs
++// PC port: an external 3D engine that owns the geometry commands (pc/glue: ntrgfx), so libntr's OpenGL 3D is skipped
++extern "C" int SIM_ExtOwns3D(void) __attribute__((weak));
++
+ void SIM_HandleG3Command(draw_msg_t * msg) {
++    if (SIM_ExtOwns3D != NULL && SIM_ExtOwns3D()) {
++        if (msg->type == DRAW_CMD_G3_CMD_LIST) {
++            free(msg->data.ptr);
++        }
++        return;
++    }
+     SIM::G3::HandleCommandMessage(msg);
+ }
+\ No newline at end of file
 diff --git a/libraries/sim/src/sim_main.cpp b/libraries/sim/src/sim_main.cpp
-index d968038..30974b6 100644
+index d968038..c240c81 100644
 --- a/libraries/sim/src/sim_main.cpp
 +++ b/libraries/sim/src/sim_main.cpp
 @@ -3,6 +3,7 @@ extern "C" int NitroSpMain(void *arg);
@@ -1326,7 +1638,53 @@ index d968038..30974b6 100644
  #include <string>
  #include <pthread.h>
  #include <SDL2/SDL.h>
-@@ -705,7 +706,11 @@ static void DrawEngine(BOOL isSub) {
+@@ -181,33 +182,7 @@ SNDSharedWork *win_SNDi_SharedWork;
+ 
+ static bool sFastForward = false;
+ 
+-OSIrqFunction OS_IRQTable[OS_IRQ_TABLE_MAX] = {
+-    OS_IrqDummy, // VBlank (for ARM9)
+-    OS_IrqDummy, // HBlank
+-    OS_IrqDummy, // VCounter
+-    OS_IrqDummy, // timer0
+-    OS_IrqDummy, // timer1
+-    OS_IrqDummy, // timer2
+-    OS_IrqDummy, // timer3
+-    OS_IrqDummy, // serial communication (will not occur)
+-    OS_IrqDummy, // DMA0
+-    OS_IrqDummy, // DMA1
+-    OS_IrqDummy, // DMA2
+-    OS_IrqDummy, // DMA3
+-    OS_IrqDummy, // key
+-    OS_IrqDummy, // cartridge
+-    OS_IrqDummy, // (not used)
+-    OS_IrqDummy, // (not used)
+-    OS_IrqDummy, // sub processor
+-    OS_IrqDummy, // sub processor send FIFO empty
+-    OS_IrqDummy, // sub processor receive FIFO not empty
+-    OS_IrqDummy, // card data transfer finish
+-    OS_IrqDummy, // card IREQ
+-    OS_IrqDummy, // geometry command FIFO
+-    OS_IrqDummy, // Power Management IC
+-    OS_IrqDummy, // SPI data transfer
+-    OS_IrqDummy  // Wireless module
+-};
++// OS_IRQTable: the PC port's own OS layer (pc/ntros) owns the interrupt table and raises the interrupts
+ 
+ u8 s_mosaicTable[16][256];
+ 
+@@ -272,10 +247,6 @@ void SIM_u16ToRGB(u16 in, u8 *r, u8 *g, u8 *b) {
+   *b = ( ((in >> 10) & 0x1F) * 527 + 23 ) >> 6;
+ }
+ 
+-void *runVblankInterrupt(void *arg) {
+-  OS_IRQTable[OS_IE_V_BLANK - 1]();
+-  return NULL;
+-}
+ 
+ void GLAPIENTRY MessageCallback(GLenum source, GLenum type, GLuint id,
+                                 GLenum severity, GLsizei length,
+@@ -705,7 +676,11 @@ static void DrawEngine(BOOL isSub) {
        u8 b;
        u8 a;
        for (int j = 0; j < 256; j++) {
@@ -1339,7 +1697,7 @@ index d968038..30974b6 100644
            u8 colorIdx = OBJLine[isSub][j] & 0xFF;
            if (colorIdx) {
              u16 *objPltt =
-@@ -941,6 +946,181 @@ static void HandleJoystickKeyUp(int aKey) {
+@@ -941,6 +916,181 @@ static void HandleJoystickKeyUp(int aKey) {
    }
  }
  
@@ -1521,7 +1879,7 @@ index d968038..30974b6 100644
  void *SIM_Render(void *arg) {
  
    SDL_Event Event;
-@@ -958,6 +1138,8 @@ void *SIM_Render(void *arg) {
+@@ -958,6 +1108,8 @@ void *SIM_Render(void *arg) {
    // Draw the translucent 3D stuff
    G3SIM_DrawItems();
  
@@ -1530,7 +1888,7 @@ index d968038..30974b6 100644
    do {
  #ifdef SDK_TRACY_ENABLE
      TracyCZone(SimRenderZone, 1);
-@@ -1266,30 +1448,37 @@ void *SIM_Render(void *arg) {
+@@ -1266,38 +1418,39 @@ void *SIM_Render(void *arg) {
      SIM::GUI::NewFrame();
      SIM::GUI::Main();
  
@@ -1558,6 +1916,14 @@ index d968038..30974b6 100644
 -
 -    // SUB engine
 -    DrawEngine(TRUE);
+-
+-    // Run HBlank Interrupt
+-    OS_IRQTable[OS_IE_H_BLANK - 1]();
+-
+-    // Run VBlank Interrupt
+-    OS_IRQTable[OS_IE_V_BLANK - 1]();
+-    s_HW_INTR_CHECK_BUF |= 1;
+-    *((u32 *)HW_VBLANK_COUNT_BUF) = *((u32 *)HW_VBLANK_COUNT_BUF) + 1;
 +    static u8 s_extFrame[SIM_NDS_SCREEN_WIDTH * SIM_NDS_SCREEN_HEIGHT * 2 * 4];
 +    if (SIM_ExtRenderFrame != NULL && SIM_ExtRenderFrame(s_extFrame)) {
 +      // The PC port's own renderer (ntrgfx) drew both screens
@@ -1589,10 +1955,12 @@ index d968038..30974b6 100644
 +      // SUB engine
 +      DrawEngine(TRUE);
 +    }
++
++    // Interrupts, VCOUNT and the VBlank counter: pc/ntros runs the DS display timeline
  
-     // Run HBlank Interrupt
-     OS_IRQTable[OS_IE_H_BLANK - 1]();
-@@ -1325,6 +1514,9 @@ void *SIM_Render(void *arg) {
+     SIM::GUI::Render();
+ 
+@@ -1325,6 +1478,9 @@ void *SIM_Render(void *arg) {
        }
      }
  
@@ -1602,7 +1970,7 @@ index d968038..30974b6 100644
      SDL_GL_SwapWindow(window);
  
      if(sChangeInternalResAfterRender) {
-@@ -1357,6 +1549,7 @@ void *SIM_Render(void *arg) {
+@@ -1357,6 +1513,7 @@ void *SIM_Render(void *arg) {
    glBindRenderbuffer(GL_RENDERBUFFER, g3RenderBufferId);
  
    // Setup 3D Viewport
@@ -1610,3 +1978,12 @@ index d968038..30974b6 100644
    if (s_reg_GX_POWCNT >> 15) {
      glViewport(0, SIM_NDS_SCREEN_HEIGHT * s_SIM_config.internalResolutionScale,
                 SIM_NDS_SCREEN_WIDTH * s_SIM_config.internalResolutionScale,
+@@ -1397,8 +1554,6 @@ void SIM_PostRenderVBlank() {
+     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+     G3SIM_ResetSwapBuffersCall();
+   }
+-  // Reset Vcount
+-  s_reg_GX_VCOUNT = 0;
+   SDL_SemPost(vcountResetSemaphore);
+ }
+ 

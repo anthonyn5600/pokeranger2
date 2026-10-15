@@ -2335,7 +2335,12 @@ int Sys_SetNextScript(int *args)
 int Sys_GetPlayerInputDir(int *args)
 {
     if (MAIN_BSS_0210CA70 != NULL) {
+#ifdef PC_PORT
+        // CFieldPlayerInputControlManage::unk_04 follows the vtable pointer: 8 bytes on PC, 4 on the DS
+        return MAIN_BSS_0210CA70[sizeof(void *) / sizeof(u16)];
+#else
         return MAIN_BSS_0210CA70[2];
+#endif
     }
     return 0xFFFF;
 }
@@ -4069,7 +4074,11 @@ int Sys_StartEffect2(int *args)
             effect->Start(a, b, c);
             effect->Update(0);
             if (effect->GetEffectId() == 0x12) {
+#ifdef PC_PORT
+                static_cast<CFieldEffectSlime *>(effect)->m_actor->OnDisable();
+#else
                 (*(UnkEffectPart **)((u8 *)effect + 0x1EC))->vfunc_1C();
+#endif
                 static_cast<CFieldEffectSlime *>(effect)->StartPuddles();
             }
         }

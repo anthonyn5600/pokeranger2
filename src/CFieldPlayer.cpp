@@ -2,18 +2,18 @@
 
 #include <nitro.h>
 
+#include "BrightnessFade.hpp"
 #include "CGame.hpp"
 #include "CTouchPanel.hpp"
 #include "Camera2D.hpp"
-#include "PadInput.hpp"
 #include "CellAnimInstance.hpp"
-#include "BrightnessFade.hpp"
-#include "FieldSubScreen.hpp"
 #include "FieldDataRecords.hpp"
-#include "SaveData.hpp"
+#include "FieldSubScreen.hpp"
+#include "PadInput.hpp"
 #include "PokeIdTableEntry.hpp"
-#include "field/CFieldEffectManpu.hpp"
+#include "SaveData.hpp"
 #include "field/CFieldEffectManage.hpp"
+#include "field/CFieldEffectManpu.hpp"
 #include "field/CFieldMap.hpp"
 #include "field/CFieldMapLayer.hpp"
 #include "field/CFieldPartnerManage.hpp"
@@ -662,7 +662,12 @@ void CFieldPlayer::UpdateInput(PadInput *pad, CTouchPanel *touch, Camera2D *came
         SaveData_AddStepsWalked(&MAIN_BSS_020B26A0, 1);
     }
     if (MAIN_BSS_0210CA70 != NULL) {
+#ifdef PC_PORT
+        // CFieldPlayerInputControlManage::unk_04 follows the vtable pointer: 8 bytes on PC, 4 on the DS
+        MAIN_BSS_0210CA70[sizeof(void *) / sizeof(u16)] = quantDir;
+#else
         MAIN_BSS_0210CA70[2] = quantDir;
+#endif
     }
     if (s_game->currentScene->getSceneId() != 1) {
         return;

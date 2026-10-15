@@ -89,7 +89,12 @@ extern "C" {
 ScriptSymbol *Script_FindSymbol(ScriptHeader *script, const u32 *key)
 {
     // the symbol table ends where the imports start; re-read every iteration
+#ifdef PC_PORT
+    // header fields are 32-bit (PTR32): the DS form's ((void **)script)[2] would read past imports
+    for (ScriptSymbol *sym = script->symbols; sym < (ScriptSymbol *)(ScriptImport *)script->imports; sym++) {
+#else
     for (ScriptSymbol *sym = script->symbols; sym < (ScriptSymbol *)((void **)script)[2]; sym++) {
+#endif
         if (SymbolKeyEquals(key, sym->key)) {
             return sym;
         }

@@ -1,6 +1,7 @@
-// Stage 1 glue: runs ntrgfx inside libntr. Copies libntr's display state (register variables, VRAM/palette/OAM
-// arrays) into ntrgfx each frame and gives libntr the finished picture (SIM_ExtRenderFrame, called from libntr's
-// SIM_Render when the NTRGFX environment variable is 1; local libntr patch). The game's geometry commands reach
+// Stage 1 glue: runs ntrgfx inside libntr. ntros's display timeline drives it (NtrOsDisplay): at line 0 it copies
+// libntr's display state (register variables, VRAM/palette/OAM arrays) into ntrgfx, before each line the registers
+// and palettes again (the game's line interrupts change them), and draws the line; after line 191 libntr shows the
+// finished picture (SIM_Render -> SIM_ExtRenderFrame, local libntr patch) when the NTRGFX environment variable is 1. The game's geometry commands reach
 // ntrgfx's geometry engine through libntr's G3 functions (SIM_ExtG3Command / SIM_ExtG3Fifo, local patch); ntrgfx
 // draws the 3D picture itself (NTRGFX_3D=libntr: take libntr's OpenGL picture instead, SIM_Read3DImage). Display
 // captures go back into libntr's VRAM.
@@ -17,6 +18,7 @@
 //   NTRGFX_3D=libntr         3D picture from libntr's renderer instead of ntrgfx's
 //   NTRGFX_TRACK=1           record who writes display memory; dumps then include frame_N.writes (pc/tools/whowrote)
 //   NTRGFX_TRACE=bgA:0x4000-0x4100   print writes to that range as they happen (vramtrack.cpp)
+//   NTRGFX_G3LOG=N           print the geometry commands sent during frame N (command, parameters; FIFO words)
 
 #include <nitro.h>
 #include <set>
@@ -28,12 +30,16 @@
 #include <sys/stat.h>
 
 #include "../ntrgfx/ntrgfx.h"
+#include "../ntros/ntros.h"
 #include "vramtrack.hpp"
 
 // libntr (local patch): this frame's 3D picture from its OpenGL renderer, 256x192 RGBA, top row first
 extern "C" void SIM_Read3DImage(u8 *rgba);
 // libntr (local patch): the presented window picture scaled to 256x384 RGBA (call before the swap)
 extern "C" void SIM_ReadPresentedScreens(u8 *rgba);
+extern "C" void SIM_PreRenderVBlank(void);
+extern "C" void *SIM_Render(void *arg);
+extern "C" void SIM_PostRenderVBlank(void);
 
 namespace {
 
@@ -53,7 +59,11 @@ NtrGfxMemory sMem;
 NtrGfx3DImage sImage3D;
 NtrGfxPolygonList sPolygons; // the rendering engine's list (from the last SWAP_BUFFERS)
 NtrGfxMemory sMemBefore; // for dumps
+NtrGfxLineRegs sLineRegs; // for dumps: register changes between lines
 NtrGfxFrame sFrame;
+NtrGfxFrameRenderer *sRenderer; // the frame being drawn (NULL: ntrgfx doesn't draw this frame)
+bool sDumpThisFrame;
+bool sFrameReady; // sFrame holds a finished picture libntr hasn't shown yet
 uint32_t sPrevRegs[kRegCount];
 bool sFirstFrame = true;
 uint32_t sFrameNo;
@@ -75,12 +85,16 @@ uint32_t ReadVar(const RegEntry &r)
 
 // libntr has separate variables for some overlapping registers (e.g. VRAMCNT and VRAMCNT_A..D): copy only the ones
 // that changed since the last frame, so the one the game wrote last wins. First frame: all, bigger ones first.
-void CopyRegisters()
+void CopyRegisters(bool lineChange = false)
 {
     for (uint32_t pass = 4; pass >= 1; pass /= 2) {
         for (size_t i = 0; i < kRegCount; i++) {
             const RegEntry &r = kRegs[i];
             if (r.size != pass || r.offset + r.size > NTRGFX_IO_SIZE) {
+                continue;
+            }
+            // Between lines DISPSTAT and VCOUNT always change (the timeline sets them); nothing draws with them
+            if (lineChange && r.offset >= 0x004 && r.offset < 0x008) {
                 continue;
             }
             uint32_t value = ReadVar(r);
@@ -224,7 +238,7 @@ void DumpComparison(uint32_t frame)
 void Dump(uint32_t frame)
 {
     std::string path = DumpPath(frame);
-    if (!NtrGfx_SaveSnapshot((path + ".snap").c_str(), &sMemBefore, &sImage3D, NULL, Libntr3D() ? NULL : &sPolygons) || !NtrGfx_SaveFramePPM((path + ".ppm").c_str(), &sFrame) || !VramTrack_Save((path + ".writes").c_str())) {
+    if (!NtrGfx_SaveSnapshot((path + ".snap").c_str(), &sMemBefore, &sImage3D, &sLineRegs, Libntr3D() ? NULL : &sPolygons) || !NtrGfx_SaveFramePPM((path + ".ppm").c_str(), &sFrame) || !VramTrack_Save((path + ".writes").c_str())) {
         fprintf(stderr, "ntrgfx: cannot write %s.*\n", path.c_str());
         return;
     }
@@ -249,23 +263,112 @@ bool Libntr3D()
 
 } // namespace
 
+namespace {
+
+// What NitroSystem reads back (G3X_GetClipMtx, G3X_GetVectorMtx, test results) comes from our geometry engine
+void WriteGeometryResults()
+{
+    static REGType32v *const clip[16] = { &s_reg_G3X_CLIPMTX_RESULT_0, &s_reg_G3X_CLIPMTX_RESULT_1, &s_reg_G3X_CLIPMTX_RESULT_2, &s_reg_G3X_CLIPMTX_RESULT_3, &s_reg_G3X_CLIPMTX_RESULT_4, &s_reg_G3X_CLIPMTX_RESULT_5, &s_reg_G3X_CLIPMTX_RESULT_6, &s_reg_G3X_CLIPMTX_RESULT_7, &s_reg_G3X_CLIPMTX_RESULT_8, &s_reg_G3X_CLIPMTX_RESULT_9, &s_reg_G3X_CLIPMTX_RESULT_10, &s_reg_G3X_CLIPMTX_RESULT_11, &s_reg_G3X_CLIPMTX_RESULT_12, &s_reg_G3X_CLIPMTX_RESULT_13, &s_reg_G3X_CLIPMTX_RESULT_14, &s_reg_G3X_CLIPMTX_RESULT_15 };
+    static REGType32v *const vec[9] = { &s_reg_G3X_VECMTX_RESULT_0, &s_reg_G3X_VECMTX_RESULT_1, &s_reg_G3X_VECMTX_RESULT_2, &s_reg_G3X_VECMTX_RESULT_3, &s_reg_G3X_VECMTX_RESULT_4, &s_reg_G3X_VECMTX_RESULT_5, &s_reg_G3X_VECMTX_RESULT_6, &s_reg_G3X_VECMTX_RESULT_7, &s_reg_G3X_VECMTX_RESULT_8 };
+    NtrGfxGeometryResults r;
+    NtrGfx_GeometryResults(Geometry(), &r);
+    for (int i = 0; i < 16; i++) {
+        *clip[i] = (u32)r.clipMatrix[i];
+    }
+    for (int i = 0; i < 9; i++) {
+        *vec[i] = (u32)r.vectorMatrix[i];
+    }
+    s_reg_G3X_POS_RESULT_X = (u32)r.position[0];
+    s_reg_G3X_POS_RESULT_Y = (u32)r.position[1];
+    s_reg_G3X_POS_RESULT_Z = (u32)r.position[2];
+    s_reg_G3X_POS_RESULT_W = (u32)r.position[3];
+    s_reg_G3X_VEC_RESULT_X = (u16)r.vector[0];
+    s_reg_G3X_VEC_RESULT_Y = (u16)r.vector[1];
+    s_reg_G3X_VEC_RESULT_Z = (u16)r.vector[2];
+    // GXSTAT: test busy (bit 0) never, box test result (bit 1), geometry engine busy (bit 27) never
+    s_reg_G3X_GXSTAT = (s_reg_G3X_GXSTAT & ~0x08000003u) | (r.boxInside ? 0x2u : 0u);
+}
+
+} // namespace
+
+namespace {
+bool G3LogThisFrame()
+{
+    static long sLogFrame = -2;
+    if (sLogFrame == -2) {
+        const char *env = getenv("NTRGFX_G3LOG");
+        sLogFrame = env != NULL ? atol(env) : -1;
+    }
+    return sLogFrame >= 0 && (uint32_t)sLogFrame == sFrameNo;
+}
+} // namespace
+
 // libntr G3 functions (local patch): one geometry command, and display lists sent to GXFIFO
 extern "C" void SIM_ExtG3Command(u32 op, const u32 *params)
 {
+    if (G3LogThisFrame()) {
+        fprintf(stderr, "G3 %02x", op);
+        auto count = [](u32 o) {
+            switch (o) {
+            case 0x16: case 0x18: return 16;
+            case 0x17: case 0x19: return 12;
+            case 0x1A: return 9;
+            case 0x1B: case 0x1C: case 0x70: return 3;
+            case 0x23: case 0x71: return 2;
+            case 0x34: return 32;
+            case 0x11: case 0x15: case 0x41: return 0;
+            default: return 1;
+            }
+        };
+        for (int i = 0; params != NULL && i < count(op); i++) {
+            fprintf(stderr, " %08x", params[i]);
+        }
+        fprintf(stderr, "\n");
+    }
     NtrGfx_GeometryCommand(Geometry(), op, params);
+    // Matrix commands change the clip / vector matrices; the tests set their results
+    if ((op >= 0x10 && op <= 0x1C) || (op >= 0x70 && op <= 0x72)) {
+        WriteGeometryResults();
+    }
 }
 
 extern "C" void SIM_ExtG3Fifo(const void *words, u32 bytes)
 {
+    if (G3LogThisFrame()) {
+        fprintf(stderr, "FIFO %u words:", bytes / 4);
+        for (u32 i = 0; i < bytes / 4; i++) {
+            fprintf(stderr, " %08x", ((const uint32_t *)words)[i]);
+        }
+        fprintf(stderr, "\n");
+    }
     NtrGfx_GeometryFifo(Geometry(), (const uint32_t *)words, bytes / 4);
+    WriteGeometryResults();
 }
 
-// rgba: 256x384, top screen first. Returns 0 to let libntr render instead.
-extern "C" int SIM_ExtRenderFrame(uint8_t *rgba)
+// libntr skips its own OpenGL 3D when ours draws the 3D picture
+extern "C" int SIM_ExtOwns3D(void)
+{
+    static int sOwns = -1;
+    if (sOwns < 0) {
+        const char *env = getenv("NTRGFX");
+        sOwns = env != NULL && atoi(env) == 1 && !Libntr3D();
+    }
+    return sOwns;
+}
+
+namespace {
+
+void CopyPalettes()
+{
+    memcpy(&sMem.pltt[0x000], s_HW_BG_PLTT, 0x200);
+    memcpy(&sMem.pltt[0x200], s_HW_OBJ_PLTT, 0x200);
+    memcpy(&sMem.pltt[0x400], s_HW_DB_BG_PLTT, 0x200);
+    memcpy(&sMem.pltt[0x600], s_HW_DB_OBJ_PLTT, 0x200);
+}
+
+void BeginFrame()
 {
     VramTrack_SetFrame(sFrameNo);
-    // VBlank: a pending SWAP_BUFFERS hands the new polygon list to the rendering engine
-    NtrGfx_GeometryVBlank(Geometry(), &sPolygons);
     if (sMode < 0) {
         const char *env = getenv("NTRGFX");
         sMode = env == NULL ? 0 : atoi(env);
@@ -275,12 +378,10 @@ extern "C" int SIM_ExtRenderFrame(uint8_t *rgba)
             fprintf(stderr, "ntrgfx: comparing ntrgfx with libntr at the dump frames\n");
         }
     }
-    bool dump = ShouldDump(sFrameNo);
-    if (sMode != 1 && !(sMode == 2 && dump)) {
-        sFrameNo++;
-        return 0;
+    sDumpThisFrame = ShouldDump(sFrameNo);
+    if (sMode != 1 && !(sMode == 2 && sDumpThisFrame)) {
+        return;
     }
-
     CopyRegisters();
     CopyMemory();
     if (Libntr3D()) {
@@ -288,24 +389,82 @@ extern "C" int SIM_ExtRenderFrame(uint8_t *rgba)
     } else {
         NtrGfx_Render3D(&sMem, &sPolygons, &sImage3D);
     }
-    if (dump) {
+    if (sDumpThisFrame) {
         // The snapshot is the state before rendering (capture changes VRAM), so a replay renders the same frame
         sMemBefore = sMem;
+        memset(sLineRegs.changed, 0, sizeof(sLineRegs.changed));
     }
-    int captured = NtrGfx_RenderFrame(&sMem, &sImage3D, &sFrame, NULL, NULL);
-    // Compare mode: libntr does its own captures
-    if (captured != 0 && sMode == 1) {
-        WriteBackCapture(captured);
+    sRenderer = NtrGfx_BeginFrame(&sMem, &sImage3D, &sFrame);
+}
+
+void DrawLine(int y)
+{
+    if (sRenderer == NULL) {
+        return;
     }
-    if (dump) {
-        Dump(sFrameNo);
+    if (y != 0) {
+        CopyRegisters(true);
+        CopyPalettes();
+        if (sDumpThisFrame && memcmp(sMem.io, y == 1 ? sMemBefore.io : sLineRegs.io[y - 1], NTRGFX_IO_SIZE) != 0) {
+            sLineRegs.changed[y] = 1;
+        }
+        if (sDumpThisFrame) {
+            memcpy(sLineRegs.io[y], sMem.io, NTRGFX_IO_SIZE);
+        }
+    } else if (sDumpThisFrame) {
+        memcpy(sLineRegs.io[0], sMem.io, NTRGFX_IO_SIZE);
     }
-    if (sMode == 2) {
-        sCompareFrame = (int)sFrameNo;
-        sFrameNo++;
-        return 0;
+    NtrGfx_RenderLine(sRenderer, y);
+}
+
+void EndFrame()
+{
+    if (sRenderer != NULL) {
+        int captured = NtrGfx_EndFrame(sRenderer);
+        sRenderer = NULL;
+        // Compare mode: libntr does its own captures
+        if (captured != 0 && sMode == 1) {
+            WriteBackCapture(captured);
+        }
+        if (sDumpThisFrame) {
+            Dump(sFrameNo);
+        }
+        if (sMode == 2) {
+            sCompareFrame = (int)sFrameNo;
+        } else {
+            sFrameReady = true;
+        }
     }
     sFrameNo++;
+    // libntr shows the picture (ours via SIM_ExtRenderFrame, or its own), reads input and paces to 60 Hz
+    SIM_PreRenderVBlank();
+    SIM_Render(NULL);
+    SIM_PostRenderVBlank();
+}
+
+// Line 192: a pending SWAP_BUFFERS hands the new polygon list to the rendering engine
+void VBlank()
+{
+    NtrGfx_GeometryVBlank(Geometry(), &sPolygons);
+}
+
+struct RegisterDisplay {
+    RegisterDisplay()
+    {
+        static const NtrOsDisplay display = { BeginFrame, DrawLine, EndFrame, VBlank };
+        NtrOs_SetDisplay(&display);
+    }
+} sRegisterDisplay;
+
+} // namespace
+
+// rgba: 256x384, top screen first. Returns 0 to let libntr render instead.
+extern "C" int SIM_ExtRenderFrame(uint8_t *rgba)
+{
+    if (!sFrameReady) {
+        return 0;
+    }
+    sFrameReady = false;
     memcpy(rgba, sFrame, sizeof(sFrame));
     return 1;
 }

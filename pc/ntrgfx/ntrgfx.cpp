@@ -127,43 +127,70 @@ private:
     uint32_t mWriteBank;
 };
 
+struct NtrGfxFrameRenderer {
+    NtrGfxFrameRenderer(NtrGfxMemory *mem, const NtrGfx3DImage *image3D, NtrGfxFrame *out)
+        : mem(mem), out(out), engines { Engine2D(mem, 0, image3D), Engine2D(mem, 1, NULL) }, capture(mem, image3D)
+    {
+    }
+    NtrGfxMemory *mem;
+    NtrGfxFrame *out;
+    Engine2D engines[2];
+    Capture capture;
+};
+
+NtrGfxFrameRenderer *NtrGfx_BeginFrame(NtrGfxMemory *mem, const NtrGfx3DImage *image3D, NtrGfxFrame *out)
+{
+    return new NtrGfxFrameRenderer(mem, image3D, out);
+}
+
+// Both screens' line y, so register changes between lines reach both engines at the same point
+void NtrGfx_RenderLine(NtrGfxFrameRenderer *frame, int y)
+{
+    static const uint16_t enableBit[2] = { 0x0002, 0x0200 };
+    NtrGfxMemory *mem = frame->mem;
+    Color18 line[NTRGFX_WIDTH];
+    Color18 graphics[NTRGFX_WIDTH];
+    uint16_t powcnt = Io16(mem, 0x304);
+    // Display swap: 1 = engine A on the upper screen
+    int engineOnTop = (powcnt & 0x8000) ? 0 : 1;
+    for (int engine = 0; engine < 2; engine++) {
+        int screen = engine == engineOnTop ? 0 : 1;
+        bool capturing = engine == 0 && frame->capture.Active();
+        frame->engines[engine].BeginLine(y);
+        if (!(powcnt & 0x0001) || !(powcnt & enableBit[engine])) {
+            // LCDs or the engine powered off
+            for (int x = 0; x < NTRGFX_WIDTH; x++) {
+                line[x] = 0;
+                graphics[x] = 0;
+            }
+        } else {
+            frame->engines[engine].RenderLine(y, line, capturing ? graphics : NULL);
+        }
+        if (capturing) {
+            frame->capture.Line(y, graphics);
+        }
+        Output(line, (*frame->out)[screen][y]);
+    }
+}
+
+int NtrGfx_EndFrame(NtrGfxFrameRenderer *frame)
+{
+    int banks = frame->capture.Finish();
+    delete frame;
+    return banks;
+}
+
 int NtrGfx_RenderFrame(NtrGfxMemory *mem, const NtrGfx3DImage *image3D, NtrGfxFrame *out, NtrGfxLineHook hook, void *user)
 {
     if (hook != NULL) {
         hook(0, mem, user);
     }
-    Engine2D engines[2] = { Engine2D(mem, 0, image3D), Engine2D(mem, 1, NULL) };
-    const uint16_t enableBit[2] = { 0x0002, 0x0200 };
-    Capture capture(mem, image3D);
-
-    Color18 line[NTRGFX_WIDTH];
-    Color18 graphics[NTRGFX_WIDTH];
-    // Line by line, both screens, so register changes between lines (hook) reach both engines at the same point
+    NtrGfxFrameRenderer *frame = NtrGfx_BeginFrame(mem, image3D, out);
     for (int y = 0; y < NTRGFX_HEIGHT; y++) {
         if (hook != NULL && y != 0) {
             hook(y, mem, user);
         }
-        uint16_t powcnt = Io16(mem, 0x304);
-        // Display swap: 1 = engine A on the upper screen
-        int engineOnTop = (powcnt & 0x8000) ? 0 : 1;
-        for (int engine = 0; engine < 2; engine++) {
-            int screen = engine == engineOnTop ? 0 : 1;
-            bool capturing = engine == 0 && capture.Active();
-            engines[engine].BeginLine(y);
-            if (!(powcnt & 0x0001) || !(powcnt & enableBit[engine])) {
-                // LCDs or the engine powered off
-                for (int x = 0; x < NTRGFX_WIDTH; x++) {
-                    line[x] = 0;
-                    graphics[x] = 0;
-                }
-            } else {
-                engines[engine].RenderLine(y, line, capturing ? graphics : NULL);
-            }
-            if (capturing) {
-                capture.Line(y, graphics);
-            }
-            Output(line, (*out)[screen][y]);
-        }
+        NtrGfx_RenderLine(frame, y);
     }
-    return capture.Finish();
+    return NtrGfx_EndFrame(frame);
 }

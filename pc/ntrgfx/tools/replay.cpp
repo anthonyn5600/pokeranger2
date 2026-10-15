@@ -122,6 +122,22 @@ int main(int argc, char **argv)
         if (changed) {
             printf("\n");
         }
+        // Which 16-bit registers each change touches: offset old -> new
+        const uint8_t *prev = info.io;
+        for (int y = 0; y < NTRGFX_HEIGHT; y++) {
+            if (!sInfoLines.changed[y]) {
+                continue;
+            }
+            printf("  line %d:", y);
+            for (int o = 0; o < NTRGFX_IO_SIZE; o += 2) {
+                unsigned a = prev[o] | (prev[o + 1] << 8), b = sInfoLines.io[y][o] | (sInfoLines.io[y][o + 1] << 8);
+                if (a != b) {
+                    printf(" %03x %04x->%04x", o, a, b);
+                }
+            }
+            printf("\n");
+            prev = sInfoLines.io[y];
+        }
         return 0;
     }
     if (argc == 3 && strcmp(argv[1], "--polys") == 0) {

@@ -84,6 +84,7 @@ nitrodwc_dep = dependency('NitroDWC')
 ############################################################
 subdir('src') # pokeranger2_cxx
 subdir('ntrgfx') # ntrgfx_dep
+subdir('ntros') # ntros_dep
 
 pokeranger2_pc_cxx = [
     pokeranger2_cxx,
@@ -118,6 +119,7 @@ main = executable('pokeranger2',
     include_directories: public_includes,
     dependencies: [
         ntrgfx_dep,
+        ntros_dep,
         nitrosdk_dep,
         nitrosystem_dep,
         nitrowifi_dep,

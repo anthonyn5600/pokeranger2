@@ -78,6 +78,16 @@ void NtrGfx_GeometryFifo(NtrGfxGeometry *geo, const uint32_t *words, uint32_t co
 // VBlank: if SWAP_BUFFERS was sent, copies the finished polygon list to out, empties the geometry engine's list and
 // returns 1; otherwise returns 0 (the rendering engine keeps drawing its old list).
 int NtrGfx_GeometryVBlank(NtrGfxGeometry *geo, NtrGfxPolygonList *out);
+// What the game can read back from the geometry engine (CLIPMTX_RESULT, VECMTX_RESULT, POS_RESULT, VEC_RESULT,
+// GXSTAT's box test bit), as of the commands sent so far
+typedef struct NtrGfxGeometryResults {
+    int32_t clipMatrix[16]; // current position matrix x projection matrix, 20.12, row by row
+    int32_t vectorMatrix[9]; // directional matrix, 3x3 part
+    int32_t position[4]; // POS_TEST: x, y, z, w
+    int16_t vector[3]; // VEC_TEST
+    int boxInside; // BOX_TEST: 1 = (part of) the box is in the view volume
+} NtrGfxGeometryResults;
+void NtrGfx_GeometryResults(const NtrGfxGeometry *geo, NtrGfxGeometryResults *out);
 // Draws a polygon list with the rendering registers (mem->io 0x060, 0x330..0x3BF) and texture VRAM (mem->banks as
 // mapped by VRAMCNT)
 void NtrGfx_Render3D(const NtrGfxMemory *mem, const NtrGfxPolygonList *list, NtrGfx3DImage *out);
@@ -102,6 +112,13 @@ void NtrGfx_ApplyLineRegs(int y, NtrGfxMemory *mem, void *lineRegs);
 // Display capture (DISPCAPCNT) writes into mem->banks and clears the capture enable bit in mem->io, as the hardware
 // does; returns the VRAM banks it wrote (bit 0 = A .. bit 3 = D), 0 if none.
 int NtrGfx_RenderFrame(NtrGfxMemory *mem, const NtrGfx3DImage *image3D, NtrGfxFrame *out, NtrGfxLineHook hook, void *user);
+
+// The same, one line at a time (for a caller that runs the game's line interrupts itself): Begin, then RenderLine for
+// y = 0..191 in order (changing mem between lines as the hardware would see it), then End (returns as RenderFrame).
+typedef struct NtrGfxFrameRenderer NtrGfxFrameRenderer;
+NtrGfxFrameRenderer *NtrGfx_BeginFrame(NtrGfxMemory *mem, const NtrGfx3DImage *image3D, NtrGfxFrame *out);
+void NtrGfx_RenderLine(NtrGfxFrameRenderer *frame, int y);
+int NtrGfx_EndFrame(NtrGfxFrameRenderer *frame);
 
 // Debugging
 // Layers to leave out, e.g. "A0,A3,AO,B2,A3D": engine (A/B) + BG number, O = OBJ, 3D = engine A's 3D layer.

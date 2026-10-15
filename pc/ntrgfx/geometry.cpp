@@ -899,6 +899,26 @@ void NtrGfx_GeometryFifo(NtrGfxGeometry *g, const uint32_t *words, uint32_t coun
     }
 }
 
+void NtrGfx_GeometryResults(const NtrGfxGeometry *g, NtrGfxGeometryResults *out)
+{
+    Matrix clip = Clip(g);
+    for (int i = 0; i < 16; i++) {
+        out->clipMatrix[i] = clip.m[i];
+    }
+    for (int row = 0; row < 3; row++) {
+        for (int col = 0; col < 3; col++) {
+            out->vectorMatrix[row * 3 + col] = g->vector.m[row * 4 + col];
+        }
+    }
+    for (int i = 0; i < 4; i++) {
+        out->position[i] = g->posResult[i];
+    }
+    for (int i = 0; i < 3; i++) {
+        out->vector[i] = g->vecResult[i];
+    }
+    out->boxInside = g->boxResult ? 1 : 0;
+}
+
 int NtrGfx_GeometryVBlank(NtrGfxGeometry *g, NtrGfxPolygonList *out)
 {
     if (!g->swapPending) {
