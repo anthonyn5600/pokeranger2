@@ -47,13 +47,13 @@ int ov11_02124EB0(int pos);
 
 extern FieldData *MAIN_BSS_0210CA6C;
 extern "C" {
-BOOL sub_02010F78(UnkClass_02010EC8 *obj, UnkClass_02010EC8 *other);
-int sub_02010FC8(UnkClass_02010EC8 *obj, int bit);
-void sub_0201105C(UnkClass_0201100C *obj);
-void sub_020110E8(UnkClass_0201100C *obj);
-int sub_02011188(UnkClass_0201100C *obj, int list);
-int sub_02011318(UnkClass_02011248 *obj, int bit);
-int sub_020110F8(UnkClass_0201100C *obj, int list);
+BOOL DownloadMissionRecord_IsValid(DownloadMissionRecord *obj, DownloadMissionRecord *other);
+int DownloadMissionRecord_GetStatus(DownloadMissionRecord *obj, int bit);
+void DownloadMissionData_Reset(DownloadMissionData *obj);
+void DownloadMissionData_ResetStep(DownloadMissionData *obj);
+int DownloadMissionData_Load(DownloadMissionData *obj, int list);
+int DownloadMissionClears_Get(DownloadMissionClears *obj, int bit);
+int DownloadMissionData_Save(DownloadMissionData *obj, int list);
 }
 fx32 ov11_0212439C(fx32 a, fx32 b);
 
@@ -120,8 +120,8 @@ void RangerNetMenu::ov11_0211E1E8()
     unk_008 = NULL;
     unk_350[unk_364] = 0;
     unk_59C = -1;
-    unk_620 = new UnkClass_0201100C();
-    sub_0201105C(unk_620);
+    unk_620 = new DownloadMissionData();
+    DownloadMissionData_Reset(unk_620);
     unk_0EC = 0;
     unk_700 = NULL;
     unk_364 = 0;
@@ -383,8 +383,8 @@ void RangerNetMenu::ov11_0211E464()
     ov11_02123794(3);
     G2S_SetBlendAlpha(GX_BLEND_PLANEMASK_NONE, GX_BLEND_PLANEMASK_BG2 | GX_BLEND_PLANEMASK_BG3, 10, 6);
     unk_72C->m_audioEngine->LoadBgmGroup(3);
-    unk_72C->m_audioEngine->sub_020345D4();
-    unk_72C->m_audioEngine->sub_020349E8(0xC6);
+    unk_72C->m_audioEngine->LoadSystemSe();
+    unk_72C->m_audioEngine->AddSeGroup(0xC6);
     unk_014[5]->SetVisible(FALSE);
     unk_014[6]->SetVisible(FALSE);
     unk_0B8 = 0x42680;
@@ -991,8 +991,8 @@ void RangerNetMenu::ov11_021202E4()
         unk_650 = 0;
         unk_002 = 1;
     case 1:
-        if (sub_02010F78(&MAIN_BSS_020AF5E4[unk_650], &MAIN_BSS_020AF5E4[unk_650])) {
-            unk_62C[unk_650] = sub_02010FC8(&MAIN_BSS_020AF5E4[unk_650], unk_650);
+        if (DownloadMissionRecord_IsValid(&MAIN_BSS_020AF5E4[unk_650], &MAIN_BSS_020AF5E4[unk_650])) {
+            unk_62C[unk_650] = DownloadMissionRecord_GetStatus(&MAIN_BSS_020AF5E4[unk_650], unk_650);
         } else {
             unk_62C[unk_650] = 0;
         }
@@ -1001,9 +1001,9 @@ void RangerNetMenu::ov11_021202E4()
         }
         unk_650 = 0;
         unk_002 = 2;
-        sub_020110E8(unk_620);
+        DownloadMissionData_ResetStep(unk_620);
     case 2:
-        switch (sub_02011188(unk_620, unk_650)) {
+        switch (DownloadMissionData_Load(unk_620, unk_650)) {
         case 1:
             unk_002 = 3;
             break;
@@ -1020,7 +1020,7 @@ void RangerNetMenu::ov11_021202E4()
         }
         break;
     case 3:
-        if (sub_02011318(&MAIN_BSS_020AF598, unk_650)) {
+        if (DownloadMissionClears_Get(&MAIN_BSS_020AF598, unk_650)) {
             unk_638[unk_650] = 2;
         } else {
             unk_638[unk_650] = 1;
@@ -1029,7 +1029,7 @@ void RangerNetMenu::ov11_021202E4()
         break;
     case 4:
         if (++unk_650 < 6) {
-            sub_020110E8(unk_620);
+            DownloadMissionData_ResetStep(unk_620);
             unk_002 = 2;
             return;
         }
@@ -1449,7 +1449,7 @@ int RangerNetMenu::ov11_02121010()
     case 1:
         break;
     case 2:
-        sub_020110E8(unk_620);
+        DownloadMissionData_ResetStep(unk_620);
         unk_6F0 = 0;
         unk_6FC = 3;
         break;
@@ -1458,7 +1458,7 @@ int RangerNetMenu::ov11_02121010()
         for (; unk_6F0 < 6; unk_6F0++) {
             if (ov11_02123D20(unk_6F0, unk_6F4, MAIN_BSS_020AF620.unk_00.unk_04)) {
                 unk_6FC = 4;
-                sub_020110E8(unk_620);
+                DownloadMissionData_ResetStep(unk_620);
                 break;
             }
         }
@@ -1472,7 +1472,7 @@ int RangerNetMenu::ov11_02121010()
         break;
     case 4:
         ov11_0211F06C();
-        r = sub_020110F8(unk_620, unk_6F0);
+        r = DownloadMissionData_Save(unk_620, unk_6F0);
         if (r == 0) {
             break;
         }
@@ -1917,7 +1917,7 @@ void RangerNetMenu::ov11_02121C20()
         unk_584[i]->Setup(0x100, 0x100);
     }
 
-    unk_72C->m_audioEngine->sub_020345D4();
+    unk_72C->m_audioEngine->LoadSystemSe();
     unk_72C->unk_1498->FreeWindows();
     G2S_SetBG0Control(GX_BG_SCRSIZE_TEXT_256x256, GX_BG_COLORMODE_16, GX_BG_SCRBASE_0x8000, GX_BG_CHARBASE_0x00000, GX_BG_EXTPLTT_23);
     unk_72C->unk_1498->LoadPalette();
@@ -2801,8 +2801,8 @@ static void ov11_02123EA8(void *arg)
 void RangerNetMenu::ov11_02123EBC()
 {
     if (unk_72C != NULL) {
-        unk_72C->unk_14C0->Start(3, 15);
-        unk_72C->unk_14BC->Start(3, 15);
+        unk_72C->m_subFade->Start(3, 15);
+        unk_72C->m_mainFade->Start(3, 15);
     }
 }
 
@@ -2810,8 +2810,8 @@ void RangerNetMenu::ov11_02123F00()
 {
     if (unk_72C != NULL) {
         unk_72C->m_audioEngine->StopBgm(10);
-        unk_72C->unk_14C0->Start(4, 15);
-        unk_72C->unk_14BC->Start(4, 15);
+        unk_72C->m_subFade->Start(4, 15);
+        unk_72C->m_mainFade->Start(4, 15);
     }
 }
 
@@ -2819,14 +2819,14 @@ void RangerNetMenu::ov11_02123F58()
 {
     unk_72C->m_audioEngine->StopBgm(10);
     if (unk_72C != NULL) {
-        unk_72C->unk_14C0->Start(2, 15);
-        unk_72C->unk_14BC->Start(2, 15);
+        unk_72C->m_subFade->Start(2, 15);
+        unk_72C->m_mainFade->Start(2, 15);
     }
 }
 
 BOOL RangerNetMenu::ov11_02123FB0()
 {
-    if (unk_72C->unk_14C0->IsActive() || unk_72C->unk_14BC->IsActive()) {
+    if (unk_72C->m_subFade->IsActive() || unk_72C->m_mainFade->IsActive()) {
         return TRUE;
     }
     return FALSE;

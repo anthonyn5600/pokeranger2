@@ -91,8 +91,8 @@ void CBrowserScene::func6()
     unk_0010 = 0;
     s_game->unk_146C.SetFps(60);
     unk_0008 = new BrowserScreen(s_game);
-    s_game->unk_14BC->Start(3, 30);
-    s_game->unk_14C0->Start(3, 30);
+    s_game->m_mainFade->Start(3, 30);
+    s_game->m_subFade->Start(3, 30);
 }
 
 void CBrowserScene::func7()
@@ -114,7 +114,7 @@ u32 CBrowserScene::func0()
     sScrollX = slide.x >> 12;
     switch (unk_0010) {
     case 0:
-        if (!s_game->unk_14BC->IsActive() && !s_game->unk_14C0->IsActive()) {
+        if (!s_game->m_mainFade->IsActive() && !s_game->m_subFade->IsActive()) {
             unk_0010 = 1;
             unk_000C = 0;
         }
@@ -122,12 +122,12 @@ u32 CBrowserScene::func0()
     case 1:
         if (unk_0008->unk_034 == 3) {
             unk_0010 = 2;
-            s_game->unk_14BC->Start(4, 20);
-            s_game->unk_14C0->Start(4, 20);
+            s_game->m_mainFade->Start(4, 20);
+            s_game->m_subFade->Start(4, 20);
         }
         break;
     case 2:
-        if (!s_game->unk_14BC->IsActive() && !s_game->unk_14C0->IsActive()) {
+        if (!s_game->m_mainFade->IsActive() && !s_game->m_subFade->IsActive()) {
             return 6;
         }
         break;

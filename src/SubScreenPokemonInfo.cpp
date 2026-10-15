@@ -595,7 +595,7 @@ void SubScreenPokemonInfo::sub_0201EC80()
         }
 
         if (unk_04 <= 1) {
-            sub_0202BC74(NameTables_GetPokemonName(game->unk_14B0, unk_16), name, 0x1F);
+            sub_0202BC74(NameTables_GetPokemonName(game->m_nameTables, unk_16), name, 0x1F);
             game->unk_1498->Print(8, windows[8].x, windows[8].y, windows[8].color, name, TRUE, 0);
         } else {
             game->unk_1498->Print(8, windows[8].x, windows[8].y, windows[8].color, unk_4C->unk_08[18].unk_04, TRUE, 0);
@@ -648,7 +648,7 @@ void SubScreenPokemonInfo::sub_0201F124()
         game->unk_1498->Print(5, windows[0].x, windows[0].y, windows[0].color, unk_50->unk_08[unk_0E + 1].unk_04, TRUE, 0);
         game->unk_1498->Print(6, windows[1].x, windows[1].y, windows[1].color, unk_50->unk_08[unk_10 + 1].unk_04, TRUE, 0);
         SubTextPrinter *text = game->unk_1498;
-        text->Print(7, windows[2].x, windows[2].y, windows[2].color, NameTables_GetFieldMoveName(game->unk_14B0, unk_1A), TRUE, 0);
+        text->Print(7, windows[2].x, windows[2].y, windows[2].color, NameTables_GetFieldMoveName(game->m_nameTables, unk_1A), TRUE, 0);
         type = sub_020107C4(unk_1A);
     } else {
         game->unk_1498->Print(5, windows[0].x, windows[0].y, windows[0].color, unk_4C->unk_08[18].unk_04, TRUE, 0);

@@ -303,8 +303,8 @@ void BattleAssistMenu::ov1_0213B7C0(CTouchPanel *touch)
         m_cancel = FALSE;
         m_motions[m_index].SetPos(sConfirmPos);
         m_sprite760.m_cellDataIdx = PokeIdTable_Get(m_table, m_ids[m_index])->unk_04;
-        CGame::GetInstance()->unk_14BC->Start(1, 0x40);
-        CGame::GetInstance()->unk_14C0->Start(1, 0x40);
+        CGame::GetInstance()->m_mainFade->Start(1, 0x40);
+        CGame::GetInstance()->m_subFade->Start(1, 0x40);
         m_window->Close();
         CBattleScene *scene = (CBattleScene *)CGame::GetInstance()->currentScene;
         if (m_partner && m_index == 0) {

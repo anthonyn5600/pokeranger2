@@ -145,7 +145,7 @@ void SubScreenPartyPanel::LoadPanel()
         for (i = 0; i < unk_28; i++) {
             CFieldPartner *partner = FindPartnerByOrder(mgr, first + i);
             if (partner != NULL) {
-                if (partner->unk_04 & 0x20) {
+                if (partner->m_flags & 0x20) {
                     unk_20 = 1;
                     unk_00[0] = partner->unk_200;
                 } else {
@@ -157,7 +157,7 @@ void SubScreenPartyPanel::LoadPanel()
     }
 
     SaveData *save = &MAIN_BSS_020B26A0;
-    unk_2C = sub_02015658(save, save->m_rangerClassGrade & 0xF);
+    unk_2C = SaveData_GetPartyCapacity(save, save->m_rangerClassGrade & 0xF);
     if (unk_20) {
         unk_24 = save->m_partnerMoods[PartnerKindToIndex(unk_00[0])] + 1;
     }
@@ -289,7 +289,7 @@ void SubScreenPartyPanel::DrawTexts()
     game->unk_1498->Print(1, 0x47, windows[1].y, windows[1].color, unk_74->unk_08[unk_2C + 8 - unk_20].unk_04, FALSE, 0);
 
     if (unk_20 != 0) {
-        sub_0202BC74(NameTables_GetPokemonName(game->unk_14B0, unk_30[0]), name, 0x1F);
+        sub_0202BC74(NameTables_GetPokemonName(game->m_nameTables, unk_30[0]), name, 0x1F);
         game->unk_1498->Print(2, windows[2].x, windows[2].y, windows[2].color, name, TRUE, 0);
         game->unk_1498->Print(3, windows[3].x, windows[3].y, windows[3].color, unk_74->unk_08[unk_24 + 0x15].unk_04, TRUE, 0);
     }
@@ -298,10 +298,10 @@ void SubScreenPartyPanel::DrawTexts()
         int n = i + 1;
         int j = i * 2 + 4;
         int k = i * 2 + 5;
-        sub_0202BC74(NameTables_GetPokemonName(game->unk_14B0, unk_30[n]), name, 0x1F);
+        sub_0202BC74(NameTables_GetPokemonName(game->m_nameTables, unk_30[n]), name, 0x1F);
         game->unk_1498->Print(j, windows[j].x, windows[j].y, windows[j].color, name, TRUE, 0);
         SubTextPrinter *text = game->unk_1498;
-        text->Print(k, windows[k].x, windows[k].y, windows[k].color, NameTables_GetFieldMoveName(game->unk_14B0, unk_40[n]), TRUE, 0);
+        text->Print(k, windows[k].x, windows[k].y, windows[k].color, NameTables_GetFieldMoveName(game->m_nameTables, unk_40[n]), TRUE, 0);
     }
 }
 

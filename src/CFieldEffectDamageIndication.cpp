@@ -9,8 +9,8 @@ extern CFieldScene *MAIN_BSS_0210CA40;
 CFieldEffectDamageIndication::CFieldEffectDamageIndication()
 {
     m_player = NULL;
-    if (MAIN_BSS_0210CA40 != NULL && MAIN_BSS_0210CA40->unk_00D8 != NULL) {
-        InitRects(MAIN_BSS_0210CA40->unk_00D8->GetPart(2));
+    if (MAIN_BSS_0210CA40 != NULL && MAIN_BSS_0210CA40->m_hpGauge != NULL) {
+        InitRects(MAIN_BSS_0210CA40->m_hpGauge->GetPart(2));
     }
     m_vel.y = 0;
     m_vel.x = 0;
@@ -27,8 +27,8 @@ void CFieldEffectDamageIndication::ov0_02164DB8(int damage, int duration, CField
     }
     // Unused; written out (player->GetPos() swaps the zero temps' stack slots).
     Point2D pos;
-    if (player->unk_08 != NULL) {
-        pos = player->unk_08->GetPos();
+    if (player->m_drawObject != NULL) {
+        pos = player->m_drawObject->GetPos();
     } else {
         Point2D zero = { 0, 0 };
         pos = zero;

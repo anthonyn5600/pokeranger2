@@ -18,139 +18,139 @@ public:
     virtual ~CFieldDrawObject();
 
     BOOL CreateActor(int arg0, u16 arg1, int arg2, u32 mask, int arg4);
-    BOOL sub_020405B4(int arg0, u16 arg1, int arg2, u32 mask, int arg4);
+    BOOL CreateActorOwnData(int arg0, u16 arg1, int arg2, u32 mask, int arg4);
     void DeleteActor();
     virtual int Draw(Camera2D *camera, int budget);
 
     inline void SetPos(Point2D pos)
     {
-        if (unk_0C != NULL) {
-            unk_0C->m_motion.SetPos(pos);
-            if (unk_0C->m_sprite != NULL) {
-                unk_0C->m_sprite->SetPos(pos);
+        if (m_actor != NULL) {
+            m_actor->m_motion.SetPos(pos);
+            if (m_actor->m_sprite != NULL) {
+                m_actor->m_sprite->SetPos(pos);
             }
         }
     }
 
     inline void SetPosXY(fx32 x, fx32 y)
     {
-        if (unk_0C != NULL) {
-            unk_0C->SetXY(x, y);
-            if (unk_0C->m_sprite != NULL) {
-                unk_0C->m_sprite->SetXY(x, y);
+        if (m_actor != NULL) {
+            m_actor->SetXY(x, y);
+            if (m_actor->m_sprite != NULL) {
+                m_actor->m_sprite->SetXY(x, y);
             }
         }
     }
 
     inline void sub_02012114_(int arg0, int arg1)
     {
-        if (unk_0C != NULL) {
-            unk_0C->SetAnim(arg0, arg1);
+        if (m_actor != NULL) {
+            m_actor->SetAnim(arg0, arg1);
         }
     }
 
     inline void sub_020128EC_(u16 arg0)
     {
-        if (unk_0C != NULL) {
-            unk_0C->SetDir(arg0);
+        if (m_actor != NULL) {
+            m_actor->SetDir(arg0);
         }
     }
 
     inline void sub_0201287C_()
     {
-        if (unk_0C != NULL) {
-            unk_0C->FaceMoveDir();
+        if (m_actor != NULL) {
+            m_actor->FaceMoveDir();
         }
     }
 
     inline void sub_020129F4_(int arg0, u8 arg1)
     {
-        if (unk_0C != NULL) {
-            unk_0C->FadeAlpha(arg0, arg1);
+        if (m_actor != NULL) {
+            m_actor->FadeAlpha(arg0, arg1);
         }
     }
 
     inline void sub_reset()
     {
-        if (unk_0C != NULL) {
-            unk_0C->sub_reset();
+        if (m_actor != NULL) {
+            m_actor->sub_reset();
         }
     }
 
     inline void ResetOutlinePhase()
     {
-        if (unk_0C != NULL) {
-            unk_0C->m_outlinePhase = 0;
+        if (m_actor != NULL) {
+            m_actor->m_outlinePhase = 0;
         }
     }
 
     inline void SetOutlineColor(u16 color)
     {
-        if (unk_0C != NULL) {
-            unk_0C->SetOutlineColor(color);
+        if (m_actor != NULL) {
+            m_actor->SetOutlineColor(color);
         }
     }
 
     inline void SetOutlineWidth(u8 width)
     {
-        if (unk_0C != NULL) {
-            unk_0C->m_outlineWidth = width;
+        if (m_actor != NULL) {
+            m_actor->m_outlineWidth = width;
         }
     }
 
     inline void SetOutlineAlpha(u8 alpha)
     {
-        if (unk_0C != NULL) {
-            unk_0C->m_outlineAlpha = alpha;
+        if (m_actor != NULL) {
+            m_actor->m_outlineAlpha = alpha;
         }
     }
 
     inline void StartOutline(int time)
     {
-        if (unk_0C != NULL) {
-            unk_0C->StartOutline(time);
+        if (m_actor != NULL) {
+            m_actor->StartOutline(time);
         }
     }
 
-    inline void ClearUnk1A8Bits(u32 bits)
+    inline void ClearEffectFlags(u32 bits)
     {
-        if (unk_0C != NULL) {
-            unk_0C->unk_1A8 &= ~bits;
+        if (m_actor != NULL) {
+            m_actor->m_effectFlags &= ~bits;
         }
     }
 
     inline void StartBlink()
     {
-        if (unk_0C != NULL) {
-            unk_0C->StartBlink();
+        if (m_actor != NULL) {
+            m_actor->StartBlink();
         }
     }
 
     inline void SetUnk1DC(int value)
     {
-        if (unk_0C != NULL) {
-            unk_0C->SetUnk1DC(value);
+        if (m_actor != NULL) {
+            m_actor->SetUnk1DC(value);
         }
     }
 
     inline void ResetUnk00C()
     {
-        if (unk_0C != NULL) {
-            unk_0C->m_motion.m_mode = 0;
+        if (m_actor != NULL) {
+            m_actor->m_motion.m_mode = 0;
         }
     }
 
     inline void sub_show()
     {
-        if (unk_0C != NULL) {
-            unk_0C->sub_show();
+        if (m_actor != NULL) {
+            m_actor->sub_show();
         }
     }
 
     inline Point2D GetPos()
     {
-        if (unk_0C != NULL) {
-            return unk_0C->m_motion.m_pos;
+        if (m_actor != NULL) {
+            return m_actor->m_motion.m_pos;
         }
         Point2D zero = { 0, 0 };
         return zero;
@@ -158,87 +158,87 @@ public:
 
     inline fx32 GetX()
     {
-        if (unk_0C != NULL) {
-            return unk_0C->m_motion.m_pos.x;
+        if (m_actor != NULL) {
+            return m_actor->m_motion.m_pos.x;
         }
         return 0;
     }
 
     inline fx32 GetY()
     {
-        if (unk_0C != NULL) {
-            return unk_0C->m_motion.m_pos.y;
+        if (m_actor != NULL) {
+            return m_actor->m_motion.m_pos.y;
         }
         return 0;
     }
 
     inline u16 GetDir()
     {
-        if (unk_0C != NULL) {
-            return unk_0C->m_dir;
+        if (m_actor != NULL) {
+            return m_actor->m_dir;
         }
         return 0;
     }
 
-    inline int GetUnk8C()
+    inline int GetBaseHeight()
     {
-        if (unk_0C != NULL) {
-            return unk_0C->unk_8C;
+        if (m_actor != NULL) {
+            return m_actor->m_height;
         }
         return 0;
     }
 
-    inline void SetUnk8C(int value)
+    inline void SetBaseHeight(int value)
     {
-        if (unk_0C != NULL) {
-            unk_0C->unk_8C = value;
+        if (m_actor != NULL) {
+            m_actor->m_height = value;
         }
     }
 
     inline BOOL IsUnk00CSet()
     {
-        if (unk_0C != NULL) {
-            return unk_0C->m_motion.m_mode != 0 ? TRUE : FALSE;
+        if (m_actor != NULL) {
+            return m_actor->m_motion.m_mode != 0 ? TRUE : FALSE;
         }
         return FALSE;
     }
 
     inline int GetUnk1D8()
     {
-        if (unk_0C != NULL) {
-            return unk_0C->unk_1D8;
+        if (m_actor != NULL) {
+            return m_actor->unk_1D8;
         }
         return 3;
     }
 
     inline int GetAnimState()
     {
-        if (unk_0C != NULL) {
-            return unk_0C->sub_02012AFC();
+        if (m_actor != NULL) {
+            return m_actor->GetAnimStatus();
         }
         return 2;
     }
 
     inline u8 GetUnkC0()
     {
-        if (unk_0C != NULL) {
-            return unk_0C->unk_C0;
+        if (m_actor != NULL) {
+            return m_actor->unk_C0;
         }
         return 0;
     }
 
     inline fx32 GetScale()
     {
-        if (unk_0C != NULL) {
-            return unk_0C->unk_11C.value;
+        if (m_actor != NULL) {
+            return m_actor->unk_11C.value;
         }
         return FX32_ONE;
     }
 
     inline int GetHeight()
     {
-        if (unk_0C != NULL) {
-            return unk_0C->unk_8C + unk_0C->m_jumpHeight + unk_0C->m_bobHeight;
+        if (m_actor != NULL) {
+            return m_actor->m_height + m_actor->m_jumpHeight + m_actor->m_bobHeight;
         }
         return 0;
     }
@@ -247,80 +247,80 @@ public:
 
     inline BOOL IsJumping()
     {
-        if (unk_0C != NULL) {
-            return unk_0C->m_jumping;
+        if (m_actor != NULL) {
+            return m_actor->m_jumping;
         }
         return FALSE;
     }
 
     inline void Jump(fx32 height, int duration)
     {
-        if (unk_0C != NULL) {
-            unk_0C->Jump(height, duration);
+        if (m_actor != NULL) {
+            m_actor->Jump(height, duration);
         }
     }
 
     inline void MoveLinear(Point2D dest, u32 duration)
     {
-        if (unk_0C != NULL) {
-            unk_0C->m_motion.MoveLinear(dest, duration);
+        if (m_actor != NULL) {
+            m_actor->m_motion.MoveLinear(dest, duration);
         }
     }
 
     inline void StopGhost()
     {
-        if (unk_0C != NULL) {
-            unk_0C->StopGhosts();
+        if (m_actor != NULL) {
+            m_actor->StopGhosts();
         }
     }
 
     inline void LookAt(Point2D pos)
     {
-        if (unk_0C != NULL) {
-            unk_0C->LookAt(pos);
+        if (m_actor != NULL) {
+            m_actor->LookAt(pos);
         }
     }
 
     inline void SetClipping(s16 x1, s16 x2, s16 y1, s16 y2)
     {
-        if (unk_0C != NULL) {
-            unk_0C->SetClipping(x1, x2, y1, y2);
+        if (m_actor != NULL) {
+            m_actor->SetClipping(x1, x2, y1, y2);
         }
     }
 
     inline void ClearClipping()
     {
-        if (unk_0C != NULL) {
-            unk_0C->ClearClipping();
+        if (m_actor != NULL) {
+            m_actor->ClearClipping();
         }
     }
 
     inline BOOL IsAnimating()
     {
-        if (unk_0C != NULL) {
-            return (unk_0C->m_flags & 8) ? TRUE : FALSE;
+        if (m_actor != NULL) {
+            return (m_actor->m_flags & 8) ? TRUE : FALSE;
         }
         return FALSE;
     }
 
-    inline s16 GetShadowOffsetX()
+    inline s16 GetShakeX()
     {
-        if (unk_0C != NULL) {
-            return unk_0C->GetShadowOffsetX();
+        if (m_actor != NULL) {
+            return m_actor->GetShakeX();
         }
         return 0;
     }
 
-    inline s16 GetShadowOffsetY()
+    inline s16 GetShakeY()
     {
-        if (unk_0C != NULL) {
-            return unk_0C->GetShadowOffsetY();
+        if (m_actor != NULL) {
+            return m_actor->GetShakeY();
         }
         return 0;
     }
 
 public:
-    CFieldDrawActor *unk_0C;
+    CFieldDrawActor *m_actor;
     int unk_10;
     int unk_14;
 };
@@ -347,94 +347,94 @@ public:
     void UpdateScript();
     void Reset();
     BOOL CreateDrawObject(int arg0, u16 arg1, int arg2, u32 mask, int arg4);
-    BOOL sub_0203C4BC(int arg0, u16 arg1, int arg2, u32 mask, int arg4);
+    BOOL CreateDrawObjectOwnData(int arg0, u16 arg1, int arg2, u32 mask, int arg4);
     void DeleteDrawObject();
     void Draw(DrawObjectList *renderLists, FieldShadow *hud);
     void Update(CFieldMap *map);
     void sub_0203CCD4();
-    void sub_0203CDB0();
+    void UpdateLookAt();
     BOOL CheckSweepCollision(const PointPair2D &move, fx32 radius, u32 flags);
     BOOL CheckCircleCollision(Point2D pos, fx32 radius, u32 flags);
     BOOL StartMoveTo(Point2D dest);
-    void sub_0203D320();
+    void UpdateFall();
     void sub_0203D2F4();
-    void sub_0203D394();
-    void sub_0203D890(int attr);
-    void sub_0203D910();
-    void sub_0203DA10();
+    void UpdateFloat();
+    void UpdateBushEffect(int attr);
+    void StartBushEffect();
+    void StopBushEffect();
 
     inline BOOL IsJumping()
     {
-        if (unk_08 != NULL) {
-            return unk_08->IsJumping();
+        if (m_drawObject != NULL) {
+            return m_drawObject->IsJumping();
         }
         return FALSE;
     }
 
     inline void StopGhost()
     {
-        if (unk_08 != NULL) {
-            unk_08->StopGhost();
+        if (m_drawObject != NULL) {
+            m_drawObject->StopGhost();
         }
     }
 
     inline void LookAt(Point2D pos)
     {
-        if (unk_08 != NULL) {
-            unk_08->LookAt(pos);
+        if (m_drawObject != NULL) {
+            m_drawObject->LookAt(pos);
         }
     }
 
     inline void SetClipping(s16 x1, s16 x2, s16 y1, s16 y2)
     {
-        if (unk_08 != NULL) {
-            unk_08->SetClipping(x1, x2, y1, y2);
+        if (m_drawObject != NULL) {
+            m_drawObject->SetClipping(x1, x2, y1, y2);
         }
     }
 
     inline void ClearClipping()
     {
-        if (unk_08 != NULL) {
-            unk_08->ClearClipping();
+        if (m_drawObject != NULL) {
+            m_drawObject->ClearClipping();
         }
     }
 
     inline fx32 GetDepth()
     {
-        if (unk_08 != NULL) {
-            return unk_08->unk_10;
+        if (m_drawObject != NULL) {
+            return m_drawObject->unk_10;
         }
         return -0x4000;
     }
 
     inline BOOL IsAnimating()
     {
-        if (unk_08 != NULL) {
-            return unk_08->IsAnimating();
+        if (m_drawObject != NULL) {
+            return m_drawObject->IsAnimating();
         }
         return FALSE;
     }
 
-    inline s16 GetShadowOffsetX()
+    inline s16 GetShakeX()
     {
-        if (unk_08 != NULL) {
-            return unk_08->GetShadowOffsetX();
+        if (m_drawObject != NULL) {
+            return m_drawObject->GetShakeX();
         }
         return 0;
     }
 
-    inline s16 GetShadowOffsetY()
+    inline s16 GetShakeY()
     {
-        if (unk_08 != NULL) {
-            return unk_08->GetShadowOffsetY();
+        if (m_drawObject != NULL) {
+            return m_drawObject->GetShakeY();
         }
         return 0;
     }
 
     inline void SetPos(Point2D pos)
     {
-        if (unk_08 != NULL) {
-            unk_08->SetPos(pos);
+        if (m_drawObject != NULL) {
+            m_drawObject->SetPos(pos);
         }
     }
 
@@ -446,36 +446,36 @@ public:
 
     inline void sub_02012114_(int arg0, int arg1)
     {
-        if (unk_08 != NULL) {
-            unk_08->sub_02012114_(arg0, arg1);
+        if (m_drawObject != NULL) {
+            m_drawObject->sub_02012114_(arg0, arg1);
         }
     }
 
     inline void sub_020128EC_(u16 arg0)
     {
-        if (unk_08 != NULL) {
-            unk_08->sub_020128EC_(arg0);
+        if (m_drawObject != NULL) {
+            m_drawObject->sub_020128EC_(arg0);
         }
     }
 
     inline void sub_0201287C_()
     {
-        if (unk_08 != NULL) {
-            unk_08->sub_0201287C_();
+        if (m_drawObject != NULL) {
+            m_drawObject->sub_0201287C_();
         }
     }
 
     inline void sub_020129F4_(int arg0, u8 arg1)
     {
-        if (unk_08 != NULL) {
-            unk_08->sub_020129F4_(arg0, arg1);
+        if (m_drawObject != NULL) {
+            m_drawObject->sub_020129F4_(arg0, arg1);
         }
     }
 
     inline Point2D GetPos()
     {
-        if (unk_08 != NULL) {
-            return unk_08->GetPos();
+        if (m_drawObject != NULL) {
+            return m_drawObject->GetPos();
         }
         Point2D zero = { 0, 0 };
         return zero;
@@ -483,135 +483,135 @@ public:
 
     inline fx32 GetX()
     {
-        if (unk_08 != NULL) {
-            return unk_08->GetX();
+        if (m_drawObject != NULL) {
+            return m_drawObject->GetX();
         }
         return 0;
     }
 
     inline fx32 GetY()
     {
-        if (unk_08 != NULL) {
-            return unk_08->GetY();
+        if (m_drawObject != NULL) {
+            return m_drawObject->GetY();
         }
         return 0;
     }
 
     inline u16 GetDir()
     {
-        if (unk_08 != NULL) {
-            return unk_08->GetDir();
+        if (m_drawObject != NULL) {
+            return m_drawObject->GetDir();
         }
         return 0;
     }
 
     inline void sub_reset()
     {
-        if (unk_08 != NULL) {
-            unk_04 &= ~8;
-            unk_08->sub_reset();
+        if (m_drawObject != NULL) {
+            m_flags &= ~8;
+            m_drawObject->sub_reset();
         }
     }
 
-    inline int GetUnk8C()
+    inline int GetBaseHeight()
     {
-        if (unk_08 != NULL) {
-            return unk_08->GetUnk8C();
+        if (m_drawObject != NULL) {
+            return m_drawObject->GetBaseHeight();
         }
         return 0;
     }
 
     inline void SetOutlineColor(u16 color)
     {
-        if (unk_08 != NULL) {
-            unk_08->SetOutlineColor(color);
+        if (m_drawObject != NULL) {
+            m_drawObject->SetOutlineColor(color);
         }
     }
 
     inline void SetOutlineWidth(u8 width)
     {
-        if (unk_08 != NULL) {
-            unk_08->SetOutlineWidth(width);
+        if (m_drawObject != NULL) {
+            m_drawObject->SetOutlineWidth(width);
         }
     }
 
     inline void SetOutlineAlpha(u8 alpha)
     {
-        if (unk_08 != NULL) {
-            unk_08->SetOutlineAlpha(alpha);
+        if (m_drawObject != NULL) {
+            m_drawObject->SetOutlineAlpha(alpha);
         }
     }
 
-    inline void ClearUnk1A8Bits(u32 bits)
+    inline void ClearEffectFlags(u32 bits)
     {
-        if (unk_08 != NULL) {
-            unk_08->ClearUnk1A8Bits(bits);
+        if (m_drawObject != NULL) {
+            m_drawObject->ClearEffectFlags(bits);
         }
     }
 
     inline void StartBlink()
     {
-        if (unk_08 != NULL) {
-            unk_08->StartBlink();
+        if (m_drawObject != NULL) {
+            m_drawObject->StartBlink();
         }
     }
 
-    inline void SetUnk8C(int value)
+    inline void SetBaseHeight(int value)
     {
-        if (unk_08 != NULL) {
-            unk_08->SetUnk8C(value);
+        if (m_drawObject != NULL) {
+            m_drawObject->SetBaseHeight(value);
         }
     }
 
     inline void ShowSprite()
     {
-        if (unk_08 != NULL) {
-            unk_08->sub_show();
+        if (m_drawObject != NULL) {
+            m_drawObject->sub_show();
         }
     }
 
     inline BOOL IsUnk00CSet()
     {
-        if (unk_08 != NULL) {
-            return unk_08->IsUnk00CSet();
+        if (m_drawObject != NULL) {
+            return m_drawObject->IsUnk00CSet();
         }
         return FALSE;
     }
 
     inline int GetUnk1D8()
     {
-        if (unk_08 != NULL) {
-            return unk_08->GetUnk1D8();
+        if (m_drawObject != NULL) {
+            return m_drawObject->GetUnk1D8();
         }
         return 3;
     }
 
     inline int GetAnimState()
     {
-        if (unk_08 != NULL) {
-            return unk_08->GetAnimState();
+        if (m_drawObject != NULL) {
+            return m_drawObject->GetAnimState();
         }
         return 2;
     }
 
     inline void SetUnk1DC(int value)
     {
-        if (unk_08 != NULL) {
-            unk_08->SetUnk1DC(value);
+        if (m_drawObject != NULL) {
+            m_drawObject->SetUnk1DC(value);
         }
     }
 
     inline void SetUnk004Bit8()
     {
-        if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-            unk_08->unk_0C->m_flags |= 8;
+        if (m_drawObject != NULL && m_drawObject->m_actor != NULL) {
+            m_drawObject->m_actor->m_flags |= 8;
         }
     }
 
     inline void ClearUnk004Bit8()
     {
-        if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-            unk_08->unk_0C->m_flags &= ~8;
+        if (m_drawObject != NULL && m_drawObject->m_actor != NULL) {
+            m_drawObject->m_actor->m_flags &= ~8;
         }
     }
 
@@ -622,133 +622,133 @@ public:
 
     inline void MoveTo(Point2D pos, int speed)
     {
-        if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-            unk_08->unk_0C->m_motion.MoveAtSpeed(pos, speed);
+        if (m_drawObject != NULL && m_drawObject->m_actor != NULL) {
+            m_drawObject->m_actor->m_motion.MoveAtSpeed(pos, speed);
         }
     }
 
     inline void MoveLinear(Point2D pos, u32 duration)
     {
-        if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-            unk_08->unk_0C->m_motion.MoveLinear(pos, duration);
+        if (m_drawObject != NULL && m_drawObject->m_actor != NULL) {
+            m_drawObject->m_actor->m_motion.MoveLinear(pos, duration);
         }
     }
 
     inline void MoveCurve(Point2D end, Point2D ctrl, u32 duration)
     {
-        if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-            unk_08->unk_0C->m_motion.MoveQuadratic(end, ctrl, duration);
+        if (m_drawObject != NULL && m_drawObject->m_actor != NULL) {
+            m_drawObject->m_actor->m_motion.MoveQuadratic(end, ctrl, duration);
         }
     }
 
     inline void MoveCurve(Point2D end, Point2D ctrl1, Point2D ctrl2, u32 duration)
     {
-        if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-            unk_08->unk_0C->m_motion.MoveCubic(end, ctrl1, ctrl2, duration);
+        if (m_drawObject != NULL && m_drawObject->m_actor != NULL) {
+            m_drawObject->m_actor->m_motion.MoveCubic(end, ctrl1, ctrl2, duration);
         }
     }
 
     inline void MoveCurve(Point2D *end, Point2D *ctrl, int speed)
     {
-        if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-            unk_08->unk_0C->MoveCurveAtSpeed(end, ctrl, speed);
+        if (m_drawObject != NULL && m_drawObject->m_actor != NULL) {
+            m_drawObject->m_actor->MoveCurveAtSpeed(end, ctrl, speed);
         }
     }
 
     inline void sub_02012948_(Point2D pos)
     {
-        if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-            unk_08->unk_0C->FaceToward(pos);
+        if (m_drawObject != NULL && m_drawObject->m_actor != NULL) {
+            m_drawObject->m_actor->FaceToward(pos);
         }
     }
 
     inline void SetUnk19C(fx32 value)
     {
-        if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-            unk_08->unk_0C->unk_19C = value;
+        if (m_drawObject != NULL && m_drawObject->m_actor != NULL) {
+            m_drawObject->m_actor->m_animSpeed = value;
         }
     }
 
     inline void Jump(fx32 height, u16 duration)
     {
-        if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-            unk_08->unk_0C->Jump(height, duration);
+        if (m_drawObject != NULL && m_drawObject->m_actor != NULL) {
+            m_drawObject->m_actor->Jump(height, duration);
         }
     }
 
     inline void sub_02012A3C_(int arg0, fx32 arg1, fx32 arg2)
     {
-        if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-            unk_08->unk_0C->ScaleTo(arg0, arg1, arg2);
+        if (m_drawObject != NULL && m_drawObject->m_actor != NULL) {
+            m_drawObject->m_actor->ScaleTo(arg0, arg1, arg2);
         }
     }
 
     inline void sub_020128D8_()
     {
-        if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-            unk_08->unk_0C->FixDir();
+        if (m_drawObject != NULL && m_drawObject->m_actor != NULL) {
+            m_drawObject->m_actor->FixDir();
         }
     }
 
     inline u8 GetUnkC0()
     {
-        if (unk_08 != NULL) {
-            return unk_08->GetUnkC0();
+        if (m_drawObject != NULL) {
+            return m_drawObject->GetUnkC0();
         }
         return 0;
     }
 
     inline void ResetUnk00C()
     {
-        if (unk_08 != NULL) {
-            unk_08->ResetUnk00C();
+        if (m_drawObject != NULL) {
+            m_drawObject->ResetUnk00C();
         }
     }
 
     inline int GetHeight()
     {
-        if (unk_08 != NULL) {
-            return unk_08->GetHeight();
+        if (m_drawObject != NULL) {
+            return m_drawObject->GetHeight();
         }
         return 0;
     }
 
     inline fx32 GetScale()
     {
-        if (unk_08 != NULL) {
-            return unk_08->GetScale();
+        if (m_drawObject != NULL) {
+            return m_drawObject->GetScale();
         }
         return FX32_ONE;
     }
 
     inline void SetPosXY(fx32 x, fx32 y)
     {
-        if (unk_08 != NULL) {
-            unk_08->SetPosXY(x, y);
+        if (m_drawObject != NULL) {
+            m_drawObject->SetPosXY(x, y);
         }
     }
 
     inline void sub_show()
     {
-        if (unk_08 != NULL && !(unk_04 & 8)) {
-            unk_04 |= 8;
-            unk_08->sub_show();
+        if (m_drawObject != NULL && !(m_flags & 8)) {
+            m_flags |= 8;
+            m_drawObject->sub_show();
             unk_94 = 0;
         }
     }
 
     inline int GetDCState()
     {
-        if (unk_DC != NULL) {
-            return unk_DC->unk_04;
+        if (m_script != NULL) {
+            return m_script->unk_04;
         }
         return 2;
     }
 
     inline void SetMasks(int a, int b)
     {
-        unk_08->unk_0C->unk_1A0 = a;
-        unk_08->unk_0C->unk_1A4 = b;
+        m_drawObject->m_actor->unk_1A0 = a;
+        m_drawObject->m_actor->unk_1A4 = b;
     }
 
     inline void SetUnkBC(s8 a, s8 b)
@@ -776,8 +776,8 @@ public:
     inline Rectangle GetShadowRect()
     {
         Rectangle rect;
-        rect.pos.x = GetX() + unk_BC * FX32_ONE + GetShadowOffsetX() * FX32_ONE;
-        rect.pos.y = GetY() + unk_BD * FX32_ONE + GetShadowOffsetY() * FX32_ONE;
+        rect.pos.x = GetX() + unk_BC * FX32_ONE + GetShakeX() * FX32_ONE;
+        rect.pos.y = GetY() + unk_BD * FX32_ONE + GetShakeY() * FX32_ONE;
         rect.size.x = (u8)unk_BE << FX32_SHIFT;
         rect.size.y = (u8)unk_BF << FX32_SHIFT;
         return rect;
@@ -785,17 +785,17 @@ public:
 
     inline BOOL IsUnk04Bit12()
     {
-        return (unk_04 & 0x1000) ? TRUE : FALSE;
+        return (m_flags & 0x1000) ? TRUE : FALSE;
     }
 
-    inline BOOL IsUnk04Bit0()
+    inline BOOL IsHidden()
     {
-        return (unk_04 & 1) ? TRUE : FALSE;
+        return (m_flags & 1) ? TRUE : FALSE;
     }
 
     inline BOOL IsTouchable()
     {
-        return (unk_04 & 0x200) ? FALSE : TRUE;
+        return (m_flags & 0x200) ? FALSE : TRUE;
     }
 
     inline BOOL IsTouched(Point2D pos)
@@ -810,11 +810,11 @@ public:
     }
 
 public:
-    u32 unk_04;
-    CFieldDrawObject *unk_08;
+    u32 m_flags;
+    CFieldDrawObject *m_drawObject;
     BOOL unk_0C;
     fx32 unk_10;
-    int unk_14;
+    int m_layer;
     fx32 unk_18;
     fx32 unk_1C;
     u8 unk_20;
@@ -824,11 +824,11 @@ public:
     Circle unk_44;
     int unk_50;
     int unk_54;
-    u32 unk_58;
-    u32 unk_5C;
-    u32 unk_60;
+    u32 m_id;
+    u32 m_lookAt;
+    u32 m_lookAtId;
     Point2D unk_64;
-    CFieldMap *unk_6C;
+    CFieldMap *m_map;
     fx32 unk_70;
     fx32 unk_74;
     int unk_78;
@@ -836,16 +836,16 @@ public:
     u8 unk_7D;
     u8 unk_7E;
     char unk_7F[0x11];
-    int unk_90;
+    int m_hasShadow;
     int unk_94;
     int unk_98;
-    fx32 unk_9C;
+    fx32 m_gravity;
     fx32 unk_A0;
-    fx32 unk_A4;
-    int unk_A8;
-    u16 unk_AC;
-    u16 unk_AE;
-    u16 unk_B0;
+    fx32 m_fallSpeed;
+    int m_floatBase;
+    u16 m_floatAngle;
+    u16 m_floatSpeed;
+    u16 m_floatAmp;
     u8 unk_B2[0x2];
     int unk_B4;
     int unk_B8;
@@ -857,12 +857,12 @@ public:
     int unk_C8;
     int unk_CC;
     int unk_D0;
-    u8 unk_D4;
+    u8 m_bushMode;
     u8 unk_D5;
     s16 unk_D6;
-    u16 unk_D8;
+    u16 m_bushEffect;
     u8 unk_DA[0x2];
-    CFieldActorScript *unk_DC;
+    CFieldActorScript *m_script;
 };
 
 extern "C" {

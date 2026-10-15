@@ -176,8 +176,8 @@ void MissionQuestInfo::ov8_0211D8EC()
 
 static inline void DrawActor(CFieldActor *actor, Camera2D *camera)
 {
-    if (actor->unk_08 != NULL) {
-        actor->unk_08->Draw(camera, 0);
+    if (actor->m_drawObject != NULL) {
+        actor->m_drawObject->Draw(camera, 0);
     }
 }
 
@@ -301,9 +301,9 @@ void MissionQuestInfo::ov8_0211DA98()
                 id = 4;
             }
         }
-        unk_50[i].sub_0203C4BC(type, id, 0, 2, 0);
-        if (unk_50[i].unk_08 != NULL && unk_50[i].unk_08->unk_0C != NULL) {
-            unk_50[i].unk_08->unk_0C->SetDir(0x4000);
+        unk_50[i].CreateDrawObjectOwnData(type, id, 0, 2, 0);
+        if (unk_50[i].m_drawObject != NULL && unk_50[i].m_drawObject->m_actor != NULL) {
+            unk_50[i].m_drawObject->m_actor->SetDir(0x4000);
         }
     }
 }
@@ -403,17 +403,17 @@ int MissionQuestInfo::ov8_0211E32C()
 int MissionQuestInfo::ov8_0211E380()
 {
     MissionQuestData *data = unk_21C->m_missionQuestData;
-    if (data->unk_00 == 0) {
+    if (data->m_missionState == 0) {
         return -1;
     }
-    return data->unk_02 - 1;
+    return data->m_missionId - 1;
 }
 
 int MissionQuestInfo::ov8_0211E3A4()
 {
     MissionQuestData *data = unk_21C->m_missionQuestData;
-    if (data->unk_01 == 0) {
+    if (data->m_questActive == 0) {
         return -1;
     }
-    return data->unk_03 - 1;
+    return data->m_questId - 1;
 }

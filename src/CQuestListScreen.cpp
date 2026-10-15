@@ -156,14 +156,14 @@ void CQuestListScreen::func3(int prev)
         int cursor = unk_184.ov27_0211EBB8();
         if (unk_35C != NULL && unk_33C != NULL && unk_34C != NULL) {
             int id = unk_34C[cursor].unk_08;
-            unk_35C->ov27_02120CA8(&unk_33C[cursor], id, !sub_02011528(&MAIN_BSS_020B2638, id) ? TRUE : FALSE);
+            unk_35C->ov27_02120CA8(&unk_33C[cursor], id, !MissionQuestData_IsQuestEntered(&MAIN_BSS_020B2638, id) ? TRUE : FALSE);
         }
     }
     for (int i = 0; i < 6; i++) {
         unk_04C[i].ov27_0211E7CC();
     }
     GXS_SetVisiblePlane(GX_PLANEMASK_BG0 | GX_PLANEMASK_BG1 | GX_PLANEMASK_BG2 | GX_PLANEMASK_BG3 | GX_PLANEMASK_OBJ);
-    game->unk_14C0->Start(3, 15);
+    game->m_subFade->Start(3, 15);
 }
 
 int CQuestListScreen::func4()
@@ -172,7 +172,7 @@ int CQuestListScreen::func4()
     int ret = 0;
     switch (unk_04) {
     case 0:
-        if (!game->unk_14BC->IsActive() && !game->unk_14C0->IsActive()) {
+        if (!game->m_mainFade->IsActive() && !game->m_subFade->IsActive()) {
             unk_04 = 1;
         }
         break;
@@ -196,12 +196,12 @@ int CQuestListScreen::func4()
         unk_31C.ov27_0211F9C0();
         break;
     case 2:
-        if (!game->unk_14BC->IsActive() && !game->unk_14C0->IsActive()) {
+        if (!game->m_mainFade->IsActive() && !game->m_subFade->IsActive()) {
             ret = -1;
         }
         break;
     case 3:
-        if (!game->unk_14C0->IsActive()) {
+        if (!game->m_subFade->IsActive()) {
             ret = 1;
         }
         break;
@@ -233,8 +233,8 @@ void CQuestListScreen::ov27_0211DB4C()
     CGame *game = CGame::GetInstance();
     unk_04 = 2;
     game->m_audioEngine->PlaySe(0x103);
-    game->unk_14BC->Start(4, 15);
-    game->unk_14C0->Start(4, 15);
+    game->m_mainFade->Start(4, 15);
+    game->m_subFade->Start(4, 15);
 }
 
 void CQuestListScreen::func7()
@@ -316,11 +316,11 @@ void CQuestListScreen::ov27_0211DE28()
         if (MissionQuestData_IsQuestCleared(quests, ids[i])) {
             unk_34C[i].unk_04 = 1;
         } else if (MissionQuestData_IsQuestActive(quests, ids[i])) {
-            if (quests->unk_01 == 1 && ids[i] == quests->unk_03) {
+            if (quests->m_questActive == 1 && ids[i] == quests->m_questId) {
                 unk_34C[i].unk_04 = 2;
             } else {
                 unk_34C[i].unk_04 = 0;
-                if (!sub_02011528(quests, ids[i])) {
+                if (!MissionQuestData_IsQuestEntered(quests, ids[i])) {
                     unk_34C[i].unk_00 = unk_340.ov27_0211FB38(5);
                 }
             }
@@ -355,7 +355,7 @@ void CQuestListScreen::OnPushButton(int id, BOOL repeat)
         ov27_0211DB4C();
         break;
     case 4:
-        CGame::GetInstance()->unk_14C0->Start(4, 15);
+        CGame::GetInstance()->m_subFade->Start(4, 15);
         unk_04 = 3;
         break;
     }
@@ -373,7 +373,7 @@ void CQuestListScreen::OnListBoxEvent1(int id, int cursor, u32 flags, u8 changed
 {
     if (cursor >= 0 && unk_35C != NULL && unk_33C != NULL && unk_34C != NULL && (unk_360 || changed)) {
         int questId = unk_34C[cursor].unk_08;
-        unk_35C->ov27_02120CA8(&unk_33C[cursor], questId, !sub_02011528(&MAIN_BSS_020B2638, questId) ? TRUE : FALSE);
+        unk_35C->ov27_02120CA8(&unk_33C[cursor], questId, !MissionQuestData_IsQuestEntered(&MAIN_BSS_020B2638, questId) ? TRUE : FALSE);
         unk_360 = FALSE;
     }
     unk_04C[0].unk_30 = (flags & 2) ? TRUE : FALSE;

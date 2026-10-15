@@ -15,7 +15,7 @@ BOOL CFieldNpcActorScript::Call(CFieldActor *actor, const char *func)
 {
     if (unk_2C != NULL && actor != NULL) {
         ScriptVM_Init(&unk_08, unk_30, unk_34);
-        *--unk_08.unk_04 = actor->unk_58;
+        *--unk_08.unk_04 = actor->m_id;
         if (func != NULL) {
             if (ScriptVM_Start(&unk_08, unk_2C, func) == -1) {
                 LogError("not found func FieldNpc.cpp");
@@ -72,15 +72,15 @@ void CFieldNpc::LoadScript(int npcId)
     void *block = unk_1D0->unk_4C;
     Script_Link(block);
     SetScript(new CFieldNpcActorScript(), block);
-    unk_DC->Call(this, "normal");
+    m_script->Call(this, "normal");
     unk_0C = TRUE;
 }
 
 void CFieldNpc::Process(CFieldMap *map)
 {
     unk_78 = 0;
-    if (unk_DC != NULL && unk_DC->unk_04 == 2) {
-        unk_DC->Call(this, "normal");
+    if (m_script != NULL && m_script->unk_04 == 2) {
+        m_script->Call(this, "normal");
         unk_0C = TRUE;
     }
     UpdateScript();
@@ -121,7 +121,7 @@ void CFieldNpc::sub_02032A44(int sequence)
 
 void CFieldNpc::StopMotion()
 {
-    if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-        unk_08->unk_0C->m_motion.m_mode = 0;
+    if (m_drawObject != NULL && m_drawObject->m_actor != NULL) {
+        m_drawObject->m_actor->m_motion.m_mode = 0;
     }
 }

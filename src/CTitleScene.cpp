@@ -316,7 +316,7 @@ void CTitleScene::func6()
     m_game->unk_146C.SetFps(60);
     GX_SetOBJVRamModeChar(GX_OBJVRAMMODE_CHAR_1D_32K);
     GXS_SetOBJVRamModeChar(GX_OBJVRAMMODE_CHAR_1D_32K);
-    m_game->m_textboxData->Init(m_game->unk_0014, m_game->touchPanel, &m_game->unk_14AC->unk_14, m_game->unk_14B0, m_game->unk_0024, m_game->m_audioEngine, 0x10, 0x4000, 0);
+    m_game->m_textboxData->Init(m_game->unk_0014, m_game->touchPanel, &m_game->unk_14AC->unk_14, m_game->m_nameTables, m_game->unk_0024, m_game->m_audioEngine, 0x10, 0x4000, 0);
     SetupBGFonts();
     m_flags = 0x400;
     ov3_0211CD2C();
@@ -356,15 +356,15 @@ void CTitleScene::func6()
     unk_C0.r = 0x20000;
     unk_C0.pos.x = 0x40000;
     unk_C0.pos.y = 0;
-    m_game->unk_14BC->Start(1, 30);
-    m_game->unk_14C0->Start(1, 30);
+    m_game->m_mainFade->Start(1, 30);
+    m_game->m_subFade->Start(1, 30);
     unk_E4 = new SaveManager(0);
     unk_DC = 0;
     unk_E0 = 0;
     m_audioEngine = m_game->m_audioEngine;
-    m_audioEngine->sub_020345D4();
+    m_audioEngine->LoadSystemSe();
     if (m_game->unk_0008 == 8) {
-        m_audioEngine->sub_02034D54(0x200, 0x40);
+        m_audioEngine->PlayStream2(0x200, 0x40);
     }
     unk_E8 = -1;
     unk_F8 = 0;
@@ -481,7 +481,7 @@ u32 CTitleScene::func0()
         SetState(1);
         break;
     case 1: {
-        u32 result = unk_E4->sub_0202841C();
+        u32 result = unk_E4->Update();
         if (result == 0) {
             break;
         }
@@ -739,7 +739,7 @@ u32 CTitleScene::func0()
         if (unk_FC != 0) {
             unk_10 = 30;
         } else {
-            m_audioEngine->sub_02034DC8(30);
+            m_audioEngine->StopStream2(30);
             unk_10 = 0;
             unk_FC = 1;
         }
@@ -753,7 +753,7 @@ u32 CTitleScene::func0()
         }
         break;
     case 17:
-        if (unk_E4->sub_0202841C() != 0) {
+        if (unk_E4->Update() != 0) {
             unk_E8 = save->unk_81AC > 0 ? 30 : 1;
             SetState(0x35);
         }
@@ -764,7 +764,7 @@ u32 CTitleScene::func0()
         if (unk_FC != 0) {
             unk_10 = 30;
         } else {
-            m_audioEngine->sub_02034DC8(30);
+            m_audioEngine->StopStream2(30);
             unk_10 = 0;
             unk_FC = 1;
         }
@@ -778,7 +778,7 @@ u32 CTitleScene::func0()
         }
         break;
     case 20:
-        if (unk_E4->sub_0202841C() != 0) {
+        if (unk_E4->Update() != 0) {
             SetState(0x19);
         }
         break;
@@ -791,7 +791,7 @@ u32 CTitleScene::func0()
         if (unk_FC != 0) {
             unk_10 = 30;
         } else {
-            m_audioEngine->sub_02034DC8(30);
+            m_audioEngine->StopStream2(30);
             unk_10 = 0;
             unk_FC = 1;
         }
@@ -805,7 +805,7 @@ u32 CTitleScene::func0()
         }
         break;
     case 23:
-        if (unk_E4->sub_0202841C() != 0) {
+        if (unk_E4->Update() != 0) {
             SetState(0x18);
             m_audioEngine->PlaySe(2);
         }
@@ -828,7 +828,7 @@ u32 CTitleScene::func0()
         SetState(0x1A);
         break;
     case 26: {
-        u32 result = unk_E4->sub_0202841C();
+        u32 result = unk_E4->Update();
         if (result == 0) {
             break;
         }
@@ -865,7 +865,7 @@ u32 CTitleScene::func0()
         if (unk_FC != 0) {
             unk_10 = 30;
         } else {
-            m_audioEngine->sub_02034DC8(30);
+            m_audioEngine->StopStream2(30);
             unk_10 = 0;
             unk_FC = 1;
         }
@@ -879,7 +879,7 @@ u32 CTitleScene::func0()
         }
         break;
     case 29:
-        if (unk_E4->sub_0202841C() != 0) {
+        if (unk_E4->Update() != 0) {
             SetState(0x1F);
         }
         break;
@@ -896,7 +896,7 @@ u32 CTitleScene::func0()
         SetState(0x20);
         break;
     case 32: {
-        u32 result = unk_E4->sub_0202841C();
+        u32 result = unk_E4->Update();
         if (result == 0) {
             break;
         }
@@ -947,7 +947,7 @@ u32 CTitleScene::func0()
         if (unk_FC != 0) {
             unk_10 = 30;
         } else {
-            m_audioEngine->sub_02034DC8(30);
+            m_audioEngine->StopStream2(30);
             unk_10 = 0;
             unk_FC = 1;
         }
@@ -961,7 +961,7 @@ u32 CTitleScene::func0()
         }
         break;
     case 37:
-        if (unk_E4->sub_0202841C() != 0) {
+        if (unk_E4->Update() != 0) {
             G2S_SetBlendBrightness(GX_BLEND_PLANEMASK_BG1, 0);
             unk_A4->LoadToVram();
             ov3_021202E0();
@@ -986,7 +986,7 @@ u32 CTitleScene::func0()
         SetState(0x28);
         unk_F4 = 0xB40;
         if (unk_FC != 0) {
-            m_audioEngine->sub_02034D54(0x200, 0x40);
+            m_audioEngine->PlayStream2(0x200, 0x40);
             unk_FC = 0;
         }
         break;
@@ -1141,7 +1141,7 @@ u32 CTitleScene::func0()
         SetState(0x27);
         break;
     case 48:
-        m_audioEngine->sub_02034DC8(0);
+        m_audioEngine->StopStream2(0);
         G2S_SetBlendBrightness(GX_BLEND_PLANEMASK_BG1, 0);
         unk_A4->LoadToVram();
         ov3_021202E0();
@@ -1198,7 +1198,7 @@ u32 CTitleScene::func0()
         SetState(0x39);
         break;
     case 57:
-        if (unk_E4->sub_0202841C() != 0) {
+        if (unk_E4->Update() != 0) {
             SetState(0x3A);
         }
         break;
@@ -1220,7 +1220,7 @@ u32 CTitleScene::func0()
         SetState(0x3C);
         break;
     case 60:
-        if (unk_E4->sub_0202841C() != 0) {
+        if (unk_E4->Update() != 0) {
             SetState(0x3D);
         }
         break;
@@ -1242,7 +1242,7 @@ u32 CTitleScene::func0()
         SetState(0x3F);
         break;
     case 63:
-        if (unk_E4->sub_0202841C() != 0) {
+        if (unk_E4->Update() != 0) {
             SetState(0x40);
         }
         break;
@@ -1250,13 +1250,13 @@ u32 CTitleScene::func0()
         unk_DC = 0x41;
         break;
     case 65:
-        m_game->unk_14BC->Start(4, 30);
-        m_game->unk_14C0->Start(4, 30);
-        m_audioEngine->sub_02034DC8(30);
+        m_game->m_mainFade->Start(4, 30);
+        m_game->m_subFade->Start(4, 30);
+        m_audioEngine->StopStream2(30);
         unk_DC = 0x42;
         break;
     case 66:
-        if (!m_game->unk_14BC->IsActive() && !m_game->unk_14C0->IsActive()) {
+        if (!m_game->m_mainFade->IsActive() && !m_game->m_subFade->IsActive()) {
             RTC_GetTime(&time);
             RTC_GetDate(&date);
             MAIN_BSS_020B26A0.m_lastTime = time;

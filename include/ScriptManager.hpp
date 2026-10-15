@@ -18,7 +18,7 @@ public:
     ScriptFile *m_area;
     ScriptFile *m_chapter;
     ScriptFile *m_quest;
-    int unk_14;
+    int m_arg;
     int unk_18;
     u8 m_chapterBuffer[0x18800];
 };
@@ -31,7 +31,7 @@ int ScriptManager_Run(ScriptManager *mgr, const char *name);
 void ScriptManager_UnloadSystem(ScriptManager *mgr);
 int ScriptManager_IsBusy(ScriptManager *mgr);
 BOOL ScriptManager_IsRunning(ScriptManager *mgr);
-void sub_02034374(ScriptManager *mgr, int value);
+void ScriptManager_SetArg(ScriptManager *mgr, int value);
 }
 
 #endif // POKERANGER2_SCRIPTMANAGER_HPP

@@ -365,20 +365,20 @@ void QuestListMap::ov27_02120504(u16 id, int mode)
 void QuestListMap::ov27_02120514()
 {
     if (unk_38 != NULL) {
-        unk_38->unk_14C0->Start(3, 15);
+        unk_38->m_subFade->Start(3, 15);
     }
 }
 
 void QuestListMap::ov27_0212053C()
 {
     if (unk_38 != NULL) {
-        unk_38->unk_14C0->Start(4, 15);
+        unk_38->m_subFade->Start(4, 15);
     }
 }
 
 BOOL QuestListMap::ov27_02120564()
 {
-    if (unk_38->unk_14C0->IsActive() || unk_38->unk_14C0->IsActive()) {
+    if (unk_38->m_subFade->IsActive() || unk_38->m_subFade->IsActive()) {
         return TRUE;
     }
     return FALSE;

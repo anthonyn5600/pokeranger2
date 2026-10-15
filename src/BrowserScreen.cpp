@@ -138,7 +138,7 @@ void UnkStruct_0211D040::Update()
 
 static inline void *GetWork()
 {
-    return CGame::GetInstance()->unk_14B0;
+    return CGame::GetInstance()->m_nameTables;
 }
 
 BrowserScreen::BrowserScreen(CGame *game)
@@ -466,7 +466,7 @@ void BrowserScreen::ov21_0211E8B4()
             unk_170[6].Press(8);
             unk_170[7].Press(8);
             unk_000->m_audioEngine->PlaySe(0xFA);
-            unk_000->unk_14C0->Start(4, 10);
+            unk_000->m_subFade->Start(4, 10);
             unk_034 = 2;
         }
     } else if (unk_030 == 1) {
@@ -559,7 +559,7 @@ void BrowserScreen::ov21_0211ED70()
             unk_170[6].Press(8);
             unk_170[7].Press(8);
             unk_000->m_audioEngine->PlaySe(0xFA);
-            unk_000->unk_14C0->Start(4, 10);
+            unk_000->m_subFade->Start(4, 10);
             unk_034 = 2;
             return;
         }
@@ -849,7 +849,7 @@ void BrowserScreen::ov21_0211FAE8(int row, int id, int no)
     }
     if (OVERLAY21_BSS_021242C4 != 0 || GetPokemonState(save, species) != 0) {
         u8 name[32];
-        sub_0202BC74(NameTables_GetPokemonName(unk_000->unk_14B0, rec->unk_00), name, 0x1F);
+        sub_0202BC74(NameTables_GetPokemonName(unk_000->m_nameTables, rec->unk_00), name, 0x1F);
         unk_020->Print(row, 0x50, 3, 3, name, FALSE, 0);
     } else {
         unk_020->Print(row, 0x50, 3, 3, unk_250->entries[18].data, FALSE, 0);
@@ -978,10 +978,10 @@ void BrowserScreen::ov21_0212004C()
         }
     }
     if (unk_034 == 2) {
-        if (!unk_000->unk_14C0->IsActive()) {
+        if (!unk_000->m_subFade->IsActive()) {
             ov21_0211F8E4();
             unk_034 = 0;
-            unk_000->unk_14C0->Start(3, 10);
+            unk_000->m_subFade->Start(3, 10);
         }
     }
     ov21_0211F260(-unk_078.x >> 12);

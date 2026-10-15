@@ -136,8 +136,8 @@ void QuestGiverInfo::ov27_02120758()
 
 static inline void DrawActor(CFieldActor *actor, Camera2D *camera)
 {
-    if (actor->unk_08 != NULL) {
-        actor->unk_08->Draw(camera, 0);
+    if (actor->m_drawObject != NULL) {
+        actor->m_drawObject->Draw(camera, 0);
     }
 }
 
@@ -270,8 +270,8 @@ void QuestGiverInfo::ov27_02120E70(int questId)
         id = 3;
     }
     unk_0030[1 - unk_01F0].CreateDrawObject(type, id, 0, 2, 0);
-    if (unk_0030[1 - unk_01F0].unk_08 != NULL && unk_0030[1 - unk_01F0].unk_08->unk_0C != NULL) {
-        unk_0030[1 - unk_01F0].unk_08->unk_0C->SetDir(0x4000);
+    if (unk_0030[1 - unk_01F0].m_drawObject != NULL && unk_0030[1 - unk_01F0].m_drawObject->m_actor != NULL) {
+        unk_0030[1 - unk_01F0].m_drawObject->m_actor->SetDir(0x4000);
     }
     unk_01F0 = 1 - unk_01F0;
     ov27_02120CD4();

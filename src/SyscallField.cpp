@@ -36,11 +36,11 @@ static inline AudioEngine *Audio()
 }
 
 extern "C" {
-void sub_02015714(SaveData *save, int idx, int mapId);
-void sub_0201577C(SaveData *save, int idx, int mapId);
+void SaveData_EnableEventRect(SaveData *save, int idx, int mapId);
+void SaveData_DisableEventRect(SaveData *save, int idx, int mapId);
 u32 SaveData_AddPokemonRides(SaveData *save, u32 value);
-UnkStruct_020155FC *SaveData_FindEntry(SaveData *save, u32 id);
-UnkStruct_020155FC *SaveData_GetEntry(SaveData *save, int idx);
+PartyEntry *SaveData_FindEntry(SaveData *save, u32 id);
+PartyEntry *SaveData_GetEntry(SaveData *save, int idx);
 int ov0_02149E78(int *args, int argc);
 int ov0_02149E80(int *args, int argc);
 int ov0_02149ED0(int *args, int argc);
@@ -232,7 +232,7 @@ int ov0_02149ED0(int *args, int argc)
         BattleStartParam_Reset(scene->m_game->unk_143C);
         sub_02010D04(scene->m_game->unk_1444);
         scene->ov0_02122FEC(a, -1, -1);
-        scene->unk_00D0 |= 1;
+        scene->m_flags |= 1;
     }
     return 0;
 }
@@ -248,7 +248,7 @@ int ov0_02149F3C(int *args, int argc)
     if (argc > 1) {
         idx = args[1];
     }
-    sub_0201577C(save, idx, map);
+    SaveData_DisableEventRect(save, idx, map);
     if (map == save->m_mapId) {
         FieldEventRectManage *manage = MAIN_BSS_0210CA58;
         if (manage != NULL) {
@@ -272,7 +272,7 @@ int ov0_02149FB8(int *args, int argc)
     if (argc > 1) {
         idx = args[1];
     }
-    sub_02015714(save, idx, map);
+    SaveData_EnableEventRect(save, idx, map);
     if (map == save->m_mapId) {
         FieldEventRectManage *manage = MAIN_BSS_0210CA58;
         if (manage != NULL) {
@@ -304,7 +304,7 @@ int ov0_0214A058(int *args, int argc)
 int ov0_0214A07C(int *args, int argc)
 {
     if (MAIN_BSS_0210CA40 != NULL) {
-        return !(MAIN_BSS_0210CA40->unk_00D0 & 8) ? 1 : 0;
+        return !(MAIN_BSS_0210CA40->m_flags & 8) ? 1 : 0;
     }
     return 0;
 }
@@ -343,25 +343,25 @@ int ov0_0214A138(int *args, int argc)
     u32 id = args[0];
     SaveData *save = &MAIN_BSS_020B26A0;
     SaveData_AddPokemonRides(save, 1);
-    UnkStruct_020155FC *data = SaveData_FindEntry(save, id);
+    PartyEntry *data = SaveData_FindEntry(save, id);
     CFieldPlayer *player = MAIN_BSS_0210CA48;
     if (data != NULL && player != NULL) {
-        switch (data->unk_00) {
+        switch (data->m_kind) {
         case 0x2B:
             player->ov0_02132FA0(2);
             save->unk_8802 = 2;
-            Audio()->sub_02034D54(0x54, 0x40);
+            Audio()->PlayStream2(0x54, 0x40);
             break;
         case 0x6A:
             player->ov0_02132FA0(6);
             save->unk_8802 = 6;
-            Audio()->sub_02034D54(0xE2, 0x40);
+            Audio()->PlayStream2(0xE2, 0x40);
             break;
         case 0xA9:
         case 0x129:
             player->ov0_02132FA0(3);
             save->unk_8802 = 3;
-            Audio()->sub_02034D54(0x18B, 0x40);
+            Audio()->PlayStream2(0x18B, 0x40);
             if (Audio()->unk_F0 != 1) {
                 Audio()->LoadBgmGroup(0x1E);
                 Audio()->PlayBgm(0x10, 0);
@@ -375,17 +375,17 @@ int ov0_0214A138(int *args, int argc)
         case 0xBE:
             player->ov0_02132FA0(4);
             save->unk_8802 = 4;
-            Audio()->sub_02034D54(0x1A3, 0x40);
+            Audio()->PlayStream2(0x1A3, 0x40);
             break;
         case 0x8E:
             player->ov0_02132FA0(7);
             save->unk_8802 = 7;
-            Audio()->sub_02034D54(0x144, 0x40);
+            Audio()->PlayStream2(0x144, 0x40);
             break;
         }
-        sub_020162BC(save, id);
+        SaveData_SelectPartyEntry(save, id);
         if (MAIN_BSS_0210CA4C != NULL) {
-            MAIN_BSS_0210CA4C->sub_02040460();
+            MAIN_BSS_0210CA4C->DeactivateAll();
         }
     }
     return 0;
@@ -395,10 +395,10 @@ int ov0_0214A3A8(int *args, int argc)
 {
     SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     u32 ret = 0;
-    u32 id = save->unk_7C38;
+    u32 id = save->m_selectedPartyId;
     if (id != 0) {
         u8 ride = save->unk_8802;
-        UnkStruct_020155FC *data = SaveData_FindEntry(save, id);
+        PartyEntry *data = SaveData_FindEntry(save, id);
         CFieldPlayer *player = MAIN_BSS_0210CA48;
         if (data != NULL && player != NULL) {
             switch (ride) {
@@ -409,7 +409,7 @@ int ov0_0214A3A8(int *args, int argc)
                 break;
             case 3: {
                 FieldData *maps = MAIN_BSS_0210CA6C;
-                if (Audio()->unk_D0 == 0x10) {
+                if (Audio()->m_bgmSeq == 0x10) {
                     FieldData_GetMap(maps, save->m_mapId);
                     Audio()->sub_02034F4C(0);
                     Audio()->PlayMapBgm(save->m_mapId, 0x1E, 0);
@@ -422,11 +422,11 @@ int ov0_0214A3A8(int *args, int argc)
             }
             CFieldPartnerManage *partners = MAIN_BSS_0210CA4C;
             if (partners != NULL) {
-                partners->sub_02040428();
+                partners->ActivateAll();
                 partners->SetPosAll(player->GetPos());
             }
         }
-        sub_020162BC(save, 0);
+        SaveData_SelectPartyEntry(save, 0);
         ret = id;
     }
     return ret;
@@ -435,7 +435,7 @@ int ov0_0214A56C(int *args, int argc)
 {
     SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     if (save != NULL) {
-        return save->unk_7C38;
+        return save->m_selectedPartyId;
     }
     return 0;
 }
@@ -455,9 +455,9 @@ int ov0_0214A588(int *args, int argc)
 
 int ov0_0214A5D4(int *args, int argc)
 {
-    UnkStruct_020155FC *record = SaveData_GetEntry(&MAIN_BSS_020B26A0, args[0]);
-    if (record != NULL && (record->unk_08 & 1)) {
-        return (record->unk_04 & 0xFFF) | (((record->unk_02 & 0xFFF) << 12) | 0x6000000);
+    PartyEntry *record = SaveData_GetEntry(&MAIN_BSS_020B26A0, args[0]);
+    if (record != NULL && (record->m_flags & 1)) {
+        return (record->m_index & 0xFFF) | (((record->m_mapId & 0xFFF) << 12) | 0x6000000);
     }
     return 0;
 }
@@ -465,7 +465,7 @@ int ov0_0214A5D4(int *args, int argc)
 int ov0_0214A62C(int *args, int argc)
 {
     SaveData *save = &MAIN_BSS_020B26A0;
-    UnkStruct_020B26A0_8AD4 *partner = save->GetPartner(args[0]);
+    PartnerSlot *partner = save->GetPartner(args[0]);
     if (partner != NULL && partner->unk_00 != 0) {
         return partner->unk_04;
     }
@@ -479,7 +479,7 @@ int ov0_0214A678(int *args, int argc)
     if (manage != NULL) {
         CFieldActor *enemy = manage->Get(idx);
         if (enemy != NULL && enemy->IsActive()) {
-            return enemy->unk_58;
+            return enemy->m_id;
         }
     }
     return 0;
@@ -512,7 +512,7 @@ int ov0_0214A734(int *args, int argc)
 {
     int ret = -1;
     if (MAIN_BSS_0210CA40 != NULL) {
-        ret = MAIN_BSS_0210CA40->unk_005C->ov0_02159B84(args[0], 0, 0);
+        ret = MAIN_BSS_0210CA40->m_cannons->ov0_02159B84(args[0], 0, 0);
     }
     return ret;
 }
@@ -522,7 +522,7 @@ int ov0_0214A76C(int *args, int argc)
     int ret = 0;
     if (MAIN_BSS_0210CA40 != NULL) {
         int flag = args[1];
-        CFieldCannon *entry = MAIN_BSS_0210CA40->unk_005C->ov0_02159DFC(args[0]);
+        CFieldCannon *entry = MAIN_BSS_0210CA40->m_cannons->ov0_02159DFC(args[0]);
         if (entry != NULL && flag != 0) {
             entry->ov0_0215A384(1);
             ret = entry->unk_20;
@@ -536,7 +536,7 @@ int ov0_0214A7B8(int *args, int argc)
     if (MAIN_BSS_0210CA40 != NULL) {
         int a = args[1];
         int b = args[2];
-        CFieldCannon *entry = MAIN_BSS_0210CA40->unk_005C->ov0_02159DFC(args[0]);
+        CFieldCannon *entry = MAIN_BSS_0210CA40->m_cannons->ov0_02159DFC(args[0]);
         if (entry != NULL) {
             entry->ov0_0215A3BC(a, b);
         }
@@ -555,7 +555,7 @@ int ov0_0214A7FC(int *args, int argc)
         int a6 = args[6];
         int a7 = args[7];
         int a8 = args[8];
-        CFieldCannon *entry = MAIN_BSS_0210CA40->unk_005C->ov0_02159DFC(args[0]);
+        CFieldCannon *entry = MAIN_BSS_0210CA40->m_cannons->ov0_02159DFC(args[0]);
         if (entry != NULL) {
             entry->ov0_0215A3D4(a1, a2, a3, a4, a5, a6, a7, a8);
         }
@@ -566,7 +566,7 @@ int ov0_0214A7FC(int *args, int argc)
 int ov0_0214A86C(int *args, int argc)
 {
     if (MAIN_BSS_0210CA40 != NULL) {
-        MAIN_BSS_0210CA40->unk_00D0 |= 0x400;
+        MAIN_BSS_0210CA40->m_flags |= 0x400;
     }
     return 0;
 }
@@ -574,7 +574,7 @@ int ov0_0214A86C(int *args, int argc)
 int ov0_0214A890(int *args, int argc)
 {
     if (MAIN_BSS_0210CA40 != NULL) {
-        MAIN_BSS_0210CA40->unk_00D0 &= ~0x400;
+        MAIN_BSS_0210CA40->m_flags &= ~0x400;
     }
     return 0;
 }
@@ -588,7 +588,7 @@ int ov0_0214A8B4(int *args, int argc)
     rect.pos.y = obj->GetY() + 0x10000;
     rect.size.x += 0x2000;
     rect.size.y += 0x2000;
-    if (player->unk_14 == obj->unk_14 && PointInRect(pos, rect, 0)) {
+    if (player->m_layer == obj->m_layer && PointInRect(pos, rect, 0)) {
         return TRUE;
     }
     return FALSE;
@@ -604,7 +604,7 @@ int ov0_0214AA3C(int *args, int argc)
     rect.pos.y = obj->GetY() + (height << FX32_SHIFT);
     rect.size.x += 0x2000;
     rect.size.y += 0x2000;
-    if (player->unk_14 == obj->unk_14 && PointInRect(pos, rect, 0)) {
+    if (player->m_layer == obj->m_layer && PointInRect(pos, rect, 0)) {
         return TRUE;
     }
     return FALSE;
@@ -769,7 +769,7 @@ int ov0_0214B140(int *args, int argc)
     int ret = 0;
     if (MAIN_BSS_0210CA40 != NULL) {
         CFieldActor *actor = MAIN_BSS_0210CA40->ov0_02123060(id);
-        if (actor != NULL && actor->unk_A8 > 0) {
+        if (actor != NULL && actor->m_floatBase > 0) {
             ret = 1;
         }
     }
@@ -791,7 +791,7 @@ int ov0_0214B194(int *args, int argc)
     rect.pos.y = obj->GetY() + (height << FX32_SHIFT);
     rect.size.x += 0x18000;
     rect.size.y += 0x18000;
-    if (player->unk_14 == obj->unk_14 && PointInRect(pos, rect, 0)) {
+    if (player->m_layer == obj->m_layer && PointInRect(pos, rect, 0)) {
         return TRUE;
     }
     return FALSE;
@@ -871,7 +871,7 @@ int ov0_0214B574(int *args, int argc)
     }
     if (scene != NULL) {
         int state = scene->unk_0084;
-        if (!(!(scene->unk_00D0 & 8) ? TRUE : FALSE) || state == 3 || state == 4 || state == 7 || state == 5 || state == 6 || state == 8 || state == 9 || state == 0x14) {
+        if (!(!(scene->m_flags & 8) ? TRUE : FALSE) || state == 3 || state == 4 || state == 7 || state == 5 || state == 6 || state == 8 || state == 9 || state == 0x14) {
             ret = TRUE;
         }
     }

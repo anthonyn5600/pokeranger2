@@ -38,7 +38,7 @@ void CFieldEffectBush::Attach(CFieldActor *actor, CFieldEffectManage *mgr)
     if (actor == NULL) {
         return;
     }
-    switch (actor->unk_D4) {
+    switch (actor->m_bushMode) {
     default:
     case 0:
         m_kind = -1;
@@ -65,7 +65,7 @@ void CFieldEffectBush::Attach(CFieldActor *actor, CFieldEffectManage *mgr)
         }
         return;
     }
-    m_actor->sub_0203DA10();
+    m_actor->StopBushEffect();
 }
 
 void CFieldEffectBush::Activate()
@@ -83,10 +83,10 @@ void CFieldEffectBush::Detach()
     if (actor == NULL) {
         return;
     }
-    actor->unk_D8 = 0;
-    if (actor->unk_D4 != 0) {
+    actor->m_bushEffect = 0;
+    if (actor->m_bushMode != 0) {
         actor->ClearClipping();
-        actor->unk_90 = 1;
+        actor->m_hasShadow = 1;
     }
     m_actor = NULL;
 }
@@ -95,7 +95,7 @@ int CFieldEffectBush::ov0_02142344(Camera2D *camera)
 {
     if (m_actor != NULL) {
         if (!IsOnScreen(m_actor)) {
-            m_actor->sub_0203DA10();
+            m_actor->StopBushEffect();
             return -1;
         }
         if (m_cac != NULL && m_anim != 0) {
@@ -116,12 +116,12 @@ int CFieldEffectBush::ov0_02142344(Camera2D *camera)
 BOOL CFieldEffectBush::IsOnScreen(CFieldActor *actor)
 {
     BOOL ret = FALSE;
-    if (!actor->IsActive() || actor->IsUnk04Bit0()) {
+    if (!actor->IsActive() || actor->IsHidden()) {
         return FALSE;
     }
     CFieldScene *scene = MAIN_BSS_0210CA40;
     Camera2D *camera;
-    if (m_kind >= 0 && scene != NULL && (camera = scene->unk_0008) != NULL) {
+    if (m_kind >= 0 && scene != NULL && (camera = scene->m_camera) != NULL) {
         Rectangle r;
         r.pos.x = actor->GetX();
         r.pos.y = actor->GetY() + ((actor->unk_D6 + 8) << 12);

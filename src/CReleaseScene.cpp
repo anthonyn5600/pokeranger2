@@ -46,9 +46,9 @@ public:
 };
 
 extern "C" {
-BOOL sub_02015E54(SaveData *save, u32 id);
-int sub_020161AC(SaveData *save, u32 level, int group);
-int sub_020161E4(SaveData *save, int group);
+BOOL SaveData_RemoveFromParty(SaveData *save, u32 id);
+int SaveData_GetPartyCapacityExceptPartner(SaveData *save, u32 level, int group);
+int SaveData_CountPartyExceptPartner(SaveData *save, int group);
 }
 
 // Screen positions of the 10 Pokémon for each count 1..
@@ -388,7 +388,7 @@ void ReleaseMenu::ov7_0211D054()
             }
         }
         unk_000 = 1;
-        unk_27C->m_textboxData->sub_02009FB0(1, 0);
+        unk_27C->m_textboxData->CloseAndClear(1, 0);
         unk_27C->m_textboxData->SetTextSpeed(0);
         break;
     case 7:
@@ -425,7 +425,7 @@ void ReleaseMenu::ov7_0211D054()
         if (unk_27C->m_textboxData->IsActive()) {
             break;
         }
-        if (unk_27C->m_textboxData->sub_0200B6A4(0)) {
+        if (unk_27C->m_textboxData->CloseIfNoPrompt(0)) {
             break;
         }
         if (unk_27C->m_textboxData->GetYesNoResult() == 0) {
@@ -513,8 +513,8 @@ void ReleaseMenu::ov7_0211D42C()
     unk_080[6] = unk_058->unk_24;
     unk_060[6]->SetTouchRect(0x40, 0x20, 0, 0);
 
-    int count = sub_020161E4(&MAIN_BSS_020B26A0, -1);
-    int max = sub_020161AC(&MAIN_BSS_020B26A0, 0xFF, -1);
+    int count = SaveData_CountPartyExceptPartner(&MAIN_BSS_020B26A0, -1);
+    int max = SaveData_GetPartyCapacityExceptPartner(&MAIN_BSS_020B26A0, 0xFF, -1);
     if (count <= max) {
         unk_060[7] = unk_05C->AddSprite(0, 0xF0, 0x10, 0);
         unk_060[7]->SetTouchRect(0x20, 0x20, 0, 0);
@@ -530,7 +530,7 @@ void ReleaseMenu::ov7_0211D42C()
 void ReleaseMenu::ov7_0211D62C()
 {
     unk_27C->m_textboxData->ResetTextSpeed();
-    unk_27C->m_textboxData->sub_02009FB0(1, 1);
+    unk_27C->m_textboxData->CloseAndClear(1, 1);
     CSoftwareSprite::FreeSharedPalette();
     unk_27C->unk_146C.SetFps(30);
     unk_27C->m_textboxData->FreeSystemMessages();
@@ -597,7 +597,7 @@ void ReleaseMenu::ov7_0211D7FC()
     G2_SetBG3Priority(0);
     G2_SetBG2ControlText(GX_BG_SCRSIZE_TEXT_256x256, GX_BG_COLORMODE_16, GX_BG_SCRBASE_0x6800, GX_BG_CHARBASE_0x04000);
     CSoftwareSprite::AllocSharedPalette();
-    unk_27C->m_audioEngine->sub_020345D4();
+    unk_27C->m_audioEngine->LoadSystemSe();
 
     int charNo = 0;
     SAFE_DELETE(unk_058);
@@ -615,7 +615,7 @@ void ReleaseMenu::ov7_0211D7FC()
 
     CGame *game = unk_27C;
     game->m_textboxData->Init(
-        game->unk_0014, game->touchPanel, &game->unk_14AC->unk_0C, game->unk_14B0, game->unk_0024, game->m_audioEngine, 0x10, 0x4000, 0);
+        game->unk_0014, game->touchPanel, &game->unk_14AC->unk_0C, game->m_nameTables, game->unk_0024, game->m_audioEngine, 0x10, 0x4000, 0);
     unk_27C->m_textboxData->LoadSystemMessages(0);
     BGS_LoadCharAndPltt("menu/", "mr000_bg_", 2, "mr000", 0x100, "mr000", 1);
     BGS_LoadScr("menu/", "mr000_bg_", 2, "mr000_00", 1, 0x100, 0, 0);
@@ -644,14 +644,14 @@ void ReleaseMenu::ov7_0211D7FC()
     UnkStruct_020107A8 *info;
     int n;
     s32 i;
-    UnkStruct_020155FC *data;
+    PartyEntry *data;
     u16 base;
     CFieldActor *actor;
     u32 id;
     int count;
 
     base = 0;
-    for (n = 0; n < sub_020161E4(unk_0B0, -1); n++) {
+    for (n = 0; n < SaveData_CountPartyExceptPartner(unk_0B0, -1); n++) {
         base += n;
     }
 
@@ -661,16 +661,16 @@ void ReleaseMenu::ov7_0211D7FC()
         unk_0B4[i].unk_0C = 0;
         unk_0B4[i].unk_04 = 0;
         data = SaveData_GetEntry(unk_0B0, i);
-        if (data != NULL && (data->unk_08 & 1) && !(data->unk_08 & 2)) {
-            id = (data->unk_04 & 0xFFF) | ((6 << 24) | ((data->unk_02 & 0xFFF) << 12));
-            info = PokeIdTable_Get(unk_27C->unk_1434, data->unk_00);
+        if (data != NULL && (data->m_flags & 1) && !(data->m_flags & 2)) {
+            id = (data->m_index & 0xFFF) | ((6 << 24) | ((data->m_mapId & 0xFFF) << 12));
+            info = PokeIdTable_Get(unk_27C->unk_1434, data->m_kind);
             actor = new CFieldActor();
             actor->SetId(id);
             actor->CreateDrawObject(0, info->unk_00, info->unk_02, 0xE, 1);
             unk_0B4[i].unk_0A = info->unk_00;
-            unk_0B4[i].unk_0C = data->unk_00;
+            unk_0B4[i].unk_0C = data->m_kind;
             unk_0B4[i].unk_08 = info->unk_05 == 9 ? info->unk_06 : -1;
-            unk_0B4[i].unk_04 = data->unk_08 & 4;
+            unk_0B4[i].unk_04 = data->m_flags & 4;
             actor->SetUnkBC(info->unk_0A, info->unk_0B);
             actor->SetUnkBE(info->unk_0C, info->unk_0D);
             fx32 y = (sPositions[(base + count) * 2 + 1] - 0x60) << FX32_SHIFT;
@@ -733,8 +733,8 @@ void ReleaseMenu::ov7_0211E080(int count)
         unk_060[0]->unk_14 = 0;
     }
     ov7_0211E19C(unk_080[1], count % 10);
-    int left = sub_020161E4(&MAIN_BSS_020B26A0, -1) - ov7_0211EF5C();
-    if (left > sub_020161AC(&MAIN_BSS_020B26A0, 0xFF, -1)) {
+    int left = SaveData_CountPartyExceptPartner(&MAIN_BSS_020B26A0, -1) - ov7_0211EF5C();
+    if (left > SaveData_GetPartyCapacityExceptPartner(&MAIN_BSS_020B26A0, 0xFF, -1)) {
         unk_060[0]->SetPalette(5);
         unk_060[1]->SetPalette(5);
     } else {
@@ -795,21 +795,21 @@ void ReleaseMenu::ov7_0211E1B4()
                         if (unk_21C < 0x10) {
                             CFieldActor *prev = unk_0A4->Get(unk_21C);
                             if (prev != NULL) {
-                                prev->ClearUnk1A8Bits(1);
+                                prev->ClearEffectFlags(1);
                             }
                         }
                         unk_21C = i;
-                        if (actor->unk_08 != NULL) {
-                            actor->unk_08->ResetOutlinePhase();
-                            actor->unk_08->SetOutlineColor(0x7FE0);
-                            actor->unk_08->SetOutlineWidth(2);
-                            actor->unk_08->StartOutline(-1);
+                        if (actor->m_drawObject != NULL) {
+                            actor->m_drawObject->ResetOutlinePhase();
+                            actor->m_drawObject->SetOutlineColor(0x7FE0);
+                            actor->m_drawObject->SetOutlineWidth(2);
+                            actor->m_drawObject->StartOutline(-1);
                         }
                         ov7_0211F29C(i);
                     }
                 } else {
                     if (unk_21C == i) {
-                        actor->ClearUnk1A8Bits(1);
+                        actor->ClearEffectFlags(1);
                         ov7_0211F29C(0x10);
                         unk_21C = 0x10;
                     }
@@ -821,7 +821,7 @@ void ReleaseMenu::ov7_0211E1B4()
         }
     }
     int selected = ov7_0211EF5C();
-    ov7_0211E080(sub_020161E4(&MAIN_BSS_020B26A0, -1) - selected);
+    ov7_0211E080(SaveData_CountPartyExceptPartner(&MAIN_BSS_020B26A0, -1) - selected);
     ov7_0211EE6C(ov7_0211F100() != 0, ov7_0211F168() != 0);
 }
 
@@ -832,10 +832,10 @@ void ReleaseMenu::ov7_0211E680()
         unk_1FC = ov7_0211F100();
         for (u32 i = 0; i < unk_0A4->m_count; i++) {
             if (unk_1FC & (1 << i)) {
-                unk_0A4->Get(i)->unk_04 |= 0x100;
+                unk_0A4->Get(i)->m_flags |= 0x100;
             }
         }
-        unk_27C->m_textboxData->sub_02009FB0(1, 0);
+        unk_27C->m_textboxData->CloseAndClear(1, 0);
         ov7_0211EE6C(FALSE, FALSE);
         ov7_0211EB04(0x1F, 60);
         unk_1F8 = 1;
@@ -891,7 +891,7 @@ void ReleaseMenu::ov7_0211E894()
             case 0:
                 if (unk_218 > unk_0B4[i].unk_10) {
                     unk_0B4[i].unk_0E = 1;
-                    actor->unk_04 |= 0x100;
+                    actor->m_flags |= 0x100;
                     ov7_0211ECA4(actor, i);
                 }
                 break;
@@ -907,7 +907,7 @@ void ReleaseMenu::ov7_0211E894()
     if (ov7_0211EF5C() > 0) {
         return;
     }
-    ov7_0211E080(sub_020161E4(&MAIN_BSS_020B26A0, -1));
+    ov7_0211E080(SaveData_CountPartyExceptPartner(&MAIN_BSS_020B26A0, -1));
     unk_000 = 1;
     if (unk_060[7] == NULL) {
         if (!ov7_0211EFE4()) {
@@ -917,7 +917,7 @@ void ReleaseMenu::ov7_0211E894()
         ov7_0211F1FC(0x66, 1, 2, 1, 0);
         return;
     }
-    if (sub_020161E4(&MAIN_BSS_020B26A0, -1) - ov7_0211EFA0() <= 0) {
+    if (SaveData_CountPartyExceptPartner(&MAIN_BSS_020B26A0, -1) - ov7_0211EFA0() <= 0) {
         ov7_0211F1E8();
         return;
     }
@@ -1011,8 +1011,8 @@ void ReleaseMenu::ov7_0211EC8C()
 void ReleaseMenu::ov7_0211ECA4(CFieldActor *actor, int idx)
 {
     unk_27C->m_audioEngine->PlayStream(unk_0B4[idx].unk_0A, 0x40);
-    sub_02015E54(unk_0B0, actor->unk_58);
-    actor->ClearUnk1A8Bits(1);
+    SaveData_RemoveFromParty(unk_0B0, actor->m_id);
+    actor->ClearEffectFlags(1);
     actor->StartMoveTo(unk_00C->GetOffset());
 }
 
@@ -1025,11 +1025,11 @@ void ReleaseMenu::ov7_0211ED10(BOOL heal)
             CFieldActor *actor = unk_0A4->Get(i);
             if (heal) {
                 actor->PlayAnim(8, 0);
-                if (actor->unk_08 != NULL) {
-                    actor->unk_08->ResetOutlinePhase();
-                    actor->unk_08->SetOutlineColor(0x7FE0);
-                    actor->unk_08->SetOutlineWidth(2);
-                    actor->unk_08->StartOutline(-1);
+                if (actor->m_drawObject != NULL) {
+                    actor->m_drawObject->ResetOutlinePhase();
+                    actor->m_drawObject->SetOutlineColor(0x7FE0);
+                    actor->m_drawObject->SetOutlineWidth(2);
+                    actor->m_drawObject->StartOutline(-1);
                 }
                 if (!played) {
                     unk_27C->m_audioEngine->PlayStream(unk_0B4[i].unk_0A, 0x40);
@@ -1037,7 +1037,7 @@ void ReleaseMenu::ov7_0211ED10(BOOL heal)
                 }
             } else {
                 actor->PlayAnim(2, 0);
-                actor->ClearUnk1A8Bits(1);
+                actor->ClearEffectFlags(1);
             }
         }
     }
@@ -1101,7 +1101,7 @@ s16 ReleaseMenu::ov7_0211EFA0()
 
 BOOL ReleaseMenu::ov7_0211EFE4()
 {
-    if (sub_020161E4(&MAIN_BSS_020B26A0, -1) > sub_020161AC(&MAIN_BSS_020B26A0, 0xFF, -1)) {
+    if (SaveData_CountPartyExceptPartner(&MAIN_BSS_020B26A0, -1) > SaveData_GetPartyCapacityExceptPartner(&MAIN_BSS_020B26A0, 0xFF, -1)) {
         return TRUE;
     }
     return FALSE;
@@ -1176,7 +1176,7 @@ void ReleaseMenu::ov7_0211F1E8()
 
 void ReleaseMenu::ov7_0211F1FC(u32 msg, u32 arg1, int next, u32 arg3, u32 arg4)
 {
-    unk_27C->m_textboxData->sub_02009FB0(1, 0);
+    unk_27C->m_textboxData->CloseAndClear(1, 0);
     unk_27C->m_textboxData->SetTextSpeed(0);
     unk_27C->m_textboxData->ShowSystemMessage(msg, arg3, arg1, arg4);
     switch (next) {
@@ -1274,8 +1274,8 @@ void ReleaseMenu::ov7_0211F534()
     if (unk_27C == NULL) {
         return;
     }
-    unk_27C->unk_14BC->Start(3, 15);
-    unk_27C->unk_14C0->Start(3, 15);
+    unk_27C->m_mainFade->Start(3, 15);
+    unk_27C->m_subFade->Start(3, 15);
 }
 
 void ReleaseMenu::ov7_0211F578()
@@ -1283,13 +1283,13 @@ void ReleaseMenu::ov7_0211F578()
     if (unk_27C == NULL) {
         return;
     }
-    unk_27C->unk_14BC->Start(4, 15);
-    unk_27C->unk_14C0->Start(4, 15);
+    unk_27C->m_mainFade->Start(4, 15);
+    unk_27C->m_subFade->Start(4, 15);
 }
 
 BOOL ReleaseMenu::ov7_0211F5BC()
 {
-    if (unk_27C->unk_14C0->IsActive() || unk_27C->unk_14BC->IsActive()) {
+    if (unk_27C->m_subFade->IsActive() || unk_27C->m_mainFade->IsActive()) {
         return TRUE;
     }
     return FALSE;

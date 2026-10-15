@@ -34,7 +34,7 @@ BattleResult::BattleResult()
     m_bonusFlags = 0;
     m_score = 0;
     m_audio = CGame::GetInstance()->m_audioEngine;
-    m_levelTable = CGame::GetInstance()->unk_1438;
+    m_levelTable = CGame::GetInstance()->m_diskHPTable;
     m_save = &MAIN_BSS_020B26A0;
 
     SetSpriteRes(&m_expLabel0, m_image, m_palette, m_cells);
@@ -324,13 +324,13 @@ void BattleResult::ov1_02139364()
         }
         u8 startLevel = m_startLevel;
         if (startLevel != m_level) {
-            u8 stat1 = sub_02010E90(m_levelTable, m_level) - sub_02010E90(m_levelTable, startLevel);
-            u8 stat2 = sub_02010E78(m_levelTable, m_level) - sub_02010E78(m_levelTable, m_startLevel);
+            u8 stat1 = DiskHPTable_GetPower(m_levelTable, m_level) - DiskHPTable_GetPower(m_levelTable, startLevel);
+            u8 stat2 = DiskHPTable_GetMaxEnergy(m_levelTable, m_level) - DiskHPTable_GetMaxEnergy(m_levelTable, m_startLevel);
             SetLevelDigits(m_startLevel, m_level);
             SetStat1Digits(stat1);
             SetStat2Digits(stat2);
             m_audio->StopSe(54);
-            m_audio->sub_02034DE8(11, 0, 256);
+            m_audio->PlayJingle(11, 0, 256);
             m_frame = 0;
             m_state = 9;
         } else {
@@ -361,12 +361,12 @@ void BattleResult::ov1_02139364()
 
     if ((m_shownTotal >> FX32_SHIFT) >= m_nextExp && !m_maxLevel) {
         u32 exp = m_save->m_levelExp;
-        m_levelExp += sub_02010EAC(m_levelTable, m_level) - exp;
+        m_levelExp += DiskHPTable_GetExp(m_levelTable, m_level) - exp;
         m_level++;
-        m_nextExp = sub_02010EAC(m_levelTable, m_level);
+        m_nextExp = DiskHPTable_GetExp(m_levelTable, m_level);
         m_save->m_levelExp = 0;
         SaveData_SetStylerLevel(m_save, m_level);
-        if (m_level == DiskHPTable_GetMaxLevel(CGame::GetInstance()->unk_1438)) {
+        if (m_level == DiskHPTable_GetMaxLevel(CGame::GetInstance()->m_diskHPTable)) {
             m_maxLevel = TRUE;
         }
         SetExpDigits(m_exp - m_levelExp);
@@ -517,11 +517,11 @@ void BattleResult::ov1_02139C30(CBattleDisk *disk, CPlayerHPGauge *gauge)
     m_levelExp = 0;
     m_startLevel = m_save->m_stylerLevel;
     m_level = m_startLevel;
-    m_nextExp = sub_02010EAC(m_levelTable, m_startLevel);
+    m_nextExp = DiskHPTable_GetExp(m_levelTable, m_startLevel);
     m_audio->PlayBgm(4, 1);
     m_disk = disk;
     m_gauge = gauge;
-    m_maxLevel = m_startLevel == DiskHPTable_GetMaxLevel(CGame::GetInstance()->unk_1438);
+    m_maxLevel = m_startLevel == DiskHPTable_GetMaxLevel(CGame::GetInstance()->m_diskHPTable);
     m_frame = 0;
     m_state = 1;
 }

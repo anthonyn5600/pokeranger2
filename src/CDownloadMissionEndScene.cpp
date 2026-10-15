@@ -31,7 +31,7 @@ void CDownloadMissionEndScene::func6()
     unk_038A = MAIN_BSS_020B26A0.unk_87DA;
     unk_0310 = MAIN_BSS_020B26A0.unk_8803;
     unk_038C = MAIN_BSS_020B26A0.unk_81AC;
-    game->m_textboxData->Init(game->unk_0014, game->touchPanel, &game->unk_14AC->unk_0C, game->unk_14B0, game->unk_0024, game->m_audioEngine, 0x10, 0x4000, 0);
+    game->m_textboxData->Init(game->unk_0014, game->touchPanel, &game->unk_14AC->unk_0C, game->m_nameTables, game->unk_0024, game->m_audioEngine, 0x10, 0x4000, 0);
     game->m_textboxData->LoadSystemMessages(0);
     unk_0008 = 0;
     game->unk_146C.SetFps(60);
@@ -56,7 +56,7 @@ u32 CDownloadMissionEndScene::func0()
         unk_0008 = 1;
         break;
     case 1: {
-        u32 result = unk_000C->sub_0202841C();
+        u32 result = unk_000C->Update();
         if (result == 0) {
             break;
         }
@@ -111,9 +111,9 @@ u32 CDownloadMissionEndScene::func0()
         MAIN_BSS_020B26A0.unk_87DA = unk_038A;
         int idx = unk_038C - 1;
         if (idx >= 0 && idx < 6) {
-            sub_020112DC(&MAIN_BSS_020AF598, idx);
+            DownloadMissionClears_Set(&MAIN_BSS_020AF598, idx);
             if (idx < 3) {
-                sub_02010F5C(&MAIN_BSS_020AF5E4[idx], idx);
+                DownloadMissionRecord_SetCleared(&MAIN_BSS_020AF5E4[idx], idx);
             }
         }
         unk_0008 = 3;
@@ -124,22 +124,22 @@ u32 CDownloadMissionEndScene::func0()
     case 4:
         game->m_textboxData->ResetTextSpeed();
         game->m_textboxData->ShowMessage(0, 0x48, 1, 1, 0);
-        game->unk_14BC->Start(3, 5);
-        game->unk_14C0->Start(3, 5);
+        game->m_mainFade->Start(3, 5);
+        game->m_subFade->Start(3, 5);
         unk_0008 = 5;
         break;
     case 5:
         if (game->m_textboxData->IsActive()) {
             break;
         }
-        game->m_textboxData->sub_02009FB0(1, 1);
+        game->m_textboxData->CloseAndClear(1, 1);
         unk_0008 = 10;
         break;
     case 6:
         game->m_textboxData->ResetTextSpeed();
         game->m_textboxData->ShowMessage(0, 0x45, 1, 1, 0);
-        game->unk_14BC->Start(3, 5);
-        game->unk_14C0->Start(3, 5);
+        game->m_mainFade->Start(3, 5);
+        game->m_subFade->Start(3, 5);
         unk_0008 = 7;
         break;
     case 7:
@@ -147,27 +147,27 @@ u32 CDownloadMissionEndScene::func0()
     case 8:
         game->m_textboxData->ResetTextSpeed();
         game->m_textboxData->ShowMessage(0, 0x50, 1, 1, 0);
-        game->unk_14BC->Start(3, 5);
-        game->unk_14C0->Start(3, 5);
+        game->m_mainFade->Start(3, 5);
+        game->m_subFade->Start(3, 5);
         unk_0008 = 9;
         break;
     case 9:
         if (game->m_textboxData->IsActive()) {
             break;
         }
-        game->m_textboxData->sub_02009FB0(1, 1);
+        game->m_textboxData->CloseAndClear(1, 1);
         unk_0008 = 10;
         break;
     case 10:
-        game->unk_14BC->Start(2, 30);
-        game->unk_14C0->Start(2, 30);
+        game->m_mainFade->Start(2, 30);
+        game->m_subFade->Start(2, 30);
         unk_0008 = 11;
         break;
     case 11:
-        if (game->unk_14BC->IsActive()) {
+        if (game->m_mainFade->IsActive()) {
             break;
         }
-        if (game->unk_14C0->IsActive()) {
+        if (game->m_subFade->IsActive()) {
             break;
         }
         return 0x11;

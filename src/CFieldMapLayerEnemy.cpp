@@ -11,7 +11,7 @@
 extern SaveData MAIN_BSS_020B26A0;
 
 extern "C" {
-BOOL sub_02015434(SaveData *save, int mapId, int idx);
+BOOL SaveData_IsInParty(SaveData *save, int mapId, int idx);
 }
 
 BOOL CFieldMapLayerEnemy::Load(void *data)
@@ -41,7 +41,7 @@ BOOL CFieldMapLayerEnemy::Load(void *data)
                 enemy->unk_1C = y;
                 enemy->unk_E0 = MAIN_BSS_020B26A0.m_mapId;
                 enemy->SetLayer(unk_08);
-                if (!sub_02015434(&MAIN_BSS_020B26A0, MAIN_BSS_020B26A0.m_mapId, base + i) && m_entries[i].hidden == 1) {
+                if (!SaveData_IsInParty(&MAIN_BSS_020B26A0, MAIN_BSS_020B26A0.m_mapId, base + i) && m_entries[i].hidden == 1) {
                     enemy->unk_20 = 2;
                 } else {
                     Actor_HideManpu(enemy);

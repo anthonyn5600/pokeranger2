@@ -289,9 +289,9 @@ void SubScreenTargetInfo::DrawTexts()
     game->unk_1498->Print(1, windows[1].x, windows[1].y, windows[1].color, unk_34->unk_08[2].unk_04, TRUE, 0);
     game->unk_1498->Print(2, windows[2].x, windows[2].y, windows[2].color, unk_34->unk_08[3].unk_04, TRUE, 0);
     SubTextPrinter *text = game->unk_1498;
-    text->Print(3, windows[3].x, windows[3].y, windows[3].color, NameTables_GetFieldMoveName(game->unk_14B0, unk_0B), TRUE, 0);
+    text->Print(3, windows[3].x, windows[3].y, windows[3].color, NameTables_GetFieldMoveName(game->m_nameTables, unk_0B), TRUE, 0);
     text = game->unk_1498;
-    text->Print(4, windows[4].x, windows[4].y, windows[4].color, NameTables_GetYakumonoName(game->unk_14B0, unk_0E), TRUE, 0);
+    text->Print(4, windows[4].x, windows[4].y, windows[4].color, NameTables_GetYakumonoName(game->m_nameTables, unk_0E), TRUE, 0);
     game->unk_1498->Print(5, windows[5].x, windows[5].y, windows[5].color, unk_30->unk_08[unk_10].unk_04, FALSE, 0);
 }
 

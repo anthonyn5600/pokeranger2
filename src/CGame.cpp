@@ -22,11 +22,11 @@ CGame *CGame::sInstance;
 
 static inline void ResetTimers()
 {
-    sub_02010F18(&MAIN_BSS_020AF5D0);
+    DownloadMissionRecord_Init(&MAIN_BSS_020AF5D0);
     for (int i = 0; i < 3; i++) {
-        sub_02010F18(&MAIN_BSS_020AF5E4[i]);
+        DownloadMissionRecord_Init(&MAIN_BSS_020AF5E4[i]);
     }
-    sub_0201128C(&MAIN_BSS_020AF598);
+    DownloadMissionClears_Reset(&MAIN_BSS_020AF598);
 }
 
 void CGame::ResetSaveState()
@@ -83,11 +83,11 @@ CGame::CGame()
     unk_0C24 = new BGFontPrinter();
     unk_0C28 = new BGFontPrinter();
     unk_1434 = new PokeIdTable(unk_14A8);
-    unk_1438 = new DiskHPTable(0);
+    m_diskHPTable = new DiskHPTable(0);
     unk_143C = new BattleStartParam();
     unk_1440 = new UnkClass_02010C3C();
     unk_1444 = new CBattleResultParameter();
-    unk_14CC = new FieldData("data/field/fielddata.bin", 0);
+    m_fieldData = new FieldData("data/field/fielddata.bin", 0);
     MATHRandContext32 *ctx32 = &m_rand32;
     MATH_InitRand32(ctx32, 0x1234);
     MATHRandContext16 *ctx16 = &m_rand16;
@@ -97,10 +97,10 @@ CGame::CGame()
 
     m_audioEngine = new AudioEngine();
     unk_14AC = new FontSet(1);
-    unk_14B0 = new NameTables();
+    m_nameTables = new NameTables();
     m_textboxData = new TextboxManager();
-    unk_1494 = new TextPrinter(&unk_14AC->unk_14, unk_14B0);
-    unk_1498 = new SubTextPrinter(&unk_14AC->unk_14, unk_14B0);
+    unk_1494 = new TextPrinter(&unk_14AC->unk_14, m_nameTables);
+    unk_1498 = new SubTextPrinter(&unk_14AC->unk_14, m_nameTables);
     m_scriptManager = new ScriptManager(unk_14A8);
     m_missionQuestData = &MAIN_BSS_020B2638;
     MissionQuestData_Init(m_missionQuestData, m_scriptManager, m_textboxData);
@@ -108,11 +108,11 @@ CGame::CGame()
     unk_14B4 = MAIN_BSS_0210C0B0;
     GlobalValues_Init(unk_14B4);
 
-    unk_14B8 = new CameraController(NULL);
-    unk_14BC = new BrightnessFade(1, 0x10);
-    unk_14C0 = new BrightnessFade(2, 0x10);
-    unk_14C4 = new WindowWipe(1);
-    unk_14C8 = new WindowWipe(2);
+    m_cameraController = new CameraController(NULL);
+    m_mainFade = new BrightnessFade(1, 0x10);
+    m_subFade = new BrightnessFade(2, 0x10);
+    m_mainWipe = new WindowWipe(1);
+    m_subWipe = new WindowWipe(2);
     unk_15D4 = 1;
     unk_15D0 = 0;
     unk_15D8 = new UnkClass_0200FA5C();
@@ -140,10 +140,10 @@ void CGame::OnVBlank()
         InitVramTransfer();
     }
 
-    unk_14BC->UpdateAndApply();
-    unk_14C0->UpdateAndApply();
-    unk_14C4->sub_0200E4A8();
-    unk_14C8->sub_0200E4A8();
+    m_mainFade->UpdateAndApply();
+    m_subFade->UpdateAndApply();
+    m_mainWipe->sub_0200E4A8();
+    m_subWipe->sub_0200E4A8();
     // VCOUNT is read and dropped (likely a debug print stripped from the final build)
     GX_GetVCount();
     unk_146C.CountVBlank();
@@ -165,9 +165,9 @@ void CGame::UpdateSystems()
 {
     ScriptManager_Update(m_scriptManager);
     m_textboxData->Update();
-    unk_14B8->Update();
-    unk_14C4->Update();
-    unk_14C8->Update();
+    m_cameraController->Update();
+    m_mainWipe->Update();
+    m_subWipe->Update();
     m_audioEngine->Main();
 }
 
@@ -229,18 +229,18 @@ void CGame::InitVramTransfer()
     }
 }
 
-void CGame::sub_02010324()
+void CGame::SaveBgmState()
 {
     AudioEngine *audio = m_audioEngine;
-    s32 c4 = audio->unk_C4;
-    s32 d0 = audio->unk_D0;
+    s32 c4 = audio->m_bgmGroup;
+    s32 d0 = audio->m_bgmSeq;
     s32 f0 = audio->unk_F0;
     GlobalValues_Set(unk_14B4, 5, c4);
     GlobalValues_Set(unk_14B4, 6, d0);
     GlobalValues_Set(unk_14B4, 0x1A, f0);
 }
 
-BOOL CGame::sub_02010378()
+BOOL CGame::RestoreBgmState()
 {
     s32 v5 = GlobalValues_Get(unk_14B4, 5);
     s32 v6 = GlobalValues_Get(unk_14B4, 6);
@@ -254,7 +254,7 @@ BOOL CGame::sub_02010378()
     return TRUE;
 }
 
-void CGame::sub_02010400()
+void CGame::ClearBgmState()
 {
     GlobalValues_Set(unk_14B4, 5, 0);
     GlobalValues_Set(unk_14B4, 6, 0);

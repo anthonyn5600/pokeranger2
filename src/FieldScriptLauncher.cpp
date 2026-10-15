@@ -129,7 +129,7 @@ BOOL FieldScriptLauncher::ov0_0213FC24(CFieldActor *actor, const char *label, in
 {
     if (!ov0_0213FEEC()) {
         CFieldPlayer *player = MAIN_BSS_0210CA48;
-        if (player != NULL && !player->ov0_0213416C() && (((int)actor->unk_58 >> 24) & 0xFF) == 2) {
+        if (player != NULL && !player->ov0_0213416C() && (((int)actor->m_id >> 24) & 0xFF) == 2) {
             player->sub_show();
             player->sub_0201287C_();
             player->ResetMove();
@@ -158,7 +158,7 @@ void FieldScriptLauncher::ov0_0213FD60(const char *label, int arg, int fade)
     strcpy(m_label, label);
     m_state = 1;
     unk_28 = 0;
-    sub_02034374(m_game->m_scriptManager, arg);
+    ScriptManager_SetArg(m_game->m_scriptManager, arg);
     ScriptManager_Run(m_game->m_scriptManager, label);
     MAIN_BSS_0210CA40->ov0_02123E58(fade);
     unk_30 = 1;
@@ -176,7 +176,7 @@ BOOL FieldScriptLauncher::ov0_0213FDFC(CFieldActor *actor, const char *label, in
         strcpy(m_label, label);
         unk_28 = 0;
         MAIN_BSS_0210CA40->ov0_02123E58(fade);
-        if ((((int)actor->unk_58 >> 24) & 0xFF) != 3) {
+        if ((((int)actor->m_id >> 24) & 0xFF) != 3) {
             m_state = 2;
             m_actor->RunScriptLabel(label);
             m_actor->unk_0C = TRUE;

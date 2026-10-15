@@ -7,7 +7,7 @@ extern "C" void LogError(const char *fmt, ...);
 u16 DAT_0208d58c = 60;
 
 // Whether an enemy label has a partner index
-BOOL sub_02034F9C(int kind)
+BOOL HasPartnerIndex(int kind)
 {
     switch (kind) {
     case 0xD7:

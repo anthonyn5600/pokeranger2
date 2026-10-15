@@ -48,7 +48,7 @@ CFieldEffectSandBurial::CFieldEffectSandBurial()
 {
     m_system.SetEmitter(0, &m_emitter);
     m_system.m_forceField = &m_forceField;
-    CFieldEffectManage *mgr = MAIN_BSS_0210CA40->unk_0028;
+    CFieldEffectManage *mgr = MAIN_BSS_0210CA40->m_effects;
     m_system.SetRes(FieldEffectSpriteRes(mgr->m_resident.GetNcbr(0), mgr->m_resident.GetPalette(), mgr->m_resident.GetNcer(0)));
 }
 

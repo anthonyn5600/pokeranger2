@@ -28,12 +28,12 @@ CStylerUpperScreen::CStylerUpperScreen(CGame *game, CStylerData *data)
 {
     unk_0C = 0;
     m_level = 0;
-    m_energy = 0;
+    m_levelExp = 0;
+    m_nextExp = 0;
     m_maxEnergy = 0;
-    unk_1C = 0;
-    unk_20 = 0;
+    m_energy = 0;
     unk_24 = 0;
-    unk_28 = 0;
+    m_power = 0;
     unk_2C = 0;
     unk_30 = 0;
     unk_34 = 0;
@@ -72,15 +72,15 @@ void CStylerUpperScreen::LoadStatus()
 {
     SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     m_level = save->m_stylerLevel;
-    m_energy = save->m_levelExp;
-    m_maxEnergy = sub_02010EAC(m_game->unk_1438, m_level);
-    unk_1C = save->m_maxEnergy;
-    unk_20 = save->m_energy;
+    m_levelExp = save->m_levelExp;
+    m_nextExp = DiskHPTable_GetExp(m_game->m_diskHPTable, m_level);
+    m_maxEnergy = save->m_maxEnergy;
+    m_energy = save->m_energy;
     unk_24 = m_data->m_powerLevels[22];
     int bonus[4] = { 0, 3, 5, 7 };
     int idx = m_data->m_powerLevels[23];
-    u16 power = sub_02010E90(m_game->unk_1438, m_level);
-    unk_28 = power + bonus[idx];
+    u16 power = DiskHPTable_GetPower(m_game->m_diskHPTable, m_level);
+    m_power = power + bonus[idx];
     unk_30 = m_data->m_powerLevels[24];
     unk_34 = m_data->m_powerLevels[25];
 }
@@ -127,28 +127,28 @@ void CStylerUpperScreen::LoadSprites()
     m_sprites->AddSprite(m_level % 10, 0x58, 0x38, 1);
     m_sprites->AddSprite(0x18, 0x80, 0x43, 1);
 
-    if (unk_1C < 100) {
-        if (unk_20 >= 10) {
-            m_sprites->AddSprite(unk_20 / 10, 0xA0, 0x58, 1);
+    if (m_maxEnergy < 100) {
+        if (m_energy >= 10) {
+            m_sprites->AddSprite(m_energy / 10, 0xA0, 0x58, 1);
         }
-        m_sprites->AddSprite(unk_20 % 10, 0xB0, 0x58, 1);
+        m_sprites->AddSprite(m_energy % 10, 0xB0, 0x58, 1);
         m_sprites->AddSprite(10, 0xC0, 0x58, 1);
-        m_sprites->AddSprite(unk_1C / 10, 0xD0, 0x58, 1);
-        m_sprites->AddSprite(unk_1C % 10, 0xE0, 0x58, 1);
+        m_sprites->AddSprite(m_maxEnergy / 10, 0xD0, 0x58, 1);
+        m_sprites->AddSprite(m_maxEnergy % 10, 0xE0, 0x58, 1);
         m_sprites->AddSprite(0x19, 0x80, 0x50, 1);
         m_slots[0] = m_sprites->unk_24;
     } else {
-        if (unk_20 >= 100) {
-            m_sprites->AddSprite(unk_20 / 100, 0x80, 0x58, 1);
+        if (m_energy >= 100) {
+            m_sprites->AddSprite(m_energy / 100, 0x80, 0x58, 1);
         }
-        if (unk_20 >= 10) {
-            m_sprites->AddSprite(unk_20 / 10 % 10, 0x90, 0x58, 1);
+        if (m_energy >= 10) {
+            m_sprites->AddSprite(m_energy / 10 % 10, 0x90, 0x58, 1);
         }
-        m_sprites->AddSprite(unk_20 % 10, 0xA0, 0x58, 1);
+        m_sprites->AddSprite(m_energy % 10, 0xA0, 0x58, 1);
         m_sprites->AddSprite(10, 0xB0, 0x58, 1);
-        m_sprites->AddSprite(unk_1C / 100, 0xC0, 0x58, 1);
-        m_sprites->AddSprite(unk_1C / 10 % 10, 0xD0, 0x58, 1);
-        m_sprites->AddSprite(unk_1C % 10, 0xE0, 0x58, 1);
+        m_sprites->AddSprite(m_maxEnergy / 100, 0xC0, 0x58, 1);
+        m_sprites->AddSprite(m_maxEnergy / 10 % 10, 0xD0, 0x58, 1);
+        m_sprites->AddSprite(m_maxEnergy % 10, 0xE0, 0x58, 1);
         m_sprites->AddSprite(0x19, 0x80, 0x50, 1);
         m_slots[0] = m_sprites->unk_24;
     }
@@ -164,11 +164,11 @@ void CStylerUpperScreen::LoadSprites()
     m_sprites->AddSprite(0x1C, 0x80, 0x68, 1);
     m_slots[1] = m_sprites->unk_24;
 
-    if (unk_28 >= 100) {
-        m_sprites->AddSprite(unk_28 / 100, 0xC0, 0x88, 1);
+    if (m_power >= 100) {
+        m_sprites->AddSprite(m_power / 100, 0xC0, 0x88, 1);
     }
-    m_sprites->AddSprite(unk_28 / 10 % 10, 0xD0, 0x88, 1);
-    m_sprites->AddSprite(unk_28 % 10, 0xE0, 0x88, 1);
+    m_sprites->AddSprite(m_power / 10 % 10, 0xD0, 0x88, 1);
+    m_sprites->AddSprite(m_power % 10, 0xE0, 0x88, 1);
     m_sprites->AddSprite(0x1A, 0x80, 0x80, 1);
     m_slots[2] = m_sprites->unk_24;
 
@@ -249,31 +249,31 @@ void CStylerUpperScreen::DrawTexts()
         printer->Print(i, windows[i].x, windows[i].y, windows[i].color, m_menuMessages->unk_08[windows[i].msg].unk_04, TRUE, 0);
     }
 
-    if (m_maxEnergy == 0) {
+    if (m_nextExp == 0) {
         return;
     }
 
     printer->Print(2, windows[2].x, windows[2].y, windows[2].color, m_menuMessages->unk_08[30].unk_04, FALSE, 0);
-    printer->Print(2, 2, windows[2].y, windows[2].color, m_menuMessages->unk_08[m_energy / 10000 + 8].unk_04, FALSE, 0);
-    printer->Print(2, 12, windows[2].y, windows[2].color, m_menuMessages->unk_08[m_energy / 1000 % 10 + 8].unk_04, FALSE, 0);
-    printer->Print(2, 22, windows[2].y, windows[2].color, m_menuMessages->unk_08[m_energy / 100 % 10 + 8].unk_04, FALSE, 0);
-    printer->Print(2, 32, windows[2].y, windows[2].color, m_menuMessages->unk_08[m_energy / 10 % 10 + 8].unk_04, FALSE, 0);
-    printer->Print(2, 42, windows[2].y, windows[2].color, m_menuMessages->unk_08[m_energy % 10 + 8].unk_04, FALSE, 0);
-    printer->Print(2, 62, windows[2].y, windows[2].color, m_menuMessages->unk_08[m_maxEnergy / 10000 + 8].unk_04, FALSE, 0);
-    printer->Print(2, 72, windows[2].y, windows[2].color, m_menuMessages->unk_08[m_maxEnergy / 1000 % 10 + 8].unk_04, FALSE, 0);
-    printer->Print(2, 82, windows[2].y, windows[2].color, m_menuMessages->unk_08[m_maxEnergy / 100 % 10 + 8].unk_04, FALSE, 0);
-    printer->Print(2, 92, windows[2].y, windows[2].color, m_menuMessages->unk_08[m_maxEnergy / 10 % 10 + 8].unk_04, FALSE, 0);
-    printer->Print(2, 102, windows[2].y, windows[2].color, m_menuMessages->unk_08[m_maxEnergy % 10 + 8].unk_04, FALSE, 0);
+    printer->Print(2, 2, windows[2].y, windows[2].color, m_menuMessages->unk_08[m_levelExp / 10000 + 8].unk_04, FALSE, 0);
+    printer->Print(2, 12, windows[2].y, windows[2].color, m_menuMessages->unk_08[m_levelExp / 1000 % 10 + 8].unk_04, FALSE, 0);
+    printer->Print(2, 22, windows[2].y, windows[2].color, m_menuMessages->unk_08[m_levelExp / 100 % 10 + 8].unk_04, FALSE, 0);
+    printer->Print(2, 32, windows[2].y, windows[2].color, m_menuMessages->unk_08[m_levelExp / 10 % 10 + 8].unk_04, FALSE, 0);
+    printer->Print(2, 42, windows[2].y, windows[2].color, m_menuMessages->unk_08[m_levelExp % 10 + 8].unk_04, FALSE, 0);
+    printer->Print(2, 62, windows[2].y, windows[2].color, m_menuMessages->unk_08[m_nextExp / 10000 + 8].unk_04, FALSE, 0);
+    printer->Print(2, 72, windows[2].y, windows[2].color, m_menuMessages->unk_08[m_nextExp / 1000 % 10 + 8].unk_04, FALSE, 0);
+    printer->Print(2, 82, windows[2].y, windows[2].color, m_menuMessages->unk_08[m_nextExp / 100 % 10 + 8].unk_04, FALSE, 0);
+    printer->Print(2, 92, windows[2].y, windows[2].color, m_menuMessages->unk_08[m_nextExp / 10 % 10 + 8].unk_04, FALSE, 0);
+    printer->Print(2, 102, windows[2].y, windows[2].color, m_menuMessages->unk_08[m_nextExp % 10 + 8].unk_04, FALSE, 0);
 }
 
 void CStylerUpperScreen::DrawGauge()
 {
-    int rate = (m_energy << 7) / m_maxEnergy;
+    int rate = (m_levelExp << 7) / m_nextExp;
     int full = rate / 8;
     int rest = rate % 8;
     int i;
 
-    if (m_maxEnergy != 0) {
+    if (m_nextExp != 0) {
         for (i = 0; i < full; i++) {
             MI_CpuCopy16((u8 *)G2S_GetBG2ScrPtr() + 0x610, (u8 *)G2S_GetBG0ScrPtr() + ((i + 13) * 2 + 0x200), 2);
         }

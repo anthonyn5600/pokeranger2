@@ -159,12 +159,12 @@ int ov0_021485E8(int *args)
     case 33:
         return enemy->unk_130;
     case 34:
-        return enemy->unk_04 & 0x400;
+        return enemy->m_flags & 0x400;
     case 35:
-        enemy->unk_04 |= 0x400;
+        enemy->m_flags |= 0x400;
         return 0;
     case 36:
-        enemy->unk_04 &= ~0x400;
+        enemy->m_flags &= ~0x400;
         return 0;
     case 37:
         return enemy->ov0_021343B8(args[2]);

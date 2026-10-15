@@ -34,9 +34,9 @@ void LogInfo(const char *fmt, ...);
 void Script_Link(void *script);
 FieldNpcData *FieldData_GetNpc(FieldData *obj, int kind);
 FieldEnemyData *FieldData_GetEnemy(FieldData *obj, int kind);
-BOOL sub_02015434(SaveData *save, int mapId, int idx);
-void SavePartner_Clear(UnkStruct_020B26A0_8AD4 *partner);
-void sub_02015C78(SaveData *save, u32 id, u16 kind, int arg3);
+BOOL SaveData_IsInParty(SaveData *save, int mapId, int idx);
+void SavePartner_Clear(PartnerSlot *partner);
+void SaveData_AddToParty(SaveData *save, u32 id, u16 kind, int arg3);
 }
 
 FieldPartnerScripts::FieldPartnerScripts()
@@ -109,7 +109,7 @@ void CFieldPartnerManage::UpdateAll(CFieldMap *map, BOOL update)
             if (partner == NULL || !partner->IsActive()) {
                 continue;
             }
-            if (save->m_areaType == 4 && partner->IsKind0() && !(partner->unk_04 & 0x20)) {
+            if (save->m_areaType == 4 && partner->IsKind0() && !(partner->m_flags & 0x20)) {
                 continue;
             }
             if (player->unk_110 & 3) {
@@ -150,7 +150,7 @@ void CFieldPartnerManage::DrawAll(DrawObjectList *renderLists, FieldShadow *hud)
         if (partner == NULL || !partner->IsActive()) {
             continue;
         }
-        if (save->m_areaType == 4 && partner->IsKind0() && !(partner->unk_04 & 0x20)) {
+        if (save->m_areaType == 4 && partner->IsKind0() && !(partner->m_flags & 0x20)) {
             continue;
         }
         partner->Draw(renderLists, hud);
@@ -212,12 +212,12 @@ int CFieldPartnerManage::ov0_02139920(u32 id, u16 kind, u16 flags, int type, int
             pokemon->unk_24.pos.y = bounds.pos.y;
             pokemon->unk_24.size.x = bounds.size.x;
             pokemon->unk_24.size.y = bounds.size.y;
-            pokemon->unk_D4 = info->unk_0E;
+            pokemon->m_bushMode = info->unk_0E;
             pokemon->unk_D6 = info->unk_0F;
             SetUnk70(pokemon, data->unk_3D << FX32_SHIFT, data->unk_3E << FX32_SHIFT);
             ov0_0213A57C(kind, pokemon);
-            pokemon->SetLayer(MAIN_BSS_0210CA40->ov0_02123060(0)->unk_14);
-            if (sub_02034F9C(kind)) {
+            pokemon->SetLayer(MAIN_BSS_0210CA40->ov0_02123060(0)->m_layer);
+            if (HasPartnerIndex(kind)) {
                 pokemon->unk_1E8 = unk_84;
                 ov0_0213A2B4();
             } else {
@@ -260,8 +260,8 @@ void CFieldPartnerManage::ov0_02139E9C()
 {
     for (int i = 0; i < m_count; i++) {
         CFieldPartner *partner = (CFieldPartner *)Get(i);
-        if (partner != NULL && partner->IsNpc() && partner->unk_08->unk_0C != NULL) {
-            partner->unk_08->unk_0C->m_motion.m_mode = 0;
+        if (partner != NULL && partner->IsNpc() && partner->m_drawObject->m_actor != NULL) {
+            partner->m_drawObject->m_actor->m_motion.m_mode = 0;
         }
     }
 }
@@ -324,7 +324,7 @@ inline BOOL CFieldPartnerManage::RemovePartner(u32 target)
     }
     for (int i = 0; i < m_count; i++) {
         CFieldPartner *partner = (CFieldPartner *)Get(i);
-        if (partner != NULL && id == partner->unk_58 && kind == partner->unk_1FC) {
+        if (partner != NULL && id == partner->m_id && kind == partner->unk_1FC) {
             if (Remove(i)) {
                 if (kind == 1) {
                     unk_84--;
@@ -385,8 +385,8 @@ BOOL CFieldPartnerManage::Clear()
     unk_84 = 0;
     unk_88 = 0;
     CFieldScene *scene = MAIN_BSS_0210CA40;
-    if (scene != NULL && scene->unk_00D8 != NULL) {
-        scene->unk_00D8->SetPartnerVisible(FALSE);
+    if (scene != NULL && scene->m_hpGauge != NULL) {
+        scene->m_hpGauge->SetPartnerVisible(FALSE);
     }
     return CFieldActorManage::Clear();
 }
@@ -396,30 +396,30 @@ void CFieldPartnerManage::ov0_0213A360(u32 id, u16 kind, u16 flags, int type, in
     SaveData *save = &MAIN_BSS_020B26A0;
     if (type == 1) {
         for (int i = 0; i < 3; i++) {
-            UnkStruct_020B26A0_8AD4 *slot = save->GetPartner(i);
+            PartnerSlot *slot = save->GetPartner(i);
             if (slot != NULL && slot->unk_00 == 0) {
                 SavePartner_Clear(slot);
                 slot->unk_00 = 1;
                 slot->unk_04 = id;
                 slot->unk_08 = kind;
                 ov0_02139920(id, kind, flags, type, arg5);
-                sub_0203F440(this);
+                FieldActorManage_RestartAllScripts(this);
                 return;
             }
         }
     } else if (type == 0) {
         u32 newId = 0;
         for (int i = 0; i < 0xFFF; i++) {
-            if (!sub_02015434(save, 0xFFF, i)) {
+            if (!SaveData_IsInParty(save, 0xFFF, i)) {
                 newId = (i & 0xFFF) | 0x1FFF000;
                 break;
             }
         }
         if (newId != 0) {
-            sub_02015C78(save, newId, kind, -1);
+            SaveData_AddToParty(save, newId, kind, -1);
             ov0_02139920(newId, kind, flags, type, arg5);
         }
-        sub_0203F440(this);
+        FieldActorManage_RestartAllScripts(this);
     }
 }
 
@@ -430,7 +430,7 @@ u32 CFieldPartnerManage::ov0_0213A4C4(u32 kind)
     for (i = 0; i < count; i++) {
         CFieldPartner *partner = (CFieldPartner *)(count <= i ? NULL : m_actors[i]);
         if (partner != NULL && partner->unk_1FC == 1 && kind == partner->unk_200) {
-            return partner->unk_58;
+            return partner->m_id;
         }
     }
     return 0;
@@ -443,7 +443,7 @@ u32 CFieldPartnerManage::ov0_0213A520(u32 kind)
     for (i = 0; i < count; i++) {
         CFieldPartner *partner = (CFieldPartner *)(count <= i ? NULL : m_actors[i]);
         if (partner != NULL && partner->unk_1FC == 0 && kind == partner->unk_200) {
-            return partner->unk_58;
+            return partner->m_id;
         }
     }
     return 0;
@@ -451,12 +451,12 @@ u32 CFieldPartnerManage::ov0_0213A520(u32 kind)
 
 BOOL CFieldPartnerManage::ov0_0213A57C(u16 kind, CFieldPartner *partner)
 {
-    if (sub_02034F9C(kind)) {
-        partner->unk_04 |= 0x30;
+    if (HasPartnerIndex(kind)) {
+        partner->m_flags |= 0x30;
         CFieldScene *scene = MAIN_BSS_0210CA40;
         if (scene != NULL) {
             SaveData *save = &MAIN_BSS_020B26A0;
-            CPlayerHPGauge *obj = scene->unk_00D8;
+            CPlayerHPGauge *obj = scene->m_hpGauge;
             if (obj != NULL && save != NULL) {
                 save->unk_0008 = ov0_0213A658(kind);
                 obj->SetPartnerVisible(TRUE);
@@ -525,9 +525,9 @@ void CFieldPartnerManage::ov0_0213A7FC(BOOL arg)
         CFieldActor *actor = Get(i);
         if (actor != NULL) {
             if (arg) {
-                actor->unk_04 &= ~1;
+                actor->m_flags &= ~1;
             } else {
-                actor->unk_04 |= 1;
+                actor->m_flags |= 1;
             }
         }
     }

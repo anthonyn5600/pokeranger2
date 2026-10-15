@@ -29,10 +29,10 @@ BOOL CFieldTargetObjectActorScript::Call(CFieldActor *actor, const char *func)
     if (unk_2C != NULL && actor != NULL) {
         ScriptVM_Init(&unk_08, unk_30, unk_34);
         if (unk_38 == -1) {
-            *--unk_08.unk_04 = actor->unk_58;
+            *--unk_08.unk_04 = actor->m_id;
         } else {
             u32 *sp = unk_08.unk_04 -= 2;
-            sp[0] = actor->unk_58;
+            sp[0] = actor->m_id;
             sp[1] = unk_38;
         }
         if (func != NULL) {
@@ -64,10 +64,10 @@ CFieldTargetObject::CFieldTargetObject()
     unk_50 = 0;
     // The compound literal passed by value leaves two copies of its data in .rodata (the original has both).
     SetRect(this, (Rectangle) { { 0, 0 }, { 0x40000, 0x40000 } });
-    unk_D4 = 0;
+    m_bushMode = 0;
     unk_D6 = 0x100;
     // Chained: the extra copy changes the schedule (vtable in r0, shape.x in r0) like the original.
-    unk_F0 = unk_F4 = 0;
+    m_offsetX = m_offsetY = 0;
     unk_F8 = NULL;
     unk_FC = FALSE;
     unk_100[0] = 0;
@@ -91,7 +91,7 @@ BOOL CFieldTargetObject::sub_0203DA38()
 BOOL CFieldTargetObject::ov0_0213CD3C()
 {
     GetScript()->unk_38 = -1;
-    unk_DC->Call(this, "Normal");
+    m_script->Call(this, "Normal");
     unk_110 = 1;
     return TRUE;
 }
@@ -99,7 +99,7 @@ BOOL CFieldTargetObject::ov0_0213CD3C()
 BOOL CFieldTargetObject::ov0_0213CD78(int arg)
 {
     GetScript()->unk_38 = arg;
-    unk_DC->Call(this, "TargetClear");
+    m_script->Call(this, "TargetClear");
     unk_110 = 2;
     return TRUE;
 }
@@ -215,7 +215,7 @@ BOOL CFieldTargetObject::UpdateMove(CFieldMap *map)
 
 void CFieldTargetObject::StopMotion()
 {
-    if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-        unk_08->unk_0C->m_motion.m_mode = 0;
+    if (m_drawObject != NULL && m_drawObject->m_actor != NULL) {
+        m_drawObject->m_actor->m_motion.m_mode = 0;
     }
 }

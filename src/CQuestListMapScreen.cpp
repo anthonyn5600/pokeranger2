@@ -35,7 +35,7 @@ void CQuestListMapScreen::func3(int prev)
     if (unk_08 != NULL && unk_0C > 0) {
         unk_08->ov27_021201AC(unk_0C - 1);
     }
-    game->unk_14C0->Start(3, 15);
+    game->m_subFade->Start(3, 15);
     unk_04 = 0;
 }
 

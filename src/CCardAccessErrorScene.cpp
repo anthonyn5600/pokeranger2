@@ -60,10 +60,10 @@ void CCardAccessErrorScene::func5()
 void CCardAccessErrorScene::func6()
 {
     s_game->unk_146C.SetFps(60);
-    s_game->m_textboxData->Init(s_game->unk_0014, s_game->touchPanel, &s_game->unk_14AC->unk_0C, s_game->unk_14B0, s_game->unk_0024, s_game->m_audioEngine, 0x10, 0x4000, 0);
+    s_game->m_textboxData->Init(s_game->unk_0014, s_game->touchPanel, &s_game->unk_14AC->unk_0C, s_game->m_nameTables, s_game->unk_0024, s_game->m_audioEngine, 0x10, 0x4000, 0);
     s_game->m_textboxData->LoadSystemMessages(0);
-    s_game->m_audioEngine->sub_020345D4();
-    s_game->unk_14BC->Start(3, 0);
+    s_game->m_audioEngine->LoadSystemSe();
+    s_game->m_mainFade->Start(3, 0);
     s_game->m_textboxData->ShowMessage(0, 0x45, 1, 1, 0);
 }
 

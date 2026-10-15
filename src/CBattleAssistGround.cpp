@@ -20,7 +20,7 @@ CBattleAssistGround::CBattleAssistGround(CBattleAttackEffect **effects, CBattleA
 
 CBattleAssistGround::~CBattleAssistGround()
 {
-    m_quake->sub_0200D994();
+    m_quake->StopShakeX();
 }
 
 void CBattleAssistGround::ov1_0213219C(CameraController *quake)
@@ -49,19 +49,19 @@ int CBattleAssistGround::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattle
                 dist = 0x8000;
             }
             if (!m_quake->IsBusy()) {
-                m_quake->sub_0200D924(dist);
+                m_quake->StartShakeX(dist);
                 m_shakes++;
                 unk_14->PlaySe(0x12C);
             }
         } else if (m_quake->IsBusy()) {
-            m_quake->sub_0200D994();
+            m_quake->StopShakeX();
             unk_14->StopSe(0x12C);
         }
         m_last.x = x;
         m_last.y = y;
     }
     if (touch->unk_06 != 0 && m_quake->IsBusy()) {
-        m_quake->sub_0200D994();
+        m_quake->StopShakeX();
         unk_14->StopSe(0x12C);
         m_shakes = 0;
         m_touching = FALSE;
@@ -116,7 +116,7 @@ int CBattleAssistGround::vfunc_10()
 void CBattleAssistGround::vfunc_0C()
 {
     if (m_quake->IsBusy()) {
-        m_quake->sub_0200D994();
+        m_quake->StopShakeX();
         m_shakes = 0;
     }
     m_touching = FALSE;

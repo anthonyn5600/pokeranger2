@@ -34,7 +34,7 @@ void CDownloadMissionStartScene::func6()
     unk_0010 = MAIN_BSS_020B26A0.unk_81AC;
     unk_000C = new SaveManager(1);
     unk_0008 = 0;
-    game->m_textboxData->Init(game->unk_0014, game->touchPanel, &game->unk_14AC->unk_0C, game->unk_14B0, game->unk_0024, game->m_audioEngine, 0x10, 0x4000, 0);
+    game->m_textboxData->Init(game->unk_0014, game->touchPanel, &game->unk_14AC->unk_0C, game->m_nameTables, game->unk_0024, game->m_audioEngine, 0x10, 0x4000, 0);
     SetupBGFonts();
     game->m_textboxData->LoadSystemMessages(0);
     game->unk_146C.SetFps(60);
@@ -58,7 +58,7 @@ u32 CDownloadMissionStartScene::func0()
         unk_0008 = 1;
         break;
     case 1: {
-        u32 result = unk_000C->sub_0202841C();
+        u32 result = unk_000C->Update();
         if (result == 0) {
             break;
         }
@@ -115,7 +115,7 @@ u32 CDownloadMissionStartScene::func0()
         unk_0008 = 4;
         break;
     case 4: {
-        u32 result = unk_000C->sub_0202841C();
+        u32 result = unk_000C->Update();
         if (result == 0) {
             break;
         }
@@ -146,7 +146,7 @@ u32 CDownloadMissionStartScene::func0()
     case 5: {
         SaveData *save = &MAIN_BSS_020B26A0;
         int progress = unk_0010 + 0x45;
-        sub_020162BC(save, 0);
+        SaveData_SelectPartyEntry(save, 0);
         save->unk_8802 = 0;
         save->unk_81AC = unk_0010;
         save->unk_8B68 = 1;
@@ -155,22 +155,22 @@ u32 CDownloadMissionStartScene::func0()
             save->m_partners[i].unk_00 = 0;
         }
 
-        UnkStruct_020155FC *found = NULL;
+        PartyEntry *found = NULL;
         int foundIdx = 0;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 10; j++) {
-                if (i == 0 && (save->unk_8804[i][j].unk_08 & 2)) {
-                    found = &save->unk_8804[i][j];
+                if (i == 0 && (save->m_party[i][j].m_flags & 2)) {
+                    found = &save->m_party[i][j];
                     foundIdx = j;
                 } else {
-                    SaveEntry_Clear(&save->unk_8804[i][j]);
+                    SaveEntry_Clear(&save->m_party[i][j]);
                 }
             }
         }
         if (found != NULL && foundIdx != 0) {
-            *(UnkStruct_020155FC_Data *)&save->unk_8804[0][0] = *(UnkStruct_020155FC_Data *)found;
-            save->unk_8804[0][0].unk_08 = 0;
-            save->unk_8804[0][0].unk_08 |= found->unk_08;
+            *(PartyEntryData *)&save->m_party[0][0] = *(PartyEntryData *)found;
+            save->m_party[0][0].m_flags = 0;
+            save->m_party[0][0].m_flags |= found->m_flags;
             SaveEntry_Clear(found);
         }
 
@@ -216,29 +216,29 @@ u32 CDownloadMissionStartScene::func0()
     case 6:
         game->m_textboxData->ResetTextSpeed();
         game->m_textboxData->ShowMessage(0, 0x48, 1, 1, 0);
-        game->unk_14BC->Start(3, 5);
-        game->unk_14C0->Start(3, 5);
+        game->m_mainFade->Start(3, 5);
+        game->m_subFade->Start(3, 5);
         unk_0008 = 7;
         break;
     case 7:
         if (game->m_textboxData->IsActive()) {
             break;
         }
-        game->m_textboxData->sub_02009FB0(1, 1);
+        game->m_textboxData->CloseAndClear(1, 1);
         unk_0008 = 0x12;
         break;
     case 8:
         game->m_textboxData->ResetTextSpeed();
         game->m_textboxData->ShowMessage(0, 0x50, 1, 1, 0);
-        game->unk_14BC->Start(3, 5);
-        game->unk_14C0->Start(3, 5);
+        game->m_mainFade->Start(3, 5);
+        game->m_subFade->Start(3, 5);
         unk_0008 = 9;
         break;
     case 9:
         if (game->m_textboxData->IsActive()) {
             break;
         }
-        game->m_textboxData->sub_02009FB0(1, 1);
+        game->m_textboxData->CloseAndClear(1, 1);
         unk_0008 = 0x12;
         break;
     case 10:
@@ -246,11 +246,11 @@ u32 CDownloadMissionStartScene::func0()
         unk_0008 = 11;
         break;
     case 11:
-        if (unk_000C->sub_0202841C() == 0) {
+        if (unk_000C->Update() == 0) {
             break;
         }
-        game->unk_14BC->Start(3, 5);
-        game->unk_14C0->Start(3, 5);
+        game->m_mainFade->Start(3, 5);
+        game->m_subFade->Start(3, 5);
         game->m_textboxData->ResetTextSpeed();
         game->m_textboxData->ShowMessage(0, 0x73, 1, 1, 0);
         unk_0008 = 12;
@@ -267,42 +267,42 @@ u32 CDownloadMissionStartScene::func0()
         if (game->m_textboxData->IsActive()) {
             break;
         }
-        game->m_textboxData->sub_02009FB0(1, 1);
+        game->m_textboxData->CloseAndClear(1, 1);
         unk_0008 = 0x12;
         break;
     case 14:
         game->m_textboxData->ResetTextSpeed();
         game->m_textboxData->ShowMessage(0, 0x50, 1, 1, 0);
-        game->unk_14BC->Start(3, 5);
-        game->unk_14C0->Start(3, 5);
+        game->m_mainFade->Start(3, 5);
+        game->m_subFade->Start(3, 5);
         unk_0008 = 15;
         break;
     case 15:
         if (game->m_textboxData->IsActive()) {
             break;
         }
-        game->m_textboxData->sub_02009FB0(1, 1);
+        game->m_textboxData->CloseAndClear(1, 1);
         unk_0008 = 0x12;
         break;
     case 16:
         game->m_textboxData->ResetTextSpeed();
         game->m_textboxData->ShowMessage(0, 0x45, 1, 1, 0);
-        game->unk_14BC->Start(3, 5);
-        game->unk_14C0->Start(3, 5);
+        game->m_mainFade->Start(3, 5);
+        game->m_subFade->Start(3, 5);
         unk_0008 = 0x11;
         break;
     case 17:
         break;
     case 18:
-        game->unk_14BC->Start(2, 30);
-        game->unk_14C0->Start(2, 30);
+        game->m_mainFade->Start(2, 30);
+        game->m_subFade->Start(2, 30);
         unk_0008 = 0x13;
         break;
     case 19:
-        if (game->unk_14BC->IsActive()) {
+        if (game->m_mainFade->IsActive()) {
             break;
         }
-        if (game->unk_14C0->IsActive()) {
+        if (game->m_subFade->IsActive()) {
             break;
         }
         return 0x11;

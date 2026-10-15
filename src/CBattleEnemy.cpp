@@ -24,10 +24,10 @@ CBattleEnemy::CBattleEnemy(u8 index, CBattleEnemyData *data)
     for (u8 i = 0; i < 0x1D; i++) {
         CActorAnim *anim = data->GetAnim(i);
         if (anim != NULL && (anim->flags & 1)) {
-            m_palettes[i].sub_020077CC(anim->image);
-            m_palettes[i].sub_020077E4(anim->cells);
-            if (size < m_palettes[i].unk_10) {
-                size = m_palettes[i].unk_10;
+            m_cellBuffers[i].SetImage(anim->image);
+            m_cellBuffers[i].SetCells(anim->cells);
+            if (size < m_cellBuffers[i].m_size) {
+                size = m_cellBuffers[i].m_size;
             }
         }
     }
@@ -145,7 +145,7 @@ void CBattleEnemy::ov1_0212586C()
     Circle circle = unk_184->unk_20;
     circle.pos += m_motion.m_pos;
     circle.pos += unk_484;
-    circle.pos.y -= m_bobHeight + (unk_8C + m_jumpHeight);
+    circle.pos.y -= m_bobHeight + (m_height + m_jumpHeight);
     m_sphere.SetCircle(circle);
 }
 
@@ -155,7 +155,7 @@ void CBattleEnemy::ov1_02125A80()
     unk_19C->ov1_02129A40();
     UpdateAlphaTween();
     UpdateScaleTween();
-    sub_020123AC();
+    UpdateHeightTween();
     if (unk_192 == unk_194) {
         CGame::GetInstance()->m_audioEngine->PlaySe(0xE);
     } else if (unk_192 == 0x30) {
@@ -177,7 +177,7 @@ void CBattleEnemy::ov1_02125B74()
     unk_19C->ov1_02129A40();
     UpdateAlphaTween();
     UpdateScaleTween();
-    sub_020123AC();
+    UpdateHeightTween();
     if (unk_192 == unk_194) {
         CGame::GetInstance()->m_audioEngine->PlaySe(0xE);
     } else if (unk_192 == 0x30) {
@@ -213,16 +213,16 @@ void CBattleEnemy::vfunc_0C(Camera2D *camera)
         return;
     }
     CActorAnim *anim = m_data->GetAnim(unk_C0);
-    UnkClass_02007770 *pal = &m_palettes[unk_C0];
+    CellCharBuffer *pal = &m_cellBuffers[unk_C0];
     CSoftwareSprite *sprite = m_sprite;
     sprite->unk_30 = (UnkClass_CSoftwareSprite_30 *)pal;
     sprite->unk_2C = NULL;
     sprite->unk_38 = (UnkClass_CSoftwareSprite_38 *)anim->cells;
     u16 cell = anim->bank->GetCell(unk_C8[unk_C0]);
     sprite->m_cellDataIdx = cell;
-    pal->sub_020078E4(cell);
-    pal->sub_02007A94(NNS_GfdGetTexKeyAddr(m_texKey));
-    NNS_GfdRegisterNewVramTransferTask(NNS_GFD_DST_3D_TEX_VRAM, NNS_GfdGetTexKeyAddr(m_texKey), pal->unk_14, pal->unk_10);
+    pal->LoadCell(cell);
+    pal->SetVramAddr(NNS_GfdGetTexKeyAddr(m_texKey));
+    NNS_GfdRegisterNewVramTransferTask(NNS_GFD_DST_3D_TEX_VRAM, NNS_GfdGetTexKeyAddr(m_texKey), pal->m_buffer, pal->m_size);
     sprite->m_alpha = unk_108.value;
     sprite->m_scale[0] = unk_11C.value;
     sprite->m_scale[1] = unk_134.value;
@@ -234,7 +234,7 @@ int CBattleEnemy::ov1_02125E00(Camera2D *camera, int z)
     if (unk_108.value == 0x1F) {
         Point2D pos;
         pos.x = m_motion.m_pos.x;
-        pos.y = m_motion.m_pos.y - (m_bobHeight + (unk_8C + m_jumpHeight));
+        pos.y = m_motion.m_pos.y - (m_bobHeight + (m_height + m_jumpHeight));
         if (unk_198->unk_14) {
             z = unk_198->ov1_0212A0D8(z);
             unk_198->unk_04->SetPos(pos);

@@ -47,8 +47,8 @@ u32 CEncyclopediaScene::func0()
                 }
                 unk_00C[unk_008]->func2();
                 unk_00C[unk_008]->func3(&unk_04C);
-                game->unk_14BC->Start(3, 15);
-                game->unk_14C0->Start(3, 15);
+                game->m_mainFade->Start(3, 15);
+                game->m_subFade->Start(3, 15);
             }
         }
     }
@@ -133,8 +133,8 @@ void CEncyclopediaScene::func6()
     unk_018->unk_64 = unk_3A4;
     unk_00C[unk_008]->func3(&unk_04C);
     CGame *game = CGame::GetInstance();
-    game->unk_14BC->Start(3, 15);
-    game->unk_14C0->Start(3, 15);
+    game->m_mainFade->Start(3, 15);
+    game->m_subFade->Start(3, 15);
 }
 
 void CEncyclopediaScene::func7()

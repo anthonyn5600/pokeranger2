@@ -230,7 +230,7 @@ void MissionQuestMap::ov8_0211CFF0()
     G2S_SetBG0Priority(0);
     G2S_SetBG1Priority(1);
     G2S_SetBG2Priority(3);
-    unk_40->m_audioEngine->sub_020345D4();
+    unk_40->m_audioEngine->LoadSystemSe();
 
     int charNo = 0;
     int paletteSlot = 2;
@@ -338,7 +338,7 @@ void MissionQuestMap::ov8_0211D488()
 
 void MissionQuestMap::ov8_0211D55C()
 {
-    if (unk_40->m_missionQuestData->unk_00 == 0) {
+    if (unk_40->m_missionQuestData->m_missionState == 0) {
         unk_24[0]->unk_14 = 0;
         return;
     }
@@ -385,22 +385,22 @@ void MissionQuestMap::ov8_0211D678(u16 id, int mode)
 void MissionQuestMap::ov8_0211D688()
 {
     if (unk_40 != NULL) {
-        unk_40->unk_14C0->Start(3, 15);
-        unk_40->unk_14BC->Start(3, 15);
+        unk_40->m_subFade->Start(3, 15);
+        unk_40->m_mainFade->Start(3, 15);
     }
 }
 
 void MissionQuestMap::ov8_0211D6CC()
 {
     if (unk_40 != NULL) {
-        unk_40->unk_14C0->Start(4, 15);
-        unk_40->unk_14BC->Start(4, 15);
+        unk_40->m_subFade->Start(4, 15);
+        unk_40->m_mainFade->Start(4, 15);
     }
 }
 
 BOOL MissionQuestMap::ov8_0211D710()
 {
-    if (unk_40->unk_14C0->IsActive() || unk_40->unk_14C0->IsActive()) {
+    if (unk_40->m_subFade->IsActive() || unk_40->m_subFade->IsActive()) {
         return TRUE;
     }
     return FALSE;

@@ -151,7 +151,7 @@ void COpeningDemoScene::func5()
 
 void COpeningDemoScene::func6()
 {
-    s_game->m_audioEngine->sub_02034DC8(0);
+    s_game->m_audioEngine->StopStream2(0);
     s_game->unk_146C.SetFps(60);
     m_camera = new Camera2D();
     m_camera->SetOrtho(0, 0xC0000, 0, 0x100000, -0x800000, 0x800000, 0x10000);
@@ -174,16 +174,16 @@ void COpeningDemoScene::func6()
     }
 
     s_game->m_audioEngine->StopBgm(1);
-    s_game->m_audioEngine->sub_02034C2C(1);
+    s_game->m_audioEngine->StopLoopSe(1);
     if (s_game->unk_0008 != 1) {
         s_game->m_audioEngine->LoadBgmGroup(1);
     } else {
         s_game->m_audioEngine->LoadBgmGroup(2);
     }
-    s_game->m_audioEngine->sub_020345D4();
-    s_game->m_audioEngine->sub_020347C4();
-    s_game->m_audioEngine->sub_020349E8(0xA5);
-    s_game->m_audioEngine->sub_020349E8(0xA6);
+    s_game->m_audioEngine->LoadSystemSe();
+    s_game->m_audioEngine->LoadBattleSe();
+    s_game->m_audioEngine->AddSeGroup(0xA5);
+    s_game->m_audioEngine->AddSeGroup(0xA6);
 
     if (s_game->unk_0008 != 1) {
         m_capture.Init();

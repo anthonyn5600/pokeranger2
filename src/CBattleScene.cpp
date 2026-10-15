@@ -160,7 +160,7 @@ CBattleScene::CBattleScene(CGame *game)
     unk_12C8[1].size.x = FX32_CONST(320);
     unk_12C8[1].size.y = FX32_CONST(256);
 
-    m_game->m_textboxData->Init(m_game->unk_0014, m_game->touchPanel, &m_game->unk_14AC->unk_0C, m_game->unk_14B0, m_game->unk_0024, m_game->m_audioEngine, 0x10, 0x4000, 0);
+    m_game->m_textboxData->Init(m_game->unk_0014, m_game->touchPanel, &m_game->unk_14AC->unk_0C, m_game->m_nameTables, m_game->unk_0024, m_game->m_audioEngine, 0x10, 0x4000, 0);
     m_game->m_textboxData->LoadSystemMessages(1);
     ScriptManager_LoadSystem(m_game->m_scriptManager, 1);
 
@@ -176,8 +176,8 @@ CBattleScene::CBattleScene(CGame *game)
     } else {
         game->m_textboxData->SetParam(2, 10);
     }
-    game->unk_14BC->Start(1, 0x20);
-    game->unk_14C0->Start(1, 0x20);
+    game->m_mainFade->Start(1, 0x20);
+    game->m_subFade->Start(1, 0x20);
 }
 
 CBattleScene::~CBattleScene()
@@ -240,7 +240,7 @@ void CBattleScene::func6()
     NNS_GfdResetLnkTexVramState();
     NNS_GfdResetLnkPlttVramState();
     Script_RegisterSyscalls(1, gBattleSyscalls);
-    m_game->m_audioEngine->sub_020347C4();
+    m_game->m_audioEngine->LoadBattleSe();
 
     unk_0C18 = new BattlePokemonTable(m_game->unk_14A8);
     unk_0C1C = new BattleEffectTable(m_game->unk_14A8);
@@ -827,9 +827,9 @@ int CBattleScene::ov1_0211F2B4()
             }
         }
         AudioEngine *audio = CGame::GetInstance()->m_audioEngine;
-        audio->sub_0203481C(BattleStartParam_GetBgmIndex(unk_001C));
+        audio->LoadBattleBgmGroup(BattleStartParam_GetBgmIndex(unk_001C));
         audio = CGame::GetInstance()->m_audioEngine;
-        audio->sub_02034AE4(BattleStartParam_GetBgmIndex(unk_001C), 0);
+        audio->PlayBattleBgm(BattleStartParam_GetBgmIndex(unk_001C), 0);
         unk_0C10->ov1_0213F8B4();
         unk_0020 = 1;
         return -1;
@@ -936,7 +936,7 @@ int CBattleScene::ov1_0211F404()
                                 mask &= ~1;
                             }
                         }
-                        int count = (u32)sub_02015658(&MAIN_BSS_020B26A0, 0xFF) <= BattleStartParam_GetPartyCount(unk_001C) ? BattleStartParam_GetPartyCount(unk_001C) : sub_02015658(&MAIN_BSS_020B26A0, 0xFF);
+                        int count = (u32)SaveData_GetPartyCapacity(&MAIN_BSS_020B26A0, 0xFF) <= BattleStartParam_GetPartyCount(unk_001C) ? BattleStartParam_GetPartyCount(unk_001C) : SaveData_GetPartyCapacity(&MAIN_BSS_020B26A0, 0xFF);
                         unk_0BC0->ov1_0213C2BC(count, unk_0388, unk_0082, mask, sub_02010B3C(unk_001C));
                         m_game->m_audioEngine->StopAllSe();
                         m_game->m_audioEngine->PlaySe(0xFA);
@@ -986,7 +986,7 @@ int CBattleScene::ov1_0211F9D8()
     if (unk_0008 & 2) {
         return -1;
     }
-    if (unk_00D0->unk_04 == 0 && !m_game->m_textboxData->sub_0200B6A4(1)) {
+    if (unk_00D0->unk_04 == 0 && !m_game->m_textboxData->CloseIfNoPrompt(1)) {
         if (m_game->m_textboxData->GetYesNoResult() == 0) {
             ov1_021227CC(3);
         } else {
@@ -1030,8 +1030,8 @@ int CBattleScene::ov1_0211FB88()
 {
     unk_0BB8->ov1_02138FEC();
     if (!unk_0BB8->IsActive()) {
-        m_game->unk_14BC->Start(4, 10);
-        m_game->unk_14C0->Start(4, 10);
+        m_game->m_mainFade->Start(4, 10);
+        m_game->m_subFade->Start(4, 10);
         CBattleResultParameter *result = m_game->unk_1444;
         result->unk_6A = unk_0BB8->ov1_0213A4A0(unk_0BB8->m_score);
         result->unk_80 = unk_0BB8->m_exp;
@@ -1067,11 +1067,11 @@ int CBattleScene::ov1_0211FC38()
 
 int CBattleScene::ov1_0211FCE0()
 {
-    if (!m_game->unk_14BC->IsActive() && !m_game->unk_14C0->IsActive()) {
+    if (!m_game->m_mainFade->IsActive() && !m_game->m_subFade->IsActive()) {
         unk_0008 |= 1;
         if (m_game->unk_0008 != 1) {
-            m_game->unk_14BC->Start(1, 0);
-            m_game->unk_14C0->Start(1, 0);
+            m_game->m_mainFade->Start(1, 0);
+            m_game->m_subFade->Start(1, 0);
         }
     }
     return -1;
@@ -1235,7 +1235,7 @@ int CBattleScene::ov1_02120694()
     if (unk_0068 != 0) {
         if (unk_0010->unk_04 != 0 || (u16)(input->unk_0002 & 1)) {
             if (unk_005D == unk_005C) {
-                m_game->m_textboxData->sub_02009FB0(1, 1);
+                m_game->m_textboxData->CloseAndClear(1, 1);
                 unk_0BB8->ov1_02139C30(unk_00D8, unk_0BB0);
                 if (!unk_00D0->IsOpen()) {
                     unk_00D0->Open();
@@ -1246,7 +1246,7 @@ int CBattleScene::ov1_02120694()
             }
         }
     } else {
-        fade = m_game->unk_14C0;
+        fade = m_game->m_subFade;
         fade->Start(1, 0xFFFF);
         fade->Update();
         m_game->m_textboxData->SetTextSpeed(0);
@@ -1312,22 +1312,22 @@ void CBattleScene::ov1_021209C4()
             unk_00D8->ov1_0212C610(touchPos.x, touchPos.y);
             unk_00D8->ov1_0212C514(1);
             unk_00D8->vfunc_08();
-            m_game->m_audioEngine->sub_02034E48(0);
+            m_game->m_audioEngine->PlayCaptureLineSe(0);
             unk_0034++;
             unk_003C = 0;
             unk_00D8->unk_187 = 0;
         } else if (unk_0010->unk_06 != 0) {
             unk_00D8->ov1_0212C514(0);
             unk_00D8->vfunc_08();
-            m_game->m_audioEngine->sub_02034ED8(0);
+            m_game->m_audioEngine->StopCaptureLineSe(0);
         } else if (unk_0010->unk_05 != 0 && unk_00D8->ov1_0212C5C0()) {
             unk_00D8->m_motion.SetPos(touchPos);
             StylerLine *line = unk_00D8->unk_1B8;
             Point2D last = line->m_lines[line->m_head].GetStart();
             if (MATH_IAbs(ApproxLength(touchPos.x - last.x, touchPos.y - last.y)) >= 0x8000) {
-                m_game->m_audioEngine->sub_02034E80(12);
+                m_game->m_audioEngine->AddCaptureLinePitch(12);
             } else {
-                m_game->m_audioEngine->sub_02034E80(-12);
+                m_game->m_audioEngine->AddCaptureLinePitch(-12);
             }
             unk_00D8->ov1_0212C1C4(touchPos);
             if (unk_00D8->ov1_0212C4CC()) {
@@ -1336,17 +1336,17 @@ void CBattleScene::ov1_021209C4()
                 for (u8 i = 0; i < 8; i++) {
                     CBattleEnemy *enemy = unk_00DC[i];
                     if (enemy != NULL && enemy->IsAlive() && enemy->IsTargetable()
-                        && unk_00D8->unk_1B8->ov1_02124650(enemy->m_motion.m_pos.x, enemy->m_motion.m_pos.y - (enemy->m_bobHeight + (enemy->unk_8C + enemy->m_jumpHeight)))) {
+                        && unk_00D8->unk_1B8->ov1_02124650(enemy->m_motion.m_pos.x, enemy->m_motion.m_pos.y - (enemy->m_bobHeight + (enemy->m_height + enemy->m_jumpHeight)))) {
                         if (hits == 0) {
                             unk_00D8->unk_187 = ++unk_003C;
                         }
                         hits++;
-                        u16 level = sub_02010E90(m_game->unk_1438, MAIN_BSS_020B26A0.m_stylerLevel);
+                        u16 level = DiskHPTable_GetPower(m_game->m_diskHPTable, MAIN_BSS_020B26A0.m_stylerLevel);
                         u8 type = enemy->unk_184->unk_18->unk_03;
                         enemy->ov1_02126310(unk_00D8->ov1_0212CD6C(level, unk_0384 != NULL ? unk_0384->vfunc_10() : 0x12, type), 0);
                         Point2D pos;
                         pos.x = enemy->m_motion.m_pos.x;
-                        pos.y = enemy->m_motion.m_pos.y - (enemy->m_bobHeight + (enemy->unk_8C + enemy->m_jumpHeight));
+                        pos.y = enemy->m_motion.m_pos.y - (enemy->m_bobHeight + (enemy->m_height + enemy->m_jumpHeight));
                         if (unk_00D8->IsUnk194Flag80()) {
                             unk_00D8->ov1_0212CBA0(pos, 0x14, 0x4000);
                         } else if (enemy->m_flags & 0x1000) {
@@ -1376,7 +1376,7 @@ void CBattleScene::ov1_021209C4()
                                     unk_0384->vfunc_0C();
                                 }
                                 unk_00D8->vfunc_08();
-                                m_game->m_audioEngine->sub_02034ED8(0);
+                                m_game->m_audioEngine->StopCaptureLineSe(0);
                             }
                             UnkStruct_0212DFEC *param = enemy->unk_184->unk_1C;
                             Point2D gaugePos;
@@ -1410,7 +1410,7 @@ void CBattleScene::ov1_021209C4()
                     for (u8 i = 0; i < 0x60; i++) {
                         effect = unk_0130[i];
                         if (effect->HasData() && effect->IsUnk100Clear() && effect->unk_184->unk_18->unk_16 != 0
-                            && unk_00D8->unk_1B8->ov1_02124650(effect->m_motion.m_pos.x, effect->m_motion.m_pos.y - (effect->m_bobHeight + (effect->unk_8C + effect->m_jumpHeight)))) {
+                            && unk_00D8->unk_1B8->ov1_02124650(effect->m_motion.m_pos.x, effect->m_motion.m_pos.y - (effect->m_bobHeight + (effect->m_height + effect->m_jumpHeight)))) {
                             effect->ov1_021272AC();
                         }
                     }
@@ -1455,8 +1455,8 @@ void CBattleScene::ov1_02121184()
     if (unk_0384 != NULL) {
         if (unk_0384->vfunc_08(unk_0010, unk_00D8, unk_00DC) == 0) {
             ov1_02122B90();
-            m_game->unk_14BC->Start(1, 0x20);
-            m_game->unk_14C0->Start(1, 0x20);
+            m_game->m_mainFade->Start(1, 0x20);
+            m_game->m_subFade->Start(1, 0x20);
             unk_00D8->unk_19E = 0;
             unk_00D8->unk_1B8->ov1_02124DEC();
             unk_00D8->unk_1B8->ov1_02124AF4(unk_0030);
@@ -1588,7 +1588,7 @@ BOOL CBattleScene::ov1_02121774()
             Circle circle = effect->m_sphere.m_circle;
             hit.pos.x = circle.pos.x;
             hit.r = circle.r;
-            hit.pos.y = circle.pos.y - (effect->m_bobHeight + (effect->unk_8C + effect->m_jumpHeight));
+            hit.pos.y = circle.pos.y - (effect->m_bobHeight + (effect->m_height + effect->m_jumpHeight));
             for (u16 j = 0; j < unk_00D8->ov1_0212C6C0() + 1; j++) {
                 if (PointInCircle(unk_00D8->ov1_0212C670(unk_00D8->ov1_0212C6B0(j)), hit)) {
                     ov1_02122BE8();
@@ -1844,10 +1844,10 @@ int CBattleScene::ov1_0212233C(Camera2D *camera, int z)
     CBattleEnemy *enemy;
     for (u8 i = 0; i < 8; i++) {
         enemy = unk_00DC[i];
-        if (enemy != NULL && enemy->HasData() && enemy->IsUnk800Clear() && (enemy->unk_8C + enemy->m_jumpHeight) + enemy->m_bobHeight <= FX32_CONST(96)) {
+        if (enemy != NULL && enemy->HasData() && enemy->IsUnk800Clear() && (enemy->m_height + enemy->m_jumpHeight) + enemy->m_bobHeight <= FX32_CONST(96)) {
             Rectangle shadow = enemy->GetShadowRect();
             if (shadow.size.x != 0 && shadow.size.y != 0) {
-                fx32 scale = LinearInterpolate(FX32_ONE, 0, (enemy->unk_8C + enemy->m_jumpHeight) + enemy->m_bobHeight, FX32_CONST(96));
+                fx32 scale = LinearInterpolate(FX32_ONE, 0, (enemy->m_height + enemy->m_jumpHeight) + enemy->m_bobHeight, FX32_CONST(96));
                 shadow.size.x = FX32_MUL(shadow.size.x, scale);
                 shadow.size.y = FX32_MUL(shadow.size.y, scale);
                 unk_0C28->SetRectangle(&shadow, z);
@@ -1860,11 +1860,11 @@ int CBattleScene::ov1_0212233C(Camera2D *camera, int z)
         effect = unk_0130[i];
         if (effect->HasData() && effect->IsUnk200Clear()) {
             UnkStruct_0212E008 *entry = effect->unk_184->unk_18;
-            if (entry->unk_17 != 0 && (effect->unk_8C + effect->m_jumpHeight) + effect->m_bobHeight <= FX32_CONST(96)) {
+            if (entry->unk_17 != 0 && (effect->m_height + effect->m_jumpHeight) + effect->m_bobHeight <= FX32_CONST(96)) {
                 Rectangle shadow = entry->GetShadowRect();
                 shadow.pos.x += effect->m_motion.m_pos.x;
                 shadow.pos.y += effect->m_motion.m_pos.y;
-                fx32 scale = LinearInterpolate(FX32_ONE, 0, (effect->unk_8C + effect->m_jumpHeight) + effect->m_bobHeight, FX32_CONST(96));
+                fx32 scale = LinearInterpolate(FX32_ONE, 0, (effect->m_height + effect->m_jumpHeight) + effect->m_bobHeight, FX32_CONST(96));
                 shadow.size.x = FX32_MUL(shadow.size.x, scale);
                 shadow.size.y = FX32_MUL(shadow.size.y, scale);
                 unk_0C28->SetRectangle(&shadow, z);
@@ -1876,11 +1876,11 @@ int CBattleScene::ov1_0212233C(Camera2D *camera, int z)
         CBattleAttackEffect *effect = unk_02F8[i];
         if (effect->HasData()) {
             UnkStruct_0212E008 *entry = effect->unk_184->unk_18;
-            if (entry->unk_17 != 0 && effect->unk_108.value == 0x1F && (effect->unk_8C + effect->m_jumpHeight) + effect->m_bobHeight <= FX32_CONST(96)) {
+            if (entry->unk_17 != 0 && effect->unk_108.value == 0x1F && (effect->m_height + effect->m_jumpHeight) + effect->m_bobHeight <= FX32_CONST(96)) {
                 Rectangle shadow = entry->GetShadowRect();
                 shadow.pos.x += effect->m_motion.m_pos.x;
                 shadow.pos.y += effect->m_motion.m_pos.y;
-                fx32 scale = LinearInterpolate(FX32_ONE, 0, (effect->unk_8C + effect->m_jumpHeight) + effect->m_bobHeight, FX32_CONST(96));
+                fx32 scale = LinearInterpolate(FX32_ONE, 0, (effect->m_height + effect->m_jumpHeight) + effect->m_bobHeight, FX32_CONST(96));
                 shadow.size.x = FX32_MUL(shadow.size.x, scale);
                 shadow.size.y = FX32_MUL(shadow.size.y, scale);
                 unk_0C28->SetRectangle(&shadow, z);
@@ -1935,7 +1935,7 @@ CameraController *CBattleScene::ov1_021227C4()
 
 void CBattleScene::ov1_021227CC(int result)
 {
-    CGame::GetInstance()->m_audioEngine->sub_0203491C();
+    CGame::GetInstance()->m_audioEngine->LoadResultAudio();
     CBattleResultParameter *res = m_game->unk_1444;
     res->unk_08 = result;
     res->unk_10 = unk_0074;
@@ -1950,8 +1950,8 @@ void CBattleScene::ov1_021227CC(int result)
         unk_00D8->unk_19C = hp;
         res->unk_04 = hp;
         res->unk_58 = 0;
-        m_game->unk_14BC->Start(4, 0x40);
-        m_game->unk_14C0->Start(4, 0x40);
+        m_game->m_mainFade->Start(4, 0x40);
+        m_game->m_subFade->Start(4, 0x40);
         unk_0020 = 8;
         return;
     }

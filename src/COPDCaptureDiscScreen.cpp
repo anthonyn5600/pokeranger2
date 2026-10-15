@@ -139,8 +139,8 @@ void COPDCaptureDiscScreen::Start(COPDTexture *textures)
     }
     unk_7FC = 0;
     unk_804 = 0;
-    game->unk_14BC->Start(3, 30);
-    game->unk_14C0->Start(3, 30);
+    game->m_mainFade->Start(3, 30);
+    game->m_subFade->Start(3, 30);
 }
 
 void COPDCaptureDiscScreen::ov3_02127B34()
@@ -197,7 +197,7 @@ void COPDCaptureDiscScreen::ov3_02127B34()
 
 void COPDCaptureDiscScreen::Stop()
 {
-    CGame::GetInstance()->m_audioEngine->sub_02034ED8(0);
+    CGame::GetInstance()->m_audioEngine->StopCaptureLineSe(0);
 }
 
 int COPDCaptureDiscScreen::Update()
@@ -207,13 +207,13 @@ int COPDCaptureDiscScreen::Update()
     CTouchPanel *tp = game->touchPanel;
     if (unk_008 <= 3 && ((u16)(pad->unk_0002 & PAD_BUTTON_A) || tp->unk_04 != 0)) {
         game->m_audioEngine->PlaySe(0xFA);
-        game->unk_14BC->Start(2, 30);
-        game->unk_14C0->Start(2, 30);
+        game->m_mainFade->Start(2, 30);
+        game->m_subFade->Start(2, 30);
         unk_008 = 6;
     }
     switch (unk_008) {
     case 0:
-        if (!game->unk_14BC->IsActive() && !game->unk_14C0->IsActive()) {
+        if (!game->m_mainFade->IsActive() && !game->m_subFade->IsActive()) {
             unk_008 = 1;
             unk_004 = 0;
             m_sparkEmitter.func2();
@@ -271,7 +271,7 @@ int COPDCaptureDiscScreen::Update()
             unk_2BC = 0;
             unk_2C0 = 0;
             unk_800 = 0;
-            game->m_audioEngine->sub_02034E48(0);
+            game->m_audioEngine->PlayCaptureLineSe(0);
         }
         break;
     case 3:
@@ -300,8 +300,8 @@ int COPDCaptureDiscScreen::Update()
             }
             if (unk_2C0 == 5) {
                 unk_7FC = 0x800;
-                game->unk_14BC->Start(2, 30);
-                game->unk_14C0->Start(2, 30);
+                game->m_mainFade->Start(2, 30);
+                game->m_subFade->Start(2, 30);
                 unk_008 = 4;
             }
         }
@@ -311,7 +311,7 @@ int COPDCaptureDiscScreen::Update()
         } else {
             unk_800 += 0x800;
         }
-        if (unk_008 == 4 && !game->unk_14BC->IsActive() && !game->unk_14C0->IsActive() && (u32)unk_2BC > (u32)unk_1BC) {
+        if (unk_008 == 4 && !game->m_mainFade->IsActive() && !game->m_subFade->IsActive() && (u32)unk_2BC > (u32)unk_1BC) {
             unk_004 = 90;
             game->m_audioEngine->StopSe(0xB);
             unk_008 = 5;
@@ -323,7 +323,7 @@ int COPDCaptureDiscScreen::Update()
         }
         break;
     case 6:
-        if (!game->unk_14BC->IsActive() && !game->unk_14C0->IsActive()) {
+        if (!game->m_mainFade->IsActive() && !game->m_subFade->IsActive()) {
             game->m_audioEngine->StopSe(0xB);
             return 1;
         }

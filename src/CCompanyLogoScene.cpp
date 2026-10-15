@@ -40,7 +40,7 @@ u32 CCompanyLogoScene::func0()
         unk_0C->sub_02028408(1);
         unk_08 = 1;
     case 1: {
-        u32 result = unk_0C->sub_0202841C();
+        u32 result = unk_0C->Update();
         if (result == 0) {
             break;
         }
@@ -74,7 +74,7 @@ u32 CCompanyLogoScene::func0()
         unk_08 = 3;
         break;
     case 3: {
-        u32 result = unk_0C->sub_0202841C();
+        u32 result = unk_0C->Update();
         if (result == 0) {
             break;
         }
@@ -104,12 +104,12 @@ u32 CCompanyLogoScene::func0()
         break;
     }
     case 4:
-        s_game->unk_14BC->Start(1, 10);
-        s_game->unk_14C0->Start(1, 10);
+        s_game->m_mainFade->Start(1, 10);
+        s_game->m_subFade->Start(1, 10);
         unk_08 = 5;
         break;
     case 5:
-        if (!s_game->unk_14BC->IsActive() && !s_game->unk_14C0->IsActive()) {
+        if (!s_game->m_mainFade->IsActive() && !s_game->m_subFade->IsActive()) {
             unk_08 = 6;
             unk_04 = 0;
         }
@@ -151,12 +151,12 @@ u32 CCompanyLogoScene::func0()
     case 9:
         if (++unk_04 > 60) {
             unk_08 = 10;
-            s_game->unk_14BC->Start(4, 10);
-            s_game->unk_14C0->Start(4, 10);
+            s_game->m_mainFade->Start(4, 10);
+            s_game->m_subFade->Start(4, 10);
         }
         break;
     case 10:
-        if (!s_game->unk_14BC->IsActive() && !s_game->unk_14C0->IsActive()) {
+        if (!s_game->m_mainFade->IsActive() && !s_game->m_subFade->IsActive()) {
             if (unk_24 == 3) {
                 unk_08 = 13;
             } else {
@@ -172,7 +172,7 @@ u32 CCompanyLogoScene::func0()
         }
         break;
     case 13:
-        s_game->unk_14BC->Start(3, 0);
+        s_game->m_mainFade->Start(3, 0);
         GX_SetVisiblePlane(GX_PLANEMASK_NONE);
         s_game->m_textboxData->ShowMessage(0, 0x45, 1, 1, 0);
         unk_08 = 14;
@@ -237,7 +237,7 @@ void CCompanyLogoScene::func6()
     unk_04 = 0;
     unk_24 = 0;
     unk_0C = new SaveManager(1);
-    s_game->m_textboxData->Init(s_game->unk_0014, s_game->touchPanel, &s_game->unk_14AC->unk_0C, s_game->unk_14B0, s_game->unk_0024, s_game->m_audioEngine, 0x10, 0x4000, 0);
+    s_game->m_textboxData->Init(s_game->unk_0014, s_game->touchPanel, &s_game->unk_14AC->unk_0C, s_game->m_nameTables, s_game->unk_0024, s_game->m_audioEngine, 0x10, 0x4000, 0);
     s_game->m_textboxData->LoadSystemMessages(0);
 
     unk_10[0] = new BGLayer((int)s_game);
@@ -272,7 +272,7 @@ void CCompanyLogoScene::func6()
     unk_10[1]->LoadPlttToVram(FALSE);
     unk_10[1]->LoadScrToVram();
 
-    s_game->m_audioEngine->sub_020345D4();
+    s_game->m_audioEngine->LoadSystemSe();
 }
 
 void CCompanyLogoScene::func7()

@@ -3,8 +3,8 @@
 
 #include "CActor.hpp"
 #include "CGame.hpp"
+#include "CellCharBuffer.hpp"
 #include "FieldDrawActorDataPool.hpp"
-#include "UnkClass_02007770.hpp"
 #include "common.hpp"
 #include "field/CFieldDrawActor.hpp"
 #include "field/CFieldDrawActorData.hpp"
@@ -22,30 +22,30 @@ CFieldDrawActorData *sub_02017848(SaveData *save, u16 id, int form, u16 mask, BO
 
 CFieldDrawActor::CFieldDrawActor()
 {
-    unk_184 = NULL;
+    m_actorData = NULL;
     unk_1F4 = 0;
     unk_200 = 0;
     unk_1D8 = 0;
     unk_1DC = 0;
     unk_1E0 = 0;
     unk_1E1 = 0;
-    unk_19C = FX32_ONE;
+    m_animSpeed = FX32_ONE;
     unk_1A0 = 2;
     unk_1A4 = 4;
     unk_1C9 = 0xFF;
     unk_1CA = 0xFFFF;
     m_sprite->m_polygonID = 0;
     m_sprite->m_alpha = 0x1F;
-    unk_1A8 = 0;
-    unk_1D4 = 0;
-    unk_1D5 = 0;
-    unk_1CC = 0;
-    unk_1B8 = 0;
-    unk_1C6 = 0;
-    unk_1BC = 0;
-    unk_1C0 = 0;
-    unk_1C7 = 0;
-    unk_1C8 = 0;
+    m_effectFlags = 0;
+    m_shakeRangeX = 0;
+    m_shakeRangeY = 0;
+    m_shakeTime = 0;
+    m_blinkColor = 0;
+    m_blinkAlpha = 0;
+    m_blinkFrame = 0;
+    m_blinkDuration = 0;
+    m_blinkFrom = 0;
+    m_blinkTo = 0;
     Rectangle rect = { { 0, 0 }, { 0x40000, 0x40000 } };
     unk_1E4.pos.x = rect.pos.x;
     unk_1E4.pos.y = rect.pos.y;
@@ -53,8 +53,8 @@ CFieldDrawActor::CFieldDrawActor()
     unk_1E4.size.y = rect.size.y;
     unk_1F8 = 0;
     unk_1FC = 1;
-    unk_194 = NULL;
-    unk_198 = 0;
+    m_cellBuffers = NULL;
+    m_cellBufferCount = 0;
 }
 
 CFieldDrawActor::~CFieldDrawActor()
@@ -66,48 +66,48 @@ void CFieldDrawActor::Load(int type, u16 id, int form, u32 mask, BOOL useTransfe
 {
     Release();
     if (type == 4) {
-        unk_184 = SaveData_LoadPlayerActorData(&MAIN_BSS_020B26A0, -1);
-        unk_184->AllocVram();
+        m_actorData = SaveData_LoadPlayerActorData(&MAIN_BSS_020B26A0, -1);
+        m_actorData->AllocVram();
         if (OS_GetIrqMask() & OS_IE_V_BLANK) {
-            unk_184->LoadPaletteDeferred();
+            m_actorData->LoadPaletteDeferred();
         } else {
-            unk_184->LoadToVram();
+            m_actorData->LoadToVram();
         }
         unk_1F8 = 1;
         unk_1FC = 0;
     } else if (type != 2 && useTransfer && s_game->currentScene->getSceneId() == 1) {
         if (type == 1) {
-            unk_184 = SaveData_FindPartnerActorData(&MAIN_BSS_020B26A0, id, form, mask, TRUE);
+            m_actorData = SaveData_FindPartnerActorData(&MAIN_BSS_020B26A0, id, form, mask, TRUE);
         } else {
-            unk_184 = sub_02017848(&MAIN_BSS_020B26A0, id, form, mask, TRUE);
+            m_actorData = sub_02017848(&MAIN_BSS_020B26A0, id, form, mask, TRUE);
         }
-        unk_184->AllocVram();
+        m_actorData->AllocVram();
         if (OS_GetIrqMask() & OS_IE_V_BLANK) {
-            unk_184->LoadPaletteDeferred();
+            m_actorData->LoadPaletteDeferred();
         } else {
-            unk_184->LoadToVram();
+            m_actorData->LoadToVram();
         }
         unk_1F8 = 1;
         unk_1FC = 0;
     } else {
-        unk_184 = MAIN_BSS_0210CA64->Acquire(type, id, form, mask, useTransfer);
+        m_actorData = MAIN_BSS_0210CA64->Acquire(type, id, form, mask, useTransfer);
         unk_1F8 = 0;
         unk_1FC = 1;
     }
-    unk_190 = unk_184->unk_30;
-    SetData(unk_184);
+    unk_190 = m_actorData->unk_30;
+    SetData(m_actorData);
     if (useTransfer) {
-        if (unk_184->m_animCount != 0) {
-            unk_198 = unk_184->m_animCount;
-            unk_194 = new UnkClass_02007770[unk_198];
+        if (m_actorData->m_animCount != 0) {
+            m_cellBufferCount = m_actorData->m_animCount;
+            m_cellBuffers = new CellCharBuffer[m_cellBufferCount];
             u32 maxSize = 0;
-            for (int i = 0; i < unk_198; i++) {
-                CActorAnim *anim = unk_184->GetAnimAt((u8)i);
+            for (int i = 0; i < m_cellBufferCount; i++) {
+                CActorAnim *anim = m_actorData->GetAnimAt((u8)i);
                 if (anim != NULL && (anim->flags & 1)) {
-                    unk_194[i].sub_020077CC(anim->image);
-                    unk_194[i].sub_020077E4(anim->cells);
-                    if (maxSize < unk_194[i].unk_10) {
-                        maxSize = unk_194[i].unk_10;
+                    m_cellBuffers[i].SetImage(anim->image);
+                    m_cellBuffers[i].SetCells(anim->cells);
+                    if (maxSize < m_cellBuffers[i].m_size) {
+                        maxSize = m_cellBuffers[i].m_size;
                     }
                 }
             }
@@ -115,14 +115,14 @@ void CFieldDrawActor::Load(int type, u16 id, int form, u32 mask, BOOL useTransfe
             unk_188[1] = NNS_GfdAllocLnkTexVram(maxSize, FALSE, 0);
         }
     } else {
-        unk_188[0] = unk_184->unk_2C;
+        unk_188[0] = m_actorData->unk_2C;
     }
-    m_sprite->unk_34 = (UnkClass_CPrimitive_ImagePaletteProxy *)unk_184->m_palette;
+    m_sprite->unk_34 = (UnkClass_CPrimitive_ImagePaletteProxy *)m_actorData->m_palette;
     unk_1F4 = useTransfer;
     unk_200 = 0;
     unk_1C9 = 0xFF;
     unk_1CA = 0xFFFF;
-    unk_1A8 = 0;
+    m_effectFlags = 0;
     m_outlineWidth = 2;
     m_outlineColor = 0x7FFF;
     m_outlineAlpha = 0x1F;
@@ -133,7 +133,7 @@ void CFieldDrawActor::Load(int type, u16 id, int form, u32 mask, BOOL useTransfe
     int minY = 0;
     int maxY = 0;
     for (int a = 0; a < 29; a++) {
-        CActorAnim *anim = unk_184->GetAnim(a);
+        CActorAnim *anim = m_actorData->GetAnim(a);
         if (anim != NULL && (anim->flags & 1)) {
             int c = 0;
             NNSG2dCellDataBank *bank = anim->cells->unk_B8;
@@ -175,30 +175,30 @@ void CFieldDrawActor::Load(int type, u16 id, int form, u32 mask, BOOL useTransfe
     unk_1E4.size.y = (maxY - minY) << 12;
 }
 
-void CFieldDrawActor::sub_0203E10C(int type, u16 id, int form, u32 mask, BOOL useTransfer)
+void CFieldDrawActor::LoadOwnData(int type, u16 id, int form, u32 mask, BOOL useTransfer)
 {
     Release();
     if (type == 4) {
-        unk_184 = new CActorDataPlayer();
-        ((CActorDataPlayer *)unk_184)->LoadPlayer(id, form, mask, "PDR", useTransfer, TRUE);
+        m_actorData = new CActorDataPlayer();
+        ((CActorDataPlayer *)m_actorData)->LoadPlayer(id, form, mask, "PDR", useTransfer, TRUE);
     } else {
-        unk_184 = new CFieldDrawActorData();
-        unk_184->LoadData(type, id, form, mask, useTransfer, NULL, TRUE);
+        m_actorData = new CFieldDrawActorData();
+        m_actorData->LoadData(type, id, form, mask, useTransfer, NULL, TRUE);
     }
-    unk_190 = unk_184->unk_30;
-    SetData(unk_184);
+    unk_190 = m_actorData->unk_30;
+    SetData(m_actorData);
     if (useTransfer) {
-        if (unk_184->m_animCount != 0) {
-            unk_198 = unk_184->m_animCount;
-            unk_194 = new UnkClass_02007770[unk_198];
+        if (m_actorData->m_animCount != 0) {
+            m_cellBufferCount = m_actorData->m_animCount;
+            m_cellBuffers = new CellCharBuffer[m_cellBufferCount];
             u32 maxSize = 0;
             for (int i = 0; i < 29; i++) {
-                CActorAnim *anim = unk_184->GetAnimAt((u8)i);
+                CActorAnim *anim = m_actorData->GetAnimAt((u8)i);
                 if (anim != NULL && (anim->flags & 1)) {
-                    unk_194[i].sub_020077CC(anim->image);
-                    unk_194[i].sub_020077E4(anim->cells);
-                    if (maxSize < unk_194[i].unk_10) {
-                        maxSize = unk_194[i].unk_10;
+                    m_cellBuffers[i].SetImage(anim->image);
+                    m_cellBuffers[i].SetCells(anim->cells);
+                    if (maxSize < m_cellBuffers[i].m_size) {
+                        maxSize = m_cellBuffers[i].m_size;
                     }
                 }
             }
@@ -206,14 +206,14 @@ void CFieldDrawActor::sub_0203E10C(int type, u16 id, int form, u32 mask, BOOL us
             unk_188[1] = NNS_GfdAllocLnkTexVram(maxSize, FALSE, 0);
         }
     } else {
-        unk_188[0] = unk_184->unk_2C;
+        unk_188[0] = m_actorData->unk_2C;
     }
-    m_sprite->unk_34 = (UnkClass_CPrimitive_ImagePaletteProxy *)unk_184->m_palette;
+    m_sprite->unk_34 = (UnkClass_CPrimitive_ImagePaletteProxy *)m_actorData->m_palette;
     unk_1F4 = useTransfer;
     unk_200 = 0;
     unk_1C9 = 0xFF;
     unk_1CA = 0xFFFF;
-    unk_1A8 = 0;
+    m_effectFlags = 0;
     m_outlineWidth = 2;
     m_outlineColor = 0x7FFF;
     m_outlineAlpha = 0x1F;
@@ -224,7 +224,7 @@ void CFieldDrawActor::sub_0203E10C(int type, u16 id, int form, u32 mask, BOOL us
     int minY = 0;
     int maxY = 0;
     for (int a = 0; a < 29; a++) {
-        CActorAnim *anim = unk_184->GetAnim(a);
+        CActorAnim *anim = m_actorData->GetAnim(a);
         if (anim != NULL && (anim->flags & 1)) {
             int c = 0;
             NNSG2dCellDataBank *bank = anim->cells->unk_B8;
@@ -269,31 +269,31 @@ void CFieldDrawActor::sub_0203E10C(int type, u16 id, int form, u32 mask, BOOL us
 
 void CFieldDrawActor::Release()
 {
-    if (unk_184 != NULL) {
+    if (m_actorData != NULL) {
         if (unk_1F4 != 0) {
             NNS_GfdFreeLnkTexVram(unk_188[0]);
             NNS_GfdFreeLnkTexVram(unk_188[1]);
         }
         if (unk_1FC != 0) {
-            unk_184->Release();
+            m_actorData->Release();
             if (unk_1F8 != 0) {
-                SAFE_DELETE(unk_184);
+                SAFE_DELETE(m_actorData);
             }
         } else {
             ClearData();
-            unk_184->ReleaseVram();
+            m_actorData->ReleaseVram();
         }
         unk_1D8 = 0;
         unk_1DC = 0;
         unk_1E0 = 0;
         unk_1E1 = 0;
-        unk_19C = FX32_ONE;
+        m_animSpeed = FX32_ONE;
         unk_1F8 = 0;
-        unk_184 = NULL;
+        m_actorData = NULL;
         unk_1FC = 1;
     }
-    SAFE_DELETE_ARRAY(unk_194);
-    unk_198 = 0;
+    SAFE_DELETE_ARRAY(m_cellBuffers);
+    m_cellBufferCount = 0;
 }
 
 void CFieldDrawActor::vfunc_08()
@@ -303,11 +303,11 @@ void CFieldDrawActor::vfunc_08()
         unk_1E0 = unk_1E1;
         sub_0203EE3C();
     }
-    if (unk_1A8 & 1) {
+    if (m_effectFlags & 1) {
         if (m_outlineTime >= 0) {
             m_outlineTime -= 60 / s_game->unk_146C.GetFps();
             if (m_outlineTime <= 0) {
-                unk_1A8 &= ~1;
+                m_effectFlags &= ~1;
             }
         }
         m_outlinePhase += 300 / s_game->unk_146C.GetFps();
@@ -315,37 +315,37 @@ void CFieldDrawActor::vfunc_08()
             m_outlinePhase -= 600;
         }
     }
-    if ((unk_1A8 & 4) && unk_1CC >= 0) {
-        if (--unk_1CC <= 0) {
-            unk_1A8 &= ~4;
-            unk_1D4 = 0;
-            unk_1D5 = 0;
-            unk_1CC = 0;
+    if ((m_effectFlags & 4) && m_shakeTime >= 0) {
+        if (--m_shakeTime <= 0) {
+            m_effectFlags &= ~4;
+            m_shakeRangeX = 0;
+            m_shakeRangeY = 0;
+            m_shakeTime = 0;
         } else {
-            if (unk_1D4 != 0) {
-                unk_1D0 = MATH_Rand16(&s_game->m_rand16, unk_1D4 * 2) - unk_1D4;
+            if (m_shakeRangeX != 0) {
+                m_shakeX = MATH_Rand16(&s_game->m_rand16, m_shakeRangeX * 2) - m_shakeRangeX;
             } else {
-                unk_1D0 = 0;
+                m_shakeX = 0;
             }
-            if (unk_1D5 != 0) {
-                unk_1D2 = MATH_Rand16(&s_game->m_rand16, unk_1D5 * 2) - unk_1D5;
+            if (m_shakeRangeY != 0) {
+                m_shakeY = MATH_Rand16(&s_game->m_rand16, m_shakeRangeY * 2) - m_shakeRangeY;
             } else {
-                unk_1D2 = 0;
+                m_shakeY = 0;
             }
         }
     }
     Update();
     m_sprite->m_alpha = unk_108.value;
     m_sprite->SetScale(unk_11C.value, unk_134.value);
-    m_sprite->m_rotAngle = unk_14C.value;
-    if (IsBlinking() && unk_1C0 > 0) {
-        unk_1BC++;
-        unk_1C6 = LinearInterpolate(unk_1C7 << 12, unk_1C8 << 12, unk_1BC, unk_1C0) >> 12;
-        if (unk_1BC >= unk_1C0) {
-            unk_1C0 = 0;
-            unk_1BC = 0;
-            if (unk_1C6 == 0) {
-                unk_1A8 &= ~2;
+    m_sprite->m_rotAngle = m_rotTween.value;
+    if (IsBlinking() && m_blinkDuration > 0) {
+        m_blinkFrame++;
+        m_blinkAlpha = LinearInterpolate(m_blinkFrom << 12, m_blinkTo << 12, m_blinkFrame, m_blinkDuration) >> 12;
+        if (m_blinkFrame >= m_blinkDuration) {
+            m_blinkDuration = 0;
+            m_blinkFrame = 0;
+            if (m_blinkAlpha == 0) {
+                m_effectFlags &= ~2;
             }
         }
     }
@@ -376,19 +376,19 @@ u32 CFieldDrawActor::Render(Camera2D *camera, fx32 z)
     Point2D pos;
     Point2D p;
     Point2D origPos;
-    if (unk_184 != NULL) {
-        CActorAnim *anim = unk_184->GetAnim(unk_C0);
+    if (m_actorData != NULL) {
+        CActorAnim *anim = m_actorData->GetAnim(unk_C0);
         if (anim != NULL && (anim->flags & 1)) {
             CSoftwareSprite *sprite = m_sprite;
             u16 cell = anim->bank->GetCell(unk_C8[unk_C0]);
             sprite->m_z = z;
             if (unk_1F4 != 0) {
                 if ((anim->flags & 1) && (unk_1C9 != unk_C0 || unk_1CA != cell)) {
-                    UnkClass_02007770 *pal = &unk_194[unk_184->FindAnimIndex(unk_C0)];
+                    CellCharBuffer *pal = &m_cellBuffers[m_actorData->FindAnimIndex(unk_C0)];
                     u8 buf = unk_200 ^ 1;
-                    pal->sub_020078E4(cell);
-                    pal->sub_02007A94(NNS_GfdGetTexKeyAddr(unk_188[buf]));
-                    if (NNS_GfdRegisterNewVramTransferTask(NNS_GFD_DST_3D_TEX_VRAM, NNS_GfdGetTexKeyAddr(unk_188[buf]), pal->unk_14, pal->unk_10)) {
+                    pal->LoadCell(cell);
+                    pal->SetVramAddr(NNS_GfdGetTexKeyAddr(unk_188[buf]));
+                    if (NNS_GfdRegisterNewVramTransferTask(NNS_GFD_DST_3D_TEX_VRAM, NNS_GfdGetTexKeyAddr(unk_188[buf]), pal->m_buffer, pal->m_size)) {
                         unk_200 = buf;
                         sprite->unk_30 = (UnkClass_CSoftwareSprite_30 *)pal;
                         sprite->unk_2C = NULL;
@@ -400,7 +400,7 @@ u32 CFieldDrawActor::Render(Camera2D *camera, fx32 z)
                     }
                 }
             } else {
-                sprite->unk_2C = (UnkClass_CPrimitive_ImageProxy *)unk_184->GetAnim(unk_C0)->image;
+                sprite->unk_2C = (UnkClass_CPrimitive_ImageProxy *)m_actorData->GetAnim(unk_C0)->image;
                 sprite->unk_30 = NULL;
                 sprite->unk_38 = (UnkClass_CSoftwareSprite_38 *)anim->cells;
                 sprite->m_cellDataIdx = cell;
@@ -413,20 +413,20 @@ u32 CFieldDrawActor::Render(Camera2D *camera, fx32 z)
             int alpha = sprite->m_alpha;
             BOOL unk3C = sprite->unk_3C;
             pos = origPos;
-            if (unk_1A8 & 4) {
-                pos.x = origPos.x + (unk_1D0 << 12);
-                pos.y = origPos.y + (unk_1D2 << 12);
+            if (m_effectFlags & 4) {
+                pos.x = origPos.x + (m_shakeX << 12);
+                pos.y = origPos.y + (m_shakeY << 12);
             }
             sprite->SetPos(pos);
-            if (unk_1A8 & 2) {
-                sprite->SetColorAlpha(unk_1B8, unk_1C6 * alpha / 31, TRUE);
+            if (m_effectFlags & 2) {
+                sprite->SetColorAlpha(m_blinkColor, m_blinkAlpha * alpha / 31, TRUE);
                 sprite->m_z = z;
                 count += sprite->Render(camera);
                 sprite->SetColorAlpha(color, alpha, unk3C);
             }
             sprite->m_z = z - count;
             count += sprite->Render(camera);
-            if (unk_1A8 & 1) {
+            if (m_effectFlags & 1) {
                 int b;
                 int t;
                 int g;
@@ -498,11 +498,11 @@ void CFieldDrawActor::sub_0203EE3C()
 {
     switch (unk_1D8) {
     case 0:
-        SetAnimWithSpeed(unk_1A0, unk_1E0, unk_19C);
+        SetAnimWithSpeed(unk_1A0, unk_1E0, m_animSpeed);
         SetAnim(unk_1A0, unk_1E0);
         break;
     case 1:
-        SetAnimWithSpeed(unk_1A4, unk_1E0, unk_19C);
+        SetAnimWithSpeed(unk_1A4, unk_1E0, m_animSpeed);
         SetAnim(unk_1A4, unk_1E0);
         break;
     case 3:
@@ -510,30 +510,30 @@ void CFieldDrawActor::sub_0203EE3C()
     }
 }
 
-void CFieldDrawActor::sub_0203EEA8(u16 arg0, u8 alpha, int duration)
+void CFieldDrawActor::StartColorBlink(u16 arg0, u8 alpha, int duration)
 {
-    unk_1A8 |= 2;
-    unk_1B8 = arg0;
-    unk_1BC = 0;
+    m_effectFlags |= 2;
+    m_blinkColor = arg0;
+    m_blinkFrame = 0;
     if (duration <= 0) {
-        unk_1C6 = alpha;
-        unk_1C0 = 0;
+        m_blinkAlpha = alpha;
+        m_blinkDuration = 0;
         return;
     }
-    unk_1C6 = 0;
-    unk_1C0 = duration;
-    unk_1C7 = 0;
-    unk_1C8 = alpha;
+    m_blinkAlpha = 0;
+    m_blinkDuration = duration;
+    m_blinkFrom = 0;
+    m_blinkTo = alpha;
 }
 
-void CFieldDrawActor::sub_0203EEEC(int duration)
+void CFieldDrawActor::StopBlink(int duration)
 {
-    unk_1BC = 0;
+    m_blinkFrame = 0;
     if (duration > 0) {
-        unk_1C0 = duration;
-        unk_1C7 = unk_1C6;
-        unk_1C8 = 0;
+        m_blinkDuration = duration;
+        m_blinkFrom = m_blinkAlpha;
+        m_blinkTo = 0;
     } else {
-        unk_1A8 &= ~2;
+        m_effectFlags &= ~2;
     }
 }

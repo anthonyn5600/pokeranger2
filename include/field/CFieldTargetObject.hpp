@@ -51,7 +51,7 @@ public:
 
     CFieldTargetObjectActorScript *GetScript()
     {
-        return (CFieldTargetObjectActorScript *)unk_DC;
+        return (CFieldTargetObjectActorScript *)m_script;
     }
 
 public:
@@ -59,8 +59,8 @@ public:
     int unk_E4;
     int unk_E8;
     int unk_EC;
-    int unk_F0;
-    int unk_F4;
+    int m_offsetX;
+    int m_offsetY;
     CFieldActorScript *unk_F8;
     BOOL unk_FC;
     char unk_100[0x10];

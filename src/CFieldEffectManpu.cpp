@@ -31,11 +31,11 @@ CFieldEffectManpu::~CFieldEffectManpu()
 int CFieldEffectManpu::ov0_02142344(Camera2D *camera)
 {
     CFieldActor *actor = unk_1C;
-    if (actor != NULL && actor->IsActive() && !actor->IsUnk04Bit0()) {
+    if (actor != NULL && actor->IsActive() && !actor->IsHidden()) {
         if (unk_28 == 0) {
             SetDepth(0x10);
         } else {
-            SetDepth(actor->unk_08 != NULL ? actor->unk_08->unk_10 : -0x4000);
+            SetDepth(actor->m_drawObject != NULL ? actor->m_drawObject->unk_10 : -0x4000);
         }
         return Draw(camera);
     }
@@ -84,7 +84,7 @@ BOOL CFieldEffectManpu::IsVisible()
     BOOL visible = FALSE;
     CFieldScene *scene = MAIN_BSS_0210CA40;
     Camera2D *camera;
-    if (scene != NULL && (camera = scene->unk_0008) != NULL) {
+    if (scene != NULL && (camera = scene->m_camera) != NULL) {
         Rectangle rect;
         rect.pos.x = unk_1C->GetX();
         rect.pos.y = unk_1C->GetY() + GetOffset(unk_1C).y;

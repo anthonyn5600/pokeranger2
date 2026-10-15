@@ -4,8 +4,8 @@
 #include <nitro.h>
 
 #include "CActor.hpp"
+#include "CellCharBuffer.hpp"
 #include "Collision.hpp"
-#include "UnkClass_02007770.hpp"
 #include "UnkStruct_02044464.hpp"
 #include "battle/CBattleEnemyData.hpp"
 #include "common.hpp"
@@ -103,7 +103,7 @@ public:
     BattleStatusDebug *unk_1B4;
     CBattleEnemyGauge *unk_1B8;
     BattleParticlePool *unk_1BC;
-    UnkClass_02007770 m_palettes[0x1D];
+    CellCharBuffer m_cellBuffers[0x1D];
     NNSGfdTexKey m_texKey;
     u16 unk_47C;
     u8 unk_47E;

@@ -25,8 +25,8 @@ MissionQuestData::MissionQuestData()
 
 MissionQuestData::~MissionQuestData()
 {
-    unk_58 = NULL;
-    unk_54 = NULL;
+    m_scriptManager = NULL;
+    m_textbox = NULL;
 }
 
 extern "C" {
@@ -34,64 +34,64 @@ extern "C" {
 void MissionQuestData_Init(MissionQuestData *obj, ScriptManager *scriptManager, TextboxManager *textboxData)
 {
     MissionQuestData_Clear(obj);
-    obj->unk_58 = scriptManager;
-    obj->unk_54 = textboxData;
+    obj->m_scriptManager = scriptManager;
+    obj->m_textbox = textboxData;
 }
 
-void sub_020113B4(MissionQuestData *obj, int arg1)
+void MissionQuestData_ReceiveMission(MissionQuestData *obj, int arg1)
 {
     if (arg1 == 0) {
-        obj->unk_02 = arg1;
+        obj->m_missionId = arg1;
         return;
     }
     if (arg1 <= 0x4C) {
-        if (obj->unk_00 != 0) {
+        if (obj->m_missionState != 0) {
             OS_Terminate();
         }
         if (arg1 < 0x32) {
-            obj->unk_00 = 1;
+            obj->m_missionState = 1;
         } else if (arg1 >= 0x46) {
-            obj->unk_00 = 1;
+            obj->m_missionState = 1;
         }
-        obj->unk_02 = arg1;
+        obj->m_missionId = arg1;
     } else {
         OS_Terminate();
     }
 }
 
-void sub_0201140C(MissionQuestData *obj)
+void MissionQuestData_StartMission(MissionQuestData *obj)
 {
-    if (obj->unk_02 == 0) {
+    if (obj->m_missionId == 0) {
         return;
     }
-    if (obj->unk_02 <= 0x4C) {
-        if (obj->unk_02 < 0x32) {
-            if (obj->unk_00 != 1) {
+    if (obj->m_missionId <= 0x4C) {
+        if (obj->m_missionId < 0x32) {
+            if (obj->m_missionState != 1) {
                 OS_Terminate();
             }
-            obj->unk_00 = 2;
-        } else if (obj->unk_02 >= 0x46) {
-            obj->unk_00 = 2;
+            obj->m_missionState = 2;
+        } else if (obj->m_missionId >= 0x46) {
+            obj->m_missionState = 2;
         }
     } else {
         OS_Terminate();
     }
 }
 
-void sub_02011464(MissionQuestData *obj)
+void MissionQuestData_ClearMission(MissionQuestData *obj)
 {
-    if (obj->unk_02 == 0) {
+    if (obj->m_missionId == 0) {
         return;
     }
-    if (obj->unk_02 <= 0x4C) {
-        if (obj->unk_02 < 0x32) {
-            if (obj->unk_00 != 2) {
+    if (obj->m_missionId <= 0x4C) {
+        if (obj->m_missionId < 0x32) {
+            if (obj->m_missionState != 2) {
                 OS_Terminate();
             }
-            obj->unk_00 = 0;
-            obj->unk_04 = obj->unk_02;
-        } else if (obj->unk_02 >= 0x46) {
-            obj->unk_00 = 0;
+            obj->m_missionState = 0;
+            obj->m_lastMissionId = obj->m_missionId;
+        } else if (obj->m_missionId >= 0x46) {
+            obj->m_missionState = 0;
         }
     } else {
         OS_Terminate();
@@ -111,52 +111,52 @@ BOOL MissionQuestData_IsQuestActive(MissionQuestData *obj, int arg1)
     return (obj->m_questStates[arg1] & 0xF) == 1;
 }
 
-void sub_02011514(MissionQuestData *obj, int arg1)
+void MissionQuestData_SetQuestEntered(MissionQuestData *obj, int arg1)
 {
     obj->m_questStates[arg1] |= 0x10;
 }
 
-BOOL sub_02011528(MissionQuestData *obj, int arg1)
+BOOL MissionQuestData_IsQuestEntered(MissionQuestData *obj, int arg1)
 {
     return (obj->m_questStates[arg1] & 0x10) ? TRUE : FALSE;
 }
 
-void sub_02011540(MissionQuestData *obj, int arg1)
+void MissionQuestData_EnterQuest(MissionQuestData *obj, int arg1)
 {
-    if (obj->unk_01 != 0) {
+    if (obj->m_questActive != 0) {
         OS_Terminate();
     }
     if ((obj->m_questStates[arg1] & 0xF) == 2) {
         OS_Terminate();
     }
-    obj->unk_01 = 1;
-    obj->unk_03 = arg1;
-    sub_02011514(obj, arg1);
-    ScriptManager_LoadQuest(obj->unk_58, arg1);
-    obj->unk_54->LoadQuestMessages(arg1);
+    obj->m_questActive = 1;
+    obj->m_questId = arg1;
+    MissionQuestData_SetQuestEntered(obj, arg1);
+    ScriptManager_LoadQuest(obj->m_scriptManager, arg1);
+    obj->m_textbox->LoadQuestMessages(arg1);
 }
 
-void sub_020115A8(MissionQuestData *obj)
+void MissionQuestData_ExitQuestCleared(MissionQuestData *obj)
 {
-    if (obj->unk_01 != 1) {
+    if (obj->m_questActive != 1) {
         OS_Terminate();
     }
-    obj->unk_01 = 0;
-    obj->m_questStates[obj->unk_03] = (obj->m_questStates[obj->unk_03] & ~0xF) | 2;
-    obj->unk_03 = 0;
-    ScriptManager_UnloadQuest(obj->unk_58);
-    obj->unk_54->FreeQuestMessages();
+    obj->m_questActive = 0;
+    obj->m_questStates[obj->m_questId] = (obj->m_questStates[obj->m_questId] & ~0xF) | 2;
+    obj->m_questId = 0;
+    ScriptManager_UnloadQuest(obj->m_scriptManager);
+    obj->m_textbox->FreeQuestMessages();
 }
 
-void sub_020115F8(MissionQuestData *obj)
+void MissionQuestData_ExitQuest(MissionQuestData *obj)
 {
-    if (obj->unk_01 != 1) {
+    if (obj->m_questActive != 1) {
         OS_Terminate();
     }
-    obj->unk_01 = 0;
-    obj->unk_03 = 0;
-    ScriptManager_UnloadQuest(obj->unk_58);
-    obj->unk_54->FreeQuestMessages();
+    obj->m_questActive = 0;
+    obj->m_questId = 0;
+    ScriptManager_UnloadQuest(obj->m_scriptManager);
+    obj->m_textbox->FreeQuestMessages();
 }
 
 BOOL MissionQuestData_IsQuestCleared(MissionQuestData *obj, int arg1)
@@ -170,8 +170,8 @@ void MissionQuestData_SetChapter(MissionQuestData *obj, int arg1)
         return;
     }
     obj->m_chapter = arg1;
-    ScriptManager_LoadChapter(obj->unk_58);
-    obj->unk_54->LoadChapterMessages(obj->m_chapter);
+    ScriptManager_LoadChapter(obj->m_scriptManager);
+    obj->m_textbox->LoadChapterMessages(obj->m_chapter);
 }
 
 int MissionQuestData_CountClearedQuests(MissionQuestData *obj)
@@ -190,7 +190,7 @@ void MissionQuestData_LoadChapterMessages(MissionQuestData *obj, int arg1)
     if (arg1 > 0x4C) {
         return;
     }
-    obj->unk_54->LoadChapterMessages(arg1);
+    obj->m_textbox->LoadChapterMessages(arg1);
 }
 
 void sub_020116C0(MissionQuestData *obj, int arg1)

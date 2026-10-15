@@ -30,9 +30,9 @@ CSexSelectScene::CSexSelectScene()
 {
     m_game = CGame::GetInstance();
     m_audioEngine = CGame::GetInstance()->m_audioEngine;
-    m_audioEngine->sub_020345D4();
-    m_audioEngine->sub_020349E8(0xBC);
-    m_audioEngine->sub_020349E8(0xBD);
+    m_audioEngine->LoadSystemSe();
+    m_audioEngine->AddSeGroup(0xBC);
+    m_audioEngine->AddSeGroup(0xBD);
     m_audioEngine->LoadBgmGroup(3);
     unk_04 = 1;
     unk_06 = 0;
@@ -59,8 +59,8 @@ void CSexSelectScene::func6()
     unk_68 = new CSoftwareSprite();
     unk_68->m_z = 10;
     m_audioEngine->PlayBgm(0x16, 0x40);
-    m_game->unk_14BC->Start(3, 30);
-    m_game->unk_14C0->Start(3, 30);
+    m_game->m_mainFade->Start(3, 30);
+    m_game->m_subFade->Start(3, 30);
 }
 
 void CSexSelectScene::func7()
@@ -116,7 +116,7 @@ void CSexSelectScene::ov19_0211CDA0()
 void CSexSelectScene::ov19_0211CFC0()
 {
     CGame *game = m_game;
-    game->m_textboxData->Init(game->unk_0014, game->touchPanel, &game->unk_14AC->unk_0C, game->unk_14B0, game->unk_0024, m_audioEngine, 0x10, 0x4000, 0);
+    game->m_textboxData->Init(game->unk_0014, game->touchPanel, &game->unk_14AC->unk_0C, game->m_nameTables, game->unk_0024, m_audioEngine, 0x10, 0x4000, 0);
     m_game->m_textboxData->LoadSystemMessages(2);
     m_game->m_textboxData->SetTextSpeed(0);
     m_game->m_textboxData->ShowSystemMessage(1, 1, 1, 0);
@@ -279,7 +279,7 @@ u32 CSexSelectScene::func0()
         ov19_0211DFD8();
         break;
     case 9:
-        if (!m_game->unk_14BC->IsActive() && !m_game->unk_14C0->IsActive()) {
+        if (!m_game->m_mainFade->IsActive() && !m_game->m_subFade->IsActive()) {
             m_game->sub_0200FAEC();
             SaveData *data = m_game->unk_14A4;
             data->unk_8B68 = 1;
@@ -362,7 +362,7 @@ void CSexSelectScene::ov19_0211DAE8()
     }
     unk_50[button]->SetPos(0x80, 0x4E);
     unk_50[sprite]->SetPos(0x80, 0x48);
-    m_game->m_textboxData->sub_02009FB0(1, 1);
+    m_game->m_textboxData->CloseAndClear(1, 1);
     m_game->m_textboxData->SetTextSpeed(0);
     m_game->m_textboxData->ShowSystemMessage(button, 1, 0, 0);
     unk_08 = 0;
@@ -411,18 +411,18 @@ void CSexSelectScene::ov19_0211DD7C()
 {
     u32 answer;
     TextboxManager *textbox = m_game->m_textboxData;
-    if (textbox->sub_0200B6A4(1)) {
+    if (textbox->CloseIfNoPrompt(1)) {
         return;
     }
     answer = textbox->GetYesNoResult();
     if (answer == 0) {
         unk_50[0]->unk_14 = 0;
         unk_50[1]->unk_14 = 0;
-        textbox->sub_02009FB0(1, 1);
+        textbox->CloseAndClear(1, 1);
         unk_04 = 5;
     }
     if (answer == 1) {
-        textbox->sub_02009FB0(1, 1);
+        textbox->CloseAndClear(1, 1);
         unk_04 = 3;
     }
 }
@@ -500,8 +500,8 @@ void CSexSelectScene::ov19_0211DFD8()
     CellAnimController *anims = unk_2C[idx]->m_anim;
     if (anims->GetStatus(anim) == 0) {
         unk_04 = 9;
-        m_game->unk_14BC->Start(2, 60);
-        m_game->unk_14C0->Start(2, 60);
+        m_game->m_mainFade->Start(2, 60);
+        m_game->m_subFade->Start(2, 60);
     }
     anims->UpdateAll();
 }

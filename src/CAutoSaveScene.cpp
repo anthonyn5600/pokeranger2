@@ -19,25 +19,25 @@ u32 CAutoSaveScene::func0()
 {
     switch (unk_0008) {
     case 0: {
-        if (s_game->unk_14BC->IsActive()) {
+        if (s_game->m_mainFade->IsActive()) {
             break;
         }
-        if (s_game->unk_14C0->IsActive()) {
+        if (s_game->m_subFade->IsActive()) {
             break;
         }
 
-        s_game->m_audioEngine->sub_020349E8(0x45);
-        s_game->m_audioEngine->sub_02034DE8(0x42, 0, 0x100);
+        s_game->m_audioEngine->AddSeGroup(0x45);
+        s_game->m_audioEngine->PlayJingle(0x42, 0, 0x100);
 
         RTCTime time;
         RTCDate date;
         RTC_GetTime(&time);
         RTC_GetDate(&date);
         MAIN_BSS_020B26A0.CheckElapsedTime(&time, &date);
-        s_game->sub_02010400();
+        s_game->ClearBgmState();
 
         unk_000C = new SaveManager(1);
-        unk_000C->sub_02028220(0);
+        unk_000C->Save(0);
 
         s_game->m_textboxData->ResetTextSpeed();
         s_game->m_textboxData->ShowMessage(0, 0x1E, 1, 1, 0);
@@ -45,7 +45,7 @@ u32 CAutoSaveScene::func0()
         break;
     }
     case 1: {
-        u32 result = unk_000C->sub_0202841C();
+        u32 result = unk_000C->Update();
         if (result == 0) {
             break;
         }
@@ -58,7 +58,7 @@ u32 CAutoSaveScene::func0()
             s_game->m_textboxData->ShowMessage(0, 0x56, 1, 1, 0);
             unk_0008 = 2;
         }
-        s_game->m_audioEngine->sub_02034E38(0);
+        s_game->m_audioEngine->StopJingle(0);
         break;
     }
     case 2:
@@ -67,16 +67,16 @@ u32 CAutoSaveScene::func0()
         if (s_game->m_textboxData->IsActive()) {
             break;
         }
-        s_game->m_textboxData->sub_02009FB0(1, 1);
-        s_game->unk_14BC->Start(2, 30);
-        s_game->unk_14C0->Start(2, 30);
+        s_game->m_textboxData->CloseAndClear(1, 1);
+        s_game->m_mainFade->Start(2, 30);
+        s_game->m_subFade->Start(2, 30);
         unk_0008 = 4;
         break;
     case 4:
-        if (s_game->unk_14BC->IsActive()) {
+        if (s_game->m_mainFade->IsActive()) {
             break;
         }
-        if (s_game->unk_14C0->IsActive()) {
+        if (s_game->m_subFade->IsActive()) {
             break;
         }
         return 0x11;
@@ -134,11 +134,11 @@ void CAutoSaveScene::func6()
 {
     unk_0004 = 0;
     unk_0008 = 0;
-    s_game->m_textboxData->Init(s_game->unk_0014, s_game->touchPanel, &s_game->unk_14AC->unk_0C, s_game->unk_14B0, s_game->unk_0024, s_game->m_audioEngine, 0x10, 0x4000, 0);
+    s_game->m_textboxData->Init(s_game->unk_0014, s_game->touchPanel, &s_game->unk_14AC->unk_0C, s_game->m_nameTables, s_game->unk_0024, s_game->m_audioEngine, 0x10, 0x4000, 0);
     SetupBGFonts();
     s_game->m_textboxData->LoadSystemMessages(0);
-    s_game->unk_14BC->Start(3, 10);
-    s_game->unk_14C0->Start(3, 10);
+    s_game->m_mainFade->Start(3, 10);
+    s_game->m_subFade->Start(3, 10);
     s_game->unk_146C.SetFps(60);
 }
 

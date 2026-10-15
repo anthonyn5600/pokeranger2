@@ -9,7 +9,7 @@
 class CGame;
 class OamSpriteSet;
 class OamSprite;
-class UnkClass_0201100C;
+class DownloadMissionData;
 class BGLayer;
 class MessageTable;
 class SaveManager;
@@ -240,7 +240,7 @@ public:
     int unk_604;
     int unk_608;
     int unk_60C[5];
-    UnkClass_0201100C *unk_620;
+    DownloadMissionData *unk_620;
     u8 unk_624[0x8];
     int unk_62C[3];
     int unk_638[3];

@@ -271,7 +271,7 @@ void CBattleAssistIce::ov1_02132FD4(IceFreeze *freeze, CBattleEnemy *enemy)
     freeze->effect->ov1_021273A0(7, freeze->size);
     Point2D pos = enemy->m_motion.m_pos;
     pos += enemy->unk_484;
-    pos.y -= enemy->m_bobHeight + (enemy->unk_8C + enemy->m_jumpHeight);
+    pos.y -= enemy->m_bobHeight + (enemy->m_height + enemy->m_jumpHeight);
     freeze->effect->m_motion.SetPos(pos);
     unk_14->PlaySe(0x150);
 }

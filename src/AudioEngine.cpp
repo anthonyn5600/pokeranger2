@@ -16,30 +16,30 @@ AudioEngine::AudioEngine()
     unk_00 = Heap_AllocSecondary(0x64000);
     unk_04 = Heap_AllocSecondary(0x30000);
     unk_08 = Heap_AllocSecondary(0xC000);
-    unk_9C = NNS_SndHeapCreate(unk_00, 0x64000);
-    unk_A0 = NNS_SndHeapCreate(unk_04, 0x30000);
+    m_seHeap = NNS_SndHeapCreate(unk_00, 0x64000);
+    m_bgmHeap = NNS_SndHeapCreate(unk_04, 0x30000);
     unk_A4 = NNS_SndHeapCreate(unk_08, 0xC000);
     NNS_SndArcInit((NNSSndArc *)unk_0C, "/data/Sound/sound_data.sdat", unk_A4, FALSE);
-    NNS_SndArcPlayerSetup(unk_9C);
-    NNS_SndArcPlayerSetup(unk_A0);
+    NNS_SndArcPlayerSetup(m_seHeap);
+    NNS_SndArcPlayerSetup(m_bgmHeap);
     NNS_SndArcPlayerSetup(unk_A4);
     NNS_SndArcStrmInit(10, unk_A4);
-    unk_C4 = 99;
-    unk_D0 = 99;
-    unk_DC = 99;
-    unk_1A0 = 0;
+    m_bgmGroup = 99;
+    m_bgmSeq = 99;
+    m_loopSeIdx = 99;
+    m_loopSeVolume = 0;
     unk_F0 = 0;
-    unk_F8 = 0;
-    unk_F4 = 0x100;
-    unk_FC = 0;
-    unk_E4 = 0;
-    NNS_SndStrmHandleInit(&unk_A8);
-    NNS_SndStrmHandleInit(&unk_AC);
-    NNS_SndHandleInit(&unk_B0);
-    NNS_SndHandleInit(&unk_B4);
-    NNS_SndHandleInit(&unk_B8);
-    NNS_SndHandleInit(&unk_BC);
-    NNS_SndHandleInit(&unk_C0);
+    m_captureLinePitch = 0;
+    m_bgmTempo = 0x100;
+    m_strmChannel = 0;
+    m_groupSeGroup = 0;
+    NNS_SndStrmHandleInit(&m_strm);
+    NNS_SndStrmHandleInit(&m_strm2);
+    NNS_SndHandleInit(&m_bgm);
+    NNS_SndHandleInit(&m_se);
+    NNS_SndHandleInit(&m_loopSe);
+    NNS_SndHandleInit(&m_captureLineSe);
+    NNS_SndHandleInit(&m_jingle);
     ClearBgmHeap();
     ClearSeHeap();
     DumpHeapSizes();
@@ -52,24 +52,24 @@ void AudioEngine::Main()
 
 void AudioEngine::ClearBgmHeap()
 {
-    NNS_SndHeapClear(unk_A0);
+    NNS_SndHeapClear(m_bgmHeap);
 }
 
 void AudioEngine::ClearSeHeap()
 {
-    NNS_SndHeapClear(unk_9C);
-    unk_E4 = 0;
+    NNS_SndHeapClear(m_seHeap);
+    m_groupSeGroup = 0;
 }
 
-void AudioEngine::sub_020345D4()
+void AudioEngine::LoadSystemSe()
 {
     ClearSeHeap();
-    NNS_SndArcLoadGroup(0, unk_9C);
-    unk_1A8 = NNS_SndHeapSaveState(unk_9C);
+    NNS_SndArcLoadGroup(0, m_seHeap);
+    m_seHeapState = NNS_SndHeapSaveState(m_seHeap);
     DumpHeapSizes();
 }
 
-BOOL AudioEngine::sub_02034604(u32 mapId)
+BOOL AudioEngine::LoadMapBgmGroup(u32 mapId)
 {
     int group = 0;
     if (MAIN_BSS_0210CA6C != NULL) {
@@ -83,19 +83,19 @@ BOOL AudioEngine::sub_02034604(u32 mapId)
             group = 0x19;
         }
     }
-    if (unk_C4 == group) {
-        sub_020345D4();
+    if (m_bgmGroup == group) {
+        LoadSystemSe();
         return TRUE;
     }
     if (unk_F0 == 1) {
-        sub_020345D4();
+        LoadSystemSe();
         return TRUE;
     }
-    unk_C4 = group;
-    unk_E8 = mapId;
+    m_bgmGroup = group;
+    m_bgmMapId = mapId;
     ClearBgmHeap();
-    NNS_SndArcLoadGroup(unk_C4, unk_A0);
-    sub_020345D4();
+    NNS_SndArcLoadGroup(m_bgmGroup, m_bgmHeap);
+    LoadSystemSe();
     DumpHeapSizes();
     return FALSE;
 }
@@ -107,7 +107,7 @@ void AudioEngine::PlayMapBgm(u32 mapId, int fadeFrames, BOOL arg3)
         PlayBgm(unk_D8, fadeFrames);
         return;
     }
-    if (sub_02034604(mapId) == TRUE) {
+    if (LoadMapBgmGroup(mapId) == TRUE) {
         return;
     }
     int seq = 0;
@@ -123,48 +123,48 @@ void AudioEngine::PlayMapBgm(u32 mapId, int fadeFrames, BOOL arg3)
         }
     }
     StopBgm(0);
-    NNS_SndArcPlayerStartSeq(&unk_B0, seq);
+    NNS_SndArcPlayerStartSeq(&m_bgm, seq);
     if (fadeFrames != 0) {
-        NNS_SndPlayerMoveVolume(&unk_B0, 127, fadeFrames);
+        NNS_SndPlayerMoveVolume(&m_bgm, 127, fadeFrames);
     }
-    unk_D0 = seq;
+    m_bgmSeq = seq;
     unk_EC = 0;
 }
 
-void AudioEngine::sub_020347C4()
+void AudioEngine::LoadBattleSe()
 {
-    unk_D4 = unk_D0;
-    unk_E0 = unk_DC;
-    unk_C8 = unk_C4;
+    m_savedBgmSeq = m_bgmSeq;
+    m_savedLoopSeIdx = m_loopSeIdx;
+    m_savedBgmGroup = m_bgmGroup;
     ClearSeHeap();
-    NNS_SndArcLoadGroup(0x24, unk_9C);
+    NNS_SndArcLoadGroup(0x24, m_seHeap);
     for (int i = 0; i < 0x28; i++) {
-        unk_100[i] = 0xFF;
+        m_battleSeGroups[i] = 0xFF;
     }
     DumpHeapSizes();
 }
 
-void AudioEngine::sub_0203481C(int index)
+void AudioEngine::LoadBattleBgmGroup(int index)
 {
     int groups[] = { 0x1F, 0x20, 0x21, 0x22, 0x23, 0x40, 0x31 };
     ClearBgmHeap();
-    NNS_SndArcLoadGroup(groups[index], unk_A0);
+    NNS_SndArcLoadGroup(groups[index], m_bgmHeap);
     DumpHeapSizes();
 }
 
-void AudioEngine::sub_02034870(int group)
+void AudioEngine::LoadBattleSeGroup(int group)
 {
     for (int i = 0; i < 0x28; i++) {
-        if (group == unk_100[i]) {
+        if (group == m_battleSeGroups[i]) {
             return;
         }
-        if (unk_100[i] == 0xFF) {
-            unk_100[i] = group;
-            if (!NNS_SndArcLoadGroup(group, unk_9C)) {
+        if (m_battleSeGroups[i] == 0xFF) {
+            m_battleSeGroups[i] = group;
+            if (!NNS_SndArcLoadGroup(group, m_seHeap)) {
                 DumpHeapSizes();
             }
             DumpHeapSizes();
-            unk_1A8 = NNS_SndHeapSaveState(unk_9C);
+            m_seHeapState = NNS_SndHeapSaveState(m_seHeap);
             return;
         }
     }
@@ -172,141 +172,141 @@ void AudioEngine::sub_02034870(int group)
 
 void AudioEngine::LoadSeGroup(int group)
 {
-    NNS_SndHeapLoadState(unk_9C, unk_1A8);
-    if (!NNS_SndArcLoadGroup(group, unk_9C)) {
+    NNS_SndHeapLoadState(m_seHeap, m_seHeapState);
+    if (!NNS_SndArcLoadGroup(group, m_seHeap)) {
         DumpHeapSizes();
     }
     DumpHeapSizes();
 }
 
-void AudioEngine::sub_0203491C()
+void AudioEngine::LoadResultAudio()
 {
     ClearBgmHeap();
     ClearSeHeap();
-    NNS_SndArcLoadGroup(0x25, unk_A0);
-    NNS_SndArcLoadGroup(0x26, unk_9C);
+    NNS_SndArcLoadGroup(0x25, m_bgmHeap);
+    NNS_SndArcLoadGroup(0x26, m_seHeap);
     DumpHeapSizes();
 }
 
-void AudioEngine::sub_02034954()
+void AudioEngine::RestoreFieldBgm()
 {
     ClearBgmHeap();
-    NNS_SndArcLoadGroup(unk_C8, unk_A0);
-    unk_C4 = unk_C8;
-    sub_020345D4();
+    NNS_SndArcLoadGroup(m_savedBgmGroup, m_bgmHeap);
+    m_bgmGroup = m_savedBgmGroup;
+    LoadSystemSe();
     DumpHeapSizes();
-    NNS_SndArcPlayerStartSeq(&unk_B0, unk_D4);
-    unk_D0 = unk_D4;
+    NNS_SndArcPlayerStartSeq(&m_bgm, m_savedBgmSeq);
+    m_bgmSeq = m_savedBgmSeq;
 }
 
 void AudioEngine::LoadBgmGroup(int group)
 {
-    unk_C4 = group;
+    m_bgmGroup = group;
     if (unk_F0 == 1 && (group == 5 || group == 8)) {
-        unk_CC = unk_C4;
+        unk_CC = m_bgmGroup;
     }
     ClearBgmHeap();
-    NNS_SndArcLoadGroup(group, unk_A0);
+    NNS_SndArcLoadGroup(group, m_bgmHeap);
     DumpHeapSizes();
 }
 
-void AudioEngine::sub_020349E8(int group)
+void AudioEngine::AddSeGroup(int group)
 {
-    NNS_SndArcLoadGroup(group, unk_9C);
+    NNS_SndArcLoadGroup(group, m_seHeap);
     DumpHeapSizes();
 }
 
 void AudioEngine::sub_02034A08(int group)
 {
-    NNS_SndHeapLoadState(unk_9C, unk_1A8);
-    unk_E4 = 0;
-    NNS_SndArcLoadGroup(group, unk_9C);
+    NNS_SndHeapLoadState(m_seHeap, m_seHeapState);
+    m_groupSeGroup = 0;
+    NNS_SndArcLoadGroup(group, m_seHeap);
     DumpHeapSizes();
 }
 
 void AudioEngine::PlayBgm(int seq, int fadeFrames)
 {
     StopBgm(0);
-    NNS_SndArcPlayerStartSeq(&unk_B0, seq);
+    NNS_SndArcPlayerStartSeq(&m_bgm, seq);
     if (fadeFrames != 0) {
-        NNS_SndPlayerMoveVolume(&unk_B0, 127, fadeFrames);
+        NNS_SndPlayerMoveVolume(&m_bgm, 127, fadeFrames);
     }
-    unk_D0 = seq;
+    m_bgmSeq = seq;
     unk_EC = 0;
     if (unk_F0 == 1 && (seq == 0 || seq == 0x27)) {
-        unk_D8 = unk_D0;
+        unk_D8 = m_bgmSeq;
     }
 }
 
-void AudioEngine::sub_02034AA8()
+void AudioEngine::PlayEncounterBgm()
 {
     ClearBgmHeap();
-    NNS_SndArcLoadGroup(0x44, unk_A0);
+    NNS_SndArcLoadGroup(0x44, m_bgmHeap);
     DumpHeapSizes();
     StopBgm(0);
-    NNS_SndArcPlayerStartSeq(&unk_B0, 1);
+    NNS_SndArcPlayerStartSeq(&m_bgm, 1);
 }
 
-void AudioEngine::sub_02034AE4(int index, int fadeFrames)
+void AudioEngine::PlayBattleBgm(int index, int fadeFrames)
 {
     int seqs[] = { 2, 0x20, 0x23, 0x24, 0x25, 0x4C, 0x26 };
     StopBgm(0);
-    NNS_SndArcPlayerStartSeq(&unk_B0, seqs[index]);
+    NNS_SndArcPlayerStartSeq(&m_bgm, seqs[index]);
     if (fadeFrames != 0) {
-        NNS_SndPlayerMoveVolume(&unk_B0, 127, fadeFrames);
+        NNS_SndPlayerMoveVolume(&m_bgm, 127, fadeFrames);
     }
     unk_EC = 0;
 }
 
 void AudioEngine::StopBgm(int fadeFrames)
 {
-    NNS_SndPlayerStopSeq(&unk_B0, fadeFrames);
+    NNS_SndPlayerStopSeq(&m_bgm, fadeFrames);
 }
 
 void AudioEngine::ResumeBgm(int fadeFrames)
 {
-    NNS_SndArcPlayerStartSeq(&unk_B0, unk_D0);
+    NNS_SndArcPlayerStartSeq(&m_bgm, m_bgmSeq);
     if (fadeFrames != 0) {
-        NNS_SndPlayerMoveVolume(&unk_B0, 127, fadeFrames);
+        NNS_SndPlayerMoveVolume(&m_bgm, 127, fadeFrames);
     }
 }
 
 void AudioEngine::StopBgmReset(int fadeFrames)
 {
-    NNS_SndPlayerStopSeq(&unk_B0, fadeFrames);
-    unk_C4 = 99;
+    NNS_SndPlayerStopSeq(&m_bgm, fadeFrames);
+    m_bgmGroup = 99;
 }
 
 void AudioEngine::SetBgmTempo(int ratio)
 {
-    unk_F4 = ratio;
-    NNS_SndPlayerSetTempoRatio(&unk_B0, ratio);
+    m_bgmTempo = ratio;
+    NNS_SndPlayerSetTempoRatio(&m_bgm, ratio);
 }
 
 void AudioEngine::sub_02034BCC(int group)
 {
-    sub_02034C2C(0);
-    NNS_SndArcLoadGroup(group, unk_A0);
+    StopLoopSe(0);
+    NNS_SndArcLoadGroup(group, m_bgmHeap);
     DumpHeapSizes();
 }
 
-void AudioEngine::sub_02034BF8(int index)
+void AudioEngine::PlayLoopSe(int index)
 {
-    sub_02034C2C(0);
+    StopLoopSe(0);
     if (index != 0) {
-        NNS_SndArcPlayerStartSeqArc(&unk_B8, 0, index);
+        NNS_SndArcPlayerStartSeqArc(&m_loopSe, 0, index);
     }
-    unk_DC = index;
+    m_loopSeIdx = index;
 }
 
-void AudioEngine::sub_02034C2C(int fadeFrames)
+void AudioEngine::StopLoopSe(int fadeFrames)
 {
-    NNS_SndPlayerStopSeqBySeqArcIdx(0, unk_DC, fadeFrames);
+    NNS_SndPlayerStopSeqBySeqArcIdx(0, m_loopSeIdx, fadeFrames);
 }
 
 BOOL AudioEngine::PlaySe(int index)
 {
-    return NNS_SndArcPlayerStartSeqArc(&unk_B4, 0, index);
+    return NNS_SndArcPlayerStartSeqArc(&m_se, 0, index);
 }
 
 void AudioEngine::StopSe(int index)
@@ -316,7 +316,7 @@ void AudioEngine::StopSe(int index)
 
 void AudioEngine::StopAllSe()
 {
-    NNS_SndPlayerStopSeq(&unk_B4, 0);
+    NNS_SndPlayerStopSeq(&m_se, 0);
 }
 
 BOOL AudioEngine::IsSePlaying(int index)
@@ -324,22 +324,22 @@ BOOL AudioEngine::IsSePlaying(int index)
     return NNS_SndPlayerCountPlayingSeqBySeqArcIdx(0, index) > 0;
 }
 
-void AudioEngine::sub_02034CA0(int group, int index)
+void AudioEngine::PlayGroupSe(int group, int index)
 {
-    if (unk_E4 != group) {
-        unk_E4 = group;
-        NNS_SndHeapLoadState(unk_9C, unk_1A8);
-        NNS_SndArcLoadGroup(group, unk_9C);
+    if (m_groupSeGroup != group) {
+        m_groupSeGroup = group;
+        NNS_SndHeapLoadState(m_seHeap, m_seHeapState);
+        NNS_SndArcLoadGroup(group, m_seHeap);
         DumpHeapSizes();
     }
-    NNS_SndArcPlayerStartSeqArc(&unk_B4, 0, index);
+    NNS_SndArcPlayerStartSeqArc(&m_se, 0, index);
 }
 
 void AudioEngine::PlayStream(int strmNo, int pan)
 {
-    NNS_SndArcStrmStartEx(&unk_A8, unk_FC, -1, strmNo, 0);
-    NNS_SndArcStrmSetChannelPan(&unk_A8, 0, pan);
-    unk_FC = unk_FC == 0;
+    NNS_SndArcStrmStartEx(&m_strm, m_strmChannel, -1, strmNo, 0);
+    NNS_SndArcStrmSetChannelPan(&m_strm, 0, pan);
+    m_strmChannel = m_strmChannel == 0;
 }
 
 void AudioEngine::sub_02034D44(int strmNo, int pan)
@@ -347,108 +347,108 @@ void AudioEngine::sub_02034D44(int strmNo, int pan)
     PlayStream(0, pan);
 }
 
-void AudioEngine::sub_02034D54(int strmNo, int pan)
+void AudioEngine::PlayStream2(int strmNo, int pan)
 {
-    if (NNS_SndArcStrmGetCurrentPlayingPos(&unk_A8) != 0) {
+    if (NNS_SndArcStrmGetCurrentPlayingPos(&m_strm) != 0) {
         return;
     }
-    NNS_SndArcStrmStartEx(&unk_AC, unk_FC, -1, strmNo, 0);
-    NNS_SndArcStrmSetChannelPan(&unk_AC, 0, pan);
-    if (unk_FC == 0) {
-        unk_FC = 1;
+    NNS_SndArcStrmStartEx(&m_strm2, m_strmChannel, -1, strmNo, 0);
+    NNS_SndArcStrmSetChannelPan(&m_strm2, 0, pan);
+    if (m_strmChannel == 0) {
+        m_strmChannel = 1;
     } else {
-        unk_FC = 0;
+        m_strmChannel = 0;
     }
 }
 
-void AudioEngine::sub_02034DC8(int fadeFrames)
+void AudioEngine::StopStream2(int fadeFrames)
 {
-    NNS_SndArcStrmStop(&unk_AC, fadeFrames);
+    NNS_SndArcStrmStop(&m_strm2, fadeFrames);
 }
 
-void AudioEngine::sub_02034DD8(int fadeFrames)
+void AudioEngine::StopStream(int fadeFrames)
 {
-    NNS_SndArcStrmStop(&unk_A8, fadeFrames);
+    NNS_SndArcStrmStop(&m_strm, fadeFrames);
 }
 
-void AudioEngine::sub_02034DE8(int seq, int fadeFrames, int ratio)
+void AudioEngine::PlayJingle(int seq, int fadeFrames, int ratio)
 {
-    sub_02034E38(0);
-    NNS_SndArcPlayerStartSeq(&unk_C0, seq);
-    NNS_SndPlayerSetTempoRatio(&unk_C0, ratio);
+    StopJingle(0);
+    NNS_SndArcPlayerStartSeq(&m_jingle, seq);
+    NNS_SndPlayerSetTempoRatio(&m_jingle, ratio);
     if (fadeFrames != 0) {
-        NNS_SndPlayerMoveVolume(&unk_C0, 127, fadeFrames);
+        NNS_SndPlayerMoveVolume(&m_jingle, 127, fadeFrames);
     }
 }
 
-void AudioEngine::sub_02034E38(int fadeFrames)
+void AudioEngine::StopJingle(int fadeFrames)
 {
-    NNS_SndPlayerStopSeq(&unk_C0, fadeFrames);
+    NNS_SndPlayerStopSeq(&m_jingle, fadeFrames);
 }
 
-void AudioEngine::sub_02034E48(int arg0)
+void AudioEngine::PlayCaptureLineSe(int arg0)
 {
-    NNS_SndArcPlayerStartSeqArc(&unk_BC, 0, 0x19);
-    NNS_SndArcPlayerStartSeqArc(&unk_BC, 0, 0xB);
-    sub_02034E80(0);
+    NNS_SndArcPlayerStartSeqArc(&m_captureLineSe, 0, 0x19);
+    NNS_SndArcPlayerStartSeqArc(&m_captureLineSe, 0, 0xB);
+    AddCaptureLinePitch(0);
 }
 
-void AudioEngine::sub_02034E80(int delta)
+void AudioEngine::AddCaptureLinePitch(int delta)
 {
     if (delta != 0) {
-        unk_F8 += delta;
-        if (unk_F8 > 0x3FF) {
-            unk_F8 = 0x3FF;
-        } else if (unk_F8 < 0) {
-            unk_F8 = 0;
+        m_captureLinePitch += delta;
+        if (m_captureLinePitch > 0x3FF) {
+            m_captureLinePitch = 0x3FF;
+        } else if (m_captureLinePitch < 0) {
+            m_captureLinePitch = 0;
         }
     } else {
-        unk_F8 = delta;
+        m_captureLinePitch = delta;
     }
-    NNS_SndPlayerSetTrackPitch(&unk_BC, 0xFFFF, unk_F8);
+    NNS_SndPlayerSetTrackPitch(&m_captureLineSe, 0xFFFF, m_captureLinePitch);
 }
 
-void AudioEngine::sub_02034ED8(int arg0)
+void AudioEngine::StopCaptureLineSe(int arg0)
 {
-    NNS_SndPlayerStopSeq(&unk_BC, 0);
+    NNS_SndPlayerStopSeq(&m_captureLineSe, 0);
 }
 
 void AudioEngine::DumpHeapSizes()
 {
-    NNS_SndHeapGetSize(unk_A0);
-    NNS_SndHeapGetSize(unk_9C);
+    NNS_SndHeapGetSize(m_bgmHeap);
+    NNS_SndHeapGetSize(m_seHeap);
     NNS_SndHeapGetSize(unk_A4);
 }
 
 void AudioEngine::SetBgmVolume(int volume)
 {
-    NNS_SndPlayerSetVolume(&unk_B0, volume);
+    NNS_SndPlayerSetVolume(&m_bgm, volume);
 }
 
-void AudioEngine::sub_02034F20(int volume)
+void AudioEngine::SetLoopSeVolume(int volume)
 {
     if (volume != 0x100) {
-        unk_1A0 = volume;
+        m_loopSeVolume = volume;
     }
-    NNS_SndPlayerSetVolume(&unk_B8, unk_1A0);
+    NNS_SndPlayerSetVolume(&m_loopSe, m_loopSeVolume);
 }
 
 void AudioEngine::SetSeVolume(int volume)
 {
-    NNS_SndPlayerSetVolume(&unk_B4, volume);
+    NNS_SndPlayerSetVolume(&m_se, volume);
 }
 
 void AudioEngine::sub_02034F4C(int mode)
 {
     unk_F0 = mode;
     if (mode == 1) {
-        if (unk_C4 == 5 || unk_C4 == 8) {
-            unk_CC = unk_C4;
+        if (m_bgmGroup == 5 || m_bgmGroup == 8) {
+            unk_CC = m_bgmGroup;
         } else {
             unk_CC = 0;
         }
-        if (unk_D0 == 0 || unk_D0 == 0x27) {
-            unk_D8 = unk_D0;
+        if (m_bgmSeq == 0 || m_bgmSeq == 0x27) {
+            unk_D8 = m_bgmSeq;
         } else {
             unk_D8 = 0;
         }

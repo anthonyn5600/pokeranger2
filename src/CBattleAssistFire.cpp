@@ -50,7 +50,7 @@ int CBattleAssistFire::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEn
                     CBattleEnemy *enemy = enemies[i];
                     pos = enemy->m_motion.m_pos;
                     pos += enemy->unk_484;
-                    pos.y -= enemy->m_bobHeight + (enemy->unk_8C + enemy->m_jumpHeight);
+                    pos.y -= enemy->m_bobHeight + (enemy->m_height + enemy->m_jumpHeight);
                     effect->m_motion.SetPos(pos);
                     enemies[i]->ov1_021263A4(2, ov1_0212EE98(vfunc_10(), 0));
                     hit = TRUE;

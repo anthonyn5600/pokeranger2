@@ -115,7 +115,7 @@ static void ov28_0211D030(void *arg)
             break;
         }
         BOOL cancel;
-        BrightnessFade *fade = CGame::GetInstance()->unk_14C0;
+        BrightnessFade *fade = CGame::GetInstance()->m_subFade;
         if (fade->GetMode() != 4) {
             fade->Start(4, 30);
         }

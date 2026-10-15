@@ -306,14 +306,14 @@ int ScriptManager_IsRunning(ScriptManager *mgr)
     return mgr->m_system->GetState() | mgr->m_system->GetPending() | mgr->m_area->GetState() | mgr->m_area->GetPending() | mgr->m_chapter->GetState() | mgr->m_chapter->GetPending() | mgr->m_quest->GetState() | mgr->m_quest->GetPending();
 }
 
-void sub_02034374(ScriptManager *mgr, int value)
+void ScriptManager_SetArg(ScriptManager *mgr, int value)
 {
-    mgr->unk_14 = value;
+    mgr->m_arg = value;
 }
 
-int sub_0203437C(ScriptManager *mgr)
+int ScriptManager_GetArg(ScriptManager *mgr)
 {
-    return mgr->unk_14;
+    return mgr->m_arg;
 }
 
 void ScriptManager_Update(ScriptManager *mgr)

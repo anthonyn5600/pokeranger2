@@ -40,63 +40,63 @@ public:
     BOOL sub_02022B20();
     BOOL SwitchToPokemonInfo(u32 id, int arg2);
     BOOL SwitchToTargetInfo(u32 id);
-    BOOL sub_02022C1C();
-    BOOL sub_02022C74();
+    BOOL SwitchToRangerCard();
+    BOOL ShowRangerCardNow();
     BOOL sub_02022D04();
     void sub_02022D88();
-    void sub_02022DD4();
+    void SwitchToDefaultPanel();
     void ShowPicture(int picId);
     void sub_02022EC4();
-    BOOL sub_02022ED0();
-    BOOL sub_02022EE8();
-    BOOL sub_02022F50();
-    void sub_02022FA8();
-    int sub_02022FF4();
-    void sub_02023014();
-    int sub_02023060();
-    BOOL sub_02023078();
-    BOOL sub_020230D4();
-    void sub_02023134();
+    BOOL BeginSwitch();
+    BOOL LoadAreaMap();
+    BOOL LoadPartyPanel();
+    void BeginLoadPokemonInfo();
+    int LoadPokemonInfoStep();
+    void BeginLoadTargetInfo();
+    int LoadTargetInfoStep();
+    BOOL LoadRangerCard();
+    BOOL LoadPicture();
+    void FinishSwitch();
     void ResetBGOffsets();
     void SetVramBanks();
     void SetIdleReturn(int arg1);
     void UpdateIdleTimer();
     void ClearMapIcons();
     void AddMapIcon(int x, int y, int kind);
-    void sub_02023230(u16 duration);
-    BOOL sub_02023298(u16 duration);
-    BOOL sub_0202331C();
+    void FadeIn(u16 duration);
+    BOOL FadeOut(u16 duration);
+    BOOL IsFading();
     static FieldSubScreen *GetInstance();
     BOOL IsRangerCardShown();
 
     static FieldSubScreen *sInstance;
 
 public:
-    u16 unk_00; // mode
-    u16 unk_02; // next mode
-    BOOL unk_04; // fading to the next mode
+    u16 m_mode; // mode
+    u16 m_nextMode; // next mode
+    BOOL m_switching; // fading to the next mode
     u8 unk_08[0x10];
-    SubScreenAreaMap *unk_18;
-    int unk_1C; // map id
+    SubScreenAreaMap *m_areaMap;
+    int m_mapId; // map id
     int unk_20;
     int unk_24;
     int unk_28;
     int unk_2C;
-    SubScreenPartyPanel *unk_30;
-    SubScreenPokemonInfo *unk_34;
+    SubScreenPartyPanel *m_partyPanel;
+    SubScreenPokemonInfo *m_pokemonInfo;
     u32 unk_38;
     int unk_3C;
-    SubScreenTargetInfo *unk_40;
+    SubScreenTargetInfo *m_targetInfo;
     u32 unk_44;
     int unk_48;
-    SubScreenRangerCard *unk_4C;
+    SubScreenRangerCard *m_rangerCard;
     int unk_50;
-    SubScreenPicture *unk_54;
+    SubScreenPicture *m_picture;
     BOOL unk_58;
     BOOL unk_5C;
     int unk_60;
     BOOL unk_64;
-    CGame *unk_68;
+    CGame *m_game;
 };
 
 STATIC_SIZE_ASSERT(FieldSubScreen, 0x6C);

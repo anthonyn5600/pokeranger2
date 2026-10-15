@@ -25,10 +25,10 @@ u32 CRetryScene::func0()
 {
     switch (unk_0008) {
     case 0:
-        if (s_game->unk_14BC->IsActive()) {
+        if (s_game->m_mainFade->IsActive()) {
             break;
         }
-        if (s_game->unk_14C0->IsActive()) {
+        if (s_game->m_subFade->IsActive()) {
             break;
         }
         s_game->m_textboxData->ShowMessage(0, 0x4F, 1, 1, 0);
@@ -38,7 +38,7 @@ u32 CRetryScene::func0()
         if (s_game->m_textboxData->IsActive()) {
             break;
         }
-        if (s_game->m_textboxData->sub_0200B6A4(1)) {
+        if (s_game->m_textboxData->CloseIfNoPrompt(1)) {
             break;
         }
         if (s_game->m_textboxData->GetYesNoResult() == 0) {
@@ -54,7 +54,7 @@ u32 CRetryScene::func0()
         unk_0008 = 3;
         break;
     case 3: {
-        int result = unk_0010->sub_0202841C();
+        int result = unk_0010->Update();
         if (result == 0) {
             break;
         }
@@ -65,8 +65,8 @@ u32 CRetryScene::func0()
             MAIN_BSS_020B26A0.unk_8B6C = 0;
             MAIN_BSS_0210C1C0.unk_60 = 1;
             MAIN_BSS_0210C228.unk_800 = 1;
-            s_game->unk_14BC->Start(4, 30);
-            s_game->unk_14C0->Start(4, 30);
+            s_game->m_mainFade->Start(4, 30);
+            s_game->m_subFade->Start(4, 30);
             unk_000C = 1;
             unk_0008 = 10;
         } else {
@@ -90,7 +90,7 @@ u32 CRetryScene::func0()
         break;
     }
     case 5: {
-        int result = unk_0010->sub_0202841C();
+        int result = unk_0010->Update();
         if (result == 0) {
             break;
         }
@@ -102,8 +102,8 @@ u32 CRetryScene::func0()
             MAIN_BSS_020B26A0.unk_8B6C = 0;
             MAIN_BSS_0210C1C0.unk_60 = 1;
             MAIN_BSS_0210C228.unk_800 = 1;
-            s_game->unk_14BC->Start(4, 30);
-            s_game->unk_14C0->Start(4, 30);
+            s_game->m_mainFade->Start(4, 30);
+            s_game->m_subFade->Start(4, 30);
             unk_000C = 1;
             unk_0008 = 10;
         } else {
@@ -134,16 +134,16 @@ u32 CRetryScene::func0()
         if (s_game->m_textboxData->IsActive()) {
             break;
         }
-        s_game->unk_14BC->Start(4, 30);
-        s_game->unk_14C0->Start(4, 30);
+        s_game->m_mainFade->Start(4, 30);
+        s_game->m_subFade->Start(4, 30);
         unk_000C = 0x11;
         unk_0008 = 10;
         break;
     case 10:
-        if (s_game->unk_14BC->IsActive()) {
+        if (s_game->m_mainFade->IsActive()) {
             break;
         }
-        if (s_game->unk_14C0->IsActive()) {
+        if (s_game->m_subFade->IsActive()) {
             break;
         }
         RTCTime time;
@@ -207,10 +207,10 @@ void CRetryScene::func6()
     unk_0008 = 0;
     SaveData_Init(&MAIN_BSS_020B26A0);
     SetupBGFonts();
-    s_game->m_textboxData->Init(s_game->unk_0014, s_game->touchPanel, &s_game->unk_14AC->unk_0C, s_game->unk_14B0, s_game->unk_0024, s_game->m_audioEngine, 0x10, 0x4000, 0);
+    s_game->m_textboxData->Init(s_game->unk_0014, s_game->touchPanel, &s_game->unk_14AC->unk_0C, s_game->m_nameTables, s_game->unk_0024, s_game->m_audioEngine, 0x10, 0x4000, 0);
     s_game->m_textboxData->LoadSystemMessages(0);
-    s_game->unk_14BC->Start(3, 30);
-    s_game->unk_14C0->Start(3, 30);
+    s_game->m_mainFade->Start(3, 30);
+    s_game->m_subFade->Start(3, 30);
 }
 
 void CRetryScene::func7()

@@ -705,7 +705,7 @@ void BattleInfoPanel::ov1_0213EB14(int mode, int index)
 
 u8 *BattleInfoPanel::ov1_0213EB9C(u16 id)
 {
-    return NameTables_GetPokemonName(m_game->unk_14B0, id);
+    return NameTables_GetPokemonName(m_game->m_nameTables, id);
 }
 
 void BattleInfoPanel::ov1_0213EBB4(u16 id, int index, int color)

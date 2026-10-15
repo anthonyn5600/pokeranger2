@@ -32,7 +32,7 @@ void LogError(const char *fmt, ...);
 void LogInfo(const char *fmt, ...);
 void Script_Link(void *script);
 FieldEnemyData *FieldData_GetEnemy(FieldData *obj, int kind);
-BOOL sub_02015434(SaveData *save, int mapId, int idx);
+BOOL SaveData_IsInParty(SaveData *save, int mapId, int idx);
 }
 
 UnkStruct_021357DC::UnkStruct_021357DC()
@@ -158,7 +158,7 @@ static inline BOOL IsUnk146InRange(CFieldEnemy *enemy)
 // unk_58 = map id << 12 | index; shifted as a signed value (asr).
 static inline void SetEnemyStateById(CFieldActor *actor, u8 state)
 {
-    MAIN_BSS_020B26A0.SetEnemyState(((int)actor->unk_58 >> 12) & 0xFFF, actor->unk_58 & 0xFFF, state);
+    MAIN_BSS_020B26A0.SetEnemyState(((int)actor->m_id >> 12) & 0xFFF, actor->m_id & 0xFFF, state);
 }
 
 void CFieldEnemyManage::UpdateAll(CFieldMap *map, BOOL update)
@@ -168,16 +168,16 @@ void CFieldEnemyManage::UpdateAll(CFieldMap *map, BOOL update)
         playerPos.y -= MAIN_BSS_0210CA48->GetHeight();
         for (int i = 0; i < m_count; i++) {
             CFieldEnemy *enemy = (CFieldEnemy *)m_actors[i];
-            if (enemy == NULL || enemy->unk_58 == 0x01130002 || enemy->unk_20 != 1) {
+            if (enemy == NULL || enemy->m_id == 0x01130002 || enemy->unk_20 != 1) {
                 continue;
             }
             if (IsUnk146InRange(enemy)) {
                 continue;
             }
-            if (sub_02015434(&MAIN_BSS_020B26A0, ((int)enemy->unk_58 >> 12) & 0xFFF, enemy->unk_58 & 0xFFF)) {
+            if (SaveData_IsInParty(&MAIN_BSS_020B26A0, ((int)enemy->m_id >> 12) & 0xFFF, enemy->m_id & 0xFFF)) {
                 continue;
             }
-            if (MAIN_BSS_0210CA4C->FindTarget(enemy->unk_58) != NULL) {
+            if (MAIN_BSS_0210CA4C->FindTarget(enemy->m_id) != NULL) {
                 continue;
             }
             if (MATH_IAbs(enemy->GetX() - playerPos.x) <= 0x100000 && MATH_IAbs(enemy->GetY() - playerPos.y) <= 0x100000) {
@@ -235,7 +235,7 @@ int CFieldEnemyManage::ov0_02135E30(int slot, u16 kind, u16 script, int arg4)
             enemy->unk_24.pos.y = bounds.pos.y;
             enemy->unk_24.size.x = bounds.size.x;
             enemy->unk_24.size.y = bounds.size.y;
-            enemy->unk_D4 = info->unk_0E;
+            enemy->m_bushMode = info->unk_0E;
             enemy->unk_D6 = info->unk_0F;
             SetUnk70(enemy, data->unk_3D << FX32_SHIFT, data->unk_3E << FX32_SHIFT);
             enemy->unk_168.unk_6C = *data;
@@ -274,7 +274,7 @@ int CFieldEnemyManage::ov0_02135E30(int slot, u16 kind, u16 script, int arg4)
             if (data->unk_2C != 0) {
                 enemy->unk_A0 = data->unk_2C << FX32_SHIFT;
             }
-            enemy->unk_9C = data->unk_2E;
+            enemy->m_gravity = data->unk_2E;
             m_actors[i] = enemy;
             return i;
         }
@@ -337,7 +337,7 @@ void CFieldEnemyManage::ov0_02136384()
         }
         target->SetPos(enemy->GetPos());
         target->SetHomePos(enemy->GetPos());
-        enemy->unk_13C = target->unk_58;
+        enemy->unk_13C = target->m_id;
         if (enemy->IsActive()) {
             switch (enemy->unk_146) {
             case 0:
@@ -353,14 +353,14 @@ void CFieldEnemyManage::ov0_02136384()
             case 7:
             case 8:
                 enemy->ov0_02134FCC();
-                enemy->unk_04 &= ~0x400;
-                enemy->unk_04 |= 0x200;
+                enemy->m_flags &= ~0x400;
+                enemy->m_flags |= 0x200;
                 enemy->unk_168.unk_D0 = 7;
                 enemy->sub_02032A44(0x11);
-                enemy->unk_04 |= 1;
+                enemy->m_flags |= 1;
                 break;
             }
-            LogInfo("addtarget= %d", target->unk_58);
+            LogInfo("addtarget= %d", target->m_id);
             LogInfo("targetid= %d", index);
             LogInfo("objnum= %d", count);
         } else {

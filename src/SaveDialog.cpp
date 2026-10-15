@@ -61,7 +61,7 @@ SaveDialog *SaveDialog::GetInstance()
 SaveDialog::~SaveDialog()
 {
     unk_14->m_textboxData->ResetTextSpeed();
-    unk_14->m_textboxData->sub_02009FB0(1, 1);
+    unk_14->m_textboxData->CloseAndClear(1, 1);
     SAFE_DELETE(unk_08);
 }
 
@@ -69,7 +69,7 @@ BOOL SaveDialog::Update()
 {
     switch (unk_00) {
     case 2:
-        if (!unk_14->m_textboxData->IsActive() && !unk_14->m_textboxData->sub_0200B6A4(1)) {
+        if (!unk_14->m_textboxData->IsActive() && !unk_14->m_textboxData->CloseIfNoPrompt(1)) {
             if (unk_14->m_textboxData->GetYesNoResult() == 0) {
                 unk_00 = 1;
             } else {
@@ -84,14 +84,14 @@ BOOL SaveDialog::Update()
         }
         break;
     case 4: {
-        u32 result = unk_08->sub_0202841C();
+        u32 result = unk_08->Update();
         if (result != 0) {
             if (!(result & 0x80)) {
                 unk_00 = 1;
             } else {
                 SetStep(DAT_0208c0ec, 1, 0);
                 unk_14->m_audioEngine->StopBgm(0);
-                unk_14->m_audioEngine->sub_02034E38(0);
+                unk_14->m_audioEngine->StopJingle(0);
             }
             SAFE_DELETE(unk_08);
         }
@@ -118,25 +118,25 @@ void SaveDialog::Reset()
 
 void SaveDialog::Start()
 {
-    unk_14->m_audioEngine->sub_02034DC8(0);
-    unk_14->m_audioEngine->sub_02034DD8(0);
+    unk_14->m_audioEngine->StopStream2(0);
+    unk_14->m_audioEngine->StopStream(0);
     unk_00 = 7;
     unk_04 = 0;
     unk_0C = DAT_0208c12c;
     unk_10 = 1;
     GX_SetOBJVRamModeChar(GX_OBJVRAMMODE_CHAR_1D_32K);
-    unk_14->m_audioEngine->sub_020349E8(0x45);
+    unk_14->m_audioEngine->AddSeGroup(0x45);
 }
 
 void SaveDialog::sub_02027A2C()
 {
-    unk_14->m_audioEngine->sub_02034DC8(0);
-    unk_14->m_audioEngine->sub_02034DD8(0);
+    unk_14->m_audioEngine->StopStream2(0);
+    unk_14->m_audioEngine->StopStream(0);
     unk_00 = 7;
     unk_04 = 0;
     unk_0C = DAT_0208c0fc;
     unk_10 = 0;
-    unk_14->m_audioEngine->sub_020349E8(0x45);
+    unk_14->m_audioEngine->AddSeGroup(0x45);
 }
 
 void SaveDialog::SetStep(UnkStruct_0202773C_Step *step, int arg1, int arg3)
@@ -144,10 +144,10 @@ void SaveDialog::SetStep(UnkStruct_0202773C_Step *step, int arg1, int arg3)
     unk_00 = step->state;
     if (step->message < 0) {
         unk_14->m_textboxData->ResetTextSpeed();
-        unk_14->m_textboxData->sub_02009FB0(1, 1);
+        unk_14->m_textboxData->CloseAndClear(1, 1);
         return;
     }
-    unk_14->m_textboxData->sub_02009FB0(1, 1);
+    unk_14->m_textboxData->CloseAndClear(1, 1);
     unk_14->m_textboxData->SetTextSpeed(0);
     unk_14->m_textboxData->ShowSystemMessage(step->message, arg1, step->arg, arg3);
 }
@@ -165,22 +165,22 @@ void SaveDialog::NextStep()
         RTC_GetTime(&time);
         RTC_GetDate(&date);
         MAIN_BSS_020B26A0.CheckElapsedTime(&time, &date);
-        unk_14->sub_02010324();
+        unk_14->SaveBgmState();
         SAFE_DELETE(unk_08);
         unk_08 = new SaveManager(1);
         sub_0202A4A0(&MAIN_BSS_0210C1C0);
         sub_0202A4D8(&MAIN_BSS_0210C228);
-        unk_08->sub_02028220(unk_10);
+        unk_08->Save(unk_10);
     }
 
     if (unk_0C[unk_04].sound != 0) {
         if (unk_0C[unk_04].sound < 0) {
-            unk_14->m_audioEngine->sub_02034E38(0);
+            unk_14->m_audioEngine->StopJingle(0);
             if (unk_0C[unk_04].sound != -2) {
                 unk_14->m_audioEngine->ResumeBgm(0);
             }
         } else {
-            unk_14->m_audioEngine->sub_02034DE8(unk_0C[unk_04].sound, 0, 0x100);
+            unk_14->m_audioEngine->PlayJingle(unk_0C[unk_04].sound, 0, 0x100);
             unk_14->m_audioEngine->StopBgm(0);
         }
     }

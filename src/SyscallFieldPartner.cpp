@@ -49,7 +49,7 @@ static inline CFieldActor *FindLeader(CFieldPartnerManage *manage) {
   int count = manage->m_count;
   for (i = 0; i < count; i++) {
     CFieldActor *actor = count <= i ? NULL : manage->m_actors[i];
-    if (actor != NULL && (actor->unk_04 & 0x20)) {
+    if (actor != NULL && (actor->m_flags & 0x20)) {
       return actor;
     }
   }
@@ -149,7 +149,7 @@ int ov0_02149BAC(int *args) {
     return GetUnk1D8(partner).y;
   case 14:
     return ov0_0213E668(partner->GetPos(), args[2] << FX32_SHIFT,
-                        partner->unk_14, 0);
+                        partner->m_layer, 0);
   }
   return -1;
 }

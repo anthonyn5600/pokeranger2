@@ -126,7 +126,7 @@ CNameInputScene::CNameInputScene()
 {
     m_game = CGame::GetInstance();
     m_audioEngine = CGame::GetInstance()->m_audioEngine;
-    m_audioEngine->sub_020345D4();
+    m_audioEngine->LoadSystemSe();
     m_audioEngine->LoadBgmGroup(3);
     unk_000C = 0;
     unk_0010 = 0;
@@ -332,7 +332,7 @@ BOOL CNameInputScene::ov3_021223FC()
 
 u32 CNameInputScene::func0()
 {
-    if (s_game->unk_14BC->IsActive() && s_game->unk_14C0->IsActive()) {
+    if (s_game->m_mainFade->IsActive() && s_game->m_subFade->IsActive()) {
         return -1;
     }
     switch (unk_0010) {
@@ -354,7 +354,7 @@ u32 CNameInputScene::func0()
         ov3_02122BCC();
         break;
     case 6:
-        if (!s_game->unk_14BC->IsActive() && !s_game->unk_14C0->IsActive()) {
+        if (!s_game->m_mainFade->IsActive() && !s_game->m_subFade->IsActive()) {
             return 1;
         }
         break;
@@ -427,8 +427,8 @@ void CNameInputScene::ov3_02122688()
                 (&save->m_playerName)[i] = name[i];
             }
             unk_0006 = 0;
-            s_game->unk_14BC->Start(4, 5);
-            s_game->unk_14C0->Start(4, 5);
+            s_game->m_mainFade->Start(4, 5);
+            s_game->m_subFade->Start(4, 5);
             unk_0010 = 5;
             unk_0014 = 3;
         }
@@ -446,20 +446,20 @@ void CNameInputScene::ov3_02122A8C()
 {
     u32 result;
     TextboxManager *textbox = m_game->m_textboxData;
-    if (textbox->sub_0200B6A4(1)) {
+    if (textbox->CloseIfNoPrompt(1)) {
         return;
     }
     result = textbox->GetYesNoResult();
     if (result == 0) {
-        textbox->sub_02009FB0(1, 1);
-        s_game->unk_14BC->Start(2, 20);
-        s_game->unk_14C0->Start(2, 20);
+        textbox->CloseAndClear(1, 1);
+        s_game->m_mainFade->Start(2, 20);
+        s_game->m_subFade->Start(2, 20);
         unk_0010 = 6;
     }
     if (result == 1) {
-        s_game->unk_14BC->Start(4, 5);
-        s_game->unk_14C0->Start(4, 5);
-        textbox->sub_02009FB0(1, 1);
+        s_game->m_mainFade->Start(4, 5);
+        s_game->m_subFade->Start(4, 5);
+        textbox->CloseAndClear(1, 1);
         unk_0010 = 5;
         unk_0014 = 2;
     }
@@ -467,8 +467,8 @@ void CNameInputScene::ov3_02122A8C()
 
 void CNameInputScene::ov3_02122B7C()
 {
-    s_game->unk_14BC->Start(3, 5);
-    s_game->unk_14C0->Start(3, 5);
+    s_game->m_mainFade->Start(3, 5);
+    s_game->m_subFade->Start(3, 5);
     unk_0010 = unk_0014;
 }
 
@@ -477,7 +477,7 @@ void CNameInputScene::ov3_02122BCC()
     if (unk_0014 == 2) {
         func7();
         GX_SetVisiblePlane(GX_PLANEMASK_BG0 | GX_PLANEMASK_BG2 | GX_PLANEMASK_BG3 | GX_PLANEMASK_OBJ);
-        m_game->m_textboxData->Init(m_game->unk_0014, m_game->touchPanel, &m_game->unk_14AC->unk_0C, m_game->unk_14B0, m_game->unk_0024, m_game->m_audioEngine, 0x10, 0x4000, 0);
+        m_game->m_textboxData->Init(m_game->unk_0014, m_game->touchPanel, &m_game->unk_14AC->unk_0C, m_game->m_nameTables, m_game->unk_0024, m_game->m_audioEngine, 0x10, 0x4000, 0);
         ov3_021231F4();
         ov3_0212351C();
         ov3_02122E68();
@@ -590,7 +590,7 @@ void CNameInputScene::ov3_02123014()
         text->ClearWindow(i);
     }
     GX_SetVisiblePlane(GX_PLANEMASK_BG0 | GX_PLANEMASK_BG3 | GX_PLANEMASK_OBJ);
-    m_game->m_textboxData->Init(m_game->unk_0014, m_game->touchPanel, &m_game->unk_14AC->unk_0C, m_game->unk_14B0, m_game->unk_0024, m_game->m_audioEngine, 0x10, 0x4000, 0);
+    m_game->m_textboxData->Init(m_game->unk_0014, m_game->touchPanel, &m_game->unk_14AC->unk_0C, m_game->m_nameTables, m_game->unk_0024, m_game->m_audioEngine, 0x10, 0x4000, 0);
     m_game->m_textboxData->LoadSystemMessages(2);
     m_game->m_textboxData->SetTextSpeed(0);
     m_game->m_textboxData->ShowSystemMessage(5, 1, 1, 0);
@@ -600,7 +600,7 @@ void CNameInputScene::func6()
 {
     unk_000C = 0;
     unk_0010 = 0;
-    m_game->m_textboxData->Init(m_game->unk_0014, m_game->touchPanel, &m_game->unk_14AC->unk_0C, m_game->unk_14B0, m_game->unk_0024, m_game->m_audioEngine, 0x10, 0x4000, 0);
+    m_game->m_textboxData->Init(m_game->unk_0014, m_game->touchPanel, &m_game->unk_14AC->unk_0C, m_game->m_nameTables, m_game->unk_0024, m_game->m_audioEngine, 0x10, 0x4000, 0);
     ov3_021231F4();
     ov3_0212351C();
     ov3_02122E68();
@@ -608,8 +608,8 @@ void CNameInputScene::func6()
     ov3_021239A8();
     unk_0098->unk_14 = 0;
     unk_00A0->unk_14 = 0;
-    s_game->unk_14BC->Start(1, 30);
-    s_game->unk_14C0->Start(1, 30);
+    s_game->m_mainFade->Start(1, 30);
+    s_game->m_subFade->Start(1, 30);
     ov3_02121E44(unk_0005);
 }
 
@@ -715,7 +715,7 @@ void CNameInputScene::ov3_021239A8()
 
 void CNameInputScene::func7()
 {
-    m_game->m_textboxData->sub_02009FB0(1, 1);
+    m_game->m_textboxData->CloseAndClear(1, 1);
     m_game->m_textboxData->Reset();
     for (int i = 0; i < 0x44; i++) {
         SAFE_DELETE(unk_00CC[i]);

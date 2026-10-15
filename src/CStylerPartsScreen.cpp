@@ -170,7 +170,7 @@ void CStylerPartsScreen::Release()
     }
     SAFE_DELETE(m_cursor);
 
-    m_game->m_textboxData->sub_02009FB0(1, 1);
+    m_game->m_textboxData->CloseAndClear(1, 1);
     m_game->m_textboxData->Reset();
 }
 
@@ -283,7 +283,7 @@ int CStylerPartsScreen::Update()
 
     switch (unk_04) {
     case 0:
-        if (!m_game->unk_14BC->IsActive() && !m_game->unk_14C0->IsActive()) {
+        if (!m_game->m_mainFade->IsActive() && !m_game->m_subFade->IsActive()) {
             if (m_level != 0) {
                 if (unk_08 == 60) {
                     m_cursor->Set(m_selected->x, m_selected->y, m_selected->unlockLevel == 25);
@@ -309,12 +309,12 @@ int CStylerPartsScreen::Update()
             if (touchPanel->unk_04 != 0 || (u16)(pad->unk_0002 & PAD_BUTTON_A) || (u16)(pad->unk_0002 & PAD_BUTTON_B)) {
                 game->m_audioEngine->PlaySe(0x103);
                 unk_04 = 2;
-                m_game->unk_14BC->Start(4, 20);
-                m_game->unk_14C0->Start(4, 20);
+                m_game->m_mainFade->Start(4, 20);
+                m_game->m_subFade->Start(4, 20);
             }
         } else if (unk_220->UpdateInput()) {
             unk_04 = 2;
-            m_game->unk_14BC->Start(4, 20);
+            m_game->m_mainFade->Start(4, 20);
         } else {
             UpdateButtons();
         }
@@ -322,11 +322,11 @@ int CStylerPartsScreen::Update()
     }
     case 2:
         if (m_level != 0) {
-            if (!m_game->unk_14BC->IsActive() && !m_game->unk_14C0->IsActive()) {
+            if (!m_game->m_mainFade->IsActive() && !m_game->m_subFade->IsActive()) {
                 return -1;
             }
         } else {
-            if (!m_game->unk_14BC->IsActive()) {
+            if (!m_game->m_mainFade->IsActive()) {
                 return 1;
             }
         }

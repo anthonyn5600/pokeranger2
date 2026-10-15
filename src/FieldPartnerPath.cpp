@@ -143,7 +143,7 @@ BOOL ov0_0213E668(Point2D pos, fx32 radius, int floor, int arg3)
     if (MAIN_BSS_0210CA50 != NULL && MAIN_BSS_0210CA50->CollideCircle(pos, radius, floor)) {
         return TRUE;
     }
-    CFieldMap *fieldMap = MAIN_BSS_0210CA40->unk_0010;
+    CFieldMap *fieldMap = MAIN_BSS_0210CA40->m_map;
     if (fieldMap != NULL) {
         CFieldMapLayerCollision *coll = fieldMap->GetLayer(floor);
         if (coll != NULL && coll->IsCircleBlocked(pos, radius, 3)) {
@@ -164,7 +164,7 @@ BOOL ov0_0213E7C4(Point2D from, fx32 step, Point2D to, int floor, int mode)
     CellLine line;
     seg.p1 = from;
     seg.p2 = to;
-    CFieldMap *fieldMap = MAIN_BSS_0210CA40->unk_0010;
+    CFieldMap *fieldMap = MAIN_BSS_0210CA40->m_map;
     if (fieldMap != NULL) {
         CFieldMapLayerCollision *coll = fieldMap->GetLayer(floor);
         if (coll != NULL) {
@@ -239,7 +239,7 @@ BOOL ov0_0213EA6C(Point2D *out, Point2D cell, int floor, int arg3)
         { 0, 0 },
     };
     *out = cell;
-    CFieldMap *fieldMap = MAIN_BSS_0210CA40->unk_0010;
+    CFieldMap *fieldMap = MAIN_BSS_0210CA40->m_map;
     if (fieldMap == NULL) {
         return FALSE;
     }
@@ -359,7 +359,7 @@ int ov0_0213EF68(Point2D *out, Point2D center, int count, int floor)
     Point2D others[2];
     Point2D found[12];
     CFieldMapLayerCollision *coll = NULL;
-    CFieldMap *fieldMap = MAIN_BSS_0210CA40->unk_0010;
+    CFieldMap *fieldMap = MAIN_BSS_0210CA40->m_map;
     if (fieldMap != NULL) {
         coll = fieldMap->GetLayer(floor);
     }
@@ -371,7 +371,7 @@ int ov0_0213EF68(Point2D *out, Point2D center, int count, int floor)
     }
 
     int n = 0;
-    CFieldPartnerManage *partners = MAIN_BSS_0210CA40->unk_001C;
+    CFieldPartnerManage *partners = MAIN_BSS_0210CA40->m_partners;
     for (int i = 0; i < partners->m_count; i++) {
         CFieldPartner *partner = (CFieldPartner *)partners->Get(i);
         if (partner != NULL && partner->unk_1FC == 1) {

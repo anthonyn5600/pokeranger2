@@ -130,10 +130,10 @@ u32 CSuitePictureScene::func0()
 {
     switch (unk_0008) {
     case 0:
-        if (s_game->unk_14BC->IsActive()) {
+        if (s_game->m_mainFade->IsActive()) {
             break;
         }
-        if (s_game->unk_14C0->IsActive()) {
+        if (s_game->m_subFade->IsActive()) {
             break;
         }
         if (unk_0014 != NULL && unk_0014->unk_00 >= 0) {
@@ -151,7 +151,7 @@ u32 CSuitePictureScene::func0()
         if (s_game->m_textboxData->IsActive()) {
             break;
         }
-        s_game->m_textboxData->sub_02009FB0(1, 1);
+        s_game->m_textboxData->CloseAndClear(1, 1);
         if (unk_0014 != NULL && unk_0014->unk_00 >= 0) {
             s_game->m_textboxData->ResetTextSpeed();
             s_game->m_textboxData->ShowMessage(unk_0014->unk_00, unk_0014->unk_04, unk_0014->unk_08, 1, 0);
@@ -186,11 +186,11 @@ u32 CSuitePictureScene::func0()
             unk_0020 = unk_0018->unk_10;
         }
         if (unk_0020 == 0) {
-            s_game->unk_14BC->Start(4, 20);
-            s_game->unk_14C0->Start(4, 20);
+            s_game->m_mainFade->Start(4, 20);
+            s_game->m_subFade->Start(4, 20);
         } else {
-            s_game->unk_14BC->Start(2, 20);
-            s_game->unk_14C0->Start(2, 20);
+            s_game->m_mainFade->Start(2, 20);
+            s_game->m_subFade->Start(2, 20);
         }
         if (unk_0014 == NULL) {
             s_game->m_audioEngine->PlaySe(3);
@@ -198,10 +198,10 @@ u32 CSuitePictureScene::func0()
         unk_0008 = 5;
         break;
     case 5:
-        if (s_game->unk_14BC->IsActive()) {
+        if (s_game->m_mainFade->IsActive()) {
             break;
         }
-        if (s_game->unk_14C0->IsActive()) {
+        if (s_game->m_subFade->IsActive()) {
             break;
         }
         if (unk_0018 != NULL && unk_0018->id >= 0) {
@@ -212,11 +212,11 @@ u32 CSuitePictureScene::func0()
             s_game->m_textboxData->LoadChapterMessages(unk_0018->unk_04);
             unk_0018++;
             if (unk_0020 == 0) {
-                s_game->unk_14BC->Start(3, 20);
-                s_game->unk_14C0->Start(3, 20);
+                s_game->m_mainFade->Start(3, 20);
+                s_game->m_subFade->Start(3, 20);
             } else {
-                s_game->unk_14BC->Start(1, 20);
-                s_game->unk_14C0->Start(1, 20);
+                s_game->m_mainFade->Start(1, 20);
+                s_game->m_subFade->Start(1, 20);
             }
             unk_0008 = 0;
             unk_0004 = 0;
@@ -285,7 +285,7 @@ void CSuitePictureScene::func5()
 void CSuitePictureScene::func6()
 {
     s_game->unk_146C.SetFps(60);
-    s_game->m_textboxData->Init(s_game->unk_0014, s_game->touchPanel, &s_game->unk_14AC->unk_0C, s_game->unk_14B0, s_game->unk_0024, s_game->m_audioEngine, 0x10, 0x4000, 0);
+    s_game->m_textboxData->Init(s_game->unk_0014, s_game->touchPanel, &s_game->unk_14AC->unk_0C, s_game->m_nameTables, s_game->unk_0024, s_game->m_audioEngine, 0x10, 0x4000, 0);
     SetupBGFonts();
     s_game->m_textboxData->LoadSystemMessages(0);
 
@@ -293,7 +293,7 @@ void CSuitePictureScene::func6()
     unk_000C->Load("data/eventicon", "eventicon000", 0, 8);
     unk_0010 = unk_000C->AddSprite(0, 0xF0, 0xB3, 0);
     unk_0010->unk_14 = 1;
-    s_game->m_audioEngine->sub_020345D4();
+    s_game->m_audioEngine->LoadSystemSe();
 
     switch (MAIN_BSS_0210CAB0 / 1000) {
     case 0:
@@ -318,11 +318,11 @@ void CSuitePictureScene::func6()
     unk_0008 = 0;
     unk_0004 = 0;
     if (unk_0020 == 0) {
-        s_game->unk_14BC->Start(3, 30);
-        s_game->unk_14C0->Start(3, 30);
+        s_game->m_mainFade->Start(3, 30);
+        s_game->m_subFade->Start(3, 30);
     } else {
-        s_game->unk_14BC->Start(1, 30);
-        s_game->unk_14C0->Start(1, 30);
+        s_game->m_mainFade->Start(1, 30);
+        s_game->m_subFade->Start(1, 30);
     }
 }
 

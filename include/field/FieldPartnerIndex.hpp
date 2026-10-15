@@ -6,7 +6,7 @@
 extern u16 DAT_0208d58c;
 
 extern "C" {
-BOOL sub_02034F9C(int kind);
+BOOL HasPartnerIndex(int kind);
 int PartnerKindToIndex(int kind);
 int PartnerIndexToKind(int index);
 }

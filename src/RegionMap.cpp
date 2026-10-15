@@ -213,7 +213,7 @@ void RegionMap::Load(int bg, u8 *oamIndex, int *charNo, int *paletteSlot, BOOL e
     *charNo = chr;
     *oamIndex = oam;
     ShowCurrentArea();
-    sub_0202AED4();
+    ShowAvailableAreas();
 }
 
 void RegionMap::LoadToVram(BOOL extPltt)
@@ -233,7 +233,7 @@ void RegionMap::LoadToVram(BOOL extPltt)
         unk_18->CopyToVram();
     }
     ShowCurrentArea();
-    sub_0202AED4();
+    ShowAvailableAreas();
 }
 
 void RegionMap::sub_0202AD78()
@@ -269,12 +269,12 @@ void RegionMap::BlinkCursor()
     unk_28[1]->SetVisible(unk_5C < 15);
 }
 
-void RegionMap::sub_0202AED4()
+void RegionMap::ShowAvailableAreas()
 {
     u64 flags = MAIN_BSS_020B26A0.unk_7F64;
     for (int i = 0; i < unk_24; i++) {
         unk_1C[i].sprite->unk_14 = FALSE;
-        if (sub_0202B244(i, &flags)) {
+        if (IsAreaAvailable(i, &flags)) {
             unk_1C[i].sprite->unk_14 = TRUE;
         }
     }
@@ -306,7 +306,7 @@ BOOL RegionMap::sub_0202AF5C(u64 *flags)
         break;
     }
     for (i = 0; i < unk_24; i++) {
-        if (sub_0202B244(i, &saved)) {
+        if (IsAreaAvailable(i, &saved)) {
             u64 mask = sMapMenuAreas[i].mask;
             if (sMapMenuAreas[i].id >= 200) {
                 mask = 0;
@@ -334,7 +334,7 @@ BOOL RegionMap::sub_0202B140(u64 *flags)
     BOOL found = FALSE;
     for (int i = 0; i < unk_24; i++) {
         unk_1C[i].sprite->unk_14 = FALSE;
-        if (sub_0202B244(i, &saved)) {
+        if (IsAreaAvailable(i, &saved)) {
             unk_1C[i].sprite->unk_14 = TRUE;
             u64 bit = (u64)1 << sMapMenuAreas[i].id;
             if (bit & *flags) {
@@ -348,7 +348,7 @@ BOOL RegionMap::sub_0202B140(u64 *flags)
     return found;
 }
 
-BOOL RegionMap::sub_0202B244(int i, u64 *flags)
+BOOL RegionMap::IsAreaAvailable(int i, u64 *flags)
 {
     if ((int)unk_64->m_missionQuestData->m_chapter >= 40) {
         if (sMapMenuAreas[i].id == 20) {

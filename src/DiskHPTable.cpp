@@ -3,10 +3,10 @@
 #include "ParamTableFile.hpp"
 #include "SaveManager.hpp"
 
-UnkClass_02010EC8 MAIN_BSS_020AF5D0;
-UnkClass_02010EC8 MAIN_BSS_020AF5E4[3];
-UnkClass_0201100C MAIN_BSS_020AF620;
-UnkClass_02011248 MAIN_BSS_020AF598;
+DownloadMissionRecord MAIN_BSS_020AF5D0;
+DownloadMissionRecord MAIN_BSS_020AF5E4[3];
+DownloadMissionData MAIN_BSS_020AF620;
+DownloadMissionClears MAIN_BSS_020AF598;
 // Never referenced (mwld strips it); with it in the TU mwcc's unstable size sort lays out the four destructor
 // chain objects in .bss like the original (598, 620, 5D0, 5E4).
 u32 g_unk_02010D2C_unused;
@@ -16,18 +16,18 @@ DiskHPTable::DiskHPTable(int arg0)
     ParamTableFile *table = new ParamTableFile(arg0);
     table->Load("data/param/DiskHP.bin");
     m_count = table->sub_0200D390();
-    unk_04 = new u8[m_count];
-    unk_08 = new u16[m_count];
-    unk_0C = new u16[m_count];
+    m_maxEnergy = new u8[m_count];
+    m_power = new u16[m_count];
+    m_exp = new u16[m_count];
 
     u32 value = 0;
     for (int i = 0; i < m_count; i++) {
         table->GetValue(i, 1, &value);
-        unk_04[i] = (u8)value;
+        m_maxEnergy[i] = (u8)value;
         table->GetValue(i, 2, &value);
-        unk_08[i] = (u16)value;
+        m_power[i] = (u16)value;
         table->GetValue(i, 3, &value);
-        unk_0C[i] = (u16)value;
+        m_exp[i] = (u16)value;
     }
 
     delete table;
@@ -43,64 +43,64 @@ u8 DiskHPTable_GetMaxLevel(DiskHPTable *obj)
     return obj->m_count - 1;
 }
 
-u8 sub_02010E78(DiskHPTable *obj, u8 idx)
+u8 DiskHPTable_GetMaxEnergy(DiskHPTable *obj, u8 idx)
 {
     if (idx > obj->m_count) {
         return 0;
     }
-    return obj->unk_04[idx];
+    return obj->m_maxEnergy[idx];
 }
 
-u16 sub_02010E90(DiskHPTable *obj, u8 idx)
+u16 DiskHPTable_GetPower(DiskHPTable *obj, u8 idx)
 {
     if (idx > obj->m_count) {
         return 0;
     }
-    return obj->unk_08[idx];
+    return obj->m_power[idx];
 }
 
-u16 sub_02010EAC(DiskHPTable *obj, u8 idx)
+u16 DiskHPTable_GetExp(DiskHPTable *obj, u8 idx)
 {
     if (idx > obj->m_count) {
         return 0;
     }
-    return obj->unk_0C[idx];
+    return obj->m_exp[idx];
 }
 }
 
-UnkClass_02010EC8::UnkClass_02010EC8()
+DownloadMissionRecord::DownloadMissionRecord()
 {
     unk_10 = NULL;
 }
 
-UnkClass_02010EC8::~UnkClass_02010EC8()
+DownloadMissionRecord::~DownloadMissionRecord()
 {
     SAFE_DELETE(unk_10);
 }
 
 extern "C" {
 
-void sub_02010F0C(UnkClass_02010EC8 *obj)
+void sub_02010F0C(DownloadMissionRecord *obj)
 {
     obj->unk_08 = 0;
 }
 
-void sub_02010F18(UnkClass_02010EC8 *obj)
+void DownloadMissionRecord_Init(DownloadMissionRecord *obj)
 {
     MI_CpuClear8(obj, 8);
     obj->unk_00 = 0xC68F;
-    obj->unk_02 = 0;
-    obj->unk_04 = 0;
+    obj->m_cleared = 0;
+    obj->m_transferred = 0;
     obj->unk_06 = 0xE97C;
     sub_02010F0C(obj);
 }
 
-void sub_02010F5C(UnkClass_02010EC8 *obj, int bit)
+void DownloadMissionRecord_SetCleared(DownloadMissionRecord *obj, int bit)
 {
-    obj->unk_02 |= (u16)(1 << bit);
+    obj->m_cleared |= (u16)(1 << bit);
 }
 
-BOOL sub_02010F78(UnkClass_02010EC8 *obj, UnkClass_02010EC8 *other)
+BOOL DownloadMissionRecord_IsValid(DownloadMissionRecord *obj, DownloadMissionRecord *other)
 {
     if (other != NULL) {
         obj = other;
@@ -108,71 +108,71 @@ BOOL sub_02010F78(UnkClass_02010EC8 *obj, UnkClass_02010EC8 *other)
     return obj->unk_00 == 0xC68F && obj->unk_06 == 0xE97C;
 }
 
-void sub_02010FAC(UnkClass_02010EC8 *obj, int bit)
+void DownloadMissionRecord_SetTransferred(DownloadMissionRecord *obj, int bit)
 {
-    obj->unk_04 |= (u16)(1 << bit);
+    obj->m_transferred |= (u16)(1 << bit);
 }
 
-int sub_02010FC8(UnkClass_02010EC8 *obj, int bit)
+int DownloadMissionRecord_GetStatus(DownloadMissionRecord *obj, int bit)
 {
     u16 mask = 1 << bit;
-    BOOL set = (obj->unk_02 & mask) ? TRUE : FALSE;
-    if ((obj->unk_04 & mask) ? TRUE : FALSE) {
+    BOOL set = (obj->m_cleared & mask) ? TRUE : FALSE;
+    if ((obj->m_transferred & mask) ? TRUE : FALSE) {
         return 2;
     }
     return set ? 1 : 0;
 }
 }
 
-UnkClass_0201100C::UnkClass_0201100C()
+DownloadMissionData::DownloadMissionData()
 {
-    unk_3008 = NULL;
+    m_saveManager = NULL;
 }
 
-UnkClass_0201100C::~UnkClass_0201100C()
+DownloadMissionData::~DownloadMissionData()
 {
-    SAFE_DELETE(unk_3008);
+    SAFE_DELETE(m_saveManager);
 }
 
 extern "C" {
 
-void sub_020110E0(UnkClass_0201100C *obj, u32 arg1);
-void sub_020110E8(UnkClass_0201100C *obj);
+void sub_020110E0(DownloadMissionData *obj, u32 arg1);
+void DownloadMissionData_ResetStep(DownloadMissionData *obj);
 
-void sub_0201105C(UnkClass_0201100C *obj)
+void DownloadMissionData_Reset(DownloadMissionData *obj)
 {
     sub_020110E0(obj, 0);
     MI_CpuClear8(&MAIN_BSS_020AF620.unk_00, sizeof(UnkStruct_0201100C));
-    SAFE_DELETE(obj->unk_3008);
-    obj->unk_3008 = new SaveManager(1);
-    sub_020110E8(obj);
+    SAFE_DELETE(obj->m_saveManager);
+    obj->m_saveManager = new SaveManager(1);
+    DownloadMissionData_ResetStep(obj);
 }
 
-void sub_020110E0(UnkClass_0201100C *obj, u32 arg1)
+void sub_020110E0(DownloadMissionData *obj, u32 arg1)
 {
     obj->unk_00.unk_00 = arg1;
 }
 
-void sub_020110E8(UnkClass_0201100C *obj)
+void DownloadMissionData_ResetStep(DownloadMissionData *obj)
 {
-    obj->unk_3004 = 0;
+    obj->m_step = 0;
 }
 
-int sub_020110F8(UnkClass_0201100C *obj, u16 list)
+int DownloadMissionData_Save(DownloadMissionData *obj, u16 list)
 {
-    switch (obj->unk_3004) {
+    switch (obj->m_step) {
     case 0:
-        obj->unk_3008->sub_02028220(list + 2);
-        obj->unk_3004 = 1;
+        obj->m_saveManager->Save(list + 2);
+        obj->m_step = 1;
         break;
     case 1:
-        u32 result = obj->unk_3008->sub_0202841C();
+        u32 result = obj->m_saveManager->Update();
         if (result != 0) {
             if (!(result & 0x80)) {
-                obj->unk_3004 = 3;
+                obj->m_step = 3;
                 return 1;
             }
-            obj->unk_3004 = 4;
+            obj->m_step = 4;
             return -1;
         }
         break;
@@ -180,21 +180,21 @@ int sub_020110F8(UnkClass_0201100C *obj, u16 list)
     return 0;
 }
 
-int sub_02011188(UnkClass_0201100C *obj, u16 list)
+int DownloadMissionData_Load(DownloadMissionData *obj, u16 list)
 {
-    switch (obj->unk_3004) {
+    switch (obj->m_step) {
     case 0:
-        obj->unk_3008->sub_02028408(list + 2);
-        obj->unk_3004 = 1;
+        obj->m_saveManager->sub_02028408(list + 2);
+        obj->m_step = 1;
         break;
     case 1:
-        u32 result = obj->unk_3008->sub_0202841C();
+        u32 result = obj->m_saveManager->Update();
         if (result != 0) {
             if (!(result & 0x80)) {
-                sub_020110E8(obj);
+                DownloadMissionData_ResetStep(obj);
                 return 1;
             }
-            sub_020110E8(obj);
+            DownloadMissionData_ResetStep(obj);
             switch (result & 0x7F) {
             case 1:
             case 2:
@@ -212,28 +212,28 @@ int sub_02011188(UnkClass_0201100C *obj, u16 list)
 }
 }
 
-UnkClass_02011248::UnkClass_02011248()
+DownloadMissionClears::DownloadMissionClears()
 {
     unk_04 = NULL;
 }
 
-UnkClass_02011248::~UnkClass_02011248()
+DownloadMissionClears::~DownloadMissionClears()
 {
     SAFE_DELETE(unk_04);
 }
 
 extern "C" {
 
-void sub_020112DC(UnkClass_02011248 *obj, int bit);
+void DownloadMissionClears_Set(DownloadMissionClears *obj, int bit);
 
-void sub_0201128C(UnkClass_02011248 *obj)
+void DownloadMissionClears_Reset(DownloadMissionClears *obj)
 {
-    sub_020112DC(obj, -1);
+    DownloadMissionClears_Set(obj, -1);
     MI_CpuClear8(&MAIN_BSS_020AF598.unk_00, sizeof(u16));
     SAFE_DELETE(obj->unk_04);
 }
 
-void sub_020112DC(UnkClass_02011248 *obj, int bit)
+void DownloadMissionClears_Set(DownloadMissionClears *obj, int bit)
 {
     if (bit < 0) {
         MAIN_BSS_020AF598.unk_00 = 0;
@@ -242,7 +242,7 @@ void sub_020112DC(UnkClass_02011248 *obj, int bit)
     MAIN_BSS_020AF598.unk_00 |= (u16)(1 << bit);
 }
 
-int sub_02011318(UnkClass_02011248 *obj, int bit)
+int DownloadMissionClears_Get(DownloadMissionClears *obj, int bit)
 {
     return (u16)(1 << bit) & MAIN_BSS_020AF598.unk_00;
 }

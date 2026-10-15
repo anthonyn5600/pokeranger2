@@ -12,8 +12,8 @@
 // Ranger Net mission download over Nintendo WFC (021302D8..021319EC): the DWC connection (DwcConnection) and
 // the download state machine (MissionDownload), built on the DWC_Nd download sample.
 
-extern "C" void sub_020110E8(UnkClass_0201100C *obj);
-extern "C" int sub_020110F8(UnkClass_0201100C *obj, int list);
+extern "C" void DownloadMissionData_ResetStep(DownloadMissionData *obj);
+extern "C" int DownloadMissionData_Save(DownloadMissionData *obj, int list);
 
 static int sResult = 3;
 
@@ -632,7 +632,7 @@ int MissionDownload::ov11_02130B48()
         for (; unk_4CC < 6; unk_4CC++) {
             if (unk_4E0->ov11_02123D20(unk_4CC, unk_4C0, MAIN_BSS_020AF620.unk_00.unk_04)) {
                 unk_4B4 = 22;
-                sub_020110E8(unk_4E0->unk_620);
+                DownloadMissionData_ResetStep(unk_4E0->unk_620);
                 break;
             }
         }
@@ -646,7 +646,7 @@ int MissionDownload::ov11_02130B48()
         break;
     case 22: {
         unk_4E0->ov11_0211F06C();
-        int r = sub_020110F8(unk_4E0->unk_620, unk_4CC);
+        int r = DownloadMissionData_Save(unk_4E0->unk_620, unk_4CC);
         if (r == 0) {
             break;
         }

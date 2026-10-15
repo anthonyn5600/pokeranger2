@@ -129,7 +129,7 @@ void CMapDispScreen::ov28_0211D468()
     G2_SetBG0Priority(0);
     G2_SetBG1Priority(1);
     G2_SetBG2Priority(3);
-    unk_3C->m_audioEngine->sub_020345D4();
+    unk_3C->m_audioEngine->LoadSystemSe();
 
     int charNo = 0;
     u8 oamIndex = 0x20;
@@ -315,22 +315,22 @@ void CMapDispScreen::ov28_0211D9D0(u16 id, int mode)
 void CMapDispScreen::ov28_0211D9E0()
 {
     if (unk_3C != NULL) {
-        unk_3C->unk_14C0->Start(3, 15);
-        unk_3C->unk_14BC->Start(3, 15);
+        unk_3C->m_subFade->Start(3, 15);
+        unk_3C->m_mainFade->Start(3, 15);
     }
 }
 
 void CMapDispScreen::ov28_0211DA24()
 {
     if (unk_3C != NULL) {
-        unk_3C->unk_14C0->Start(4, 15);
-        unk_3C->unk_14BC->Start(4, 15);
+        unk_3C->m_subFade->Start(4, 15);
+        unk_3C->m_mainFade->Start(4, 15);
     }
 }
 
 BOOL CMapDispScreen::ov28_0211DA68()
 {
-    if (unk_3C->unk_14C0->IsActive() || unk_3C->unk_14C0->IsActive()) {
+    if (unk_3C->m_subFade->IsActive() || unk_3C->m_subFade->IsActive()) {
         return TRUE;
     }
     return FALSE;

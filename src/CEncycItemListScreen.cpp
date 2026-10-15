@@ -174,8 +174,8 @@ int CEncycItemListScreen::func4()
     int ret = 0;
     switch (unk_04) {
     case 0:
-        if (!game->unk_14BC->IsActive()) {
-            if (!game->unk_14C0->IsActive()) {
+        if (!game->m_mainFade->IsActive()) {
+            if (!game->m_subFade->IsActive()) {
                 unk_04 = 1;
             }
         }
@@ -211,7 +211,7 @@ int CEncycItemListScreen::func4()
         }
         break;
     case 2:
-        if (!game->unk_14BC->IsActive() && !game->unk_14C0->IsActive()) {
+        if (!game->m_mainFade->IsActive() && !game->m_subFade->IsActive()) {
             ret = unk_14;
         }
         break;
@@ -241,8 +241,8 @@ void CEncycItemListScreen::func6()
     unk_04 = 2;
     unk_14 = -1;
     game->m_audioEngine->PlaySe(0x103);
-    game->unk_14BC->Start(4, 15);
-    game->unk_14C0->Start(4, 15);
+    game->m_mainFade->Start(4, 15);
+    game->m_subFade->Start(4, 15);
 }
 
 void CEncycItemListScreen::ov22_0211DE40(int group)
@@ -306,8 +306,8 @@ void CEncycItemListScreen::OnListBoxEvent0(int id, int idx)
     unk_14 = 1;
     unk_04 = 2;
     game->m_audioEngine->PlaySe(0xFA);
-    game->unk_14BC->Start(4, 15);
-    game->unk_14C0->Start(4, 15);
+    game->m_mainFade->Start(4, 15);
+    game->m_subFade->Start(4, 15);
 }
 
 void CEncycItemListScreen::OnListBoxEvent1(int id, int cursor, u32 flags, int arg3)

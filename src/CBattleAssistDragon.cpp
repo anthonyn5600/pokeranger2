@@ -24,7 +24,7 @@ CBattleAssistDragon::CBattleAssistDragon(CBattleAttackEffect **effects, CBattleA
 
 CBattleAssistDragon::~CBattleAssistDragon()
 {
-    unk_44->sub_0200D980();
+    unk_44->StopShake();
 }
 
 int CBattleAssistDragon::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattleEnemy **enemies)
@@ -103,7 +103,7 @@ void CBattleAssistDragon::ov1_0212F700(CTouchPanel *touch, CBattleDisk *disk, CB
 {
     switch (m_frame) {
     case 1:
-        unk_44->sub_0200D8C8(0x1000);
+        unk_44->StartShake(0x1000);
         unk_14->PlaySe(0x13E);
         break;
     case 0x3C: {
@@ -120,8 +120,8 @@ void CBattleAssistDragon::ov1_0212F700(CTouchPanel *touch, CBattleDisk *disk, CB
         }
         m_dragon->m_motion.SetPos(start);
         m_dragon->m_motion.MoveLinear(m_pos, 0x3C);
-        m_dragon->unk_8C = 0xC0000;
-        m_dragon->sub_020127D0(0, 0x3C);
+        m_dragon->m_height = 0xC0000;
+        m_dragon->MoveHeightTo(0, 0x3C);
         break;
     }
     case 0x78:
@@ -148,7 +148,7 @@ void CBattleAssistDragon::ov1_0212F700(CTouchPanel *touch, CBattleDisk *disk, CB
                 }
             }
         }
-        unk_44->sub_0200D9A8(0x8000);
+        unk_44->SetShakeAmplitude(0x8000);
         m_state = 3;
         break;
     }
@@ -163,7 +163,7 @@ int CBattleAssistDragon::vfunc_10()
 void CBattleAssistDragon::ov1_0212F9D4()
 {
     if (ov1_0212FA80(m_pos.x, m_pos.y, m_level, m_burstFrame) == TRUE) {
-        unk_44->sub_0200D980();
+        unk_44->StopShake();
         m_state = 0;
     }
     m_burstFrame++;

@@ -48,7 +48,7 @@ CFieldPartner::CFieldPartner()
     sub_02032A44(1);
     unk_1F4 = 0;
     CFieldScene *scene = MAIN_BSS_0210CA40;
-    unk_E0 = scene->unk_001C;
+    unk_E0 = scene->m_partners;
     unk_E4 = scene->ov0_02123060(0);
     unk_E8 = 0;
 }
@@ -64,11 +64,11 @@ CFieldPartner::~CFieldPartner()
 
 void CFieldPartner::ov0_02136CFC(BOOL keep, Point2D pos, int arg)
 {
-    if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-        unk_08->unk_0C->m_motion.MoveLinear(pos, arg);
+    if (m_drawObject != NULL && m_drawObject->m_actor != NULL) {
+        m_drawObject->m_actor->m_motion.MoveLinear(pos, arg);
     }
     if (!keep) {
-        unk_04 &= ~1;
+        m_flags &= ~1;
     }
 }
 
@@ -83,11 +83,11 @@ BOOL CFieldPartner::ov0_02136D50(Point2D *out, int rank, BOOL clear)
     } else {
         mode = 0;
     }
-    if (unk_6C == NULL) {
+    if (m_map == NULL) {
         *out = target;
         return TRUE;
     }
-    CFieldMapLayerCollision *layer = unk_6C->GetLayer(unk_14);
+    CFieldMapLayerCollision *layer = m_map->GetLayer(m_layer);
     if (layer == NULL) {
         *out = target;
         return TRUE;
@@ -111,7 +111,7 @@ BOOL CFieldPartner::ov0_02136D50(Point2D *out, int rank, BOOL clear)
             return TRUE;
         }
     } else {
-        if (!ov0_0213E7C4(GetPos(), 0x10000, target, unk_14, mode)) {
+        if (!ov0_0213E7C4(GetPos(), 0x10000, target, m_layer, mode)) {
             *out = target;
             return TRUE;
         }
@@ -127,7 +127,7 @@ BOOL CFieldPartner::ov0_02136D50(Point2D *out, int rank, BOOL clear)
                     return TRUE;
                 }
             } else {
-                if (!ov0_0213E7C4(GetPos(), 0x10000, target, unk_14, mode)) {
+                if (!ov0_0213E7C4(GetPos(), 0x10000, target, m_layer, mode)) {
                     *out = target;
                     return TRUE;
                 }
@@ -151,15 +151,15 @@ BOOL CFieldPartner::ov0_02136D50(Point2D *out, int rank, BOOL clear)
 BOOL CFieldPartner::ov0_021373C0(Point2D *out)
 {
     Point2D target = unk_E4->GetPos();
-    if (unk_6C == NULL) {
+    if (m_map == NULL) {
         *out = target;
         return TRUE;
     }
-    if (unk_6C->GetLayer(unk_14) == NULL) {
+    if (m_map->GetLayer(m_layer) == NULL) {
         *out = target;
         return TRUE;
     }
-    if (!ov0_0213E7C4(GetPos(), 0x10000, target, unk_14, 0)) {
+    if (!ov0_0213E7C4(GetPos(), 0x10000, target, m_layer, 0)) {
         *out = target;
         return TRUE;
     }
@@ -168,7 +168,7 @@ BOOL CFieldPartner::ov0_021373C0(Point2D *out)
     for (int i = 0; i < ((CFieldPlayer *)unk_E4)->unk_1B0; i++) {
         target = player->GetPartnerTrail(i);
         if (target.x >= 0 && target.y >= 0) {
-            if (!ov0_0213E7C4(GetPos(), 0x10000, target, unk_14, 0)) {
+            if (!ov0_0213E7C4(GetPos(), 0x10000, target, m_layer, 0)) {
                 *out = target;
                 return TRUE;
             }
@@ -199,14 +199,14 @@ BOOL CFieldPartner::ov0_02137790(Point2D *out, CFieldPartner *prev)
     }
     if (prev->unk_204.count == 0) {
         target = prev->GetPos();
-        if (!ov0_0213E7C4(GetPos(), 0x10000, target, unk_14, mode)) {
+        if (!ov0_0213E7C4(GetPos(), 0x10000, target, m_layer, mode)) {
             *out = target;
             return TRUE;
         }
     }
     for (int i = 0; i < prev->unk_204.count; i++) {
         target = prev->unk_204.GetPartner(i);
-        if (!ov0_0213E7C4(GetPos(), 0x10000, target, unk_14, mode)) {
+        if (!ov0_0213E7C4(GetPos(), 0x10000, target, m_layer, mode)) {
             *out = target;
             return TRUE;
         }
@@ -230,14 +230,14 @@ BOOL CFieldPartner::ov0_02137AFC(Point2D *out, CFieldPartner *prev)
     Point2D target;
     if (prev->unk_204.count == 0) {
         target = prev->GetPos();
-        if (!ov0_0213E7C4(GetPos(), 0x10000, target, unk_14, 0)) {
+        if (!ov0_0213E7C4(GetPos(), 0x10000, target, m_layer, 0)) {
             *out = target;
             return TRUE;
         }
     }
     for (int i = 0; i < prev->unk_204.count; i++) {
         target = prev->unk_204.GetPartner(i);
-        if (!ov0_0213E7C4(GetPos(), 0x10000, target, unk_14, 0)) {
+        if (!ov0_0213E7C4(GetPos(), 0x10000, target, m_layer, 0)) {
             *out = target;
             return TRUE;
         }
@@ -340,7 +340,7 @@ void CFieldPartner::ov0_02138628()
             return;
         }
         SetUnk1EC(4);
-        unk_04 |= 1;
+        m_flags |= 1;
     } else if (unk_1EC == 3) {
         if (IsUnk00CSet()) {
             return;
@@ -364,7 +364,7 @@ void CFieldPartner::ov0_02138714(int arg)
         sub_02032A44(1);
         return;
     }
-    if (unk_14 != unk_E4->unk_14) {
+    if (m_layer != unk_E4->m_layer) {
         ov0_0213905C();
         return;
     }
@@ -372,7 +372,7 @@ void CFieldPartner::ov0_02138714(int arg)
         return;
     }
     if (unk_EC.unk_68 == 1 || unk_EC.unk_68 == 2) {
-        if (GetUnk8C() > 0) {
+        if (GetBaseHeight() > 0) {
             return;
         }
     }
@@ -393,7 +393,7 @@ void CFieldPartner::ov0_02138714(int arg)
 
 void CFieldPartner::ov0_0213889C()
 {
-    if (!ov0_0213E668(GetPos(), 0x7000, unk_14, 0)) {
+    if (!ov0_0213E668(GetPos(), 0x7000, m_layer, 0)) {
         unk_1D8 = GetPos();
         return;
     }
@@ -401,7 +401,7 @@ void CFieldPartner::ov0_0213889C()
     int i = unk_1E8 + 1;
     if (player->unk_1B0 > i) {
         unk_1D8 = player->GetPartnerTrail(i);
-        if (!ov0_0213E668(unk_1D8, 0x7000, unk_14, 0)) {
+        if (!ov0_0213E668(unk_1D8, 0x7000, m_layer, 0)) {
             return;
         }
     }
@@ -411,7 +411,7 @@ void CFieldPartner::ov0_0213889C()
 void CFieldPartner::ov0_02138A7C()
 {
     if (unk_EC.unk_68 == 1 || unk_EC.unk_68 == 2) {
-        if (GetUnk8C() > 0) {
+        if (GetBaseHeight() > 0) {
             return;
         }
     }
@@ -436,7 +436,7 @@ void CFieldPartner::ov0_02138B44()
         return;
     }
     unk_EC.unk_BC = 0;
-    if (unk_14 != unk_E4->unk_14) {
+    if (m_layer != unk_E4->m_layer) {
         ov0_0213905C();
         return;
     }
@@ -444,7 +444,7 @@ void CFieldPartner::ov0_02138B44()
         return;
     }
     if (unk_EC.unk_68 == 1 || unk_EC.unk_68 == 2) {
-        if (GetUnk8C() > 0) {
+        if (GetBaseHeight() > 0) {
             return;
         }
     }
@@ -458,7 +458,7 @@ void CFieldPartner::ov0_02138B44()
     if (dist == 0) {
         return;
     }
-    if (!ov0_0213E7C4(GetPos(), 0x10000, unk_1D8, unk_14, 0)) {
+    if (!ov0_0213E7C4(GetPos(), 0x10000, unk_1D8, m_layer, 0)) {
         if (unk_EC.unk_44 == 9 || unk_EC.unk_44 == 6) {
             unk_EC.SetUnk04(unk_1D8);
         } else {
@@ -497,7 +497,7 @@ void CFieldPartner::ov0_0213905C()
 {
     unk_1E0 = MAIN_BSS_020B26A0.GetUnk0020();
     if (unk_EC.unk_40 != 0) {
-        SetLayer(unk_E4->unk_14);
+        SetLayer(unk_E4->m_layer);
         ov0_02138A7C();
         return;
     }
@@ -535,10 +535,10 @@ void CFieldPartner::PushHistory(Point2D pos, Point2D partnerPos)
 
 void CFieldPartner::ov0_02139164()
 {
-    if (unk_6C == NULL) {
+    if (m_map == NULL) {
         return;
     }
-    if (unk_6C->GetLayer(unk_14) == NULL) {
+    if (m_map->GetLayer(m_layer) == NULL) {
         return;
     }
     Point2D cell;
@@ -559,7 +559,7 @@ void CFieldPartner::ov0_02139164()
         ov0_02139134();
     }
     Point2D partner;
-    ov0_0213EA6C(&partner, cell, unk_14, 0);
+    ov0_0213EA6C(&partner, cell, m_layer, 0);
     cell.x <<= 16;
     cell.y <<= 16;
     partner.x <<= 16;
@@ -570,8 +570,8 @@ void CFieldPartner::ov0_02139164()
 void CFieldPartner::StopMotion()
 {
     sub_02032A44(1);
-    if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-        unk_08->unk_0C->ScaleTo(0, 0x1000, 0x1000);
+    if (m_drawObject != NULL && m_drawObject->m_actor != NULL) {
+        m_drawObject->m_actor->ScaleTo(0, 0x1000, 0x1000);
     }
     sub_show();
     sub_0201287C_();

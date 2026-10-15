@@ -9,7 +9,7 @@
 #define MAP_COUNT 441
 
 // Plain data of a partner slot / field entry; the backup at 0x8BC4 holds copies of them.
-struct UnkStruct_020B26A0_8AD4_Data {
+struct PartnerSlotData {
     u32 unk_00;
     u32 unk_04;
     u16 unk_08;
@@ -19,29 +19,29 @@ struct UnkStruct_020B26A0_8AD4_Data {
     u16 unk_34;
 };
 
-struct UnkStruct_020B26A0_8AD4 : public UnkStruct_020B26A0_8AD4_Data {
-    UnkStruct_020B26A0_8AD4();
-    ~UnkStruct_020B26A0_8AD4();
+struct PartnerSlot : public PartnerSlotData {
+    PartnerSlot();
+    ~PartnerSlot();
 };
 
-struct UnkStruct_020155FC_Data {
-    u16 unk_00;
-    u16 unk_02;
-    u16 unk_04;
-    u32 unk_08;
-    Point2D unk_0C;
+struct PartyEntryData {
+    u16 m_kind;
+    u16 m_mapId;
+    u16 m_index;
+    u32 m_flags;
+    Point2D m_pos;
     u16 unk_14;
-    u16 unk_16;
+    u16 m_layer;
 };
 
-struct UnkStruct_020155FC : public UnkStruct_020155FC_Data {
-    UnkStruct_020155FC();
-    ~UnkStruct_020155FC();
+struct PartyEntry : public PartyEntryData {
+    PartyEntry();
+    ~PartyEntry();
 
     inline void SetPos(Point2D pos)
     {
-        unk_0C.x = pos.x;
-        unk_0C.y = pos.y;
+        m_pos.x = pos.x;
+        m_pos.y = pos.y;
     }
 };
 
@@ -50,8 +50,8 @@ struct UnkStruct_020B26A0_Backup {
     u8 unk_01;
     u8 unk_02;
     u8 unk_03[7];
-    UnkStruct_020155FC_Data unk_0C[3][10];
-    UnkStruct_020B26A0_8AD4_Data unk_2DC[2];
+    PartyEntryData unk_0C[3][10];
+    PartnerSlotData unk_2DC[2];
     u32 unk_34C;
     u8 unk_350;
     u8 unk_351[0x11];
@@ -98,7 +98,7 @@ public:
         return m_saveName[0] != '\0';
     }
 
-    inline UnkStruct_020B26A0_8AD4 *GetPartner(int i)
+    inline PartnerSlot *GetPartner(int i)
     {
         if (i >= 0 && i < 2) {
             return &m_partners[i];
@@ -207,13 +207,13 @@ public:
         return mapId < MAP_COUNT;
     }
 
-    inline u32 GetUnk0030State(int mapId, int i)
+    inline u32 GetEventRectState(int mapId, int i)
     {
         if (mapId < 0) {
             mapId = m_mapId;
         }
         if (mapId < MAP_COUNT && i < 48) {
-            return (unk_0030[mapId][i / 8] >> ((i & 7) * 4)) & 0xF;
+            return (m_eventRectStates[mapId][i / 8] >> ((i & 7) * 4)) & 0xF;
         }
         return 0;
     }
@@ -307,11 +307,11 @@ public:
     s16 m_layer;
     u32 m_levelExp;
     u32 m_exp;
-    u32 unk_0030[MAP_COUNT][6];
+    u32 m_eventRectStates[MAP_COUNT][6];
     u32 m_enemyStates[MAP_COUNT][4];
     u32 m_npcStates[MAP_COUNT][4];
     u32 m_objectStates[MAP_COUNT][4];
-    u32 unk_7C38;
+    u32 m_selectedPartyId;
     u32 m_pokemonStates[0x20];
     u8 m_captureCounts[500];
     u32 unk_7EB0[0x20];
@@ -353,7 +353,7 @@ public:
     u8 m_timerMode;
     int m_timer;
     int m_timerLimit;
-    u32 unk_87C8;
+    u32 m_partnerFlags;
     u32 m_lastPlayHours;
     u8 m_lastPlayMinutes;
     u32 m_playHours;
@@ -366,13 +366,13 @@ public:
     u8 unk_87E4[0x1E];
     u8 unk_8802;
     u8 unk_8803;
-    UnkStruct_020155FC unk_8804[3][10];
-    UnkStruct_020B26A0_8AD4 m_partners[2];
+    PartyEntry m_party[3][10];
+    PartnerSlot m_partners[2];
     char m_saveName[0x20];
     u8 m_areaType;
     u32 unk_8B68;
     u32 unk_8B6C;
-    u32 unk_8B70;
+    u32 m_subScreenShowsMap;
     u32 unk_8B74;
     u16 unk_8B78;
     u16 unk_8B7A;
@@ -387,26 +387,26 @@ public:
     UnkStruct_020B26A0_Backup m_backup;
     CActorDataPlayer m_playerActorData;
     CActorDataPartner m_partnerActorData[2];
-    CActorDataPartner unk_597D0[10];
-    u32 unk_59A00;
+    CActorDataPartner m_partyActorData[10];
+    u32 m_reloadPartyActorData;
 };
 
 extern SaveData MAIN_BSS_020B26A0;
 
 extern "C" {
-void SaveEntry_Clear(UnkStruct_020155FC *entry);
-void SavePartner_Clear(UnkStruct_020B26A0_8AD4 *partner);
-void SavePartner_SetName(UnkStruct_020B26A0_8AD4 *partner, const char *name);
-void SavePartner_ClearName(UnkStruct_020B26A0_8AD4 *partner);
+void SaveEntry_Clear(PartyEntry *entry);
+void SavePartner_Clear(PartnerSlot *partner);
+void SavePartner_SetName(PartnerSlot *partner, const char *name);
+void SavePartner_ClearName(PartnerSlot *partner);
 void SaveData_Init(SaveData *save);
-UnkStruct_020155FC *SaveData_FindEntry(SaveData *save, u32 id);
-UnkStruct_020155FC *SaveData_GetEntry(SaveData *save, int idx);
-int sub_02015658(SaveData *save, u32 level);
+PartyEntry *SaveData_FindEntry(SaveData *save, u32 id);
+PartyEntry *SaveData_GetEntry(SaveData *save, int idx);
+int SaveData_GetPartyCapacity(SaveData *save, u32 level);
 void SaveData_ClearActorPositions(SaveData *save);
 void SaveData_SetStylerLevel(SaveData *save, u32 arg1);
-int sub_02016138(SaveData *save, int group);
-BOOL sub_0201621C(SaveData *save, int group);
-void sub_020162BC(SaveData *save, u32 id);
+int SaveData_CountParty(SaveData *save, int group);
+BOOL SaveData_HasPartnerInParty(SaveData *save, int group);
+void SaveData_SelectPartyEntry(SaveData *save, u32 id);
 int SaveData_GetPartsLevel(SaveData *save, int idx);
 void SaveData_SetPartsLevel(SaveData *save, int idx, int level);
 int SaveData_GetPartsBonus(SaveData *save, int idx);
@@ -422,9 +422,9 @@ void SaveData_SetTotalCaptures(SaveData *save, u16 value);
 void SaveData_SetFledCount(SaveData *save, u16 value);
 void SaveData_SetAssistsUsed(SaveData *save, u16 value);
 void SaveData_ReleasePlayerActorData(SaveData *save);
-void sub_02017E44(SaveData *save);
+void SaveData_ReleaseAllActorData(SaveData *save);
 
-u8 sub_02010E78(void *obj, u32 arg1);
+u8 DiskHPTable_GetMaxEnergy(void *obj, u32 arg1);
 }
 
 #endif // POKERANGER2_SAVEDATA_HPP

@@ -1,15 +1,15 @@
-#ifndef POKERANGER2_UNKCLASS_0200BBC0_HPP
-#define POKERANGER2_UNKCLASS_0200BBC0_HPP
+#ifndef POKERANGER2_PROMPTICON_HPP
+#define POKERANGER2_PROMPTICON_HPP
 
 #include <nitro.h>
 
 #include "CGame_0024.hpp"
 #include "common.hpp"
 
-class UnkClass_0200BBC0 {
+class PromptIcon {
 public:
-    UnkClass_0200BBC0();
-    ~UnkClass_0200BBC0();
+    PromptIcon();
+    ~PromptIcon();
 
     void sub_0200B714(CGame_0024 *arg0);
     void sub_0200B744();
@@ -29,6 +29,6 @@ public:
     u32 unk_28;
 };
 
-STATIC_SIZE_ASSERT(UnkClass_0200BBC0, 0x2C);
+STATIC_SIZE_ASSERT(PromptIcon, 0x2C);
 
-#endif // POKERANGER2_UNKCLASS_0200BBC0_HPP
+#endif // POKERANGER2_PROMPTICON_HPP

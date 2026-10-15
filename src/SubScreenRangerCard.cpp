@@ -144,7 +144,7 @@ int SubScreenRangerCard::LoadStep(int step)
         unk_10 = (save->m_rangerClassGrade >> 4) & 0xF;
         unk_14 = save->m_stylerLevel;
         unk_1C = save->m_levelExp;
-        unk_18 = sub_02010EAC(game->unk_1438, unk_14);
+        unk_18 = DiskHPTable_GetExp(game->m_diskHPTable, unk_14);
         int n = CountPokemon(save);
         if (GetPokemonState(save, 483) == 2) {
             n--;
@@ -283,7 +283,7 @@ void SubScreenRangerCard::LoadAll()
     unk_10 = (save->m_rangerClassGrade >> 4) & 0xF;
     unk_14 = save->m_stylerLevel;
     unk_1C = save->m_levelExp;
-    unk_18 = sub_02010EAC(game->unk_1438, unk_14);
+    unk_18 = DiskHPTable_GetExp(game->m_diskHPTable, unk_14);
     int i;
     int n = 0;
     for (i = 0; i < 500; i++) {

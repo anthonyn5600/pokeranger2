@@ -1,4 +1,4 @@
-#include "UnkClass_0200BBC0.hpp"
+#include "PromptIcon.hpp"
 
 #include <string.h>
 
@@ -6,7 +6,7 @@ extern "C" {
 extern u32 DAT_020843d0[4];
 }
 
-void UnkClass_0200BBC0::sub_0200B714(CGame_0024 *arg0)
+void PromptIcon::sub_0200B714(CGame_0024 *arg0)
 {
     unk_00 = arg0;
     unk_04 = 0;
@@ -20,7 +20,7 @@ void UnkClass_0200BBC0::sub_0200B714(CGame_0024 *arg0)
     unk_28 = 0;
 }
 
-void UnkClass_0200BBC0::sub_0200B744()
+void PromptIcon::sub_0200B744()
 {
     s32 v0 = unk_0C;
 
@@ -51,7 +51,7 @@ void UnkClass_0200BBC0::sub_0200B744()
     unk_00->func0(v2 | 0x100, (unk_18 << 0xC) | unk_14);
 }
 
-void UnkClass_0200BBC0::sub_0200B818(u32 arg0, u32 arg1, u32 arg2, u32 arg3, s32 arg4, u32 arg5, u32 arg6)
+void PromptIcon::sub_0200B818(u32 arg0, u32 arg1, u32 arg2, u32 arg3, s32 arg4, u32 arg5, u32 arg6)
 {
     unk_04 = arg0;
     unk_08 = arg1;
@@ -208,10 +208,10 @@ void UnkClass_0200BBC0::sub_0200B818(u32 arg0, u32 arg1, u32 arg2, u32 arg3, s32
     }
 }
 
-UnkClass_0200BBC0::UnkClass_0200BBC0()
+PromptIcon::PromptIcon()
 {
 }
 
-UnkClass_0200BBC0::~UnkClass_0200BBC0()
+PromptIcon::~PromptIcon()
 {
 }

@@ -48,8 +48,8 @@ TextboxManager::TextboxManager()
 
     unk_088 = 0;
     unk_08C = 0;
-    unk_14C = new YesNoPrompt();
-    unk_090 = 0;
+    m_yesNo = new YesNoPrompt();
+    m_audio = 0;
     unk_02C = NULL;
     unk_070 = 0;
     unk_074 = 2;
@@ -99,7 +99,7 @@ void TextboxManager::Reset()
 
     unk_088 = 0;
     unk_08C = 0;
-    unk_090 = 0;
+    m_audio = 0;
 
     if (unk_02C == NULL) {
         return;
@@ -117,23 +117,23 @@ void TextboxManager::Init(PadInput *arg0, CTouchPanel *arg1, NNSG2dFont *arg2, v
     unk_088 = arg0;
     unk_08C = arg1;
     unk_000 = arg3;
-    unk_090 = (AudioEngine *)arg5;
+    m_audio = (AudioEngine *)arg5;
 
     LoadWindowGraphics();
     SetupBG();
     InitCanvases();
-    unk_14C->Init(arg4, unk_088, unk_08C, unk_090, arg6, arg7, arg8);
+    m_yesNo->Init(arg4, unk_088, unk_08C, m_audio, arg6, arg7, arg8);
 }
 
 void TextboxManager::ResetState()
 {
     unk_050 = 0;
     unk_054 = 0;
-    unk_058 = 0;
-    unk_05C = 0;
+    m_autoAdvance = 0;
+    m_autoAdvanceDelay = 0;
     unk_060 = 0x1E;
-    unk_064 = 0;
-    unk_068 = 0;
+    m_autoClose = 0;
+    m_autoCloseDelay = 0;
     unk_06C = 0x3C;
     unk_04C = 0;
     unk_07C = 0;
@@ -200,7 +200,7 @@ void TextboxManager::InitCanvases()
     MIi_CpuClearFast(0x33333333, unk_120.unk_00.charBase, 0x380);
 }
 
-void TextboxManager::sub_0200978C(u32 arg0)
+void TextboxManager::LoadWindowColor(u32 arg0)
 {
     u32 v0 = 0;
 
@@ -252,7 +252,7 @@ BOOL TextboxManager::ExecControlCode(u32 arg0)
             unk_0B0 = 0;
             unk_050 = 3;
 
-            unk_14C->AddIcon(0, 0xF0, ((unk_094 * 0x12 + 1) * 8) + 0x10, 1);
+            m_yesNo->AddIcon(0, 0xF0, ((unk_094 * 0x12 + 1) * 8) + 0x10, 1);
         }
 
         ++unk_07C;
@@ -262,7 +262,7 @@ BOOL TextboxManager::ExecControlCode(u32 arg0)
 
     case 16:
         unk_050 = 4;
-        unk_14C->AddIcon(0, 0xF0, ((unk_094 * 0x12 + 1) * 8) + 0x10, 1);
+        m_yesNo->AddIcon(0, 0xF0, ((unk_094 * 0x12 + 1) * 8) + 0x10, 1);
 
         ++unk_07C;
         unk_078 = 0;
@@ -271,7 +271,7 @@ BOOL TextboxManager::ExecControlCode(u32 arg0)
 
     case 15:
         unk_050 = 9;
-        unk_14C->Open();
+        m_yesNo->Open();
 
         return FALSE;
 
@@ -312,7 +312,7 @@ BOOL TextboxManager::ExecControlCode(u32 arg0)
 
         ++unk_07C;
         ++unk_07C;
-        unk_090->PlayStream(v0, 0x40);
+        m_audio->PlayStream(v0, 0x40);
 
         return FALSE;
     }
@@ -382,7 +382,7 @@ BOOL TextboxManager::ExecControlCode(u32 arg0)
         u32 v3 = unk_0A4 + 0xE;
         u32 v4 = unk_0A8 + ((((unk_094 * 0x12) + 1) * 8) - 2);
 
-        unk_14C->AddIcon(v2, v3, v4, 1);
+        m_yesNo->AddIcon(v2, v3, v4, 1);
         return FALSE;
     }
 
@@ -438,7 +438,7 @@ void TextboxManager::ShowText(u8 *arg0, u32 arg1, u32 arg2, u32 arg3)
         Close();
     }
 
-    sub_0200978C(arg3);
+    LoadWindowColor(arg3);
 
     unk_094 = arg1;
     unk_098 = arg2;
@@ -481,7 +481,7 @@ void TextboxManager::ShowText(u8 *arg0, u32 arg1, u32 arg2, u32 arg3)
     unk_0A4 = 0;
     unk_0A8 = 0;
 
-    sub_0200AA68(2);
+    PlaySe(2);
     unk_050 = 1;
 }
 
@@ -489,7 +489,7 @@ BOOL TextboxManager::IsActive()
 {
     if (GetState() == 0) {
         return FALSE;
-    } else if (GetState() == 5 && unk_064 == 0 && IsAdvanceTriggered()) {
+    } else if (GetState() == 5 && m_autoClose == 0 && IsAdvanceTriggered()) {
         return FALSE;
     } else if (GetState() == 9) {
         return FALSE;
@@ -501,7 +501,7 @@ BOOL TextboxManager::IsActive()
 void TextboxManager::Close()
 {
     GX_SetVisiblePlane(GX_GetVisiblePlane() ^ (GX_PLANEMASK_OBJ | GX_PLANEMASK_BG1));
-    unk_14C->Reset();
+    m_yesNo->Reset();
     s_game->AddVBlankCallback(ClearScreenCallback, NULL);
 
     MIi_CpuClearFast(0x33333333, unk_0F8.unk_00.charBase, 0xE00);
@@ -512,7 +512,7 @@ void TextboxManager::Close()
     unk_078 = 0;
 }
 
-void TextboxManager::sub_02009FB0(u32 arg0, u32 arg1)
+void TextboxManager::CloseAndClear(u32 arg0, u32 arg1)
 {
     u32 planeMask = GX_PLANEMASK_BG1;
 
@@ -521,7 +521,7 @@ void TextboxManager::sub_02009FB0(u32 arg0, u32 arg1)
     }
 
     GX_SetVisiblePlane(GX_GetVisiblePlane() ^ planeMask);
-    unk_14C->Reset();
+    m_yesNo->Reset();
     s_game->AddVBlankCallback(ClearScreenCallback, NULL);
 
     MIi_CpuClearFast(0x33333333, unk_0F8.unk_00.charBase, 0xE00);
@@ -529,11 +529,11 @@ void TextboxManager::sub_02009FB0(u32 arg0, u32 arg1)
 
     unk_050 = 0;
     unk_054 = 0;
-    unk_058 = 0;
-    unk_05C = 0;
+    m_autoAdvance = 0;
+    m_autoAdvanceDelay = 0;
     unk_060 = 0x1E;
-    unk_064 = 0;
-    unk_068 = 0;
+    m_autoClose = 0;
+    m_autoCloseDelay = 0;
     unk_06C = 0x3C;
 
     BOOL v0 = unk_074;
@@ -543,7 +543,7 @@ void TextboxManager::sub_02009FB0(u32 arg0, u32 arg1)
     unk_04C = 0;
 
     if (arg0 != 0) {
-        sub_0200AA68(3);
+        PlaySe(3);
     }
 }
 
@@ -554,11 +554,11 @@ void TextboxManager::Clear(u32 arg0)
 
     unk_050 = 0;
     unk_054 = 0;
-    unk_058 = 0;
-    unk_05C = 0;
+    m_autoAdvance = 0;
+    m_autoAdvanceDelay = 0;
     unk_060 = 0x1E;
-    unk_064 = 0;
-    unk_068 = 0;
+    m_autoClose = 0;
+    m_autoCloseDelay = 0;
     unk_06C = 0x3C;
     unk_09C = unk_074;
     unk_0A0 = 0;
@@ -569,7 +569,7 @@ void TextboxManager::Clear(u32 arg0)
         return;
     }
 
-    sub_0200AA68(3);
+    PlaySe(3);
 }
 
 u32 TextboxManager::GetState()
@@ -582,10 +582,10 @@ u32 TextboxManager::Update()
     if (unk_050 == 0) {
         return unk_050;
     } else if (unk_050 != 0xA) {
-        sub_0200A84C();
+        UpdateAdvance();
     }
 
-    unk_14C->sub_0200BEBC();
+    m_yesNo->Update();
 
     switch (unk_050) {
     case 0:
@@ -595,7 +595,7 @@ u32 TextboxManager::Update()
         return unk_050;
 
     case 6:
-        if (unk_058 == 1 && unk_060 != 0) {
+        if (m_autoAdvance == 1 && unk_060 != 0) {
             --unk_060;
             return unk_050;
         }
@@ -616,11 +616,11 @@ u32 TextboxManager::Update()
         goto DEFAULT_CASE;
 
     case 7:
-        if (unk_058 == 1 && unk_060 != 0) {
+        if (m_autoAdvance == 1 && unk_060 != 0) {
             --unk_060;
 
             if (unk_060 == 0) {
-                unk_14C->Reset();
+                m_yesNo->Reset();
             }
 
             return unk_050;
@@ -806,8 +806,8 @@ LOOP:
                 } else {
                     unk_050 = 5;
 
-                    if (unk_064 == 1) {
-                        unk_06C = unk_068;
+                    if (m_autoClose == 1) {
+                        unk_06C = m_autoCloseDelay;
                     }
                 }
 
@@ -843,7 +843,7 @@ u32 TextboxManager::sub_0200A804(int arg0)
     return res;
 }
 
-void TextboxManager::sub_0200A84C()
+void TextboxManager::UpdateAdvance()
 {
     if (unk_054 == 0) {
         if (IsAdvanceHeld()) {
@@ -855,43 +855,43 @@ void TextboxManager::sub_0200A84C()
 
     switch (unk_050) {
     case 3:
-        if (!IsAdvanceTriggered() && unk_058 != 1) {
+        if (!IsAdvanceTriggered() && m_autoAdvance != 1) {
             return;
         }
 
         unk_050 = 6;
         unk_0B0 = 0;
-        unk_060 = unk_05C;
+        unk_060 = m_autoAdvanceDelay;
 
-        sub_0200AA68(5);
+        PlaySe(5);
 
-        if (unk_058 != 0) {
+        if (m_autoAdvance != 0) {
             return;
         }
 
-        unk_14C->sub_0200BFB4();
+        m_yesNo->ScrollIcons();
         break;
 
     case 4:
-        if (!IsAdvanceTriggered() && unk_058 != 1) {
+        if (!IsAdvanceTriggered() && m_autoAdvance != 1) {
             return;
         }
 
         unk_050 = 7;
         unk_0B0 = 0;
-        unk_060 = unk_05C;
+        unk_060 = m_autoAdvanceDelay;
 
-        sub_0200AA68(5);
+        PlaySe(5);
 
-        if (unk_058 != 0) {
+        if (m_autoAdvance != 0) {
             return;
         }
 
-        unk_14C->Reset();
+        m_yesNo->Reset();
         break;
 
     case 5:
-        if (unk_064 != 1) {
+        if (m_autoClose != 1) {
             return;
         }
 
@@ -900,7 +900,7 @@ void TextboxManager::sub_0200A84C()
             return;
         }
 
-        sub_02009FB0(1, 1);
+        CloseAndClear(1, 1);
         break;
     }
 }
@@ -935,34 +935,34 @@ void TextboxManager::ResetTextSpeed()
     unk_09C = unk_074;
 }
 
-void TextboxManager::sub_0200AA28(s32 arg0)
+void TextboxManager::SetAutoAdvance(s32 arg0)
 {
-    unk_058 = 1;
-    unk_05C = arg0;
+    m_autoAdvance = 1;
+    m_autoAdvanceDelay = arg0;
 }
 
-void TextboxManager::sub_0200AA38()
+void TextboxManager::ClearAutoAdvance()
 {
-    unk_058 = 0;
-    unk_05C = 0;
+    m_autoAdvance = 0;
+    m_autoAdvanceDelay = 0;
 }
 
-void TextboxManager::sub_0200AA48(s32 arg0)
+void TextboxManager::SetAutoClose(s32 arg0)
 {
-    unk_064 = 1;
-    unk_068 = arg0;
+    m_autoClose = 1;
+    m_autoCloseDelay = arg0;
 }
 
-void TextboxManager::sub_0200AA58()
+void TextboxManager::ClearAutoClose()
 {
-    unk_064 = 0;
-    unk_068 = 0;
+    m_autoClose = 0;
+    m_autoCloseDelay = 0;
 }
 
-BOOL TextboxManager::sub_0200AA68(u32 arg0)
+BOOL TextboxManager::PlaySe(u32 arg0)
 {
-    if (unk_090 != NULL) {
-        return unk_090->PlaySe(arg0);
+    if (m_audio != NULL) {
+        return m_audio->PlaySe(arg0);
     }
 
     return FALSE;
@@ -1392,13 +1392,13 @@ void TextboxManager::ShowBattleMessage(u32 arg0, u32 arg1, u32 arg2, u32 arg3)
 void TextboxManager::OpenYesNo()
 {
     unk_050 = 9;
-    unk_14C->Open();
+    m_yesNo->Open();
 }
 
-BOOL TextboxManager::sub_0200B6A4(u32 arg0)
+BOOL TextboxManager::CloseIfNoPrompt(u32 arg0)
 {
-    if (unk_14C->unk_1608 == 0) {
-        sub_02009FB0(0, arg0);
+    if (m_yesNo->m_state == 0) {
+        CloseAndClear(0, arg0);
         return FALSE;
     }
 
@@ -1407,7 +1407,7 @@ BOOL TextboxManager::sub_0200B6A4(u32 arg0)
 
 u32 TextboxManager::GetYesNoResult()
 {
-    return unk_14C->unk_160C;
+    return m_yesNo->m_result;
 }
 
 void TextboxManager::ClearScreenCallback(void *data)

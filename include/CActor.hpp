@@ -58,19 +58,19 @@ public:
     void SetAnimWithSpeed(int arg0, int arg1, fx32 speed);
     void Update();
     void UpdateMotion();
-    void sub_020123AC();
+    void UpdateHeightTween();
     void UpdateJump();
     void UpdateBob();
     void UpdateDirection();
-    void sub_020125FC();
+    void UpdateAnimBank();
     void UpdateAlphaTween();
     void StepTween8(CActorTween8 *tween);
     void UpdateScaleTween();
     void StepTween32(CActorTween32 *tween);
     void UpdateTween16();
     void StepTween16(CActorTween16 *tween);
-    void sub_020127D0(fx32 value, int duration);
-    void sub_02012808(fx32 value, fx32 speed);
+    void MoveHeightTo(fx32 value, int duration);
+    void MoveHeightAtSpeed(fx32 value, fx32 speed);
     void Jump(fx32 height, int duration);
     void FaceMoveDir();
     void LookAt(Point2D target);
@@ -81,8 +81,8 @@ public:
     void TurnTo(u16 dir, s16 speed);
     void FadeAlpha(int duration, u8 alpha);
     void ScaleTo(int duration, fx32 scaleX, fx32 scaleY);
-    void sub_02012AA8(int duration, u16 value);
-    int sub_02012AFC();
+    void RotateTo(int duration, u16 value);
+    int GetAnimStatus();
     void ResetGhost(CActorGhost *ghost);
     void StartGhosts(int interval, int life, BOOL fadeAlpha, int alphaStep, u8 fadeScale, fx32 scaleStep);
     void StopGhosts();
@@ -93,9 +93,9 @@ public:
     CSoftwareSprite *GetSprites();
     int GetGhostAlpha(int index);
     fx32 GetGhostScale(int index);
-    u16 sub_02012DD0();
+    u16 GetAnimScriptPos();
     u8 sub_02012E1C();
-    void sub_02012E68();
+    void RestartAnim();
     void MoveCurveAtSpeed(Point2D *end, Point2D *ctrl, int speed);
 
     inline BOOL HasData()
@@ -126,12 +126,12 @@ public:
     int m_turnAngle;
     s16 m_turnSpeed;
     Point2D m_lookAt;
-    fx32 unk_8C;
-    BOOL unk_90;
-    u16 unk_94;
-    u16 unk_96;
-    fx32 unk_98;
-    fx32 unk_9C;
+    fx32 m_height;
+    BOOL m_heightTweening;
+    u16 m_heightDuration;
+    u16 m_heightFrame;
+    fx32 m_heightFrom;
+    fx32 m_heightTo;
     fx32 m_jumpHeight;
     BOOL m_jumping;
     u16 m_jumpDuration;
@@ -149,7 +149,7 @@ public:
     CActorTween8 unk_108;
     CActorTween32 unk_11C;
     CActorTween32 unk_134;
-    CActorTween16 unk_14C;
+    CActorTween16 m_rotTween;
     CSoftwareSprite *m_sprites;
     u8 m_ghostFlags;
     int m_ghostInterval;

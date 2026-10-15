@@ -131,7 +131,7 @@ void CFieldScreenEffectObjectBase::SetupMatrix(Camera2D *camera)
 
 void CFieldScreenEffectObjectBase::InitScroll()
 {
-    sCameraTarget = CGame::GetInstance()->unk_14B8->unk_00;
+    sCameraTarget = CGame::GetInstance()->m_cameraController->m_target;
     if (sCameraTarget != NULL) {
         Point2D pos = *(Point2D *)&sCameraTarget->x;
         sCameraPos = pos;
@@ -146,7 +146,7 @@ void CFieldScreenEffectObjectBase::InitScroll()
 void CFieldScreenEffectObjectBase::UpdateScroll()
 {
     if (sCameraTarget == NULL) {
-        sCameraTarget = CGame::GetInstance()->unk_14B8->unk_00;
+        sCameraTarget = CGame::GetInstance()->m_cameraController->m_target;
         if (sCameraTarget != NULL) {
             Point2D pos = *(Point2D *)&sCameraTarget->x;
             sCameraPos = pos;

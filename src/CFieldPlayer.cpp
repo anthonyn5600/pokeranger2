@@ -88,7 +88,7 @@ void CFieldPlayer::ov0_021307B0(PadInput *pad, CTouchPanel *touch, Camera2D *cam
         baseSpeed = info->unk_50 * 60 / DAT_0208d58c;
     }
     BOOL smooth = (flags & 2) ? TRUE : FALSE;
-    unk_6C = map;
+    m_map = map;
     unk_FC.x = 0;
     unk_FC.y = 0;
     unk_104 = 0;
@@ -106,7 +106,7 @@ void CFieldPlayer::ov0_021307B0(PadInput *pad, CTouchPanel *touch, Camera2D *cam
             }
         } else {
             sub_020129F4_(0, 0x1F);
-            ClearUnk1A8Bits(2);
+            ClearEffectFlags(2);
         }
     }
     if (flags & 1) {
@@ -166,9 +166,9 @@ void CFieldPlayer::ov0_021307B0(PadInput *pad, CTouchPanel *touch, Camera2D *cam
             moving = TRUE;
             speed = 0xF0000 / DAT_0208d58c;
             dir = FX_Div(FX_Atan2(vy, vx) << 4, 0x6486);
-            SetUnk8C(QuadraticInterpolate(0, 0x20000, 0, unk_138, unk_144));
+            SetBaseHeight(QuadraticInterpolate(0, 0x20000, 0, unk_138, unk_144));
             if (--unk_138 <= 0) {
-                SetUnk8C(0);
+                SetBaseHeight(0);
                 if (MAIN_BSS_020B26A0.m_energy == 0) {
                     unk_110 = 7;
                 } else {
@@ -188,7 +188,7 @@ void CFieldPlayer::ov0_021307B0(PadInput *pad, CTouchPanel *touch, Camera2D *cam
             switch (unk_13C) {
             case 0:
                 SetPosXY(GetX() + vx, GetY());
-                SetUnk8C(GetUnk8C() - vy);
+                SetBaseHeight(GetBaseHeight() - vy);
                 unk_118 += unk_128;
                 if (unk_118 > unk_12C) {
                     unk_118 = unk_12C;
@@ -197,7 +197,7 @@ void CFieldPlayer::ov0_021307B0(PadInput *pad, CTouchPanel *touch, Camera2D *cam
                     vx = -vx;
                 }
                 unk_120 += vx;
-                if ((unk_114 != 0 && unk_120 >= unk_124) || (unk_114 == 0 && GetUnk8C() <= unk_11C)) {
+                if ((unk_114 != 0 && unk_120 >= unk_124) || (unk_114 == 0 && GetBaseHeight() <= unk_11C)) {
                     if (unk_118 < unk_12C) {
                         unk_118 = unk_12C;
                     }
@@ -208,18 +208,18 @@ void CFieldPlayer::ov0_021307B0(PadInput *pad, CTouchPanel *touch, Camera2D *cam
                 if (--unk_138 <= 0) {
                     unk_118 = unk_12C;
                     unk_13C = 1;
-                    if (unk_08->unk_0C->unk_1A0 != 0x8000) {
+                    if (m_drawObject->m_actor->unk_1A0 != 0x8000) {
                         PlayAnim(0x1000, 0);
                     }
                 }
                 break;
             case 1:
-                SetUnk8C(GetUnk8C() - vy);
-                if (GetUnk8C() > 0) {
+                SetBaseHeight(GetBaseHeight() - vy);
+                if (GetBaseHeight() > 0) {
                     break;
                 }
-                SetUnk8C(0);
-                if (unk_08->unk_0C->unk_1A0 != 0x8000) {
+                SetBaseHeight(0);
+                if (m_drawObject->m_actor->unk_1A0 != 0x8000) {
                     PlayAnim(0x400, 0);
                 }
                 s_game->m_audioEngine->PlaySe(0x11E);
@@ -272,8 +272,8 @@ void CFieldPlayer::ov0_021307B0(PadInput *pad, CTouchPanel *touch, Camera2D *cam
         }
         int dx = 0;
         int dy = 0;
-        if (unk_6C != NULL) {
-            CFieldMapLayerAttribute *attr = unk_6C->GetAttributeLayer(unk_14);
+        if (m_map != NULL) {
+            CFieldMapLayerAttribute *attr = m_map->GetAttributeLayer(m_layer);
             if (attr != NULL) {
                 switch (attr->GetCellAtPos(pos.x, pos.y)) {
                 case 15:
@@ -296,14 +296,14 @@ void CFieldPlayer::ov0_021307B0(PadInput *pad, CTouchPanel *touch, Camera2D *cam
                     speed = 0x23FDC / DAT_0208d58c;
                     break;
                 case 6:
-                    if (unk_08->unk_0C->unk_1A0 == 0x8000) {
+                    if (m_drawObject->m_actor->unk_1A0 == 0x8000) {
                         speed = 0x83FF4 / DAT_0208d58c;
                     } else {
                         speed = 0x3C000 / DAT_0208d58c;
                     }
                     break;
                 case 8:
-                    if (unk_08->unk_0C->unk_1A0 == 0x8000) {
+                    if (m_drawObject->m_actor->unk_1A0 == 0x8000) {
                         speed = 0x71FE8 / DAT_0208d58c;
                     } else {
                         speed = 0x47FF4 / DAT_0208d58c;
@@ -312,7 +312,7 @@ void CFieldPlayer::ov0_021307B0(PadInput *pad, CTouchPanel *touch, Camera2D *cam
                 }
             }
         }
-        if (unk_08->unk_0C->unk_1A0 == 0x80000 || unk_08->unk_0C->unk_1A0 == 0x800000) {
+        if (m_drawObject->m_actor->unk_1A0 == 0x80000 || m_drawObject->m_actor->unk_1A0 == 0x800000) {
             smooth = TRUE;
         }
         if (smooth) {
@@ -354,7 +354,7 @@ void CFieldPlayer::ov0_021307B0(PadInput *pad, CTouchPanel *touch, Camera2D *cam
             if (unk_E8 & 1) {
                 PointPair2D seg = { pos, newPos };
                 int mode = 1;
-                if (unk_08->unk_0C->unk_1A0 == 0x8000) {
+                if (m_drawObject->m_actor->unk_1A0 == 0x8000) {
                     mode |= 4;
                 }
                 if (CheckSweepCollision(seg, unk_E0, mode)) {
@@ -366,22 +366,22 @@ void CFieldPlayer::ov0_021307B0(PadInput *pad, CTouchPanel *touch, Camera2D *cam
                 }
             }
             if (newPos.x != pos.x || newPos.y != pos.y) {
-                if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-                    unk_08->unk_0C->m_motion.MoveLinear(newPos, 1);
+                if (m_drawObject != NULL && m_drawObject->m_actor != NULL) {
+                    m_drawObject->m_actor->m_motion.MoveLinear(newPos, 1);
                 }
             }
             unk_FC.x = newPos.x - pos.x;
             unk_FC.y = newPos.y - pos.y;
             unk_104 = ApproxLength(unk_FC.x, unk_FC.y);
-            if (unk_08->unk_0C->unk_1A0 == 0x80000) {
+            if (m_drawObject->m_actor->unk_1A0 == 0x80000) {
                 if (unk_104 >= 0x5B33) {
                     if (unk_D0 == 0) {
                         Actor_ShowManpu(this, 4, -1);
                     }
-                    if (unk_54 == 0 && unk_08 != NULL) {
+                    if (unk_54 == 0 && m_drawObject != NULL) {
                         unk_54 = 1;
-                        if (unk_08->unk_0C != NULL) {
-                            unk_08->unk_0C->StartGhosts(1, 8, 1, -3, 0, 0);
+                        if (m_drawObject->m_actor != NULL) {
+                            m_drawObject->m_actor->StartGhosts(1, 8, 1, -3, 0, 0);
                         }
                     }
                 } else {
@@ -390,8 +390,8 @@ void CFieldPlayer::ov0_021307B0(PadInput *pad, CTouchPanel *touch, Camera2D *cam
                     }
                     if (unk_54 != 0) {
                         unk_54 = 0;
-                        if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-                            unk_08->unk_0C->StopGhosts();
+                        if (m_drawObject != NULL && m_drawObject->m_actor != NULL) {
+                            m_drawObject->m_actor->StopGhosts();
                         }
                     }
                 }
@@ -401,17 +401,17 @@ void CFieldPlayer::ov0_021307B0(PadInput *pad, CTouchPanel *touch, Camera2D *cam
         if (moving) {
             quantDir = (angle & 0xE000) + ((angle & 0x1000) ? 0x2000 : 0);
         }
-        if (unk_6C != NULL) {
-            CFieldMapLayerCollision *coll = unk_6C->GetLayer(unk_14);
+        if (m_map != NULL) {
+            CFieldMapLayerCollision *coll = m_map->GetLayer(m_layer);
             if (coll != NULL) {
                 int cell = coll->GetCellAtPos(GetX(), GetY());
                 if (unk_110 == 0 || unk_110 == 1) {
                     switch (cell) {
                     case 0x40:
-                        SetLayer(unk_14 + 1);
+                        SetLayer(m_layer + 1);
                         break;
                     case 0x41:
-                        SetLayer(unk_14 - 1);
+                        SetLayer(m_layer - 1);
                         break;
                     case 0x33:
                         if (quantDir == 0 || quantDir == 0xE000 || quantDir == 0x2000) {
@@ -476,7 +476,7 @@ void CFieldPlayer::ov0_021307B0(PadInput *pad, CTouchPanel *touch, Camera2D *cam
                     }
                 }
             }
-            CFieldMapLayerAttribute *attr = unk_6C->GetAttributeLayer(unk_14);
+            CFieldMapLayerAttribute *attr = m_map->GetAttributeLayer(m_layer);
             if (attr != NULL) {
                 int attrCell = attr->GetCellAtPos(GetX(), GetY());
                 Point2D center;
@@ -509,28 +509,28 @@ void CFieldPlayer::ov0_021307B0(PadInput *pad, CTouchPanel *touch, Camera2D *cam
                                 PlayAnim(0x80, 0);
                             }
                         }
-                        unk_90 = 1;
-                        SetUnk8C(0);
+                        m_hasShadow = 1;
+                        SetBaseHeight(0);
                         break;
                     case 13:
                         if ((angle >= 0x2000 && angle <= 0x6000) || (angle >= 0xA000 && angle <= 0xE000)) {
                             if (unk_F0 & 2) {
-                                SetUnk8C(0x2000);
+                                SetBaseHeight(0x2000);
                             } else {
-                                SetUnk8C(0);
+                                SetBaseHeight(0);
                             }
                         } else {
-                            SetUnk8C(0);
+                            SetBaseHeight(0);
                         }
                         sub_show();
                         SetUnk004Bit8();
-                        unk_90 = 1;
+                        m_hasShadow = 1;
                         break;
                     case 6:
-                        unk_90 = 0;
+                        m_hasShadow = 0;
                         sub_show();
                         SetUnk004Bit8();
-                        SetUnk8C(0);
+                        SetBaseHeight(0);
                         break;
                     case 12:
                         if (quantDir == 0xFFFF) {
@@ -540,8 +540,8 @@ void CFieldPlayer::ov0_021307B0(PadInput *pad, CTouchPanel *touch, Camera2D *cam
                             sub_show();
                         }
                         SetUnk004Bit8();
-                        unk_90 = 1;
-                        SetUnk8C(0);
+                        m_hasShadow = 1;
+                        SetBaseHeight(0);
                         break;
                     case 19:
                         if (unk_110 != 4) {
@@ -554,8 +554,8 @@ void CFieldPlayer::ov0_021307B0(PadInput *pad, CTouchPanel *touch, Camera2D *cam
                         sub_reset();
                         SetUnk1DC(0);
                         SetUnk004Bit8();
-                        unk_90 = 1;
-                        SetUnk8C(0);
+                        m_hasShadow = 1;
+                        SetBaseHeight(0);
                         break;
                     case 20:
                         if (unk_110 != 4) {
@@ -568,8 +568,8 @@ void CFieldPlayer::ov0_021307B0(PadInput *pad, CTouchPanel *touch, Camera2D *cam
                         sub_reset();
                         SetUnk1DC(0);
                         SetUnk004Bit8();
-                        unk_90 = 1;
-                        SetUnk8C(0);
+                        m_hasShadow = 1;
+                        SetBaseHeight(0);
                         break;
                     case 21:
                         if (unk_110 != 4) {
@@ -582,8 +582,8 @@ void CFieldPlayer::ov0_021307B0(PadInput *pad, CTouchPanel *touch, Camera2D *cam
                         sub_reset();
                         SetUnk1DC(0);
                         SetUnk004Bit8();
-                        unk_90 = 1;
-                        SetUnk8C(0);
+                        m_hasShadow = 1;
+                        SetBaseHeight(0);
                         break;
                     case 22:
                         if (unk_110 != 4) {
@@ -596,15 +596,15 @@ void CFieldPlayer::ov0_021307B0(PadInput *pad, CTouchPanel *touch, Camera2D *cam
                         sub_reset();
                         SetUnk1DC(0);
                         SetUnk004Bit8();
-                        unk_90 = 1;
-                        SetUnk8C(0);
+                        m_hasShadow = 1;
+                        SetBaseHeight(0);
                         break;
                     default:
                         if (GetUnkC0() != 4 && GetUnk1D8() == 3) {
                             sub_show();
                             SetUnk004Bit8();
-                            unk_90 = 1;
-                            SetUnk8C(0);
+                            m_hasShadow = 1;
+                            SetBaseHeight(0);
                         }
                         break;
                     }
@@ -614,7 +614,7 @@ void CFieldPlayer::ov0_021307B0(PadInput *pad, CTouchPanel *touch, Camera2D *cam
         if (!moving) {
             unk_F0 = 0;
             if ((++unk_EC & 0x1FF) == 0) {
-                if (unk_08->unk_0C->unk_1A0 == 2 && GetUnk1D8() == 0) {
+                if (m_drawObject->m_actor->unk_1A0 == 2 && GetUnk1D8() == 0) {
                     sub_reset();
                     PlayAnim(0x10, 0);
                 }
@@ -649,7 +649,7 @@ void CFieldPlayer::ov0_021307B0(PadInput *pad, CTouchPanel *touch, Camera2D *cam
     }
     Update(map);
     int animState = GetUnk1D8();
-    if (unk_08->unk_0C->unk_1A0 == 0x80000 || unk_08->unk_0C->unk_1A0 == 0x800000) {
+    if (m_drawObject->m_actor->unk_1A0 == 0x80000 || m_drawObject->m_actor->unk_1A0 == 0x800000) {
         if (animState == 1 && !s_game->m_audioEngine->IsSePlaying(0x10E)) {
             s_game->m_audioEngine->PlaySe(0x10E);
         } else if (animState == 0 && s_game->m_audioEngine->IsSePlaying(0x10E)) {
@@ -691,7 +691,7 @@ void CFieldPlayer::ov0_02132E68(BOOL arg1)
         mgr->ov0_02139E14(0);
         return;
     }
-    if (unk_08->IsUnk00CSet()) {
+    if (m_drawObject->IsUnk00CSet()) {
         mgr->ov0_02139E14(0);
     } else {
         mgr->ov0_02139E14(1);
@@ -805,27 +805,27 @@ void CFieldPlayer::ov0_02132FA0(u8 mode)
         break;
     }
     ResetMove();
-    unk_08->unk_0C->sub_0203EE3C();
+    m_drawObject->m_actor->sub_0203EE3C();
 }
 
 BOOL CFieldPlayer::ov0_021333A0(fx32 dx, fx32 dy, int arg3, int damage, int arg5)
 {
     CFieldScene *scene = MAIN_BSS_0210CA40;
-    if (scene != NULL && ((scene->unk_00D0 & 1) ? TRUE : FALSE)) {
+    if (scene != NULL && ((scene->m_flags & 1) ? TRUE : FALSE)) {
         return FALSE;
     }
     if (!(unk_10C & 1)) {
         if (arg3 > 0) {
             int cell = 0;
-            if (unk_6C != NULL) {
-                CFieldMapLayerAttribute *attr = unk_6C->GetAttributeLayer(unk_14);
+            if (m_map != NULL) {
+                CFieldMapLayerAttribute *attr = m_map->GetAttributeLayer(m_layer);
                 if (attr != NULL) {
                     cell = attr->GetCellAtPos(GetX(), GetY());
                 }
             }
             if (cell == 0xE || cell == 0x17) {
-                if (unk_14 > 0) {
-                    SetLayer(unk_14 - 1);
+                if (m_layer > 0) {
+                    SetLayer(m_layer - 1);
                 }
                 ov0_021337DC(0x4000, 0x6000, 0, -0x3000, 0x800, 0x3000, 0, 0x10000, 0x10, 2);
             } else {
@@ -834,11 +834,11 @@ BOOL CFieldPlayer::ov0_021333A0(fx32 dx, fx32 dy, int arg3, int damage, int arg5
                 unk_118 = dy;
                 unk_138 = arg3;
                 unk_144 = arg3;
-                if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-                    unk_08->unk_0C->FixDir();
+                if (m_drawObject != NULL && m_drawObject->m_actor != NULL) {
+                    m_drawObject->m_actor->FixDir();
                 }
                 sub_reset();
-                if (unk_08->unk_0C->unk_1A0 == 2 || unk_08->unk_0C->unk_1A0 == 0x20) {
+                if (m_drawObject->m_actor->unk_1A0 == 2 || m_drawObject->m_actor->unk_1A0 == 0x20) {
                     PlayAnim(0x800, 0);
                 } else {
                     ShowSprite();
@@ -847,8 +847,8 @@ BOOL CFieldPlayer::ov0_021333A0(fx32 dx, fx32 dy, int arg3, int damage, int arg5
             }
             scene->unk_0078 = 0;
             scene->ov0_0212451C();
-            if (scene->unk_0054 != NULL) {
-                scene->unk_0054->sub_02022DD4();
+            if (scene->m_subScreen != NULL) {
+                scene->m_subScreen->SwitchToDefaultPanel();
             }
         }
         SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
@@ -863,11 +863,11 @@ BOOL CFieldPlayer::ov0_021333A0(fx32 dx, fx32 dy, int arg3, int damage, int arg5
         }
         if (energy <= 0) {
             unk_138 = 20;
-            s_game->unk_14BC->Start(2, 120);
-            scene->unk_0054->SetIdleReturn(0);
-            scene->unk_0054->unk_60 = 1;
-            if (s_game->unk_14C0->IsActive() || (s_game->unk_14C0->GetMode() != 4 && s_game->unk_14C0->GetMode() != 2)) {
-                s_game->unk_14C0->Start(2, 120);
+            s_game->m_mainFade->Start(2, 120);
+            scene->m_subScreen->SetIdleReturn(0);
+            scene->m_subScreen->unk_60 = 1;
+            if (s_game->m_subFade->IsActive() || (s_game->m_subFade->GetMode() != 4 && s_game->m_subFade->GetMode() != 2)) {
+                s_game->m_subFade->Start(2, 120);
             }
             s_game->m_audioEngine->StopBgm(60);
             s_game->m_audioEngine->PlaySe(0x114);
@@ -878,10 +878,10 @@ BOOL CFieldPlayer::ov0_021333A0(fx32 dx, fx32 dy, int arg3, int damage, int arg5
                 unk_110 = 2;
             }
         } else if (arg5 > 0) {
-            s_game->m_audioEngine->sub_02034CA0(0x49, 0x4F);
+            s_game->m_audioEngine->PlayGroupSe(0x49, 0x4F);
             SetInvincible(unk_138 + 60, 2);
         } else {
-            s_game->m_audioEngine->sub_02034CA0(0x92, 0x131);
+            s_game->m_audioEngine->PlayGroupSe(0x92, 0x131);
         }
     }
     return TRUE;
@@ -892,9 +892,9 @@ BOOL CFieldPlayer::ov0_021337DC(int dir, int dir2, fx32 vx, fx32 vy, int arg5, i
     fx32 dx = vx >= 0 ? distX : -distX;
     CFieldMapLayerCollision *coll = NULL;
     CFieldMapLayerAttribute *attr = NULL;
-    if (unk_6C != NULL) {
-        coll = unk_6C->GetLayer(unk_14);
-        attr = unk_6C->GetAttributeLayer(unk_14);
+    if (m_map != NULL) {
+        coll = m_map->GetLayer(m_layer);
+        attr = m_map->GetAttributeLayer(m_layer);
         if (coll != NULL) {
             int size = coll->m_cellSize;
             if (vx != 0) {
@@ -907,9 +907,9 @@ BOOL CFieldPlayer::ov0_021337DC(int dir, int dir2, fx32 vx, fx32 vy, int arg5, i
     unk_134 = dir;
     unk_110 = 3;
     sub_reset();
-    if (unk_08->unk_0C->unk_1A0 == 0x8000) {
-        if (unk_08 != NULL) {
-            unk_08->sub_show();
+    if (m_drawObject->m_actor->unk_1A0 == 0x8000) {
+        if (m_drawObject != NULL) {
+            m_drawObject->sub_show();
         }
         sub_020128EC_(dir);
     } else {
@@ -917,16 +917,16 @@ BOOL CFieldPlayer::ov0_021337DC(int dir, int dir2, fx32 vx, fx32 vy, int arg5, i
     }
     if (mode == 2) {
         unk_13C = 3;
-        if (unk_08->unk_0C->unk_1A0 != 0x8000) {
+        if (m_drawObject->m_actor->unk_1A0 != 0x8000) {
             PlayAnim(0x2000, 0);
         }
         unk_138 = 10;
-        if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-            unk_08->unk_0C->m_flags |= 8;
+        if (m_drawObject != NULL && m_drawObject->m_actor != NULL) {
+            m_drawObject->m_actor->m_flags |= 8;
         }
     } else {
         unk_13C = 0;
-        if (unk_08->unk_0C->unk_1A0 != 0x8000) {
+        if (m_drawObject->m_actor->unk_1A0 != 0x8000) {
             PlayAnim(0x1000, 0);
         }
         s_game->m_audioEngine->PlaySe(0x111);
@@ -934,7 +934,7 @@ BOOL CFieldPlayer::ov0_021337DC(int dir, int dir2, fx32 vx, fx32 vy, int arg5, i
     unk_114 = vx;
     unk_118 = vy;
     SetPosXY(GetX(), GetY() + distY);
-    SetUnk8C(distY);
+    SetBaseHeight(distY);
     unk_124 = distX;
     unk_11C = distY;
     unk_128 = arg5;
@@ -950,7 +950,7 @@ BOOL CFieldPlayer::ov0_021337DC(int dir, int dir2, fx32 vx, fx32 vy, int arg5, i
         while (CFieldMapLayerCollision::IsWall(cell) || attrCell == 0xE || attrCell == 0x17) {
             // fx32 is long: the int conversion keeps this sum a CSE candidate (computed once, like the original).
             SetPosXY(GetX(), (int)GetY() + 0x10000);
-            SetUnk8C(GetUnk8C() + 0x10000);
+            SetBaseHeight(GetBaseHeight() + 0x10000);
             unk_11C += 0x10000;
             cell = coll->GetCellAtPos(dx + GetX(), GetY());
             if (attr != NULL) {
@@ -966,7 +966,7 @@ void CFieldPlayer::SetLayer(int arg0)
 {
     // A plain &MAIN_BSS_020B26A0 gets rematerialized at each use; the original keeps it in a register.
     SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
-    unk_14 = arg0;
+    m_layer = arg0;
     if (arg0 == save->m_layer) {
         return;
     }
@@ -1006,10 +1006,10 @@ void CFieldPlayer::PushHistory(Point2D pos, Point2D partnerPos)
 
 void CFieldPlayer::ov0_02133EE4()
 {
-    if (unk_6C == NULL) {
+    if (m_map == NULL) {
         return;
     }
-    if (unk_6C->GetLayer(unk_14) == NULL) {
+    if (m_map->GetLayer(m_layer) == NULL) {
         return;
     }
     Point2D cell;
@@ -1032,7 +1032,7 @@ void CFieldPlayer::ov0_02133EE4()
         ov0_02133EB4();
     }
     Point2D partner;
-    ov0_0213EA6C(&partner, cell, unk_14, 0);
+    ov0_0213EA6C(&partner, cell, m_layer, 0);
     cell.x <<= 16;
     cell.y <<= 16;
     partner.x <<= 16;
@@ -1053,8 +1053,8 @@ BOOL CFieldPlayer::ov0_021341E0()
     if (unk_110 != 7) {
         unk_110 = 0;
         unk_138 = 0;
-        if (unk_08 != NULL && unk_08->unk_0C != NULL) {
-            unk_08->unk_0C->unk_8C = 0;
+        if (m_drawObject != NULL && m_drawObject->m_actor != NULL) {
+            m_drawObject->m_actor->m_height = 0;
         }
         return TRUE;
     }

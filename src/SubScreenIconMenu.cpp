@@ -78,19 +78,19 @@ void SubScreenIconMenu::Init()
 
 void SubScreenIconMenu::Open()
 {
-    unk_08->sub_02024380();
+    unk_08->Open();
     unk_00 = 1;
 }
 
-void SubScreenIconMenu::sub_020234F0()
+void SubScreenIconMenu::OpenFadeIn()
 {
-    unk_08->sub_020243CC();
+    unk_08->OpenFadeIn();
     unk_00 = 1;
 }
 
-void SubScreenIconMenu::sub_0202350C(int timer)
+void SubScreenIconMenu::OpenTimed(int timer)
 {
-    unk_08->sub_020243F0(timer);
+    unk_08->OpenTimed(timer);
     unk_00 = 1;
 }
 
@@ -109,7 +109,7 @@ int SubScreenIconMenu::GetSelection()
 
 SubScreenIconMenuView::SubScreenIconMenuView(CGame *game)
 {
-    unk_120 = game;
+    m_game = game;
     Init();
 }
 
@@ -130,7 +130,7 @@ void SubScreenIconMenuView::Update()
             } else if (unk_08 == 5) {
                 StartClose();
             } else {
-                sub_02024690();
+                FadeOut();
             }
         }
         break;
@@ -167,8 +167,8 @@ void SubScreenIconMenuView::Update()
     case 5:
         if (unk_18->unk_04 == 0) {
             unk_00 = 6;
-            unk_120->unk_14BC->Start(3, 0x1E);
-            unk_120->unk_14C0->Start(3, 0x1E);
+            m_game->m_mainFade->Start(3, 0x1E);
+            m_game->m_subFade->Start(3, 0x1E);
         }
         break;
     case 6:
@@ -177,7 +177,7 @@ void SubScreenIconMenuView::Update()
         }
         unk_00 = 1;
     case 1:
-        sub_02023B54();
+        UpdateAutoClose();
         break;
     }
 
@@ -233,7 +233,7 @@ void SubScreenIconMenuView::Init()
     unk_1C = NULL;
     unk_20 = NULL;
     unk_11C = NULL;
-    unk_114 = FALSE;
+    m_autoClose = FALSE;
 }
 
 void SubScreenIconMenuView::CreateIcons()
@@ -281,24 +281,24 @@ void SubScreenIconMenuView::SetVisible(BOOL visible)
     unk_6C->SetVisible(visible);
 }
 
-void SubScreenIconMenuView::sub_02023B54()
+void SubScreenIconMenuView::UpdateAutoClose()
 {
     if (!FieldSubScreen::GetInstance()->IsRangerCardShown()) {
         return;
     }
 
-    if (unk_114) {
-        if (--unk_118 > 0) {
+    if (m_autoClose) {
+        if (--m_closeTimer > 0) {
             return;
         }
-        sub_02024440();
+        Close();
         return;
     }
 
     if (unk_6C != NULL && unk_6C->unk_14 != 0) {
-        PadInput *pad = unk_120->unk_0014;
+        PadInput *pad = m_game->unk_0014;
         if (unk_6C->GetTouchTrigger() || (u16)(pad->unk_0002 & PAD_BUTTON_B) || (u16)(pad->unk_0002 & PAD_BUTTON_R)) {
-            sub_02024440();
+            Close();
             return;
         }
     }
@@ -309,7 +309,7 @@ void SubScreenIconMenuView::sub_02023B54()
             unk_80[i] = 0;
             unk_00 = 2;
             unk_08 = i;
-            unk_120->m_audioEngine->PlaySe(0xFF);
+            m_game->m_audioEngine->PlaySe(0xFF);
             return;
         }
     }
@@ -362,7 +362,7 @@ void SubScreenIconMenuView::UpdateIcon(u16 index)
         if (unk_110) {
             t = frame;
             if (frame == 1) {
-                unk_120->m_audioEngine->PlaySe(10);
+                m_game->m_audioEngine->PlaySe(10);
             }
         } else {
             t = unk_70 - frame;
@@ -409,7 +409,7 @@ void SubScreenIconMenuView::UpdateIcon(u16 index)
         } else {
             t = frame;
             if (frame == 1) {
-                unk_120->m_audioEngine->PlaySe(10);
+                m_game->m_audioEngine->PlaySe(10);
             }
         }
         if (frame >= unk_74) {
@@ -510,7 +510,7 @@ void SubScreenIconMenuView::Draw()
     SetAffineScales(scaled);
 }
 
-void SubScreenIconMenuView::sub_02024214()
+void SubScreenIconMenuView::LoadGraphics()
 {
     GX_SetVisiblePlane(GX_GetVisiblePlane() | GX_PLANEMASK_OBJ);
     GX_SetOBJVRamModeChar(GX_OBJVRAMMODE_CHAR_1D_64K);
@@ -519,48 +519,48 @@ void SubScreenIconMenuView::sub_02024214()
     SAFE_DELETE(unk_1C);
     SAFE_DELETE(unk_20);
 
-    unk_1C = new OamSpriteSet((GXOamAttr *)unk_120->unk_0024, unk_120->unk_14A8, FALSE, 0x40);
-    unk_20 = new OamSpriteSet((GXOamAttr *)&unk_120->unk_0024[0x60], unk_120->unk_14A8, FALSE, 0x40);
+    unk_1C = new OamSpriteSet((GXOamAttr *)m_game->unk_0024, m_game->unk_14A8, FALSE, 0x40);
+    unk_20 = new OamSpriteSet((GXOamAttr *)&m_game->unk_0024[0x60], m_game->unk_14A8, FALSE, 0x40);
 
     int offset = 0x6000;
     offset += unk_1C->Load("data/menu", "cm000_00", offset / 32, 10);
     unk_20->Load("data/menu", "ma005_00", offset / 32, 13);
 }
 
-BOOL SubScreenIconMenuView::sub_02024380()
+BOOL SubScreenIconMenuView::Open()
 {
     unk_00 = 1;
     GX_SetOBJVRamModeChar(GX_OBJVRAMMODE_CHAR_1D_64K);
-    sub_020244DC();
+    Setup();
     OpenIcons();
-    unk_114 = FALSE;
+    m_autoClose = FALSE;
     return TRUE;
 }
 
-BOOL SubScreenIconMenuView::sub_020243CC()
+BOOL SubScreenIconMenuView::OpenFadeIn()
 {
-    sub_020244DC();
-    sub_0202462C();
-    unk_114 = FALSE;
+    Setup();
+    FadeIn();
+    m_autoClose = FALSE;
     return TRUE;
 }
 
-void SubScreenIconMenuView::sub_020243F0(int timer)
+void SubScreenIconMenuView::OpenTimed(int timer)
 {
     unk_00 = 1;
     GX_SetOBJVRamModeChar(GX_OBJVRAMMODE_CHAR_1D_64K);
-    sub_020244DC();
+    Setup();
     OpenIcons();
-    unk_114 = TRUE;
-    unk_118 = timer;
+    m_autoClose = TRUE;
+    m_closeTimer = timer;
 }
 
-BOOL SubScreenIconMenuView::sub_02024440()
+BOOL SubScreenIconMenuView::Close()
 {
-    unk_120->m_audioEngine->PlaySe(0x103);
+    m_game->m_audioEngine->PlaySe(0x103);
     CloseIcons();
     unk_08 = -1;
-    FieldSubScreen::GetInstance()->sub_02022DD4();
+    FieldSubScreen::GetInstance()->SwitchToDefaultPanel();
     return TRUE;
 }
 
@@ -568,13 +568,13 @@ void SubScreenIconMenuView::OpenSaveDialog()
 {
     unk_00 = 9;
     SAFE_DELETE(unk_11C);
-    unk_11C = new SaveDialog(unk_120);
+    unk_11C = new SaveDialog(m_game);
     unk_11C->Start();
 }
 
-BOOL SubScreenIconMenuView::sub_020244DC()
+BOOL SubScreenIconMenuView::Setup()
 {
-    sub_02024214();
+    LoadGraphics();
     CreateIcons();
     return TRUE;
 }
@@ -613,31 +613,31 @@ void SubScreenIconMenuView::StartOpen()
     unk_00 = 3;
 }
 
-void SubScreenIconMenuView::sub_0202462C()
+void SubScreenIconMenuView::FadeIn()
 {
-    if (unk_120 == NULL) {
+    if (m_game == NULL) {
         return;
     }
     unk_00 = 6;
-    unk_120->unk_14BC->Start(3, 0x1E);
-    unk_120->unk_14C0->Start(3, 0x1E);
+    m_game->m_mainFade->Start(3, 0x1E);
+    m_game->m_subFade->Start(3, 0x1E);
     unk_18->Show();
     SetVisible(TRUE);
 }
 
-void SubScreenIconMenuView::sub_02024690()
+void SubScreenIconMenuView::FadeOut()
 {
-    if (unk_120 == NULL) {
+    if (m_game == NULL) {
         return;
     }
     unk_00 = 7;
-    unk_120->unk_14BC->Start(4, 0x1E);
-    unk_120->unk_14C0->Start(4, 0x1E);
+    m_game->m_mainFade->Start(4, 0x1E);
+    m_game->m_subFade->Start(4, 0x1E);
 }
 
 BOOL SubScreenIconMenuView::IsFading()
 {
-    if (unk_120->unk_14BC->IsActive() || unk_120->unk_14C0->IsActive()) {
+    if (m_game->m_mainFade->IsActive() || m_game->m_subFade->IsActive()) {
         return TRUE;
     }
     return FALSE;

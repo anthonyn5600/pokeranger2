@@ -170,7 +170,7 @@ void SaveManager::SelectList(u16 list)
     unk_66 = list;
 }
 
-BOOL SaveManager::sub_02028220(u16 list)
+BOOL SaveManager::Save(u16 list)
 {
     SelectList(list);
     switch (unk_54) {
@@ -245,7 +245,7 @@ BOOL SaveManager::sub_02028408(u16 list)
     return Load(list);
 }
 
-u32 SaveManager::sub_0202841C()
+u32 SaveManager::Update()
 {
     switch (unk_65) {
     case 1:
@@ -652,7 +652,7 @@ u8 SaveManager::UpdateWriteSteps()
     return result;
 }
 
-BOOL SaveManager::sub_020292CC(u16 list)
+BOOL SaveManager::StartWriteSteps(u16 list)
 {
     SelectList(list);
     switch (unk_54) {

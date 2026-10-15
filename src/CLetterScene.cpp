@@ -132,11 +132,11 @@ void CLetterScene::func6()
     }
 
     if (unk_10 == 0x33333333) {
-        m_game->unk_14BC->Start(2, 0);
-        m_game->unk_14C0->Start(2, 0);
+        m_game->m_mainFade->Start(2, 0);
+        m_game->m_subFade->Start(2, 0);
     } else {
-        m_game->unk_14BC->Start(4, 0);
-        m_game->unk_14C0->Start(4, 0);
+        m_game->m_mainFade->Start(4, 0);
+        m_game->m_subFade->Start(4, 0);
     }
 
     OS_SPrintf(path, "data/message/chapter/chapter%03d_mes", m_chapter);
@@ -221,11 +221,11 @@ void CLetterScene::ov4_0211D440()
     m_game->unk_1494->AllocWindows(1);
     m_game->unk_1494->InitWindow(0, 30, 20, 1, 2, 0x80, 0, 2);
     if (unk_10 == 0x33333333) {
-        m_game->unk_14BC->Start(1, 180);
-        m_game->unk_14C0->Start(1, 180);
+        m_game->m_mainFade->Start(1, 180);
+        m_game->m_subFade->Start(1, 180);
     } else {
-        m_game->unk_14BC->Start(3, 180);
-        m_game->unk_14C0->Start(3, 180);
+        m_game->m_mainFade->Start(3, 180);
+        m_game->m_subFade->Start(3, 180);
     }
 }
 
@@ -249,15 +249,15 @@ u32 CLetterScene::func0()
             unk_24++;
         } else if (unk_10 == 0x33333333) {
             if ((u16)(pad->unk_0002 & 1) || (u16)(pad->unk_0002 & 2) || touchPanel->unk_04 != 0) {
-                m_game->unk_14BC->Start(2, 60);
-                m_game->unk_14C0->Start(2, 60);
+                m_game->m_mainFade->Start(2, 60);
+                m_game->m_subFade->Start(2, 60);
                 unk_20 = 60;
                 m_game->m_audioEngine->PlaySe(3);
             }
         } else {
             if ((u16)(pad->unk_0002 & 1) || (u16)(pad->unk_0002 & 2) || touchPanel->unk_04 != 0) {
-                m_game->unk_14BC->Start(4, 60);
-                m_game->unk_14C0->Start(4, 60);
+                m_game->m_mainFade->Start(4, 60);
+                m_game->m_subFade->Start(4, 60);
                 unk_20 = 60;
                 m_game->m_audioEngine->PlaySe(3);
             }

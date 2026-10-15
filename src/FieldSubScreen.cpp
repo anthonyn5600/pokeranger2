@@ -22,112 +22,112 @@ FieldSubScreen *FieldSubScreen::sInstance;
 
 FieldSubScreen::FieldSubScreen(CGame *game)
 {
-    unk_68 = game;
+    m_game = game;
     Init();
 }
 
 FieldSubScreen::~FieldSubScreen()
 {
-    SAFE_DELETE(unk_30);
-    SAFE_DELETE(unk_40);
-    SAFE_DELETE(unk_34);
-    SAFE_DELETE(unk_18);
-    SAFE_DELETE(unk_4C);
-    SAFE_DELETE(unk_54);
+    SAFE_DELETE(m_partyPanel);
+    SAFE_DELETE(m_targetInfo);
+    SAFE_DELETE(m_pokemonInfo);
+    SAFE_DELETE(m_areaMap);
+    SAFE_DELETE(m_rangerCard);
+    SAFE_DELETE(m_picture);
 }
 
 void FieldSubScreen::Update()
 {
-    switch (unk_00) {
+    switch (m_mode) {
     case 0:
         break;
     case 1:
-        unk_18->Update();
+        m_areaMap->Update();
         break;
     case 2:
-        unk_30->Update();
+        m_partyPanel->Update();
         break;
     case 3:
         break;
     case 4:
-        if (unk_34->unk_70 == 0x10) {
-            unk_34->Update();
+        if (m_pokemonInfo->unk_70 == 0x10) {
+            m_pokemonInfo->Update();
             UpdateIdleTimer();
         }
         break;
     case 5:
         break;
     case 6:
-        if (unk_40->unk_50 == 0x10) {
-            unk_40->Update();
+        if (m_targetInfo->unk_50 == 0x10) {
+            m_targetInfo->Update();
             UpdateIdleTimer();
         }
         break;
     case 7:
         break;
     case 9:
-        unk_48 = unk_4C->LoadStep(unk_48);
+        unk_48 = m_rangerCard->LoadStep(unk_48);
         if (unk_48 == -1) {
-            unk_4C->ReleaseMessages();
-            unk_00 = 8;
-            sub_02023230(10);
+            m_rangerCard->ReleaseMessages();
+            m_mode = 8;
+            FadeIn(10);
         }
         break;
     case 8:
-        unk_4C->Update();
+        m_rangerCard->Update();
         break;
     case 10:
-        unk_54->Update();
+        m_picture->Update();
         break;
     }
 
-    if (unk_04) {
-        if (sub_0202331C()) {
+    if (m_switching) {
+        if (IsFading()) {
             return;
         }
-        unk_04 = FALSE;
-        switch (unk_02) {
+        m_switching = FALSE;
+        switch (m_nextMode) {
         case 0:
             break;
         case 1:
-            sub_02022EE8();
+            LoadAreaMap();
             break;
         case 2:
-            sub_02022F50();
+            LoadPartyPanel();
             break;
         case 3:
             break;
         case 4:
-            unk_00 = 3;
-            if (sub_02022FF4() != 0x10) {
-                unk_04 = TRUE;
+            m_mode = 3;
+            if (LoadPokemonInfoStep() != 0x10) {
+                m_switching = TRUE;
                 return;
             }
-            sub_02023134();
-            unk_34->ReleaseMessages();
-            unk_00 = 4;
+            FinishSwitch();
+            m_pokemonInfo->ReleaseMessages();
+            m_mode = 4;
             break;
         case 5:
             break;
         case 6:
-            unk_00 = 5;
-            if (sub_02023060() != 0x10) {
-                unk_04 = TRUE;
+            m_mode = 5;
+            if (LoadTargetInfoStep() != 0x10) {
+                m_switching = TRUE;
                 return;
             }
-            sub_02023134();
-            unk_40->ReleaseMessages();
-            unk_00 = 6;
+            FinishSwitch();
+            m_targetInfo->ReleaseMessages();
+            m_mode = 6;
             break;
         case 7:
             break;
         case 8:
             break;
         case 9:
-            sub_02023078();
+            LoadRangerCard();
             break;
         case 10:
-            sub_020230D4();
+            LoadPicture();
             break;
         }
     }
@@ -139,7 +139,7 @@ void FieldSubScreen::sub_02022710()
 
 void FieldSubScreen::Render()
 {
-    switch (unk_00) {
+    switch (m_mode) {
     case 0:
         break;
     case 1:
@@ -151,14 +151,14 @@ void FieldSubScreen::Render()
     case 3:
         break;
     case 4:
-        if (unk_34->unk_70 == 0x10) {
+        if (m_pokemonInfo->unk_70 == 0x10) {
             RenderPokemonInfo();
         }
         break;
     case 5:
         break;
     case 6:
-        if (unk_40->unk_50 == 0x10) {
+        if (m_targetInfo->unk_50 == 0x10) {
             RenderTargetInfo();
         }
         break;
@@ -178,26 +178,26 @@ void FieldSubScreen::Render()
 
 void FieldSubScreen::sub_020227AC()
 {
-    if (unk_00 == 7) {
+    if (m_mode == 7) {
         sub_02007D78();
     }
 }
 
 void FieldSubScreen::Init()
 {
-    unk_02 = unk_00 = 0;
+    m_nextMode = m_mode = 0;
     sInstance = this;
     sub_020228C0();
-    unk_04 = FALSE;
-    unk_18 = new SubScreenAreaMap(unk_68);
-    unk_18->Load();
-    unk_40 = new SubScreenTargetInfo();
-    unk_40->LoadBG();
-    unk_34 = new SubScreenPokemonInfo();
-    unk_34->LoadPTC();
-    unk_30 = new SubScreenPartyPanel();
-    unk_4C = new SubScreenRangerCard();
-    unk_54 = new SubScreenPicture(unk_68);
+    m_switching = FALSE;
+    m_areaMap = new SubScreenAreaMap(m_game);
+    m_areaMap->Load();
+    m_targetInfo = new SubScreenTargetInfo();
+    m_targetInfo->LoadBG();
+    m_pokemonInfo = new SubScreenPokemonInfo();
+    m_pokemonInfo->LoadPTC();
+    m_partyPanel = new SubScreenPartyPanel();
+    m_rangerCard = new SubScreenRangerCard();
+    m_picture = new SubScreenPicture(m_game);
     unk_38 = -1;
     unk_44 = -1;
     unk_58 = FALSE;
@@ -211,38 +211,38 @@ void FieldSubScreen::sub_020228C0()
 
 void FieldSubScreen::RenderAreaMap()
 {
-    unk_18->Render();
+    m_areaMap->Render();
 }
 
 void FieldSubScreen::RenderPartyPanel()
 {
-    unk_30->Render();
+    m_partyPanel->Render();
 }
 
 void FieldSubScreen::RenderPokemonInfo()
 {
-    unk_34->Render();
+    m_pokemonInfo->Render();
 }
 
 void FieldSubScreen::RenderTargetInfo()
 {
-    unk_40->Render();
+    m_targetInfo->Render();
 }
 
 void FieldSubScreen::RenderRangerCard()
 {
-    unk_4C->Render();
+    m_rangerCard->Render();
 }
 
 void FieldSubScreen::RenderPicture()
 {
-    unk_54->Render();
+    m_picture->Render();
 }
 
 void FieldSubScreen::HideAreaMap()
 {
-    if (unk_18 != NULL) {
-        unk_18->Hide();
+    if (m_areaMap != NULL) {
+        m_areaMap->Hide();
     }
 }
 
@@ -250,26 +250,26 @@ BOOL FieldSubScreen::ShowAreaMap(u32 mapId, int x, int y)
 {
     unk_64 = FALSE;
     unk_2C = 0;
-    unk_1C = mapId;
-    unk_18->SetMap(mapId, x, y);
+    m_mapId = mapId;
+    m_areaMap->SetMap(mapId, x, y);
     if (unk_58) {
         return FALSE;
     }
     unk_44 = -1;
     unk_38 = -1;
     SetVramBanks();
-    if (MAIN_BSS_020B26A0.unk_8B70 == 0) {
-        unk_30->Release();
-        unk_30->LoadPanel();
+    if (MAIN_BSS_020B26A0.m_subScreenShowsMap == 0) {
+        m_partyPanel->Release();
+        m_partyPanel->LoadPanel();
         ResetBGOffsets();
-        unk_00 = 2;
-        unk_02 = 0;
+        m_mode = 2;
+        m_nextMode = 0;
         return FALSE;
     }
-    unk_18->Show(unk_1C, x, y);
-    unk_00 = 1;
-    unk_02 = 0;
-    MAIN_BSS_020B26A0.unk_8B70 = 1;
+    m_areaMap->Show(m_mapId, x, y);
+    m_mode = 1;
+    m_nextMode = 0;
+    MAIN_BSS_020B26A0.m_subScreenShowsMap = 1;
     return TRUE;
 }
 
@@ -279,21 +279,21 @@ void FieldSubScreen::SwitchToAreaMap(int mapId, int x, int y)
     if (unk_58) {
         return;
     }
-    unk_02 = 1;
+    m_nextMode = 1;
     if (x == -1000 && y == -1000 && mapId == -1000) {
-        unk_20 = unk_1C;
-        unk_24 = unk_18->unk_30;
-        unk_28 = unk_18->unk_34;
+        unk_20 = m_mapId;
+        unk_24 = m_areaMap->unk_30;
+        unk_28 = m_areaMap->unk_34;
     } else {
         unk_20 = mapId;
         unk_24 = x;
         unk_28 = y;
     }
-    if (!sub_02022ED0()) {
-        unk_04 = FALSE;
-        sub_02022EE8();
+    if (!BeginSwitch()) {
+        m_switching = FALSE;
+        LoadAreaMap();
     }
-    MAIN_BSS_020B26A0.unk_8B70 = 1;
+    MAIN_BSS_020B26A0.m_subScreenShowsMap = 1;
     unk_38 = -1;
     unk_44 = -1;
 }
@@ -301,7 +301,7 @@ void FieldSubScreen::SwitchToAreaMap(int mapId, int x, int y)
 void FieldSubScreen::SetMapPos(int x, int y)
 {
     if (!unk_58) {
-        unk_18->SetPos(x, y);
+        m_areaMap->SetPos(x, y);
     }
 }
 
@@ -312,12 +312,12 @@ BOOL FieldSubScreen::SwitchToPartyPanel()
         return FALSE;
     }
     unk_2C = 0;
-    unk_02 = 2;
-    if (!sub_02022ED0()) {
-        unk_04 = FALSE;
-        sub_02022F50();
+    m_nextMode = 2;
+    if (!BeginSwitch()) {
+        m_switching = FALSE;
+        LoadPartyPanel();
     }
-    MAIN_BSS_020B26A0.unk_8B70 = 0;
+    MAIN_BSS_020B26A0.m_subScreenShowsMap = 0;
     unk_38 = -1;
     unk_44 = -1;
     return TRUE;
@@ -329,7 +329,7 @@ BOOL FieldSubScreen::sub_02022B20()
     if (unk_58) {
         return FALSE;
     }
-    if (unk_00 == 2 && unk_02 != 2) {
+    if (m_mode == 2 && m_nextMode != 2) {
         SwitchToPartyPanel();
     }
     return TRUE;
@@ -343,11 +343,11 @@ BOOL FieldSubScreen::SwitchToPokemonInfo(u32 id, int arg2)
     }
     unk_2C = 0;
     if (id != unk_38) {
-        unk_02 = 4;
+        m_nextMode = 4;
         unk_38 = id;
         unk_3C = arg2;
-        sub_02022ED0();
-        sub_02022FA8();
+        BeginSwitch();
+        BeginLoadPokemonInfo();
         unk_44 = -1;
         return TRUE;
     }
@@ -362,17 +362,17 @@ BOOL FieldSubScreen::SwitchToTargetInfo(u32 id)
     }
     unk_2C = 0;
     if (id != unk_44) {
-        unk_02 = 6;
+        m_nextMode = 6;
         unk_44 = id;
-        sub_02022ED0();
-        sub_02023014();
+        BeginSwitch();
+        BeginLoadTargetInfo();
         unk_38 = -1;
         return TRUE;
     }
     return FALSE;
 }
 
-BOOL FieldSubScreen::sub_02022C1C()
+BOOL FieldSubScreen::SwitchToRangerCard()
 {
     unk_64 = FALSE;
     if (unk_58) {
@@ -380,15 +380,15 @@ BOOL FieldSubScreen::sub_02022C1C()
     }
     unk_38 = -1;
     unk_44 = -1;
-    unk_02 = 9;
-    if (!sub_02022ED0()) {
-        unk_04 = FALSE;
-        sub_02023078();
+    m_nextMode = 9;
+    if (!BeginSwitch()) {
+        m_switching = FALSE;
+        LoadRangerCard();
     }
     return TRUE;
 }
 
-BOOL FieldSubScreen::sub_02022C74()
+BOOL FieldSubScreen::ShowRangerCardNow()
 {
     unk_64 = FALSE;
     if (unk_58) {
@@ -398,13 +398,13 @@ BOOL FieldSubScreen::sub_02022C74()
     unk_38 = -1;
     unk_44 = -1;
     SetVramBanks();
-    unk_4C->Release();
+    m_rangerCard->Release();
     unk_48 = 0;
     while (unk_48 != -1) {
-        unk_48 = unk_4C->LoadStep(unk_48);
+        unk_48 = m_rangerCard->LoadStep(unk_48);
     }
-    unk_4C->ReleaseMessages();
-    unk_00 = 8;
+    m_rangerCard->ReleaseMessages();
+    m_mode = 8;
     ResetBGOffsets();
     return TRUE;
 }
@@ -415,14 +415,14 @@ BOOL FieldSubScreen::sub_02022D04()
     if (unk_58) {
         return FALSE;
     }
-    if (unk_68->unk_15D4 == 0) {
+    if (m_game->unk_15D4 == 0) {
         return FALSE;
     }
-    if (unk_00 == 8 || unk_02 == 9 || unk_00 == 9) {
+    if (m_mode == 8 || m_nextMode == 9 || m_mode == 9) {
         return FALSE;
     }
     SetVramBanks();
-    unk_00 = 7;
+    m_mode = 7;
     GXS_SetVisiblePlane(GX_PLANEMASK_BG3);
     SetupBGFonts();
     return TRUE;
@@ -434,28 +434,28 @@ void FieldSubScreen::sub_02022D88()
     if (unk_58) {
         return;
     }
-    if (MAIN_BSS_020B26A0.unk_8B70 != 0) {
+    if (MAIN_BSS_020B26A0.m_subScreenShowsMap != 0) {
         SwitchToPartyPanel();
     } else {
-        SwitchToAreaMap(unk_1C, unk_18->unk_30, unk_18->unk_34);
+        SwitchToAreaMap(m_mapId, m_areaMap->unk_30, m_areaMap->unk_34);
     }
 }
 
-void FieldSubScreen::sub_02022DD4()
+void FieldSubScreen::SwitchToDefaultPanel()
 {
     unk_64 = FALSE;
-    if (unk_02 == 9) {
+    if (m_nextMode == 9) {
         return;
     }
     if (unk_58) {
         return;
     }
-    if (MAIN_BSS_020B26A0.unk_8B70 != 0) {
-        if (unk_00 != 1 && unk_02 != 1) {
-            SwitchToAreaMap(unk_1C, unk_18->unk_30, unk_18->unk_34);
+    if (MAIN_BSS_020B26A0.m_subScreenShowsMap != 0) {
+        if (m_mode != 1 && m_nextMode != 1) {
+            SwitchToAreaMap(m_mapId, m_areaMap->unk_30, m_areaMap->unk_34);
         }
     } else {
-        if (unk_00 != 2 && unk_02 != 2) {
+        if (m_mode != 2 && m_nextMode != 2) {
             SwitchToPartyPanel();
         }
     }
@@ -464,17 +464,17 @@ void FieldSubScreen::sub_02022DD4()
 void FieldSubScreen::ShowPicture(int picId)
 {
     unk_64 = FALSE;
-    unk_30->Release();
-    unk_34->Release();
-    unk_40->Release();
-    unk_4C->Release();
-    unk_54->Init();
+    m_partyPanel->Release();
+    m_pokemonInfo->Release();
+    m_targetInfo->Release();
+    m_rangerCard->Release();
+    m_picture->Init();
     unk_58 = TRUE;
     unk_50 = picId;
-    unk_02 = 10;
-    if (!sub_02022ED0()) {
-        unk_04 = FALSE;
-        sub_020230D4();
+    m_nextMode = 10;
+    if (!BeginSwitch()) {
+        m_switching = FALSE;
+        LoadPicture();
     }
     unk_64 = FALSE;
 }
@@ -484,110 +484,110 @@ void FieldSubScreen::sub_02022EC4()
     unk_58 = FALSE;
 }
 
-BOOL FieldSubScreen::sub_02022ED0()
+BOOL FieldSubScreen::BeginSwitch()
 {
-    unk_04 = TRUE;
-    return sub_02023298(10);
+    m_switching = TRUE;
+    return FadeOut(10);
 }
 
-BOOL FieldSubScreen::sub_02022EE8()
+BOOL FieldSubScreen::LoadAreaMap()
 {
-    unk_30->Release();
-    unk_34->Release();
-    unk_40->Release();
-    unk_4C->Release();
-    unk_54->Init();
+    m_partyPanel->Release();
+    m_pokemonInfo->Release();
+    m_targetInfo->Release();
+    m_rangerCard->Release();
+    m_picture->Init();
     SetVramBanks();
-    sub_02023134();
+    FinishSwitch();
     unk_2C = 0;
-    unk_1C = unk_20;
-    unk_18->Show(unk_1C, unk_24, unk_28);
+    m_mapId = unk_20;
+    m_areaMap->Show(m_mapId, unk_24, unk_28);
     return TRUE;
 }
 
-BOOL FieldSubScreen::sub_02022F50()
+BOOL FieldSubScreen::LoadPartyPanel()
 {
-    unk_34->Release();
-    unk_40->Release();
-    unk_4C->Release();
-    unk_54->Init();
+    m_pokemonInfo->Release();
+    m_targetInfo->Release();
+    m_rangerCard->Release();
+    m_picture->Init();
     SetVramBanks();
     unk_2C = 0;
-    unk_30->Release();
-    unk_30->LoadPanel();
-    sub_02023134();
+    m_partyPanel->Release();
+    m_partyPanel->LoadPanel();
+    FinishSwitch();
     return TRUE;
 }
 
-void FieldSubScreen::sub_02022FA8()
+void FieldSubScreen::BeginLoadPokemonInfo()
 {
-    unk_30->Release();
-    unk_40->Release();
-    unk_4C->Release();
-    unk_54->Init();
+    m_partyPanel->Release();
+    m_targetInfo->Release();
+    m_rangerCard->Release();
+    m_picture->Init();
     SetVramBanks();
     unk_2C = 0;
-    unk_34->Release();
-    unk_34->ResetLoad();
+    m_pokemonInfo->Release();
+    m_pokemonInfo->ResetLoad();
 }
 
-int FieldSubScreen::sub_02022FF4()
+int FieldSubScreen::LoadPokemonInfoStep()
 {
-    return unk_34->LoadStep(unk_38, unk_3C, 0);
+    return m_pokemonInfo->LoadStep(unk_38, unk_3C, 0);
 }
 
-void FieldSubScreen::sub_02023014()
+void FieldSubScreen::BeginLoadTargetInfo()
 {
-    unk_30->Release();
-    unk_40->Release();
-    unk_4C->Release();
-    unk_54->Init();
+    m_partyPanel->Release();
+    m_targetInfo->Release();
+    m_rangerCard->Release();
+    m_picture->Init();
     SetVramBanks();
     unk_2C = 0;
-    unk_40->Release();
-    unk_40->ResetLoad();
+    m_targetInfo->Release();
+    m_targetInfo->ResetLoad();
 }
 
-int FieldSubScreen::sub_02023060()
+int FieldSubScreen::LoadTargetInfoStep()
 {
-    return unk_40->Load(unk_44);
+    return m_targetInfo->Load(unk_44);
 }
 
-BOOL FieldSubScreen::sub_02023078()
+BOOL FieldSubScreen::LoadRangerCard()
 {
-    unk_30->Release();
-    unk_34->Release();
-    unk_40->Release();
-    unk_54->Init();
+    m_partyPanel->Release();
+    m_pokemonInfo->Release();
+    m_targetInfo->Release();
+    m_picture->Init();
     SetVramBanks();
-    unk_4C->Release();
+    m_rangerCard->Release();
     ResetBGOffsets();
-    unk_00 = unk_02;
-    unk_02 = 0;
+    m_mode = m_nextMode;
+    m_nextMode = 0;
     unk_48 = 0;
     return TRUE;
 }
 
-BOOL FieldSubScreen::sub_020230D4()
+BOOL FieldSubScreen::LoadPicture()
 {
-    unk_30->Release();
-    unk_34->Release();
-    unk_40->Release();
-    unk_4C->Release();
+    m_partyPanel->Release();
+    m_pokemonInfo->Release();
+    m_targetInfo->Release();
+    m_rangerCard->Release();
     unk_2C = 0;
-    unk_54->Init();
-    unk_54->Load(unk_50);
-    sub_02023134();
-    sub_02023230(30);
+    m_picture->Init();
+    m_picture->Load(unk_50);
+    FinishSwitch();
+    FadeIn(30);
     return TRUE;
 }
 
-void FieldSubScreen::sub_02023134()
+void FieldSubScreen::FinishSwitch()
 {
     ResetBGOffsets();
-    unk_00 = unk_02;
-    unk_02 = 0;
-    sub_02023230(10);
+    m_mode = m_nextMode;
+    m_nextMode = 0;
+    FadeIn(10);
 }
 
 void FieldSubScreen::ResetBGOffsets()
@@ -612,9 +612,9 @@ void FieldSubScreen::SetIdleReturn(int arg1)
 void FieldSubScreen::UpdateIdleTimer()
 {
     if (unk_5C) {
-        unk_2C += 60 / unk_68->unk_146C.GetFps();
+        unk_2C += 60 / m_game->unk_146C.GetFps();
         if (unk_2C >= 300) {
-            sub_02022DD4();
+            SwitchToDefaultPanel();
             unk_64 = TRUE;
             unk_2C = 0;
         }
@@ -623,56 +623,56 @@ void FieldSubScreen::UpdateIdleTimer()
 
 void FieldSubScreen::ClearMapIcons()
 {
-    if (unk_18 != NULL) {
-        unk_18->ClearIcons();
+    if (m_areaMap != NULL) {
+        m_areaMap->ClearIcons();
     }
 }
 
 void FieldSubScreen::AddMapIcon(int x, int y, int kind)
 {
-    if (unk_18 != NULL) {
-        unk_18->AddIcon(x, y, kind);
+    if (m_areaMap != NULL) {
+        m_areaMap->AddIcon(x, y, kind);
     }
 }
 
-void FieldSubScreen::sub_02023230(u16 duration)
+void FieldSubScreen::FadeIn(u16 duration)
 {
-    if (unk_68 == NULL) {
+    if (m_game == NULL) {
         return;
     }
     if (unk_60) {
         return;
     }
-    if (unk_68->unk_14C0->GetMode() == 2) {
-        unk_68->unk_14C0->Start(1, duration);
+    if (m_game->m_subFade->GetMode() == 2) {
+        m_game->m_subFade->Start(1, duration);
     } else {
-        unk_68->unk_14C0->Start(3, duration);
+        m_game->m_subFade->Start(3, duration);
     }
 }
 
-BOOL FieldSubScreen::sub_02023298(u16 duration)
+BOOL FieldSubScreen::FadeOut(u16 duration)
 {
-    if (unk_68 == NULL) {
+    if (m_game == NULL) {
         return FALSE;
     }
     unk_60 = 0;
-    if (unk_68->unk_14C0->GetMode() == 4 || unk_68->unk_14C0->GetMode() == 2) {
-        return unk_68->unk_14C0->IsActive();
+    if (m_game->m_subFade->GetMode() == 4 || m_game->m_subFade->GetMode() == 2) {
+        return m_game->m_subFade->IsActive();
     }
-    unk_68->unk_14C0->Start(4, duration);
+    m_game->m_subFade->Start(4, duration);
     return TRUE;
 }
 
-BOOL FieldSubScreen::sub_0202331C()
+BOOL FieldSubScreen::IsFading()
 {
     if (unk_64) {
-        if (unk_68->unk_14C0->IsActive() || unk_68->unk_14BC->IsActive() || unk_68->unk_14C4->func0()) {
+        if (m_game->m_subFade->IsActive() || m_game->m_mainFade->IsActive() || m_game->m_mainWipe->func0()) {
             return TRUE;
         }
         unk_64 = FALSE;
         return FALSE;
     }
-    return unk_68->unk_14C0->IsActive();
+    return m_game->m_subFade->IsActive();
 }
 
 FieldSubScreen *FieldSubScreen::GetInstance()
@@ -682,5 +682,5 @@ FieldSubScreen *FieldSubScreen::GetInstance()
 
 BOOL FieldSubScreen::IsRangerCardShown()
 {
-    return unk_00 == 8;
+    return m_mode == 8;
 }

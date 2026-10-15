@@ -45,8 +45,8 @@ public:
 
     inline void SetFollow(u32 id)
     {
-        unk_5C = 1;
-        unk_60 = id;
+        m_lookAt = 1;
+        m_lookAtId = id;
     }
 
     inline void ResetMove()

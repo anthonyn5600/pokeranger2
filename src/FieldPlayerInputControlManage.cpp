@@ -72,23 +72,23 @@ static inline void RaisePokemonState(SaveData *save, int i, u32 state)
 
 static inline void StartOutline(CFieldActor *actor, u16 color, int time)
 {
-    if (actor->unk_08 != NULL) {
-        CFieldDrawActor *draw = actor->unk_08->unk_0C;
+    if (actor->m_drawObject != NULL) {
+        CFieldDrawActor *draw = actor->m_drawObject->m_actor;
         if (draw != NULL) {
             draw->m_outlinePhase = 0;
         }
-        draw = actor->unk_08->unk_0C;
+        draw = actor->m_drawObject->m_actor;
         if (draw != NULL) {
             draw->m_outlineColor = color;
             draw->m_outlinePhase = 0;
         }
-        draw = actor->unk_08->unk_0C;
+        draw = actor->m_drawObject->m_actor;
         if (draw != NULL) {
             draw->m_outlineWidth = 2;
         }
-        draw = actor->unk_08->unk_0C;
+        draw = actor->m_drawObject->m_actor;
         if (draw != NULL) {
-            draw->unk_1A8 |= 1;
+            draw->m_effectFlags |= 1;
             draw->m_outlineTime = time;
             draw->m_outlinePhase = 0;
         }
@@ -102,7 +102,7 @@ static inline u16 IsTrigger(PadInput *pad, u16 mask)
 
 static inline BOOL IsMenuAllowed(CFieldScene *scene)
 {
-    return (scene->unk_00D0 & 0x800) ? FALSE : TRUE;
+    return (scene->m_flags & 0x800) ? FALSE : TRUE;
 }
 
 static inline Point2D GetHeadPos(CFieldActor *actor)
@@ -119,7 +119,7 @@ static inline FieldData *GetTargetTable()
 
 static inline int GetKind(CFieldActor *actor)
 {
-    return ((int)actor->unk_58 >> 24) & 0xFF;
+    return ((int)actor->m_id >> 24) & 0xFF;
 }
 
 static inline fx32 RectWidth(Rectangle rect)
@@ -139,7 +139,7 @@ static inline fx32 CircleRadius(Circle circle)
 
 static inline Point2D GetCamPos()
 {
-    Camera2D *cam = (Camera2D *)s_game->unk_14B8->unk_00;
+    Camera2D *cam = (Camera2D *)s_game->m_cameraController->m_target;
     return cam->GetOffsetCopy();
 }
 
@@ -182,8 +182,8 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
         if (touch != NULL) {
             fx32 x = (touch->unk_0A.x - 0x80) << FX32_SHIFT;
             fx32 y = (touch->unk_0A.y - 0x60) << FX32_SHIFT;
-            x -= scene->unk_0008->unk_1C;
-            y -= scene->unk_0008->unk_20;
+            x -= scene->m_camera->unk_1C;
+            y -= scene->m_camera->unk_20;
             touchPos.x = x;
             touchPos.y = y;
         } else {
@@ -210,7 +210,7 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                         CFieldNpc *best = NULL;
                         for (i = 0; i < npcs->m_count; i++) {
                             CFieldNpc *npc = (CFieldNpc *)npcs->Get(i);
-                            if (npc != NULL && npc->IsActive() && !npc->IsUnk04Bit0() && npc->unk_14 == player->unk_14) {
+                            if (npc != NULL && npc->IsActive() && !npc->IsHidden() && npc->m_layer == player->m_layer) {
                                 Circle circle;
                                 circle.pos = npc->GetPos();
                                 if (npc->unk_50 == 0) {
@@ -230,7 +230,7 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                         if (best != NULL) {
                             scene->unk_0078 = 5;
                             s_game->m_audioEngine->PlaySe(5);
-                            scene->unk_0054->sub_02022DD4();
+                            scene->m_subScreen->SwitchToDefaultPanel();
                             scene->ov0_0212451C();
                             if (best->unk_E8 == 1) {
                                 UnkStruct_020107A8 *rec = PokeIdTable_Get(s_game->unk_1434, best->unk_EC);
@@ -239,7 +239,7 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                                 if (GetPokemonState(save, rec->unk_00) != 2) {
                                     notCaught = TRUE;
                                 }
-                                scene->unk_0054->SwitchToPokemonInfo(best->unk_EC, notCaught);
+                                scene->m_subScreen->SwitchToPokemonInfo(best->unk_EC, notCaught);
                                 SaveData_AddConversations(save, 1);
                             } else {
                                 switch (best->unk_EC) {
@@ -264,7 +264,7 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                         CFieldTargetObject *best = NULL;
                         for (int i = 0; i < objects->m_count; i++) {
                             CFieldTargetObject *obj = (CFieldTargetObject *)objects->Get(i);
-                            if (obj != NULL && obj->IsActive() && !obj->IsUnk04Bit0() && obj->ov0_0213CFDC() && obj->unk_14 == player->unk_14) {
+                            if (obj != NULL && obj->IsActive() && !obj->IsHidden() && obj->ov0_0213CFDC() && obj->m_layer == player->m_layer) {
                                 Circle circle;
                                 circle.pos = obj->GetPos();
                                 if (obj->unk_50 == 0) {
@@ -283,7 +283,7 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                         }
                         if (best != NULL) {
                             scene->ov0_0212451C();
-                            scene->unk_0054->sub_02022DD4();
+                            scene->m_subScreen->SwitchToDefaultPanel();
                             s_game->m_audioEngine->PlaySe(5);
                             best->sub_0203DA38();
                             SaveData_AddTargetsChecked(save, 1);
@@ -297,8 +297,8 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                 if (touch->unk_04) {
                     touchHandled = TRUE;
                     i = FALSE;
-                    if (scene->unk_00AA != 0xFFFF && scene->unk_0028->ov0_02143088(scene->unk_00AA) != NULL) {
-                        CFieldPlayer *self = scene->unk_0014;
+                    if (scene->unk_00AA != 0xFFFF && scene->m_effects->ov0_02143088(scene->unk_00AA) != NULL) {
+                        CFieldPlayer *self = scene->m_player;
                         Point2D pos = GetHeadPos(self);
                         Rectangle rect;
                         rect.pos.x = pos.x;
@@ -329,7 +329,7 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                             } else {
                                 scene->unk_0078 = 1;
                             }
-                            scene->unk_0054->sub_02022DD4();
+                            scene->m_subScreen->SwitchToDefaultPanel();
                             break;
                         case 1: {
                             scene->unk_0078 = 4;
@@ -343,13 +343,13 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                             } else if (GetPokemonState(save, ((CFieldEnemy *)touched)->unk_E4) != 2) {
                                 mode = 1;
                             }
-                            scene->unk_0054->SwitchToPokemonInfo(((CFieldEnemy *)touched)->unk_E8, mode);
+                            scene->m_subScreen->SwitchToPokemonInfo(((CFieldEnemy *)touched)->unk_E8, mode);
                             break;
                         }
                         case 2: {
-                            scene->unk_0054->sub_02022DD4();
+                            scene->m_subScreen->SwitchToDefaultPanel();
                             scene->ov0_0212451C();
-                            if (((CFieldNpc *)touched)->unk_14 == player->unk_14) {
+                            if (((CFieldNpc *)touched)->m_layer == player->m_layer) {
                                 scene->unk_0078 = 5;
                                 s_game->m_audioEngine->PlaySe(5);
                                 if (((CFieldNpc *)touched)->unk_E8 == 1) {
@@ -359,7 +359,7 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                                     if (GetPokemonState(save, rec->unk_00) != 2) {
                                         notCaught = TRUE;
                                     }
-                                    scene->unk_0054->SwitchToPokemonInfo(((CFieldNpc *)touched)->unk_EC, notCaught);
+                                    scene->m_subScreen->SwitchToPokemonInfo(((CFieldNpc *)touched)->unk_EC, notCaught);
                                 }
                                 if (onScreen) {
                                     ((CFieldNpc *)touched)->sub_0203DA38();
@@ -391,16 +391,16 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                             scene->ov0_0212451C();
                             if (((CFieldTargetObject *)touched)->unk_20 == 2 && !busy) {
                                 if (((CFieldTargetObject *)touched)->ov0_0213CFDC()) {
-                                    if (onScreen && ((CFieldTargetObject *)touched)->unk_14 == player->unk_14) {
+                                    if (onScreen && ((CFieldTargetObject *)touched)->m_layer == player->m_layer) {
                                         ((CFieldTargetObject *)touched)->sub_0203DA38();
                                         SaveData_AddTargetsChecked(save, 1);
                                         return FALSE;
                                     }
                                 } else {
                                     scene->unk_0078 = 3;
-                                    scene->unk_007C = (CFieldPartnerPokemon *)touched;
+                                    scene->m_partnerPokemon = (CFieldPartnerPokemon *)touched;
                                     s_game->m_audioEngine->PlaySe(5);
-                                    scene->unk_0054->SwitchToTargetInfo(((CFieldTargetObject *)touched)->unk_E8);
+                                    scene->m_subScreen->SwitchToTargetInfo(((CFieldTargetObject *)touched)->unk_E8);
                                     StartOutline((CFieldTargetObject *)touched, 0x3F0, 300);
                                     SaveData_AddTargetsChecked(save, 1);
                                 }
@@ -408,13 +408,13 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                             break;
                         }
                         case 6: {
-                            BrightnessFade *fade = s_game->unk_14BC;
-                            WindowWipe *wipe = s_game->unk_14C4;
+                            BrightnessFade *fade = s_game->m_mainFade;
+                            WindowWipe *wipe = s_game->m_mainWipe;
                             if (!fade->IsActive() && fade->GetMode() != 2 && fade->GetMode() != 4 && !wipe->func0() && !wipe->sub_0200E91C()) {
                                 UnkStruct_020107A8 *rec = PokeIdTable_Get(s_game->unk_1434, ((CFieldPartnerPokemon *)touched)->unk_200);
-                                scene->unk_007C = (CFieldPartnerPokemon *)touched;
+                                scene->m_partnerPokemon = (CFieldPartnerPokemon *)touched;
                                 s_game->m_audioEngine->PlaySe(5);
-                                scene->unk_0054->SwitchToPokemonInfo(((CFieldPartnerPokemon *)touched)->unk_200, 0);
+                                scene->m_subScreen->SwitchToPokemonInfo(((CFieldPartnerPokemon *)touched)->unk_200, 0);
                                 scene->ov0_0212451C();
                                 StartOutline((CFieldPartnerPokemon *)touched, 0x7FE0, -1);
                                 u32 type = rec->unk_05;
@@ -514,15 +514,15 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                         }
                         case 5:
                             touched->sub_0203DA38();
-                            scene->unk_0054->sub_02022DD4();
+                            scene->m_subScreen->SwitchToDefaultPanel();
                             return FALSE;
                         case 4:
                         default:
-                            scene->unk_0054->sub_02022DD4();
+                            scene->m_subScreen->SwitchToDefaultPanel();
                             break;
                         }
                     } else {
-                        scene->unk_0054->sub_02022DD4();
+                        scene->m_subScreen->SwitchToDefaultPanel();
                     }
                 } else if (touch->unk_05) {
                     touchHandled = TRUE;
@@ -532,7 +532,7 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                     case 1:
                         break;
                     case 2: {
-                        CFieldPartnerPokemon *partner = scene->unk_007C;
+                        CFieldPartnerPokemon *partner = scene->m_partnerPokemon;
                         BOOL done = FALSE;
                         if (touched != NULL && GetKind(touched) == 3) {
                             Rectangle rect = GetTouchRect(touched);
@@ -546,13 +546,13 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                             Point2D partnerPos = partner->GetPos();
                             Point2D objPos = ((CFieldTargetObject *)touched)->GetPos();
                             BOOL started;
-                            int layerId = MAIN_BSS_0210CA48->unk_14;
-                            CFieldMapLayerCollision *layer = scene->unk_0010->GetLayer(layerId);
+                            int layerId = MAIN_BSS_0210CA48->m_layer;
+                            CFieldMapLayerCollision *layer = scene->m_map->GetLayer(layerId);
                             PointPair2D move = { partnerPos, objPos };
                             UnkStruct_020107A8 *rec = PokeIdTable_Get(s_game->unk_1434, partner->unk_200);
                             started = FALSE;
                             Point2D hit;
-                            if (!layer->Sweep(&move, 0x4000, &hit, 1) && layerId == ((CFieldTargetObject *)touched)->unk_14 && ((CFieldTargetObject *)touched)->unk_20 == 2) {
+                            if (!layer->Sweep(&move, 0x4000, &hit, 1) && layerId == ((CFieldTargetObject *)touched)->m_layer && ((CFieldTargetObject *)touched)->unk_20 == 2) {
                                 if (rec->unk_05 != 0 && rec->unk_06 != 0 && data->unk_03 == 1 && rec->unk_05 == data->unk_04 && rec->unk_06 >= data->unk_05 && onScreen) {
                                     scene->unk_0078 = 0;
                                     s_game->m_textboxData->SetParam(0, rec->unk_05);
@@ -566,7 +566,7 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                                 }
                             }
                             if (!started && !((CFieldTargetObject *)touched)->ov0_0213CFDC() && ((CFieldTargetObject *)touched)->unk_20 == 2) {
-                                scene->unk_0054->SwitchToTargetInfo(((CFieldTargetObject *)touched)->unk_E8);
+                                scene->m_subScreen->SwitchToTargetInfo(((CFieldTargetObject *)touched)->unk_E8);
                                 done = TRUE;
                             }
                             if (started) {
@@ -574,7 +574,7 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                             }
                         }
                         if (!done) {
-                            scene->unk_0054->SwitchToPokemonInfo(partner->unk_200, 0);
+                            scene->m_subScreen->SwitchToPokemonInfo(partner->unk_200, 0);
                         }
                         break;
                     }
@@ -594,7 +594,7 @@ BOOL CFieldPlayerInputControlManage::ov0_0213FFC4(CFieldScene *scene,
                         break;
                     case 2:
                     case 6: {
-                        CFieldPartnerPokemon *partner = scene->unk_007C;
+                        CFieldPartnerPokemon *partner = scene->m_partnerPokemon;
                         if (partner != NULL) {
                             StartOutline(partner, 0x7FE0, 300);
                         }
@@ -643,14 +643,14 @@ released:;
                         i = TRUE;
                     } else if (IsTrigger(pad, PAD_BUTTON_R) && save->IsButton2Enabled()) {
                         FieldSubScreen *inst = FieldSubScreen::GetInstance();
-                        SubScreenIconMenu *menu = scene->unk_0058;
+                        SubScreenIconMenu *menu = scene->m_iconMenu;
                         if (inst != NULL && menu != NULL) {
-                            inst->sub_02022C1C();
+                            inst->SwitchToRangerCard();
                             menu->Open();
                             CFieldPlayer *p = MAIN_BSS_0210CA48;
                             if (p != NULL) {
                                 p->ResetUnk00C();
-                                int mask = p->unk_08->unk_0C->unk_1A0;
+                                int mask = p->m_drawObject->m_actor->unk_1A0;
                                 if ((mask == 0x80000 || mask == 0x800000) && s_game->m_audioEngine->IsSePlaying(0x10E)) {
                                     s_game->m_audioEngine->StopSe(0x10E);
                                 }
@@ -665,7 +665,7 @@ released:;
                 }
                 if (!i && IsTrigger(pad, PAD_BUTTON_X | PAD_BUTTON_Y)) {
                     scene->ov0_0212451C();
-                    scene->unk_001C->SetOutlineAll(0x7FE0, 2, 300);
+                    scene->m_partners->SetOutlineAll(0x7FE0, 2, 300);
                 }
                 if (i) {
                     return FALSE;

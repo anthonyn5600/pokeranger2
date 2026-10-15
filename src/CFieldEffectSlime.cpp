@@ -80,7 +80,7 @@ int CFieldEffectSlime::ov0_02142344(Camera2D *camera)
             cell = cac->GetCell(m_cacId);
         }
         CFieldEffectManage *mgr = MAIN_BSS_0210CA60;
-        int layer = m_actor->unk_14;
+        int layer = m_actor->m_layer;
         if (layer < 0) {
             layer = 0;
         }
@@ -249,7 +249,7 @@ int CFieldEffectSlime::ov0_02142390(void *buf, void *end)
     }
     if (kind >= 0) {
         save.type = (kind << 6) | 0x12;
-        save.actorId = m_actor->unk_58;
+        save.actorId = m_actor->m_id;
         save.param = m_param;
         for (int i = 0; i < 5; i++) {
             if (m_puddles[i].life > 0) {

@@ -17,17 +17,17 @@ YesNoPrompt::YesNoPrompt()
 {
     unk_0000 = 0;
     unk_1604 = 0;
-    unk_1608 = 0;
-    unk_160C = 0;
-    unk_1610 = 0;
+    m_state = 0;
+    m_result = 0;
+    m_timer = 0;
 
     for (int i = 0; i < 4; ++i) {
         unk_1620[i] = 0x1000;
     }
 
-    unk_1614 = 0;
-    unk_1618 = 0;
-    unk_161C = 0;
+    m_pad = 0;
+    m_touch = 0;
+    m_audio = 0;
     unk_1630 = 0x10;
     unk_1634 = 0x4000;
     unk_1638 = 0;
@@ -44,21 +44,21 @@ void YesNoPrompt::Init(CGame_0024 *arg0, PadInput *arg1, CTouchPanel *arg2, void
     }
 
     if (arg1 != NULL) {
-        unk_1614 = arg1;
+        m_pad = arg1;
     }
 
     if (arg2 != NULL) {
-        unk_1618 = arg2;
+        m_touch = arg2;
     }
 
     if (arg3 != NULL) {
-        unk_161C = (AudioEngine *)arg3;
+        m_audio = (AudioEngine *)arg3;
     }
 
     LoadGraphics();
 
     for (int i = 0; i < 0x80; ++i) {
-        unk_0004[i].sub_0200B714(&unk_0000[i]);
+        m_icons[i].sub_0200B714(&unk_0000[i]);
     }
 }
 
@@ -88,14 +88,14 @@ void YesNoPrompt::AddIcon(u32 arg0, u32 arg1, u32 arg2, u32 arg3)
     GX_SetVisiblePlane(GX_GetVisiblePlane() | GX_PLANEMASK_OBJ);
 
     for (int i = 0; i < 0x80; ++i) {
-        if (unk_0004[i].unk_10 == 0) {
-            unk_0004[i].sub_0200B818(arg0, arg1, arg2, arg3, unk_1630, unk_1634, unk_1638);
+        if (m_icons[i].unk_10 == 0) {
+            m_icons[i].sub_0200B818(arg0, arg1, arg2, arg3, unk_1630, unk_1634, unk_1638);
             return;
         }
     }
 }
 
-void YesNoPrompt::sub_0200BEBC()
+void YesNoPrompt::Update()
 {
     for (int i = 0; i < 4; ++i) {
         s16 v0 = unk_1620[i] / 16;
@@ -108,12 +108,12 @@ void YesNoPrompt::sub_0200BEBC()
     }
 
     if (unk_1604 == 1) {
-        sub_0200C0C8();
+        UpdateInput();
     }
 
     for (int i = 0; i < 0x80; ++i) {
-        if (unk_0004[i].unk_10 == 1) {
-            unk_0004[i].sub_0200B744();
+        if (m_icons[i].unk_10 == 1) {
+            m_icons[i].sub_0200B744();
         }
     }
 }
@@ -121,7 +121,7 @@ void YesNoPrompt::sub_0200BEBC()
 void YesNoPrompt::Reset()
 {
     for (int i = 0; i < 0x80; ++i) {
-        unk_0004[i].sub_0200B714(&unk_0000[i]);
+        m_icons[i].sub_0200B714(&unk_0000[i]);
     }
 
     for (int i = 0; i < 4; ++i) {
@@ -129,22 +129,22 @@ void YesNoPrompt::Reset()
     }
 }
 
-void YesNoPrompt::sub_0200BFB4()
+void YesNoPrompt::ScrollIcons()
 {
     for (int i = 0; i < 0x80; ++i) {
-        switch (unk_0004[i].unk_04) {
+        switch (m_icons[i].unk_04) {
         case 0:
         case 1:
         case 15:
         case 16:
-            unk_0004[i].sub_0200B714(&unk_0000[i]);
+            m_icons[i].sub_0200B714(&unk_0000[i]);
             break;
 
         default:
-            if (unk_0004[i].unk_0C == 0x18 || unk_0004[i].unk_0C == 0xA8) {
-                unk_0004[i].unk_0C -= 0x10;
+            if (m_icons[i].unk_0C == 0x18 || m_icons[i].unk_0C == 0xA8) {
+                m_icons[i].unk_0C -= 0x10;
             } else {
-                unk_0004[i].sub_0200B714(&unk_0000[i]);
+                m_icons[i].sub_0200B714(&unk_0000[i]);
             }
 
             break;
@@ -158,103 +158,103 @@ void YesNoPrompt::Open()
     AddIcon(0x10, 0xA0, 0x40, 1);
 
     unk_1604 = 1;
-    unk_1608 = 1;
-    unk_160C = 0;
-    unk_1610 = 10;
+    m_state = 1;
+    m_result = 0;
+    m_timer = 10;
 }
 
-void YesNoPrompt::sub_0200C0C8()
+void YesNoPrompt::UpdateInput()
 {
-    if (unk_1608 == 2) {
-        if (unk_1610 != 0) {
-            if (unk_1610 == 40) {
+    if (m_state == 2) {
+        if (m_timer != 0) {
+            if (m_timer == 40) {
                 unk_1620[1] = 0x1400;
-            } else if (unk_1610 == 36) {
+            } else if (m_timer == 36) {
                 unk_1620[1] = 0x1000;
             }
 
-            --unk_1610;
+            --m_timer;
             return;
         }
 
         unk_1604 = 0;
-        unk_1608 = 0;
+        m_state = 0;
         return;
     }
 
-    if (unk_1610 != 0) {
-        --unk_1610;
+    if (m_timer != 0) {
+        --m_timer;
         return;
     }
 
-    if ((u16)(unk_1614->unk_0002 & 1) != 0) {
+    if ((u16)(m_pad->unk_0002 & 1) != 0) {
         // "A" physical button press
-        unk_1608 = 2;
-        unk_160C = 0;
-        unk_1610 = 0x28;
+        m_state = 2;
+        m_result = 0;
+        m_timer = 0x28;
 
-        if (!sub_0200C36C(6)) {
-            sub_0200C36C(0x43);
+        if (!PlaySe(6)) {
+            PlaySe(0x43);
         }
-    } else if ((u16)(unk_1614->unk_0002 & 2) != 0) {
+    } else if ((u16)(m_pad->unk_0002 & 2) != 0) {
         // "B" physical button press
-        unk_1608 = 2;
-        unk_160C = 1;
-        unk_1610 = 0x28;
+        m_state = 2;
+        m_result = 1;
+        m_timer = 0x28;
 
-        if (!sub_0200C36C(8)) {
-            sub_0200C36C(0x44);
+        if (!PlaySe(8)) {
+            PlaySe(0x44);
         }
-    } else if (unk_1618->unk_04 != 0) {
-        if (unk_1618->unk_0A.y >= 0x40 && unk_1618->unk_0A.y <= 0x80 && unk_1618->unk_0A.x >= 0x20 && unk_1618->unk_0A.x <= 0x60) {
+    } else if (m_touch->unk_04 != 0) {
+        if (m_touch->unk_0A.y >= 0x40 && m_touch->unk_0A.y <= 0x80 && m_touch->unk_0A.x >= 0x20 && m_touch->unk_0A.x <= 0x60) {
             // "Yes" virtual button touch
-            unk_1608 = 2;
-            unk_160C = 0;
-            unk_1610 = 0x28;
+            m_state = 2;
+            m_result = 0;
+            m_timer = 0x28;
 
-            if (!sub_0200C36C(6)) {
-                sub_0200C36C(0x43);
+            if (!PlaySe(6)) {
+                PlaySe(0x43);
             }
-        } else if (unk_1618->unk_0A.y >= 0x40 && unk_1618->unk_0A.y <= 0x80 && unk_1618->unk_0A.x >= 0xA0 && unk_1618->unk_0A.x <= 0xE0) {
+        } else if (m_touch->unk_0A.y >= 0x40 && m_touch->unk_0A.y <= 0x80 && m_touch->unk_0A.x >= 0xA0 && m_touch->unk_0A.x <= 0xE0) {
             // "No" virtual button touch
-            unk_1608 = 2;
-            unk_160C = 1;
-            unk_1610 = 0x28;
+            m_state = 2;
+            m_result = 1;
+            m_timer = 0x28;
 
-            if (!sub_0200C36C(8)) {
-                sub_0200C36C(0x44);
+            if (!PlaySe(8)) {
+                PlaySe(0x44);
             }
         }
     }
 
-    if (unk_1608 == 2) {
-        sub_0200C2C4();
+    if (m_state == 2) {
+        ShowAnswer();
     }
 }
 
-void YesNoPrompt::sub_0200C2C4()
+void YesNoPrompt::ShowAnswer()
 {
     for (int i = 0; i < 0x80; ++i) {
-        if (unk_0004[i].unk_10 == 1 && unk_0004[i].unk_04 == 0xF) {
-            if (unk_160C == 0) {
-                unk_0004[i].unk_24 = 1;
+        if (m_icons[i].unk_10 == 1 && m_icons[i].unk_04 == 0xF) {
+            if (m_result == 0) {
+                m_icons[i].unk_24 = 1;
             } else {
-                unk_0004[i].sub_0200B714(&unk_0000[i]);
+                m_icons[i].sub_0200B714(&unk_0000[i]);
             }
-        } else if (unk_0004[i].unk_10 == 1 && unk_0004[i].unk_04 == 0x10) {
-            if (unk_160C == 1) {
-                unk_0004[i].unk_24 = 1;
+        } else if (m_icons[i].unk_10 == 1 && m_icons[i].unk_04 == 0x10) {
+            if (m_result == 1) {
+                m_icons[i].unk_24 = 1;
             } else {
-                unk_0004[i].sub_0200B714(&unk_0000[i]);
+                m_icons[i].sub_0200B714(&unk_0000[i]);
             }
         }
     }
 }
 
-BOOL YesNoPrompt::sub_0200C36C(int index)
+BOOL YesNoPrompt::PlaySe(int index)
 {
-    if (unk_161C != 0) {
-        return unk_161C->PlaySe(index);
+    if (m_audio != 0) {
+        return m_audio->PlaySe(index);
     }
 
     return FALSE;

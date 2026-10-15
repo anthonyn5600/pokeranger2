@@ -109,7 +109,7 @@ int ov1_0212A2F4(int *args)
 
 int ov1_0212A31C(int *args)
 {
-    s_game->m_audioEngine->sub_02034870(args[0]);
+    s_game->m_audioEngine->LoadBattleSeGroup(args[0]);
     return 1;
 }
 
@@ -211,7 +211,7 @@ int ov1_0212A600(int *args)
     if (actor == NULL) {
         return 0;
     }
-    actor->sub_020127D0(args[1], (u16)args[2]);
+    actor->MoveHeightTo(args[1], (u16)args[2]);
     return 1;
 }
 
@@ -221,7 +221,7 @@ int ov1_0212A638(int *args)
     if (actor == NULL) {
         return 0;
     }
-    actor->sub_02012808(args[1], args[2]);
+    actor->MoveHeightAtSpeed(args[1], args[2]);
     return 1;
 }
 
@@ -557,7 +557,7 @@ int ov1_0212AD88(int *args)
     case 0: {
         u8 level = BattleStartParam_GetStylerLevel(s_game->unk_143C);
         hp = ov1_0212A124()->unk_19C;
-        maxHp = sub_02010E78(s_game->unk_1438, level);
+        maxHp = DiskHPTable_GetMaxEnergy(s_game->m_diskHPTable, level);
         break;
     }
     case 1:
@@ -663,7 +663,7 @@ int ov1_0212AFEC(int *args)
 {
     CActor *actor = ov1_0212A154(args[0]);
     if (actor != NULL) {
-        return actor->unk_90;
+        return actor->m_heightTweening;
     }
     return 0;
 }
@@ -687,7 +687,7 @@ int ov1_0212B02C(int *args)
     if (CBattleScene::ov1_02122728(id) == 2) {
         return ((CBattleAttackEffect *)actor)->ov1_0212747C();
     }
-    return actor->sub_02012AFC();
+    return actor->GetAnimStatus();
 }
 
 int ov1_0212B070(int *args)
@@ -708,7 +708,7 @@ int ov1_0212B090(int *args)
 int ov1_0212B0A8(int *args)
 {
     ov1_0212A124()->ov1_0212C514(0);
-    s_game->m_audioEngine->sub_02034ED8(0);
+    s_game->m_audioEngine->StopCaptureLineSe(0);
     CBattleAssist *assist = ov1_0212A13C();
     if (assist != NULL) {
         assist->vfunc_0C();
@@ -757,7 +757,7 @@ int ov1_0212B1E4(int *args)
 
 int ov1_0212B204(int *args)
 {
-    s_game->m_textboxData->sub_02009FB0(1, 1);
+    s_game->m_textboxData->CloseAndClear(1, 1);
     return 1;
 }
 
@@ -805,25 +805,25 @@ int ov1_0212B2FC(int *args)
 
 int ov1_0212B320(int *args)
 {
-    s_game->unk_14BC->Start(2, args[0]);
+    s_game->m_mainFade->Start(2, args[0]);
     return 1;
 }
 
 int ov1_0212B354(int *args)
 {
-    s_game->unk_14BC->Start(1, args[0]);
+    s_game->m_mainFade->Start(1, args[0]);
     return 1;
 }
 
 int ov1_0212B388(int *args)
 {
-    s_game->unk_14BC->Start(4, args[0]);
+    s_game->m_mainFade->Start(4, args[0]);
     return 1;
 }
 
 int ov1_0212B3BC(int *args)
 {
-    s_game->unk_14BC->Start(3, args[0]);
+    s_game->m_mainFade->Start(3, args[0]);
     return 1;
 }
 
@@ -963,7 +963,7 @@ int ov1_0212B6B8(int *args)
     if (camera == NULL) {
         return 0;
     }
-    camera->sub_0200D6E8(args[0], args[1], args[2]);
+    camera->Sway(args[0], args[1], args[2]);
     return 1;
 }
 
@@ -973,7 +973,7 @@ int ov1_0212B6F8(int *args)
     if (camera == NULL) {
         return 0;
     }
-    camera->sub_0200D870(args[0], args[1]);
+    camera->Shake(args[0], args[1]);
     return 1;
 }
 
@@ -983,7 +983,7 @@ int ov1_0212B728(int *args)
     if (camera == NULL) {
         return 0;
     }
-    camera->sub_0200D7B8(args[0], args[1]);
+    camera->Spin(args[0], args[1]);
     return 1;
 }
 
@@ -993,7 +993,7 @@ int ov1_0212B760(int *args)
     if (camera == NULL) {
         return 0;
     }
-    camera->sub_0200D7F4(args[0], args[1], args[2]);
+    camera->SpinZoom(args[0], args[1], args[2]);
     return 1;
 }
 }

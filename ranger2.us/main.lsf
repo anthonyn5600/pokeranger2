@@ -42,7 +42,7 @@ Static main
     Object main.nef.p/src_interpolation.cpp.o
     Object main.nef.p/src_MathUtil.cpp.o
     Object main.nef.p/src_VramImage.cpp.o
-    Object main.nef.p/src_UnkClass_02007770.cpp.o
+    Object main.nef.p/src_CellCharBuffer.cpp.o
     Object main.nef.p/src_VramPalette.cpp.o
     Object main.nef.p/src_CScene.cpp.o
     Object main.nef.p/src_DisplayUtil.cpp.o
@@ -52,7 +52,7 @@ Static main
     Object main.nef.p/src_DebugProcess.cpp.o
     Object main.nef.p/src_DrawObjectList.cpp.o
     Object main.nef.p/src_TextboxManager.cpp.o
-    Object main.nef.p/src_UnkClass_0200BBC0.cpp.o
+    Object main.nef.p/src_PromptIcon.cpp.o
     Object main.nef.p/src_YesNoPrompt.cpp.o
     Object main.nef.p/src_TextPrinter.cpp.o
     Object main.nef.p/src_SubTextPrinter.cpp.o

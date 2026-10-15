@@ -60,7 +60,7 @@ void CBattleAttackEffect::vfunc_08()
         return;
     }
     UpdateMotion();
-    sub_020123AC();
+    UpdateHeightTween();
     UpdateJump();
     UpdateDirection();
     NNS_G2dTickCellAnimation(&m_cellAnim, FX32_ONE);
@@ -70,7 +70,7 @@ void CBattleAttackEffect::vfunc_08()
 
     Point2D pos;
     pos.x = m_motion.m_pos.x;
-    pos.y = m_motion.m_pos.y - (m_bobHeight + (unk_8C + m_jumpHeight));
+    pos.y = m_motion.m_pos.y - (m_bobHeight + (m_height + m_jumpHeight));
     m_sprite->SetPos(pos);
     if (unk_190 != NULL) {
         m_sprite->SetPos(m_motion.GetPos() + unk_190->m_motion.GetPos());
@@ -164,7 +164,7 @@ void CBattleAttackEffect::ov1_021270FC(CBattleAttackEffectData *data)
     }
     m_motion.m_mode = 0;
     Jump(0, 1);
-    sub_020127D0(0, 0);
+    MoveHeightTo(0, 0);
     unk_18A = 0;
     unk_18C = 0;
     unk_18D = 7;

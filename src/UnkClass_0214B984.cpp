@@ -50,12 +50,12 @@ extern CFieldEffectManage *MAIN_BSS_0210CA60;
 extern FieldScreenEffectManage *MAIN_BSS_0210CA78;
 
 extern "C" {
-BOOL sub_02015434(SaveData *save, int mapId, int idx);
-BOOL sub_02015C78(SaveData *save, u32 id, int kind, int arg3);
+BOOL SaveData_IsInParty(SaveData *save, int mapId, int idx);
+BOOL SaveData_AddToParty(SaveData *save, u32 id, int kind, int arg3);
 void MissionQuestData_SetChapter(MissionQuestData *missionQuestData, u32 chapter);
 void LogInfo(const char *fmt, ...);
-void sub_02011540(MissionQuestData *obj, int quest);
-void sub_020115F8(MissionQuestData *obj);
+void MissionQuestData_EnterQuest(MissionQuestData *obj, int quest);
+void MissionQuestData_ExitQuest(MissionQuestData *obj);
 void SaveData_SetPartsLevel(SaveData *save, int idx, int count);
 void SaveData_SetPartnerCount(SaveData *save, int idx, u32 value);
 void SaveData_SetPlayTime(SaveData *save, u32 hours, u8 minutes, u8 seconds);
@@ -152,7 +152,7 @@ static inline int GetQuestState(MissionQuestData *quests, int quest)
     switch (flags & 0xF) {
     case 1:
         if (flags & 0x10) {
-            if (quests->unk_01 == 1 && quest == quests->unk_03) {
+            if (quests->m_questActive == 1 && quest == quests->m_questId) {
                 return 3;
             }
             return 2;
@@ -517,7 +517,7 @@ void Debug_SetMapJump(int mapId)
 {
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (scene != NULL) {
-        scene->unk_00D0 |= 2;
+        scene->m_flags |= 2;
         scene->unk_0068 = mapId;
         scene->unk_006C = 0;
         scene->unk_0070 = 0;
@@ -583,7 +583,7 @@ void Debug_DoScriptID(int scriptId)
     target->SetHomePos(pos);
     target->unk_E0 = 0;
     target->unk_E4 = 0;
-    target->SetLayer(player->unk_14);
+    target->SetLayer(player->m_layer);
     target->unk_20 = 2;
 }
 
@@ -630,7 +630,7 @@ void Debug_SetPosy(int y)
 void Debug_DoGameend(int on)
 {
     if (on && MAIN_BSS_0210CA40 != NULL) {
-        MAIN_BSS_0210CA40->unk_00D0 |= 0x10;
+        MAIN_BSS_0210CA40->m_flags |= 0x10;
     }
 }
 
@@ -662,7 +662,7 @@ int ov0_0214C010()
 {
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (scene != NULL) {
-        return !(scene->unk_00D0 & 0x800);
+        return !(scene->m_flags & 0x800);
     }
     return 0;
 }
@@ -672,9 +672,9 @@ void ov0_0214C040(int on)
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (scene != NULL) {
         if (on) {
-            scene->unk_00D0 &= ~0x800;
+            scene->m_flags &= ~0x800;
         } else {
-            scene->unk_00D0 |= 0x800;
+            scene->m_flags |= 0x800;
         }
     }
 }
@@ -690,7 +690,7 @@ void Debug_SetPlyrHP(int hp)
     SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     save->m_energy = hp;
     if (MAIN_BSS_0210CA40 != NULL) {
-        MAIN_BSS_0210CA40->unk_00D8->SetCurrentHP(save->m_energy);
+        MAIN_BSS_0210CA40->m_hpGauge->SetCurrentHP(save->m_energy);
     }
 }
 
@@ -705,7 +705,7 @@ void Debug_SetPlyrLvl(int level)
     SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     SaveData_SetStylerLevel(save, (u8)level);
     if (MAIN_BSS_0210CA40 != NULL) {
-        MAIN_BSS_0210CA40->unk_00D8->SetHP(save->m_energy, save->m_maxEnergy);
+        MAIN_BSS_0210CA40->m_hpGauge->SetHP(save->m_energy, save->m_maxEnergy);
     }
 }
 
@@ -823,20 +823,20 @@ void Debug_SetPokeAdd(int kind)
     SaveData *save = (SaveData *)(void *)&MAIN_BSS_020B26A0;
     u16 slot = 0xFFF;
     for (u16 i = 0; i < 0xFFF; i++) {
-        if (!sub_02015434(save, 0xFFF, i)) {
+        if (!SaveData_IsInParty(save, 0xFFF, i)) {
             slot = i;
             break;
         }
     }
     u32 id = (slot & 0xFFF) | 0x1FFF000;
     CFieldPartnerManage *partners;
-    if (sub_02015C78(save, id, kind, -1) && (partners = MAIN_BSS_0210CA4C) != NULL) {
+    if (SaveData_AddToParty(save, id, kind, -1) && (partners = MAIN_BSS_0210CA4C) != NULL) {
         partners->ov0_02139920(id, kind, 0xE, 0, 1);
-        sub_0203F440(partners);
-        if (sub_02034F9C((u16)kind)) {
-            UnkStruct_020155FC *entry = SaveData_FindEntry(save, id);
+        FieldActorManage_RestartAllScripts(partners);
+        if (HasPartnerIndex((u16)kind)) {
+            PartyEntry *entry = SaveData_FindEntry(save, id);
             if (entry != NULL) {
-                entry->unk_08 |= 2;
+                entry->m_flags |= 2;
             }
         }
     }
@@ -925,7 +925,7 @@ void Debug_SetChapJump(int chapter)
     CFieldPartnerManage *partners = MAIN_BSS_0210CA4C;
     SaveData *save = &MAIN_BSS_020B26A0;
     for (int i = 0; i < 2; i++) {
-        UnkStruct_020B26A0_8AD4 *partner = MAIN_BSS_020B26A0.GetPartner(i);
+        PartnerSlot *partner = MAIN_BSS_020B26A0.GetPartner(i);
         if (partner != NULL && partner->unk_00 != 0) {
             if (partners != NULL) {
                 partners->ov0_0213A050(partner->unk_04);
@@ -941,7 +941,7 @@ void Debug_SetChapJump(int chapter)
     }
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (scene != NULL) {
-        scene->unk_00D0 |= 2;
+        scene->m_flags |= 2;
         scene->unk_0068 = s_c000First_0208ac1c[chapter].mapId;
         scene->unk_006C = s_c000First_0208ac1c[chapter].x;
         scene->unk_0070 = s_c000First_0208ac1c[chapter].y;
@@ -986,13 +986,13 @@ void Debug_DoViewParty()
     LogInfo("partnerpoke");
     LogInfo("----------");
     for (int i = 0; i < 10; i++) {
-        UnkStruct_020155FC *entry = SaveData_GetEntry(save, i);
-        if (entry != NULL && (entry->unk_08 & 1)) {
+        PartyEntry *entry = SaveData_GetEntry(save, i);
+        if (entry != NULL && (entry->m_flags & 1)) {
             LogInfo("*******************************");
             LogInfo("arrryindex= %d", i);
-            LogInfo("pokeid= %d", entry->unk_00);
-            LogInfo("mapID= %d", entry->unk_02);
-            LogInfo("NpcID= %d", entry->unk_04);
+            LogInfo("pokeid= %d", entry->m_kind);
+            LogInfo("mapID= %d", entry->m_mapId);
+            LogInfo("NpcID= %d", entry->m_index);
             LogInfo("*******************************");
         }
     }
@@ -1006,7 +1006,7 @@ void Debug_DoViewParty()
             if (partner != NULL) {
                 LogInfo("***************");
                 LogInfo("linenumber= %d", partner->unk_1E8);
-                LogInfo("id= %d", partner->unk_58);
+                LogInfo("id= %d", partner->m_id);
                 LogInfo("typeid= %d", partner->unk_200);
                 LogInfo("***************");
             }
@@ -1220,7 +1220,7 @@ void Debug_SetTestEff(int type)
         effect->SetParam(2, y >> FX32_SHIFT);
         effect->ov0_021421F0(0, 30, 180);
         if (type == 11 || type == 13) {
-            CGame::GetInstance()->unk_14BC->Start(3, 180);
+            CGame::GetInstance()->m_mainFade->Start(3, 180);
         }
         return;
     }
@@ -1505,240 +1505,240 @@ void Debug_SetEnepls(int count)
 
 int Debug_GetGonbe()
 {
-    return (MAIN_BSS_020B26A0.unk_87C8 & 1) ? 1 : 0;
+    return (MAIN_BSS_020B26A0.m_partnerFlags & 1) ? 1 : 0;
 }
 
 void Debug_SetGonbe(int on)
 {
     if (on) {
-        MAIN_BSS_020B26A0.unk_87C8 |= 1;
+        MAIN_BSS_020B26A0.m_partnerFlags |= 1;
     } else {
-        MAIN_BSS_020B26A0.unk_87C8 &= ~1;
+        MAIN_BSS_020B26A0.m_partnerFlags &= ~1;
     }
 }
 
 int Debug_GetHikozaru()
 {
-    return (MAIN_BSS_020B26A0.unk_87C8 & 2) ? 1 : 0;
+    return (MAIN_BSS_020B26A0.m_partnerFlags & 2) ? 1 : 0;
 }
 
 void Debug_SetHikozaru(int on)
 {
     if (on) {
-        MAIN_BSS_020B26A0.unk_87C8 |= 2;
+        MAIN_BSS_020B26A0.m_partnerFlags |= 2;
     } else {
-        MAIN_BSS_020B26A0.unk_87C8 &= ~2;
+        MAIN_BSS_020B26A0.m_partnerFlags &= ~2;
     }
 }
 
 int Debug_GetPochama()
 {
-    return (MAIN_BSS_020B26A0.unk_87C8 & 4) ? 1 : 0;
+    return (MAIN_BSS_020B26A0.m_partnerFlags & 4) ? 1 : 0;
 }
 
 void Debug_SetPochama(int on)
 {
     if (on) {
-        MAIN_BSS_020B26A0.unk_87C8 |= 4;
+        MAIN_BSS_020B26A0.m_partnerFlags |= 4;
     } else {
-        MAIN_BSS_020B26A0.unk_87C8 &= ~4;
+        MAIN_BSS_020B26A0.m_partnerFlags &= ~4;
     }
 }
 
 int Debug_GetNaetle()
 {
-    return (MAIN_BSS_020B26A0.unk_87C8 & 8) ? 1 : 0;
+    return (MAIN_BSS_020B26A0.m_partnerFlags & 8) ? 1 : 0;
 }
 
 void Debug_SetNaetle(int on)
 {
     if (on) {
-        MAIN_BSS_020B26A0.unk_87C8 |= 8;
+        MAIN_BSS_020B26A0.m_partnerFlags |= 8;
     } else {
-        MAIN_BSS_020B26A0.unk_87C8 &= ~8;
+        MAIN_BSS_020B26A0.m_partnerFlags &= ~8;
     }
 }
 
 int Debug_GetPachirisu()
 {
-    return (MAIN_BSS_020B26A0.unk_87C8 & 0x10) ? 1 : 0;
+    return (MAIN_BSS_020B26A0.m_partnerFlags & 0x10) ? 1 : 0;
 }
 
 void Debug_SetPachirisu(int on)
 {
     if (on) {
-        MAIN_BSS_020B26A0.unk_87C8 |= 0x10;
+        MAIN_BSS_020B26A0.m_partnerFlags |= 0x10;
     } else {
-        MAIN_BSS_020B26A0.unk_87C8 &= ~0x10;
+        MAIN_BSS_020B26A0.m_partnerFlags &= ~0x10;
     }
 }
 
 int Debug_GetYukikaburi()
 {
-    return (MAIN_BSS_020B26A0.unk_87C8 & 0x20) ? 1 : 0;
+    return (MAIN_BSS_020B26A0.m_partnerFlags & 0x20) ? 1 : 0;
 }
 
 void Debug_SetYukikaburi(int on)
 {
     if (on) {
-        MAIN_BSS_020B26A0.unk_87C8 |= 0x20;
+        MAIN_BSS_020B26A0.m_partnerFlags |= 0x20;
     } else {
-        MAIN_BSS_020B26A0.unk_87C8 &= ~0x20;
+        MAIN_BSS_020B26A0.m_partnerFlags &= ~0x20;
     }
 }
 
 int Debug_GetWanriky()
 {
-    return (MAIN_BSS_020B26A0.unk_87C8 & 0x40) ? 1 : 0;
+    return (MAIN_BSS_020B26A0.m_partnerFlags & 0x40) ? 1 : 0;
 }
 
 void Debug_SetWanriky(int on)
 {
     if (on) {
-        MAIN_BSS_020B26A0.unk_87C8 |= 0x40;
+        MAIN_BSS_020B26A0.m_partnerFlags |= 0x40;
     } else {
-        MAIN_BSS_020B26A0.unk_87C8 &= ~0x40;
+        MAIN_BSS_020B26A0.m_partnerFlags &= ~0x40;
     }
 }
 
 int Debug_GetGureggru()
 {
-    return (MAIN_BSS_020B26A0.unk_87C8 & 0x80) ? 1 : 0;
+    return (MAIN_BSS_020B26A0.m_partnerFlags & 0x80) ? 1 : 0;
 }
 
 void Debug_SetGureggru(int on)
 {
     if (on) {
-        MAIN_BSS_020B26A0.unk_87C8 |= 0x80;
+        MAIN_BSS_020B26A0.m_partnerFlags |= 0x80;
     } else {
-        MAIN_BSS_020B26A0.unk_87C8 &= ~0x80;
+        MAIN_BSS_020B26A0.m_partnerFlags &= ~0x80;
     }
 }
 
 int Debug_GetHippopotas()
 {
-    return (MAIN_BSS_020B26A0.unk_87C8 & 0x100) ? 1 : 0;
+    return (MAIN_BSS_020B26A0.m_partnerFlags & 0x100) ? 1 : 0;
 }
 
 void Debug_SetHippopotas(int on)
 {
     if (on) {
-        MAIN_BSS_020B26A0.unk_87C8 |= 0x100;
+        MAIN_BSS_020B26A0.m_partnerFlags |= 0x100;
     } else {
-        MAIN_BSS_020B26A0.unk_87C8 &= ~0x100;
+        MAIN_BSS_020B26A0.m_partnerFlags &= ~0x100;
     }
 }
 
 int Debug_GetMukkuru()
 {
-    return (MAIN_BSS_020B26A0.unk_87C8 & 0x200) ? 1 : 0;
+    return (MAIN_BSS_020B26A0.m_partnerFlags & 0x200) ? 1 : 0;
 }
 
 void Debug_SetMukkuru(int on)
 {
     if (on) {
-        MAIN_BSS_020B26A0.unk_87C8 |= 0x200;
+        MAIN_BSS_020B26A0.m_partnerFlags |= 0x200;
     } else {
-        MAIN_BSS_020B26A0.unk_87C8 &= ~0x200;
+        MAIN_BSS_020B26A0.m_partnerFlags &= ~0x200;
     }
 }
 
 int Debug_GetManene()
 {
-    return (MAIN_BSS_020B26A0.unk_87C8 & 0x400) ? 1 : 0;
+    return (MAIN_BSS_020B26A0.m_partnerFlags & 0x400) ? 1 : 0;
 }
 
 void Debug_SetManene(int on)
 {
     if (on) {
-        MAIN_BSS_020B26A0.unk_87C8 |= 0x400;
+        MAIN_BSS_020B26A0.m_partnerFlags |= 0x400;
     } else {
-        MAIN_BSS_020B26A0.unk_87C8 &= ~0x400;
+        MAIN_BSS_020B26A0.m_partnerFlags &= ~0x400;
     }
 }
 
 int Debug_GetKorobohshi()
 {
-    return (MAIN_BSS_020B26A0.unk_87C8 & 0x800) ? 1 : 0;
+    return (MAIN_BSS_020B26A0.m_partnerFlags & 0x800) ? 1 : 0;
 }
 
 void Debug_SetKorobohshi(int on)
 {
     if (on) {
-        MAIN_BSS_020B26A0.unk_87C8 |= 0x800;
+        MAIN_BSS_020B26A0.m_partnerFlags |= 0x800;
     } else {
-        MAIN_BSS_020B26A0.unk_87C8 &= ~0x800;
+        MAIN_BSS_020B26A0.m_partnerFlags &= ~0x800;
     }
 }
 
 int Debug_GetZugaidos()
 {
-    return (MAIN_BSS_020B26A0.unk_87C8 & 0x1000) ? 1 : 0;
+    return (MAIN_BSS_020B26A0.m_partnerFlags & 0x1000) ? 1 : 0;
 }
 
 void Debug_SetZugaidos(int on)
 {
     if (on) {
-        MAIN_BSS_020B26A0.unk_87C8 |= 0x1000;
+        MAIN_BSS_020B26A0.m_partnerFlags |= 0x1000;
     } else {
-        MAIN_BSS_020B26A0.unk_87C8 &= ~0x1000;
+        MAIN_BSS_020B26A0.m_partnerFlags &= ~0x1000;
     }
 }
 
 int Debug_GetMuma()
 {
-    return (MAIN_BSS_020B26A0.unk_87C8 & 0x2000) ? 1 : 0;
+    return (MAIN_BSS_020B26A0.m_partnerFlags & 0x2000) ? 1 : 0;
 }
 
 void Debug_SetMuma(int on)
 {
     if (on) {
-        MAIN_BSS_020B26A0.unk_87C8 |= 0x2000;
+        MAIN_BSS_020B26A0.m_partnerFlags |= 0x2000;
     } else {
-        MAIN_BSS_020B26A0.unk_87C8 &= ~0x2000;
+        MAIN_BSS_020B26A0.m_partnerFlags &= ~0x2000;
     }
 }
 
 int Debug_GetFukamaru()
 {
-    return (MAIN_BSS_020B26A0.unk_87C8 & 0x4000) ? 1 : 0;
+    return (MAIN_BSS_020B26A0.m_partnerFlags & 0x4000) ? 1 : 0;
 }
 
 void Debug_SetFukamaru(int on)
 {
     if (on) {
-        MAIN_BSS_020B26A0.unk_87C8 |= 0x4000;
+        MAIN_BSS_020B26A0.m_partnerFlags |= 0x4000;
     } else {
-        MAIN_BSS_020B26A0.unk_87C8 &= ~0x4000;
+        MAIN_BSS_020B26A0.m_partnerFlags &= ~0x4000;
     }
 }
 
 int Debug_GetNyula()
 {
-    return (MAIN_BSS_020B26A0.unk_87C8 & 0x8000) ? 1 : 0;
+    return (MAIN_BSS_020B26A0.m_partnerFlags & 0x8000) ? 1 : 0;
 }
 
 void Debug_SetNyula(int on)
 {
     // clears the wrong bit (original bug)
     if (on) {
-        MAIN_BSS_020B26A0.unk_87C8 |= 0x8000;
+        MAIN_BSS_020B26A0.m_partnerFlags |= 0x8000;
     } else {
-        MAIN_BSS_020B26A0.unk_87C8 &= ~1;
+        MAIN_BSS_020B26A0.m_partnerFlags &= ~1;
     }
 }
 
 int Debug_GetTatetopsu()
 {
-    return (MAIN_BSS_020B26A0.unk_87C8 & 0x10000) ? 1 : 0;
+    return (MAIN_BSS_020B26A0.m_partnerFlags & 0x10000) ? 1 : 0;
 }
 
 void Debug_SetTatetopsu(int on)
 {
     if (on) {
-        MAIN_BSS_020B26A0.unk_87C8 |= 0x10000;
+        MAIN_BSS_020B26A0.m_partnerFlags |= 0x10000;
     } else {
-        MAIN_BSS_020B26A0.unk_87C8 &= ~0x10000;
+        MAIN_BSS_020B26A0.m_partnerFlags &= ~0x10000;
     }
 }
 
@@ -1761,12 +1761,12 @@ const char *ov0_0214DD8C()
 
 int Debug_MAIN_GetQuest()
 {
-    return MAIN_BSS_020B2638.unk_03;
+    return MAIN_BSS_020B2638.m_questId;
 }
 
 int Debug_GetMission()
 {
-    return MAIN_BSS_020B2638.unk_02;
+    return MAIN_BSS_020B2638.m_missionId;
 }
 
 const char *ov0_0214DDBC()
@@ -1820,10 +1820,10 @@ void Debug_SetQuestSta(int state)
         break;
     case 3:
         quests->m_questStates[sQuestIdx] = 0x11;
-        if (quests->unk_01 == 1) {
-            sub_020115F8(quests);
+        if (quests->m_questActive == 1) {
+            MissionQuestData_ExitQuest(quests);
         }
-        sub_02011540(quests, sQuestIdx);
+        MissionQuestData_EnterQuest(quests, sQuestIdx);
         break;
     case 4:
         quests->m_questStates[sQuestIdx] = 0x12;
@@ -1845,20 +1845,20 @@ int ov0_0214E038()
 void Debug_DoQuestOpenAll()
 {
     MissionQuestData *quests = &MAIN_BSS_020B2638;
-    if (quests->unk_01 == 1) {
-        sub_020115F8(quests);
+    if (quests->m_questActive == 1) {
+        MissionQuestData_ExitQuest(quests);
     }
     for (int i = 0; i < 0x3E; i++) {
         quests->m_questStates[i] = 0x11;
     }
-    sub_02011540(quests, MATH_Rand32(&CGame::GetInstance()->m_rand32, 0x3D));
+    MissionQuestData_EnterQuest(quests, MATH_Rand32(&CGame::GetInstance()->m_rand32, 0x3D));
 }
 
 void Debug_DoQuestCloseAll()
 {
     MissionQuestData *quests = &MAIN_BSS_020B2638;
-    if (quests->unk_01 == 1) {
-        sub_020115F8(quests);
+    if (quests->m_questActive == 1) {
+        MissionQuestData_ExitQuest(quests);
     }
     for (int i = 0; i < 0x3E; i++) {
         quests->m_questStates[i] = 0;
@@ -1868,8 +1868,8 @@ void Debug_DoQuestCloseAll()
 void Debug_DoQuestRandom()
 {
     MissionQuestData *quests = &MAIN_BSS_020B2638;
-    if (quests->unk_01 == 1) {
-        sub_020115F8(quests);
+    if (quests->m_questActive == 1) {
+        MissionQuestData_ExitQuest(quests);
     }
     u32 current = MATH_Rand32(&CGame::GetInstance()->m_rand32, 0x3D);
     for (int i = 0; i < 0x3E; i++) {
@@ -1892,14 +1892,14 @@ void Debug_DoQuestRandom()
             quests->m_questStates[i] = 0x11;
         }
     }
-    sub_02011540(quests, current);
+    MissionQuestData_EnterQuest(quests, current);
 }
 
 void Debug_DoEventFlags()
 {
     OS_SPrintf(sChapterLine, "ChaptNo: %02d", MAIN_BSS_020B2638.m_chapter);
-    OS_SPrintf(sMissionLine, "MissSta[%02d]: %d", MAIN_BSS_020B2638.unk_02, MAIN_BSS_020B2638.unk_00);
-    OS_SPrintf(sQuestLine, "QueSta [%02d]: %d", MAIN_BSS_020B2638.unk_03, MAIN_BSS_020B2638.unk_01);
+    OS_SPrintf(sMissionLine, "MissSta[%02d]: %d", MAIN_BSS_020B2638.m_missionId, MAIN_BSS_020B2638.m_missionState);
+    OS_SPrintf(sQuestLine, "QueSta [%02d]: %d", MAIN_BSS_020B2638.m_questId, MAIN_BSS_020B2638.m_questActive);
     OS_SPrintf(sEventLine0, "e00-07:%02d %02d %02d %02d %02d %02d %02d %02d", GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 0), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 1), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 2), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 3), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 4), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 5), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 6), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 7));
     OS_SPrintf(sEventLine1, "e08-15:%02d %02d %02d %02d %02d %02d %02d %02d", GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 8), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 9), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 10), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 11), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 12), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 13), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 14), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 15));
     OS_SPrintf(sEventLine2, "e16-20:%02d %02d %02d %02d %02d", GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 16), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 17), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 18), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 19), GlobalValues_GetChapterValue(&MAIN_BSS_0210C0B0, 20));
@@ -2090,7 +2090,7 @@ int Debug_GetPlyrDisp()
 {
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (scene != NULL) {
-        return !(scene->unk_00D4 & 1);
+        return !(scene->m_hiddenLayers & 1);
     }
     return 1;
 }
@@ -2099,7 +2099,7 @@ int Debug_GetPrtyDisp()
 {
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (scene != NULL) {
-        return !(scene->unk_00D4 & 2);
+        return !(scene->m_hiddenLayers & 2);
     }
     return 1;
 }
@@ -2108,7 +2108,7 @@ int Debug_GetEneDisp()
 {
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (scene != NULL) {
-        return !(scene->unk_00D4 & 4);
+        return !(scene->m_hiddenLayers & 4);
     }
     return 1;
 }
@@ -2117,7 +2117,7 @@ int Debug_GetNpcDisp()
 {
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (scene != NULL) {
-        return !(scene->unk_00D4 & 8);
+        return !(scene->m_hiddenLayers & 8);
     }
     return 1;
 }
@@ -2126,7 +2126,7 @@ int Debug_GetObjDisp()
 {
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (scene != NULL) {
-        return !(scene->unk_00D4 & 16);
+        return !(scene->m_hiddenLayers & 16);
     }
     return 1;
 }
@@ -2136,9 +2136,9 @@ void Debug_SetPlyrDisp(int on)
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (scene != NULL) {
         if (on) {
-            scene->unk_00D4 &= ~1;
+            scene->m_hiddenLayers &= ~1;
         } else {
-            scene->unk_00D4 |= 1;
+            scene->m_hiddenLayers |= 1;
         }
     }
 }
@@ -2148,9 +2148,9 @@ void Debug_SetPrtyDisp(int on)
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (scene != NULL) {
         if (on) {
-            scene->unk_00D4 &= ~2;
+            scene->m_hiddenLayers &= ~2;
         } else {
-            scene->unk_00D4 |= 2;
+            scene->m_hiddenLayers |= 2;
         }
     }
 }
@@ -2160,9 +2160,9 @@ void Debug_SetEneDisp(int on)
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (scene != NULL) {
         if (on) {
-            scene->unk_00D4 &= ~4;
+            scene->m_hiddenLayers &= ~4;
         } else {
-            scene->unk_00D4 |= 4;
+            scene->m_hiddenLayers |= 4;
         }
     }
 }
@@ -2172,9 +2172,9 @@ void Debug_SetNpcDisp(int on)
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (scene != NULL) {
         if (on) {
-            scene->unk_00D4 &= ~8;
+            scene->m_hiddenLayers &= ~8;
         } else {
-            scene->unk_00D4 |= 8;
+            scene->m_hiddenLayers |= 8;
         }
     }
 }
@@ -2184,9 +2184,9 @@ void Debug_SetObjDisp(int on)
     CFieldScene *scene = MAIN_BSS_0210CA40;
     if (scene != NULL) {
         if (on) {
-            scene->unk_00D4 &= ~16;
+            scene->m_hiddenLayers &= ~16;
         } else {
-            scene->unk_00D4 |= 16;
+            scene->m_hiddenLayers |= 16;
         }
     }
 }

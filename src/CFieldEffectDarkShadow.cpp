@@ -88,7 +88,7 @@ int CFieldEffectDarkShadow::SetParam(int param, int value)
         if (MAIN_BSS_0210CA40 != NULL) {
             CFieldActor *actor = MAIN_BSS_0210CA40->ov0_02123060(value);
             if (actor != NULL) {
-                m_layer = actor->unk_14;
+                m_layer = actor->m_layer;
             }
         }
         break;
@@ -206,7 +206,7 @@ CFieldEffect *CFieldEffectDarkShadowFactory::Create(int arg)
     CFieldEffectDarkShadow *effect = new CFieldEffectDarkShadow(arg);
     if (effect != NULL) {
         if (MAIN_BSS_0210CA40 != NULL) {
-            FieldShadow *shadow = MAIN_BSS_0210CA40->unk_0048;
+            FieldShadow *shadow = MAIN_BSS_0210CA40->m_shadow;
             SetRectImage(&effect->m_rect, shadow->unk_00, shadow->unk_04);
         }
         CFieldEffectManage *mgr = MAIN_BSS_0210CA60;

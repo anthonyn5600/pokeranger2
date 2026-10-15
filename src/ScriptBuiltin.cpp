@@ -111,7 +111,7 @@ int Builtin_RadToDeg(int *args, int argc)
     return FX_MUL(args[0], FX32_CONST(57.3));
 }
 
-int sub_02046874(int *args, int argc)
+int Builtin_DegToIdx(int *args, int argc)
 {
     return FX_Div(args[0] << 4, 0x168000);
 }
@@ -200,7 +200,7 @@ int Builtin_Strlen(int *args, int argc)
 // Registered as table 0 by Script_InitSyscalls
 ScriptSyscall gScriptBuiltinSyscalls[4][32] = {
     { sub_02046618, Builtin_Puts, Builtin_Printf, Builtin_Printf2 },
-    { Builtin_FxMul, Builtin_FxDiv, Builtin_Sin, Builtin_Cos, Builtin_Rand, Builtin_Sqrt, Builtin_Inv, Builtin_InvSqrt, Builtin_SinIdx, Builtin_CosIdx, Builtin_RandFx, Builtin_RandFxSigned, Builtin_DegToRad, Builtin_RadToDeg, sub_02046874, sub_0204688C, sub_02046894, sub_0204689C, sub_020468A4, sub_020468AC, Builtin_Atan, Builtin_Atan2, sub_020468D8, sub_020468E0, sub_020468E8, Builtin_Floor, Builtin_Abs, Builtin_IntToFx, Builtin_FxToInt },
+    { Builtin_FxMul, Builtin_FxDiv, Builtin_Sin, Builtin_Cos, Builtin_Rand, Builtin_Sqrt, Builtin_Inv, Builtin_InvSqrt, Builtin_SinIdx, Builtin_CosIdx, Builtin_RandFx, Builtin_RandFxSigned, Builtin_DegToRad, Builtin_RadToDeg, Builtin_DegToIdx, sub_0204688C, sub_02046894, sub_0204689C, sub_020468A4, sub_020468AC, Builtin_Atan, Builtin_Atan2, sub_020468D8, sub_020468E0, sub_020468E8, Builtin_Floor, Builtin_Abs, Builtin_IntToFx, Builtin_FxToInt },
     {},
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, Builtin_Strlen },
 };

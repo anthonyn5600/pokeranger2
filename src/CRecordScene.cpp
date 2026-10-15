@@ -85,7 +85,7 @@ CRecordScene::CRecordScene()
     unk_04 = 0;
     unk_08 = 0;
     m_audioEngine = s_game->m_audioEngine;
-    m_audioEngine->sub_020345D4();
+    m_audioEngine->LoadSystemSe();
     m_save = &MAIN_BSS_020B26A0;
 }
 
@@ -101,7 +101,7 @@ u32 CRecordScene::func0()
     Point2D touch;
     touch.x = (tp->unk_0A.x - 0x80) << FX32_SHIFT;
     touch.y = (tp->unk_0A.y - 0x60) << FX32_SHIFT;
-    if (s_game->unk_14BC->IsActive() || s_game->unk_14BC->IsActive()) {
+    if (s_game->m_mainFade->IsActive() || s_game->m_mainFade->IsActive()) {
         return -1;
     }
     switch (unk_08) {
@@ -136,8 +136,8 @@ void CRecordScene::ov23_0211CBDC()
     unk_04 = 0;
     unk_10 = 0;
     unk_14 = 0;
-    s_game->unk_14BC->Start(3, 10);
-    s_game->unk_14C0->Start(3, 10);
+    s_game->m_mainFade->Start(3, 10);
+    s_game->m_subFade->Start(3, 10);
     ov23_0211D214();
 }
 
@@ -152,8 +152,8 @@ void CRecordScene::ov23_0211CC44(Point2D touch)
         unk_0C = 3;
         unk_04 = 0;
         unk_4C->SetAnim(unk_1C, 4);
-        s_game->unk_14BC->Start(4, 10);
-        s_game->unk_14C0->Start(4, 10);
+        s_game->m_mainFade->Start(4, 10);
+        s_game->m_subFade->Start(4, 10);
         m_audioEngine->PlaySe(0xFA);
         return;
     }
@@ -182,8 +182,8 @@ void CRecordScene::ov23_0211CDD4(Point2D touch)
             unk_08 = 4;
             unk_04 = 0;
             unk_4C->SetAnim(unk_18, 0);
-            s_game->unk_14BC->Start(4, 60);
-            s_game->unk_14C0->Start(4, 60);
+            s_game->m_mainFade->Start(4, 60);
+            s_game->m_subFade->Start(4, 60);
             m_audioEngine->PlaySe(0x103);
         }
     } else if (!(unk_10 & 4) && !(unk_14 & 4)) {
@@ -205,8 +205,8 @@ void CRecordScene::ov23_0211CDD4(Point2D touch)
         unk_0C = 2;
         unk_04 = 0;
         unk_4C->SetAnim(unk_20, 2);
-        s_game->unk_14BC->Start(4, 10);
-        s_game->unk_14C0->Start(4, 10);
+        s_game->m_mainFade->Start(4, 10);
+        s_game->m_subFade->Start(4, 10);
         m_audioEngine->PlaySe(0xFA);
         return;
     }
@@ -381,7 +381,7 @@ void CRecordScene::ov23_0211D870()
     if (nameId == 0) {
         name = m_recodeMes->unk_08[0x12].unk_04;
     } else {
-        name = NameTables_GetPokemonName(s_game->unk_14B0, nameId);
+        name = NameTables_GetPokemonName(s_game->m_nameTables, nameId);
     }
     {
         int ofs;
@@ -484,14 +484,14 @@ void CRecordScene::func6()
     unk_04 = 0;
     unk_08 = 0;
     CGame *game = s_game;
-    game->m_textboxData->Init(game->unk_0014, game->touchPanel, &game->unk_14AC->unk_0C, game->unk_14B0, game->unk_0024, game->m_audioEngine, 0x10, 0x4000, 0);
+    game->m_textboxData->Init(game->unk_0014, game->touchPanel, &game->unk_14AC->unk_0C, game->m_nameTables, game->unk_0024, game->m_audioEngine, 0x10, 0x4000, 0);
     ov23_0211E19C();
     ov23_0211E454();
     ov23_0211E668();
     ov23_0211E75C();
     ov23_0211D214();
-    s_game->unk_14BC->Start(3, 60);
-    s_game->unk_14C0->Start(3, 60);
+    s_game->m_mainFade->Start(3, 60);
+    s_game->m_subFade->Start(3, 60);
 }
 
 void CRecordScene::func7()

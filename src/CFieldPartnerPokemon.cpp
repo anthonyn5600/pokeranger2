@@ -83,7 +83,7 @@ BOOL CFieldPartnerPokemon::ov0_0213E4BC(u32 targetId)
         return FALSE;
     }
     unk_278 = TRUE;
-    return unk_274->Run(unk_58, targetId);
+    return unk_274->Run(m_id, targetId);
 }
 
 void CFieldPartnerPokemon::ov0_0213E4F0()

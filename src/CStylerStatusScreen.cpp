@@ -236,7 +236,7 @@ int CStylerStatusScreen::Update()
 
     switch (unk_04) {
     case 0:
-        if (!m_game->unk_14BC->IsActive() && !m_game->unk_14C0->IsActive()) {
+        if (!m_game->m_mainFade->IsActive() && !m_game->m_subFade->IsActive()) {
             unk_04 = 1;
         }
         break;
@@ -244,26 +244,26 @@ int CStylerStatusScreen::Update()
         PadInput *pad = m_game->unk_0014;
         if (unk_218->UpdateInput()) {
             unk_04 = 2;
-            m_game->unk_14BC->Start(4, 20);
-            m_game->unk_14C0->Start(4, 20);
+            m_game->m_mainFade->Start(4, 20);
+            m_game->m_subFade->Start(4, 20);
             unk_0C = 0;
         } else if (m_backButton->GetTouchTrigger() || (u16)(pad->unk_0002 & PAD_BUTTON_R)) {
             m_backButton->unk_14 = FALSE;
             m_backButtonPressed->unk_14 = TRUE;
             m_game->m_audioEngine->PlaySe(0xFA);
             unk_04 = 2;
-            m_game->unk_14BC->Start(4, 20);
+            m_game->m_mainFade->Start(4, 20);
             unk_0C = 1;
         }
         break;
     }
     case 2:
         if (unk_0C == 0) {
-            if (!m_game->unk_14BC->IsActive() && !m_game->unk_14C0->IsActive()) {
+            if (!m_game->m_mainFade->IsActive() && !m_game->m_subFade->IsActive()) {
                 return -1;
             }
         } else {
-            if (!m_game->unk_14BC->IsActive()) {
+            if (!m_game->m_mainFade->IsActive()) {
                 return 1;
             }
         }

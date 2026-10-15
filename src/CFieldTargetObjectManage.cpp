@@ -99,7 +99,7 @@ int CFieldTargetObjectManage::ov0_0213D1AC(int slot, u16 kind, u16 script, u16 t
             switch (kind) {
             case 0x61:
             case 0x6E:
-                obj->unk_04 |= 0x1000;
+                obj->m_flags |= 0x1000;
                 break;
             case 0xF3:
                 ov0_02159D30(0);

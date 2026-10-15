@@ -22,7 +22,7 @@ CFieldPartnerNpc::~CFieldPartnerNpc()
 void CFieldPartnerNpc::Process(CFieldMap *map)
 {
     unk_78 = 0;
-    SetLayer(unk_E4->unk_14);
+    SetLayer(unk_E4->m_layer);
     UpdateScript();
     Update(map);
 }
@@ -31,7 +31,7 @@ BOOL CFieldPartnerNpc::UpdateMove(CFieldMap *map)
 {
     unk_78 = 1;
     ov0_02138628();
-    SetLayer(unk_E4->unk_14);
+    SetLayer(unk_E4->m_layer);
     return CFieldActor::UpdateMove(map);
 }
 
@@ -40,7 +40,7 @@ BOOL CFieldPartnerNpc::sub_0203DA38()
     if (m_name[0] == '\0' || MAIN_BSS_0210CA44 == NULL) {
         return FALSE;
     }
-    MAIN_BSS_0210CA44->ov0_0213FB0C(m_name, unk_58, -1);
+    MAIN_BSS_0210CA44->ov0_0213FB0C(m_name, m_id, -1);
     return TRUE;
 }
 

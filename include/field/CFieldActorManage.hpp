@@ -23,17 +23,17 @@ public:
     virtual void UpdateAll(CFieldMap *map, BOOL update);
     virtual BOOL SetActorPos(int index, fx32 x, fx32 y);
     virtual BOOL sub_0203F278(int index, int arg1, int arg2);
-    virtual void sub_02040460();
-    virtual void sub_02040428();
+    virtual void DeactivateAll();
+    virtual void ActivateAll();
     virtual void SetPosAll(Point2D pos);
     virtual void DrawAll(DrawObjectList *renderLists, FieldShadow *hud);
     virtual void SetOutlineAll(u16 color, u8 width, int time);
     virtual void SetOutlineWidthAll(u8 width);
     virtual void SetOutlineColorAll(u16 color);
     virtual void SetAlphaAll(u8 alpha);
-    virtual void sub_0203F700();
-    virtual void sub_0203F754();
-    virtual void sub_0203F7AC();
+    virtual void ResetOutlinePhases();
+    virtual void ClearOutlines();
+    virtual void ClearOnTop();
 
     BOOL SweepCollide(PointPair2D *move, fx32 radius, int layer, Point2D *out);
     BOOL CollideCircle(Point2D pos, fx32 radius, int layer);
@@ -71,7 +71,7 @@ public:
         int count = m_count;
         for (int i = 0; i < count; i++) {
             CFieldActor *actor = count <= i ? NULL : m_actors[i];
-            if (actor != NULL && (actor->unk_04 & 0x20)) {
+            if (actor != NULL && (actor->m_flags & 0x20)) {
                 return actor;
             }
         }
@@ -82,7 +82,7 @@ public:
     {
         for (int i = 0; i < m_count; i++) {
             CFieldActor *actor = m_actors[i];
-            if (actor != NULL && id == actor->unk_58) {
+            if (actor != NULL && id == actor->m_id) {
                 return actor;
             }
         }
@@ -96,7 +96,7 @@ public:
         int count = m_count;
         for (int i = 0; i < count; i++) {
             CFieldActor *actor = m_actors[i];
-            if (actor != NULL && id == actor->unk_58) {
+            if (actor != NULL && id == actor->m_id) {
                 return ((CFieldActor *const *)m_actors)[i];
             }
         }
@@ -105,10 +105,10 @@ public:
 
     inline CFieldActor *Find(SaveData *save)
     {
-        u32 id = save->unk_7C38;
+        u32 id = save->m_selectedPartyId;
         for (int i = 0; i < m_count; i++) {
             CFieldActor *actor = m_actors[i];
-            if (actor != NULL && id == actor->unk_58) {
+            if (actor != NULL && id == actor->m_id) {
                 return actor;
             }
         }
@@ -123,7 +123,7 @@ public:
 
 STATIC_SIZE_ASSERT(CFieldActorManage, 0x10);
 
-void sub_0203F3C8(CFieldActorManage *mgr);
-void sub_0203F440(CFieldActorManage *mgr);
+void FieldActorManage_StopAllMotion(CFieldActorManage *mgr);
+void FieldActorManage_RestartAllScripts(CFieldActorManage *mgr);
 
 #endif // POKERANGER2_FIELD_CFIELDACTORMANAGE_HPP

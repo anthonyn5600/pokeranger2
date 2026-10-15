@@ -70,10 +70,10 @@ void NitroMain(void)
     CPowerManage::SetMode(0);
 
     v6 = v4;
-    v7 = s_game->unk_14BC;
-    v8 = s_game->unk_14C0;
-    v9 = s_game->unk_14C4;
-    v10 = s_game->unk_14C8;
+    v7 = s_game->m_mainFade;
+    v8 = s_game->m_subFade;
+    v9 = s_game->m_mainWipe;
+    v10 = s_game->m_subWipe;
 
     while (1) {
         if (
@@ -287,8 +287,8 @@ void HBlankIntr(void)
     s32 vcount = GX_GetVCount();
 
     if (vcount < GX_LCD_SIZE_Y - 1 && s_game != NULL) {
-        HBlankIntr_1(vcount, s_game->unk_14C4);
-        HBlankIntr_1(vcount, s_game->unk_14C8);
+        HBlankIntr_1(vcount, s_game->m_mainWipe);
+        HBlankIntr_1(vcount, s_game->m_subWipe);
     }
 
     OS_SetIrqCheckFlag(OS_IE_H_BLANK);

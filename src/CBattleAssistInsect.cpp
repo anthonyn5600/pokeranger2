@@ -92,7 +92,7 @@ int CBattleAssistInsect::vfunc_08(CTouchPanel *touch, CBattleDisk *disk, CBattle
                     Point2D pos;
                     pos = enemy->m_motion.m_pos;
                     pos += enemy->unk_484;
-                    pos.y -= enemy->m_bobHeight + (enemy->unk_8C + enemy->m_jumpHeight);
+                    pos.y -= enemy->m_bobHeight + (enemy->m_height + enemy->m_jumpHeight);
                     bug->m_effect->m_motion.SetPos(pos);
                 }
             }
@@ -177,14 +177,14 @@ void CBattleAssistInsect::ov1_021336CC(CTouchPanel *touch, CBattleDisk *disk, CB
     for (u8 i = 0; i < 8; i++) {
         if (enemies[i] != NULL && enemies[i]->IsAlive() && enemies[i]->IsTargetable()
             && SegmentHitCircle(m_line, enemies[i]->m_sphere.m_circle, NULL, 0)
-            && enemies[i]->m_bobHeight + (enemies[i]->unk_8C + enemies[i]->m_jumpHeight) < 0x8000) {
+            && enemies[i]->m_bobHeight + (enemies[i]->m_height + enemies[i]->m_jumpHeight) < 0x8000) {
             hit = TRUE;
         }
     }
     for (u8 i = 0; i < 0x60; i++) {
         if (m_targets[i]->HasData() && m_targets[i]->IsUnk100Clear()
             && SegmentHitCircle(m_line, m_targets[i]->m_sphere.m_circle, NULL, 0)
-            && m_targets[i]->m_bobHeight + (m_targets[i]->unk_8C + m_targets[i]->m_jumpHeight) < 0x8000) {
+            && m_targets[i]->m_bobHeight + (m_targets[i]->m_height + m_targets[i]->m_jumpHeight) < 0x8000) {
             hit = TRUE;
         }
     }

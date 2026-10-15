@@ -21,7 +21,7 @@ struct D3Info {
     u8 unk_1A[0x6];
 };
 
-extern "C" void sub_02010FAC(UnkClass_02010EC8 *obj, int bit);
+extern "C" void DownloadMissionRecord_SetTransferred(DownloadMissionRecord *obj, int bit);
 
 // RangerNet*.cpp
 void ov11_021285E0(int arg, u8 arg2);
@@ -186,18 +186,18 @@ BOOL RangerNetSendBin::ov11_0212D030()
                         CGame::GetInstance()->m_audioEngine->PlaySe(0xD1);
                         switch (unk_3AC) {
                         case 0:
-                            sub_02010FAC(&MAIN_BSS_020AF5E4[1], 1);
+                            DownloadMissionRecord_SetTransferred(&MAIN_BSS_020AF5E4[1], 1);
                             unk_3B4->ov11_0211F008(2);
                             break;
                         case 1:
-                            sub_02010FAC(&MAIN_BSS_020AF5E4[2], 2);
+                            DownloadMissionRecord_SetTransferred(&MAIN_BSS_020AF5E4[2], 2);
                             unk_3B4->ov11_0211F008(1);
                             break;
                         default:
                             unk_0->unk_1AC4 = 16;
                             return TRUE;
                         }
-                        unk_3B4->unk_728->sub_020292CC(0);
+                        unk_3B4->unk_728->StartWriteSteps(0);
                     } else {
                         unk_0->unk_1AC4 = 19;
                     }

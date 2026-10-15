@@ -21,7 +21,7 @@ struct WhInitParam {
     u16 *unk_08;
 };
 
-extern "C" void sub_02010FAC(UnkClass_02010EC8 *obj, int bit);
+extern "C" void DownloadMissionRecord_SetTransferred(DownloadMissionRecord *obj, int bit);
 
 // RangerNetWireless.cpp
 int ov11_02125FEC();
@@ -457,8 +457,8 @@ void RangerNetExchange::ov11_0212E518()
         unk_144 = 3600;
         unk_152 = 4;
         unk_194->ov11_0211F32C();
-        sub_02010FAC(&MAIN_BSS_020AF5E4[0], 0);
-        unk_194->unk_728->sub_020292CC(0);
+        DownloadMissionRecord_SetTransferred(&MAIN_BSS_020AF5E4[0], 0);
+        unk_194->unk_728->StartWriteSteps(0);
         break;
     }
     case 4:

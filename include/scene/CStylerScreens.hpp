@@ -32,12 +32,12 @@ public:
 public:
     u32 unk_0C;
     int m_level;
-    int m_energy;
+    int m_levelExp;
+    int m_nextExp;
     int m_maxEnergy;
-    int unk_1C;
-    int unk_20;
+    int m_energy;
     int unk_24;
-    int unk_28;
+    int m_power;
     int unk_2C;
     int unk_30;
     int unk_34;

@@ -56,7 +56,7 @@ void MissionQuestData_SetChapter(MissionQuestData *missionQuestData, u32 mapIdx)
 void GlobalValues_ClearChapterValues(void *arg0);
 void ScriptManager_LoadArea(void *scriptManager, u8 arg1);
 void ScriptManager_LoadQuest(void *scriptManager, u8 arg1);
-void sub_02017E44(SaveData *save);
+void SaveData_ReleaseAllActorData(SaveData *save);
 void SaveData_ReleasePartnerVram(SaveData *save);
 void ScriptManager_UnloadAll(void *scriptManager);
 }
@@ -82,10 +82,10 @@ CFieldScene::CFieldScene(CGame *game)
     m_game = game;
     m_game->unk_146C.SetFps(30);
     DAT_0208d58c = 30;
-    unk_008C = 0;
-    unk_007C = 0;
+    m_cameraTarget = 0;
+    m_partnerPokemon = 0;
     unk_0080 = 0;
-    unk_00D0 = 0;
+    m_flags = 0;
     unk_00EC = 0;
     unk_00AC = -1;
     unk_00B0 = 0;
@@ -179,7 +179,7 @@ void CFieldScene::func6()
     CSoftwareSprite::AllocSharedPalette();
     save = &MAIN_BSS_020B26A0;
     MAIN_BSS_0210CA74 = NULL;
-    m_game->m_textboxData->Init(m_game->unk_0014, m_game->touchPanel, &m_game->unk_14AC->unk_0C, m_game->unk_14B0, m_game->unk_0024, m_game->m_audioEngine, 0x10, 0x4000, 0);
+    m_game->m_textboxData->Init(m_game->unk_0014, m_game->touchPanel, &m_game->unk_14AC->unk_0C, m_game->m_nameTables, m_game->unk_0024, m_game->m_audioEngine, 0x10, 0x4000, 0);
 
     firstScene = FALSE;
     fromTable = FALSE;
@@ -206,8 +206,8 @@ void CFieldScene::func6()
         mapIdx = m_game->m_missionQuestData->m_chapter;
     }
 
-    unk_0038 = MAIN_BSS_0210CA6C;
-    mapInfo = FieldData_GetMap(unk_0038, save->m_mapId);
+    m_fieldData = MAIN_BSS_0210CA6C;
+    mapInfo = FieldData_GetMap(m_fieldData, save->m_mapId);
     save->m_areaType = mapInfo->unk_04;
     if (firstScene) {
         if (mapInfo->unk_04 == 1) {
@@ -220,14 +220,14 @@ void CFieldScene::func6()
     m_game->m_textboxData->LoadSystemMessages(0);
     ScriptManager_LoadSystem(m_game->m_scriptManager, 0);
     MissionQuestData_SetChapter(m_game->m_missionQuestData, mapIdx);
-    u8 quest = m_game->m_missionQuestData->unk_03;
+    u8 quest = m_game->m_missionQuestData->m_questId;
     if (quest != 0) {
         m_game->m_textboxData->LoadQuestMessages(quest);
         ScriptManager_LoadQuest(m_game->m_scriptManager, quest);
     }
 
     if (save->unk_8B74 & 1) {
-        unk_00D0 |= 0x440;
+        m_flags |= 0x440;
     }
     if (save->unk_8B74 & 2) {
         flag2 = TRUE;
@@ -242,67 +242,67 @@ void CFieldScene::func6()
         sub_02010D04(m_game->unk_1444);
     }
 
-    unk_00E0 = new FieldSyscallSets();
-    unk_00E0->ov0_0213D658();
+    m_syscallSets = new FieldSyscallSets();
+    m_syscallSets->ov0_0213D658();
 
-    unk_0008 = new Camera2D();
-    unk_0008->SetOrtho(0, 0xC0000, 0, 0x100000, -0x800000, 0x800000, 0x10000);
-    m_game->unk_14B8->SetTarget((UnkStruct_0200D3F8_Target *)unk_0008);
+    m_camera = new Camera2D();
+    m_camera->SetOrtho(0, 0xC0000, 0, 0x100000, -0x800000, 0x800000, 0x10000);
+    m_game->m_cameraController->SetTarget((UnkStruct_0200D3F8_Target *)m_camera);
 
-    unk_000C = new Camera2D();
-    unk_000C->SetOrtho(0, 0xC0000, 0, 0x100000, -0x800000, 0x800000, 0x400000);
-    Camera2D *camera = unk_000C;
+    m_hudCamera = new Camera2D();
+    m_hudCamera->SetOrtho(0, 0xC0000, 0, 0x100000, -0x800000, 0x800000, 0x400000);
+    Camera2D *camera = m_hudCamera;
     camera->unk_1C = 0;
     camera->unk_20 = 0;
 
-    unk_0044 = new FieldDrawActorDataPool();
+    m_actorDataPool = new FieldDrawActorDataPool();
 
-    unk_001C = new CFieldPartnerManage();
-    unk_001C->Alloc(0x10);
-    unk_0144.ov0_02143730(unk_001C);
+    m_partners = new CFieldPartnerManage();
+    m_partners->Alloc(0x10);
+    m_effectListeners.ov0_02143730(m_partners);
 
-    unk_0020 = new CFieldNpcManage();
-    unk_0020->Alloc(0x20);
-    unk_0018 = new CFieldEnemyManage();
-    unk_0018->Alloc(0x20);
-    unk_0024 = new CFieldTargetObjectManage();
-    unk_0024->Alloc(0x20);
+    m_npcs = new CFieldNpcManage();
+    m_npcs->Alloc(0x20);
+    m_enemies = new CFieldEnemyManage();
+    m_enemies->Alloc(0x20);
+    m_targetObjects = new CFieldTargetObjectManage();
+    m_targetObjects->Alloc(0x20);
 
-    unk_0030 = new FieldEventRectManage();
-    unk_0030->Create(0x30);
-    unk_0034 = new FieldScriptLauncher(m_game);
-    unk_0034->ov0_0213F960();
+    m_eventRects = new FieldEventRectManage();
+    m_eventRects->Create(0x30);
+    m_scriptLauncher = new FieldScriptLauncher(m_game);
+    m_scriptLauncher->ov0_0213F960();
 
-    unk_00D8 = new CPlayerHPGauge();
-    unk_00D8->SetVisible(TRUE);
-    unk_00D8->SetPartnerVisible(FALSE);
-    unk_00D8->SetHP(save->m_energy, save->m_maxEnergy);
-    unk_00D8->SetPartner(save->unk_0004 >> FX32_SHIFT, save->unk_0008);
-    unk_00D8->SetZ(0x3FF);
+    m_hpGauge = new CPlayerHPGauge();
+    m_hpGauge->SetVisible(TRUE);
+    m_hpGauge->SetPartnerVisible(FALSE);
+    m_hpGauge->SetHP(save->m_energy, save->m_maxEnergy);
+    m_hpGauge->SetPartner(save->unk_0004 >> FX32_SHIFT, save->unk_0008);
+    m_hpGauge->SetZ(0x3FF);
 
     unk_004C = new UnkClass_0214FB28();
     unk_0050 = new UnkClass_0214FD4C();
     unk_004C->m_z = 0x424;
     unk_0050->m_z = 0x424;
 
-    unk_0054 = new FieldSubScreen(m_game);
-    unk_0058 = new SubScreenIconMenu(m_game);
-    unk_005C = new FieldCannons();
-    unk_0010 = new CFieldMap();
+    m_subScreen = new FieldSubScreen(m_game);
+    m_iconMenu = new SubScreenIconMenu(m_game);
+    m_cannons = new FieldCannons();
+    m_map = new CFieldMap();
 
-    unk_0014 = new CFieldPlayer();
-    unk_0014->ov0_02132F14(save->m_sex, (save->m_rangerClassGrade >> 4) & 0xF, mapInfo->unk_04);
-    unk_0014->ov0_02132FA0(save->unk_8802);
+    m_player = new CFieldPlayer();
+    m_player->ov0_02132F14(save->m_sex, (save->m_rangerClassGrade >> 4) & 0xF, mapInfo->unk_04);
+    m_player->ov0_02132FA0(save->unk_8802);
     if (flag2) {
-        unk_0014->sub_flag2();
+        m_player->sub_flag2();
     }
-    unk_0014->SetPos(save->GetPos());
-    unk_0014->sub_020128EC_(save->m_dir);
-    unk_0014->sub_0201287C_();
-    unk_0014->SetLayer(save->m_layer);
+    m_player->SetPos(save->GetPos());
+    m_player->sub_020128EC_(save->m_dir);
+    m_player->sub_0201287C_();
+    m_player->SetLayer(save->m_layer);
 
     unk_0078 = 0;
-    unk_007C = 0;
+    m_partnerPokemon = 0;
     unk_0080 = 0;
     unk_0084 = 0;
 
@@ -318,11 +318,11 @@ void CFieldScene::func6()
 
     if (mode != 1) {
         for (int i = 0; i < 2; i++) {
-            UnkStruct_020B26A0_8AD4 *partner = save->GetPartner(i);
+            PartnerSlot *partner = save->GetPartner(i);
             if (partner != NULL && partner->unk_00 != 0) {
-                int idx = unk_001C->ov0_02139920(partner->unk_04, partner->unk_08, 0x1E16, 1, 1);
+                int idx = m_partners->ov0_02139920(partner->unk_04, partner->unk_08, 0x1E16, 1, 1);
                 if (idx >= 0) {
-                    CFieldActor *actor = unk_001C->Get(idx);
+                    CFieldActor *actor = m_partners->Get(idx);
                     if (actor != NULL) {
                         actor->SetPos((Point2D) { partner->unk_0C.x, partner->unk_0C.y });
                         actor->sub_020128EC_(partner->unk_0A);
@@ -335,21 +335,21 @@ void CFieldScene::func6()
     }
 
     for (int i = 0; i < 10; i++) {
-        UnkStruct_020155FC *data = SaveData_GetEntry(save, i);
-        if (data != NULL && (data->unk_08 & 1)) {
-            u32 id = (data->unk_04 & 0xFFF) | ((6 << 24) | ((data->unk_02 & 0xFFF) << 12));
+        PartyEntry *data = SaveData_GetEntry(save, i);
+        if (data != NULL && (data->m_flags & 1)) {
+            u32 id = (data->m_index & 0xFFF) | ((6 << 24) | ((data->m_mapId & 0xFFF) << 12));
             if (id != 0) {
-                int idx = unk_001C->ov0_02139920(id, data->unk_00, 0xE, 0, 1);
+                int idx = m_partners->ov0_02139920(id, data->m_kind, 0xE, 0, 1);
                 if (idx >= 0) {
-                    CFieldActor *actor = unk_001C->Get(idx);
+                    CFieldActor *actor = m_partners->Get(idx);
                     if (actor != NULL) {
-                        if (id == save->unk_7C38) {
+                        if (id == save->m_selectedPartyId) {
                             Actor_HideManpu(actor);
                             actor->unk_20 = 0;
                             actor->sub_0202D394();
                         } else {
-                            actor->SetPos((Point2D) { data->unk_0C.x, data->unk_0C.y });
-                            actor->SetLayer(data->unk_16);
+                            actor->SetPos((Point2D) { data->m_pos.x, data->m_pos.y });
+                            actor->SetLayer(data->m_layer);
                             actor->sub_020128EC_(data->unk_14);
                             actor->sub_0201287C_();
                         }
@@ -360,41 +360,41 @@ void CFieldScene::func6()
     }
 
     if (save->unk_8802 != 0 && save->unk_8802 != 1) {
-        unk_001C->sub_02040460();
+        m_partners->DeactivateAll();
         if (save->unk_8802 != 2) {
-            unk_001C->ov0_02139E14(4);
-            unk_001C->ov0_0213A7FC(0);
-            CFieldActor *actor = unk_001C->Find(save);
+            m_partners->ov0_02139E14(4);
+            m_partners->ov0_0213A7FC(0);
+            CFieldActor *actor = m_partners->Find(save);
             if (actor != NULL) {
-                actor->unk_04 &= ~1;
+                actor->m_flags &= ~1;
             }
         }
     }
 
-    unk_003C = new DrawObjectList[10];
-    unk_0060 = new TitleBanner();
-    unk_0028 = new CFieldEffectManage(&unk_0144);
-    unk_013C.ov0_021518B8(unk_0028);
-    unk_002C = new FieldScreenEffectManage();
-    unk_0048 = new FieldShadow(5);
+    m_drawLists = new DrawObjectList[10];
+    m_banner = new TitleBanner();
+    m_effects = new CFieldEffectManage(&m_effectListeners);
+    m_effectFactories.ov0_021518B8(m_effects);
+    m_screenEffects = new FieldScreenEffectManage();
+    m_shadow = new FieldShadow(5);
 
-    unk_00DC = new TouchDotLine();
-    if (unk_00DC != NULL) {
-        CellAnimController *cac = unk_0028->m_resident.GetCac(6);
-        CNCERFile *ncer = unk_0028->m_resident.GetNcer(6);
-        VramPalette *palette = unk_0028->m_resident.GetPalette();
-        VramImage *ncbr = unk_0028->m_resident.GetNcbr(0);
-        ov0_0214816C(unk_00DC, ncbr, palette, ncer, cac);
+    m_touchLine = new TouchDotLine();
+    if (m_touchLine != NULL) {
+        CellAnimController *cac = m_effects->m_resident.GetCac(6);
+        CNCERFile *ncer = m_effects->m_resident.GetNcer(6);
+        VramPalette *palette = m_effects->m_resident.GetPalette();
+        VramImage *ncbr = m_effects->m_resident.GetNcbr(0);
+        ov0_0214816C(m_touchLine, ncbr, palette, ncer, cac);
     }
 
-    m_game->unk_14B8->SetTarget((UnkStruct_0200D3F8_Target *)unk_0008);
-    unk_0040 = new CFieldPlayerInputControlManage();
-    if (unk_00D8 != NULL) {
+    m_game->m_cameraController->SetTarget((UnkStruct_0200D3F8_Target *)m_camera);
+    m_inputControl = new CFieldPlayerInputControlManage();
+    if (m_hpGauge != NULL) {
         unk_0064 = new UnkClass_0216D5F4();
-        ov0_0216D5F4(unk_0064, unk_00D8->GetPart(1));
+        ov0_0216D5F4(unk_0064, m_hpGauge->GetPart(1));
     }
     unk_00E4 = new UnkClass_0214B984();
-    unk_00E8 = new FieldDebugMenu(m_game);
+    m_debugMenu = new FieldDebugMenu(m_game);
 
     m_game->m_textboxData->LoadAreaMessages(mapInfo->unk_00);
     ScriptManager_LoadArea(m_game->m_scriptManager, mapInfo->unk_00);
@@ -403,11 +403,11 @@ void CFieldScene::func6()
     if (sceneId != 5 && sceneId != 7) {
         BOOL handled = FALSE;
         if (sceneId == 0x19 || sceneId == 0xE || sceneId == 0x1E) {
-            handled = m_game->sub_02010378();
+            handled = m_game->RestoreBgmState();
         }
         if (!handled) {
             m_game->m_audioEngine->PlayMapBgm(save->m_mapId, 0, 0);
-            if (unk_00D0 & 0x40) {
+            if (m_flags & 0x40) {
                 m_game->m_audioEngine->LoadBgmGroup(0x2D);
                 m_game->m_audioEngine->PlayBgm(5, 30);
             }
@@ -418,9 +418,9 @@ void CFieldScene::func6()
     unk_00AC = -1;
     unk_00B0 = 0;
 
-    if (unk_001C != NULL) {
+    if (m_partners != NULL) {
         for (int i = 0; i < 16; i++) {
-            CFieldActor *actor = unk_001C->Get(i);
+            CFieldActor *actor = m_partners->Get(i);
             if (actor != NULL && actor->IsActive()) {
                 positions[i] = actor->GetPos();
                 directions[i] = actor->GetDir();
@@ -430,9 +430,9 @@ void CFieldScene::func6()
 
     ov0_02122EF4();
 
-    if (unk_001C != NULL) {
+    if (m_partners != NULL) {
         for (int i = 0; i < 16; i++) {
-            CFieldActor *actor = unk_001C->Get(i);
+            CFieldActor *actor = m_partners->Get(i);
             if (actor != NULL && actor->IsActive()) {
                 actor->SetPos(positions[i]);
                 actor->sub_020128EC_(directions[i]);
@@ -443,16 +443,16 @@ void CFieldScene::func6()
     }
 
     if (save->unk_7F60 & 1) {
-        for (int i = 0; i < unk_0018->m_count; i++) {
-            CFieldActor *actor = unk_0018->Get(i);
+        for (int i = 0; i < m_enemies->m_count; i++) {
+            CFieldActor *actor = m_enemies->Get(i);
             if (actor != NULL && actor->IsActive()) {
                 actor->SetPos(save->GetEnemyPos(i));
                 actor->sub_020128EC_(save->m_enemyDir[i]);
                 actor->sub_0201287C_();
             }
         }
-        for (int i = 0; i < unk_0020->m_count; i++) {
-            CFieldActor *actor = unk_0020->Get(i);
+        for (int i = 0; i < m_npcs->m_count; i++) {
+            CFieldActor *actor = m_npcs->Get(i);
             if (actor != NULL) {
                 actor->SetPos(save->GetNpcPos(i));
                 actor->sub_020128EC_(save->m_npcDir[i]);
@@ -460,15 +460,15 @@ void CFieldScene::func6()
                 ((CFieldNpc *)actor)->ov0_0213C5DC();
             }
         }
-        for (int i = 0; i < unk_0024->m_count; i++) {
-            CFieldActor *actor = unk_0024->Get(i);
+        for (int i = 0; i < m_targetObjects->m_count; i++) {
+            CFieldActor *actor = m_targetObjects->Get(i);
             if (actor != NULL) {
                 actor->SetPos(save->GetObjectPos(i));
                 actor->sub_020128EC_(save->m_objectDir[i]);
                 actor->sub_0201287C_();
             }
         }
-        unk_005C->ov0_02159970();
+        m_cannons->ov0_02159970();
     }
 
     for (int i = 0; i < 0x50; i++) {
@@ -502,60 +502,60 @@ void CFieldScene::func6()
                 break;
             }
             if (hide) {
-                CFieldActor *actor = unk_0024->Get(i);
+                CFieldActor *actor = m_targetObjects->Get(i);
                 actor->sub_020129F4_(0, 0);
                 actor->Update(NULL);
             }
         }
     }
 
-    CFieldMapLayerAttribute *attrLayer = unk_0010->GetAttributeLayer(unk_0014->unk_14);
+    CFieldMapLayerAttribute *attrLayer = m_map->GetAttributeLayer(m_player->m_layer);
     if (attrLayer != NULL) {
-        int result = attrLayer->GetCellAtPos(unk_0014->GetX(), unk_0014->GetY());
+        int result = attrLayer->GetCellAtPos(m_player->GetX(), m_player->GetY());
         if (result == 0xE || result == 0x17) {
-            if (unk_001C != NULL) {
-                unk_001C->ov0_0213A7FC(0);
+            if (m_partners != NULL) {
+                m_partners->ov0_0213A7FC(0);
             }
-            if (unk_0014 != NULL) {
-                unk_0014->sub_reset();
-                unk_0014->PlayAnim(0x80, 0);
+            if (m_player != NULL) {
+                m_player->sub_reset();
+                m_player->PlayAnim(0x80, 0);
             }
         }
     }
 
     if (save->HasString()) {
-        unk_0034->ov0_0213FB0C(save->m_saveName, 0, -1);
+        m_scriptLauncher->ov0_0213FB0C(save->m_saveName, 0, -1);
         save->m_saveName[0] = '\0';
     } else if (doorEventId > 0) {
-        unk_0034->ov0_0213FB0C("sDokaRelease", doorEventId, -1);
+        m_scriptLauncher->ov0_0213FB0C("sDokaRelease", doorEventId, -1);
     } else {
-        switch (m_game->unk_14BC->GetMode()) {
+        switch (m_game->m_mainFade->GetMode()) {
         case 2:
-            m_game->unk_14BC->Start(1, 10);
+            m_game->m_mainFade->Start(1, 10);
             break;
         case 4:
-            m_game->unk_14BC->Start(3, 10);
+            m_game->m_mainFade->Start(3, 10);
             break;
         }
-        switch (m_game->unk_14C0->GetMode()) {
+        switch (m_game->m_subFade->GetMode()) {
         case 2:
-            m_game->unk_14C0->Start(1, 10);
+            m_game->m_subFade->Start(1, 10);
             break;
         case 4:
-            m_game->unk_14C0->Start(3, 10);
+            m_game->m_subFade->Start(3, 10);
             break;
         }
     }
 
     SetupBGFonts();
-    unk_0054->ShowAreaMap(save->m_mapId, unk_0014->GetX() >> FX32_SHIFT, unk_0014->GetY() >> FX32_SHIFT);
+    m_subScreen->ShowAreaMap(save->m_mapId, m_player->GetX() >> FX32_SHIFT, m_player->GetY() >> FX32_SHIFT);
     ov0_021248EC();
     if (sceneId == 6) {
-        unk_0054->sub_02022C74();
-        unk_0058->sub_020234F0();
+        m_subScreen->ShowRangerCardNow();
+        m_iconMenu->OpenFadeIn();
     }
-    unk_0028->ov0_021434F0();
-    unk_0018->ov0_02136878();
+    m_effects->ov0_021434F0();
+    m_enemies->ov0_02136878();
 }
 
 void CFieldScene::func7()
@@ -566,37 +566,37 @@ void CFieldScene::func7()
     m_game->m_textboxData->FreeChapterMessages();
     m_game->m_textboxData->FreeQuestMessages();
     m_game->m_textboxData->Reset();
-    m_game->unk_14B8->SetTarget(NULL);
+    m_game->m_cameraController->SetTarget(NULL);
 
-    SAFE_DELETE(unk_0040);
-    SAFE_DELETE(unk_00DC);
-    SAFE_DELETE(unk_002C);
-    SAFE_DELETE(unk_0028);
-    SAFE_DELETE(unk_0048);
-    SAFE_DELETE_ARRAY(unk_003C);
-    SAFE_DELETE(unk_0014);
-    SAFE_DELETE(unk_0010);
-    unk_013C.ov0_021518F4();
-    SAFE_DELETE(unk_0034);
-    SAFE_DELETE(unk_0030);
-    SAFE_DELETE(unk_0024);
-    SAFE_DELETE(unk_0018);
-    SAFE_DELETE(unk_0020);
-    unk_0144.ov0_02143760(unk_001C);
-    SAFE_DELETE(unk_001C);
-    SAFE_DELETE(unk_0044);
-    SAFE_DELETE(unk_0008);
-    SAFE_DELETE(unk_000C);
-    SAFE_DELETE(unk_00E0);
-    SAFE_DELETE(unk_00D8);
+    SAFE_DELETE(m_inputControl);
+    SAFE_DELETE(m_touchLine);
+    SAFE_DELETE(m_screenEffects);
+    SAFE_DELETE(m_effects);
+    SAFE_DELETE(m_shadow);
+    SAFE_DELETE_ARRAY(m_drawLists);
+    SAFE_DELETE(m_player);
+    SAFE_DELETE(m_map);
+    m_effectFactories.ov0_021518F4();
+    SAFE_DELETE(m_scriptLauncher);
+    SAFE_DELETE(m_eventRects);
+    SAFE_DELETE(m_targetObjects);
+    SAFE_DELETE(m_enemies);
+    SAFE_DELETE(m_npcs);
+    m_effectListeners.ov0_02143760(m_partners);
+    SAFE_DELETE(m_partners);
+    SAFE_DELETE(m_actorDataPool);
+    SAFE_DELETE(m_camera);
+    SAFE_DELETE(m_hudCamera);
+    SAFE_DELETE(m_syscallSets);
+    SAFE_DELETE(m_hpGauge);
     SAFE_DELETE(unk_004C);
     SAFE_DELETE(unk_0050);
     SAFE_DELETE(unk_00E4);
-    SAFE_DELETE(unk_00E8);
-    SAFE_DELETE(unk_0054);
-    SAFE_DELETE(unk_0058);
-    SAFE_DELETE(unk_005C);
-    SAFE_DELETE(unk_0060);
+    SAFE_DELETE(m_debugMenu);
+    SAFE_DELETE(m_subScreen);
+    SAFE_DELETE(m_iconMenu);
+    SAFE_DELETE(m_cannons);
+    SAFE_DELETE(m_banner);
     SAFE_DELETE(unk_0064);
 
     CSoftwareSprite::FreeSharedPalette();
@@ -611,7 +611,7 @@ void CFieldScene::func7()
     MAIN_BSS_020B26A0.CheckElapsedTime(&time, &date);
 
     if (m_game->unk_0010 == 0) {
-        sub_02017E44(&MAIN_BSS_020B26A0);
+        SaveData_ReleaseAllActorData(&MAIN_BSS_020B26A0);
     }
 }
 
@@ -631,14 +631,14 @@ struct UnkStruct_0201549C {
 };
 
 extern "C" {
-int sub_02016138(SaveData *save, int arg1);
+int SaveData_CountParty(SaveData *save, int arg1);
 UnkStruct_0201549C *SaveData_FindPartner(SaveData *save, u32 id);
-UnkStruct_020155FC *SaveData_FindEntry(SaveData *save, u32 id);
-void sub_02015A3C(SaveData *save, int idx, int mapId);
-void sub_02015E54(SaveData *save, u32 id);
+PartyEntry *SaveData_FindEntry(SaveData *save, u32 id);
+void SaveData_EnableEnemy(SaveData *save, int idx, int mapId);
+void SaveData_RemoveFromParty(SaveData *save, u32 id);
 void SaveData_ClearActorPositions(SaveData *save);
-int sub_02016268(SaveData *save, int arg1);
-int sub_0201621C(SaveData *save, int arg1);
+int SaveData_GetPartyPartnerIndex(SaveData *save, int arg1);
+int SaveData_HasPartnerInParty(SaveData *save, int arg1);
 void ov0_02161F88(void);
 void sub_0201094C(void *obj, int arg1);
 void BattleStartParam_SetEnergy(void *obj, u8 arg1);
@@ -660,10 +660,10 @@ extern u8 DAT_0208aaf8;
 
 u32 CFieldScene::func0()
 {
-    if (unk_00D0 & 0x10) {
+    if (m_flags & 0x10) {
         ov0_02124210();
         m_game->m_audioEngine->StopBgmReset(0);
-        m_game->m_audioEngine->sub_02034C2C(0);
+        m_game->m_audioEngine->StopLoopSe(0);
         RTCTime time;
         RTCDate date;
         RTC_GetTime(&time);
@@ -679,10 +679,10 @@ u32 CFieldScene::func0()
     void *record;
     u32 opts;
     SaveData *save = &MAIN_BSS_020B26A0;
-    Point2D playerPos = unk_0014->GetPos();
+    Point2D playerPos = m_player->GetPos();
     BOOL doUpdate = TRUE;
     u16 fps = 30;
-    if (unk_0034->ov0_0213FEEC() != 0 || (unk_00D0 & 0x48) || unk_0084 == 3 || unk_0084 == 4 || unk_0084 == 7 || unk_0084 == 5 || unk_0084 == 6 || unk_0084 == 8 || unk_0084 == 9 || unk_0084 == 0x14 || unk_0058->IsActive() != 0) {
+    if (m_scriptLauncher->ov0_0213FEEC() != 0 || (m_flags & 0x48) || unk_0084 == 3 || unk_0084 == 4 || unk_0084 == 7 || unk_0084 == 5 || unk_0084 == 6 || unk_0084 == 8 || unk_0084 == 9 || unk_0084 == 0x14 || m_iconMenu->IsActive() != 0) {
         fps = 60;
     }
     m_game->unk_146C.SetFps(fps);
@@ -696,102 +696,102 @@ u32 CFieldScene::func0()
     if (unk_00EC != 0) {
         updateActors = FALSE;
         doUpdate = FALSE;
-        unk_00E8->ov0_0214FB08();
-        if (unk_00E8->ov0_0214FB18() == FALSE) {
-            unk_00E8->ov0_0214FAA0();
+        m_debugMenu->ov0_0214FB08();
+        if (m_debugMenu->ov0_0214FB18() == FALSE) {
+            m_debugMenu->ov0_0214FAA0();
             G2_SetBlendBrightness(GX_BLEND_PLANEMASK_NONE, 0);
             unk_00EC = 0;
         }
-    } else if (unk_0058->IsActive() != 0) {
+    } else if (m_iconMenu->IsActive() != 0) {
         updateActors = FALSE;
         doUpdate = FALSE;
     } else {
         held = FALSE;
-        BOOL canControl = (unk_0034->ov0_0213FEEC() == 0 && (unk_00D0 & 0x1FE07B) == 0) ? TRUE : FALSE;
+        BOOL canControl = (m_scriptLauncher->ov0_0213FEEC() == 0 && (m_flags & 0x1FE07B) == 0) ? TRUE : FALSE;
         ok = TRUE;
         if (canControl) {
             switch (unk_0084) {
             case 0:
-                if (unk_0014->unk_110 == 0) {
+                if (m_player->unk_110 == 0) {
                     int level = save->m_rangerClassGrade & 0xF;
-                    if (sub_02016138(save, -1) > sub_02015658(save, level)) {
-                        m_game->unk_14BC->Start(4, 8);
-                        m_game->unk_14C0->Start(4, 8);
+                    if (SaveData_CountParty(save, -1) > SaveData_GetPartyCapacity(save, level)) {
+                        m_game->m_mainFade->Start(4, 8);
+                        m_game->m_subFade->Start(4, 8);
                         unk_0084 = 0x18;
                         break;
                     }
-                    if (!(unk_00D0 & 0x800)) {
+                    if (!(m_flags & 0x800)) {
                         Point2D touchPos = { (touch->unk_0A.x - 0x80) << FX32_SHIFT, (touch->unk_0A.y - 0x60) << FX32_SHIFT };
                         if (touch->unk_04 != 0) {
                             if (save->IsButton1Enabled()) {
                                 if (PointInRect(touchPos, unk_004C->m_rect->m_rectangle, 0)) {
                                     unk_004C->ov0_0214FD24();
-                                    unk_00D0 |= 0x100;
+                                    m_flags |= 0x100;
                                 }
                             }
                             if (save->IsButton2Enabled()) {
                                 if (PointInRect(touchPos, unk_0050->m_rect->m_rectangle, 0)) {
                                     unk_0050->ov0_0214FF44();
-                                    unk_00D0 |= 0x200;
+                                    m_flags |= 0x200;
                                 }
                             }
                         }
-                        if (unk_00D0 & 0x300) {
+                        if (m_flags & 0x300) {
                             held = TRUE;
                         }
                         if (touch->unk_06 != 0) {
-                            if (PointInRect(touchPos, unk_004C->m_rect->m_rectangle, 0) && (unk_00D0 & 0x100)) {
-                                unk_0054->sub_02022D88();
+                            if (PointInRect(touchPos, unk_004C->m_rect->m_rectangle, 0) && (m_flags & 0x100)) {
+                                m_subScreen->sub_02022D88();
                                 m_game->m_audioEngine->PlaySe(0xFA);
                             }
-                            if (PointInRect(touchPos, unk_0050->m_rect->m_rectangle, 0) && (unk_00D0 & 0x200)) {
-                                unk_0054->sub_02022C1C();
-                                unk_0058->Open();
-                                if (unk_0014->unk_08 != NULL && unk_0014->unk_08->unk_0C != NULL) {
-                                    unk_0014->unk_08->unk_0C->m_motion.m_mode = 0;
+                            if (PointInRect(touchPos, unk_0050->m_rect->m_rectangle, 0) && (m_flags & 0x200)) {
+                                m_subScreen->SwitchToRangerCard();
+                                m_iconMenu->Open();
+                                if (m_player->m_drawObject != NULL && m_player->m_drawObject->m_actor != NULL) {
+                                    m_player->m_drawObject->m_actor->m_motion.m_mode = 0;
                                 }
                                 m_game->m_audioEngine->PlaySe(0xFA);
                                 ok = FALSE;
-                                int state = unk_0014->unk_08->unk_0C->unk_1A0;
+                                int state = m_player->m_drawObject->m_actor->unk_1A0;
                                 if ((state == 0x80000 || state == 0x800000) && m_game->m_audioEngine->IsSePlaying(0x10E)) {
                                     m_game->m_audioEngine->StopSe(0x10E);
                                 }
                             }
-                            unk_00D0 &= ~0x300;
+                            m_flags &= ~0x300;
                         }
                     }
-                    if (unk_002C->IsEffectActive(5)) {
+                    if (m_screenEffects->IsEffectActive(5)) {
                         if ((save->unk_8BC0 + 2) % 300 < 2) {
-                            unk_0014->ov0_021333A0(0, 0, 0, 1, 0);
+                            m_player->ov0_021333A0(0, 0, 0, 1, 0);
                         }
                     }
                 }
                 if (save->m_energy == 0) {
-                    switch (unk_0014->unk_110) {
+                    switch (m_player->unk_110) {
                     case 0:
                     case 7:
                         if (save->m_areaType == 1) {
-                            unk_0034->ov0_0213FB0C("sGameOverFS", 0, -2);
+                            m_scriptLauncher->ov0_0213FB0C("sGameOverFS", 0, -2);
                         } else {
-                            unk_0034->ov0_0213FB0C("sGameOverF", 0, -2);
+                            m_scriptLauncher->ov0_0213FB0C("sGameOverF", 0, -2);
                         }
-                        unk_00D0 |= 0x440;
+                        m_flags |= 0x440;
                         break;
                     case 1:
                     case 2:
                     case 3:
-                        if (!m_game->unk_14BC->IsActive() && !m_game->unk_14C0->IsActive()) {
-                            if (unk_0014->unk_08 != NULL && unk_0014->unk_08->unk_0C != NULL) {
-                                unk_0014->unk_08->unk_0C->unk_8C = 0;
+                        if (!m_game->m_mainFade->IsActive() && !m_game->m_subFade->IsActive()) {
+                            if (m_player->m_drawObject != NULL && m_player->m_drawObject->m_actor != NULL) {
+                                m_player->m_drawObject->m_actor->m_height = 0;
                             }
                             if (save->m_areaType == 1) {
-                                unk_0034->ov0_0213FB0C("sGameOverFS", 0, -2);
+                                m_scriptLauncher->ov0_0213FB0C("sGameOverFS", 0, -2);
                             } else {
-                                unk_0034->ov0_0213FB0C("sGameOverF", 0, -2);
+                                m_scriptLauncher->ov0_0213FB0C("sGameOverF", 0, -2);
                             }
-                            unk_00D0 |= 0x440;
-                            if (unk_0014->unk_110 == 3 && unk_001C != NULL) {
-                                unk_001C->ov0_0213A96C(FALSE, 0, TRUE);
+                            m_flags |= 0x440;
+                            if (m_player->unk_110 == 3 && m_partners != NULL) {
+                                m_partners->ov0_0213A96C(FALSE, 0, TRUE);
                             }
                         } else if (m_game->unk_0000 & 3) {
                             doUpdate = FALSE;
@@ -799,181 +799,181 @@ u32 CFieldScene::func0()
                         break;
                     }
                 } else {
-                    if (unk_0040 != NULL && ok && unk_0014->unk_110 == 0) {
-                        ok = unk_0040->ov0_0213FFC4(this, pad, held ? NULL : touch);
+                    if (m_inputControl != NULL && ok && m_player->unk_110 == 0) {
+                        ok = m_inputControl->ov0_0213FFC4(this, pad, held ? NULL : touch);
                     }
                 }
                 break;
             case 1: {
-                CFieldPartner *partner = unk_007C;
-                if (!m_game->m_textboxData->IsActive() && !m_game->m_textboxData->sub_0200B6A4(1)) {
+                CFieldPartner *partner = m_partnerPokemon;
+                if (!m_game->m_textboxData->IsActive() && !m_game->m_textboxData->CloseIfNoPrompt(1)) {
                     ov0_0212451C();
-                    m_game->m_textboxData->sub_02009FB0(1, 1);
+                    m_game->m_textboxData->CloseAndClear(1, 1);
                     m_game->m_textboxData->ResetTextSpeed();
                     if (m_game->m_textboxData->GetYesNoResult() != 0) {
                         unk_0084 = 0;
                     } else {
-                        ((CFieldTargetObject *)unk_0080)->ov0_0213CDB4(partner->unk_58);
+                        ((CFieldTargetObject *)unk_0080)->ov0_0213CDB4(partner->m_id);
                         unk_0084 = 0x1A;
                     }
-                    unk_0054->sub_02022DD4();
+                    m_subScreen->SwitchToDefaultPanel();
                 } else {
-                    unk_0054->SwitchToPokemonInfo(partner->unk_200, 0);
+                    m_subScreen->SwitchToPokemonInfo(partner->unk_200, 0);
                 }
                 break;
             }
             case 10: {
-                CFieldPartner *partner = unk_007C;
-                if (!m_game->m_textboxData->IsActive() && !m_game->m_textboxData->sub_0200B6A4(1)) {
+                CFieldPartner *partner = m_partnerPokemon;
+                if (!m_game->m_textboxData->IsActive() && !m_game->m_textboxData->CloseIfNoPrompt(1)) {
                     ov0_0212451C();
-                    m_game->m_textboxData->sub_02009FB0(1, 1);
+                    m_game->m_textboxData->CloseAndClear(1, 1);
                     m_game->m_textboxData->ResetTextSpeed();
                     unk_0084 = 0;
                     if (m_game->m_textboxData->GetYesNoResult() == 0) {
                         UnkStruct_020107A8 *info = PokeIdTable_Get(m_game->unk_1434, partner->unk_200);
                         if (info->unk_05 != 0 && info->unk_05 == unk_0090 && unk_0098[0] != '\0') {
-                            unk_0034->ov0_0213FB0C(unk_0098, partner->unk_58, -1);
+                            m_scriptLauncher->ov0_0213FB0C(unk_0098, partner->m_id, -1);
                         }
                     }
-                    unk_0054->sub_02022DD4();
+                    m_subScreen->SwitchToDefaultPanel();
                 } else {
-                    unk_0054->SwitchToPokemonInfo(partner->unk_200, 0);
+                    m_subScreen->SwitchToPokemonInfo(partner->unk_200, 0);
                 }
                 break;
             }
             case 11: {
-                CFieldPartner *partner = unk_007C;
-                if (!m_game->m_textboxData->IsActive() && !m_game->m_textboxData->sub_0200B6A4(1)) {
+                CFieldPartner *partner = m_partnerPokemon;
+                if (!m_game->m_textboxData->IsActive() && !m_game->m_textboxData->CloseIfNoPrompt(1)) {
                     ov0_0212451C();
-                    m_game->m_textboxData->sub_02009FB0(1, 1);
+                    m_game->m_textboxData->CloseAndClear(1, 1);
                     m_game->m_textboxData->ResetTextSpeed();
                     if (m_game->m_textboxData->GetYesNoResult() == 0) {
                         unk_0084 = 0;
-                        unk_0034->ov0_0213FB0C("sCharge", partner->unk_58, -1);
+                        m_scriptLauncher->ov0_0213FB0C("sCharge", partner->m_id, -1);
                     } else {
                         unk_0084 = 0;
                     }
-                    unk_0054->sub_02022DD4();
+                    m_subScreen->SwitchToDefaultPanel();
                 } else {
-                    unk_0054->SwitchToPokemonInfo(partner->unk_200, 0);
+                    m_subScreen->SwitchToPokemonInfo(partner->unk_200, 0);
                 }
                 break;
             }
             case 12:
                 if (++unk_0088 >= 60) {
-                    CFieldPartner *partner = unk_007C;
+                    CFieldPartner *partner = m_partnerPokemon;
                     if (!m_game->m_textboxData->IsActive()) {
                         ov0_0212451C();
-                        m_game->m_textboxData->sub_02009FB0(1, 1);
+                        m_game->m_textboxData->CloseAndClear(1, 1);
                         m_game->m_textboxData->ResetTextSpeed();
                         unk_0084 = 0;
-                        unk_0054->sub_02022DD4();
+                        m_subScreen->SwitchToDefaultPanel();
                     } else {
-                        unk_0054->SwitchToPokemonInfo(partner->unk_200, 0);
+                        m_subScreen->SwitchToPokemonInfo(partner->unk_200, 0);
                     }
                 }
                 break;
             case 15: {
-                CFieldPartner *partner = unk_007C;
-                if (!m_game->m_textboxData->IsActive() && !m_game->m_textboxData->sub_0200B6A4(1)) {
+                CFieldPartner *partner = m_partnerPokemon;
+                if (!m_game->m_textboxData->IsActive() && !m_game->m_textboxData->CloseIfNoPrompt(1)) {
                     ov0_0212451C();
-                    m_game->m_textboxData->sub_02009FB0(1, 1);
+                    m_game->m_textboxData->CloseAndClear(1, 1);
                     m_game->m_textboxData->ResetTextSpeed();
                     unk_0084 = 0;
                     if (m_game->m_textboxData->GetYesNoResult() == 0) {
-                        unk_0034->ov0_0213FB0C("sRideDodo", partner->unk_58, -1);
+                        m_scriptLauncher->ov0_0213FB0C("sRideDodo", partner->m_id, -1);
                     }
-                    unk_0054->sub_02022DD4();
+                    m_subScreen->SwitchToDefaultPanel();
                 } else {
-                    unk_0054->SwitchToPokemonInfo(partner->unk_200, 0);
+                    m_subScreen->SwitchToPokemonInfo(partner->unk_200, 0);
                 }
                 break;
             }
             case 16:
-                if (!m_game->m_textboxData->IsActive() && !m_game->m_textboxData->sub_0200B6A4(1)) {
-                    m_game->m_textboxData->sub_02009FB0(1, 1);
+                if (!m_game->m_textboxData->IsActive() && !m_game->m_textboxData->CloseIfNoPrompt(1)) {
+                    m_game->m_textboxData->CloseAndClear(1, 1);
                     m_game->m_textboxData->ResetTextSpeed();
                     unk_0084 = 0;
                     if (m_game->m_textboxData->GetYesNoResult() == 0) {
-                        unk_0034->ov0_0213FB0C("sGtOfDodo", 0, -1);
+                        m_scriptLauncher->ov0_0213FB0C("sGtOfDodo", 0, -1);
                     }
                 }
                 break;
             case 21: {
-                CFieldPartner *partner = unk_007C;
-                if (!m_game->m_textboxData->IsActive() && !m_game->m_textboxData->sub_0200B6A4(1)) {
+                CFieldPartner *partner = m_partnerPokemon;
+                if (!m_game->m_textboxData->IsActive() && !m_game->m_textboxData->CloseIfNoPrompt(1)) {
                     ov0_0212451C();
-                    m_game->m_textboxData->sub_02009FB0(1, 1);
+                    m_game->m_textboxData->CloseAndClear(1, 1);
                     m_game->m_textboxData->ResetTextSpeed();
                     unk_0084 = 0;
                     if (m_game->m_textboxData->GetYesNoResult() == 0) {
                         unk_0088 = 0;
                         unk_0084 = 0x16;
-                        save->unk_8B80 = partner->unk_58;
-                        m_game->unk_14BC->Start(4, 10);
-                        m_game->unk_14C0->Start(4, 10);
+                        save->unk_8B80 = partner->m_id;
+                        m_game->m_mainFade->Start(4, 10);
+                        m_game->m_subFade->Start(4, 10);
                     } else {
-                        unk_0054->sub_02022DD4();
+                        m_subScreen->SwitchToDefaultPanel();
                     }
                 } else {
-                    unk_0054->SwitchToPokemonInfo(partner->unk_200, 0);
+                    m_subScreen->SwitchToPokemonInfo(partner->unk_200, 0);
                 }
                 break;
             }
             case 22:
-                if (!m_game->unk_14BC->IsActive() && !m_game->unk_14C0->IsActive()) {
+                if (!m_game->m_mainFade->IsActive() && !m_game->m_subFade->IsActive()) {
                     unk_0084 = 0;
                     return 0xB;
                 }
                 break;
             case 23: {
-                CFieldPartner *partner = unk_007C;
-                if (!m_game->m_textboxData->IsActive() && !m_game->m_textboxData->sub_0200B6A4(1)) {
+                CFieldPartner *partner = m_partnerPokemon;
+                if (!m_game->m_textboxData->IsActive() && !m_game->m_textboxData->CloseIfNoPrompt(1)) {
                     ov0_0212451C();
-                    m_game->m_textboxData->sub_02009FB0(1, 1);
+                    m_game->m_textboxData->CloseAndClear(1, 1);
                     m_game->m_textboxData->ResetTextSpeed();
                     if (m_game->m_textboxData->GetYesNoResult() == 0) {
                         unk_0084 = 0;
                         ov0_02161F88();
-                        unk_0034->ov0_0213FB0C("sTeleport", partner->unk_58, -1);
+                        m_scriptLauncher->ov0_0213FB0C("sTeleport", partner->m_id, -1);
                     } else {
                         unk_0084 = 0;
                     }
-                    unk_0054->sub_02022DD4();
+                    m_subScreen->SwitchToDefaultPanel();
                 } else {
-                    unk_0054->SwitchToPokemonInfo(partner->unk_200, 0);
+                    m_subScreen->SwitchToPokemonInfo(partner->unk_200, 0);
                 }
                 break;
             }
             case 20:
                 if (!m_game->m_textboxData->IsActive()) {
-                    m_game->m_textboxData->sub_02009FB0(1, 1);
+                    m_game->m_textboxData->CloseAndClear(1, 1);
                     m_game->m_textboxData->ResetTextSpeed();
                     unk_0084 = 0;
                 }
                 break;
             case 24:
-                if (!m_game->unk_14BC->IsActive() && !m_game->unk_14C0->IsActive()) {
+                if (!m_game->m_mainFade->IsActive() && !m_game->m_subFade->IsActive()) {
                     save->unk_8BA0 = ov0_02124604();
                     return 7;
                 }
                 break;
             case 25:
                 if (!m_game->m_textboxData->IsActive()) {
-                    m_game->m_textboxData->sub_02009FB0(1, 1);
+                    m_game->m_textboxData->CloseAndClear(1, 1);
                     m_game->m_textboxData->ResetTextSpeed();
                     unk_0084 = 0;
                     ov0_0212451C();
-                    unk_0054->sub_02022DD4();
+                    m_subScreen->SwitchToDefaultPanel();
                 } else {
-                    unk_0054->SwitchToPokemonInfo(unk_007C->unk_200, 0);
+                    m_subScreen->SwitchToPokemonInfo(m_partnerPokemon->unk_200, 0);
                 }
                 break;
             }
         }
 
-        if (unk_0058->IsActive() == 0) {
-            BOOL canMove = (unk_0034->ov0_0213FF2C() == 0 && (unk_00D0 & 0x1FE07B) == 0 && ok) ? TRUE : FALSE;
+        if (m_iconMenu->IsActive() == 0) {
+            BOOL canMove = (m_scriptLauncher->ov0_0213FF2C() == 0 && (m_flags & 0x1FE07B) == 0 && ok) ? TRUE : FALSE;
             if (canMove) {
                 switch (unk_0084) {
                 case 0x1A:
@@ -981,21 +981,21 @@ u32 CFieldScene::func0()
                         unk_0084 = 3;
                         unk_0088 = 0;
                         ov0_02124588(0x1F, 2);
-                        unk_007C->unk_04 |= 0x100;
-                        unk_0080->unk_04 |= 0x100;
-                        unk_0014->SetFollow(unk_007C->unk_58);
+                        m_partnerPokemon->m_flags |= 0x100;
+                        unk_0080->m_flags |= 0x100;
+                        m_player->SetFollow(m_partnerPokemon->m_id);
                     }
                     break;
                 case 3:
                     if (++unk_0088 >= 2) {
                         unk_0084 = 4;
                         unk_0140 = -1;
-                        unk_007C->ov0_0213E4BC(unk_0080->unk_58);
+                        m_partnerPokemon->ov0_0213E4BC(unk_0080->m_id);
                     }
                     break;
                 case 4:
                     if (unk_0080->GetDCState() == 2) {
-                        if ((unk_007C->unk_274 != NULL ? unk_007C->unk_274->unk_04 : 2) == 2) {
+                        if ((m_partnerPokemon->unk_274 != NULL ? m_partnerPokemon->unk_274->unk_04 : 2) == 2) {
                             unk_0084 = 5;
                             unk_0088 = 0;
                             ov0_021245C4(2);
@@ -1006,62 +1006,62 @@ u32 CFieldScene::func0()
                     if (++unk_0088 >= 2) {
                         unk_0084 = 6;
                         unk_0088 = 0;
-                        unk_008C = 0xFFFFFFFF;
-                        Point2D pos = unk_007C->GetPos();
+                        m_cameraTarget = 0xFFFFFFFF;
+                        Point2D pos = m_partnerPokemon->GetPos();
                         ov0_02124C30(&pos);
-                        m_game->unk_14B8->MoveTo(1 - pos.x, 1 - pos.y, FX32_ONE);
-                        unk_0014->unk_04 &= ~0x100;
-                        unk_0020->sub_0203F7AC();
-                        unk_0018->sub_0203F7AC();
-                        unk_0024->sub_0203F7AC();
+                        m_game->m_cameraController->MoveTo(1 - pos.x, 1 - pos.y, FX32_ONE);
+                        m_player->m_flags &= ~0x100;
+                        m_npcs->ClearOnTop();
+                        m_enemies->ClearOnTop();
+                        m_targetObjects->ClearOnTop();
                     }
                     break;
                 case 6:
-                    if (!m_game->unk_14B8->IsBusy()) {
+                    if (!m_game->m_cameraController->IsBusy()) {
                         unk_0084 = 7;
-                        m_game->m_textboxData->SetParam(0, unk_007C->unk_268);
+                        m_game->m_textboxData->SetParam(0, m_partnerPokemon->unk_268);
                         m_game->m_textboxData->SetTextSpeed(1);
                         m_game->m_textboxData->ShowSystemMessage(0x18, 1, 1, 0);
                     }
                     break;
                 case 7:
                     if (++unk_0088 >= 60) {
-                        m_game->m_textboxData->sub_02009FB0(1, 1);
+                        m_game->m_textboxData->CloseAndClear(1, 1);
                         m_game->m_textboxData->ResetTextSpeed();
                         unk_0084 = 8;
-                        Point2D target = { -unk_0008->unk_1C, -unk_0008->unk_20 };
-                        unk_007C->StartMoveTo(target);
+                        Point2D target = { -m_camera->unk_1C, -m_camera->unk_20 };
+                        m_partnerPokemon->StartMoveTo(target);
                     }
                     break;
                 case 8:
-                    if (!unk_007C->IsC8Set()) {
-                        unk_001C->sub_0203F7AC();
-                        u32 id = unk_007C->unk_58;
-                        unk_001C->ov0_0213A050((id & 0xFFFFFF) | 0x1000000);
-                        UnkStruct_020155FC *data = SaveData_FindEntry(save, id);
+                    if (!m_partnerPokemon->IsC8Set()) {
+                        m_partners->ClearOnTop();
+                        u32 id = m_partnerPokemon->m_id;
+                        m_partners->ov0_0213A050((id & 0xFFFFFF) | 0x1000000);
+                        PartyEntry *data = SaveData_FindEntry(save, id);
                         if (data != NULL) {
-                            sub_02015A3C(save, data->unk_04, data->unk_02);
-                            sub_02015E54(save, id);
+                            SaveData_EnableEnemy(save, data->m_index, data->m_mapId);
+                            SaveData_RemoveFromParty(save, id);
                         }
                         ((CFieldTargetObject *)unk_0080)->ov0_0213CD3C();
-                        unk_0014->sub_0201287C_();
-                        Point2D pos = unk_0014->GetPos();
+                        m_player->sub_0201287C_();
+                        Point2D pos = m_player->GetPos();
                         ov0_02124C30(&pos);
-                        m_game->unk_14B8->MoveTo(1 - pos.x, 1 - pos.y, FX32_ONE);
+                        m_game->m_cameraController->MoveTo(1 - pos.x, 1 - pos.y, FX32_ONE);
                         unk_0084 = 9;
                     }
                     break;
                 case 9:
-                    if (!m_game->unk_14B8->IsBusy()) {
-                        unk_008C = 0;
+                    if (!m_game->m_cameraController->IsBusy()) {
+                        m_cameraTarget = 0;
                         unk_0084 = 0;
                     }
                     break;
                 }
             }
 
-            unk_0034->ov0_0213F9B0(unk_0084 == 0);
-            if (unk_0034->ov0_0213FEEC() == 0 && (unk_00D0 & 0x1FE07B) == 0 && unk_0084 == 0 && ok) {
+            m_scriptLauncher->ov0_0213F9B0(unk_0084 == 0);
+            if (m_scriptLauncher->ov0_0213FEEC() == 0 && (m_flags & 0x1FE07B) == 0 && unk_0084 == 0 && ok) {
                 updateActors = TRUE;
             } else {
                 updateActors = FALSE;
@@ -1074,40 +1074,40 @@ u32 CFieldScene::func0()
             if (!(unk_00E4->unk_00 & 8)) {
                 mask |= 2;
             }
-            unk_0014->unk_E8 = mask;
+            m_player->unk_E8 = mask;
 
             if (doUpdate) {
                 u32 playerFlags = (updateActors ? 1 : 0) | (save->m_areaType == 1 ? 2 : 0);
                 if (unk_0078 == 0) {
-                    unk_0014->ov0_021307B0(pad, held ? NULL : touch, unk_0008, unk_0010, playerFlags);
+                    m_player->ov0_021307B0(pad, held ? NULL : touch, m_camera, m_map, playerFlags);
                 } else {
-                    unk_0014->ov0_021307B0(NULL, NULL, unk_0008, unk_0010, playerFlags);
+                    m_player->ov0_021307B0(NULL, NULL, m_camera, m_map, playerFlags);
                 }
-                Point2D pos = unk_0014->GetPos();
+                Point2D pos = m_player->GetPos();
                 Point2D tile;
                 tile.x = (s16)(pos.x >> FX32_SHIFT) << FX32_SHIFT;
                 tile.y = (s16)(pos.y >> FX32_SHIFT) << FX32_SHIFT;
-                BOOL arg = (unk_0034->ov0_0213FEEC() == 0 && save->m_energy != 0 && ok) ? TRUE : FALSE;
-                int hit = unk_0030->Update(&tile, unk_0014->unk_14, arg);
-                if (save->m_energy == 0 && unk_0014->unk_110 == 1 && hit != 0) {
-                    unk_0014->SetPos(playerPos);
+                BOOL arg = (m_scriptLauncher->ov0_0213FEEC() == 0 && save->m_energy != 0 && ok) ? TRUE : FALSE;
+                int hit = m_eventRects->Update(&tile, m_player->m_layer, arg);
+                if (save->m_energy == 0 && m_player->unk_110 == 1 && hit != 0) {
+                    m_player->SetPos(playerPos);
                 }
-                if (unk_0034->ov0_0213FEEC() == 0 && (unk_00D0 & 0x1FE07B) == 0 && unk_0084 == 0 && ok && updateActors) {
+                if (m_scriptLauncher->ov0_0213FEEC() == 0 && (m_flags & 0x1FE07B) == 0 && unk_0084 == 0 && ok && updateActors) {
                     updateActors = TRUE;
                 } else {
                     updateActors = FALSE;
                 }
-                if (!(unk_00D0 & 1)) {
+                if (!(m_flags & 1)) {
                     if (updateActors) {
-                        unk_005C->ov0_02159D7C();
+                        m_cannons->ov0_02159D7C();
                     }
-                    unk_0024->UpdateAll(unk_0010, updateActors);
-                    unk_0018->UpdateAll(unk_0010, updateActors);
-                    unk_001C->UpdateAll(unk_0010, updateActors);
-                    unk_0020->UpdateAll(unk_0010, updateActors);
+                    m_targetObjects->UpdateAll(m_map, updateActors);
+                    m_enemies->UpdateAll(m_map, updateActors);
+                    m_partners->UpdateAll(m_map, updateActors);
+                    m_npcs->UpdateAll(m_map, updateActors);
                 }
                 if (updateActors) {
-                    unk_008C = 0;
+                    m_cameraTarget = 0;
                 }
             }
         } else {
@@ -1116,50 +1116,50 @@ u32 CFieldScene::func0()
         }
     }
 
-    Point2D pos = unk_0014->GetPos();
-    int offset = unk_0014->GetUnk8C();
-    if (!((unk_00D0 & 0x200000) ? TRUE : FALSE)) {
+    Point2D pos = m_player->GetPos();
+    int offset = m_player->GetBaseHeight();
+    if (!((m_flags & 0x200000) ? TRUE : FALSE)) {
         save->SetPos(pos);
-        save->m_dir = unk_0014->GetDir();
-        save->m_layer = unk_0014->unk_14;
-        unk_0054->SetMapPos(pos.x >> FX32_SHIFT, pos.y >> FX32_SHIFT);
+        save->m_dir = m_player->GetDir();
+        save->m_layer = m_player->m_layer;
+        m_subScreen->SetMapPos(pos.x >> FX32_SHIFT, pos.y >> FX32_SHIFT);
         save->unk_7F60 |= 1;
-        for (int i = 0; i < unk_0018->m_count; i++) {
-            CFieldActor *actor = unk_0018->Get(i);
+        for (int i = 0; i < m_enemies->m_count; i++) {
+            CFieldActor *actor = m_enemies->Get(i);
             if (actor != NULL) {
                 save->SetEnemy(i, actor->GetPos(), actor->GetDir());
             }
         }
-        for (int i = 0; i < unk_0020->m_count; i++) {
-            CFieldActor *actor = unk_0020->Get(i);
+        for (int i = 0; i < m_npcs->m_count; i++) {
+            CFieldActor *actor = m_npcs->Get(i);
             if (actor != NULL) {
                 save->SetNpc(i, actor->GetPos(), actor->GetDir());
             }
         }
-        for (int i = 0; i < unk_0024->m_count; i++) {
-            CFieldActor *actor = unk_0024->Get(i);
+        for (int i = 0; i < m_targetObjects->m_count; i++) {
+            CFieldActor *actor = m_targetObjects->Get(i);
             if (actor != NULL) {
                 save->SetObject(i, actor->GetPos(), actor->GetDir());
             }
         }
-        for (int i = 0; i < unk_001C->m_count; i++) {
-            CFieldActor *actor = unk_001C->Get(i);
+        for (int i = 0; i < m_partners->m_count; i++) {
+            CFieldActor *actor = m_partners->Get(i);
             if (actor != NULL) {
-                switch (((s32)actor->unk_58 >> 24) & 0xFF) {
+                switch (((s32)actor->m_id >> 24) & 0xFF) {
                 case 5: {
-                    UnkStruct_0201549C *data = SaveData_FindPartner(save, actor->unk_58);
+                    UnkStruct_0201549C *data = SaveData_FindPartner(save, actor->m_id);
                     if (data != NULL) {
                         data->SetPos(actor->GetPos());
-                        data->unk_34 = actor->unk_14;
+                        data->unk_34 = actor->m_layer;
                         data->unk_0A = actor->GetDir();
                     }
                     break;
                 }
                 case 6: {
-                    UnkStruct_020155FC *data = SaveData_FindEntry(save, actor->unk_58);
+                    PartyEntry *data = SaveData_FindEntry(save, actor->m_id);
                     if (data != NULL) {
                         data->SetPos(actor->GetPos());
-                        data->unk_16 = actor->unk_14;
+                        data->m_layer = actor->m_layer;
                         data->unk_14 = actor->GetDir();
                     }
                     break;
@@ -1169,14 +1169,14 @@ u32 CFieldScene::func0()
         }
     }
 
-    int target = unk_008C;
+    int target = m_cameraTarget;
     if (target != -1) {
         BOOL found = FALSE;
         Point2D camPos;
         if (target == 0) {
             camPos.y = pos.y;
             camPos.x = pos.x;
-            if (unk_0014->unk_110 == 3) {
+            if (m_player->unk_110 == 3) {
                 camPos.y -= offset;
             }
             found = TRUE;
@@ -1186,9 +1186,9 @@ u32 CFieldScene::func0()
             case 0:
                 break;
             case 1:
-                actor = unk_001C->FindPartner(target);
+                actor = m_partners->FindPartner(target);
                 if (actor == NULL) {
-                    actor = unk_0018->Find(target);
+                    actor = m_enemies->Find(target);
                 }
                 if (actor != NULL) {
                     camPos = actor->GetPos();
@@ -1196,9 +1196,9 @@ u32 CFieldScene::func0()
                 }
                 break;
             case 2:
-                actor = unk_001C->FindPartner(target);
+                actor = m_partners->FindPartner(target);
                 if (actor == NULL) {
-                    actor = unk_0020->Find(target);
+                    actor = m_npcs->Find(target);
                 }
                 if (actor != NULL) {
                     camPos = actor->GetPos();
@@ -1206,7 +1206,7 @@ u32 CFieldScene::func0()
                 }
                 break;
             case 3:
-                actor = unk_0024->Find(target);
+                actor = m_targetObjects->Find(target);
                 if (actor != NULL) {
                     camPos = actor->GetPos();
                     found = TRUE;
@@ -1215,7 +1215,7 @@ u32 CFieldScene::func0()
             case 4:
             case 5:
             case 6:
-                actor = unk_001C->Find(target);
+                actor = m_partners->Find(target);
                 if (actor != NULL) {
                     camPos = actor->GetPos();
                     found = TRUE;
@@ -1224,25 +1224,25 @@ u32 CFieldScene::func0()
             }
         }
         if (found) {
-            if (unk_00D0 & 4) {
+            if (m_flags & 4) {
                 ov0_02124C30(&camPos);
             }
             camPos.x &= ~0xFFF;
             camPos.y &= ~0xFFF;
-            unk_0008->SetOrigin(camPos.x, camPos.y);
+            m_camera->SetOrigin(camPos.x, camPos.y);
         }
     } else {
-        m_game->unk_14B8->Update();
+        m_game->m_cameraController->Update();
     }
 
-    if (unk_00D8 != NULL) {
-        if (!(unk_00D0 & 1)) {
-            unk_00D8->SetCurrentHP(save->m_energy);
+    if (m_hpGauge != NULL) {
+        if (!(m_flags & 1)) {
+            m_hpGauge->SetCurrentHP(save->m_energy);
         }
-        unk_00D8->vfunc_08();
+        m_hpGauge->vfunc_08();
     }
-    if (unk_0060 != NULL) {
-        unk_0060->Update();
+    if (m_banner != NULL) {
+        m_banner->Update();
     }
     if (unk_004C != NULL) {
         unk_004C->ov0_0214FCD0();
@@ -1285,29 +1285,29 @@ u32 CFieldScene::func0()
             }
             save->unk_8BC0 += 60 / fps;
         }
-        if (unk_0010 != NULL) {
-            unk_0010->ov0_021251D8(1, fps);
+        if (m_map != NULL) {
+            m_map->ov0_021251D8(1, fps);
         }
-        if (unk_0028 != NULL) {
-            unk_0028->ov0_021428EC(fps, !updateActors);
+        if (m_effects != NULL) {
+            m_effects->ov0_021428EC(fps, !updateActors);
         }
-        if (unk_002C != NULL) {
-            unk_002C->Update(fps);
+        if (m_screenEffects != NULL) {
+            m_screenEffects->Update(fps);
         }
-        if (unk_0048 != NULL) {
-            sub_02041920(unk_0048);
+        if (m_shadow != NULL) {
+            sub_02041920(m_shadow);
         }
-        if (unk_00DC != NULL) {
+        if (m_touchLine != NULL) {
             ov0_02121758(fps);
         }
-        if ((unk_00D0 & 0x80) && unk_00F4 > 0) {
+        if ((m_flags & 0x80) && unk_00F4 > 0) {
             unk_00F0++;
             unk_00FA = LinearInterpolate(unk_00F8 << FX32_SHIFT, unk_00F9 << FX32_SHIFT, unk_00F0, unk_00F4) >> FX32_SHIFT;
             if (unk_00F0 >= unk_00F4) {
                 unk_00F4 = 0;
                 unk_00F0 = 0;
                 if (unk_00FA == 0) {
-                    unk_00D0 &= ~0x80;
+                    m_flags &= ~0x80;
                     unk_00F8 = 0;
                     unk_00FA = 0;
                 }
@@ -1316,7 +1316,7 @@ u32 CFieldScene::func0()
     }
 
     ov0_02124210();
-    u32 flags = unk_00D0;
+    u32 flags = m_flags;
     if (flags & 0x20) {
         return 2;
     }
@@ -1351,7 +1351,7 @@ u32 CFieldScene::func0()
     if (flags & 1) {
         switch (unk_0084) {
         case 0xD:
-            if (m_game->unk_14C4->func0() || m_game->unk_14C8->func0() || m_game->unk_14BC->IsActive() || m_game->unk_14C0->IsActive()) {
+            if (m_game->m_mainWipe->func0() || m_game->m_subWipe->func0() || m_game->m_mainFade->IsActive() || m_game->m_subFade->IsActive()) {
                 break;
             }
             {
@@ -1359,16 +1359,16 @@ u32 CFieldScene::func0()
                 if (step < 2) {
                     if (unk_0088 & 1) {
                         if (step < 1) {
-                            m_game->unk_14BC->Start(2, 8);
+                            m_game->m_mainFade->Start(2, 8);
                         } else {
-                            m_game->unk_14BC->Start(2, 30);
-                            if (m_game->unk_14C0->GetMode() != 4 && m_game->unk_14C0->GetMode() != 2) {
-                                m_game->unk_14C0->Start(4, 30);
+                            m_game->m_mainFade->Start(2, 30);
+                            if (m_game->m_subFade->GetMode() != 4 && m_game->m_subFade->GetMode() != 2) {
+                                m_game->m_subFade->Start(4, 30);
                             }
-                            m_game->m_audioEngine->sub_02034E38(60);
+                            m_game->m_audioEngine->StopJingle(60);
                         }
                     } else {
-                        m_game->unk_14BC->Start(1, 8);
+                        m_game->m_mainFade->Start(1, 8);
                     }
                     unk_0088++;
                     break;
@@ -1385,14 +1385,14 @@ u32 CFieldScene::func0()
             BattleStartParam_SetStylerLevel(record, save->m_stylerLevel);
             sub_02010978(record, save->unk_0004);
             sub_02010980(record, save->unk_0008 << FX32_SHIFT);
-            BattleStartParam_SetPartnerMood(record, save->m_partnerMoods[sub_02016268(save, -1)]);
-            sub_02010964(record, sub_0201621C(save, -1));
+            BattleStartParam_SetPartnerMood(record, save->m_partnerMoods[SaveData_GetPartyPartnerIndex(save, -1)]);
+            sub_02010964(record, SaveData_HasPartnerInParty(save, -1));
             sub_02010B00(record, save->unk_8803);
             count = 0;
             for (i = 0; i < 10; i++) {
-                UnkStruct_020155FC *data = SaveData_GetEntry(save, i);
-                if (data != NULL && (data->unk_08 & 1)) {
-                    BattleStartParam_AddPartyMember(record, data->unk_00, !(data->unk_08 & 4) | (data->unk_08 & 2));
+                PartyEntry *data = SaveData_GetEntry(save, i);
+                if (data != NULL && (data->m_flags & 1)) {
+                    BattleStartParam_AddPartyMember(record, data->m_kind, !(data->m_flags & 4) | (data->m_flags & 2));
                     count++;
                 }
             }
@@ -1404,11 +1404,11 @@ u32 CFieldScene::func0()
                 BattleStartParam_SetCaptureBg(record, ov0_02124604());
             }
             if (!(opts & 2)) {
-                if (unk_002C->IsEffectActive(9)) {
+                if (m_screenEffects->IsEffectActive(9)) {
                     BattleStartParam_SetScreenEffect(record, 9);
                 } else {
                     for (int i = 1; i < 0x11; i++) {
-                        if (unk_002C->IsEffectActive(i)) {
+                        if (m_screenEffects->IsEffectActive(i)) {
                             BattleStartParam_SetScreenEffect(record, i);
                             break;
                         }
@@ -1424,22 +1424,22 @@ u32 CFieldScene::func0()
                 unk_0084 = 0xE;
             } else {
                 unk_0084 = 0xD;
-                m_game->unk_14BC->Start(2, 8);
+                m_game->m_mainFade->Start(2, 8);
             }
-            m_game->m_audioEngine->sub_02034AA8();
+            m_game->m_audioEngine->PlayEncounterBgm();
             unk_0088 = 0;
             ov0_02123E58(-1);
-            unk_0054->SetIdleReturn(0);
-            unk_0054->unk_60 = 1;
+            m_subScreen->SetIdleReturn(0);
+            m_subScreen->unk_60 = 1;
             break;
         }
     } else {
         if (flags & 2) {
             DAT_0208aaf8 = 0;
             SaveData_ClearActorPositions(save);
-            unk_0028->ov0_021433D0();
-            unk_0054->HideAreaMap();
-            unk_0054->ClearMapIcons();
+            m_effects->ov0_021433D0();
+            m_subScreen->HideAreaMap();
+            m_subScreen->ClearMapIcons();
             ov0_021220D0(unk_0068, TRUE);
             ov0_021248DC();
             save->unk_8BC0 = 0;
@@ -1448,31 +1448,31 @@ u32 CFieldScene::func0()
             fx32 y, x;
             x = unk_006C << FX32_SHIFT;
             y = unk_0070 << FX32_SHIFT;
-            unk_0014->SetPosXY(x, y);
+            m_player->SetPosXY(x, y);
             if (unk_0074 >= 0) {
-                unk_0014->sub_020128EC_(unk_0074);
-                unk_0014->sub_0201287C_();
+                m_player->sub_020128EC_(unk_0074);
+                m_player->sub_0201287C_();
             }
-            unk_0014->ResetMove();
-            unk_0014->sub_show();
-            unk_0014->ov0_021341E0();
+            m_player->ResetMove();
+            m_player->sub_show();
+            m_player->ov0_021341E0();
             unk_0078 = 0;
             ov0_0212451C();
-            unk_001C->ov0_02139F98(x, y, unk_0014->unk_14);
+            m_partners->ov0_02139F98(x, y, m_player->m_layer);
             if (save->HasString()) {
-                unk_0034->ov0_0213FB0C(save->m_saveName, 0, -1);
+                m_scriptLauncher->ov0_0213FB0C(save->m_saveName, 0, -1);
                 save->m_saveName[0] = '\0';
             }
-            unk_0054->ShowAreaMap(unk_0068, unk_006C, unk_0070);
+            m_subScreen->ShowAreaMap(unk_0068, unk_006C, unk_0070);
             ov0_021248EC();
         } else {
             m_game->AddVBlankCallback(ov0_021220AC, NULL);
         }
     }
 
-    unk_0054->Update();
-    unk_0058->Update();
-    int result = unk_0058->GetSelection();
+    m_subScreen->Update();
+    m_iconMenu->Update();
+    int result = m_iconMenu->GetSelection();
     if (result >= 0) {
         ov0_021244DC();
         ov0_021244FC();
@@ -1500,7 +1500,7 @@ u32 CFieldScene::func0()
         return 7;
     }
     if (touch->unk_05 == 0) {
-        unk_00D0 &= ~0x300;
+        m_flags &= ~0x300;
     }
     return -1;
 }
@@ -1515,14 +1515,14 @@ void SaveData_LotTimeCheck(SaveData *save);
 void ScriptManager_UnloadArea(void *scriptManager);
 void sub_020171B8(SaveData *save);
 void sub_02017948(SaveData *save, int arg1);
-void sub_02015714(SaveData *save, int idx, int mapId);
-void sub_0201577C(SaveData *save, int idx, int mapId);
-BOOL sub_02015690(SaveData *save, int idx, int mapId);
-void sub_02015B98(SaveData *save, int idx, int mapId);
-void sub_02015C08(SaveData *save, int idx, int mapId);
-BOOL sub_02015B1C(SaveData *save, int idx, int mapId);
-void sub_02015AAC(SaveData *save, int idx, int mapId);
-BOOL sub_02015434(SaveData *save, int mapId, int idx);
+void SaveData_EnableEventRect(SaveData *save, int idx, int mapId);
+void SaveData_DisableEventRect(SaveData *save, int idx, int mapId);
+BOOL SaveData_IsEventRectEnabled(SaveData *save, int idx, int mapId);
+void SaveData_EnableNpc(SaveData *save, int idx, int mapId);
+void SaveData_DisableNpc(SaveData *save, int idx, int mapId);
+BOOL SaveData_IsNpcEnabled(SaveData *save, int idx, int mapId);
+void SaveData_DisableEnemy(SaveData *save, int idx, int mapId);
+BOOL SaveData_IsInParty(SaveData *save, int mapId, int idx);
 void BattleStartParam_AddEnemy(void *record, u16 arg1, int arg2);
 }
 
@@ -1558,57 +1558,57 @@ void CFieldScene::ov0_02121758(int fps)
 {
     switch (unk_0078) {
     case 2: {
-        CFieldPartner *partner = unk_007C;
-        FieldData_GetEnemy(unk_0038, partner->unk_200);
+        CFieldPartner *partner = m_partnerPokemon;
+        FieldData_GetEnemy(m_fieldData, partner->unk_200);
         UnkStruct_020107A8 *info = PokeIdTable_Get(m_game->unk_1434, partner->unk_200);
         if (info->unk_05 != 0 && info->unk_06 != 0) {
             Point2D pos;
             Point2D touchPos;
             Point2D hit;
-            Point2D cam = unk_0008->GetOffset();
+            Point2D cam = m_camera->GetOffset();
             // The copy has to go through a pointer to the returned temporary to match.
-            SetPoint(&pos, &(const Point2D &)unk_007C->GetPos());
+            SetPoint(&pos, &(const Point2D &)m_partnerPokemon->GetPos());
             CTouchPanel *touch = m_game->activeTouchPanel;
-            pos.y -= unk_007C->GetHeight();
+            pos.y -= m_partnerPokemon->GetHeight();
             touchPos.x = (touch->unk_0A.x - 0x80) << FX32_SHIFT;
             touchPos.y = (touch->unk_0A.y - 0x60) << FX32_SHIFT;
             touchPos -= cam;
-            CFieldMapLayerCollision *layer = unk_0010->GetLayer(unk_0014->unk_14);
+            CFieldMapLayerCollision *layer = m_map->GetLayer(m_player->m_layer);
             PointPair2D line = { pos, touchPos };
             if (layer->Sweep(&line, 0x4000, &hit, 1)) {
                 touchPos = hit;
             }
-            ov0_02148480(unk_00DC, &pos, &touchPos);
+            ov0_02148480(m_touchLine, &pos, &touchPos);
         }
         break;
     }
     case 3:
         break;
     }
-    ov0_021481EC(unk_00DC, fps);
+    ov0_021481EC(m_touchLine, fps);
 }
 
 void CFieldScene::func1()
 {
     SaveData *save = &MAIN_BSS_020B26A0;
 
-    if (!(unk_00D0 & 2)) {
+    if (!(m_flags & 2)) {
         if (unk_00EC == 0) {
             BGFontPrinter *printer = m_game->GetPrinter();
             printer->unk_24 = 0;
             printer->Printf(0, 0, "");
             if (unk_00E4->unk_00 & 1) {
-                s32 layerNo = unk_0014->unk_14;
-                CFieldMapLayerCollision *layer = unk_0010->GetLayer(layerNo);
-                CFieldMapLayerAttribute *attrLayer = unk_0010->GetAttributeLayer(layerNo);
-                int cell = layer != NULL ? layer->GetCellAtPos(unk_0014->GetX(), unk_0014->GetY()) : -1;
-                int attr = attrLayer != NULL ? attrLayer->GetCellAtPos(unk_0014->GetX(), unk_0014->GetY()) : -1;
-                printer->Printf(0, 0, "FIELD (%d,%d,%d) : (%d,%d)", unk_0014->GetX() >> FX32_SHIFT, unk_0014->GetY() >> FX32_SHIFT, layerNo, cell, attr);
+                s32 layerNo = m_player->m_layer;
+                CFieldMapLayerCollision *layer = m_map->GetLayer(layerNo);
+                CFieldMapLayerAttribute *attrLayer = m_map->GetAttributeLayer(layerNo);
+                int cell = layer != NULL ? layer->GetCellAtPos(m_player->GetX(), m_player->GetY()) : -1;
+                int attr = attrLayer != NULL ? attrLayer->GetCellAtPos(m_player->GetX(), m_player->GetY()) : -1;
+                printer->Printf(0, 0, "FIELD (%d,%d,%d) : (%d,%d)", m_player->GetX() >> FX32_SHIFT, m_player->GetY() >> FX32_SHIFT, layerNo, cell, attr);
                 if (unk_0084 == 4) {
                     printer->Printf(0, 1, "InTargetClearEvent");
                 } else if (unk_0084 == 8) {
                     printer->Printf(0, 1, "InReleaseEventAfterTargetClear");
-                } else if (unk_0034->ov0_0213FEEC()) {
+                } else if (m_scriptLauncher->ov0_0213FEEC()) {
                     printer->Printf(0, 1, "InAuthoringEvent");
                 }
                 if (unk_0090 >= 0) {
@@ -1620,110 +1620,110 @@ void CFieldScene::func1()
             m_game->GetPrinter()->sub_020027E8();
         }
 
-        Point2D camPos = unk_0008->GetOffset();
-        unk_000C->ApplyProjection();
-        unk_000C->ApplyView();
+        Point2D camPos = m_camera->GetOffset();
+        m_hudCamera->ApplyProjection();
+        m_hudCamera->ApplyView();
         G3_StoreMtx(0);
-        if (!(unk_00D0 & 0x800)) {
-            if (unk_00D8 != NULL) {
-                unk_00D8->vfunc_0C(unk_000C);
+        if (!(m_flags & 0x800)) {
+            if (m_hpGauge != NULL) {
+                m_hpGauge->vfunc_0C(m_hudCamera);
             }
             if (unk_004C != NULL && save->IsButton1Enabled()) {
-                unk_004C->ov0_0214FD00(unk_000C);
+                unk_004C->ov0_0214FD00(m_hudCamera);
             }
             if (unk_0050 != NULL && save->IsButton2Enabled()) {
-                unk_0050->ov0_0214FF20(unk_000C);
+                unk_0050->ov0_0214FF20(m_hudCamera);
             }
         }
 
-        if (!(unk_00D0 & 0x1000)) {
+        if (!(m_flags & 0x1000)) {
             G3_Identity();
-            unk_0008->SetOffset(camPos);
-            unk_0008->ApplyProjection();
-            unk_0008->ApplyView();
+            m_camera->SetOffset(camPos);
+            m_camera->ApplyProjection();
+            m_camera->ApplyView();
             G3_StoreMtx(0);
-            if (!(unk_00D4 & 1)) {
-                unk_0014->Draw(unk_003C, unk_0048);
+            if (!(m_hiddenLayers & 1)) {
+                m_player->Draw(m_drawLists, m_shadow);
             }
-            if (!(unk_00D0 & 0x400) && !(unk_00D4 & 4)) {
-                unk_0018->DrawAll(unk_003C, unk_0048);
+            if (!(m_flags & 0x400) && !(m_hiddenLayers & 4)) {
+                m_enemies->DrawAll(m_drawLists, m_shadow);
             }
-            if (!(unk_00D4 & 2)) {
-                unk_001C->DrawAll(unk_003C, unk_0048);
+            if (!(m_hiddenLayers & 2)) {
+                m_partners->DrawAll(m_drawLists, m_shadow);
             }
-            if (!(unk_00D4 & 8)) {
-                unk_0020->DrawAll(unk_003C, unk_0048);
+            if (!(m_hiddenLayers & 8)) {
+                m_npcs->DrawAll(m_drawLists, m_shadow);
             }
-            if (!(unk_00D4 & 0x10)) {
-                unk_0024->DrawAll(unk_003C, unk_0048);
+            if (!(m_hiddenLayers & 0x10)) {
+                m_targetObjects->DrawAll(m_drawLists, m_shadow);
             }
-            if (!(unk_00D0 & 0x40)) {
-                unk_005C->ov0_02159DB4(unk_003C, unk_0048);
+            if (!(m_flags & 0x40)) {
+                m_cannons->ov0_02159DB4(m_drawLists, m_shadow);
             }
-            unk_0028->ov0_02143380(unk_003C);
+            m_effects->ov0_02143380(m_drawLists);
             for (int i = 0; i < 4; i++) {
-                int budget = unk_0010->ov0_0212546C(i);
-                DrawObjectList *list = &unk_003C[i];
-                int count = list->Draw(unk_0008, budget);
+                int budget = m_map->ov0_0212546C(i);
+                DrawObjectList *list = &m_drawLists[i];
+                int count = list->Draw(m_camera, budget);
                 list->Clear();
-                FieldShadow_Render(unk_0048, unk_0008, i, budget - count);
+                FieldShadow_Render(m_shadow, m_camera, i, budget - count);
                 int total = count + 1;
-                total += unk_0028->ov0_0214336C(i, budget - total);
-                list = &unk_003C[i + 5];
-                count = list->Draw(unk_0008, budget - total);
+                total += m_effects->ov0_0214336C(i, budget - total);
+                list = &m_drawLists[i + 5];
+                count = list->Draw(m_camera, budget - total);
                 list->Clear();
                 total += count;
-                unk_0010->SetPolygonCount(i, total);
+                m_map->SetPolygonCount(i, total);
             }
-            unk_0010->ov0_02125338(unk_0008);
-            unk_0028->ov0_02142D88(unk_0008);
+            m_map->ov0_02125338(m_camera);
+            m_effects->ov0_02142D88(m_camera);
 
             G3_Identity();
-            unk_0008->SetOffset(0, 0);
-            unk_0008->ApplyProjection();
-            unk_0008->ApplyView();
+            m_camera->SetOffset(0, 0);
+            m_camera->ApplyProjection();
+            m_camera->ApplyView();
             G3_StoreMtx(0);
-            if (unk_002C != NULL) {
-                unk_002C->Draw(unk_0008);
+            if (m_screenEffects != NULL) {
+                m_screenEffects->Draw(m_camera);
             }
-            if (unk_00D0 & 0x80) {
+            if (m_flags & 0x80) {
                 unk_00FC.m_alpha = unk_00FA;
-                unk_00FC.Render(unk_0008);
+                unk_00FC.Render(m_camera);
             }
             if (unk_0064 != NULL) {
                 SaveData *saveData = m_game->unk_14A4;
                 if (saveData->unk_7F60 & 2) {
-                    ov0_0216D62C(unk_0064, saveData->m_timerMode == 2 ? saveData->m_timer : saveData->m_timer + 59, 0x6A4, unk_0008);
+                    ov0_0216D62C(unk_0064, saveData->m_timerMode == 2 ? saveData->m_timer : saveData->m_timer + 59, 0x6A4, m_camera);
                 }
             }
 
             G3_Identity();
-            unk_0008->SetOffset(camPos);
-            unk_0008->ApplyProjection();
-            unk_0008->ApplyView();
+            m_camera->SetOffset(camPos);
+            m_camera->ApplyProjection();
+            m_camera->ApplyView();
             G3_StoreMtx(0);
-            DrawObjectList *list = &unk_003C[4];
-            int count = list->Draw(unk_0008, 0x618);
+            DrawObjectList *list = &m_drawLists[4];
+            int count = list->Draw(m_camera, 0x618);
             list->Clear();
-            FieldShadow_Render(unk_0048, unk_0008, 4, 0x618 - count);
+            FieldShadow_Render(m_shadow, m_camera, 4, 0x618 - count);
             int total = count + 1;
-            list = &unk_003C[9];
-            list->Draw(unk_0008, 0x618 - total);
+            list = &m_drawLists[9];
+            list->Draw(m_camera, 0x618 - total);
             list->Clear();
-            FieldShadow_Clear(unk_0048);
-            if (unk_00DC != NULL) {
-                ov0_02148288(unk_00DC, unk_0008);
+            FieldShadow_Clear(m_shadow);
+            if (m_touchLine != NULL) {
+                ov0_02148288(m_touchLine, m_camera);
             }
-            unk_0030->Draw(unk_0008);
+            m_eventRects->Draw(m_camera);
         }
-        if (unk_0060 != NULL) {
-            unk_0060->Render();
+        if (m_banner != NULL) {
+            m_banner->Render();
         }
     }
 
-    unk_0054->sub_02022710();
-    unk_0058->Render();
-    unk_00D0 &= ~2;
+    m_subScreen->sub_02022710();
+    m_iconMenu->Render();
+    m_flags &= ~2;
     unk_0068 = 0;
     unk_006C = 0;
     unk_0070 = 0;
@@ -1732,13 +1732,13 @@ void CFieldScene::func1()
 
 void CFieldScene::func2()
 {
-    unk_0054->Render();
-    unk_0058->sub_02023470();
+    m_subScreen->Render();
+    m_iconMenu->sub_02023470();
 }
 
 void CFieldScene::func3()
 {
-    unk_0054->sub_020227AC();
+    m_subScreen->sub_020227AC();
     LoadOam();
 }
 
@@ -1750,7 +1750,7 @@ void CFieldScene::func4()
 void CFieldScene::ov0_021220AC(void *arg0)
 {
     if (MAIN_BSS_0210CA40 != NULL) {
-        MAIN_BSS_0210CA40->unk_0010->ov0_02126658();
+        MAIN_BSS_0210CA40->m_map->ov0_02126658();
     }
 }
 
@@ -1771,19 +1771,19 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
     SaveData *save = &MAIN_BSS_020B26A0;
 
     if (unk_00CC >= 0) {
-        unk_0020->Clear();
-        unk_0018->Clear();
-        unk_0024->Clear();
-        FieldEventRectManage *items = unk_0030;
+        m_npcs->Clear();
+        m_enemies->Clear();
+        m_targetObjects->Clear();
+        FieldEventRectManage *items = m_eventRects;
         if (items->m_count > 0 && items->m_items != NULL) {
             for (int i = 0; i < items->m_count; i++) {
                 SAFE_DELETE(items->m_items[i]);
             }
         }
-        unk_0028->ov0_02142F08();
-        unk_002C->ClearSecondary();
-        unk_002C->ClearPrimary();
-        unk_005C->ov0_02159D70();
+        m_effects->ov0_02142F08();
+        m_screenEffects->ClearSecondary();
+        m_screenEffects->ClearPrimary();
+        m_cannons->ov0_02159D70();
     }
 
     if (arg1) {
@@ -1793,11 +1793,11 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
         save->unk_81B0 = 0;
     }
 
-    unk_0010->ov0_02124EE4();
-    UnkStruct_02041D80 *newInfo = FieldData_GetMap(unk_0038, mapId);
+    m_map->ov0_02124EE4();
+    UnkStruct_02041D80 *newInfo = FieldData_GetMap(m_fieldData, mapId);
     if (unk_00CC >= 0) {
         u8 oldMode = GetMapMode(save->m_areaType);
-        UnkStruct_02041D80 *oldInfo = FieldData_GetMap(unk_0038, save->m_mapId);
+        UnkStruct_02041D80 *oldInfo = FieldData_GetMap(m_fieldData, save->m_mapId);
         u8 newMode = GetMapMode(newInfo->unk_04);
         save->m_mapId = unk_0068;
         save->m_areaType = newInfo->unk_04;
@@ -1807,16 +1807,16 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
             ScriptManager_UnloadArea(m_game->m_scriptManager);
         }
         if (oldMode != newMode) {
-            unk_001C->Clear();
+            m_partners->Clear();
             sub_020171B8(save);
             sub_02017948(save, 1);
             if (newMode != 1) {
                 for (int i = 0; i < 2; i++) {
-                    UnkStruct_020B26A0_8AD4 *partner = save->GetPartner(i);
+                    PartnerSlot *partner = save->GetPartner(i);
                     if (partner != NULL && partner->unk_00 != 0) {
-                        int idx = unk_001C->ov0_02139920(partner->unk_04, partner->unk_08, 0x1E16, 1, 1);
+                        int idx = m_partners->ov0_02139920(partner->unk_04, partner->unk_08, 0x1E16, 1, 1);
                         if (idx >= 0) {
-                            CFieldActor *actor = unk_001C->Get(idx);
+                            CFieldActor *actor = m_partners->Get(idx);
                             if (actor != NULL) {
                                 actor->SetPos((Point2D) { partner->unk_0C.x, partner->unk_0C.y });
                                 actor->sub_020128EC_(partner->unk_0A);
@@ -1828,10 +1828,10 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
                 }
             }
             for (int i = 0; i < 10; i++) {
-                UnkStruct_020155FC *data = SaveData_GetEntry(save, i);
-                if (data != NULL && (data->unk_08 & 1)) {
-                    u32 id = (data->unk_04 & 0xFFF) | ((6 << 24) | ((data->unk_02 & 0xFFF) << 12));
-                    unk_001C->ov0_02139920(id, data->unk_00, 0xE, 0, 1);
+                PartyEntry *data = SaveData_GetEntry(save, i);
+                if (data != NULL && (data->m_flags & 1)) {
+                    u32 id = (data->m_index & 0xFFF) | ((6 << 24) | ((data->m_mapId & 0xFFF) << 12));
+                    m_partners->ov0_02139920(id, data->m_kind, 0xE, 0, 1);
                 }
             }
             if (oldMode == 1 || newMode == 1) {
@@ -1840,7 +1840,7 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
                 } else {
                     save->unk_8802 = FALSE;
                 }
-                unk_0014->ov0_02132FA0(save->unk_8802);
+                m_player->ov0_02132FA0(save->unk_8802);
             }
         }
         if (newInfo->unk_00 != oldInfo->unk_00) {
@@ -1868,19 +1868,19 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
     } else {
         strcpy(name, "test");
     }
-    unk_0010->ov0_02125D28(nameGroup, name, m_game->unk_14A8);
+    m_map->ov0_02125D28(nameGroup, name, m_game->unk_14A8);
 
-    for (int i = 0; i < unk_0030->m_count; i++) {
-        CFieldEventRect *item = unk_0030->Get(i);
+    for (int i = 0; i < m_eventRects->m_count; i++) {
+        CFieldEventRect *item = m_eventRects->Get(i);
         if (item != NULL) {
-            if (save->GetUnk0030State(mapId, i) == 0) {
+            if (save->GetEventRectState(mapId, i) == 0) {
                 if (item->unk_18 != 0) {
-                    sub_02015714(save, i, -1);
+                    SaveData_EnableEventRect(save, i, -1);
                 } else {
-                    sub_0201577C(save, i, -1);
+                    SaveData_DisableEventRect(save, i, -1);
                 }
             } else {
-                if (sub_02015690(save, i, -1)) {
+                if (SaveData_IsEventRectEnabled(save, i, -1)) {
                     item->unk_18 = 1;
                 } else {
                     item->unk_18 = 0;
@@ -1889,17 +1889,17 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
         }
     }
 
-    for (int i = 0; i < unk_0020->m_count; i++) {
-        CFieldActor *npc = unk_0020->Get(i);
+    for (int i = 0; i < m_npcs->m_count; i++) {
+        CFieldActor *npc = m_npcs->Get(i);
         if (npc != NULL) {
             if (save->GetNpcState(mapId, i) == 0) {
                 if (npc->IsActive()) {
-                    sub_02015B98(save, i, -1);
+                    SaveData_EnableNpc(save, i, -1);
                 } else {
-                    sub_02015C08(save, i, -1);
+                    SaveData_DisableNpc(save, i, -1);
                 }
             } else {
-                if (sub_02015B1C(save, i, -1)) {
+                if (SaveData_IsNpcEnabled(save, i, -1)) {
                     npc->unk_20 = 2;
                 } else {
                     Actor_HideManpu(npc);
@@ -1910,22 +1910,22 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
         }
     }
 
-    for (int i = 0; i < unk_0018->m_count; i++) {
-        CFieldEnemy *enemy = (CFieldEnemy *)unk_0018->Get(i);
+    for (int i = 0; i < m_enemies->m_count; i++) {
+        CFieldEnemy *enemy = (CFieldEnemy *)m_enemies->Get(i);
         if (enemy != NULL) {
             switch (save->GetEnemyState(mapId, i)) {
             case 0:
                 if (enemy->IsActive()) {
-                    sub_02015A3C(save, i, -1);
+                    SaveData_EnableEnemy(save, i, -1);
                 } else {
-                    sub_02015AAC(save, i, -1);
+                    SaveData_DisableEnemy(save, i, -1);
                 }
                 break;
             case 1:
                 enemy->unk_20 = 0;
                 break;
             case 2:
-                if (arg1 && !sub_02015434(save, mapId, i)) {
+                if (arg1 && !SaveData_IsInParty(save, mapId, i)) {
                     if (enemy->unk_244 != 0) {
                         enemy->unk_20 = 0;
                         save->SetEnemyState(mapId, i, 1);
@@ -1938,7 +1938,7 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
                 }
                 break;
             case 3:
-                if (!sub_02015434(save, save->m_mapId, i)) {
+                if (!SaveData_IsInParty(save, save->m_mapId, i)) {
                     if (arg1 && enemy->unk_244 != 0) {
                         enemy->unk_20 = 0;
                         save->SetEnemyState(mapId, i, 1);
@@ -1958,8 +1958,8 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
         }
     }
 
-    for (int i = 0; i < unk_0024->m_count; i++) {
-        CFieldActor *object = unk_0024->Get(i);
+    for (int i = 0; i < m_targetObjects->m_count; i++) {
+        CFieldActor *object = m_targetObjects->Get(i);
         if (object != NULL) {
             switch (save->GetObjectState(mapId, i)) {
             case 0:
@@ -1983,32 +1983,32 @@ BOOL CFieldScene::ov0_021220D0(u32 mapId, BOOL arg1)
     }
 
     if (info->unk_03 != 0) {
-        unk_002C->sub_02035D38(info->unk_03);
-        unk_002C->StartEffect(info->unk_03, 0, -1, 0);
+        m_screenEffects->sub_02035D38(info->unk_03);
+        m_screenEffects->StartEffect(info->unk_03, 0, -1, 0);
     }
-    unk_008C = 0;
-    unk_00D0 |= 4;
+    m_cameraTarget = 0;
+    m_flags |= 4;
     unk_0078 = 0;
-    unk_007C = 0;
+    m_partnerPokemon = 0;
     unk_0080 = 0;
     unk_0084 = 0;
     ov0_0212419C();
-    unk_0018->ov0_02136384();
-    m_game->m_audioEngine->sub_02034C2C(0);
+    m_enemies->ov0_02136384();
+    m_game->m_audioEngine->StopLoopSe(0);
     if (info->unk_02 == 0xFF) {
         OS_SPrintf(name, "m%03d/m%03d_%03d.fsb", info->unk_00, info->unk_00, info->unk_01);
     } else {
         OS_SPrintf(name, "m%03d/m%03d_%03d%c.fsb", info->unk_00, info->unk_00, info->unk_01, info->unk_02 + 'a');
     }
-    unk_0010->ov0_02124D98(name);
-    FieldShadow_SetAlpha(unk_0048, info->unk_05);
-    unk_0028->ov0_02143410();
+    m_map->ov0_02124D98(name);
+    FieldShadow_SetAlpha(m_shadow, info->unk_05);
+    m_effects->ov0_02143410();
     return TRUE;
 }
 
 BOOL CFieldScene::ov0_02122EF4()
 {
-    unk_0010->ov0_02124E48();
+    m_map->ov0_02124E48();
     return TRUE;
 }
 
@@ -2019,7 +2019,7 @@ static inline BOOL IsBossType(u16 type)
 
 void CFieldScene::ov0_02122F08(CFieldEnemy *enemy)
 {
-    if (unk_00D0 & 1) {
+    if (m_flags & 1) {
         return;
     }
     CFieldPlayer *player = MAIN_BSS_0210CA48;
@@ -2035,14 +2035,14 @@ void CFieldScene::ov0_02122F08(CFieldEnemy *enemy)
     }
     BattleStartParam_Reset(m_game->unk_143C);
     sub_02010D04(m_game->unk_1444);
-    ov0_02122FEC(enemy->unk_E8, enemy->unk_E0, enemy->unk_58 & 0xFFF);
+    ov0_02122FEC(enemy->unk_E8, enemy->unk_E0, enemy->m_id & 0xFFF);
     CBattleResultParameter *stats = m_game->unk_1444;
     if (IsBossType(enemy->unk_146)) {
         stats->unk_0C = 2;
     } else {
         stats->unk_0C = 0;
     }
-    unk_00D0 |= 1;
+    m_flags |= 1;
 }
 
 void CFieldScene::ov0_02122FEC(u32 arg0, u32 arg1, u32 arg2)
@@ -2069,7 +2069,7 @@ static inline CFieldActor *FindActorCounted(CFieldActorManage *mgr, u32 id)
         int i = 0;
         do {
             CFieldActor *actor = actors[i];
-            if (actor != NULL && id == actor->unk_58) {
+            if (actor != NULL && id == actor->m_id) {
                 return actor;
             }
             i++;
@@ -2082,31 +2082,31 @@ CFieldActor *CFieldScene::ov0_02123060(u32 id)
 {
     CFieldActor *actor = NULL;
     if (id == 1) {
-        return unk_001C->FindLeader();
+        return m_partners->FindLeader();
     }
     switch (((s32)id >> 24) & 0xFF) {
     case 0:
-        actor = unk_0014;
+        actor = m_player;
         break;
     case 1:
-        actor = unk_001C->Find(MakeActorId(6, id));
+        actor = m_partners->Find(MakeActorId(6, id));
         if (actor == NULL) {
-            actor = unk_0018->Find(id);
+            actor = m_enemies->Find(id);
         }
         break;
     case 2:
-        actor = FindActorCounted(unk_001C, MakeActorId(5, id));
+        actor = FindActorCounted(m_partners, MakeActorId(5, id));
         if (actor == NULL) {
-            actor = unk_0020->Find(id);
+            actor = m_npcs->Find(id);
         }
         break;
     case 3:
-        actor = unk_0024->Find(id);
+        actor = m_targetObjects->Find(id);
         break;
     case 4:
     case 5:
     case 6:
-        actor = unk_001C->Find(id);
+        actor = m_partners->Find(id);
         break;
     }
     return actor;
@@ -2118,15 +2118,15 @@ CFieldActor *CFieldScene::ov0_021232A8()
     Point2D pos;
     pos.x = (touch->unk_0A.x - 0x80) << FX32_SHIFT;
     pos.y = (touch->unk_0A.y - 0x60) << FX32_SHIFT;
-    pos.x -= unk_0008->unk_1C;
-    pos.y -= unk_0008->unk_20;
+    pos.x -= m_camera->unk_1C;
+    pos.y -= m_camera->unk_20;
 
     CFieldActor *hit = NULL;
     if (hit == NULL) {
         fx32 bestY = -0x800000;
-        for (int i = 0; i < unk_0020->m_count; i++) {
-            CFieldActor *npc = unk_0020->Get(i);
-            if (npc != NULL && npc->IsActive() && !npc->IsUnk04Bit0() && npc->IsTouched(pos)) {
+        for (int i = 0; i < m_npcs->m_count; i++) {
+            CFieldActor *npc = m_npcs->Get(i);
+            if (npc != NULL && npc->IsActive() && !npc->IsHidden() && npc->IsTouched(pos)) {
                 if (hit == NULL || npc->GetY() > bestY) {
                     hit = npc;
                     bestY = npc->GetY();
@@ -2136,10 +2136,10 @@ CFieldActor *CFieldScene::ov0_021232A8()
     }
     if (hit == NULL) {
         SaveData *save = &MAIN_BSS_020B26A0;
-        for (int i = unk_001C->m_count - 1; i >= 0; i--) {
-            CFieldPartner *partner = (CFieldPartner *)unk_001C->Get(i);
-            if (partner != NULL && partner->IsActive() && !partner->IsUnk04Bit0() && partner->IsTouched(pos)) {
-                if (save->m_areaType != 4 || !partner->IsKind0() || (partner->unk_04 & 0x20)) {
+        for (int i = m_partners->m_count - 1; i >= 0; i--) {
+            CFieldPartner *partner = (CFieldPartner *)m_partners->Get(i);
+            if (partner != NULL && partner->IsActive() && !partner->IsHidden() && partner->IsTouched(pos)) {
+                if (save->m_areaType != 4 || !partner->IsKind0() || (partner->m_flags & 0x20)) {
                     hit = partner;
                     break;
                 }
@@ -2147,22 +2147,22 @@ CFieldActor *CFieldScene::ov0_021232A8()
         }
     }
     if (hit == NULL) {
-        for (int i = unk_0024->m_count - 1; i >= 0; i--) {
-            CFieldActor *object = unk_0024->Get(i);
-            if (object != NULL && object->IsActive() && !object->IsUnk04Bit0() && object->IsTouched(pos)) {
+        for (int i = m_targetObjects->m_count - 1; i >= 0; i--) {
+            CFieldActor *object = m_targetObjects->Get(i);
+            if (object != NULL && object->IsActive() && !object->IsHidden() && object->IsTouched(pos)) {
                 hit = object;
                 break;
             }
         }
     }
-    if (unk_0014->IsTouched(pos)) {
-        hit = unk_0014;
+    if (m_player->IsTouched(pos)) {
+        hit = m_player;
     }
     if (hit == NULL) {
         fx32 bestY = -0x800000;
-        for (int i = 0; i < unk_0018->m_count; i++) {
-            CFieldActor *enemy = unk_0018->Get(i);
-            if (enemy != NULL && enemy->IsActive() && !enemy->IsUnk04Bit0() && enemy->IsTouched(pos)) {
+        for (int i = 0; i < m_enemies->m_count; i++) {
+            CFieldActor *enemy = m_enemies->Get(i);
+            if (enemy != NULL && enemy->IsActive() && !enemy->IsHidden() && enemy->IsTouched(pos)) {
                 if (hit == NULL || enemy->GetY() > bestY) {
                     hit = enemy;
                     bestY = enemy->GetY();
@@ -2197,7 +2197,7 @@ void CFieldScene::ov0_02123AEC(int state, int arg)
         ov0_02123E58(-1);
         break;
     case 11:
-        m_game->m_textboxData->SetParam(1, unk_007C->unk_268);
+        m_game->m_textboxData->SetParam(1, m_partnerPokemon->unk_268);
         m_game->m_textboxData->SetTextSpeed(0);
         m_game->m_textboxData->ShowSystemMessage(0x4B, 1, 1, 0);
         ov0_02123E58(-1);
@@ -2238,35 +2238,35 @@ void CFieldScene::ov0_02123AEC(int state, int arg)
 
 void CFieldScene::ov0_02123E58(int flags)
 {
-    if (unk_0014 != NULL && (flags & 1)) {
-        if (!unk_0014->ov0_0213416C()) {
-            unk_0014->StopMotion();
+    if (m_player != NULL && (flags & 1)) {
+        if (!m_player->ov0_0213416C()) {
+            m_player->StopMotion();
         }
-        CFieldPlayer *player = unk_0014;
+        CFieldPlayer *player = m_player;
         player->unk_10C &= ~1;
         player->unk_E4 = 0;
         player->unk_140 = 0;
         player->sub_020129F4_(0, 0x1F);
-        player->ClearUnk1A8Bits(2);
+        player->ClearEffectFlags(2);
     }
-    if (unk_001C != NULL && (flags & 2)) {
-        sub_0203F3C8(unk_001C);
+    if (m_partners != NULL && (flags & 2)) {
+        FieldActorManage_StopAllMotion(m_partners);
     }
-    if (unk_0020 != NULL && (flags & 8)) {
-        sub_0203F3C8(unk_0020);
+    if (m_npcs != NULL && (flags & 8)) {
+        FieldActorManage_StopAllMotion(m_npcs);
     }
-    if (unk_0024 != NULL && (flags & 0x10)) {
-        sub_0203F3C8(unk_0024);
+    if (m_targetObjects != NULL && (flags & 0x10)) {
+        FieldActorManage_StopAllMotion(m_targetObjects);
     }
 }
 
 void CFieldScene::ov0_02123FEC(u32 arg0, int arg1)
 {
     ov0_02124054();
-    unk_00AA = unk_0028->ov0_02142F6C(1, 0x25);
-    CFieldEffect *effect = unk_0028->ov0_02143088(unk_00AA);
+    unk_00AA = m_effects->ov0_02142F6C(1, 0x25);
+    CFieldEffect *effect = m_effects->ov0_02143088(unk_00AA);
     if (effect != NULL) {
-        ((CFieldEffectManpu *)effect)->unk_1C = unk_0014;
+        ((CFieldEffectManpu *)effect)->unk_1C = m_player;
         effect->ov0_021421F0(0, -1, 0);
     }
     unk_00B0 = arg0;
@@ -2276,7 +2276,7 @@ void CFieldScene::ov0_02123FEC(u32 arg0, int arg1)
 void CFieldScene::ov0_02124054()
 {
     if (unk_00AA != 0xFFFF) {
-        CFieldEffect *effect = unk_0028->ov0_02143088(unk_00AA);
+        CFieldEffect *effect = m_effects->ov0_02143088(unk_00AA);
         if (effect != NULL) {
             effect->ov0_02142240(0);
         }
@@ -2358,30 +2358,30 @@ void CFieldScene::ov0_02124210()
     SaveData *save = &MAIN_BSS_020B26A0;
     int mapId = save->m_mapId;
 
-    for (int i = 0; i < unk_0030->m_count; i++) {
-        CFieldEventRect *item = unk_0030->Get(i);
+    for (int i = 0; i < m_eventRects->m_count; i++) {
+        CFieldEventRect *item = m_eventRects->Get(i);
         if (item != NULL) {
             if (item->unk_18 != 0) {
-                sub_02015714(save, i, -1);
+                SaveData_EnableEventRect(save, i, -1);
             } else {
-                sub_0201577C(save, i, -1);
+                SaveData_DisableEventRect(save, i, -1);
             }
         }
     }
-    for (int i = 0; i < unk_0020->m_count; i++) {
-        CFieldActor *npc = unk_0020->Get(i);
+    for (int i = 0; i < m_npcs->m_count; i++) {
+        CFieldActor *npc = m_npcs->Get(i);
         if (npc != NULL) {
             save->SetNpcState(mapId, i, npc->unk_20 + 1);
         }
     }
-    for (int i = 0; i < unk_0018->m_count; i++) {
-        CFieldActor *enemy = unk_0018->Get(i);
+    for (int i = 0; i < m_enemies->m_count; i++) {
+        CFieldActor *enemy = m_enemies->Get(i);
         if (enemy != NULL) {
             save->SetEnemyState(mapId, i, enemy->unk_20 + 1);
         }
     }
-    for (int i = 0; i < unk_0024->m_count; i++) {
-        CFieldActor *object = unk_0024->Get(i);
+    for (int i = 0; i < m_targetObjects->m_count; i++) {
+        CFieldActor *object = m_targetObjects->Get(i);
         if (object != NULL) {
             save->SetObjectState(mapId, i, object->unk_20 + 1);
         }
@@ -2402,16 +2402,16 @@ void CFieldScene::ov0_021244FC()
 
 void CFieldScene::ov0_0212451C()
 {
-    unk_0014->ClearUnk1A8Bits(1);
-    unk_0020->sub_0203F754();
-    unk_0018->sub_0203F754();
-    unk_0024->sub_0203F754();
-    unk_001C->sub_0203F754();
+    m_player->ClearEffectFlags(1);
+    m_npcs->ClearOutlines();
+    m_enemies->ClearOutlines();
+    m_targetObjects->ClearOutlines();
+    m_partners->ClearOutlines();
 }
 
 void CFieldScene::ov0_02124588(int arg0, int arg1)
 {
-    unk_00D0 |= 0x80;
+    m_flags |= 0x80;
     unk_00F0 = 0;
     unk_00F8 = 0;
     if (arg1 >= 0) {
@@ -2433,7 +2433,7 @@ void CFieldScene::ov0_021245C4(int arg0)
         unk_00F4 = arg0;
         unk_00F8 = unk_00FA;
     } else {
-        unk_00D0 &= ~0x80;
+        m_flags &= ~0x80;
         unk_00F4 = 0;
         unk_00F8 = 0;
         unk_00FA = 0;
@@ -2442,12 +2442,12 @@ void CFieldScene::ov0_021245C4(int arg0)
 
 int CFieldScene::ov0_02124604()
 {
-    UnkStruct_02041D80 *info = FieldData_GetMap(unk_0038, MAIN_BSS_020B26A0.m_mapId);
+    UnkStruct_02041D80 *info = FieldData_GetMap(m_fieldData, MAIN_BSS_020B26A0.m_mapId);
     u8 value = info->unk_06;
     int attr = 0;
-    if (unk_0010 != NULL && unk_0014 != NULL) {
-        Point2D pos = unk_0014->GetPos();
-        CFieldMapLayerAttribute *attrLayer = unk_0010->GetAttributeLayer(unk_0014->unk_14);
+    if (m_map != NULL && m_player != NULL) {
+        Point2D pos = m_player->GetPos();
+        CFieldMapLayerAttribute *attrLayer = m_map->GetAttributeLayer(m_player->m_layer);
         if (attrLayer != NULL) {
             attr = attrLayer->GetCellAtPos(pos.x, pos.y);
         }
@@ -2516,52 +2516,52 @@ int CFieldScene::ov0_02124604()
 
 void CFieldScene::ov0_021247E4()
 {
-    unk_00D0 |= 8;
-    if (unk_0014 != NULL && !unk_0014->ov0_0213416C()) {
-        unk_0014->sub_show();
-        unk_0014->sub_0201287C_();
-        unk_0014->ResetMove();
-        unk_0014->ov0_021341E0();
+    m_flags |= 8;
+    if (m_player != NULL && !m_player->ov0_0213416C()) {
+        m_player->sub_show();
+        m_player->sub_0201287C_();
+        m_player->ResetMove();
+        m_player->ov0_021341E0();
     }
     unk_0078 = 0;
     ov0_0212451C();
-    if (unk_001C != NULL) {
-        unk_001C->ov0_02139E9C();
+    if (m_partners != NULL) {
+        m_partners->ov0_02139E9C();
     }
 }
 
 void CFieldScene::ov0_021248DC()
 {
-    unk_00D0 &= ~8;
+    m_flags &= ~8;
 }
 
 void CFieldScene::ov0_021248EC()
 {
-    if (unk_0024 != NULL && unk_0054 != NULL) {
-        for (int i = 0; i < unk_0024->m_count; i++) {
-            CFieldTargetObject *object = (CFieldTargetObject *)unk_0024->Get(i);
-            if (object != NULL && object->IsActive() && !object->IsUnk04Bit0()) {
+    if (m_targetObjects != NULL && m_subScreen != NULL) {
+        for (int i = 0; i < m_targetObjects->m_count; i++) {
+            CFieldTargetObject *object = (CFieldTargetObject *)m_targetObjects->Get(i);
+            if (object != NULL && object->IsActive() && !object->IsHidden()) {
                 switch (object->unk_E8) {
                 case 0x16E:
-                    unk_0054->AddMapIcon(object->GetX() >> FX32_SHIFT, object->GetY() >> FX32_SHIFT, TRUE);
+                    m_subScreen->AddMapIcon(object->GetX() >> FX32_SHIFT, object->GetY() >> FX32_SHIFT, TRUE);
                     break;
                 case 0x16F:
-                    unk_0054->AddMapIcon(object->GetX() >> FX32_SHIFT, object->GetY() >> FX32_SHIFT, FALSE);
+                    m_subScreen->AddMapIcon(object->GetX() >> FX32_SHIFT, object->GetY() >> FX32_SHIFT, FALSE);
                     break;
                 }
             }
         }
     }
-    if (unk_0020 != NULL && unk_0054 != NULL) {
-        for (int i = 0; i < unk_0020->m_count; i++) {
-            CFieldNpc *npc = (CFieldNpc *)unk_0020->Get(i);
-            if (npc != NULL && npc->IsActive() && !npc->IsUnk04Bit0() && npc->unk_E8 == 0) {
+    if (m_npcs != NULL && m_subScreen != NULL) {
+        for (int i = 0; i < m_npcs->m_count; i++) {
+            CFieldNpc *npc = (CFieldNpc *)m_npcs->Get(i);
+            if (npc != NULL && npc->IsActive() && !npc->IsHidden() && npc->unk_E8 == 0) {
                 switch (npc->unk_EC) {
                 case 0x5C:
-                    unk_0054->AddMapIcon(npc->GetX() >> FX32_SHIFT, npc->GetY() >> FX32_SHIFT, TRUE);
+                    m_subScreen->AddMapIcon(npc->GetX() >> FX32_SHIFT, npc->GetY() >> FX32_SHIFT, TRUE);
                     break;
                 case 0x90:
-                    unk_0054->AddMapIcon(npc->GetX() >> FX32_SHIFT, npc->GetY() >> FX32_SHIFT, FALSE);
+                    m_subScreen->AddMapIcon(npc->GetX() >> FX32_SHIFT, npc->GetY() >> FX32_SHIFT, FALSE);
                     break;
                 }
             }
@@ -2579,7 +2579,7 @@ extern "C" void ov0_02124BD4(void)
 
 BOOL CFieldScene::ov0_02124BFC()
 {
-    if (unk_0034->ov0_0213FEEC() != 0 || (unk_00D0 & 0x49)) {
+    if (m_scriptLauncher->ov0_0213FEEC() != 0 || (m_flags & 0x49)) {
         return FALSE;
     }
     return TRUE;
@@ -2588,7 +2588,7 @@ BOOL CFieldScene::ov0_02124BFC()
 BOOL CFieldScene::ov0_02124C30(Point2D *pos)
 {
     BOOL clamped = FALSE;
-    if (pos != NULL && unk_0010 != NULL) {
+    if (pos != NULL && m_map != NULL) {
         if (pos->x < FX32_CONST(128)) {
             pos->x = FX32_CONST(128);
             clamped = TRUE;
@@ -2597,12 +2597,12 @@ BOOL CFieldScene::ov0_02124C30(Point2D *pos)
             pos->y = FX32_CONST(96);
             clamped = TRUE;
         }
-        if (pos->x > (unk_0010->m_info.size.width - 128) << FX32_SHIFT) {
-            pos->x = (unk_0010->m_info.size.width - 128) << FX32_SHIFT;
+        if (pos->x > (m_map->m_info.size.width - 128) << FX32_SHIFT) {
+            pos->x = (m_map->m_info.size.width - 128) << FX32_SHIFT;
             clamped = TRUE;
         }
-        if (pos->y > (unk_0010->m_info.size.height - 96) << FX32_SHIFT) {
-            pos->y = (unk_0010->m_info.size.height - 96) << FX32_SHIFT;
+        if (pos->y > (m_map->m_info.size.height - 96) << FX32_SHIFT) {
+            pos->y = (m_map->m_info.size.height - 96) << FX32_SHIFT;
             clamped = TRUE;
         }
         pos->x &= ~(FX32_ONE - 1);

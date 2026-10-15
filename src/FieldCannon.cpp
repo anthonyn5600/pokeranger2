@@ -257,7 +257,7 @@ void CFieldCannon::ov0_0215A010()
                 unk_F0[index]->ov0_0215ABA4();
                 unk_F0[index]->ov0_0215AAA4(unk_EC);
                 unk_F0[index]->ov0_0215AA60(TRUE);
-                unk_E8->sub_02034CA0(0x5C, 0x62);
+                unk_E8->PlayGroupSe(0x5C, 0x62);
             }
             unk_E0 = 0;
         }
@@ -310,7 +310,7 @@ BOOL CFieldCannon::ov0_0215A2BC()
     }
     if (scene != NULL) {
         int state = scene->unk_0084;
-        if (!(!(scene->unk_00D0 & 8) ? TRUE : FALSE) || state == 3 || state == 4 || state == 7 || state == 5
+        if (!(!(scene->m_flags & 8) ? TRUE : FALSE) || state == 3 || state == 4 || state == 7 || state == 5
             || state == 6 || state == 8 || state == 9 || state == 0x14) {
             ret = TRUE;
         }

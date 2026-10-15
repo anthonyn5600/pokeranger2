@@ -133,10 +133,10 @@ void COPDTitleScreen::Start(COPDTexture *textures)
     if (unk_613) {
         game->m_audioEngine->PlayBgm(0x45, 0);
     } else {
-        game->m_audioEngine->sub_02034D54(0x200, 0x40);
+        game->m_audioEngine->PlayStream2(0x200, 0x40);
     }
-    game->unk_14BC->Start(1, 30);
-    game->unk_14C0->Start(1, 30);
+    game->m_mainFade->Start(1, 30);
+    game->m_subFade->Start(1, 30);
 }
 
 void COPDTitleScreen::CSparkEmitter::func2()
@@ -170,13 +170,13 @@ int COPDTitleScreen::Update()
     CTouchPanel *tp = game->touchPanel;
     if (!unk_613 && unk_008 <= 1 && ((u16)(pad->unk_0002 & PAD_BUTTON_A) || tp->unk_04 != 0)) {
         game->m_audioEngine->PlaySe(0xFA);
-        game->unk_14BC->Start(2, 60);
-        game->unk_14C0->Start(2, 60);
+        game->m_mainFade->Start(2, 60);
+        game->m_subFade->Start(2, 60);
         unk_008 = 2;
     }
     switch (unk_008) {
     case 0:
-        if (!game->unk_14BC->IsActive() && !game->unk_14C0->IsActive()) {
+        if (!game->m_mainFade->IsActive() && !game->m_subFade->IsActive()) {
             unk_008 = 1;
             unk_004 = unk_613 ? 600 : 3240;
             unk_612 = 0x40;
@@ -184,19 +184,19 @@ int COPDTitleScreen::Update()
         break;
     case 1:
         if (--unk_004 < 0) {
-            game->unk_14BC->Start(4, 60);
-            game->unk_14C0->Start(4, 60);
+            game->m_mainFade->Start(4, 60);
+            game->m_subFade->Start(4, 60);
             if (unk_613) {
                 game->m_audioEngine->StopBgm(60);
                 unk_008 = 2;
             } else {
-                game->m_audioEngine->sub_02034DC8(60);
+                game->m_audioEngine->StopStream2(60);
                 unk_008 = 3;
             }
         }
         break;
     case 3:
-        if (!game->unk_14BC->IsActive() && !game->unk_14C0->IsActive()) {
+        if (!game->m_mainFade->IsActive() && !game->m_subFade->IsActive()) {
             unk_004 = 60;
             unk_008 = 4;
         }
@@ -207,7 +207,7 @@ int COPDTitleScreen::Update()
         }
         break;
     case 2:
-        if (!game->unk_14BC->IsActive() && !game->unk_14C0->IsActive()) {
+        if (!game->m_mainFade->IsActive() && !game->m_subFade->IsActive()) {
             return -1;
         }
         break;

@@ -11,7 +11,7 @@
 CBattleGameOver::CBattleGameOver(CGame *game, CBattleDisk *disk, CPlayerHPGauge *gauge)
 {
     m_audio = CGame::GetInstance()->m_audioEngine;
-    m_audio->sub_02034870(0x57);
+    m_audio->LoadBattleSeGroup(0x57);
     m_game = game;
     m_disk = disk;
     m_gauge = gauge;
@@ -94,12 +94,12 @@ void CBattleGameOver::ov1_0213A914()
 
 void CBattleGameOver::ov1_0213A948()
 {
-    m_game->unk_14BC->Start(2, 20);
+    m_game->m_mainFade->Start(2, 20);
 }
 
 void CBattleGameOver::ov1_0213A968()
 {
-    m_game->unk_14BC->Start(1, 8);
+    m_game->m_mainFade->Start(1, 8);
     m_flags &= ~0x1000;
     m_flags |= 0x2000;
 }
@@ -158,15 +158,15 @@ int CBattleGameOver::ov1_0213AA90(int z)
 
 void CBattleGameOver::ov1_0213AA9C()
 {
-    if (!m_game->unk_14BC->IsActive()) {
+    if (!m_game->m_mainFade->IsActive()) {
         ov1_0213AC70();
     }
 }
 
 void CBattleGameOver::ov1_0213AAC8()
 {
-    BrightnessFade *fadeB = m_game->unk_14C0;
-    if (m_game->unk_14BC->IsActive()) {
+    BrightnessFade *fadeB = m_game->m_subFade;
+    if (m_game->m_mainFade->IsActive()) {
         return;
     }
     if (fadeB->IsActive()) {

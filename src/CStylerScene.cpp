@@ -104,8 +104,8 @@ void CStylerScene::func6()
         m_screens[0]->Load();
     }
 
-    m_game->unk_14BC->Start(3, 20);
-    m_game->unk_14C0->Start(3, 20);
+    m_game->m_mainFade->Start(3, 20);
+    m_game->m_subFade->Start(3, 20);
 }
 
 void CStylerScene::func7()
@@ -132,7 +132,7 @@ u32 CStylerScene::func0()
     if (result == 1) {
         m_screenIdx ^= 1;
         m_screens[m_screenIdx]->Reset();
-        m_game->unk_14BC->Start(3, 20);
+        m_game->m_mainFade->Start(3, 20);
     }
 
     return -1;
@@ -188,7 +188,7 @@ void CStylerData::Release()
     RELEASE_MESSAGES(m_menuMessages);
     RELEASE_MESSAGES(m_assistMessages);
 
-    m_game->m_textboxData->sub_02009FB0(1, 1);
+    m_game->m_textboxData->CloseAndClear(1, 1);
     m_game->m_textboxData->Reset();
 }
 
@@ -219,7 +219,7 @@ void CStylerData::LoadLevels()
     s32 count = GlobalValues_Get((GlobalValues *)m_game->unk_14B4, 4);
     if (m_level != 0) {
         GlobalValues_Set((GlobalValues *)m_game->unk_14B4, 4, count + 1);
-        m_game->m_audioEngine->sub_020349E8(0xAB);
+        m_game->m_audioEngine->AddSeGroup(0xAB);
     }
 
     SaveData *save = &MAIN_BSS_020B26A0;
@@ -248,7 +248,7 @@ static UnkClass_020091E8_004 *LoadMessageTable(const char *path);
 
 void CStylerData::LoadMessages()
 {
-    m_game->m_textboxData->Init(m_game->unk_0014, m_game->touchPanel, &m_game->unk_14AC->unk_0C, m_game->unk_14B0, m_game->unk_0024, NULL, 0x10, 0x4000, 0);
+    m_game->m_textboxData->Init(m_game->unk_0014, m_game->touchPanel, &m_game->unk_14AC->unk_0C, m_game->m_nameTables, m_game->unk_0024, NULL, 0x10, 0x4000, 0);
     m_menuMessages = LoadMessageTable("data/message/etc/menu_mes");
     m_assistMessages = LoadMessageTable("data/message/etc/assist_mes");
 }

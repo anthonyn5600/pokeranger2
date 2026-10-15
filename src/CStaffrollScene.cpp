@@ -103,8 +103,8 @@ u32 CStaffrollScene::func0()
                     break;
                 case 3:
                     unk_04 = 2;
-                    s_game->unk_14BC->Start(4, event->arg1);
-                    s_game->unk_14C0->Start(4, event->arg1);
+                    s_game->m_mainFade->Start(4, event->arg1);
+                    s_game->m_subFade->Start(4, event->arg1);
                     s_game->m_audioEngine->StopBgm(event->arg1);
                     break;
                 case 4:
@@ -122,7 +122,7 @@ u32 CStaffrollScene::func0()
     int chapter = s_game->m_missionQuestData->m_chapter;
     switch (unk_04) {
     case 0:
-        if (!s_game->unk_14BC->IsActive() && !s_game->unk_14C0->IsActive()) {
+        if (!s_game->m_mainFade->IsActive() && !s_game->m_subFade->IsActive()) {
             unk_04 = 1;
             unk_08 = 0;
             s_game->m_audioEngine->LoadBgmGroup(0x3B);
@@ -159,14 +159,14 @@ u32 CStaffrollScene::func0()
         }
         if (chapter == 0x45 && (u16)(s_game->unk_0014->unk_0002 & 0xC0B)) {
             unk_04 = 2;
-            s_game->unk_14BC->Start(4, 20);
-            s_game->unk_14C0->Start(4, 20);
+            s_game->m_mainFade->Start(4, 20);
+            s_game->m_subFade->Start(4, 20);
             s_game->m_audioEngine->StopBgm(20);
         }
         break;
     }
     case 2:
-        if (!s_game->unk_14BC->IsActive() && !s_game->unk_14C0->IsActive()) {
+        if (!s_game->m_mainFade->IsActive() && !s_game->m_subFade->IsActive()) {
             if (chapter >= 0x45) {
                 return 1;
             }
@@ -259,8 +259,8 @@ void CStaffrollScene::func6()
     unk_04 = 0;
     unk_08 = 0;
     unk_0C = 0;
-    s_game->unk_14BC->Start(3, 30);
-    s_game->unk_14C0->Start(3, 30);
+    s_game->m_mainFade->Start(3, 30);
+    s_game->m_subFade->Start(3, 30);
     s_game->m_textboxData->LoadSystemMessages(0);
     unk_10 = new StaffrollText();
     unk_14 = new StaffrollText();

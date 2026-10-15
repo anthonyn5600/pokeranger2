@@ -16,7 +16,7 @@ void CDownloadMissionRestartScene::func6()
     unk_0010 = MAIN_BSS_020B26A0.unk_81AC;
     unk_000C = new SaveManager(1);
     unk_0008 = 0;
-    game->m_textboxData->Init(game->unk_0014, game->touchPanel, &game->unk_14AC->unk_0C, game->unk_14B0, game->unk_0024, game->m_audioEngine, 0x10, 0x4000, 0);
+    game->m_textboxData->Init(game->unk_0014, game->touchPanel, &game->unk_14AC->unk_0C, game->m_nameTables, game->unk_0024, game->m_audioEngine, 0x10, 0x4000, 0);
     SetupBGFonts();
     game->m_textboxData->LoadSystemMessages(0);
     game->unk_146C.SetFps(60);
@@ -40,7 +40,7 @@ u32 CDownloadMissionRestartScene::func0()
         unk_0008 = 1;
         break;
     case 1: {
-        u32 result = unk_000C->sub_0202841C();
+        u32 result = unk_000C->Update();
         if (result == 0) {
             break;
         }
@@ -96,11 +96,11 @@ u32 CDownloadMissionRestartScene::func0()
         unk_0008 = 4;
         break;
     case 4:
-        if (unk_000C->sub_0202841C() == 0) {
+        if (unk_000C->Update() == 0) {
             break;
         }
-        game->unk_14BC->Start(3, 5);
-        game->unk_14C0->Start(3, 5);
+        game->m_mainFade->Start(3, 5);
+        game->m_subFade->Start(3, 5);
         game->m_textboxData->ResetTextSpeed();
         game->m_textboxData->ShowMessage(0, 0x73, 1, 1, 0);
         unk_0008 = 5;
@@ -117,42 +117,42 @@ u32 CDownloadMissionRestartScene::func0()
         if (game->m_textboxData->IsActive()) {
             break;
         }
-        game->m_textboxData->sub_02009FB0(1, 1);
+        game->m_textboxData->CloseAndClear(1, 1);
         unk_0008 = 11;
         break;
     case 9:
         game->m_textboxData->ResetTextSpeed();
         game->m_textboxData->ShowMessage(0, 0x50, 1, 1, 0);
-        game->unk_14BC->Start(3, 5);
-        game->unk_14C0->Start(3, 5);
+        game->m_mainFade->Start(3, 5);
+        game->m_subFade->Start(3, 5);
         unk_0008 = 10;
         break;
     case 10:
         if (game->m_textboxData->IsActive()) {
             break;
         }
-        game->m_textboxData->sub_02009FB0(1, 1);
+        game->m_textboxData->CloseAndClear(1, 1);
         unk_0008 = 11;
         break;
     case 7:
         game->m_textboxData->ResetTextSpeed();
         game->m_textboxData->ShowMessage(0, 0x45, 1, 1, 0);
-        game->unk_14BC->Start(3, 5);
-        game->unk_14C0->Start(3, 5);
+        game->m_mainFade->Start(3, 5);
+        game->m_subFade->Start(3, 5);
         unk_0008 = 8;
         break;
     case 8:
         break;
     case 11:
-        game->unk_14BC->Start(2, 30);
-        game->unk_14C0->Start(2, 30);
+        game->m_mainFade->Start(2, 30);
+        game->m_subFade->Start(2, 30);
         unk_0008 = 12;
         break;
     case 12:
-        if (game->unk_14BC->IsActive()) {
+        if (game->m_mainFade->IsActive()) {
             break;
         }
-        if (game->unk_14C0->IsActive()) {
+        if (game->m_subFade->IsActive()) {
             break;
         }
         return 0x11;

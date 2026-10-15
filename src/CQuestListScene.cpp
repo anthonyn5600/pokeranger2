@@ -115,7 +115,7 @@ void CQuestListScene::func6()
     unk_008[unk_004]->func2();
     unk_008[unk_004]->func3(-1);
     unk_384.ov27_02120CC4(unk_010.unk_338 == 0 ? TRUE : FALSE);
-    game->unk_14BC->Start(3, 30);
+    game->m_mainFade->Start(3, 30);
 }
 
 void CQuestListScene::func7()

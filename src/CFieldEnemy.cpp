@@ -21,7 +21,7 @@ void LogError(const char *fmt, ...);
 
 CFieldEnemy::CFieldEnemy()
 {
-    unk_04 |= 0x400;
+    m_flags |= 0x400;
     unk_EC = 4;
     unk_10 = 0x2000;
     Rectangle bounds = { { 0, -0x8000 }, { 0x10000, 0x20000 } };
@@ -60,7 +60,7 @@ CFieldEnemy::CFieldEnemy()
     unk_158.x = 0x1000;
     unk_158.y = 0;
     unk_168.unk_48 = this;
-    unk_D4 = 2;
+    m_bushMode = 2;
     unk_244 = 0;
     unk_250 = 1;
     unk_254 = 0;
@@ -123,7 +123,7 @@ void CFieldEnemy::Process(CFieldMap *map)
         if (ov0_02134D60(unk_F0)) {
             unk_EC = 1;
             s_game->m_audioEngine->sub_02034D44(0, 0x40);
-            unk_04 &= ~1;
+            m_flags &= ~1;
             if (MAIN_BSS_0210CA48 != NULL) {
                 Point2D dir = MAIN_BSS_0210CA48->GetPos() - GetPos();
                 fx32 len = FX_Sqrt(FX32_MUL(dir.x, dir.x) + FX32_MUL(dir.y, dir.y));
@@ -133,12 +133,12 @@ void CFieldEnemy::Process(CFieldMap *map)
                     dir.x = FX32_MUL(dir.x, 0x14000);
                     dir.y = FX32_MUL(dir.y, 0x14000);
                     Point2D dest = GetPos() + dir;
-                    if (unk_08 != NULL) {
-                        if (unk_08->unk_0C != NULL) {
-                            unk_08->unk_0C->Jump(0x23000, 30);
+                    if (m_drawObject != NULL) {
+                        if (m_drawObject->m_actor != NULL) {
+                            m_drawObject->m_actor->Jump(0x23000, 30);
                         }
-                        if (unk_08->unk_0C != NULL) {
-                            unk_08->unk_0C->m_motion.MoveLinear(dest, 30);
+                        if (m_drawObject->m_actor != NULL) {
+                            m_drawObject->m_actor->m_motion.MoveLinear(dest, 30);
                         }
                     }
                 }
@@ -158,12 +158,12 @@ void CFieldEnemy::Process(CFieldMap *map)
         }
         break;
     case 2:
-        unk_04 &= ~2;
+        m_flags &= ~2;
         if (ov0_02134D60(unk_F0)) {
             s_game->m_audioEngine->PlaySe(0x10A);
             unk_EC = 3;
-            unk_04 &= ~1;
-            SetUnk8C(0x96000);
+            m_flags &= ~1;
+            SetBaseHeight(0x96000);
         }
         break;
     case 3: {
@@ -180,19 +180,19 @@ void CFieldEnemy::Process(CFieldMap *map)
                 scene->ov0_02122F08(this);
             }
         }
-        int height = GetUnk8C();
-        fx32 vz = unk_A4 - unk_9C;
+        int height = GetBaseHeight();
+        fx32 vz = m_fallSpeed - m_gravity;
         if (vz < -0x14000) {
             vz = -0x14000;
         }
-        unk_A4 = vz;
+        m_fallSpeed = vz;
         height += vz;
-        SetUnk8C(height);
-        if (GetUnk8C() <= 0) {
-            SetUnk8C(0);
-            unk_A4 = 0;
+        SetBaseHeight(height);
+        if (GetBaseHeight() <= 0) {
+            SetBaseHeight(0);
+            m_fallSpeed = 0;
             if (unk_A0 > 0) {
-                unk_04 |= 2;
+                m_flags |= 2;
             }
             ov0_021352E4(0);
             unk_EC = 4;
@@ -200,7 +200,7 @@ void CFieldEnemy::Process(CFieldMap *map)
         break;
     }
     case 4:
-        if (unk_04 & 0x400) {
+        if (m_flags & 0x400) {
             ov0_02134F70();
         }
         UpdateScript();
@@ -245,15 +245,15 @@ BOOL CFieldEnemy::ov0_02134D60(int radius)
 
 void CFieldEnemy::ov0_02134F00()
 {
-    unk_04 |= 1;
-    SetUnk8C(0);
+    m_flags |= 1;
+    SetBaseHeight(0);
     unk_168.ov0_0215674C(0xE);
 }
 
 void CFieldEnemy::ov0_02134F38()
 {
-    unk_04 |= 1;
-    SetUnk8C(0xDC000);
+    m_flags |= 1;
+    SetBaseHeight(0xDC000);
     unk_168.ov0_0215674C(0xF);
 }
 
@@ -263,7 +263,7 @@ void CFieldEnemy::ov0_02134F70()
     if (player == NULL) {
         return;
     }
-    if (player->unk_14 != unk_14) {
+    if (player->m_layer != m_layer) {
         return;
     }
     if (ov0_02134D60(unk_124 >> FX32_SHIFT) && MAIN_BSS_0210CA40 != NULL) {
@@ -284,7 +284,7 @@ void CFieldEnemy::ov0_02134FCC()
     target->SetPos(GetPos());
     target->SetHomePos(GetPos());
     target->unk_20 = 2;
-    unk_04 |= 0x800;
+    m_flags |= 0x800;
 }
 
 void CFieldEnemy::ov0_021351AC()
@@ -300,7 +300,7 @@ void CFieldEnemy::ov0_021351AC()
     Actor_HideManpu(target);
     target->unk_20 = 0;
     target->sub_0202D394();
-    unk_04 &= ~0x800;
+    m_flags &= ~0x800;
 }
 
 void CFieldEnemy::ov0_0213524C()
@@ -330,8 +330,8 @@ void CFieldEnemy::ov0_021352E4(int arg1)
     fx32 x = GetX();
     fx32 y = GetY();
     int cell = 0;
-    if (unk_6C != NULL) {
-        CFieldMapLayerAttribute *attr = unk_6C->GetAttributeLayer(unk_14);
+    if (m_map != NULL) {
+        CFieldMapLayerAttribute *attr = m_map->GetAttributeLayer(m_layer);
         if (attr != NULL) {
             cell = attr->GetCellAtPos(x, y);
         }
@@ -429,13 +429,13 @@ void CFieldEnemy::ov0_021356EC()
 {
     // SetPosXY written out: the declaration order of these locals is the original's register order.
     fx32 y = unk_1C;
-    CFieldDrawObject *obj = unk_08;
+    CFieldDrawObject *obj = m_drawObject;
     CFieldDrawActor *sprite;
     fx32 x = unk_18;
-    if (obj != NULL && (sprite = obj->unk_0C) != NULL) {
+    if (obj != NULL && (sprite = obj->m_actor) != NULL) {
         sprite->SetXY(x, y);
-        if (obj->unk_0C->m_sprite != NULL) {
-            obj->unk_0C->m_sprite->SetXY(x, y);
+        if (obj->m_actor->m_sprite != NULL) {
+            obj->m_actor->m_sprite->SetXY(x, y);
         }
     }
     sub_020128EC_(unk_256);

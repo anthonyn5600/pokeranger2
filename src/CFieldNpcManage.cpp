@@ -86,7 +86,7 @@ int CFieldNpcManage::ov0_0213C66C(int slot, int type, u16 kind, u16 script, int 
                 npc->unk_24.pos.y = bounds.pos.y;
                 npc->unk_24.size.x = bounds.size.x;
                 npc->unk_24.size.y = bounds.size.y;
-                npc->unk_D4 = info->unk_0E;
+                npc->m_bushMode = info->unk_0E;
                 npc->unk_D6 = info->unk_0F;
                 SetUnk70(npc, data->unk_3D << FX32_SHIFT, data->unk_3E << FX32_SHIFT);
                 npc->SetUnkBE(info->unk_0C, info->unk_0D);

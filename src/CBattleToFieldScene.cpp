@@ -11,8 +11,8 @@
 
 extern "C" {
 void SaveData_LotTimeCheck(SaveData *save);
-BOOL sub_02015C78(SaveData *save, u32 id, int kind, int area);
-BOOL sub_02015E54(SaveData *save, u32 id);
+BOOL SaveData_AddToParty(SaveData *save, u32 id, int kind, int area);
+BOOL SaveData_RemoveFromParty(SaveData *save, u32 id);
 u32 SaveData_AddExp(SaveData *save, u32 value);
 u32 SaveData_AddPartnerCount(SaveData *save, int kind, u32 value);
 u32 SaveData_AddCaptureLineLength(SaveData *save, u32 value);
@@ -109,8 +109,8 @@ void CBattleToFieldScene::func6()
     kind = result->unk_08;
 
     if (game->unk_0008 == 0) {
-        game->m_audioEngine->sub_02034954();
-        game->m_audioEngine->sub_02034F20(0);
+        game->m_audioEngine->RestoreFieldBgm();
+        game->m_audioEngine->SetLoopSeVolume(0);
     }
     if (result->unk_04 != 0xFF) {
         save->m_energy = result->unk_04;
@@ -122,9 +122,9 @@ void CBattleToFieldScene::func6()
     enemyCount = result->unk_14;
     idCount = result->unk_6C;
     for (int i = 0; i < 10; i++) {
-        UnkStruct_020155FC *data = SaveData_GetEntry(save, i);
-        if (data != NULL && (data->unk_08 & 1)) {
-            ids[count] = (data->unk_04 & 0xFFF) | (((data->unk_02 & 0xFFF) << 12) | 0x6000000);
+        PartyEntry *data = SaveData_GetEntry(save, i);
+        if (data != NULL && (data->m_flags & 1)) {
+            ids[count] = (data->m_index & 0xFFF) | (((data->m_mapId & 0xFFF) << 12) | 0x6000000);
             if (++count >= idCount) {
                 break;
             }
@@ -134,11 +134,11 @@ void CBattleToFieldScene::func6()
         if (result->unk_6D[(u8)i] != 0) {
             int id = ids[i];
             if (id >= 0) {
-                UnkStruct_020155FC *data = SaveData_FindEntry(save, id);
-                if (data->unk_08 & 2) {
-                    SaveData_AddPartnerCount(save, data->unk_00, 1);
+                PartyEntry *data = SaveData_FindEntry(save, id);
+                if (data->m_flags & 2) {
+                    SaveData_AddPartnerCount(save, data->m_kind, 1);
                 } else {
-                    sub_02015E54(save, id);
+                    SaveData_RemoveFromParty(save, id);
                 }
                 SaveData_AddAssistsUsed(save, 1);
             }
@@ -178,7 +178,7 @@ void CBattleToFieldScene::func6()
         if (result->unk_0C == 0) {
             for (int i = enemyCount - 1; i >= 0; i--) {
                 u32 id = result->unk_18[(u8)i];
-                sub_02015C78(save, id, result->unk_38[(u8)i], -1);
+                SaveData_AddToParty(save, id, result->unk_38[(u8)i], -1);
                 int idx = id & 0xFFF;
                 int mapId = ((int)id >> 12) & 0xFFF;
                 save->SetEnemyState(mapId, idx, 2);
@@ -217,7 +217,7 @@ u32 CBattleToFieldScene::func0()
     if (game->unk_1444->unk_0C != 1) {
         SaveData *save = &MAIN_BSS_020B26A0;
         int level = save->m_rangerClassGrade & 0xF;
-        if (sub_02016138(save, -1) > sub_02015658(save, level)) {
+        if (SaveData_CountParty(save, -1) > SaveData_GetPartyCapacity(save, level)) {
             save->unk_8BA0 = BattleStartParam_GetCaptureBg(game->unk_143C);
             return 7;
         }

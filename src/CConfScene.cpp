@@ -36,7 +36,7 @@ CConfScene::CConfScene(CGame *game)
 {
     m_game = game;
     m_audioEngine = CGame::GetInstance()->m_audioEngine;
-    m_audioEngine->sub_020345D4();
+    m_audioEngine->LoadSystemSe();
     unk_18 = FX32_ONE;
     unk_0E = 0;
 }

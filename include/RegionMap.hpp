@@ -45,10 +45,10 @@ public:
     void LoadToVram(BOOL extPltt);
     void sub_0202AD78();
     void BlinkCursor();
-    void sub_0202AED4();
+    void ShowAvailableAreas();
     BOOL sub_0202AF5C(u64 *flags);
     BOOL sub_0202B140(u64 *flags);
-    BOOL sub_0202B244(int i, u64 *flags);
+    BOOL IsAreaAvailable(int i, u64 *flags);
     void ShowCurrentArea();
     void SetSpriteToArea(int sprite, u16 id);
     u16 GetAreaId(u32 mapId);

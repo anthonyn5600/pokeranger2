@@ -222,7 +222,7 @@ void FlyingMap::ov9_0211CD40()
         if (unk_54->m_textboxData->IsActive()) {
             break;
         }
-        if (unk_54->m_textboxData->sub_0200B6A4(1)) {
+        if (unk_54->m_textboxData->CloseIfNoPrompt(1)) {
             break;
         }
         if (unk_54->m_textboxData->GetYesNoResult() == 0) {
@@ -288,7 +288,7 @@ void FlyingMap::ov9_0211CF48()
     SAFE_DELETE_ARRAY(unk_34);
     SAFE_DELETE(unk_14);
     unk_54->m_textboxData->ResetTextSpeed();
-    unk_54->m_textboxData->sub_02009FB0(1, 1);
+    unk_54->m_textboxData->CloseAndClear(1, 1);
     unk_54->m_textboxData->FreeSystemMessages();
     unk_54->m_textboxData->Reset();
 }
@@ -315,10 +315,10 @@ void FlyingMap::ov9_0211D0CC()
     G2_SetBG0Priority(0);
     G2_SetBG1Priority(0);
     G2_SetBG2Priority(3);
-    unk_54->m_audioEngine->sub_020345D4();
+    unk_54->m_audioEngine->LoadSystemSe();
 
     CGame *game = unk_54;
-    game->m_textboxData->Init(game->unk_0014, game->touchPanel, &game->unk_14AC->unk_0C, game->unk_14B0, game->unk_0024, game->m_audioEngine, 0x10, 0x4000, 0);
+    game->m_textboxData->Init(game->unk_0014, game->touchPanel, &game->unk_14AC->unk_0C, game->m_nameTables, game->unk_0024, game->m_audioEngine, 0x10, 0x4000, 0);
     unk_54->m_textboxData->LoadSystemMessages(0);
     unk_54->unk_1494->FreeWindows();
     unk_54->unk_1494->SetupBG(0, GX_BG_SCRBASE_0x6000, GX_BG_CHARBASE_0x18000);
@@ -530,22 +530,22 @@ void FlyingMap::ov9_0211D980(u16 id, int mode)
 void FlyingMap::ov9_0211D9F0()
 {
     if (unk_54 != NULL) {
-        unk_54->unk_14C0->Start(3, 15);
-        unk_54->unk_14BC->Start(3, 15);
+        unk_54->m_subFade->Start(3, 15);
+        unk_54->m_mainFade->Start(3, 15);
     }
 }
 
 void FlyingMap::ov9_0211DA34()
 {
     if (unk_54 != NULL) {
-        unk_54->unk_14C0->Start(4, 15);
-        unk_54->unk_14BC->Start(4, 15);
+        unk_54->m_subFade->Start(4, 15);
+        unk_54->m_mainFade->Start(4, 15);
     }
 }
 
 BOOL FlyingMap::ov9_0211DA78()
 {
-    if (unk_54->unk_14C0->IsActive() || unk_54->unk_14C0->IsActive()) {
+    if (unk_54->m_subFade->IsActive() || unk_54->m_subFade->IsActive()) {
         return TRUE;
     }
     return FALSE;

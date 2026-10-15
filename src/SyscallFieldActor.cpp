@@ -34,7 +34,7 @@ static inline void SetHome(CFieldActor *actor, fx32 x, fx32 y)
 
 static inline BOOL IsPartner(CFieldActor *actor)
 {
-    return (((int)actor->unk_58 >> 24) & 0xFF) == 1 ? TRUE : FALSE;
+    return (((int)actor->m_id >> 24) & 0xFF) == 1 ? TRUE : FALSE;
 }
 
 extern "C" {
@@ -145,24 +145,24 @@ int ov0_02149140(int *args)
         actor->Jump(args[2], args[3]);
         return 0;
     case 24:
-        return actor->unk_58;
+        return actor->m_id;
     case 25:
-        actor->unk_04 |= 1;
+        actor->m_flags |= 1;
         return 0;
     case 26:
-        actor->unk_04 &= ~1;
+        actor->m_flags &= ~1;
         return 0;
     case 27:
-        actor->unk_04 |= 0x200;
+        actor->m_flags |= 0x200;
         return 0;
     case 28:
-        actor->unk_04 &= ~0x200;
+        actor->m_flags &= ~0x200;
         return 0;
     case 30:
-        actor->SetUnk8C(args[2]);
+        actor->SetBaseHeight(args[2]);
         return 0;
     case 29:
-        return actor->GetUnk8C();
+        return actor->GetBaseHeight();
     case 31: {
         Point2D pos = { args[2], args[3] };
         return actor->CheckCircleCollision(pos, args[4], 0);
@@ -171,9 +171,9 @@ int ov0_02149140(int *args)
         actor->sub_020129F4_(args[2], args[3]);
         return 0;
     case 33:
-        if (actor->unk_08 != NULL) {
-            if (actor->unk_08->unk_0C != NULL) {
-                return actor->unk_08->unk_0C->unk_108.value;
+        if (actor->m_drawObject != NULL) {
+            if (actor->m_drawObject->m_actor != NULL) {
+                return actor->m_drawObject->m_actor->unk_108.value;
             }
             return 0;
         }
@@ -182,17 +182,17 @@ int ov0_02149140(int *args)
         actor->sub_02012A3C_(args[2], args[3], args[4]);
         return 0;
     case 35:
-        if (actor->unk_08 != NULL) {
-            if (actor->unk_08->unk_0C != NULL) {
-                return actor->unk_08->unk_0C->unk_11C.value;
+        if (actor->m_drawObject != NULL) {
+            if (actor->m_drawObject->m_actor != NULL) {
+                return actor->m_drawObject->m_actor->unk_11C.value;
             }
             return 0x1000;
         }
         return 0x1000;
     case 36:
-        if (actor->unk_08 != NULL) {
-            if (actor->unk_08->unk_0C != NULL) {
-                return actor->unk_08->unk_0C->unk_134.value;
+        if (actor->m_drawObject != NULL) {
+            if (actor->m_drawObject->m_actor != NULL) {
+                return actor->m_drawObject->m_actor->unk_134.value;
             }
             return 0x1000;
         }

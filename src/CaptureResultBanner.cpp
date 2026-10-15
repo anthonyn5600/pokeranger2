@@ -189,7 +189,7 @@ void CaptureResultBanner::ov1_0213F688()
 {
     m_frame++;
     if (m_frame > 0x18) {
-        CGame::GetInstance()->m_textboxData->sub_02009FB0(1, 1);
+        CGame::GetInstance()->m_textboxData->CloseAndClear(1, 1);
         ov1_0213F960(9);
     }
 }

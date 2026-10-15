@@ -25,7 +25,7 @@ CActor::CActor()
     MI_CpuFill8(&unk_134, 0, sizeof(unk_134));
     unk_11C.value = FX32_ONE;
     unk_134.value = FX32_ONE;
-    MI_CpuFill8(&unk_14C, 0, sizeof(unk_14C));
+    MI_CpuFill8(&m_rotTween, 0, sizeof(m_rotTween));
     m_bobHeight = 0;
     m_bobbing = FALSE;
     m_bobAmplitude = FX32_ONE;
@@ -126,18 +126,18 @@ void CActor::Update()
     }
 
     UpdateMotion();
-    sub_020123AC();
+    UpdateHeightTween();
     UpdateJump();
     UpdateBob();
     UpdateDirection();
-    sub_020125FC();
+    UpdateAnimBank();
     UpdateAlphaTween();
     UpdateScaleTween();
     UpdateTween16();
 
     Point2D pos = m_motion.m_pos;
     pos += GetAnimOffset();
-    pos.y -= m_bobHeight + (unk_8C + m_jumpHeight);
+    pos.y -= m_bobHeight + (m_height + m_jumpHeight);
     m_sprite->SetPos(pos);
 }
 
@@ -149,17 +149,17 @@ void CActor::UpdateMotion()
     m_speed = ApproxLength(delta.x, delta.y);
 }
 
-void CActor::sub_020123AC()
+void CActor::UpdateHeightTween()
 {
-    if (!unk_90) {
+    if (!m_heightTweening) {
         return;
     }
 
-    unk_96++;
-    if (unk_96 >= unk_94) {
-        unk_90 = FALSE;
+    m_heightFrame++;
+    if (m_heightFrame >= m_heightDuration) {
+        m_heightTweening = FALSE;
     }
-    unk_8C = LinearInterpolate(unk_98, unk_9C, unk_96, unk_94);
+    m_height = LinearInterpolate(m_heightFrom, m_heightTo, m_heightFrame, m_heightDuration);
 }
 
 void CActor::UpdateJump()
@@ -224,7 +224,7 @@ void CActor::UpdateDirection()
     }
 }
 
-void CActor::sub_020125FC()
+void CActor::UpdateAnimBank()
 {
     if (!(m_flags & 8)) {
         return;
@@ -285,8 +285,8 @@ void CActor::UpdateTween16()
         return;
     }
 
-    StepTween16(&unk_14C);
-    if (!unk_14C.active) {
+    StepTween16(&m_rotTween);
+    if (!m_rotTween.active) {
         m_flags &= ~0x10;
     }
 }
@@ -300,27 +300,27 @@ void CActor::StepTween16(CActorTween16 *tween)
     }
 }
 
-void CActor::sub_020127D0(fx32 value, int duration)
+void CActor::MoveHeightTo(fx32 value, int duration)
 {
     if (duration != 0) {
-        unk_90 = TRUE;
-        unk_98 = unk_8C;
-        unk_9C = value;
-        unk_96 = 0;
-        unk_94 = duration;
+        m_heightTweening = TRUE;
+        m_heightFrom = m_height;
+        m_heightTo = value;
+        m_heightFrame = 0;
+        m_heightDuration = duration;
     } else {
-        unk_8C = value;
-        unk_90 = FALSE;
+        m_height = value;
+        m_heightTweening = FALSE;
     }
 }
 
-void CActor::sub_02012808(fx32 value, fx32 speed)
+void CActor::MoveHeightAtSpeed(fx32 value, fx32 speed)
 {
-    unk_90 = TRUE;
-    unk_98 = unk_8C;
-    unk_9C = value;
-    unk_96 = 0;
-    unk_94 = FX32_DIV(MATH_IAbs(unk_9C - unk_98), speed) >> FX32_SHIFT;
+    m_heightTweening = TRUE;
+    m_heightFrom = m_height;
+    m_heightTo = value;
+    m_heightFrame = 0;
+    m_heightDuration = FX32_DIV(MATH_IAbs(m_heightTo - m_heightFrom), speed) >> FX32_SHIFT;
 }
 
 void CActor::Jump(fx32 height, int duration)
@@ -436,22 +436,22 @@ void CActor::ScaleTo(int duration, fx32 scaleX, fx32 scaleY)
     }
 }
 
-void CActor::sub_02012AA8(int duration, u16 value)
+void CActor::RotateTo(int duration, u16 value)
 {
     if (duration != 0) {
-        unk_14C.active = TRUE;
-        unk_14C.frame = 0;
-        unk_14C.duration = duration;
-        unk_14C.from = unk_14C.value;
-        unk_14C.to = value;
+        m_rotTween.active = TRUE;
+        m_rotTween.frame = 0;
+        m_rotTween.duration = duration;
+        m_rotTween.from = m_rotTween.value;
+        m_rotTween.to = value;
         m_flags |= 0x10;
     } else {
-        unk_14C.value = value;
+        m_rotTween.value = value;
         m_flags &= ~0x10;
     }
 }
 
-int CActor::sub_02012AFC()
+int CActor::GetAnimStatus()
 {
     if (m_data == NULL) {
         return 0;
@@ -536,7 +536,7 @@ void CActor::UpdateGhosts()
         if (i == slot) {
             ghost->active = TRUE;
             Point2D pos = m_motion.GetPos();
-            sprite->SetXY(pos.x, pos.y - (m_bobHeight + (unk_8C + m_jumpHeight)));
+            sprite->SetXY(pos.x, pos.y - (m_bobHeight + (m_height + m_jumpHeight)));
         }
         if (ghost->active) {
             if (ghost->frame <= m_ghostLife) {
@@ -590,7 +590,7 @@ fx32 CActor::GetGhostScale(int index)
     return m_ghosts[index].scale;
 }
 
-u16 CActor::sub_02012DD0()
+u16 CActor::GetAnimScriptPos()
 {
     if (m_data == NULL) {
         return 0;
@@ -616,7 +616,7 @@ u8 CActor::sub_02012E1C()
     return anim->bank->sub_02008D38(unk_C8[unk_C0]);
 }
 
-void CActor::sub_02012E68()
+void CActor::RestartAnim()
 {
     if (m_data == NULL) {
         return;
@@ -630,7 +630,7 @@ void CActor::sub_02012E68()
     anim->bank->Restart(unk_C8[unk_C0]);
 }
 
-static fx32 sub_02012EB4(Point2D *start, Point2D *ctrl, Point2D *end, int steps)
+static fx32 CurveLength(Point2D *start, Point2D *ctrl, Point2D *end, int steps)
 {
     fx32 length = 0;
     fx32 prevX = start->x;
@@ -649,7 +649,7 @@ static fx32 sub_02012EB4(Point2D *start, Point2D *ctrl, Point2D *end, int steps)
 void CActor::MoveCurveAtSpeed(Point2D *end, Point2D *ctrl, int speed)
 {
     Point2D pos = m_motion.m_pos;
-    int duration = sub_02012EB4(&pos, ctrl, end, 8) / speed;
+    int duration = CurveLength(&pos, ctrl, end, 8) / speed;
     if (duration < 1) {
         duration = 1;
     }

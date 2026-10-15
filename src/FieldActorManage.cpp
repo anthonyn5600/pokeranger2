@@ -47,7 +47,7 @@ BOOL CFieldActorManage::RemoveById(u32 id)
     if (m_count > 0 && m_actors != NULL) {
         for (int i = 0; i < m_count; i++) {
             CFieldActor *actor = m_actors[i];
-            if (actor != NULL && id == actor->unk_58) {
+            if (actor != NULL && id == actor->m_id) {
                 if (actor != NULL) {
                     SAFE_DELETE(m_actors[i]);
                 }
@@ -85,8 +85,8 @@ BOOL CFieldActorManage::Clear()
 BOOL CFieldActorManage::SetActorPos(int index, fx32 x, fx32 y)
 {
     if (index < m_count && m_actors != NULL && m_actors[index] != NULL) {
-        CFieldDrawObject *obj = m_actors[index]->unk_08;
-        if (obj != NULL && obj->unk_0C != NULL) {
+        CFieldDrawObject *obj = m_actors[index]->m_drawObject;
+        if (obj != NULL && obj->m_actor != NULL) {
             obj->SetPosXY(x, y);
         }
         return TRUE;
@@ -135,7 +135,7 @@ void CFieldActorManage::DrawAll(DrawObjectList *renderLists, FieldShadow *hud)
     }
 }
 
-void sub_0203F3C8(CFieldActorManage *mgr)
+void FieldActorManage_StopAllMotion(CFieldActorManage *mgr)
 {
     if (mgr->m_actors == NULL) {
         return;
@@ -148,7 +148,7 @@ void sub_0203F3C8(CFieldActorManage *mgr)
     }
 }
 
-void sub_0203F440(CFieldActorManage *mgr)
+void FieldActorManage_RestartAllScripts(CFieldActorManage *mgr)
 {
     if (mgr->m_actors == NULL) {
         return;
@@ -168,11 +168,11 @@ void CFieldActorManage::SetOutlineAll(u16 color, u8 width, int time)
     }
     for (int i = 0; i < m_count; i++) {
         CFieldActor *actor = m_actors[i];
-        if (actor != NULL && actor->IsActive() && actor->unk_08 != NULL) {
-            actor->unk_08->ResetOutlinePhase();
-            actor->unk_08->SetOutlineColor(color);
-            actor->unk_08->SetOutlineWidth(width);
-            actor->unk_08->StartOutline(time);
+        if (actor != NULL && actor->IsActive() && actor->m_drawObject != NULL) {
+            actor->m_drawObject->ResetOutlinePhase();
+            actor->m_drawObject->SetOutlineColor(color);
+            actor->m_drawObject->SetOutlineWidth(width);
+            actor->m_drawObject->StartOutline(time);
         }
     }
 }
@@ -213,20 +213,20 @@ void CFieldActorManage::SetAlphaAll(u8 alpha)
     }
 }
 
-void CFieldActorManage::sub_0203F700()
+void CFieldActorManage::ResetOutlinePhases()
 {
     if (m_actors == NULL) {
         return;
     }
     for (int i = 0; i < m_count; i++) {
         CFieldActor *actor = m_actors[i];
-        if (actor != NULL && actor->unk_08 != NULL && actor->unk_08->unk_0C != NULL) {
-            actor->unk_08->unk_0C->m_outlinePhase = 0;
+        if (actor != NULL && actor->m_drawObject != NULL && actor->m_drawObject->m_actor != NULL) {
+            actor->m_drawObject->m_actor->m_outlinePhase = 0;
         }
     }
 }
 
-void CFieldActorManage::sub_0203F754()
+void CFieldActorManage::ClearOutlines()
 {
     if (m_actors == NULL) {
         return;
@@ -234,12 +234,12 @@ void CFieldActorManage::sub_0203F754()
     for (int i = 0; i < m_count; i++) {
         CFieldActor *actor = m_actors[i];
         if (actor != NULL) {
-            actor->ClearUnk1A8Bits(1);
+            actor->ClearEffectFlags(1);
         }
     }
 }
 
-void CFieldActorManage::sub_0203F7AC()
+void CFieldActorManage::ClearOnTop()
 {
     if (m_actors == NULL) {
         return;
@@ -247,7 +247,7 @@ void CFieldActorManage::sub_0203F7AC()
     for (int i = 0; i < m_count; i++) {
         CFieldActor *actor = m_actors[i];
         if (actor != NULL) {
-            actor->unk_04 &= ~0x100;
+            actor->m_flags &= ~0x100;
         }
     }
 }
@@ -303,12 +303,12 @@ BOOL CFieldActorManage::SweepCollide(PointPair2D *move, fx32 radius, int layer, 
         if (actor == NULL) {
             continue;
         }
-        BOOL solid = (actor->unk_04 & 0x80) ? FALSE : TRUE;
+        BOOL solid = (actor->m_flags & 0x80) ? FALSE : TRUE;
         BOOL active = actor->IsActive();
         if (!(active & solid)) {
             continue;
         }
-        if (layer != actor->unk_14) {
+        if (layer != actor->m_layer) {
             continue;
         }
         switch (actor->unk_50) {
@@ -438,12 +438,12 @@ BOOL CFieldActorManage::CollideCircle(Point2D pos, fx32 radius, int layer)
         if (actor == NULL) {
             continue;
         }
-        BOOL solid = (actor->unk_04 & 0x80) ? FALSE : TRUE;
+        BOOL solid = (actor->m_flags & 0x80) ? FALSE : TRUE;
         BOOL active = actor->IsActive();
         if (!(active & solid)) {
             continue;
         }
-        if (layer != actor->unk_14) {
+        if (layer != actor->m_layer) {
             continue;
         }
         switch (actor->unk_50) {
@@ -478,13 +478,13 @@ void CFieldActorManage::SetPosAll(Point2D pos)
 {
     for (int i = 0; i < m_count; i++) {
         CFieldActor *actor = m_actors[i];
-        if (actor != NULL && actor->unk_08 != NULL && actor->unk_08->unk_0C != NULL) {
-            actor->unk_08->SetPos(pos);
+        if (actor != NULL && actor->m_drawObject != NULL && actor->m_drawObject->m_actor != NULL) {
+            actor->m_drawObject->SetPos(pos);
         }
     }
 }
 
-void CFieldActorManage::sub_02040428()
+void CFieldActorManage::ActivateAll()
 {
     for (int i = 0; i < m_count; i++) {
         CFieldActor *actor = m_actors[i];
@@ -494,7 +494,7 @@ void CFieldActorManage::sub_02040428()
     }
 }
 
-void CFieldActorManage::sub_02040460()
+void CFieldActorManage::DeactivateAll()
 {
     for (int i = 0; i < m_count; i++) {
         CFieldActor *actor = m_actors[i];

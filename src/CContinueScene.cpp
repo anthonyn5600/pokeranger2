@@ -35,7 +35,7 @@ CContinueScene::CContinueScene(CGame *game)
 {
     m_game = game;
     m_audioEngine = CGame::GetInstance()->m_audioEngine;
-    m_audioEngine->sub_020345D4();
+    m_audioEngine->LoadSystemSe();
     unk_1C = FX32_ONE;
     unk_10 = 0;
 }

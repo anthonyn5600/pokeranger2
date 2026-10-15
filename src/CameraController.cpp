@@ -22,44 +22,44 @@ CameraController::~CameraController()
 
 void CameraController::Reset()
 {
-    unk_04 = 0;
-    unk_06 = 0;
-    unk_08 = 0;
-    unk_0C = 0;
-    unk_10 = 0;
-    unk_14 = 0;
-    unk_18 = 0;
-    unk_20 = 0;
-    unk_1E = 0;
-    unk_24 = FX32_ONE;
+    m_flags = 0;
+    m_frame = 0;
+    m_duration = 0;
+    m_destX = 0;
+    m_destY = 0;
+    m_stepX = 0;
+    m_stepY = 0;
+    m_amplitude = 0;
+    m_phase = 0;
+    m_scale = FX32_ONE;
 }
 
 void CameraController::SetPos(fx32 x, fx32 y)
 {
-    unk_00->x = x;
-    unk_00->y = y;
+    m_target->x = x;
+    m_target->y = y;
 }
 
 void CameraController::SetScale(fx32 scale)
 {
-    unk_24 = scale;
+    m_scale = scale;
 }
 
 void CameraController::Move(fx32 dx, fx32 dy)
 {
-    if (unk_00 == NULL) {
+    if (m_target == NULL) {
         return;
     }
-    SetPos(dx + unk_00->x, dy + unk_00->y);
+    SetPos(dx + m_target->x, dy + m_target->y);
 }
 
 void CameraController::MoveTo(fx32 x, fx32 y, fx32 speed)
 {
-    UnkStruct_0200D3F8_Target *target = unk_00;
+    UnkStruct_0200D3F8_Target *target = m_target;
     if (target == NULL) {
         return;
     }
-    if (unk_04 != 0) {
+    if (m_flags != 0) {
         return;
     }
 
@@ -69,28 +69,28 @@ void CameraController::MoveTo(fx32 x, fx32 y, fx32 speed)
     fx32 dist = FX_Sqrt(FX32_MUL(dx, dx) + FX32_MUL(dy, dy));
 
     if (dist > step) {
-        unk_14 = FX32_MUL(step, FX32_DIV(dx, dist));
-        unk_18 = FX32_MUL(step, FX32_DIV(dy, dist));
-        if (unk_14 == 0 && unk_18 == 0) {
+        m_stepX = FX32_MUL(step, FX32_DIV(dx, dist));
+        m_stepY = FX32_MUL(step, FX32_DIV(dy, dist));
+        if (m_stepX == 0 && m_stepY == 0) {
             SetPos(x, y);
-            unk_04 &= ~1;
+            m_flags &= ~1;
             return;
         }
-        unk_0C = x;
-        unk_10 = y;
-        unk_04 |= 1;
+        m_destX = x;
+        m_destY = y;
+        m_flags |= 1;
     } else {
         SetPos(x, y);
-        unk_04 &= ~1;
+        m_flags &= ~1;
     }
 }
 
 void CameraController::MoveToTimed(fx32 x, fx32 y, u16 frames)
 {
-    if (unk_00 == NULL) {
+    if (m_target == NULL) {
         return;
     }
-    if (unk_04 != 0) {
+    if (m_flags != 0) {
         return;
     }
 
@@ -100,342 +100,342 @@ void CameraController::MoveToTimed(fx32 x, fx32 y, u16 frames)
     }
     frames = (frames * fps) / 60;
 
-    unk_14 = FX32_DIV(x - unk_00->x, (fx64)(frames << FX32_SHIFT));
-    unk_18 = FX32_DIV(y - unk_00->y, (fx64)(frames << FX32_SHIFT));
-    unk_0C = x;
-    unk_10 = y;
-    unk_06 = 0;
-    unk_08 = frames;
-    unk_04 |= 2;
+    m_stepX = FX32_DIV(x - m_target->x, (fx64)(frames << FX32_SHIFT));
+    m_stepY = FX32_DIV(y - m_target->y, (fx64)(frames << FX32_SHIFT));
+    m_destX = x;
+    m_destY = y;
+    m_frame = 0;
+    m_duration = frames;
+    m_flags |= 2;
 }
 
-void CameraController::sub_0200D6E8(fx32 amplitude, u16 speed, u16 duration)
+void CameraController::Sway(fx32 amplitude, u16 speed, u16 duration)
 {
-    if (unk_00 == NULL) {
+    if (m_target == NULL) {
         return;
     }
-    if (unk_04 != 0) {
+    if (m_flags != 0) {
         return;
     }
 
-    unk_20 = amplitude;
-    unk_1E = 0x3FFF;
-    unk_1C = speed;
-    unk_0C = unk_00->x;
-    unk_10 = unk_00->y;
-    unk_06 = 0;
-    unk_08 = duration;
-    unk_04 |= 4;
+    m_amplitude = amplitude;
+    m_phase = 0x3FFF;
+    m_speed = speed;
+    m_destX = m_target->x;
+    m_destY = m_target->y;
+    m_frame = 0;
+    m_duration = duration;
+    m_flags |= 4;
 }
 
 void CameraController::ZoomTo(fx32 scale, u16 frames)
 {
-    if (unk_00 == NULL) {
+    if (m_target == NULL) {
         return;
     }
-    if (unk_04 != 0) {
+    if (m_flags != 0) {
         return;
     }
 
-    unk_20 = FX32_DIV(scale - unk_24, (fx64)(frames << FX32_SHIFT));
-    unk_0C = scale;
-    unk_06 = 0;
-    unk_08 = frames;
-    unk_04 |= 8;
+    m_amplitude = FX32_DIV(scale - m_scale, (fx64)(frames << FX32_SHIFT));
+    m_destX = scale;
+    m_frame = 0;
+    m_duration = frames;
+    m_flags |= 8;
 }
 
-void CameraController::sub_0200D7B8(u16 speed, u16 duration)
+void CameraController::Spin(u16 speed, u16 duration)
 {
-    if (unk_00 == NULL) {
+    if (m_target == NULL) {
         return;
     }
-    if (unk_04 != 0) {
+    if (m_flags != 0) {
         return;
     }
 
-    unk_1C = speed;
-    unk_1E = 0;
-    unk_06 = 0;
-    unk_08 = duration;
-    unk_04 |= 0x10;
+    m_speed = speed;
+    m_phase = 0;
+    m_frame = 0;
+    m_duration = duration;
+    m_flags |= 0x10;
 }
 
-void CameraController::sub_0200D7F4(fx32 scale, u16 speed, u16 frames)
+void CameraController::SpinZoom(fx32 scale, u16 speed, u16 frames)
 {
-    if (unk_00 == NULL) {
+    if (m_target == NULL) {
         return;
     }
-    if (unk_04 != 0) {
+    if (m_flags != 0) {
         return;
     }
 
-    unk_20 = FX32_DIV(scale - unk_24, (fx64)(frames << FX32_SHIFT));
-    unk_0C = scale;
-    unk_1C = speed;
-    unk_1E = 0;
-    unk_06 = 0;
-    unk_08 = frames;
-    unk_04 |= 0x20;
+    m_amplitude = FX32_DIV(scale - m_scale, (fx64)(frames << FX32_SHIFT));
+    m_destX = scale;
+    m_speed = speed;
+    m_phase = 0;
+    m_frame = 0;
+    m_duration = frames;
+    m_flags |= 0x20;
 }
 
-void CameraController::sub_0200D870(fx32 amplitude, u16 duration)
+void CameraController::Shake(fx32 amplitude, u16 duration)
 {
-    if (unk_00 == NULL) {
+    if (m_target == NULL) {
         return;
     }
-    if (unk_04 != 0) {
+    if (m_flags != 0) {
         return;
     }
 
-    unk_20 = amplitude;
-    unk_1C = 0;
-    unk_1E = 0;
-    unk_0C = unk_00->x;
-    unk_10 = unk_00->y;
-    unk_06 = 0;
-    unk_08 = duration;
-    unk_04 |= 0x40;
+    m_amplitude = amplitude;
+    m_speed = 0;
+    m_phase = 0;
+    m_destX = m_target->x;
+    m_destY = m_target->y;
+    m_frame = 0;
+    m_duration = duration;
+    m_flags |= 0x40;
 }
 
-void CameraController::sub_0200D8C8(fx32 amplitude)
+void CameraController::StartShake(fx32 amplitude)
 {
-    if (unk_00 == NULL) {
+    if (m_target == NULL) {
         return;
     }
-    if (unk_04 != 0) {
+    if (m_flags != 0) {
         return;
     }
 
-    unk_20 = amplitude;
-    unk_1C = 0;
-    unk_1E = 0;
-    unk_0C = unk_00->x;
-    unk_10 = unk_00->y;
-    unk_06 = 0;
-    unk_08 = 1;
-    unk_04 |= 0x100;
+    m_amplitude = amplitude;
+    m_speed = 0;
+    m_phase = 0;
+    m_destX = m_target->x;
+    m_destY = m_target->y;
+    m_frame = 0;
+    m_duration = 1;
+    m_flags |= 0x100;
 }
 
-void CameraController::sub_0200D924(fx32 amplitude)
+void CameraController::StartShakeX(fx32 amplitude)
 {
-    if (unk_00 == NULL) {
+    if (m_target == NULL) {
         return;
     }
-    if (unk_04 != 0) {
+    if (m_flags != 0) {
         return;
     }
 
-    unk_20 = amplitude;
-    unk_1C = 0;
-    unk_1E = 0;
-    unk_0C = unk_00->x;
-    unk_10 = unk_00->y;
-    unk_06 = 0;
-    unk_08 = 1;
-    unk_04 |= 0x200;
+    m_amplitude = amplitude;
+    m_speed = 0;
+    m_phase = 0;
+    m_destX = m_target->x;
+    m_destY = m_target->y;
+    m_frame = 0;
+    m_duration = 1;
+    m_flags |= 0x200;
 }
 
-void CameraController::sub_0200D980()
+void CameraController::StopShake()
 {
-    if (unk_04 & 0x100) {
-        unk_06 = 1;
-    }
-}
-
-void CameraController::sub_0200D994()
-{
-    if (unk_04 & 0x200) {
-        unk_06 = 1;
+    if (m_flags & 0x100) {
+        m_frame = 1;
     }
 }
 
-void CameraController::sub_0200D9A8(fx32 amplitude)
+void CameraController::StopShakeX()
 {
-    if (unk_04 & 0x100) {
-        unk_20 = amplitude;
+    if (m_flags & 0x200) {
+        m_frame = 1;
     }
 }
 
-BOOL CameraController::sub_0200D9B8()
+void CameraController::SetShakeAmplitude(fx32 amplitude)
 {
-    return (unk_04 & 2) ? TRUE : FALSE;
+    if (m_flags & 0x100) {
+        m_amplitude = amplitude;
+    }
+}
+
+BOOL CameraController::IsMoving()
+{
+    return (m_flags & 2) ? TRUE : FALSE;
 }
 
 void CameraController::Update()
 {
-    if (unk_00 == NULL) {
+    if (m_target == NULL) {
         return;
     }
 
-    if (unk_04 & 1) {
-        if (ABS(unk_0C - unk_00->x) < ABS(unk_14) || ABS(unk_10 - unk_00->y) < ABS(unk_18)) {
-            SetPos(unk_0C, unk_10);
-            unk_04 &= ~1;
+    if (m_flags & 1) {
+        if (ABS(m_destX - m_target->x) < ABS(m_stepX) || ABS(m_destY - m_target->y) < ABS(m_stepY)) {
+            SetPos(m_destX, m_destY);
+            m_flags &= ~1;
         } else {
-            Move(unk_14, unk_18);
+            Move(m_stepX, m_stepY);
         }
     }
 
-    if (unk_04 & 2) {
-        if (unk_06 == unk_08) {
-            SetPos(unk_0C, unk_10);
-            unk_04 &= ~2;
+    if (m_flags & 2) {
+        if (m_frame == m_duration) {
+            SetPos(m_destX, m_destY);
+            m_flags &= ~2;
         }
-        if (unk_06 < unk_08) {
-            Move(unk_14, unk_18);
-            unk_06++;
+        if (m_frame < m_duration) {
+            Move(m_stepX, m_stepY);
+            m_frame++;
         }
     }
 
-    if (unk_04 & 4) {
-        if (0xFFFF - unk_1E < unk_1C) {
-            unk_1E = 0;
+    if (m_flags & 4) {
+        if (0xFFFF - m_phase < m_speed) {
+            m_phase = 0;
         } else {
-            SetPos(unk_0C + FX32_MUL(unk_20, FX_CosIdx(unk_1E)), unk_10);
-            unk_1E += unk_1C;
+            SetPos(m_destX + FX32_MUL(m_amplitude, FX_CosIdx(m_phase)), m_destY);
+            m_phase += m_speed;
         }
-        if (0x3FFF - unk_1C < unk_1E && unk_1C + 0x3FFF > unk_1E && unk_06 == unk_08) {
-            SetPos(unk_0C, unk_10);
-            unk_04 &= ~4;
+        if (0x3FFF - m_speed < m_phase && m_speed + 0x3FFF > m_phase && m_frame == m_duration) {
+            SetPos(m_destX, m_destY);
+            m_flags &= ~4;
         }
-        if (unk_06 < unk_08) {
-            unk_06++;
-        }
-    }
-
-    if (unk_04 & 8) {
-        if (unk_06 == unk_08) {
-            SetScale(unk_0C);
-            unk_04 &= ~8;
-        }
-        if (unk_06 < unk_08) {
-            SetScale(unk_24 + unk_20);
-            unk_06++;
+        if (m_frame < m_duration) {
+            m_frame++;
         }
     }
 
-    if (unk_04 & 0x10) {
-        if (0xFFFF - unk_1E < unk_1C) {
-            if (unk_06 == unk_08) {
-                unk_00->rotation = 0;
-                unk_04 &= ~0x10;
+    if (m_flags & 8) {
+        if (m_frame == m_duration) {
+            SetScale(m_destX);
+            m_flags &= ~8;
+        }
+        if (m_frame < m_duration) {
+            SetScale(m_scale + m_amplitude);
+            m_frame++;
+        }
+    }
+
+    if (m_flags & 0x10) {
+        if (0xFFFF - m_phase < m_speed) {
+            if (m_frame == m_duration) {
+                m_target->rotation = 0;
+                m_flags &= ~0x10;
             }
-            unk_1E = 0;
+            m_phase = 0;
         } else {
-            unk_00->rotation = unk_1E;
-            unk_1E += unk_1C;
+            m_target->rotation = m_phase;
+            m_phase += m_speed;
         }
-        if (unk_06 < unk_08) {
-            unk_06++;
+        if (m_frame < m_duration) {
+            m_frame++;
         }
     }
 
-    if (unk_04 & 0x20) {
-        if (0xFFFF - unk_1E < unk_1C) {
-            if (unk_06 == unk_08) {
-                SetScale(unk_0C);
-                unk_00->rotation = 0;
-                unk_04 &= ~0x20;
+    if (m_flags & 0x20) {
+        if (0xFFFF - m_phase < m_speed) {
+            if (m_frame == m_duration) {
+                SetScale(m_destX);
+                m_target->rotation = 0;
+                m_flags &= ~0x20;
             }
-            unk_1E = 0;
+            m_phase = 0;
         } else {
-            unk_00->rotation = unk_1E;
-            unk_1E += unk_1C;
+            m_target->rotation = m_phase;
+            m_phase += m_speed;
         }
-        if (unk_06 < unk_08) {
-            SetScale(unk_24 + unk_20);
-            unk_06++;
-        }
-    }
-
-    if (unk_04 & 0x40) {
-        if (unk_06 == unk_08) {
-            SetPos(unk_0C, unk_10);
-            unk_04 &= ~0x40;
-        }
-        if (unk_06 < unk_08) {
-            SetPos(unk_0C + FX32_MUL(unk_20, DAT_020843f8[unk_1E]), unk_10 + FX32_MUL(unk_20, DAT_02084410[unk_1E]));
-            unk_06++;
-        }
-        if (unk_1C < 3) {
-            unk_1C++;
-        }
-        if (unk_1C == 3) {
-            if (unk_1E < 6) {
-                unk_1E++;
-            }
-            if (unk_1E == 6) {
-                unk_1E = 0;
-            }
-            unk_1C = 0;
+        if (m_frame < m_duration) {
+            SetScale(m_scale + m_amplitude);
+            m_frame++;
         }
     }
 
-    if (unk_04 & 0x80) {
-        if (0xFFFF - unk_1E < unk_1C) {
-            unk_1E = 0;
+    if (m_flags & 0x40) {
+        if (m_frame == m_duration) {
+            SetPos(m_destX, m_destY);
+            m_flags &= ~0x40;
+        }
+        if (m_frame < m_duration) {
+            SetPos(m_destX + FX32_MUL(m_amplitude, DAT_020843f8[m_phase]), m_destY + FX32_MUL(m_amplitude, DAT_02084410[m_phase]));
+            m_frame++;
+        }
+        if (m_speed < 3) {
+            m_speed++;
+        }
+        if (m_speed == 3) {
+            if (m_phase < 6) {
+                m_phase++;
+            }
+            if (m_phase == 6) {
+                m_phase = 0;
+            }
+            m_speed = 0;
+        }
+    }
+
+    if (m_flags & 0x80) {
+        if (0xFFFF - m_phase < m_speed) {
+            m_phase = 0;
         } else {
-            SetPos(unk_0C + FX32_MUL(unk_20, FX_CosIdx(unk_1E)), unk_10);
-            unk_1E += unk_1C;
+            SetPos(m_destX + FX32_MUL(m_amplitude, FX_CosIdx(m_phase)), m_destY);
+            m_phase += m_speed;
         }
-        if (0x3FFF - unk_1C < unk_1E && unk_1C + 0x3FFF > unk_1E && unk_06 == unk_08) {
-            SetPos(unk_0C, unk_10);
-            unk_04 &= ~0x80;
-        }
-    }
-
-    if (unk_04 & 0x100) {
-        if (unk_06 == unk_08) {
-            SetPos(unk_0C, unk_10);
-            unk_04 &= ~0x100;
-        }
-        if (unk_06 < unk_08) {
-            SetPos(unk_0C + FX32_MUL(unk_20, DAT_020843f8[unk_1E]), unk_10 + FX32_MUL(unk_20, DAT_02084410[unk_1E]));
-        }
-        if (unk_1C < 3) {
-            unk_1C++;
-        }
-        if (unk_1C == 3) {
-            if (unk_1E < 6) {
-                unk_1E++;
-            }
-            if (unk_1E == 6) {
-                unk_1E = 0;
-            }
-            unk_1C = 0;
+        if (0x3FFF - m_speed < m_phase && m_speed + 0x3FFF > m_phase && m_frame == m_duration) {
+            SetPos(m_destX, m_destY);
+            m_flags &= ~0x80;
         }
     }
 
-    if (unk_04 & 0x200) {
-        if (unk_06 == unk_08) {
-            SetPos(unk_0C, unk_10);
-            unk_04 &= ~0x200;
+    if (m_flags & 0x100) {
+        if (m_frame == m_duration) {
+            SetPos(m_destX, m_destY);
+            m_flags &= ~0x100;
         }
-        if (unk_06 < unk_08) {
+        if (m_frame < m_duration) {
+            SetPos(m_destX + FX32_MUL(m_amplitude, DAT_020843f8[m_phase]), m_destY + FX32_MUL(m_amplitude, DAT_02084410[m_phase]));
+        }
+        if (m_speed < 3) {
+            m_speed++;
+        }
+        if (m_speed == 3) {
+            if (m_phase < 6) {
+                m_phase++;
+            }
+            if (m_phase == 6) {
+                m_phase = 0;
+            }
+            m_speed = 0;
+        }
+    }
+
+    if (m_flags & 0x200) {
+        if (m_frame == m_duration) {
+            SetPos(m_destX, m_destY);
+            m_flags &= ~0x200;
+        }
+        if (m_frame < m_duration) {
             fx32 dir = FX32_ONE;
-            if (unk_1E != 0) {
+            if (m_phase != 0) {
                 dir -= 2 * FX32_ONE;
             }
-            SetPos(unk_0C + FX32_MUL(unk_20, dir), unk_10);
+            SetPos(m_destX + FX32_MUL(m_amplitude, dir), m_destY);
         }
-        if (unk_1C < 3) {
-            unk_1C++;
+        if (m_speed < 3) {
+            m_speed++;
         }
-        if (unk_1C == 3) {
-            unk_1E = (unk_1E == 0) ? 1 : 0;
-            unk_1C = 0;
+        if (m_speed == 3) {
+            m_phase = (m_phase == 0) ? 1 : 0;
+            m_speed = 0;
         }
     }
 
-    G3_Scale(unk_24, unk_24, unk_24);
+    G3_Scale(m_scale, m_scale, m_scale);
 }
 
 BOOL CameraController::IsBusy()
 {
-    return unk_04 != 0 ? TRUE : FALSE;
+    return m_flags != 0 ? TRUE : FALSE;
 }
 
 void CameraController::SetTarget(UnkStruct_0200D3F8_Target *target)
 {
-    unk_00 = target;
+    m_target = target;
 }

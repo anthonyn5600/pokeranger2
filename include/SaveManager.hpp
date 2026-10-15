@@ -37,12 +37,12 @@ public:
     u32 GetSlotOffset(int slot);
     u32 GetRegionSize(int list);
     void SelectList(u16 list);
-    BOOL sub_02028220(u16 list);
+    BOOL Save(u16 list);
     BOOL Load(u16 list);
     BOOL sub_02028360(u16 list);
     BOOL Clear(u16 list);
     BOOL sub_02028408(u16 list);
-    u32 sub_0202841C();
+    u32 Update();
     u8 UpdateWrite(BOOL clear);
     u8 UpdateLoad();
     u8 UpdateClear();
@@ -52,7 +52,7 @@ public:
     u16 Checksum(const void *data, int len);
     BOOL CheckSum(const void *data, int len, u16 sum);
     u8 UpdateWriteSteps();
-    BOOL sub_020292CC(u16 list);
+    BOOL StartWriteSteps(u16 list);
     BOOL FinishWriteSteps();
 
     inline void SetState(int state, u8 error)

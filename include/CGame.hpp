@@ -66,9 +66,9 @@ public:
     void ApplyTextSettings();
     void UpdateBarScroll();
     void InitVramTransfer();
-    void sub_02010324();
-    BOOL sub_02010378();
-    void sub_02010400();
+    void SaveBgmState();
+    BOOL RestoreBgmState();
+    void ClearBgmState();
     void sub_02010448();
     void FreeTextWindows();
 
@@ -93,7 +93,7 @@ public:
     void *m_plttVramWork;
     NNSGfdVramTransferTask m_vramTransferTasks[0x80];
     PokeIdTable *unk_1434;
-    DiskHPTable *unk_1438;
+    DiskHPTable *m_diskHPTable;
     BattleStartParam *unk_143C;
     UnkClass_02010C3C *unk_1440;
     CBattleResultParameter *unk_1444;
@@ -109,14 +109,14 @@ public:
     SaveData *unk_14A4;
     u32 unk_14A8;
     FontSet *unk_14AC;
-    NameTables *unk_14B0;
+    NameTables *m_nameTables;
     void *unk_14B4;
-    CameraController *unk_14B8;
-    BrightnessFade *unk_14BC;
-    BrightnessFade *unk_14C0;
-    WindowWipe *unk_14C4;
-    WindowWipe *unk_14C8;
-    FieldData *unk_14CC;
+    CameraController *m_cameraController;
+    BrightnessFade *m_mainFade;
+    BrightnessFade *m_subFade;
+    WindowWipe *m_mainWipe;
+    WindowWipe *m_subWipe;
+    FieldData *m_fieldData;
     CGame_020100E4_arg0 m_vblankCallbacks[0x20];
     void *m_vblankArgs[0x20];
     s32 unk_15D0;

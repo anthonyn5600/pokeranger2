@@ -4,8 +4,8 @@
 #include <nitro.h>
 
 #include "CActor.hpp"
+#include "CellCharBuffer.hpp"
 #include "Collision.hpp"
-#include "UnkClass_02007770.hpp"
 #include "common.hpp"
 #include "field/CFieldDrawActorData.hpp"
 
@@ -19,12 +19,12 @@ public:
     virtual void vfunc_10(Camera2D *camera);
 
     void Load(int type, u16 id, int form, u32 mask, BOOL useTransfer);
-    void sub_0203E10C(int type, u16 id, int form, u32 mask, BOOL useTransfer);
+    void LoadOwnData(int type, u16 id, int form, u32 mask, BOOL useTransfer);
     void Release();
     u32 Render(Camera2D *camera, fx32 z);
     void sub_0203EE3C();
-    void sub_0203EEA8(u16 arg0, u8 alpha, int duration);
-    void sub_0203EEEC(int duration);
+    void StartColorBlink(u16 arg0, u8 alpha, int duration);
+    void StopBlink(int duration);
 
     inline bool IsAnimChanged() const
     {
@@ -33,7 +33,7 @@ public:
 
     inline BOOL IsBlinking()
     {
-        return (unk_1A8 & 2) ? TRUE : FALSE;
+        return (m_effectFlags & 2) ? TRUE : FALSE;
     }
 
     inline void sub_reset()
@@ -60,19 +60,19 @@ public:
         unk_1E1 = 0;
     }
 
-    inline BOOL HasShadowOffset()
+    inline BOOL IsShaking()
     {
-        return (unk_1A8 & 4) ? TRUE : FALSE;
+        return (m_effectFlags & 4) ? TRUE : FALSE;
     }
 
-    inline s16 GetShadowOffsetX()
+    inline s16 GetShakeX()
     {
-        return HasShadowOffset() ? unk_1D0 : 0;
+        return IsShaking() ? m_shakeX : 0;
     }
 
-    inline s16 GetShadowOffsetY()
+    inline s16 GetShakeY()
     {
-        return HasShadowOffset() ? unk_1D2 : 0;
+        return IsShaking() ? m_shakeY : 0;
     }
 
     inline void SetClipping(s16 x1, s16 x2, s16 y1, s16 y2)
@@ -97,48 +97,48 @@ public:
 
     inline void StartOutline(int time)
     {
-        unk_1A8 |= 1;
+        m_effectFlags |= 1;
         m_outlineTime = time;
         m_outlinePhase = 0;
     }
 
     inline void StartBlink()
     {
-        unk_1A8 |= 2;
-        unk_1B8 = 0x1F;
-        unk_1C6 = 0x1F;
+        m_effectFlags |= 2;
+        m_blinkColor = 0x1F;
+        m_blinkAlpha = 0x1F;
     }
 
 public:
-    CFieldDrawActorData *unk_184;
+    CFieldDrawActorData *m_actorData;
     NNSGfdTexKey unk_188[2];
     NNSGfdPlttKey unk_190;
-    UnkClass_02007770 *unk_194;
-    int unk_198;
-    fx32 unk_19C;
+    CellCharBuffer *m_cellBuffers;
+    int m_cellBufferCount;
+    fx32 m_animSpeed;
     int unk_1A0;
     int unk_1A4;
-    u32 unk_1A8;
+    u32 m_effectFlags;
     u16 m_outlineColor;
     u8 unk_1AE[0x2];
     int m_outlinePhase;
     int m_outlineTime;
-    u16 unk_1B8;
+    u16 m_blinkColor;
     u8 unk_1BA[0x2];
-    int unk_1BC;
-    int unk_1C0;
+    int m_blinkFrame;
+    int m_blinkDuration;
     u8 m_outlineWidth;
     u8 m_outlineAlpha;
-    u8 unk_1C6;
-    u8 unk_1C7;
-    u8 unk_1C8;
+    u8 m_blinkAlpha;
+    u8 m_blinkFrom;
+    u8 m_blinkTo;
     u8 unk_1C9;
     u16 unk_1CA;
-    int unk_1CC;
-    s16 unk_1D0;
-    s16 unk_1D2;
-    u8 unk_1D4;
-    u8 unk_1D5;
+    int m_shakeTime;
+    s16 m_shakeX;
+    s16 m_shakeY;
+    u8 m_shakeRangeX;
+    u8 m_shakeRangeY;
     u8 unk_1D6[0x2];
     int unk_1D8;
     int unk_1DC;

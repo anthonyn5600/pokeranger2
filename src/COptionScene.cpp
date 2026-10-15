@@ -36,7 +36,7 @@ COptionScene::COptionScene(CGame *game)
 
 COptionScene::~COptionScene()
 {
-    m_game->m_textboxData->sub_02009FB0(1, 1);
+    m_game->m_textboxData->CloseAndClear(1, 1);
     m_game->m_textboxData->Reset();
 
     if (m_messages != NULL) {
@@ -98,7 +98,7 @@ void COptionScene::func5()
 
 void COptionScene::func6()
 {
-    m_game->m_textboxData->Init(m_game->unk_0014, m_game->touchPanel, &m_game->unk_14AC->unk_0C, m_game->unk_14B0, m_game->unk_0024, NULL, 0x10, 0x4000, 0);
+    m_game->m_textboxData->Init(m_game->unk_0014, m_game->touchPanel, &m_game->unk_14AC->unk_0C, m_game->m_nameTables, m_game->unk_0024, NULL, 0x10, 0x4000, 0);
     m_frame = GlobalValues_Get((GlobalValues *)m_game->unk_14B4, 1);
     m_textSpeed = GlobalValues_Get((GlobalValues *)m_game->unk_14B4, 2);
 
@@ -238,8 +238,8 @@ void COptionScene::ov6_0211D6B4()
     m_game->unk_1494->Print(0, params[0][4], params[0][5], params[0][6], m_messages->unk_08[49].unk_04, TRUE, 0);
     m_game->unk_1494->Print(1, params[1][4], params[1][5], params[1][6], m_messages->unk_08[50].unk_04, TRUE, 0);
     m_game->unk_1494->Print(2, params[2][4], params[2][5], params[2][6], m_messages->unk_08[51].unk_04, TRUE, 0);
-    m_game->unk_14BC->Start(3, 30);
-    m_game->unk_14C0->Start(3, 30);
+    m_game->m_mainFade->Start(3, 30);
+    m_game->m_subFade->Start(3, 30);
 }
 
 void COptionScene::func7()
@@ -259,8 +259,8 @@ u32 COptionScene::func0()
     } else {
         PadInput *pad = m_game->unk_0014;
         if (m_backButton->GetTouchTrigger() || (u16)(pad->unk_0002 & 2)) {
-            m_game->unk_14BC->Start(4, 30);
-            m_game->unk_14C0->Start(4, 30);
+            m_game->m_mainFade->Start(4, 30);
+            m_game->m_subFade->Start(4, 30);
             m_fadeTimer = 30;
             m_game->m_audioEngine->PlaySe(0x103);
         } else {
@@ -307,7 +307,7 @@ u32 COptionScene::func0()
                         m_buttons[11]->SetPos(m_buttons[i]->unk_0C, m_buttons[i]->unk_0E);
                         GlobalValues_Set((GlobalValues *)m_game->unk_14B4, 1, m_frame);
                         m_game->m_textboxData->unk_070 = m_frame;
-                        m_game->m_textboxData->sub_0200978C(0);
+                        m_game->m_textboxData->LoadWindowColor(0);
                         m_game->m_audioEngine->PlaySe(0xFA);
                     }
                     return -1;

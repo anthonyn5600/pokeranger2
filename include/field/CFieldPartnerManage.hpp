@@ -90,7 +90,7 @@ public:
         }
         for (int i = 0; i < m_count; i++) {
             CFieldPartner *partner = (CFieldPartner *)Get(i);
-            if (partner != NULL && id == partner->unk_58 && kind == partner->unk_1FC) {
+            if (partner != NULL && id == partner->m_id && kind == partner->unk_1FC) {
                 return partner;
             }
         }

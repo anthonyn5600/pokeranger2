@@ -118,7 +118,7 @@ int CEncycItemDescriptionScreen::func4()
     int ret = 1;
     switch (unk_04) {
     case 0:
-        if (!game->unk_14BC->IsActive() && !game->unk_14C0->IsActive()) {
+        if (!game->m_mainFade->IsActive() && !game->m_subFade->IsActive()) {
             unk_04 = 1;
             unk_0C = 0;
         }
@@ -126,14 +126,14 @@ int CEncycItemDescriptionScreen::func4()
     case 1:
         switch (unk_0C) {
         case 1:
-            if (!game->unk_14BC->IsActive() && !game->unk_14C0->IsActive()) {
+            if (!game->m_mainFade->IsActive() && !game->m_subFade->IsActive()) {
                 ov22_0211EF04(unk_10);
                 unk_0C = 2;
-                game->unk_14BC->Start(3, 15);
+                game->m_mainFade->Start(3, 15);
             }
             break;
         case 2:
-            if (!game->unk_14BC->IsActive() && !game->unk_14C0->IsActive()) {
+            if (!game->m_mainFade->IsActive() && !game->m_subFade->IsActive()) {
                 unk_0C = 0;
             }
             break;
@@ -144,7 +144,7 @@ int CEncycItemDescriptionScreen::func4()
             unk_20[i].ov22_0211F1D0();
         }
         if (unk_14) {
-            game->unk_14BC->Start(4, 15);
+            game->m_mainFade->Start(4, 15);
             unk_0C = 1;
             unk_14 = FALSE;
         }
@@ -158,7 +158,7 @@ int CEncycItemDescriptionScreen::func4()
         }
         break;
     case 2:
-        if (!game->unk_14BC->IsActive() && !game->unk_14C0->IsActive()) {
+        if (!game->m_mainFade->IsActive() && !game->m_subFade->IsActive()) {
             ret = 0;
         }
         break;
@@ -185,8 +185,8 @@ void CEncycItemDescriptionScreen::func6()
     unk_04 = 2;
     unk_0C = 0;
     game->m_audioEngine->PlaySe(0x103);
-    game->unk_14BC->Start(4, 15);
-    game->unk_14C0->Start(4, 15);
+    game->m_mainFade->Start(4, 15);
+    game->m_subFade->Start(4, 15);
 }
 
 void CEncycItemDescriptionScreen::ov22_0211EA78(int page)

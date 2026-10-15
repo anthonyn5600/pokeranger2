@@ -29,11 +29,11 @@ FieldEnemyData *FieldData_GetEnemy(FieldData *obj, int kind);
 
 SaveData MAIN_BSS_020B26A0;
 
-static inline void CopyEntry(UnkStruct_020155FC *dst, UnkStruct_020155FC *src)
+static inline void CopyEntry(PartyEntry *dst, PartyEntry *src)
 {
     *dst = *src;
-    dst->unk_08 = 0;
-    dst->unk_08 |= src->unk_08;
+    dst->m_flags = 0;
+    dst->m_flags |= src->m_flags;
 }
 
 static inline int GetIdKind(u32 id)
@@ -68,37 +68,37 @@ static inline int GetEntryGroup(int area)
     return group;
 }
 
-extern "C" void SaveEntry_Clear(UnkStruct_020155FC *entry)
+extern "C" void SaveEntry_Clear(PartyEntry *entry)
 {
-    entry->unk_08 = 0;
-    entry->unk_00 = 0;
-    entry->unk_02 = 0;
-    entry->unk_04 = 0;
+    entry->m_flags = 0;
+    entry->m_kind = 0;
+    entry->m_mapId = 0;
+    entry->m_index = 0;
     Point2D pos = { 0, 0 };
-    entry->unk_0C.x = pos.x;
-    entry->unk_0C.y = pos.y;
+    entry->m_pos.x = pos.x;
+    entry->m_pos.y = pos.y;
     entry->unk_14 = 0;
 }
 
-UnkStruct_020155FC::UnkStruct_020155FC()
+PartyEntry::PartyEntry()
 {
     SaveEntry_Clear(this);
 }
 
-UnkStruct_020155FC::~UnkStruct_020155FC()
+PartyEntry::~PartyEntry()
 {
 }
 
-UnkStruct_020B26A0_8AD4::UnkStruct_020B26A0_8AD4()
+PartnerSlot::PartnerSlot()
 {
     SavePartner_Clear(this);
 }
 
-UnkStruct_020B26A0_8AD4::~UnkStruct_020B26A0_8AD4()
+PartnerSlot::~PartnerSlot()
 {
 }
 
-extern "C" void SavePartner_Clear(UnkStruct_020B26A0_8AD4 *partner)
+extern "C" void SavePartner_Clear(PartnerSlot *partner)
 {
     partner->unk_00 = 0;
     partner->unk_04 = 0;
@@ -110,7 +110,7 @@ extern "C" void SavePartner_Clear(UnkStruct_020B26A0_8AD4 *partner)
     SavePartner_ClearName(partner);
 }
 
-extern "C" void SavePartner_SetName(UnkStruct_020B26A0_8AD4 *partner, const char *name)
+extern "C" void SavePartner_SetName(PartnerSlot *partner, const char *name)
 {
     if (name != NULL && name[0] != '\0') {
         strcpy(partner->unk_14, name);
@@ -119,7 +119,7 @@ extern "C" void SavePartner_SetName(UnkStruct_020B26A0_8AD4 *partner, const char
     }
 }
 
-extern "C" void SavePartner_ClearName(UnkStruct_020B26A0_8AD4 *partner)
+extern "C" void SavePartner_ClearName(PartnerSlot *partner)
 {
     partner->unk_14[0] = '\0';
 }
@@ -138,13 +138,13 @@ extern "C" void SaveData_Init(SaveData *save)
     save->m_rangerClassGrade &= 0xF0;
     save->m_rangerClassGrade &= 0x0F;
     save->unk_8802 = 0;
-    save->unk_7C38 = 0;
+    save->m_selectedPartyId = 0;
     SaveData_SetStylerLevel(save, 1);
     save->m_energy = save->m_maxEnergy;
 
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 10; j++) {
-            SaveEntry_Clear(&save->unk_8804[i][j]);
+            SaveEntry_Clear(&save->m_party[i][j]);
         }
     }
 
@@ -154,19 +154,19 @@ extern "C" void SaveData_Init(SaveData *save)
 
     save->unk_8B68 = 0;
     save->unk_8B6C = 0;
-    save->unk_8B70 = 1;
+    save->m_subScreenShowsMap = 1;
     save->unk_8B74 = 0;
-    save->unk_87C8 = 0;
+    save->m_partnerFlags = 0;
     save->unk_81AC = 0;
     save->unk_8BC0 = 0;
-    sub_02017E44(save);
+    SaveData_ReleaseAllActorData(save);
     SaveData_ReleasePlayerActorData(save);
 }
 
 SaveData::SaveData()
 {
     SaveData_Init(this);
-    unk_59A00 = 0;
+    m_reloadPartyActorData = 0;
     m_lastDate.day = 0;
     m_lastDate.month = 0;
 }
@@ -175,12 +175,12 @@ SaveData::~SaveData()
 {
 }
 
-extern "C" BOOL sub_02015434(SaveData *save, int mapId, int idx)
+extern "C" BOOL SaveData_IsInParty(SaveData *save, int mapId, int idx)
 {
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 10; j++) {
-            UnkStruct_020155FC *entry = &save->unk_8804[i][j];
-            if ((entry->unk_08 & 1) && mapId == entry->unk_02 && idx == entry->unk_04) {
+            PartyEntry *entry = &save->m_party[i][j];
+            if ((entry->m_flags & 1) && mapId == entry->m_mapId && idx == entry->m_index) {
                 return TRUE;
             }
         }
@@ -188,7 +188,7 @@ extern "C" BOOL sub_02015434(SaveData *save, int mapId, int idx)
     return FALSE;
 }
 
-extern "C" UnkStruct_020B26A0_8AD4 *SaveData_FindPartner(SaveData *save, u32 id)
+extern "C" PartnerSlot *SaveData_FindPartner(SaveData *save, u32 id)
 {
     u32 kind = GetIdKind(id);
     if (kind == 5 || kind == 2) {
@@ -202,7 +202,7 @@ extern "C" UnkStruct_020B26A0_8AD4 *SaveData_FindPartner(SaveData *save, u32 id)
     return NULL;
 }
 
-extern "C" UnkStruct_020155FC *SaveData_FindEntry(SaveData *save, u32 id)
+extern "C" PartyEntry *SaveData_FindEntry(SaveData *save, u32 id)
 {
     u32 kind = GetIdKind(id);
     if (kind == 6 || kind == 1) {
@@ -210,9 +210,9 @@ extern "C" UnkStruct_020155FC *SaveData_FindEntry(SaveData *save, u32 id)
         for (int i = 0; i < 3; i++) {
             int g = (group + i) & 3;
             for (int j = 0; j < 10; j++) {
-                if ((save->unk_8804[g][j].unk_08 & 1) && save->unk_8804[g][j].unk_02 == GetIdMap(id)
-                    && save->unk_8804[g][j].unk_04 == GetIdIndex(id)) {
-                    return &save->unk_8804[g][j];
+                if ((save->m_party[g][j].m_flags & 1) && save->m_party[g][j].m_mapId == GetIdMap(id)
+                    && save->m_party[g][j].m_index == GetIdIndex(id)) {
+                    return &save->m_party[g][j];
                 }
             }
         }
@@ -220,34 +220,34 @@ extern "C" UnkStruct_020155FC *SaveData_FindEntry(SaveData *save, u32 id)
     return NULL;
 }
 
-extern "C" UnkStruct_020155FC *SaveData_GetEntry(SaveData *save, int idx)
+extern "C" PartyEntry *SaveData_GetEntry(SaveData *save, int idx)
 {
     if (idx < 10) {
-        return &save->unk_8804[GetEntryGroup(save->m_areaType)][idx];
+        return &save->m_party[GetEntryGroup(save->m_areaType)][idx];
     }
     return NULL;
 }
 
 u8 DAT_0208b664[11] = { 3, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7 };
 
-extern "C" int sub_02015658(SaveData *save, u32 level)
+extern "C" int SaveData_GetPartyCapacity(SaveData *save, u32 level)
 {
     if (level >= 11) {
         level = save->m_rangerClassGrade & 0xF;
     }
     u8 value = DAT_0208b664[level];
-    if (sub_0201621C(save, -1)) {
+    if (SaveData_HasPartnerInParty(save, -1)) {
         value++;
     }
     return value;
 }
 
-extern "C" BOOL sub_02015690(SaveData *save, int idx, int mapId)
+extern "C" BOOL SaveData_IsEventRectEnabled(SaveData *save, int idx, int mapId)
 {
     if (mapId < 0) {
         mapId = save->m_mapId;
     }
-    switch (save->GetUnk0030State(mapId, idx)) {
+    switch (save->GetEventRectState(mapId, idx)) {
     case 0:
     case 1:
     case 2:
@@ -259,32 +259,32 @@ extern "C" BOOL sub_02015690(SaveData *save, int idx, int mapId)
     return FALSE;
 }
 
-static inline void SetUnk0030State(SaveData *save, int mapId, int i, u8 state)
+static inline void SetEventRectState(SaveData *save, int mapId, int i, u8 state)
 {
     if (mapId < 0) {
         mapId = save->m_mapId;
     }
     if (mapId < MAP_COUNT && i < 48) {
         int shift = (i & 7) * 4;
-        save->unk_0030[mapId][i / 8] &= ~(0xF << shift);
-        save->unk_0030[mapId][i / 8] |= (state & 0xF) << shift;
+        save->m_eventRectStates[mapId][i / 8] &= ~(0xF << shift);
+        save->m_eventRectStates[mapId][i / 8] |= (state & 0xF) << shift;
     }
 }
 
-extern "C" void sub_02015714(SaveData *save, int idx, int mapId)
+extern "C" void SaveData_EnableEventRect(SaveData *save, int idx, int mapId)
 {
     if (mapId < 0) {
         mapId = save->m_mapId;
     }
-    SetUnk0030State(save, mapId, idx, 3);
+    SetEventRectState(save, mapId, idx, 3);
 }
 
-extern "C" void sub_0201577C(SaveData *save, int idx, int mapId)
+extern "C" void SaveData_DisableEventRect(SaveData *save, int idx, int mapId)
 {
     if (mapId < 0) {
         mapId = save->m_mapId;
     }
-    SetUnk0030State(save, mapId, idx, 1);
+    SetEventRectState(save, mapId, idx, 1);
 }
 
 static inline u32 GetActorState(SaveData *save, int kind, int mapId, int i)
@@ -304,7 +304,7 @@ static inline void SetActorState(SaveData *save, int kind, int mapId, int i, u8 
     }
 }
 
-extern "C" BOOL sub_020157E4(SaveData *save, u32 id)
+extern "C" BOOL SaveData_IsActorEnabled(SaveData *save, u32 id)
 {
     int kind = GetIdKind(id);
     switch (kind) {
@@ -327,7 +327,7 @@ extern "C" BOOL sub_020157E4(SaveData *save, u32 id)
     return FALSE;
 }
 
-extern "C" void sub_020158BC(SaveData *save, u32 id)
+extern "C" void SaveData_EnableActor(SaveData *save, u32 id)
 {
     int kind = GetIdKind(id);
     switch (kind) {
@@ -341,7 +341,7 @@ extern "C" void sub_020158BC(SaveData *save, u32 id)
     }
 }
 
-extern "C" void sub_0201597C(SaveData *save, u32 id)
+extern "C" void SaveData_DisableActor(SaveData *save, u32 id)
 {
     int kind = GetIdKind(id);
     switch (kind) {
@@ -355,17 +355,17 @@ extern "C" void sub_0201597C(SaveData *save, u32 id)
     }
 }
 
-extern "C" void sub_02015A3C(SaveData *save, int idx, int mapId)
+extern "C" void SaveData_EnableEnemy(SaveData *save, int idx, int mapId)
 {
     save->SetEnemyState(mapId, idx, 3);
 }
 
-extern "C" void sub_02015AAC(SaveData *save, int idx, int mapId)
+extern "C" void SaveData_DisableEnemy(SaveData *save, int idx, int mapId)
 {
     save->SetEnemyState(mapId, idx, 1);
 }
 
-extern "C" BOOL sub_02015B1C(SaveData *save, int idx, int mapId)
+extern "C" BOOL SaveData_IsNpcEnabled(SaveData *save, int idx, int mapId)
 {
     switch (save->GetNpcState(mapId, idx)) {
     case 3:
@@ -375,17 +375,17 @@ extern "C" BOOL sub_02015B1C(SaveData *save, int idx, int mapId)
     return FALSE;
 }
 
-extern "C" void sub_02015B98(SaveData *save, int idx, int mapId)
+extern "C" void SaveData_EnableNpc(SaveData *save, int idx, int mapId)
 {
     save->SetNpcState(mapId, idx, 3);
 }
 
-extern "C" void sub_02015C08(SaveData *save, int idx, int mapId)
+extern "C" void SaveData_DisableNpc(SaveData *save, int idx, int mapId)
 {
     save->SetNpcState(mapId, idx, 1);
 }
 
-extern "C" BOOL sub_02015C78(SaveData *save, u32 id, int kind, int area)
+extern "C" BOOL SaveData_AddToParty(SaveData *save, u32 id, int kind, int area)
 {
     if ((((int)id >> 24) & 0xFF) != 1) {
         return FALSE;
@@ -395,24 +395,24 @@ extern "C" BOOL sub_02015C78(SaveData *save, u32 id, int kind, int area)
     }
     int group = GetEntryGroup(area);
 
-    UnkStruct_020155FC *entry = save->unk_8804[group];
+    PartyEntry *entry = save->m_party[group];
     for (int i = 0; i < 10; i++, entry++) {
-        if (!(entry->unk_08 & 1)) {
+        if (!(entry->m_flags & 1)) {
             SaveEntry_Clear(entry);
-            entry->unk_08 |= 1;
-            entry->unk_00 = kind;
-            entry->unk_02 = ((int)id >> 12) & 0xFFF;
-            entry->unk_04 = id & 0xFFF;
-            entry->unk_16 = save->m_layer;
-            if (sub_02034F9C((u16)kind)) {
-                entry->unk_08 |= 6;
+            entry->m_flags |= 1;
+            entry->m_kind = kind;
+            entry->m_mapId = ((int)id >> 12) & 0xFFF;
+            entry->m_index = id & 0xFFF;
+            entry->m_layer = save->m_layer;
+            if (HasPartnerIndex((u16)kind)) {
+                entry->m_flags |= 6;
                 if (i > 0) {
-                    UnkStruct_020155FC tmp[9];
-                    MI_CpuCopy8(save->unk_8804[group], tmp, i * sizeof(UnkStruct_020155FC));
-                    *(UnkStruct_020155FC_Data *)&save->unk_8804[group][0] = *(UnkStruct_020155FC_Data *)entry;
-                    save->unk_8804[group][0].unk_08 = 0;
-                    save->unk_8804[group][0].unk_08 |= ((UnkStruct_020155FC_Data *)entry)->unk_08;
-                    MI_CpuCopy8(tmp, &save->unk_8804[group][1], i * sizeof(UnkStruct_020155FC));
+                    PartyEntry tmp[9];
+                    MI_CpuCopy8(save->m_party[group], tmp, i * sizeof(PartyEntry));
+                    *(PartyEntryData *)&save->m_party[group][0] = *(PartyEntryData *)entry;
+                    save->m_party[group][0].m_flags = 0;
+                    save->m_party[group][0].m_flags |= ((PartyEntryData *)entry)->m_flags;
+                    MI_CpuCopy8(tmp, &save->m_party[group][1], i * sizeof(PartyEntry));
                 }
             }
             return TRUE;
@@ -421,12 +421,12 @@ extern "C" BOOL sub_02015C78(SaveData *save, u32 id, int kind, int area)
     return FALSE;
 }
 
-extern "C" BOOL sub_02015E54(SaveData *save, u32 id)
+extern "C" BOOL SaveData_RemoveFromParty(SaveData *save, u32 id)
 {
     u32 kind = GetIdKind(id);
     if (kind == 5 || kind == 2) {
         for (int i = 0; i < 2; i++) {
-            UnkStruct_020B26A0_8AD4 *partner = save->GetPartner(i);
+            PartnerSlot *partner = save->GetPartner(i);
             if (partner != NULL && partner->unk_00 != 0 && id == partner->unk_04) {
                 partner->unk_00 = 0;
             }
@@ -436,7 +436,7 @@ extern "C" BOOL sub_02015E54(SaveData *save, u32 id)
         int index = -1;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 10; j++) {
-                if (save->unk_8804[i][j].unk_02 == GetIdMap(id) && save->unk_8804[i][j].unk_04 == GetIdIndex(id)) {
+                if (save->m_party[i][j].m_mapId == GetIdMap(id) && save->m_party[i][j].m_index == GetIdIndex(id)) {
                     group = i;
                     index = j;
                     break;
@@ -447,13 +447,13 @@ extern "C" BOOL sub_02015E54(SaveData *save, u32 id)
             }
         }
         if (index == 9) {
-            SaveEntry_Clear(&save->unk_8804[group][9]);
+            SaveEntry_Clear(&save->m_party[group][9]);
         } else if (index >= 0 && index < 9) {
             for (; index < 9; index++) {
-                UnkStruct_020155FC *dst = &save->unk_8804[group][index];
-                UnkStruct_020155FC *src = &save->unk_8804[group][index + 1];
+                PartyEntry *dst = &save->m_party[group][index];
+                PartyEntry *src = &save->m_party[group][index + 1];
                 SaveEntry_Clear(dst);
-                if (src->unk_08 & 1) {
+                if (src->m_flags & 1) {
                     CopyEntry(dst, src);
                 }
                 SaveEntry_Clear(src);
@@ -480,7 +480,7 @@ extern "C" void SaveData_SetStylerLevel(SaveData *save, u32 arg1)
         return;
     }
     save->m_stylerLevel = arg1;
-    save->m_maxEnergy = CGame::GetInstance() == NULL ? 0 : sub_02010E78(CGame::GetInstance()->unk_1438, arg1);
+    save->m_maxEnergy = CGame::GetInstance() == NULL ? 0 : DiskHPTable_GetMaxEnergy(CGame::GetInstance()->m_diskHPTable, arg1);
     int level = SaveData_GetPartsLevel(save, STYLER_PART_ENEPLS);
     if (level == 1) {
         save->m_maxEnergy += 5;
@@ -489,24 +489,24 @@ extern "C" void SaveData_SetStylerLevel(SaveData *save, u32 arg1)
     }
 }
 
-extern "C" int sub_02016138(SaveData *save, int group)
+extern "C" int SaveData_CountParty(SaveData *save, int group)
 {
     if (group < 0 || group >= 3) {
         group = GetEntryGroup(save->m_areaType);
     }
     int count = 0;
     for (int i = 0; i < 10; i++) {
-        if (save->unk_8804[group][i].unk_08 & 1) {
+        if (save->m_party[group][i].m_flags & 1) {
             count++;
         }
     }
     return count;
 }
 
-extern "C" int sub_020161AC(SaveData *save, u32 level, int group)
+extern "C" int SaveData_GetPartyCapacityExceptPartner(SaveData *save, u32 level, int group)
 {
-    int value = sub_02015658(save, level);
-    if (sub_0201621C(save, group)) {
+    int value = SaveData_GetPartyCapacity(save, level);
+    if (SaveData_HasPartnerInParty(save, group)) {
         value--;
     }
     if (value < 0) {
@@ -515,10 +515,10 @@ extern "C" int sub_020161AC(SaveData *save, u32 level, int group)
     return value;
 }
 
-extern "C" int sub_020161E4(SaveData *save, int group)
+extern "C" int SaveData_CountPartyExceptPartner(SaveData *save, int group)
 {
-    int count = sub_02016138(save, group);
-    if (sub_0201621C(save, group)) {
+    int count = SaveData_CountParty(save, group);
+    if (SaveData_HasPartnerInParty(save, group)) {
         count--;
     }
     if (count < 0) {
@@ -527,39 +527,39 @@ extern "C" int sub_020161E4(SaveData *save, int group)
     return count;
 }
 
-extern "C" BOOL sub_0201621C(SaveData *save, int group)
+extern "C" BOOL SaveData_HasPartnerInParty(SaveData *save, int group)
 {
-    int count = sub_02016138(save, group);
+    int count = SaveData_CountParty(save, group);
     for (int i = 0; i < count; i++) {
-        if (SaveData_GetEntry(save, i)->unk_08 & 2) {
+        if (SaveData_GetEntry(save, i)->m_flags & 2) {
             return TRUE;
         }
     }
     return FALSE;
 }
 
-extern "C" int sub_02016268(SaveData *save, int group)
+extern "C" int SaveData_GetPartyPartnerIndex(SaveData *save, int group)
 {
-    int count = sub_02016138(save, group);
+    int count = SaveData_CountParty(save, group);
     for (int i = 0; i < count; i++) {
-        UnkStruct_020155FC *entry = SaveData_GetEntry(save, i);
-        if (entry->unk_08 & 2) {
-            return PartnerKindToIndex(entry->unk_00);
+        PartyEntry *entry = SaveData_GetEntry(save, i);
+        if (entry->m_flags & 2) {
+            return PartnerKindToIndex(entry->m_kind);
         }
     }
     return -1;
 }
 
-extern "C" void sub_020162BC(SaveData *save, u32 id)
+extern "C" void SaveData_SelectPartyEntry(SaveData *save, u32 id)
 {
-    UnkStruct_020155FC *entry = SaveData_FindEntry(save, save->unk_7C38);
+    PartyEntry *entry = SaveData_FindEntry(save, save->m_selectedPartyId);
     if (entry != NULL) {
-        entry->unk_08 &= ~4;
+        entry->m_flags &= ~4;
     }
-    save->unk_7C38 = id;
+    save->m_selectedPartyId = id;
     entry = SaveData_FindEntry(save, id);
     if (entry != NULL) {
-        entry->unk_08 |= 4;
+        entry->m_flags |= 4;
     }
 }
 
@@ -777,7 +777,7 @@ extern "C" void SaveData_LotGokigenParameter(SaveData *save)
     int count = 0;
     int bit = 1;
     for (int i = 0; bit <= 0x10000; i++, bit = 1 << i) {
-        if (save->unk_87C8 & bit) {
+        if (save->m_partnerFlags & bit) {
             LogInfo("%s", names[i]);
             count++;
         } else {
@@ -925,7 +925,7 @@ extern "C" void SaveData_SetPartsLevel(SaveData *save, int idx, int level)
     if (idx != 21) {
         return;
     }
-    save->m_maxEnergy = CGame::GetInstance() == NULL ? 0 : sub_02010E78(CGame::GetInstance()->unk_1438, save->m_stylerLevel);
+    save->m_maxEnergy = CGame::GetInstance() == NULL ? 0 : DiskHPTable_GetMaxEnergy(CGame::GetInstance()->m_diskHPTable, save->m_stylerLevel);
     if (level == 1) {
         save->m_maxEnergy += 5;
     } else if (level >= 2) {
@@ -1073,7 +1073,7 @@ extern "C" u16 SaveData_GetBestPartner(SaveData *save)
     int best = -1;
     for (int i = 0; i < 17; i++) {
         if (best < 0) {
-            if ((save->unk_87C8 & (1 << i)) && save->m_partnerCounts[i] != 0) {
+            if ((save->m_partnerFlags & (1 << i)) && save->m_partnerCounts[i] != 0) {
                 best = i;
             }
         } else if (save->m_partnerCounts[best] < save->m_partnerCounts[i]) {
@@ -1184,13 +1184,13 @@ extern "C" u8 sub_020171A0(void)
 extern "C" void sub_020171B8(SaveData *save)
 {
     for (int i = 0; i < 10; i++) {
-        SaveEntry_Clear(&save->unk_8804[2][i]);
+        SaveEntry_Clear(&save->m_party[2][i]);
     }
     for (int i = 0; i < 10; i++) {
-        if ((save->unk_8804[0][i].unk_08 & 1) && (save->unk_8804[0][i].unk_08 & 2)) {
-            *(UnkStruct_020155FC_Data *)&save->unk_8804[2][i] = *(UnkStruct_020155FC_Data *)&save->unk_8804[0][i];
-            save->unk_8804[2][i].unk_08 = 0;
-            save->unk_8804[2][i].unk_08 |= ((UnkStruct_020155FC_Data *)&save->unk_8804[0][i])->unk_08;
+        if ((save->m_party[0][i].m_flags & 1) && (save->m_party[0][i].m_flags & 2)) {
+            *(PartyEntryData *)&save->m_party[2][i] = *(PartyEntryData *)&save->m_party[0][i];
+            save->m_party[2][i].m_flags = 0;
+            save->m_party[2][i].m_flags |= ((PartyEntryData *)&save->m_party[0][i])->m_flags;
             return;
         }
     }
@@ -1216,11 +1216,11 @@ extern "C" void SaveData_Backup(SaveData *save)
     MI_CpuCopy8(save->m_partsLevels, save->m_backup.unk_03, sizeof(save->m_backup.unk_03));
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 10; j++) {
-            save->m_backup.unk_0C[i][j] = *(UnkStruct_020155FC_Data *)&save->unk_8804[i][j];
+            save->m_backup.unk_0C[i][j] = *(PartyEntryData *)&save->m_party[i][j];
         }
     }
     for (int i = 0; i < 2; i++) {
-        save->m_backup.unk_2DC[i] = *(UnkStruct_020B26A0_8AD4_Data *)&save->m_partners[i];
+        save->m_backup.unk_2DC[i] = *(PartnerSlotData *)&save->m_partners[i];
     }
     save->m_backup.unk_34C = save->unk_0004;
     save->m_backup.unk_350 = save->unk_0008;
@@ -1233,8 +1233,8 @@ extern "C" void SaveData_Backup(SaveData *save)
     MI_CpuFill8(save->m_partsLevels, 0, sizeof(save->m_partsLevels));
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 10; j++) {
-            if (!(save->unk_8804[i][j].unk_08 & 1) || !(save->unk_8804[i][j].unk_08 & 2)) {
-                SaveEntry_Clear(&save->unk_8804[i][j]);
+            if (!(save->m_party[i][j].m_flags & 1) || !(save->m_party[i][j].m_flags & 2)) {
+                SaveEntry_Clear(&save->m_party[i][j]);
             }
         }
     }
@@ -1252,11 +1252,11 @@ extern "C" void SaveData_Restore(SaveData *save)
     MI_CpuCopy8(save->m_backup.unk_03, save->m_partsLevels, sizeof(save->m_partsLevels));
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 10; j++) {
-            *(UnkStruct_020155FC_Data *)&save->unk_8804[i][j] = save->m_backup.unk_0C[i][j];
+            *(PartyEntryData *)&save->m_party[i][j] = save->m_backup.unk_0C[i][j];
         }
     }
     for (int i = 0; i < 2; i++) {
-        *(UnkStruct_020B26A0_8AD4_Data *)&save->m_partners[i] = save->m_backup.unk_2DC[i];
+        *(PartnerSlotData *)&save->m_partners[i] = save->m_backup.unk_2DC[i];
     }
     save->unk_0004 = save->m_backup.unk_34C;
     save->unk_0008 = save->m_backup.unk_350;
@@ -1282,7 +1282,7 @@ extern "C" void SaveData_ReleasePlayerActorData(SaveData *save)
 extern "C" u32 sub_02017E5C(SaveData *save);
 extern "C" u32 sub_02017F78(SaveData *save);
 extern "C" void SaveData_ReleasePartnerActorData(SaveData *save);
-extern "C" void sub_020180C0(SaveData *save);
+extern "C" void SaveData_ReleasePartyActorData(SaveData *save);
 
 extern "C" CFieldDrawActorData *SaveData_FindPartnerActorData(SaveData *save, u16 id, int form, u16 mask, BOOL reload)
 {
@@ -1293,7 +1293,7 @@ extern "C" CFieldDrawActorData *SaveData_FindPartnerActorData(SaveData *save, u1
     }
     if (reload) {
         sub_02017E5C(save);
-        save->unk_59A00 = 1;
+        save->m_reloadPartyActorData = 1;
     }
     for (int i = 0; i < 2; i++) {
         if (save->m_partnerActorData[i].unk_34 == 0) {
@@ -1307,18 +1307,18 @@ extern "C" CFieldDrawActorData *SaveData_FindPartnerActorData(SaveData *save, u1
 extern "C" CFieldDrawActorData *sub_02017848(SaveData *save, u16 id, int form, u16 mask, BOOL reload)
 {
     for (int i = 0; i < 10; i++) {
-        if (save->unk_597D0[i].unk_34 != 0 && id == save->unk_597D0[i].unk_1C && form == save->unk_597D0[i].unk_1E) {
-            return &save->unk_597D0[i];
+        if (save->m_partyActorData[i].unk_34 != 0 && id == save->m_partyActorData[i].unk_1C && form == save->m_partyActorData[i].unk_1E) {
+            return &save->m_partyActorData[i];
         }
     }
     if (reload) {
         sub_02017F78(save);
-        save->unk_59A00 = 1;
+        save->m_reloadPartyActorData = 1;
     }
     for (int i = 0; i < 10; i++) {
-        if (save->unk_597D0[i].unk_34 == 0) {
-            save->unk_597D0[i].sub_02041230(0, id, form, mask);
-            return &save->unk_597D0[i];
+        if (save->m_partyActorData[i].unk_34 == 0) {
+            save->m_partyActorData[i].sub_02041230(0, id, form, mask);
+            return &save->m_partyActorData[i];
         }
     }
     return NULL;
@@ -1330,9 +1330,9 @@ extern "C" void sub_02017948(SaveData *save, BOOL force)
     u32 entryMask = 0;
     int group = GetEntryGroup(save->m_areaType);
     if (force) {
-        save->unk_59A00 = 1;
-    } else if (save->unk_59A00 != 0) {
-        save->unk_59A00 = 0;
+        save->m_reloadPartyActorData = 1;
+    } else if (save->m_reloadPartyActorData != 0) {
+        save->m_reloadPartyActorData = 0;
         force = TRUE;
     }
 
@@ -1341,7 +1341,7 @@ extern "C" void sub_02017948(SaveData *save, BOOL force)
         if (table != NULL) {
             u32 used = 0;
             for (int i = 0; i < 2; i++) {
-                UnkStruct_020B26A0_8AD4 *partner = save->GetPartner(i);
+                PartnerSlot *partner = save->GetPartner(i);
                 if (partner != NULL && partner->unk_00 != 0) {
                     FieldNpcData *data = FieldData_GetNpc(table, partner->unk_08);
                     partnerMask |= 1 << i;
@@ -1368,13 +1368,13 @@ extern "C" void sub_02017948(SaveData *save, BOOL force)
         if (game != NULL) {
             u32 used = 0;
             for (int i = 0; i < 10; i++) {
-                UnkStruct_020155FC *entry = SaveData_GetEntry(save, i);
-                if (entry != NULL && (entry->unk_08 & 1)) {
-                    UnkStruct_020107A8 *info = PokeIdTable_Get(game->unk_1434, entry->unk_00);
+                PartyEntry *entry = SaveData_GetEntry(save, i);
+                if (entry != NULL && (entry->m_flags & 1)) {
+                    UnkStruct_020107A8 *info = PokeIdTable_Get(game->unk_1434, entry->m_kind);
                     entryMask |= 1 << i;
                     for (int j = 0; j < 10; j++) {
-                        if (save->unk_597D0[j].unk_34 != 0 && info->unk_00 == save->unk_597D0[j].unk_1C
-                            && info->unk_02 == save->unk_597D0[j].unk_1E) {
+                        if (save->m_partyActorData[j].unk_34 != 0 && info->unk_00 == save->m_partyActorData[j].unk_1C
+                            && info->unk_02 == save->m_partyActorData[j].unk_1E) {
                             used |= 1 << j;
                             entryMask &= ~(1 << i);
                             break;
@@ -1383,7 +1383,7 @@ extern "C" void sub_02017948(SaveData *save, BOOL force)
                 }
             }
             for (int j = 0; j < 10; j++) {
-                if (save->unk_597D0[j].unk_34 != 0 && !(used & (1 << j))) {
+                if (save->m_partyActorData[j].unk_34 != 0 && !(used & (1 << j))) {
                     force = TRUE;
                     break;
                 }
@@ -1392,14 +1392,14 @@ extern "C" void sub_02017948(SaveData *save, BOOL force)
     }
 
     if (force) {
-        sub_02017E44(save);
+        SaveData_ReleaseAllActorData(save);
         FieldData *table = MAIN_BSS_0210CA6C;
         if (table == NULL) {
             return;
         }
         if (group != 1) {
             for (int i = 0; i < 2; i++) {
-                UnkStruct_020B26A0_8AD4 *partner = save->GetPartner(i);
+                PartnerSlot *partner = save->GetPartner(i);
                 if (partner != NULL && partner->unk_00 != 0) {
                     FieldNpcData *data = FieldData_GetNpc(table, partner->unk_08);
                     SaveData_FindPartnerActorData(save, data->unk_00, 0, 0x1E16, FALSE);
@@ -1411,14 +1411,14 @@ extern "C" void sub_02017948(SaveData *save, BOOL force)
             return;
         }
         for (int i = 0; i < 10; i++) {
-            UnkStruct_020155FC *entry = SaveData_GetEntry(save, i);
-            if (entry != NULL && (entry->unk_08 & 1)) {
-                FieldEnemyData *enemy = FieldData_GetEnemy(table, entry->unk_00);
+            PartyEntry *entry = SaveData_GetEntry(save, i);
+            if (entry != NULL && (entry->m_flags & 1)) {
+                FieldEnemyData *enemy = FieldData_GetEnemy(table, entry->m_kind);
                 u16 mask = 0xE;
                 if (enemy->unk_30 == 2 || enemy->unk_30 == 5) {
                     mask |= 0xC00;
                 }
-                UnkStruct_020107A8 *info = PokeIdTable_Get(game->unk_1434, entry->unk_00);
+                UnkStruct_020107A8 *info = PokeIdTable_Get(game->unk_1434, entry->m_kind);
                 sub_02017848(save, info->unk_00, info->unk_02, mask, FALSE);
             }
         }
@@ -1441,23 +1441,23 @@ extern "C" void sub_02017948(SaveData *save, BOOL force)
         }
         for (int i = 0; i < 10; i++) {
             if (entryMask & (1 << i)) {
-                UnkStruct_020155FC *entry = SaveData_GetEntry(save, i);
-                FieldEnemyData *enemy = FieldData_GetEnemy(table, entry->unk_00);
+                PartyEntry *entry = SaveData_GetEntry(save, i);
+                FieldEnemyData *enemy = FieldData_GetEnemy(table, entry->m_kind);
                 u16 mask = 0xE;
                 if (enemy->unk_30 == 2 || enemy->unk_30 == 5) {
                     mask |= 0xC00;
                 }
-                UnkStruct_020107A8 *info = PokeIdTable_Get(game->unk_1434, entry->unk_00);
+                UnkStruct_020107A8 *info = PokeIdTable_Get(game->unk_1434, entry->m_kind);
                 sub_02017848(save, info->unk_00, info->unk_02, mask, FALSE);
             }
         }
     }
 }
 
-extern "C" void sub_02017E44(SaveData *save)
+extern "C" void SaveData_ReleaseAllActorData(SaveData *save)
 {
     SaveData_ReleasePartnerActorData(save);
-    sub_020180C0(save);
+    SaveData_ReleasePartyActorData(save);
 }
 
 extern "C" u32 sub_02017E5C(SaveData *save)
@@ -1467,7 +1467,7 @@ extern "C" u32 sub_02017E5C(SaveData *save)
     u32 missing = 0;
     if (table != NULL) {
         for (int i = 0; i < 2; i++) {
-            UnkStruct_020B26A0_8AD4 *partner = save->GetPartner(i);
+            PartnerSlot *partner = save->GetPartner(i);
             if (partner != NULL && partner->unk_00 != 0) {
                 FieldNpcData *data = FieldData_GetNpc(table, partner->unk_08);
                 missing |= 1 << i;
@@ -1495,13 +1495,13 @@ extern "C" u32 sub_02017F78(SaveData *save)
     u32 missing = 0;
     if (game != NULL) {
         for (int i = 0; i < 10; i++) {
-            UnkStruct_020155FC *entry = SaveData_GetEntry(save, i);
-            if (entry != NULL && (entry->unk_08 & 1)) {
-                UnkStruct_020107A8 *info = PokeIdTable_Get(game->unk_1434, entry->unk_00);
+            PartyEntry *entry = SaveData_GetEntry(save, i);
+            if (entry != NULL && (entry->m_flags & 1)) {
+                UnkStruct_020107A8 *info = PokeIdTable_Get(game->unk_1434, entry->m_kind);
                 missing |= 1 << i;
                 for (int j = 0; j < 10; j++) {
-                    if (save->unk_597D0[j].unk_34 != 0 && info->unk_00 == save->unk_597D0[j].unk_1C
-                        && info->unk_02 == save->unk_597D0[j].unk_1E) {
+                    if (save->m_partyActorData[j].unk_34 != 0 && info->unk_00 == save->m_partyActorData[j].unk_1C
+                        && info->unk_02 == save->m_partyActorData[j].unk_1E) {
                         used |= 1 << j;
                         missing &= ~(1 << i);
                     }
@@ -1509,8 +1509,8 @@ extern "C" u32 sub_02017F78(SaveData *save)
             }
         }
         for (int j = 0; j < 10; j++) {
-            if (save->unk_597D0[j].unk_34 != 0 && !(used & (1 << j))) {
-                save->unk_597D0[j].Release();
+            if (save->m_partyActorData[j].unk_34 != 0 && !(used & (1 << j))) {
+                save->m_partyActorData[j].Release();
             }
         }
     }
@@ -1524,10 +1524,10 @@ extern "C" void SaveData_ReleasePartnerActorData(SaveData *save)
     }
 }
 
-extern "C" void sub_020180C0(SaveData *save)
+extern "C" void SaveData_ReleasePartyActorData(SaveData *save)
 {
     for (int i = 0; i < 10; i++) {
-        save->unk_597D0[i].Release();
+        save->m_partyActorData[i].Release();
     }
 }
 
@@ -1537,7 +1537,7 @@ extern "C" void SaveData_ReleasePartnerVram(SaveData *save)
         save->m_partnerActorData[i].CFieldDrawActorData::ReleaseVram();
     }
     for (int i = 0; i < 10; i++) {
-        save->unk_597D0[i].CFieldDrawActorData::ReleaseVram();
+        save->m_partyActorData[i].CFieldDrawActorData::ReleaseVram();
     }
 }
 

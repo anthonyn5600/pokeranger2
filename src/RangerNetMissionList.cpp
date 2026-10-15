@@ -103,8 +103,8 @@ void RangerNetMissionList::ov11_0211CF40()
 
 static inline void DrawActor(CFieldActor *actor, Camera2D *camera)
 {
-    if (actor->unk_08 != NULL) {
-        actor->unk_08->Draw(camera, 0);
+    if (actor->m_drawObject != NULL) {
+        actor->m_drawObject->Draw(camera, 0);
     }
 }
 
@@ -194,8 +194,8 @@ void RangerNetMissionList::ov11_0211D0D0()
             type = 4;
         }
         unk_0A0[i].CreateDrawObject(type, kind, 0, 2, 0);
-        if (unk_0A0[i].unk_08 != NULL && unk_0A0[i].unk_08->unk_0C != NULL) {
-            unk_0A0[i].unk_08->unk_0C->SetDir(0x4000);
+        if (unk_0A0[i].m_drawObject != NULL && unk_0A0[i].m_drawObject->m_actor != NULL) {
+            unk_0A0[i].m_drawObject->m_actor->SetDir(0x4000);
         }
     }
 }
