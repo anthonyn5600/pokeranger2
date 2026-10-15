@@ -9,14 +9,22 @@ class Camera2D;
 // TODO: Figure out what this is
 class UnkClass_CPrimitive_ImageProxy {
 public:
+#ifdef PC_PORT
+    u8 unk_00[2 * sizeof(void *)]; // the two pointers in front of VramImage::unk_08 (src/pc/LayoutChecks.cpp)
+#else
     u8 unk_00[0x8];
+#endif
     NNSG2dImageProxy imageProxy;
 };
 
 // TODO: Figure out what this is
 class UnkClass_CPrimitive_ImagePaletteProxy {
 public:
+#ifdef PC_PORT
+    u8 unk_00[2 * sizeof(void *)]; // the two pointers in front of VramPalette::unk_08 (src/pc/LayoutChecks.cpp)
+#else
     u8 unk_00[0x8];
+#endif
     NNSG2dImagePaletteProxy imagePlttProxy;
 };
 

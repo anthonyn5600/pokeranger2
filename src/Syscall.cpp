@@ -1461,9 +1461,16 @@ int Sys_ActorPartyAdd(u32 *args)
 
 void LogError(const char *fmt, ...)
 {
+#ifdef PC_PORT
+    va_list args;
+    va_start(args, fmt);
+    thunk_FUN_020442cc(fmt, args);
+    va_end(args);
+#else
     // va_start without MSL's alignment of the parameter address
     va_list args = (va_list)(&fmt + 1);
     thunk_FUN_020442cc(fmt, args);
+#endif
 }
 
 int sub_0202E210(int *args)

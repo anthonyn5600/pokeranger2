@@ -83,8 +83,15 @@ extern "C" void thunk_FUN_020442cc(const char *fmt, va_list args)
 
 extern "C" void Log_Println(const char *fmt, ...)
 {
+#ifdef PC_PORT
+    va_list args;
+    va_start(args, fmt);
+    Log_VPrintln(fmt, args);
+    va_end(args);
+#else
     va_list args = (va_list)(&fmt + 1);
     Log_VPrintln(fmt, args);
+#endif
 }
 
 extern "C" void thunk_FUN_02044308(const char *fmt, va_list args)

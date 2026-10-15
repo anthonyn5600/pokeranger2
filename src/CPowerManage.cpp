@@ -4,10 +4,6 @@
 
 #include "SaveData.hpp"
 
-extern "C" {
-extern SaveData MAIN_BSS_020B26A0;
-}
-
 static CPowerManage sPowerManage;
 
 void CPowerManage::Init()

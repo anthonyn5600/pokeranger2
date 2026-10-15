@@ -42,12 +42,12 @@ static const char *sSendBinPaths[] = { sSendBin1, sSendBin2 };
 
 RangerNetSendBin::RangerNetSendBin(CGame *game, RangerNetMenu *menu)
 {
-    unk_3BC = (u32)menu->unk_008;
-    unk_3C0 = (u32)menu->unk_00C;
-    unk_3C4 = (u32)menu->unk_010;
-    unk_3C8 = (u32)menu->unk_014;
+    unk_3BC = PTR_CAST(u32, menu->unk_008);
+    unk_3C0 = PTR_CAST(u32, menu->unk_00C);
+    unk_3C4 = PTR_CAST(u32, menu->unk_010);
+    unk_3C8 = PTR_CAST(u32, menu->unk_014);
     unk_3CC = *(u32 *)menu->unk_018;
-    unk_3D0 = (u32)menu->unk_01C;
+    unk_3D0 = PTR_CAST(u32, menu->unk_01C);
     unk_3D8 = menu;
     unk_3DC = &menu->unk_002;
     unk_3E0 = (u16 *)&menu->unk_004[0];
@@ -128,7 +128,7 @@ BOOL RangerNetSendBin::Update()
                 unk_3B8 = CommInfo_GetPlayerInfo(1);
                 unk_0->unk_1AC4 = 7;
                 unk_3B4->ShowMessage(13, 4, 5, 1);
-                unk_3B4->SetNameArg(0, (int)unk_3B8);
+                unk_3B4->SetNameArg(0, PTR_CAST(int, unk_3B8));
                 unk_3B4->SetNumberArg(0, (u16)unk_3B8->unk_10);
                 unk_3B4->ShowButtons(16);
                 unk_3B4->UpdateWaitIcon(0);
@@ -156,7 +156,7 @@ BOOL RangerNetSendBin::Update()
                     unk_3B8 = CommInfo_GetPlayerInfo(1);
                     unk_0->unk_1AC4 = 7;
                     unk_3B4->ShowMessage(14, 4, 5, 1);
-                    unk_3B4->SetNameArg(0, (int)unk_3B8);
+                    unk_3B4->SetNameArg(0, PTR_CAST(int, unk_3B8));
                     unk_3B4->SetNumberArg(0, (u16)unk_3B8->unk_10);
                     unk_3B4->ShowTopMessage(8, 4, 1);
                     unk_3B4->ShowButtons(11);
@@ -315,7 +315,7 @@ BOOL RangerNetSendBin::Update()
 BOOL RangerNetSendBin::StartComm(UnkClass_0212CE58Work *work, int index)
 {
     LoadData(sSendBinPaths[index]);
-    Connect_Start((int)work->unk_0004, 0xF);
+    Connect_Start(PTR_CAST(int, work->unk_0004), 0xF);
     return FALSE;
 }
 

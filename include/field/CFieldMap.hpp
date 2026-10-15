@@ -13,12 +13,14 @@
 // The original calls them as external symbols; instantiating them here would replace the library copies.
 // __dont_instantiate (mwcc's extern template) would also keep the out-of-class inline ctor from being inlined,
 // so that one is instantiated explicitly (its unreferenced copy is deadstripped).
+#ifndef PC_PORT // MSL_CPP internals; the PC build uses the host C++ library
 // clang-format off
 namespace std {
 template __vec_deleter<unsigned long, allocator<unsigned long> >::__vec_deleter();
 template __dont_instantiate class __vec_deleter<unsigned long, allocator<unsigned long> >;
 } // namespace std
 // clang-format on
+#endif
 
 class CBinaryFile;
 class CFieldMapLayerAttribute;

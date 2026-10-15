@@ -248,7 +248,9 @@ public:
     int unk_650;
     u8 unk_654[0x4];
     NNSFndArchive unk_658;
+#ifndef PC_PORT // DS layout padding (NNSFndArchive is larger on 64-bit)
     u8 unk_658_end[0x6C0 - 0x658 - sizeof(NNSFndArchive)];
+#endif
     int unk_6C0[11];
     int unk_6EC;
     int unk_6F0;

@@ -128,6 +128,18 @@ void Script_Link(void *data)
     if (script == NULL) {
         return;
     }
+#ifdef PC_PORT
+    // The header fields are 32-bit offsets from the file start (see PTR32)
+    u32 base = PTR_CAST(u32, script);
+    script->code.bits += base;
+    script->symbols.bits += base;
+    script->imports.bits += base;
+    script->data.bits += base;
+    script->next = NULL;
+    for (ScriptSymbol *sym = script->symbols; sym < (ScriptSymbol *)(ScriptImport *)script->imports; sym++) {
+        sym->code.bits = base + sym->code.bits * sizeof(u32);
+    }
+#else
     script->code = (u32 *)((u32)script->code + (u32)script);
     script->symbols = (ScriptSymbol *)((u32)script->symbols + (u32)script);
     script->imports = (ScriptImport *)((u32)script->imports + (u32)script);
@@ -136,6 +148,7 @@ void Script_Link(void *data)
     for (ScriptSymbol *sym = script->symbols; sym < (ScriptSymbol *)script->imports; sym++) {
         sym->code = (u32 *)script + (u32)sym->code;
     }
+#endif
 }
 
 void Script_RegisterSyscalls(u32 id, ScriptSyscall *handlers)
@@ -178,12 +191,20 @@ void ScriptVM_Log(ScriptVM *vm, const char *fmt, ...)
 {
     ScriptLogArgs log;
     log.fmt = fmt;
+#ifdef PC_PORT
+    va_start(log.args, fmt);
+    if (MAIN_BSS_0210CED4.syscalls[0] != NULL) {
+        MAIN_BSS_0210CED4.syscalls[0][2]((int *)&log, 1);
+    }
+    va_end(log.args);
+#else
     // va_start without MSL's alignment of the parameter address
     log.args = (va_list)(&fmt + 1);
     if (MAIN_BSS_0210CED4.syscalls[0] == NULL) {
         return;
     }
     MAIN_BSS_0210CED4.syscalls[0][2]((int *)&log, 1);
+#endif
 }
 
 ScriptImport *ScriptVM_ResolveImport(ScriptVM *vm, int index)
@@ -225,7 +246,7 @@ static inline void RPush(ScriptVM *vm, u32 value)
 
 #define POP(vm)      Pop(vm)
 #define PUSH(vm, v)  Push(vm, (u32)(v))
-#define RPUSH(vm, v) RPush(vm, (u32)(v))
+#define RPUSH(vm, v) RPush(vm, PTR_CAST(u32, (v)))
 
 int ScriptVM_Run(ScriptVM *vm, u32 steps)
 {
@@ -409,7 +430,7 @@ int ScriptVM_Run(ScriptVM *vm, u32 steps)
             break;
         }
         case 25:
-            *--vm->unk_04 = (u32)(vm->unk_00 + ((int)insn.word >> 8));
+            *--vm->unk_04 = PTR_CAST(u32, (vm->unk_00 + ((int)insn.word >> 8)));
             break;
         case 26: {
             int index = 0;
@@ -486,7 +507,7 @@ int ScriptVM_Run(ScriptVM *vm, u32 steps)
             *--vm->unk_04 = vm->unk_10;
             break;
         case 19:
-            *--vm->unk_04 = (u32)(vm->unk_14->data + ((int)insn.word >> 8));
+            *--vm->unk_04 = PTR_CAST(u32, (vm->unk_14->data + ((int)insn.word >> 8)));
             break;
         case 20:
             switch (insn.arg) {
@@ -612,7 +633,7 @@ int ScriptVM_Run(ScriptVM *vm, u32 steps)
             ScriptVM_Log(vm, "fsc:unknown opcode %x\n", insn.word);
             return 1;
         }
-        if ((int)vm->unk_04 <= (int)vm->unk_08) {
+        if (PTR_CAST(int, vm->unk_04) <= PTR_CAST(int, vm->unk_08)) {
             ScriptVM_Log(vm, "fsc:stack overflow stacksize=%d\n", vm->unk_18);
         }
     }

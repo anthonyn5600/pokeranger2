@@ -2780,7 +2780,7 @@ FieldDebugMenu::FieldDebugMenu(CGame *game)
 {
     MAIN_BSS_0210CA80 = this;
     m_game = game;
-    unk_04 = new DebugProcessManager(game->GetPrinter(), (u32)game->unk_0014);
+    unk_04 = new DebugProcessManager(game->GetPrinter(), PTR_CAST(u32, game->unk_0014));
     unk_08 = NULL;
     unk_0C = NULL;
     unk_10 = 0;

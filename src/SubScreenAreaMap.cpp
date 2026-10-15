@@ -116,9 +116,9 @@ void SubScreenAreaMap::Load()
     Release();
     SetupBG();
     unk_A4 = new MessageTable("/data/message/etc/place_name");
-    unk_3C = new BGLayer((int)unk_A8);
-    unk_40 = new BGLayer((int)unk_A8);
-    unk_44 = new BGLayer((int)unk_A8);
+    unk_3C = new BGLayer(PTR_CAST(int, unk_A8));
+    unk_40 = new BGLayer(PTR_CAST(int, unk_A8));
+    unk_44 = new BGLayer(PTR_CAST(int, unk_A8));
 
     unk_3C->SetBG(5);
     unk_3C->LoadArchive("menu/", "mm000_");

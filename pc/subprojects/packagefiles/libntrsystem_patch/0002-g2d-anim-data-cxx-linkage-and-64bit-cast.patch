@@ -1,0 +1,118 @@
+diff --git a/include/nnsys/g2d/fmt/g2d_Anim_data.h b/include/nnsys/g2d/fmt/g2d_Anim_data.h
+index 06f0088..f7828d7 100644
+--- a/include/nnsys/g2d/fmt/g2d_Anim_data.h
++++ b/include/nnsys/g2d/fmt/g2d_Anim_data.h
+@@ -184,7 +184,7 @@ typedef struct WIN_UAATData
+ }WIN_UAATData;
+ #endif
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE u32 NNSi_G2dMakeAnimType (NNSG2dAnimationType animType, NNSG2dAnimationElement elmType)
+@@ -192,7 +192,7 @@ NNS_G2D_INLINE u32 NNSi_G2dMakeAnimType (NNSG2dAnimationType animType, NNSG2dAni
+     return (u32)animType << NNS_G2D_ANIMTYPE_SHIFT | ((u32)elmType & NNS_G2D_ANIMELEM_MASK);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE NNSG2dAnimationType NNSi_G2dGetAnimSequenceAnimType (u32 animType)
+@@ -200,7 +200,7 @@ NNS_G2D_INLINE NNSG2dAnimationType NNSi_G2dGetAnimSequenceAnimType (u32 animType
+     return (NNSG2dAnimationType)(animType >> NNS_G2D_ANIMTYPE_SHIFT);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE NNSG2dAnimationElement NNSi_G2dGetAnimSequenceElementType (u32 animType)
+@@ -208,7 +208,7 @@ NNS_G2D_INLINE NNSG2dAnimationElement NNSi_G2dGetAnimSequenceElementType (u32 an
+     return (NNSG2dAnimationElement)(animType & NNS_G2D_ANIMELEM_MASK);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE NNSG2dAnimationType NNS_G2dGetAnimSequenceAnimType (const NNSG2dAnimSequenceData * pAnimSeq)
+@@ -216,7 +216,7 @@ NNS_G2D_INLINE NNSG2dAnimationType NNS_G2dGetAnimSequenceAnimType (const NNSG2dA
+     return NNSi_G2dGetAnimSequenceAnimType(pAnimSeq->animType);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE NNSG2dAnimationElement NNS_G2dGetAnimSequenceElementType (const NNSG2dAnimSequenceData * pAnimSeq)
+@@ -224,7 +224,7 @@ NNS_G2D_INLINE NNSG2dAnimationElement NNS_G2dGetAnimSequenceElementType (const N
+     return NNSi_G2dGetAnimSequenceElementType(pAnimSeq->animType);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE u32 NNS_G2dCalcAnimSequenceTotalVideoFrames (const NNSG2dAnimSequenceData * pAnimSeq)
+@@ -239,20 +239,20 @@ NNS_G2D_INLINE u32 NNS_G2dCalcAnimSequenceTotalVideoFrames (const NNSG2dAnimSequ
+ }
+ 
+ #ifndef NNS_FROM_TOOL
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE u16 NNS_G2dGetAnimSequenceIndex (const NNSG2dAnimBankData * pAnimBank, const NNSG2dAnimSequenceData * pAnimSeq)
+ {
+     return (u16)(
+-        ((u32)pAnimSeq - (u32)pAnimBank->pSequenceArrayHead)
++        ((uPtr)pAnimSeq - (uPtr)pAnimBank->pSequenceArrayHead)
+         / (u32)sizeof(NNSG2dAnimSequenceData));
+ }
+ #else
+ 
+ #endif
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE const NNSG2dUserExAnimAttrBank * NNS_G2dGetUserExAnimAttrBank (const NNSG2dAnimBankData * pAnimBank)
+@@ -266,7 +266,7 @@ NNS_G2D_INLINE const NNSG2dUserExAnimAttrBank * NNS_G2dGetUserExAnimAttrBank (co
+     }
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE const NNSG2dUserExAnimSequenceAttr * NNS_G2dGetUserExAnimSequenceAttr (const NNSG2dUserExAnimAttrBank * pAnimAttrBank, u16 idx)
+@@ -280,7 +280,7 @@ NNS_G2D_INLINE const NNSG2dUserExAnimSequenceAttr * NNS_G2dGetUserExAnimSequence
+     }
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE const NNSG2dUserExAnimFrameAttr * NNS_G2dGetUserExAnimFrameAttr (const NNSG2dUserExAnimSequenceAttr * pAnimSeqAttr, u16 idx)
+@@ -294,7 +294,7 @@ NNS_G2D_INLINE const NNSG2dUserExAnimFrameAttr * NNS_G2dGetUserExAnimFrameAttr (
+     }
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE u32 NNS_G2dGetUserExAnimSeqAttrValue (const NNSG2dUserExAnimSequenceAttr * pAnimSeqAttr)
+@@ -303,7 +303,7 @@ NNS_G2D_INLINE u32 NNS_G2dGetUserExAnimSeqAttrValue (const NNSG2dUserExAnimSeque
+     return pAnimSeqAttr->pAttr[0];
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE u32 NNS_G2dGetUserExAnimFrmAttrValue (const NNSG2dUserExAnimFrameAttr * pFrmAttr)

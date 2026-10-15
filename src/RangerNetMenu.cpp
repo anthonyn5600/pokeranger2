@@ -1908,7 +1908,7 @@ void RangerNetMenu::LoadBackground()
     BGS_LoadScr("menu/", "rn001_bg_", 5, "rn001_01", 0, 0x100, 0, 0);
 
     for (int i = 0; i <= 2; i++) {
-        unk_584[i] = new BGLayer((int)unk_72C);
+        unk_584[i] = new BGLayer(PTR_CAST(int, unk_72C));
         unk_584[i]->SetBG(7);
         unk_584[i]->LoadArchive("menu/", "rn001_bg_");
         OS_SPrintf(path, "rn001_%02d", sScreens[i]);

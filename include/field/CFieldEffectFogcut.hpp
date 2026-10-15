@@ -12,7 +12,9 @@
 
 // Explicit instantiation: completes the emitter template here and makes its vtable in the first TU-end pass (the
 // TU's data layout depends on both; the member copies it emits are weak and dropped for CFieldEffectWaterGun's).
+#ifndef PC_PORT // data-order control for mwcc; implicit instantiation is enough on PC
 template class TFieldParticleEmitter<CSoftwareSprite>;
+#endif
 
 // clang-format off
 #include "field/CFieldEffectFootStepSmoke.hpp"

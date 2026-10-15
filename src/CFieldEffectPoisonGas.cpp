@@ -180,7 +180,7 @@ int CFieldEffectPoisonGas::SaveState(void *buf, void *end)
         }
     }
     save.mask = mask;
-    if ((u32)buf + sizeof(save) > (u32)end) {
+    if (PTR_CAST(u32, buf) + sizeof(save) > PTR_CAST(u32, end)) {
         return 0;
     }
     MI_CpuCopy8(&save, buf, sizeof(save));

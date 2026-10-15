@@ -263,7 +263,7 @@ int CFieldEffectSlime::SaveState(void *buf, void *end)
             mask |= 0x80;
         }
         save.mask = mask;
-        if ((u32)buf + sizeof(save) <= (u32)end) {
+        if (PTR_CAST(u32, buf) + sizeof(save) <= PTR_CAST(u32, end)) {
             MI_CpuCopy8(&save, buf, sizeof(save));
             return sizeof(save);
         }

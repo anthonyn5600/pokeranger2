@@ -1,0 +1,1 @@
+option('build_target', type: 'combo', choices: ['linux', 'win64'], value: 'linux', description: 'PC target platform (the DS build is the top-level project)')

@@ -246,7 +246,7 @@ int Sys_EnemyCommand(int *args)
     case 64:
         return enemy->unk_164;
     case 65:
-        return (int)enemy->GetTargetObject();
+        return PTR_CAST(int, enemy->GetTargetObject());
     case 66: {
         enemy->unk_168.SetTarget(enemy, (Point2D) { args[2], args[3] }, args[4]);
         return 0;
@@ -293,7 +293,7 @@ extern "C" {
 
 int Sys_GetEnemyManage(int *args)
 {
-    return (int)MAIN_BSS_0210CA5C;
+    return PTR_CAST(int, MAIN_BSS_0210CA5C);
 }
 
 int Sys_EnemyManageCommand(int *args)
@@ -327,7 +327,7 @@ int Sys_EnemyManageCommand(int *args)
         if (actor == NULL) {
             return -1;
         }
-        return (int)actor;
+        return PTR_CAST(int, actor);
     }
     case 2:
         return manage->CountActors();
@@ -342,14 +342,14 @@ int Sys_EnemyManageCommand(int *args)
         if (enemy == NULL) {
             return -1;
         }
-        return (int)enemy;
+        return PTR_CAST(int, enemy);
     }
     case 6: {
         CFieldActor *actor = manage->Find(args[2]);
         if (actor == NULL) {
             return -1;
         }
-        return (int)actor;
+        return PTR_CAST(int, actor);
     }
     case 7: {
         CFieldActor *actor = manage->Find(args[2]);

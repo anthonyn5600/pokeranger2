@@ -342,8 +342,8 @@ void CSuitePictureScene::LoadPicture(int id)
 
     OS_SPrintf(arc, "event%03d_00_", id);
     OS_SPrintf(name, "event%03d_00", id);
-    BGLayer *bg1 = new BGLayer((int)s_game);
-    BGLayer *bg2 = new BGLayer((int)s_game);
+    BGLayer *bg1 = new BGLayer(PTR_CAST(int, s_game));
+    BGLayer *bg2 = new BGLayer(PTR_CAST(int, s_game));
 
     bg1->SetBG(4);
     bg1->LoadArchive(dir, arc);

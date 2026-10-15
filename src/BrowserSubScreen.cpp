@@ -74,7 +74,7 @@ void BrowserSubScreen::Load()
     unk_10 = new MessageTable("data/message/etc/pokebook_info");
 
     SAFE_DELETE(unk_3C);
-    unk_3C = new BGLayer((int)unk_48);
+    unk_3C = new BGLayer(PTR_CAST(int, unk_48));
     unk_3C->SetBG(5);
     unk_3C->LoadArchive("menu/", "mam000_bg_");
     unk_3C->LoadChar("mam000", 0, 0, 0);

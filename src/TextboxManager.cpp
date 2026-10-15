@@ -39,7 +39,6 @@ extern char s_data_message_chapter_chapter_03d_0208a930;
 extern char s_data_message_chapter_chapterx_02_0208a958;
 extern char s_data_message_quest_quest_03d_mes_0208a980;
 extern char s_data_message_battle_battle_02d_m_0208a9a4;
-extern SaveData MAIN_BSS_020B26A0;
 }
 
 TextboxManager::TextboxManager()

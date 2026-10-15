@@ -3,7 +3,11 @@
 
 #include <nitro/types.h>
 
+#ifdef PC_PORT
+typedef void *(*HeapAllocFunc)(size_t);
+#else
 typedef void *(*HeapAllocFunc)(u32);
+#endif
 typedef void (*HeapFreeFunc)(void *);
 
 void CRYPTO_SetAllocator(HeapAllocFunc, HeapFreeFunc);

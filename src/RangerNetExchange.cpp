@@ -622,7 +622,7 @@ void RangerNetExchange::StartWireless()
     WhInitParam param = { { 0x16, 1, 0, 0x15 }, NULL, NULL };
     param.unk_04 = name;
     param.unk_08 = pass;
-    Wireless_Init(&param, (u32)unk_05C);
+    Wireless_Init(&param, PTR_CAST(u32, unk_05C));
 }
 
 static void SplitNumber(u32 value, u32 *lo, u32 *hi)

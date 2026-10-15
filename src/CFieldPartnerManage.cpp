@@ -189,7 +189,7 @@ int CFieldPartnerManage::Create(u32 id, u16 kind, u16 flags, int type, int arg5)
             PokeIdTableEntry *info = PokeIdTable_Get(s_game->unk_1434, kind);
             CFieldPartnerPokemon *pokemon = new CFieldPartnerPokemon();
             pokemon->unk_EC.unk_B0 = pokemon->unk_268 = info->unk_00;
-            pokemon->unk_E8 = (int)data;
+            pokemon->unk_E8 = PTR_CAST(int, data);
             pokemon->unk_EC.unk_6C = *data;
             pokemon->unk_EC.unk_68 = pokemon->unk_EC.unk_6C.unk_30;
             pokemon->unk_EC.unk_64 = pokemon->unk_EC.unk_6C.unk_1C;

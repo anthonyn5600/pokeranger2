@@ -1,0 +1,6 @@
+/* The game's global operator new/delete (src/heap_operators.cpp) serve only code inside the executable: shared
+   libraries (the GL driver's LLVM, libstdc++) keep the standard ones. */
+{
+  global: *;
+  local: _Znwm; _Znam; _ZdlPv; _ZdaPv; _ZdlPvm; _ZdaPvm;
+};

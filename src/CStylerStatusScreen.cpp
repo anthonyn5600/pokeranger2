@@ -163,7 +163,7 @@ void CStylerStatusScreen::LoadBG()
     u16 scr[0x400];
 
     BGS_LoadCharAndPltt("menu/", "stl000_bg_", 2, "stl000", 0x200, "stl000", 8);
-    BGS_LoadScr("menu/", "stl000_bg_", 2, "stl000_01", 8, 0x200, (int)scr, 0);
+    BGS_LoadScr("menu/", "stl000_bg_", 2, "stl000_01", 8, 0x200, PTR_CAST(int, scr), 0);
     BGS_LoadScr("menu/", "stl000_bg_", 3, "stl000_00", 8, 0x200, 0, 0);
 
     for (int i = 0; i < 17; i++) {

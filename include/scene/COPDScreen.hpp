@@ -375,7 +375,7 @@ public:
         void Burst(int count, UnkStruct_COPDRing *ring)
         {
             unk_18 = count;
-            unk_1C = (int)ring;
+            unk_1C = PTR_CAST(int, ring);
         }
         virtual u32 Update(int dt);
         virtual void Emit(TFieldParticle<CLineParticle> *p);

@@ -154,7 +154,7 @@ int CFieldEffectExplosion::SaveState(void *buf, void *end)
         save.x = m_pos.x >> 12;
         save.y = m_pos.y >> 12;
         save.frame = (m_phase << 7) | (m_frame & 0x7F);
-        if ((u32)buf + sizeof(save) <= (u32)end) {
+        if (PTR_CAST(u32, buf) + sizeof(save) <= PTR_CAST(u32, end)) {
             MI_CpuCopy8(&save, buf, sizeof(save));
             return sizeof(save);
         }

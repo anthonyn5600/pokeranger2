@@ -50,7 +50,11 @@ void VramImage::Load(const char *arg0, u32 arg1, u32 arg2, u32 arg3)
     unk_08.attr.fmt = unk_04->pixelFmt;
     unk_08.attr.bExtendedPlt = FALSE;
     unk_08.attr.plttUse = GX_TEXPLTTCOLOR0_TRNS;
+#ifdef PC_PORT // libntrsystem fixed the SDK's spelling
+    unk_08.attr.mappingType = unk_04->mappingType;
+#else
     unk_08.attr.mappingType = unk_04->mapingType;
+#endif
 
     unk_38 = unk_04->szByte;
     unk_32 = unk_04->W * 8;
@@ -68,7 +72,11 @@ void VramImage::SetData(NNSG2dCharacterData *arg0)
     unk_08.attr.fmt = unk_04->pixelFmt;
     unk_08.attr.bExtendedPlt = FALSE;
     unk_08.attr.plttUse = GX_TEXPLTTCOLOR0_TRNS;
+#ifdef PC_PORT // libntrsystem fixed the SDK's spelling
+    unk_08.attr.mappingType = unk_04->mappingType;
+#else
     unk_08.attr.mappingType = unk_04->mapingType;
+#endif
 
     unk_38 = unk_04->szByte;
     unk_32 = unk_04->W * 8;

@@ -33,7 +33,7 @@ BOOL CBackupSync::Write(u32 dst, const void *src, u32 len, MIDmaCallback callbac
         return FALSE;
     }
     unk_1C = 2;
-    unk_14 = (u32)src;
+    unk_14 = PTR_CAST(u32, src);
     unk_18 = dst;
     unk_10 = len;
     return TRUE;
@@ -48,7 +48,7 @@ BOOL CBackupSync::Read(u32 src, void *dst, u32 len, MIDmaCallback callback)
         return FALSE;
     }
     unk_1C = 1;
-    unk_14 = (u32)dst;
+    unk_14 = PTR_CAST(u32, dst);
     unk_18 = src;
     unk_10 = len;
     return TRUE;

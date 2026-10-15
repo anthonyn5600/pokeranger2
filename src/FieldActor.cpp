@@ -55,7 +55,7 @@ BOOL CFieldActorScript::Call(CFieldActor *actor, const char *func)
     if (unk_2C != NULL) {
         ScriptVM_Init(&unk_08, unk_30, unk_34);
         if (actor != NULL) {
-            *--unk_08.unk_04 = (u32)actor;
+            *--unk_08.unk_04 = PTR_CAST(u32, actor);
         }
         if (func != NULL) {
             if (ScriptVM_Start(&unk_08, unk_2C, func) == -1) {

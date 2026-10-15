@@ -5,6 +5,9 @@
 
 #include "Collision.hpp"
 #include "primitive/CPrimitive.hpp"
+#ifdef PC_PORT
+#include "file/CBinaryFile.hpp"
+#endif
 
 // TODO: Figure out what this is
 class UnkClass_CSoftwareSprite_30 {
@@ -16,14 +19,22 @@ public:
 
 public:
     UnkClass_CPrimitive_ImageProxy *unk_00;
+#ifdef PC_PORT
+    u8 unk_04[sizeof(void *)]; // CellCharBuffer::m_cells (src/pc/LayoutChecks.cpp)
+#else
     u8 unk_04[0x4];
+#endif
     u32 unk_08;
 };
 
 // TODO: Figure out what this is
 class UnkClass_CSoftwareSprite_38 {
 public:
+#ifdef PC_PORT
+    u8 unk_00[sizeof(CBinaryFile)]; // CNCERFile's base (src/pc/LayoutChecks.cpp)
+#else
     u8 unk_00[0xB8];
+#endif
     const NNSG2dCellDataBank *unk_B8;
 };
 

@@ -19,8 +19,15 @@ FrameTimer::FrameTimer()
 
 void FrameTimer::WaitFrame()
 {
+#ifdef PC_PORT
+    // VBlank (CountVBlank) only happens inside OS_WaitVBlankIntr on PC: wait for the missing ones there
+    while (unk_12 < unk_14) {
+        OS_WaitVBlankIntr();
+    }
+#else
     while (unk_12 < unk_14) {
     }
+#endif
     unk_12 = 0;
     unk_1C = 1;
     OS_WaitVBlankIntr();

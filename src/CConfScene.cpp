@@ -111,7 +111,7 @@ void CConfScene::DrawMessage()
 void CConfScene::func6()
 {
     SetupBG();
-    unk_1C = new BGLayer((int)m_game);
+    unk_1C = new BGLayer(PTR_CAST(int, m_game));
     unk_1C->SetBG(5);
     unk_1C->LoadArchive("menu/", "title004_bg_");
     unk_1C->LoadChar("title004", 0, 0, 0);

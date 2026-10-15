@@ -110,7 +110,7 @@ static void LoaderThreadMain(void *arg)
     while (TRUE) {
         OSMessage msg;
         OS_ReceiveMessage(&loader->m_queue, &msg, OS_MESSAGE_BLOCK);
-        int id = (int)msg;
+        int id = PTR_BITS(int, msg);
         if (id < 0) {
             break;
         }

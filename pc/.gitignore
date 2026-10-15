@@ -1,0 +1,7 @@
+/build/
+/subprojects/*/
+/subprojects/packagecache/
+/subprojects/.wraplock
+/run/
+/run.log
+!/subprojects/packagefiles/

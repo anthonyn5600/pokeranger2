@@ -192,7 +192,7 @@ void COpeningDemoScene::func6()
         SetScreen(0);
         m_resource = new CTitleResource();
         m_resource->Load(s_game);
-        s_game->unk_14A4->unk_8BA0 = (int)m_resource;
+        s_game->unk_14A4->unk_8BA0 = PTR_CAST(int, m_resource);
     } else {
         m_title.Init();
         m_title.unk_613 = 1;

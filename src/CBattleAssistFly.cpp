@@ -19,7 +19,7 @@ static const fx32 sBirdScales[] = { 0x28, 0x400, 0x800, 0xC00, 0x1000, 0x1000 };
 // HasData() read as an integer: IRO keeps this second check, the backend merges the loads
 static inline BOOL IsLoaded(CBattleAttackEffect *effect)
 {
-    return (u32)effect->m_data != 0;
+    return PTR_CAST(u32, effect->m_data) != 0;
 }
 
 CBattleAssistFly::CBattleAssistFly(CBattleAttackEffect **effects, CBattleAttackEffectData **effectData, BattleParamTable *params, u16 arg3)

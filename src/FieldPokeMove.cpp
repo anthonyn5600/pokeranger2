@@ -596,7 +596,8 @@ int CFieldPokeMove::ov0_02153040()
         unk_30.x = FX_CosIdx(unk_48->GetDir());
         unk_30.y = FX_SinIdx(unk_48->GetDir());
         unk_38 = GetPlayerPos() - (Point2D) { unk_0C.x, unk_0C.y };
-        fx32 inv = FX_InvSqrt(FX32_MUL(unk_38.x, unk_38.x) + FX32_MUL(unk_38.y, unk_38.y));
+        fx32 inv;
+        inv = FX_InvSqrt(FX32_MUL(unk_38.x, unk_38.x) + FX32_MUL(unk_38.y, unk_38.y));
         unk_38.x = FX32_MUL(unk_38.x, inv);
         unk_38.y = FX32_MUL(unk_38.y, inv);
         SetUnk04(GetPlayerPos());
@@ -628,7 +629,8 @@ int CFieldPokeMove::ov0_02153040()
         break;
     case 2:
         SetUnk04(GetPlayerPos());
-        int next = Move(&unk_24, unk_6C.unk_10, -1);
+        int next;
+        next = Move(&unk_24, unk_6C.unk_10, -1);
         if (next != 0) {
             SetSequence(next);
         } else if (unk_50 <= 0) {
@@ -1071,7 +1073,8 @@ int CFieldPokeMove::ov0_02154C58()
         unk_30.x = FX_CosIdx(unk_48->GetDir());
         unk_30.y = FX_SinIdx(unk_48->GetDir());
         unk_38 = GetPlayerPos() - (Point2D) { unk_0C.x, unk_0C.y };
-        fx32 inv = FX_InvSqrt(FX32_MUL(unk_38.x, unk_38.x) + FX32_MUL(unk_38.y, unk_38.y));
+        fx32 inv;
+        inv = FX_InvSqrt(FX32_MUL(unk_38.x, unk_38.x) + FX32_MUL(unk_38.y, unk_38.y));
         unk_38.x = FX32_MUL(unk_38.x, inv);
         unk_38.y = FX32_MUL(unk_38.y, inv);
         SetUnk04(GetPlayerPos());
@@ -1258,7 +1261,8 @@ int CFieldPokeMove::ov0_021558F4()
     switch (unk_4E) {
     case 0:
         unk_0C.z = 0xFA000;
-        int sq = unk_6C.unk_02;
+        int sq;
+        sq = unk_6C.unk_02;
         sq *= sq;
         if (unk_C8 <= sq) {
             PlayGroupSe(0x99, 0x91);
@@ -1409,7 +1413,8 @@ int CFieldPokeMove::ov0_02155EA0()
         unk_30.x = FX_CosIdx(unk_48->GetDir());
         unk_30.y = FX_SinIdx(unk_48->GetDir());
         unk_38 = unk_04 - GetPos();
-        fx32 inv = FX_InvSqrt(FX32_MUL(unk_38.x, unk_38.x) + FX32_MUL(unk_38.y, unk_38.y));
+        fx32 inv;
+        inv = FX_InvSqrt(FX32_MUL(unk_38.x, unk_38.x) + FX32_MUL(unk_38.y, unk_38.y));
         unk_38.x = FX32_MUL(unk_38.x, inv);
         unk_38.y = FX32_MUL(unk_38.y, inv);
         unk_4C = unk_6C.unk_14;
@@ -1480,7 +1485,8 @@ int CFieldPokeMove::ov0_02156290()
         unk_30.y = FX_SinIdx(unk_48->GetDir());
         unk_48->PlayAnim(2, 0);
         unk_38 = GetPlayerPos() - (Point2D) { unk_0C.x, unk_0C.y };
-        fx32 inv = FX_InvSqrt(FX32_MUL(unk_38.x, unk_38.x) + FX32_MUL(unk_38.y, unk_38.y));
+        fx32 inv;
+        inv = FX_InvSqrt(FX32_MUL(unk_38.x, unk_38.x) + FX32_MUL(unk_38.y, unk_38.y));
         unk_38.x = FX32_MUL(unk_38.x, inv);
         unk_38.y = FX32_MUL(unk_38.y, inv);
         SetUnk04(GetPlayerPos());
@@ -1544,7 +1550,8 @@ int CFieldPokeMove::ov0_02156898()
         unk_30.x = FX_CosIdx(unk_48->GetDir());
         unk_30.y = FX_SinIdx(unk_48->GetDir());
         unk_38 = unk_04 - GetPos();
-        fx32 inv = FX_InvSqrt(FX32_MUL(unk_38.x, unk_38.x) + FX32_MUL(unk_38.y, unk_38.y));
+        fx32 inv;
+        inv = FX_InvSqrt(FX32_MUL(unk_38.x, unk_38.x) + FX32_MUL(unk_38.y, unk_38.y));
         unk_38.x = FX32_MUL(unk_38.x, inv);
         unk_38.y = FX32_MUL(unk_38.y, inv);
         unk_4C = unk_6C.unk_14;
@@ -2129,7 +2136,7 @@ int CFieldPokeMove::SaveState(void *buf, void *end)
     save.frame = GetAnimFrame(unk_48);
     save.unk_3B = unk_48->GetUnkC0();
     save.flags = unk_48->m_flags;
-    if ((u32)buf + sizeof(save) > (u32)end) {
+    if (PTR_CAST(u32, buf) + sizeof(save) > PTR_CAST(u32, end)) {
         return 0;
     }
     MI_CpuCopy8(&save, buf, sizeof(save));

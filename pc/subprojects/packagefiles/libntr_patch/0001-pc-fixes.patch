@@ -1,0 +1,170 @@
+diff --git a/libraries/fs/src/fs_file.c b/libraries/fs/src/fs_file.c
+index b5b6523..8bca63d 100644
+--- a/libraries/fs/src/fs_file.c
++++ b/libraries/fs/src/fs_file.c
+@@ -291,9 +291,8 @@ static s32 FSi_ReadFileCore (FSFile *p_file, void *dst, s32 len, BOOL async)
+ 		if (!async)
+ 			p_file->stat |= FS_FILE_STATUS_SYNC;
+ 
+-		#ifdef SDK_BUILD_ARM
++		// On PC only archives mounted in memory get here (host files returned above)
+ 		(void)FSi_SendCommand(p_file, FS_COMMAND_READFILE);
+-		#endif
+ 
+ 		if (!async) {
+ 			if (FS_WaitAsync(p_file))
+@@ -504,6 +503,16 @@ BOOL FS_OpenFile (FSFile *p_file, const char *path)
+ 	#endif
+ 	FSFileID id;
+ 	#ifdef SDK_PORT
++	{
++		// "NAME:path" in an archive mounted in memory (NNS_FndMountArchive): the SDK's own archive code
++		const char *colon = strchr(path, ':');
++		if (colon != NULL && !(colon - path == 3 && strncmp(path, "rom", 3) == 0)
++			&& FS_FindArchive(path, (int)(colon - path)) != NULL)
++		{
++			p_file->pcFilePtr = NULL;
++			return FS_ConvertPathToFileID(&id, path) && FS_OpenFileFast(p_file, id);
++		}
++	}
+ 	if(path[0] == 'r'
+ 		&& path[1] == 'o'
+ 	&& path[2] == 'm'
+diff --git a/libraries/gx/src/g3imm.c b/libraries/gx/src/g3imm.c
+index b8cf1f4..7419675 100644
+--- a/libraries/gx/src/g3imm.c
++++ b/libraries/gx/src/g3imm.c
+@@ -44,8 +44,18 @@ void G3_MultMtx44 (const MtxFx44 *m)
+ {
+ 	SDK_NULL_ASSERT(m);
+ 
++    #ifdef SDK_PORT
++    // The FIFO is one 4-byte variable on PC: send the command to the renderer
++    draw_msg_t * msg;
++    msg = malloc( sizeof( draw_msg_t ) );
++    msg->type = DRAW_CMD_G3_MTXMULT44;
++    memcpy( &msg->data.mtx44, m, sizeof( MtxFx44 ) );
++    SIM_HandleG3Command( msg );
++    free( msg );
++    #else
+ 	reg_G3X_GXFIFO = G3OP_MTX_MULT_4x4;
+ 	GX_SendFifo64B(&m->_00, (void *)&reg_G3X_GXFIFO);
++    #endif
+ }
+ 
+ void G3_MultMtx43 (const MtxFx43 *m)
+@@ -71,16 +81,29 @@ void G3_MultMtx33 (const MtxFx33 *m)
+ {
+ 	SDK_NULL_ASSERT(m);
+ 
++    #ifdef SDK_PORT
++    draw_msg_t * msg;
++    msg = malloc( sizeof( draw_msg_t ) );
++    msg->type = DRAW_CMD_G3_MTXMULT33;
++    memcpy( &msg->data.mtx33, m, sizeof( MtxFx33 ) );
++    SIM_HandleG3Command( msg );
++    free( msg );
++    #else
+ 	reg_G3X_GXFIFO = G3OP_MTX_MULT_3x3;
+ 	GX_SendFifo36B(&m->_00, (void *)&reg_G3X_GXFIFO);
++    #endif
+ }
+ 
+ void G3_Shininess (const u32 *table)
+ {
+ 	SDK_NULL_ASSERT(table);
+ 
++    #ifdef SDK_PORT
++    (void)table; // PCPORT_TODO: the renderer has no specular shininess table yet
++    #else
+ 	reg_G3X_GXFIFO = G3OP_SHININESS;
+ 	GX_SendFifo128B(&table[0], (void *)&reg_G3X_GXFIFO);
++    #endif
+ }
+ 
+ void G3_MultTransMtx33 (const MtxFx33 *mtx, const VecFx32 *trans)
+@@ -88,10 +111,24 @@ void G3_MultTransMtx33 (const MtxFx33 *mtx, const VecFx32 *trans)
+ 	SDK_NULL_ASSERT(mtx);
+ 	SDK_NULL_ASSERT(trans);
+ 
++    #ifdef SDK_PORT
++    MtxFx43 m43;
++    memcpy( &m43, mtx, sizeof( MtxFx33 ) ); // rows 0-2, then the translation row
++    m43._30 = trans->x;
++    m43._31 = trans->y;
++    m43._32 = trans->z;
++    draw_msg_t * msg;
++    msg = malloc( sizeof( draw_msg_t ) );
++    msg->type = DRAW_CMD_G3_MTXMULT43;
++    memcpy( &msg->data.mtx43, &m43, sizeof( MtxFx43 ) );
++    SIM_HandleG3Command( msg );
++    free( msg );
++    #else
+ 	reg_G3X_GXFIFO = G3OP_MTX_MULT_4x3;
+ 	GX_SendFifo36B(&mtx->_00, (void *)&reg_G3X_GXFIFO);
+ 
+ 	reg_G3X_GXFIFO = (u32)trans->x;
+ 	reg_G3X_GXFIFO = (u32)trans->y;
+ 	reg_G3X_GXFIFO = (u32)trans->z;
++    #endif
+ }
+diff --git a/libraries/mi/src/mi_dma.c b/libraries/mi/src/mi_dma.c
+index 165e004..8868466 100644
+--- a/libraries/mi/src/mi_dma.c
++++ b/libraries/mi/src/mi_dma.c
+@@ -938,10 +938,12 @@ void MIi_CheckDma0SourceAddress (u32 dmaNo, u32 src, u32 size, u32 dir)
+ 
+         addEnd &= 0xff000000;
+ 
++#ifndef SDK_PORT // DS memory map (I/O, cartridge): host addresses can be anywhere
+         if (addStart == 0x04000000 || addStart >= 0x08000000 ||
+             addEnd == 0x04000000 || addEnd >= 0x08000000) {
+             OS_Panic("illegal DMA0 source address.");
+         }
++#endif
+     }
+ }
+ 
+diff --git a/libraries/sim/src/g3_handler.cpp b/libraries/sim/src/g3_handler.cpp
+index 1ded67d..a5de24f 100644
+--- a/libraries/sim/src/g3_handler.cpp
++++ b/libraries/sim/src/g3_handler.cpp
+@@ -331,7 +331,23 @@ static void calculateClipMatrix()
+     fxMtx._32 = currentClipMatrix.nums[3][2];
+     fxMtx._33 = currentClipMatrix.nums[3][3];
+ 
+-    memcpy( (void*)&s_reg_G3X_CLIPMTX_RESULT_0, &fxMtx, sizeof( MtxFx44 ) );
++    // One store per register: they are separate variables, not a 64-byte block
++    s_reg_G3X_CLIPMTX_RESULT_0 = (u32)fxMtx.a[0];
++    s_reg_G3X_CLIPMTX_RESULT_1 = (u32)fxMtx.a[1];
++    s_reg_G3X_CLIPMTX_RESULT_2 = (u32)fxMtx.a[2];
++    s_reg_G3X_CLIPMTX_RESULT_3 = (u32)fxMtx.a[3];
++    s_reg_G3X_CLIPMTX_RESULT_4 = (u32)fxMtx.a[4];
++    s_reg_G3X_CLIPMTX_RESULT_5 = (u32)fxMtx.a[5];
++    s_reg_G3X_CLIPMTX_RESULT_6 = (u32)fxMtx.a[6];
++    s_reg_G3X_CLIPMTX_RESULT_7 = (u32)fxMtx.a[7];
++    s_reg_G3X_CLIPMTX_RESULT_8 = (u32)fxMtx.a[8];
++    s_reg_G3X_CLIPMTX_RESULT_9 = (u32)fxMtx.a[9];
++    s_reg_G3X_CLIPMTX_RESULT_10 = (u32)fxMtx.a[10];
++    s_reg_G3X_CLIPMTX_RESULT_11 = (u32)fxMtx.a[11];
++    s_reg_G3X_CLIPMTX_RESULT_12 = (u32)fxMtx.a[12];
++    s_reg_G3X_CLIPMTX_RESULT_13 = (u32)fxMtx.a[13];
++    s_reg_G3X_CLIPMTX_RESULT_14 = (u32)fxMtx.a[14];
++    s_reg_G3X_CLIPMTX_RESULT_15 = (u32)fxMtx.a[15];
+ 
+ 
+     return;
+diff --git a/libraries/sim/src/sim_g2.cpp b/libraries/sim/src/sim_g2.cpp
+index 86cd85e..e86f72a 100644
+--- a/libraries/sim/src/sim_g2.cpp
++++ b/libraries/sim/src/sim_g2.cpp
+@@ -1134,7 +1134,8 @@ static void DrawBGLine_Extended(u32 line, u32 bgnum, u8 mosaic, u8 isSub) {
+               u8 r;
+               u8 g;
+               u8 b;
+-              SIM_u16ToRGB(pal[color], &r, &g, &b);
++              // Direct color bitmap: the pixel is the color
++              SIM_u16ToRGB(color, &r, &g, &b);
+               G2SIM_PlotPixel(pixelBuf, r, g, b, i, line, isSub);
+             }
+           }

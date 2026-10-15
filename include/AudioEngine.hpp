@@ -62,7 +62,11 @@ public:
     void *unk_04;
     void *unk_08;
     // NNSSndArc; this game's NitroSystem has no loadBlockSize (0x90 bytes, the SDK header says 0x94)
+#ifdef PC_PORT
+    u8 unk_0C[sizeof(NNSSndArc)] __attribute__((aligned(8))); // larger with 8-byte pointers
+#else
     u8 unk_0C[0x90];
+#endif
     NNSSndHeapHandle m_seHeap;
     NNSSndHeapHandle m_bgmHeap;
     NNSSndHeapHandle unk_A4;

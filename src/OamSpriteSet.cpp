@@ -288,7 +288,7 @@ void OamSpriteSet::Update()
 void OamSpriteSet::RemoveAll()
 {
     for (int i = 0; i < unk_10; i++) {
-        unk_0C[i].Init((u32)&unk_04[i]);
+        unk_0C[i].Init(PTR_CAST(u32, &unk_04[i]));
     }
     unk_38->RemoveAll();
 }

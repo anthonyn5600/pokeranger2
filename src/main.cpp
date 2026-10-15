@@ -234,7 +234,11 @@ void InitSystem(void)
     GX_Init();
     G3X_Init();
     RTC_Init();
+#ifdef PC_PORT
+    Heap_Init(0xB0000 + 0x10000); // room for the larger sound archive heap (src/AudioEngine.cpp)
+#else
     Heap_Init(0xB0000);
+#endif
     InitScriptRandom();
     Script_InitSyscalls();
     CRYPTO_SetAllocator(Heap_Alloc, Heap_Free);

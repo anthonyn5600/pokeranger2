@@ -92,7 +92,7 @@ void CSexSelectScene::ReleaseSprites()
 
 void CSexSelectScene::LoadBG()
 {
-    unk_24[0] = new BGLayer((int)m_game);
+    unk_24[0] = new BGLayer(PTR_CAST(int, m_game));
     unk_24[0]->SetBG(5);
     unk_24[0]->LoadArchive("menu/", "mnd000_bg_");
     unk_24[0]->LoadChar("mnd000", 0, 0, 0);

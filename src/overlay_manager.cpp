@@ -45,7 +45,9 @@
 extern "C" {
 void LoadFieldActorData(void);
 
+#ifndef PC_PORT
 extern void SDK_MAIN_ARENA_LO(void);
+#endif
 
 FS_EXTERN_OVERLAY(overlay0);
 FS_EXTERN_OVERLAY(overlay1);
@@ -78,6 +80,15 @@ static u32 s_currentOverlayID = -1;
 
 void Overlay_LoadByID(FSOverlayID id, BOOL initHeap)
 {
+#ifdef PC_PORT
+    // Every overlay is linked into the executable (FS_OVERLAY_ID is 0 for all of them): only the overlay heap is set
+    // up, like the DS does on each load.
+    // TODO(pc): the DS also resets an overlay's .data/.bss and reruns its static constructors on each load.
+    (void)id;
+    if (initHeap) {
+        Heap_InitOverlayPc();
+    }
+#else
     BOOL res = TRUE;
 
     if (id != s_currentOverlayID) {
@@ -105,19 +116,20 @@ void Overlay_LoadByID(FSOverlayID id, BOOL initHeap)
         return;
     }
 
-    u8 *v0 = (u8 *)ALIGN_BYTE((u32)FS_GetOverlayAddress(&overlayInfo) + FS_GetOverlayTotalSize(&overlayInfo), 16);
+    u8 *v0 = (u8 *)ALIGN_BYTE(PTR_CAST(u32, FS_GetOverlayAddress(&overlayInfo)) + FS_GetOverlayTotalSize(&overlayInfo), 16);
 
     if (!initHeap) {
         return;
     }
 
-    s32 v1 = ((u32)SDK_MAIN_ARENA_LO - (u32)v0) & ~0x7F;
+    s32 v1 = (PTR_CAST(u32, SDK_MAIN_ARENA_LO) - PTR_CAST(u32, v0)) & ~0x7F;
 
     if (v1 <= 0) {
         return;
     }
 
     Heap_InitOverlay(v0, v1);
+#endif
 }
 
 CScene *Scene_LoadByID(u32 id, CGame *game)

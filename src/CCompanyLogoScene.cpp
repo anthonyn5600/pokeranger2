@@ -240,9 +240,9 @@ void CCompanyLogoScene::func6()
     s_game->m_textboxData->Init(s_game->unk_0014, s_game->touchPanel, &s_game->unk_14AC->unk_0C, s_game->m_nameTables, s_game->unk_0024, s_game->m_audioEngine, 0x10, 0x4000, 0);
     s_game->m_textboxData->LoadSystemMessages(0);
 
-    unk_10[0] = new BGLayer((int)s_game);
-    unk_10[1] = new BGLayer((int)s_game);
-    unk_10[2] = new BGLayer((int)s_game);
+    unk_10[0] = new BGLayer(PTR_CAST(int, s_game));
+    unk_10[1] = new BGLayer(PTR_CAST(int, s_game));
+    unk_10[2] = new BGLayer(PTR_CAST(int, s_game));
     unk_10[0]->SetBG(4);
     unk_10[1]->SetBG(0);
     unk_10[2]->SetBG(4);
@@ -288,7 +288,7 @@ void CCompanyLogoScene::func7()
 // VBlank callback: arg = main brightness | sub brightness << 16
 static void ApplyBrightness(void *arg)
 {
-    int brightness = (int)arg;
+    int brightness = PTR_BITS(int, arg);
     G2_SetBlendBrightness(GX_BLEND_PLANEMASK_BG0, (u16)brightness);
     G2S_SetBlendBrightness(GX_BLEND_PLANEMASK_BG0, (u16)(brightness >> 16));
 }

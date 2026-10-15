@@ -113,7 +113,7 @@ void CContinueScene::DrawMessage(int sel)
 
 void CContinueScene::func6()
 {
-    unk_20 = new BGLayer((int)m_game);
+    unk_20 = new BGLayer(PTR_CAST(int, m_game));
     unk_20->SetBG(5);
     unk_20->LoadArchive("menu/", "title004_bg_");
     unk_20->LoadChar("title004", 0, 0, 0);

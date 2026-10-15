@@ -375,7 +375,7 @@ static void Mywh_StateOutReset(void *arg)
 
 BOOL Mywh_StartDownload(u8 *dest, void (*callback)(int state), u8 *buf)
 {
-    sWork = (MywhWork *)(((u32)buf + 31) & ~31);
+    sWork = (MywhWork *)((PTR_CAST(u32, buf) + 31) & ~31);
     sWork->sysState = MYWH_SYSSTATE_STOP;
     sWork->mode = 1;
     sWork->dest = dest;

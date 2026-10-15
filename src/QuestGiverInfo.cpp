@@ -251,10 +251,10 @@ static void GiverThreadMain(void *arg)
     while (TRUE) {
         OSMessage msg;
         OS_ReceiveMessage(&p->unk_12BC, &msg, OS_MESSAGE_BLOCK);
-        if ((int)msg < 0) {
+        if (PTR_BITS(int, msg) < 0) {
             break;
         }
-        p->LoadGiver((int)msg);
+        p->LoadGiver(PTR_BITS(int, msg));
     }
 }
 

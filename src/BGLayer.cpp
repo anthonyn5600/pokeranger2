@@ -539,7 +539,12 @@ BOOL BG_Is256Color(int bg)
         result = bg01.colorMode;
         break;
     case 2:
+#ifdef PC_PORT // g++ rejects the case 3 jump across an initialization
+        GXDispCnt disp;
+        disp = GX_GetDispCnt();
+#else
         GXDispCnt disp = GX_GetDispCnt();
+#endif
         switch (disp.bgMode) {
         case GX_BGMODE_2:
         case GX_BGMODE_4:
@@ -734,7 +739,12 @@ void *BGS_LoadScrFile(const char *path, int bg, u32 arg2, u32 plttNo, u32 charAd
         p = (u16 *)scr->rawData;
         n = size >> 3;
         for (i = 0; i < n; i++) {
+#ifdef PC_PORT
+            *(u64 *)p += add64;
+            p += sizeof(u64) / sizeof(u16);
+#else
             *((u64 *)p)++ += add64; // mwcc accepts the cast lvalue
+#endif
         }
         u16 add16 = (u16)TILE_ADD;
         u32 add32 = add16 | (add16 << 16);

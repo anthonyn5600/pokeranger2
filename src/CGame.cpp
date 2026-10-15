@@ -14,7 +14,6 @@ void GlobalValues_Set(void *obj, int index, s32 value);
 s32 GlobalValues_Get(void *obj, int index);
 void ScriptManager_Update(ScriptManager *scriptManager);
 
-extern SaveData MAIN_BSS_020B26A0;
 extern u8 MAIN_BSS_0210C0B0[];
 }
 

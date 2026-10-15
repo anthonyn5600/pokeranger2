@@ -7,6 +7,14 @@
 #include "file/CBinaryFileMes.hpp"
 #include "heap.hpp"
 
+// The end offset of an open file. The game reads it through the directory view of the FSFile property union, where
+// it lies on the DS (4-byte pointers); on PC that word is somewhere else.
+#ifdef PC_PORT
+#define FILE_END(file) ((file).prop.file.bottom)
+#else
+#define FILE_END(file) ((file).prop.dir.pos.pos)
+#endif
+
 // This is required to match the while-loop in ReadFile.
 // This doesn't affect any other function.
 #pragma optimization_level 2
@@ -65,7 +73,7 @@ void *CBinaryFile::Load(const char *path, u32 arg1, u32 arg2, u32 arg3, void *ar
             FS_InitFile(&file);
             FS_OpenFile(&file, path);
 
-            unk_50 = file.prop.dir.pos.pos - file.prop.file.top;
+            unk_50 = FILE_END(file) - file.prop.file.top;
             FS_CloseFile(&file);
             unk_54 = 0;
         }
@@ -95,7 +103,7 @@ void *CBinaryFile::ReadFile(const char *path, u32 arg1, u32 arg2, void *arg3, u3
         return NULL;
     }
 
-    unk_50 = file.prop.dir.pos.pos - file.prop.file.top;
+    unk_50 = FILE_END(file) - file.prop.file.top;
 
     if (arg3 == NULL || arg2 != 0) {
         if (arg2 != 0) {
@@ -332,3 +340,22 @@ public:
 Cee::~Cee()
 {
 }
+
+#ifdef PC_PORT
+// The DS linker drops these classes before their undefined virtuals matter; the PC linker needs them defined.
+void Caaaaaaaaaaaaaa::FuncA1()
+{
+}
+
+void Cbbbbbbbbbbbbb::FuncB1()
+{
+}
+
+void Cbbbbbbbbbbbbb::FuncB2()
+{
+}
+
+void Cbbbbbbbbbbbbb::FuncB3()
+{
+}
+#endif

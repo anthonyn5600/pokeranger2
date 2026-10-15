@@ -9,8 +9,12 @@
 
 // Explicit instantiations: complete both particle templates before the nested classes, which puts their RTTI ahead of
 // CEmitter's and CAnimator's in the TU's data sort (typeinfo order CAnimator, CEmitter, CFieldEffectManpuAnger).
+#ifndef PC_PORT // data-order control for mwcc; implicit instantiation is enough on PC
 template class TFieldParticleEmitter<CSoftwareSprite>;
+#endif
+#ifndef PC_PORT // data-order control for mwcc; implicit instantiation is enough on PC
 template class TFieldParticleForceField<CSoftwareSprite>;
+#endif
 
 // Anger marks (manpu) popping out above an actor's head.
 class CFieldEffectManpuAnger : public CFieldEffectManpu {

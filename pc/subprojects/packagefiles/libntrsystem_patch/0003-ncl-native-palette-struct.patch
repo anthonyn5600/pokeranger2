@@ -1,0 +1,40 @@
+diff --git a/libraries/g2d/src/load/g2d_NCL_load.c b/libraries/g2d/src/load/g2d_NCL_load.c
+index 5522149..9b3cf10 100644
+--- a/libraries/g2d/src/load/g2d_NCL_load.c
++++ b/libraries/g2d/src/load/g2d_NCL_load.c
+@@ -1,3 +1,4 @@
++#include <stdlib.h>
+ #include <nitro.h>
+ 
+ #include <nnsys/g2d/load/g2d_NCL_load.h>
+@@ -73,20 +74,16 @@ BOOL NNS_G2dGetUnpackedPaletteData (void * pNclrFile, NNSG2dPaletteData ** ppPlt
+                                                                  NNS_G2D_BINBLK_SIG_PALETTEDATA);
+             if (pBinBlk) {
+                 #ifdef SDK_PORT
+-                void * rawDataPtr;
+-                rawDataPtr = NNS_G2dUnpackNCL((void*)&pBinBlk->paletteData);
+-                *ppPltData = &pBinBlk->paletteData;
+-                u8 * tempBuf;
+-                tempBuf = (u8*)(paletteDataOut[curPaletteDataOut]);
+-                curPaletteDataOut++;
+-                if( curPaletteDataOut >= NCL_PALETTE_DATA_OUT_MAX )
+-                {
+-                    curPaletteDataOut = 0;
+-                }
+-                //tempBuf = malloc( pBinBlk->paletteData.szByte );
+-                memcpy( tempBuf, rawDataPtr, pBinBlk->blockHeader.size );
+-                pBinBlk->paletteData.pRawData = tempBuf;
+-                //PCPORT_TODO: Memory Leaks!
++                // The file holds the 32-bit layout (WIN_NNSG2dPaletteData): build the native one beside it
++                // instead of writing 8-byte pointers into the file (an empty palette is only 0x28 bytes). The
++                // colors stay in the file, as on the DS.
++                WIN_NNSG2dPaletteData * pWin = (WIN_NNSG2dPaletteData *)&pBinBlk->paletteData;
++                NNSG2dPaletteData * pNative = malloc(sizeof(NNSG2dPaletteData)); //PCPORT_TODO: freed never (24 bytes per load)
++                pNative->fmt = pWin->fmt;
++                pNative->bExtendedPlt = pWin->bExtendedPlt;
++                pNative->szByte = pWin->szByte;
++                pNative->pRawData = NNS_G2dUnpackNCL((void*)&pBinBlk->paletteData);
++                *ppPltData = pNative;
+                 #else
+                 NNS_G2dUnpackNCL((void *)&pBinBlk->paletteData);
+                 *ppPltData = &pBinBlk->paletteData;

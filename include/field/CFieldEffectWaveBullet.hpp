@@ -8,7 +8,9 @@
 
 // The original completes the emitter template, then the factory classes, then the effect classes: the TU-end
 // typeinfo/vtable creation order decides the data layout. The size check stands in for the unknown first step.
+#ifndef PC_PORT // data-order control for mwcc; implicit instantiation is enough on PC
 template class TFieldParticleEmitter<CSoftwareSprite>;
+#endif
 
 // clang-format off
 #include "field/CFieldEffectFactory.hpp"

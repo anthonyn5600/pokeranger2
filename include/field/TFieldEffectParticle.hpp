@@ -157,8 +157,8 @@ void TFieldParticleSmokeRectEmitter<T>::Emit(TFieldParticle<T> *p)
     CGame *game = CGame::GetInstance();
     MATHRandContext32 *rand = &game->m_rand32;
     int life = m_lifeMin + MATH_Rand32(rand, m_lifeMax - m_lifeMin + 1);
-    fx32 x = RandCentered(m_width);
-    fx32 y = RandCentered(m_height);
+    fx32 x = RandCentered(this->m_width);
+    fx32 y = RandCentered(this->m_height);
     p->pos = (Point2D) { this->m_pos.x + x, this->m_pos.y + y };
     p->life = life << 12;
     p->maxLife = life << 12;

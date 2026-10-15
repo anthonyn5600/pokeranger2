@@ -1,0 +1,3385 @@
+diff --git a/include/nnsys/g2d/fmt/g2d_Cell_data.h b/include/nnsys/g2d/fmt/g2d_Cell_data.h
+index c482a05..8d267c0 100644
+--- a/include/nnsys/g2d/fmt/g2d_Cell_data.h
++++ b/include/nnsys/g2d/fmt/g2d_Cell_data.h
+@@ -148,7 +148,7 @@ typedef struct WIN_NNSG2dUserExCellAttrBank {
+ }WIN_NNSG2dUserExCellAttrBank;
+ #endif
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNSi_G2dSetCellBankHasBR (NNSG2dCellDataBank * pCellBank)
+@@ -157,7 +157,7 @@ NNS_G2D_INLINE void NNSi_G2dSetCellBankHasBR (NNSG2dCellDataBank * pCellBank)
+     pCellBank->cellBankAttr |= NNS_G2D_CELLBK_ATTR_CELLWITHBR;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE BOOL NNSi_G2dCellBankHasBR (const NNSG2dCellDataBank * pCellBank)
+@@ -165,7 +165,7 @@ NNS_G2D_INLINE BOOL NNSi_G2dCellBankHasBR (const NNSG2dCellDataBank * pCellBank)
+     return (BOOL)(pCellBank->cellBankAttr & NNS_G2D_CELLBK_ATTR_CELLWITHBR);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE u16 NNSi_G2dSetCellAttrFlipFlag (BOOL bH, BOOL bV, BOOL bHV)
+@@ -175,7 +175,7 @@ NNS_G2D_INLINE u16 NNSi_G2dSetCellAttrFlipFlag (BOOL bH, BOOL bV, BOOL bHV)
+                  (bHV << NNS_G2D_CELL_FLIP_HV_SHIFT));
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE u16 NNSi_G2dSetCellAttrHasBR (BOOL bHasBR)
+@@ -183,7 +183,7 @@ NNS_G2D_INLINE u16 NNSi_G2dSetCellAttrHasBR (BOOL bHasBR)
+     return (u16)(bHasBR << NNS_G2D_CELL_HAS_BR_SHIFT);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE BOOL NNSi_G2dIsCellFlipH (const NNSG2dCellData * pCell)
+@@ -191,7 +191,7 @@ NNS_G2D_INLINE BOOL NNSi_G2dIsCellFlipH (const NNSG2dCellData * pCell)
+     return (BOOL)((pCell->cellAttr >> NNS_G2D_CELL_FLIP_H_SHIFT) & 0x1);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE BOOL NNSi_G2dIsCellFlipV (const NNSG2dCellData * pCell)
+@@ -199,7 +199,7 @@ NNS_G2D_INLINE BOOL NNSi_G2dIsCellFlipV (const NNSG2dCellData * pCell)
+     return (BOOL)((pCell->cellAttr >> NNS_G2D_CELL_FLIP_V_SHIFT) & 0x1);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE BOOL NNSi_G2dIsCellFlipHV (const NNSG2dCellData * pCell)
+@@ -207,7 +207,7 @@ NNS_G2D_INLINE BOOL NNSi_G2dIsCellFlipHV (const NNSG2dCellData * pCell)
+     return (BOOL)((pCell->cellAttr >> NNS_G2D_CELL_FLIP_HV_SHIFT) & 0x1);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE BOOL NNS_G2dCellHasBR (const NNSG2dCellData * pCell)
+@@ -215,7 +215,7 @@ NNS_G2D_INLINE BOOL NNS_G2dCellHasBR (const NNSG2dCellData * pCell)
+     return (BOOL)((pCell->cellAttr >> NNS_G2D_CELL_HAS_BR_SHIFT) & 0x1);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE BOOL NNSi_G2dCellHasBR (const NNSG2dCellData * pCell)
+@@ -223,7 +223,7 @@ NNS_G2D_INLINE BOOL NNSi_G2dCellHasBR (const NNSG2dCellData * pCell)
+     return NNS_G2dCellHasBR(pCell);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE const NNSG2dCellBoundingRectS16 * NNS_G2dGetCellBoundingRect (const NNSG2dCellData * pCell)
+@@ -232,7 +232,7 @@ NNS_G2D_INLINE const NNSG2dCellBoundingRectS16 * NNS_G2dGetCellBoundingRect (con
+     return &pBR->boundingRect;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNSi_G2dSetCellBoundingSphereR (NNSG2dCellData * pCell, u8 R)
+@@ -246,7 +246,7 @@ NNS_G2D_INLINE void NNSi_G2dSetCellBoundingSphereR (NNSG2dCellData * pCell, u8 R
+     pCell->cellAttr |= ((R & NNS_G2D_CELL_BS_R_MASK) << NNS_G2D_CELL_BS_R_SHIFT);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE u8 NNS_G2dGetCellBoundingSphereR (const NNSG2dCellData * pCell)
+@@ -255,7 +255,7 @@ NNS_G2D_INLINE u8 NNS_G2dGetCellBoundingSphereR (const NNSG2dCellData * pCell)
+     return (u8)(R << NNS_G2D_CELL_BS_R_OFFSET);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE u8 NNSi_G2dGetCellBoundingSphereR (const NNSG2dCellData * pCell)
+@@ -263,7 +263,7 @@ NNS_G2D_INLINE u8 NNSi_G2dGetCellBoundingSphereR (const NNSG2dCellData * pCell)
+     return NNS_G2dGetCellBoundingSphereR(pCell);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE BOOL NNS_G2dCellDataBankHasVramTransferData (const NNSG2dCellDataBank * pCellBank)
+@@ -271,7 +271,7 @@ NNS_G2D_INLINE BOOL NNS_G2dCellDataBankHasVramTransferData (const NNSG2dCellData
+     return (BOOL)(pCellBank->pVramTransferData != NULL);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE u32 NNS_G2dGetSizeRequiredVramTransferCellDataBank (const NNSG2dCellDataBank * pCellBank)
+@@ -284,7 +284,7 @@ NNS_G2D_INLINE u32 NNS_G2dGetSizeRequiredVramTransferCellDataBank (const NNSG2dC
+     return 0;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE const NNSG2dCellVramTransferData * NNSi_G2dGetCellVramTransferData (const NNSG2dCellDataBank * pCellBank, u16 cellIdx)
+@@ -293,7 +293,7 @@ NNS_G2D_INLINE const NNSG2dCellVramTransferData * NNSi_G2dGetCellVramTransferDat
+     return &pTransferData->pCellTransferDataArray[cellIdx];
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE const NNSG2dUserExCellAttrBank * NNS_G2dGetUserExCellAttrBankFromCellBank (const NNSG2dCellDataBank * pCellBank)
+@@ -307,7 +307,7 @@ NNS_G2D_INLINE const NNSG2dUserExCellAttrBank * NNS_G2dGetUserExCellAttrBankFrom
+     }
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE const NNSG2dUserExCellAttr * NNS_G2dGetUserExCellAttr (const NNSG2dUserExCellAttrBank * pCellAttrBank, u16 idx)
+@@ -319,7 +319,7 @@ NNS_G2D_INLINE const NNSG2dUserExCellAttr * NNS_G2dGetUserExCellAttr (const NNSG
+     }
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE const u32 NNS_G2dGetUserExCellAttrValue (const NNSG2dUserExCellAttr * pCellAttr)
+@@ -327,7 +327,7 @@ NNS_G2D_INLINE const u32 NNS_G2dGetUserExCellAttrValue (const NNSG2dUserExCellAt
+     return pCellAttr->pAttr[0];
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dCopyCellAsOamAttr (const NNSG2dCellData * pCell, u16 idx, GXOamAttr * pDst)
+@@ -341,7 +341,7 @@ NNS_G2D_INLINE void NNS_G2dCopyCellAsOamAttr (const NNSG2dCellData * pCell, u16
+     }
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE s16 NNS_G2dRepeatXinCellSpace (s16 srcX)
+@@ -352,7 +352,7 @@ NNS_G2D_INLINE s16 NNS_G2dRepeatXinCellSpace (s16 srcX)
+     return srcX;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE s16 NNS_G2dRepeatYinCellSpace (s16 srcY)
+diff --git a/include/nnsys/g2d/fmt/g2d_Character_data.h b/include/nnsys/g2d/fmt/g2d_Character_data.h
+index ef8bc4a..439885c 100644
+--- a/include/nnsys/g2d/fmt/g2d_Character_data.h
++++ b/include/nnsys/g2d/fmt/g2d_Character_data.h
+@@ -153,7 +153,7 @@ typedef struct NNSG2dCharacterPosInfoBlock {
+     NNSG2dCharacterPosInfo posInfo;
+ } NNSG2dCharacterPosInfoBlock;
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE u32 NNSi_G2dPackCharacterFmtData (NNSG2dCharacterFmt charFmt, BOOL bVramTransferData)
+@@ -162,7 +162,7 @@ NNS_G2D_INLINE u32 NNSi_G2dPackCharacterFmtData (NNSG2dCharacterFmt charFmt, BOO
+                  (bVramTransferData << NNS_G2D_VRAMTRANSFERDATA_FLAG_SHIFT));
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE NNSG2dCharacterFmt NNSi_G2dGetCharacterFmtType (u32 characterFmt)
+@@ -171,7 +171,7 @@ NNS_G2D_INLINE NNSG2dCharacterFmt NNSi_G2dGetCharacterFmtType (u32 characterFmt)
+            (NNS_G2D_CHARACTER_FMT_MASK & (characterFmt >> NNS_G2D_CHARACTER_FMT_SHIFT));
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE BOOL NNSi_G2dIsCharacterVramTransfered (u32 characterFmt)
+diff --git a/include/nnsys/g2d/fmt/g2d_Common_data.h b/include/nnsys/g2d/fmt/g2d_Common_data.h
+index a4e9d97..4735796 100644
+--- a/include/nnsys/g2d/fmt/g2d_Common_data.h
++++ b/include/nnsys/g2d/fmt/g2d_Common_data.h
+@@ -53,7 +53,7 @@ typedef struct NNSG2dUserExDataBlock {
+     u32 blkSize;
+ } NNSG2dUserExDataBlock;
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE BOOL NNS_G2dIsPad16Valid (u16 pad16)
+@@ -61,7 +61,7 @@ NNS_G2D_INLINE BOOL NNS_G2dIsPad16Valid (u16 pad16)
+     return (NNS_G2D_DUMMY_DATA16 == pad16) ? TRUE : FALSE;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE BOOL NNS_G2dIsPad32Valid (u32 pad32)
+@@ -69,7 +69,7 @@ NNS_G2D_INLINE BOOL NNS_G2dIsPad32Valid (u32 pad32)
+     return (NNS_G2D_DUMMY_DATA32 == pad32) ? TRUE : FALSE;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE u16 NNS_G2dMakeVersionData (u8 majorVer, u8 minorVer)
+@@ -77,7 +77,7 @@ NNS_G2D_INLINE u16 NNS_G2dMakeVersionData (u8 majorVer, u8 minorVer)
+     return (u16)((u16)majorVer << 8 | ((u16)minorVer & 0x00FF));
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE const NNSG2dUserExDataBlock * NNSi_G2dGetUserExDataBlkByID (const void * pExtendData, u32 blkTypeID)
+diff --git a/include/nnsys/g2d/fmt/g2d_MultiCell_data.h b/include/nnsys/g2d/fmt/g2d_MultiCell_data.h
+index e6b5048..21c854f 100644
+--- a/include/nnsys/g2d/fmt/g2d_MultiCell_data.h
++++ b/include/nnsys/g2d/fmt/g2d_MultiCell_data.h
+@@ -70,7 +70,7 @@ typedef struct NNSG2dUserExMultiCellAttrBank {
+     NNSG2dUserExMultiCellAttr * pMCAttrArray;
+ } NNSG2dUserExMultiCellAttrBank;
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNSi_G2dSetMultiCellNodeAttribute (NNSG2dMCAnimationPlayMode mode, int bVisibility, u16 * pDstAttr)
+@@ -79,7 +79,7 @@ NNS_G2D_INLINE void NNSi_G2dSetMultiCellNodeAttribute (NNSG2dMCAnimationPlayMode
+                       ((bVisibility & 0x1) << NNS_G2D_MCNODE_VISIBILITY_SHIFT));
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE BOOL NNSi_G2dIsMultiCellNodeVisible (const NNSG2dMultiCellHierarchyData * pNode)
+@@ -87,7 +87,7 @@ NNS_G2D_INLINE BOOL NNSi_G2dIsMultiCellNodeVisible (const NNSG2dMultiCellHierarc
+     return (BOOL)((pNode->nodeAttr >> NNS_G2D_MCNODE_VISIBILITY_SHIFT) & 0x1);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE NNSG2dMCAnimationPlayMode NNSi_G2dGetMultiCellNodePlayMode (const NNSG2dMultiCellHierarchyData * pNode)
+@@ -99,7 +99,7 @@ NNS_G2D_INLINE NNSG2dMCAnimationPlayMode NNSi_G2dGetMultiCellNodePlayMode (const
+     return mode;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNSi_G2dSetMC2NodeCellAinmIdx (NNSG2dMultiCellHierarchyData * pNodeData, u8 idx)
+@@ -108,7 +108,7 @@ NNS_G2D_INLINE void NNSi_G2dSetMC2NodeCellAinmIdx (NNSG2dMultiCellHierarchyData
+     pNodeData->nodeAttr |= idx << NNS_G2D_MCNODE_CELLANIMIDX_SHIFT;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE u16 NNSi_G2dGetMC2NodeCellAinmIdx (const NNSG2dMultiCellHierarchyData * pNodeData)
+@@ -116,7 +116,7 @@ NNS_G2D_INLINE u16 NNSi_G2dGetMC2NodeCellAinmIdx (const NNSG2dMultiCellHierarchy
+     return (u16)((NNS_G2D_MCNODE_CELLANIMIDX_MASK & pNodeData->nodeAttr) >> NNS_G2D_MCNODE_CELLANIMIDX_SHIFT);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE const NNSG2dUserExCellAttrBank * NNS_G2dGetUserExCellAttrBankFromMCBank (const NNSG2dMultiCellDataBank * pMCBank)
+diff --git a/include/nnsys/g2d/fmt/g2d_Oam_data.h b/include/nnsys/g2d/fmt/g2d_Oam_data.h
+index fb6546a..36b3d97 100644
+--- a/include/nnsys/g2d/fmt/g2d_Oam_data.h
++++ b/include/nnsys/g2d/fmt/g2d_Oam_data.h
+@@ -75,7 +75,7 @@ typedef struct objSize {
+     }                                              \
+ 
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE GXOamShape NNS_G2dGetOAMSize (const GXOamAttr * oamAttr)
+@@ -84,7 +84,7 @@ NNS_G2D_INLINE GXOamShape NNS_G2dGetOAMSize (const GXOamAttr * oamAttr)
+     return result;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE int NNS_G2dGetOamSizeX (const GXOamShape * oamShape)
+@@ -96,7 +96,7 @@ NNS_G2D_INLINE int NNS_G2dGetOamSizeX (const GXOamShape * oamShape)
+            [(*oamShape & GX_OAM_ATTR01_SIZE_MASK) >> GX_OAM_ATTR01_SIZE_SHIFT];
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE int NNS_G2dGetOamSizeY (const GXOamShape * oamShape)
+diff --git a/include/nnsys/g2d/g2d_Animation_inline.h b/include/nnsys/g2d/g2d_Animation_inline.h
+index c0bd938..e5e82ba 100644
+--- a/include/nnsys/g2d/g2d_Animation_inline.h
++++ b/include/nnsys/g2d/g2d_Animation_inline.h
+@@ -5,7 +5,7 @@
+ extern "C" {
+ #endif
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE NNSG2dAnimationType NNS_G2dGetAnimCtrlType (const NNSG2dAnimController * pAnimCtrl)
+@@ -18,7 +18,7 @@ NNS_G2D_INLINE NNSG2dAnimationType NNS_G2dGetAnimCtrlType (const NNSG2dAnimContr
+     }
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dSetAnimCtrlSpeed (NNSG2dAnimController * pAnimCtrl, fx32 speed)
+@@ -27,7 +27,7 @@ NNS_G2D_INLINE void NNS_G2dSetAnimCtrlSpeed (NNSG2dAnimController * pAnimCtrl, f
+     pAnimCtrl->speed = speed;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE fx32 NNS_G2dGetAnimCtrlSpeed (const NNSG2dAnimController * pAnimCtrl)
+@@ -36,7 +36,7 @@ NNS_G2D_INLINE fx32 NNS_G2dGetAnimCtrlSpeed (const NNSG2dAnimController * pAnimC
+     return pAnimCtrl->speed;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dStartAnimCtrl (NNSG2dAnimController * pAnimCtrl)
+@@ -45,7 +45,7 @@ NNS_G2D_INLINE void NNS_G2dStartAnimCtrl (NNSG2dAnimController * pAnimCtrl)
+     pAnimCtrl->bActive = TRUE;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dStopAnimCtrl (NNSG2dAnimController * pAnimCtrl)
+@@ -54,7 +54,7 @@ NNS_G2D_INLINE void NNS_G2dStopAnimCtrl (NNSG2dAnimController * pAnimCtrl)
+     pAnimCtrl->bActive = FALSE;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE BOOL NNS_G2dIsAnimCtrlActive (const NNSG2dAnimController * pAnimCtrl)
+@@ -63,7 +63,7 @@ NNS_G2D_INLINE BOOL NNS_G2dIsAnimCtrlActive (const NNSG2dAnimController * pAnimC
+     return pAnimCtrl->bActive;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dSetAnimCtrlPlayModeOverridden (NNSG2dAnimController * pAnimCtrl, NNSG2dAnimationPlayMode playMode)
+@@ -74,7 +74,7 @@ NNS_G2D_INLINE void NNS_G2dSetAnimCtrlPlayModeOverridden (NNSG2dAnimController *
+     pAnimCtrl->overriddenPlayMode = playMode;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dResetAnimCtrlPlayModeOverridden (NNSG2dAnimController * pAnimCtrl)
+@@ -83,7 +83,7 @@ NNS_G2D_INLINE void NNS_G2dResetAnimCtrlPlayModeOverridden (NNSG2dAnimController
+     pAnimCtrl->overriddenPlayMode = NNS_G2D_ANIMATIONPLAYMODE_INVALID;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE fx32 NNS_G2dGetAnimCtrlCurrentTime (const NNSG2dAnimController * pAnimCtrl)
+@@ -92,7 +92,7 @@ NNS_G2D_INLINE fx32 NNS_G2dGetAnimCtrlCurrentTime (const NNSG2dAnimController *
+     return pAnimCtrl->currentTime;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dSetAnimCtrlCurrentTime (NNSG2dAnimController * pAnimCtrl, fx32 time)
+@@ -101,7 +101,7 @@ NNS_G2D_INLINE void NNS_G2dSetAnimCtrlCurrentTime (NNSG2dAnimController * pAnimC
+     pAnimCtrl->currentTime = time;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE u16 NNS_G2dGetAnimCtrlCurrentElemIdxVal (const NNSG2dAnimController * pAnimCtrl)
+@@ -114,7 +114,7 @@ NNS_G2D_INLINE u16 NNS_G2dGetAnimCtrlCurrentElemIdxVal (const NNSG2dAnimControll
+     }
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE const NNSG2dAnimSequence * NNS_G2dGetAnimCtrlCurrentAnimSequence (const NNSG2dAnimController * pAnimCtrl)
+diff --git a/include/nnsys/g2d/g2d_CellAnimation.h b/include/nnsys/g2d/g2d_CellAnimation.h
+index 30aaa3e..690dc61 100644
+--- a/include/nnsys/g2d/g2d_CellAnimation.h
++++ b/include/nnsys/g2d/g2d_CellAnimation.h
+@@ -40,7 +40,7 @@ void NNS_G2dRestartCellAnimation(NNSG2dCellAnimation * pCellAnim);
+ void NNS_G2dSetCellAnimationSpeed(NNSG2dCellAnimation * pCellAnim, fx32 speed);
+ u16 NNS_G2dMakeCellToOams(GXOamAttr * pDstOams, u16 numDstOam, const NNSG2dCellData * pCell, const MtxFx22 * pMtxSR, const NNSG2dFVec2 * pBaseTrans, u16 affineIndex, BOOL bDoubleAffine);
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE NNSG2dAnimController * NNS_G2dGetCellAnimationAnimCtrl (NNSG2dCellAnimation * pCellAnim)
+@@ -49,7 +49,7 @@ NNS_G2D_INLINE NNSG2dAnimController * NNS_G2dGetCellAnimationAnimCtrl (NNSG2dCel
+     return &pCellAnim->animCtrl;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE const NNSG2dCellData * NNS_G2dGetCellAnimationCurrentCell (const NNSG2dCellAnimation * pCellAnim)
+@@ -58,7 +58,7 @@ NNS_G2D_INLINE const NNSG2dCellData * NNS_G2dGetCellAnimationCurrentCell (const
+     return pCellAnim->pCurrentCell;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE BOOL NNSi_G2dIsCellAnimVramTransferHandleValid (const NNSG2dCellAnimation * pCellAnim)
+@@ -66,7 +66,7 @@ NNS_G2D_INLINE BOOL NNSi_G2dIsCellAnimVramTransferHandleValid (const NNSG2dCellA
+     return (BOOL)(pCellAnim->cellTransferStateHandle != NNS_G2D_INVALID_CELL_TRANSFER_STATE_HANDLE);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE BOOL NNSi_G2dIsVramTransferCellAnim (const NNSG2dCellAnimation * pCellAnim)
+@@ -74,7 +74,7 @@ NNS_G2D_INLINE BOOL NNSi_G2dIsVramTransferCellAnim (const NNSG2dCellAnimation *
+     return NNSi_G2dIsCellAnimVramTransferHandleValid(pCellAnim);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNSi_G2dSetCellAnimVramTransferHandle (NNSG2dCellAnimation * pCellAnim, u32 handle)
+@@ -85,7 +85,7 @@ NNS_G2D_INLINE void NNSi_G2dSetCellAnimVramTransferHandle (NNSG2dCellAnimation *
+     pCellAnim->cellTransferStateHandle = handle;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE u32 NNSi_G2dGetCellAnimVramTransferHandle (const NNSG2dCellAnimation * pCellAnim)
+diff --git a/include/nnsys/g2d/g2d_CellTransferManager.h b/include/nnsys/g2d/g2d_CellTransferManager.h
+index 5d55744..e0db1df 100644
+--- a/include/nnsys/g2d/g2d_CellTransferManager.h
++++ b/include/nnsys/g2d/g2d_CellTransferManager.h
+@@ -39,7 +39,7 @@ NNSG2dCellTransferState * NNSi_G2dGetCellTransferState(u32 handle);
+ 
+ void NNSi_G2dInitCellTransferState(u32 handle, u32 dstAddr3D, u32 dstAddr2DMain, u32 dstAddr2DSub, u32 szDst, const void * pSrcNCGR, const void * pSrcNCBR, u32 szSrcData);
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNSi_G2dSetCellTransferStateRequestFlag (NNSG2dCellTransferState * pState, NNS_G2D_VRAM_TYPE type, BOOL flag)
+@@ -47,7 +47,7 @@ NNS_G2D_INLINE void NNSi_G2dSetCellTransferStateRequestFlag (NNSG2dCellTransferS
+     pState->bTransferRequested = (pState->bTransferRequested & ~(0x1 << type)) | (flag << type);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNSi_G2dSetVramTransferRequestFlag (u32 handle, NNS_G2D_VRAM_TYPE type, BOOL flag)
+@@ -56,7 +56,7 @@ NNS_G2D_INLINE void NNSi_G2dSetVramTransferRequestFlag (u32 handle, NNS_G2D_VRAM
+     NNSi_G2dSetCellTransferStateRequestFlag(pState, type, flag);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE BOOL NNSi_G2dGetCellTransferStateRequestFlag (const NNSG2dCellTransferState * pState, NNS_G2D_VRAM_TYPE type)
+@@ -64,7 +64,7 @@ NNS_G2D_INLINE BOOL NNSi_G2dGetCellTransferStateRequestFlag (const NNSG2dCellTra
+     return (BOOL)(pState->bTransferRequested & (0x1 << type));
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE BOOL NNSi_G2dGetVramTransferRequestFlag (u32 handle, NNS_G2D_VRAM_TYPE type)
+@@ -73,7 +73,7 @@ NNS_G2D_INLINE BOOL NNSi_G2dGetVramTransferRequestFlag (u32 handle, NNS_G2D_VRAM
+     return NNSi_G2dGetCellTransferStateRequestFlag(pState, type);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNSi_G2dSetCellTransferStateCellDrawnFlag (NNSG2dCellTransferState * pState, NNS_G2D_VRAM_TYPE type, BOOL flag)
+@@ -81,7 +81,7 @@ NNS_G2D_INLINE void NNSi_G2dSetCellTransferStateCellDrawnFlag (NNSG2dCellTransfe
+     pState->bDrawn = (pState->bDrawn & ~(0x1 << type)) | (flag << type);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNSi_G2dSetVramTransferCellDrawnFlag (u32 handle, NNS_G2D_VRAM_TYPE type, BOOL flag)
+@@ -90,7 +90,7 @@ NNS_G2D_INLINE void NNSi_G2dSetVramTransferCellDrawnFlag (u32 handle, NNS_G2D_VR
+     NNSi_G2dSetCellTransferStateCellDrawnFlag(pState, type, flag);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE BOOL NNSi_G2dGetCellTransferStateCellDrawnFlag (const NNSG2dCellTransferState * pState, NNS_G2D_VRAM_TYPE type)
+@@ -98,7 +98,7 @@ NNS_G2D_INLINE BOOL NNSi_G2dGetCellTransferStateCellDrawnFlag (const NNSG2dCellT
+     return (BOOL)(pState->bDrawn & (0x1 << type));
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE BOOL NNSi_G2dGetVramTransferCellDrawnFlag (u32 handle, NNS_G2D_VRAM_TYPE type)
+diff --git a/include/nnsys/g2d/g2d_CharCanvas.h b/include/nnsys/g2d/g2d_CharCanvas.h
+index 33ff3a4..3b0b564 100644
+--- a/include/nnsys/g2d/g2d_CharCanvas.h
++++ b/include/nnsys/g2d/g2d_CharCanvas.h
+@@ -117,7 +117,7 @@ void NNS_G2dMapScrToCharAffine(void * areaBase, int areaWidth, int areaHeight, N
+ void NNS_G2dMapScrToChar256x16Pltt(void * areaBase, int areaWidth, int areaHeight, NNSG2d256x16PlttBGWidth scnWidth, int charNo, int cplt);
+ int NNSi_G2dCalcRequiredOBJ(int areaWidth, int areaHeight);
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE int NNS_G2dCalcRequiredOBJ1D (int areaWidth, int areaHeight)
+@@ -125,7 +125,7 @@ NNS_G2D_INLINE int NNS_G2dCalcRequiredOBJ1D (int areaWidth, int areaHeight)
+     return NNSi_G2dCalcRequiredOBJ(areaWidth, areaHeight);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE int NNS_G2dCalcRequiredOBJ2DRect (int areaWidth, int areaHeight)
+@@ -137,7 +137,7 @@ int NNS_G2dArrangeOBJ1D(GXOamAttr * oam, int areaWidth, int areaHeight, int x, i
+ int NNS_G2dArrangeOBJ2DRect(GXOamAttr * oam, int areaWidth, int areaHeight, int x, int y, GXOamColorMode color, int charName);
+ int NNS_G2dCharCanvasDrawChar(const NNSG2dCharCanvas * pCC, const NNSG2dFont * pFont, int x, int y, int cl, u16 ccode);
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dCharCanvasDrawGlyph (const NNSG2dCharCanvas * pCC, const NNSG2dFont * pFont, int x, int y, int cl, const NNSG2dGlyph * pGlyph)
+@@ -146,7 +146,7 @@ NNS_G2D_INLINE void NNS_G2dCharCanvasDrawGlyph (const NNSG2dCharCanvas * pCC, co
+     pCC->vtable->pDrawGlyph(pCC, pFont, x, y, cl, pGlyph);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dCharCanvasClear (const NNSG2dCharCanvas * pCC, int cl)
+@@ -155,7 +155,7 @@ NNS_G2D_INLINE void NNS_G2dCharCanvasClear (const NNSG2dCharCanvas * pCC, int cl
+     pCC->vtable->pClear(pCC, cl);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dCharCanvasClearArea (const NNSG2dCharCanvas * pCC, int cl, int x, int y, int w, int h)
+@@ -170,7 +170,7 @@ void NNS_G2dCharCanvasInitForOBJ2DRect(NNSG2dCharCanvas * pCC, void * charBase,
+ void NNS_G2dCharCanvasMakeCell1D(NNSG2dCellData * pCell, const NNSG2dCharCanvas * pCC, int x, int y, int priority, GXOamMode mode, BOOL mosaic, GXOamEffect effect, GXOamColorMode color, int charName, int cParam, NNSG2dOBJVramMode vramMode, BOOL makeBR);
+ void NNS_G2dCharCanvasMakeCell2DRect(NNSG2dCellData * pCell, const NNSG2dCharCanvas * pCC, int x, int y, int priority, GXOamMode mode, BOOL mosaic, GXOamEffect effect, GXOamColorMode color, int charName, int cParam, BOOL makeBR);
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE size_t NNSi_G2dCharCanvasCalcCellDataSize (const NNSG2dCharCanvas * pCC, BOOL makeBR)
+@@ -182,7 +182,7 @@ NNS_G2D_INLINE size_t NNSi_G2dCharCanvasCalcCellDataSize (const NNSG2dCharCanvas
+     return sizeof(NNSG2dCellData) + brSize + oamSize;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE size_t NNS_G2dCharCanvasCalcCellDataSize1D (const NNSG2dCharCanvas * pCC, BOOL makeBR)
+@@ -190,7 +190,7 @@ NNS_G2D_INLINE size_t NNS_G2dCharCanvasCalcCellDataSize1D (const NNSG2dCharCanva
+     return NNSi_G2dCharCanvasCalcCellDataSize(pCC, makeBR);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE size_t NNS_G2dCharCanvasCalcCellDataSize2DRect (const NNSG2dCharCanvas * pCC, BOOL makeBR)
+diff --git a/include/nnsys/g2d/g2d_Font.h b/include/nnsys/g2d/g2d_Font.h
+index 7d45bd3..cce956e 100644
+--- a/include/nnsys/g2d/g2d_Font.h
++++ b/include/nnsys/g2d/g2d_Font.h
+@@ -55,7 +55,7 @@ void NNS_G2dFontInitCP1252(NNSG2dFont * pFont, void * pNftrFile);
+ u16 NNS_G2dFontFindGlyphIndex(const NNSG2dFont * pFont, u16 c);
+ const NNSG2dCharWidths * NNS_G2dFontGetCharWidthsFromIndex(const NNSG2dFont * pFont, u16 idx);
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE NNSG2dFontType NNS_G2dFontGetType (const NNSG2dFont * pFont)
+@@ -64,7 +64,7 @@ NNS_G2D_INLINE NNSG2dFontType NNS_G2dFontGetType (const NNSG2dFont * pFont)
+     return (NNSG2dFontType)pFont->pRes->fontType;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE s8 NNS_G2dFontGetLineFeed (const NNSG2dFont * pFont)
+@@ -73,7 +73,7 @@ NNS_G2D_INLINE s8 NNS_G2dFontGetLineFeed (const NNSG2dFont * pFont)
+     return pFont->pRes->linefeed;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE u16 NNS_G2dFontGetAlternateGlyphIndex (const NNSG2dFont * pFont)
+@@ -82,7 +82,7 @@ NNS_G2D_INLINE u16 NNS_G2dFontGetAlternateGlyphIndex (const NNSG2dFont * pFont)
+     return pFont->pRes->alterCharIndex;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE NNSG2dCharWidths * NNS_G2dFontGetDefaultCharWidths (const NNSG2dFont * pFont)
+@@ -91,7 +91,7 @@ NNS_G2D_INLINE NNSG2dCharWidths * NNS_G2dFontGetDefaultCharWidths (const NNSG2dF
+     return &pFont->pRes->defaultWidth;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE u8 NNS_G2dFontGetHeight (const NNSG2dFont * pFont)
+@@ -100,7 +100,7 @@ NNS_G2D_INLINE u8 NNS_G2dFontGetHeight (const NNSG2dFont * pFont)
+     return pFont->pRes->pGlyph->cellHeight;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE u8 NNS_G2dFontGetCellHeight (const NNSG2dFont * pFont)
+@@ -109,7 +109,7 @@ NNS_G2D_INLINE u8 NNS_G2dFontGetCellHeight (const NNSG2dFont * pFont)
+     return pFont->pRes->pGlyph->cellHeight;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE u8 NNS_G2dFontGetCellWidth (const NNSG2dFont * pFont)
+@@ -118,7 +118,7 @@ NNS_G2D_INLINE u8 NNS_G2dFontGetCellWidth (const NNSG2dFont * pFont)
+     return pFont->pRes->pGlyph->cellWidth;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE int NNS_G2dFontGetBaselinePos (const NNSG2dFont * pFont)
+@@ -127,7 +127,7 @@ NNS_G2D_INLINE int NNS_G2dFontGetBaselinePos (const NNSG2dFont * pFont)
+     return pFont->pRes->pGlyph->baselinePos;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE int NNSi_G2dFontGetGlyphDataSize (const NNSG2dFont * pFont)
+@@ -136,7 +136,7 @@ NNS_G2D_INLINE int NNSi_G2dFontGetGlyphDataSize (const NNSG2dFont * pFont)
+     return pFont->pRes->pGlyph->cellSize;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE u8 NNS_G2dFontGetMaxCharWidth (const NNSG2dFont * pFont)
+@@ -145,7 +145,7 @@ NNS_G2D_INLINE u8 NNS_G2dFontGetMaxCharWidth (const NNSG2dFont * pFont)
+     return pFont->pRes->pGlyph->maxCharWidth;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE u8 NNS_G2dFontGetBpp (const NNSG2dFont * pFont)
+@@ -154,7 +154,7 @@ NNS_G2D_INLINE u8 NNS_G2dFontGetBpp (const NNSG2dFont * pFont)
+     return pFont->pRes->pGlyph->bpp;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE NNSG2dFontEncoding NNSi_G2dFontGetEncoding (const NNSG2dFont * pFont)
+@@ -163,7 +163,7 @@ NNS_G2D_INLINE NNSG2dFontEncoding NNSi_G2dFontGetEncoding (const NNSG2dFont * pF
+     return (NNSG2dFontEncoding)pFont->pRes->encoding;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE NNSiG2dSplitCharCallback NNSi_G2dFontGetSpliter (const NNSG2dFont * pFont)
+@@ -172,7 +172,7 @@ NNS_G2D_INLINE NNSiG2dSplitCharCallback NNSi_G2dFontGetSpliter (const NNSG2dFont
+     return pFont->cbCharSpliter;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE const u8 * NNS_G2dFontGetGlyphImageFromIndex (const NNSG2dFont * pFont, u16 idx)
+@@ -182,7 +182,7 @@ NNS_G2D_INLINE const u8 * NNS_G2dFontGetGlyphImageFromIndex (const NNSG2dFont *
+     return pFont->pRes->pGlyph->glyphTable + idx * NNSi_G2dFontGetGlyphDataSize(pFont);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE u8 NNS_G2dFontGetFlags (const NNSG2dFont * pFont)
+@@ -191,7 +191,7 @@ NNS_G2D_INLINE u8 NNS_G2dFontGetFlags (const NNSG2dFont * pFont)
+     return pFont->pRes->pGlyph->flags;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dFontSetLineFeed (NNSG2dFont * pFont, s8 linefeed)
+@@ -200,7 +200,7 @@ NNS_G2D_INLINE void NNS_G2dFontSetLineFeed (NNSG2dFont * pFont, s8 linefeed)
+     pFont->pRes->linefeed = linefeed;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dFontSetDefaultCharWidths (NNSG2dFont * pFont, NNSG2dCharWidths cw)
+@@ -209,7 +209,7 @@ NNS_G2D_INLINE void NNS_G2dFontSetDefaultCharWidths (NNSG2dFont * pFont, NNSG2dC
+     pFont->pRes->defaultWidth = cw;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dFontSetAlternateGlyphIndex (NNSG2dFont * pFont, u16 idx)
+@@ -219,7 +219,7 @@ NNS_G2D_INLINE void NNS_G2dFontSetAlternateGlyphIndex (NNSG2dFont * pFont, u16 i
+     pFont->pRes->alterCharIndex = idx;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE u16 NNS_G2dFontGetGlyphIndex (const NNSG2dFont * pFont, u16 c)
+@@ -228,7 +228,7 @@ NNS_G2D_INLINE u16 NNS_G2dFontGetGlyphIndex (const NNSG2dFont * pFont, u16 c)
+     return (idx != NNS_G2D_GLYPH_INDEX_NOT_FOUND) ? idx : pFont->pRes->alterCharIndex;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dFontGetGlyphFromIndex (NNSG2dGlyph * pGlyph, const NNSG2dFont * pFont, u16 idx)
+@@ -239,7 +239,7 @@ NNS_G2D_INLINE void NNS_G2dFontGetGlyphFromIndex (NNSG2dGlyph * pGlyph, const NN
+     pGlyph->image = NNS_G2dFontGetGlyphImageFromIndex(pFont, idx);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE const NNSG2dCharWidths * NNS_G2dFontGetCharWidths (const NNSG2dFont * pFont, u16 c)
+@@ -252,7 +252,7 @@ NNS_G2D_INLINE const NNSG2dCharWidths * NNS_G2dFontGetCharWidths (const NNSG2dFo
+     return NNS_G2dFontGetCharWidthsFromIndex(pFont, iGlyph);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE int NNS_G2dFontGetCharWidth (const NNSG2dFont * pFont, u16 c)
+@@ -265,7 +265,7 @@ NNS_G2D_INLINE int NNS_G2dFontGetCharWidth (const NNSG2dFont * pFont, u16 c)
+     return pWidths->charWidth;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE int NNS_G2dFontGetCharWidthFromIndex (const NNSG2dFont * pFont, u16 idx)
+@@ -278,7 +278,7 @@ NNS_G2D_INLINE int NNS_G2dFontGetCharWidthFromIndex (const NNSG2dFont * pFont, u
+     return pWidths->charWidth;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE const u8 * NNS_G2dFontGetGlyphImage (const NNSG2dFont * pFont, u16 c)
+@@ -291,7 +291,7 @@ NNS_G2D_INLINE const u8 * NNS_G2dFontGetGlyphImage (const NNSG2dFont * pFont, u1
+     return NNS_G2dFontGetGlyphImageFromIndex(pFont, iGlyph);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dFontGetGlyph (NNSG2dGlyph * pGlyph, const NNSG2dFont * pFont, u16 ccode)
+@@ -305,7 +305,7 @@ NNS_G2D_INLINE void NNS_G2dFontGetGlyph (NNSG2dGlyph * pGlyph, const NNSG2dFont
+     NNS_G2dFontGetGlyphFromIndex(pGlyph, pFont, iGlyph);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE BOOL NNS_G2dFontSetAlternateChar (NNSG2dFont * pFont, u16 c)
+@@ -329,7 +329,7 @@ int NNSi_G2dFontGetTextHeight(const NNSG2dFont * pFont, int vSpace, const void *
+ int NNSi_G2dFontGetTextWidth(const NNSG2dFont * pFont, int hSpace, const void * txt);
+ NNSG2dTextRect NNSi_G2dFontGetTextRect(const NNSG2dFont * pFont, int hSpace, int vSpace, const void * txt);
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE int NNS_G2dFontGetStringWidth (const NNSG2dFont * pFont, int hSpace, const NNSG2dChar * str, const NNSG2dChar ** pPos)
+@@ -337,7 +337,7 @@ NNS_G2D_INLINE int NNS_G2dFontGetStringWidth (const NNSG2dFont * pFont, int hSpa
+     return NNSi_G2dFontGetStringWidth(pFont, hSpace, str, (const void **)pPos);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE int NNS_G2dFontGetTextHeight (const NNSG2dFont * pFont, int vSpace, const NNSG2dChar * txt)
+@@ -345,7 +345,7 @@ NNS_G2D_INLINE int NNS_G2dFontGetTextHeight (const NNSG2dFont * pFont, int vSpac
+     return NNSi_G2dFontGetTextHeight(pFont, vSpace, txt);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE int NNS_G2dFontGetTextWidth (const NNSG2dFont * pFont, int hSpace, const NNSG2dChar * txt)
+@@ -353,7 +353,7 @@ NNS_G2D_INLINE int NNS_G2dFontGetTextWidth (const NNSG2dFont * pFont, int hSpace
+     return NNSi_G2dFontGetTextWidth(pFont, hSpace, txt);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE NNSG2dTextRect NNS_G2dFontGetTextRect (const NNSG2dFont * pFont, int hSpace, int vSpace, const NNSG2dChar * txt)
+diff --git a/include/nnsys/g2d/g2d_Image.h b/include/nnsys/g2d/g2d_Image.h
+index c525305..b110c28 100644
+--- a/include/nnsys/g2d/g2d_Image.h
++++ b/include/nnsys/g2d/g2d_Image.h
+@@ -78,7 +78,7 @@ void NNSi_G2dDoLoadingPaletteToVram(const NNSG2dPaletteData * pSrcData, u32 addr
+ void NNSi_G2dDoLoadingPaletteToVramEx(const NNSG2dPaletteData * pSrcData, const NNSG2dPaletteCompressInfo * pCmpInfo, u32 addr, NNS_G2D_VRAM_TYPE type);
+ void NNSi_G2dSetupPaletteProxyPrams(const NNSG2dPaletteData * pSrcData, u32 addr, NNS_G2D_VRAM_TYPE type, NNSG2dImagePaletteProxy * pPltProxy);
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE BOOL NNS_G2dIsPaletteImageFmt (const NNSG2dImageAttr * imgAttr)
+@@ -89,7 +89,7 @@ NNS_G2D_INLINE BOOL NNS_G2dIsPaletteImageFmt (const NNSG2dImageAttr * imgAttr)
+             imgAttr->fmt == GX_TEXFMT_PLTT256) ? TRUE : FALSE;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dSetImageExtPaletteFlag (NNSG2dImageProxy * pImgProxy, BOOL bUseExtPlt)
+diff --git a/include/nnsys/g2d/g2d_Load.h b/include/nnsys/g2d/g2d_Load.h
+index edbf9b6..ba6f31e 100644
+--- a/include/nnsys/g2d/g2d_Load.h
++++ b/include/nnsys/g2d/g2d_Load.h
+@@ -28,7 +28,7 @@ void NNSi_G2dUnpackUserExCellAttrBank(NNSG2dUserExCellAttrBank * pCellAttrBank);
+     NNS_G2D_DEBUG_FUNC_DECL_BEGIN void NNSi_G2dPrintUserExCellAttrBank (const NNSG2dUserExCellAttrBank *) NNS_G2D_DEBUG_FUNC_DECL_END
+ #endif
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE BOOL NNSi_G2dIsBinFileSignatureValid (const NNSG2dBinaryFileHeader * pBinFile, u32 binFileSig)
+@@ -41,7 +41,7 @@ NNS_G2D_INLINE BOOL NNSi_G2dIsBinFileSignatureValid (const NNSG2dBinaryFileHeade
+     return FALSE;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE BOOL NNSi_G2dIsBinFileVersionValid (const NNSG2dBinaryFileHeader * pBinFile, u16 version)
+@@ -54,7 +54,7 @@ NNS_G2D_INLINE BOOL NNSi_G2dIsBinFileVersionValid (const NNSG2dBinaryFileHeader
+     return FALSE;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE BOOL NNS_G2dIsBinFileValid (const NNSG2dBinaryFileHeader * pBinFile, u32 binFileSig, u16 version)
+diff --git a/include/nnsys/g2d/g2d_MultiCellAnimation.h b/include/nnsys/g2d/g2d_MultiCellAnimation.h
+index c34b8f1..545e73f 100644
+--- a/include/nnsys/g2d/g2d_MultiCellAnimation.h
++++ b/include/nnsys/g2d/g2d_MultiCellAnimation.h
+@@ -79,7 +79,7 @@ void NNS_G2dInitMCAnimation(NNSG2dMultiCellAnimation * pMultiCellAnim, NNSG2dNod
+ void NNS_G2dInitMCInstance(NNSG2dMultiCellInstance * pMultiCell, NNSG2dNode * pNodeArray, NNSG2dCellAnimation * pCellAnim, u16 numNode, const NNSG2dCellAnimBankData * pAnimBank, const NNSG2dCellDataBank * pCellDataBank);
+ BOOL NNS_G2dSetMCDataToMCInstance(NNSG2dMultiCellInstance * pMCInst, const NNSG2dMultiCellData * pMcData);
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE NNSG2dAnimController * NNS_G2dGetMCAnimAnimCtrl (NNSG2dMultiCellAnimation * pMultiCellAnim)
+@@ -88,7 +88,7 @@ NNS_G2D_INLINE NNSG2dAnimController * NNS_G2dGetMCAnimAnimCtrl (NNSG2dMultiCellA
+     return &pMultiCellAnim->animCtrl;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void * NNSi_G2dGetMCInstanceWorkMemory (NNSG2dMultiCellInstance * pMultiCell)
+diff --git a/include/nnsys/g2d/g2d_Node.h b/include/nnsys/g2d/g2d_Node.h
+index d14de61..e51849c 100644
+--- a/include/nnsys/g2d/g2d_Node.h
++++ b/include/nnsys/g2d/g2d_Node.h
+@@ -31,7 +31,7 @@ typedef struct NNSG2dNode {
+ 
+ void NNSi_G2dInitializeNode(NNSG2dNode * pNode, NNSG2dNodeType type);
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNSi_G2dSetNodeVisibleFlag (NNSG2dNode * pNode, BOOL bVisible)
+@@ -40,7 +40,7 @@ NNS_G2D_INLINE void NNSi_G2dSetNodeVisibleFlag (NNSG2dNode * pNode, BOOL bVisibl
+     pNode->bVisible = bVisible;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE BOOL NNSi_G2dGetNodeVisibleFlag (NNSG2dNode * pNode)
+diff --git a/include/nnsys/g2d/g2d_OAM.h b/include/nnsys/g2d/g2d_OAM.h
+index f00219e..522041e 100644
+--- a/include/nnsys/g2d/g2d_OAM.h
++++ b/include/nnsys/g2d/g2d_OAM.h
+@@ -81,7 +81,7 @@ u16 NNS_G2dGetOamManagerAffineCapacity(NNSG2dOamManagerInstance * pMan);
+ 
+ GXOamAttr * NNS_G2dGetOamBuffer(NNSG2dOamType type);
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dSetOamManagerSpriteZoffsetStep (NNSG2dOamManagerInstance * pMan, fx32 zStep)
+diff --git a/include/nnsys/g2d/g2d_OamSoftwareSpriteDraw.h b/include/nnsys/g2d/g2d_OamSoftwareSpriteDraw.h
+index 7375ecb..49b7532 100644
+--- a/include/nnsys/g2d/g2d_OamSoftwareSpriteDraw.h
++++ b/include/nnsys/g2d/g2d_OamSoftwareSpriteDraw.h
+@@ -25,7 +25,7 @@ void NNSi_G2dResetOamSoftEmuAutoZOffset(void);
+ void NNSi_G2dSetOamSoftEmuAutoZOffsetStep(fx32 step);
+ fx32 NNSi_G2dGetOamSoftEmuAutoZOffsetStep(void);
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dDrawOneOam3DDirect (const GXOamAttr * pOam, const NNSG2dImageAttr * pTexImageAttr, u32 texBaseAddr, u32 pltBaseAddr)
+@@ -39,7 +39,7 @@ NNS_G2D_INLINE void NNS_G2dDrawOneOam3DDirect (const GXOamAttr * pOam, const NNS
+     G3_PopMtx(1);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dDrawOneOam3DDirectWithPos (s16 posX, s16 posY, s16 posZ, const GXOamAttr * pOam, const NNSG2dImageAttr * pTexImageAttr, u32 texBaseAddr, u32 pltBaseAddr)
+@@ -54,7 +54,7 @@ NNS_G2D_INLINE void NNS_G2dDrawOneOam3DDirectWithPos (s16 posX, s16 posY, s16 po
+     G3_PopMtx(1);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dDrawOneOam3DDirectWithPosAffine (s16 posX, s16 posY, s16 posZ, const GXOamAttr * pOam, const NNSG2dImageAttr * pTexImageAttr, u32 texBaseAddr, u32 pltBaseAddr, const MtxFx22 * pMtx)
+diff --git a/include/nnsys/g2d/g2d_Renderer.h b/include/nnsys/g2d/g2d_Renderer.h
+index c7fe92e..60d6fc7 100644
+--- a/include/nnsys/g2d/g2d_Renderer.h
++++ b/include/nnsys/g2d/g2d_Renderer.h
+@@ -105,7 +105,7 @@ const NNSG2dPaletteSwapTable * NNS_G2dGetRendererPaletteTbl(NNSG2dRendererInstan
+ void NNS_G2dResetRendererPaletteTbl(NNSG2dRendererInstance * pRend);
+ void NNS_G2dSetRendererImageProxy(NNSG2dRendererInstance * pRend, const NNSG2dImageProxy * pImgProxy, const NNSG2dImagePaletteProxy * pPltProxy);
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dSetRendererSpriteZoffset (NNSG2dRendererInstance * pRend, fx32 spriteZoffset)
+@@ -113,7 +113,7 @@ NNS_G2D_INLINE void NNS_G2dSetRendererSpriteZoffset (NNSG2dRendererInstance * pR
+     pRend->spriteZoffsetStep = spriteZoffset;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dSetRendererAffineOverwriteMode (NNSG2dRendererInstance * pRend, NNSG2dRendererAffineTypeOverwiteMode affineMode)
+@@ -122,7 +122,7 @@ NNS_G2D_INLINE void NNS_G2dSetRendererAffineOverwriteMode (NNSG2dRendererInstanc
+     pRend->rendererCore.affineOverwriteMode = affineMode;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE NNSG2dRendererAffineTypeOverwiteMode NNS_G2dGetRendererAffineOverwriteMode (const NNSG2dRendererInstance * pRend)
+@@ -131,7 +131,7 @@ NNS_G2D_INLINE NNSG2dRendererAffineTypeOverwiteMode NNS_G2dGetRendererAffineOver
+     return pRend->rendererCore.affineOverwriteMode;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dSetRendererSurfaceActiveFlag (NNSG2dRenderSurface * pSurface, BOOL bActive)
+@@ -140,7 +140,7 @@ NNS_G2D_INLINE void NNS_G2dSetRendererSurfaceActiveFlag (NNSG2dRenderSurface * p
+     pSurface->coreSurface.bActive = bActive;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE BOOL NNS_G2dGetRendererSurfaceActiveFlag (const NNSG2dRenderSurface * pSurface)
+@@ -149,7 +149,7 @@ NNS_G2D_INLINE BOOL NNS_G2dGetRendererSurfaceActiveFlag (const NNSG2dRenderSurfa
+     return pSurface->coreSurface.bActive;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dSetRendererOverwritePriority (NNSG2dRendererInstance * pRend, u16 Priority)
+@@ -157,7 +157,7 @@ NNS_G2D_INLINE void NNS_G2dSetRendererOverwritePriority (NNSG2dRendererInstance
+     pRend->overwritePriority = Priority;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE u16 NNS_G2dGetRendererOverwritePriority (const NNSG2dRendererInstance * pRend)
+@@ -165,7 +165,7 @@ NNS_G2D_INLINE u16 NNS_G2dGetRendererOverwritePriority (const NNSG2dRendererInst
+     return pRend->overwritePriority;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dSetRendererOverwritePlttNo (NNSG2dRendererInstance * pRend, u16 plttNo)
+@@ -173,7 +173,7 @@ NNS_G2D_INLINE void NNS_G2dSetRendererOverwritePlttNo (NNSG2dRendererInstance *
+     pRend->overwritePlttNo = plttNo;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE u16 NNS_G2dGetRendererOverwritePlttNo (const NNSG2dRendererInstance * pRend)
+@@ -181,7 +181,7 @@ NNS_G2D_INLINE u16 NNS_G2dGetRendererOverwritePlttNo (const NNSG2dRendererInstan
+     return pRend->overwritePlttNo;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dSetRendererOverwritePlttNoOffset (NNSG2dRendererInstance * pRend, u16 plttNoOffset)
+@@ -189,7 +189,7 @@ NNS_G2D_INLINE void NNS_G2dSetRendererOverwritePlttNoOffset (NNSG2dRendererInsta
+     pRend->overwritePlttNoOffset = plttNoOffset;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE u16 NNS_G2dGetRendererOverwritePlttNoOffset (const NNSG2dRendererInstance * pRend)
+@@ -197,7 +197,7 @@ NNS_G2D_INLINE u16 NNS_G2dGetRendererOverwritePlttNoOffset (const NNSG2dRenderer
+     return pRend->overwritePlttNoOffset;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dSetRendererOverwriteMosaicFlag (NNSG2dRendererInstance * pRend, BOOL overwriteMosaicFlag)
+@@ -205,7 +205,7 @@ NNS_G2D_INLINE void NNS_G2dSetRendererOverwriteMosaicFlag (NNSG2dRendererInstanc
+     pRend->overwriteMosaicFlag = overwriteMosaicFlag;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE BOOL NNS_G2dGetRendererOverwriteMosaicFlag (const NNSG2dRendererInstance * pRend)
+@@ -213,7 +213,7 @@ NNS_G2D_INLINE BOOL NNS_G2dGetRendererOverwriteMosaicFlag (const NNSG2dRendererI
+     return pRend->overwriteMosaicFlag;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dSetRendererOverwriteOBJMode (NNSG2dRendererInstance * pRend, GXOamMode overwriteObjMode)
+@@ -221,7 +221,7 @@ NNS_G2D_INLINE void NNS_G2dSetRendererOverwriteOBJMode (NNSG2dRendererInstance *
+     pRend->overwriteObjMode = overwriteObjMode;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE GXOamMode NNS_G2dGetRendererOverwriteOBJMode (const NNSG2dRendererInstance * pRend)
+@@ -229,7 +229,7 @@ NNS_G2D_INLINE GXOamMode NNS_G2dGetRendererOverwriteOBJMode (const NNSG2dRendere
+     return pRend->overwriteObjMode;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dSetRendererOverwriteEnable (NNSG2dRendererInstance * pRnd, NNSG2dRendererOverwriteParam flag)
+@@ -237,7 +237,7 @@ NNS_G2D_INLINE void NNS_G2dSetRendererOverwriteEnable (NNSG2dRendererInstance *
+     pRnd->overwriteEnableFlag |= flag;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dSetRendererOverwriteDisable (NNSG2dRendererInstance * pRnd, NNSG2dRendererOverwriteParam flag)
+@@ -245,7 +245,7 @@ NNS_G2D_INLINE void NNS_G2dSetRendererOverwriteDisable (NNSG2dRendererInstance *
+     pRnd->overwriteEnableFlag &= ~flag;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE BOOL NNS_G2dIsRendererOverwriteEnable (const NNSG2dRendererInstance * pRnd, NNSG2dRendererOverwriteParam flag)
+@@ -253,7 +253,7 @@ NNS_G2D_INLINE BOOL NNS_G2dIsRendererOverwriteEnable (const NNSG2dRendererInstan
+     return (BOOL)(pRnd->overwriteEnableFlag & flag);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dOptimizeRenderer (NNSG2dRendererInstance * pRend)
+diff --git a/include/nnsys/g2d/g2d_RendererCore.h b/include/nnsys/g2d/g2d_RendererCore.h
+index 58dfa13..61c5267 100644
+--- a/include/nnsys/g2d/g2d_RendererCore.h
++++ b/include/nnsys/g2d/g2d_RendererCore.h
+@@ -114,7 +114,7 @@ void NNS_G2dRndCoreDrawCellFast2D(const NNSG2dCellData * pCell);
+ void NNS_G2dSetRndCoreCellCloneSource3D(const NNSG2dCellData * pCell);
+ void NNS_G2dRndCoreDrawCellClone3D(const NNSG2dCellData * pCell);
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dInitRndCore2DMtxCache (NNSG2dRndCore2DMtxCache * pMtxCache)
+@@ -124,7 +124,7 @@ NNS_G2D_INLINE void NNS_G2dInitRndCore2DMtxCache (NNSG2dRndCore2DMtxCache * pMtx
+                    sizeof(pMtxCache->affineIndex));
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dSetRndCore2DMtxCacheMtxParams (NNSG2dRndCore2DMtxCache * pMtxCache, MtxFx22 * pM)
+diff --git a/include/nnsys/g2d/g2d_SRTControl.h b/include/nnsys/g2d/g2d_SRTControl.h
+index d252381..75a6cc3 100644
+--- a/include/nnsys/g2d/g2d_SRTControl.h
++++ b/include/nnsys/g2d/g2d_SRTControl.h
+@@ -22,7 +22,7 @@ void NNSi_G2dSrtcSetInitialValue(NNSG2dSRTControl * pCtrl);
+ void NNSi_G2dSrtcBuildMatrixFromSRT_2D(const NNSG2dSRTControl * pCtrl, MtxFx22 * pDst);
+ void NNSi_G2dSrtcBuildMatrixFromSRT_3D(const NNSG2dSRTControl * pCtrl, MtxFx22 * pDst);
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNSi_G2dSrtcResetAffineFlag (NNSG2dSRTControl * pSRT)
+@@ -32,7 +32,7 @@ NNS_G2D_INLINE void NNSi_G2dSrtcResetAffineFlag (NNSG2dSRTControl * pSRT)
+     pSRT->srtData.SRT_EnableFlag = 0x0000;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNSi_G2dSrtcAffineFlagON (NNSG2dSRTControl * pSRT, u16 newFlag)
+@@ -42,7 +42,7 @@ NNS_G2D_INLINE void NNSi_G2dSrtcAffineFlagON (NNSG2dSRTControl * pSRT, u16 newFl
+     pSRT->srtData.SRT_EnableFlag |= (u16)newFlag;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNSi_G2dSrtcAffineFlagOFF (NNSG2dSRTControl * pSRT, u16 newFlag)
+@@ -52,7 +52,7 @@ NNS_G2D_INLINE void NNSi_G2dSrtcAffineFlagOFF (NNSG2dSRTControl * pSRT, u16 newF
+     pSRT->srtData.SRT_EnableFlag &= ~(u16)newFlag;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE BOOL NNSi_G2dSrtcIsAffineEnable (const NNSG2dSRTControl * pSRT, NNSG2dAffineEnable flag)
+@@ -62,7 +62,7 @@ NNS_G2D_INLINE BOOL NNSi_G2dSrtcIsAffineEnable (const NNSG2dSRTControl * pSRT, N
+     return (pSRT->srtData.SRT_EnableFlag & (u16)flag) ? TRUE : FALSE;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE BOOL NNSi_G2dSrtcIsAffineEnable_SR (const NNSG2dSRTControl * pSRT)
+diff --git a/include/nnsys/g2d/g2d_Screen.h b/include/nnsys/g2d/g2d_Screen.h
+index 23a986e..a4fd967 100644
+--- a/include/nnsys/g2d/g2d_Screen.h
++++ b/include/nnsys/g2d/g2d_Screen.h
+@@ -30,7 +30,7 @@ void NNS_G2dBGLoadScreenRect(void * pScreenDst, const NNSG2dScreenData * pScnDat
+ 
+ extern GXBGAreaOver NNSi_G2dBGAreaOver;
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE GXBGColorMode NNSi_G2dBGGetScreenColorMode (const NNSG2dScreenData * pScnData)
+@@ -40,7 +40,7 @@ NNS_G2D_INLINE GXBGColorMode NNSi_G2dBGGetScreenColorMode (const NNSG2dScreenDat
+            GX_BG_COLORMODE_16: GX_BG_COLORMODE_256;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE NNSG2dScreenFormat NNSi_G2dBGGetScreenFormat (const NNSG2dScreenData * pScnData)
+@@ -49,7 +49,7 @@ NNS_G2D_INLINE NNSG2dScreenFormat NNSi_G2dBGGetScreenFormat (const NNSG2dScreenD
+     return (NNSG2dScreenFormat)pScnData->screenFormat;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dSetBGAreaOver (GXBGAreaOver areaOver)
+@@ -58,7 +58,7 @@ NNS_G2D_INLINE void NNS_G2dSetBGAreaOver (GXBGAreaOver areaOver)
+     NNSi_G2dBGAreaOver = areaOver;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE GXBGAreaOver NNS_G2dGetBGAreaOver (void)
+@@ -66,7 +66,7 @@ NNS_G2D_INLINE GXBGAreaOver NNS_G2dGetBGAreaOver (void)
+     return NNSi_G2dBGAreaOver;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dBGSetup (NNSG2dBGSelect bg, const NNSG2dScreenData * pScnData, const NNSG2dCharacterData * pChrData, const NNSG2dPaletteData * pPltData, GXBGScrBase scnBase, GXBGCharBase chrBase)
+@@ -74,7 +74,7 @@ NNS_G2D_INLINE void NNS_G2dBGSetup (NNSG2dBGSelect bg, const NNSG2dScreenData *
+     NNS_G2dBGSetupEx(bg, pScnData, pChrData, pPltData, NULL, NULL, scnBase, chrBase);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dBGLoadElements (NNSG2dBGSelect bg, const NNSG2dScreenData * pScnData, const NNSG2dCharacterData * pChrData, const NNSG2dPaletteData * pPltData)
+diff --git a/include/nnsys/g2d/g2d_Softsprite.h b/include/nnsys/g2d/g2d_Softsprite.h
+index dc38126..eb3858a 100644
+--- a/include/nnsys/g2d/g2d_Softsprite.h
++++ b/include/nnsys/g2d/g2d_Softsprite.h
+@@ -67,7 +67,7 @@ void NNS_G2dDrawSpriteBasicFast(const NNSG2dBasicSprite * pB);
+ void NNS_G2dDrawSpriteExtendedFast(const NNSG2dExtendedSprite * pE);
+ void NNS_G2dDrawSpriteFast(s16 px, s16 py, int pz, int sx, int sy, int U0, int V0, int U1, int V1);
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dDrawSpriteSimple (const NNSG2dSimpleSprite * pS)
+@@ -77,7 +77,7 @@ NNS_G2D_INLINE void NNS_G2dDrawSpriteSimple (const NNSG2dSimpleSprite * pS)
+     G3_PopMtx(1);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dDrawSpriteBasic (const NNSG2dBasicSprite * pB)
+@@ -87,7 +87,7 @@ NNS_G2D_INLINE void NNS_G2dDrawSpriteBasic (const NNSG2dBasicSprite * pB)
+     G3_PopMtx(1);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dDrawSpriteExtended (const NNSG2dExtendedSprite * pE)
+@@ -97,7 +97,7 @@ NNS_G2D_INLINE void NNS_G2dDrawSpriteExtended (const NNSG2dExtendedSprite * pE)
+     G3_PopMtx(1);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dDrawSprite (s16 px, s16 py, int pz, int sx, int sy, int U0, int V0, int U1, int V1)
+diff --git a/include/nnsys/g2d/g2d_TextCanvas.h b/include/nnsys/g2d/g2d_TextCanvas.h
+index 9c67d3f..28b3aea 100644
+--- a/include/nnsys/g2d/g2d_TextCanvas.h
++++ b/include/nnsys/g2d/g2d_TextCanvas.h
+@@ -101,7 +101,7 @@ void NNSi_G2dTextCanvasDrawTaggedText(const NNSG2dTextCanvas * pTxn, int x, int
+ #endif
+                                       );
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dTextCanvasInit (NNSG2dTextCanvas * pTxn, const NNSG2dCharCanvas * pCC, const NNSG2dFont * pFont, int hSpace, int vSpace)
+@@ -121,7 +121,7 @@ NNS_G2D_INLINE void NNS_G2dTextCanvasInit (NNSG2dTextCanvas * pTxn, const NNSG2d
+ #define NNS_G2dTextCanvasInitUTF16      NNS_G2dTextCanvasInit
+ #define NNS_G2dTextCanvasInitShiftJIS   NNS_G2dTextCanvasInit
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE const NNSG2dCharCanvas * NNS_G2dTextCanvasGetCharCanvas (const NNSG2dTextCanvas * pTxn)
+@@ -130,7 +130,7 @@ NNS_G2D_INLINE const NNSG2dCharCanvas * NNS_G2dTextCanvasGetCharCanvas (const NN
+     return pTxn->pCanvas;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE const NNSG2dFont * NNS_G2dTextCanvasGetFont (const NNSG2dTextCanvas * pTxn)
+@@ -139,7 +139,7 @@ NNS_G2D_INLINE const NNSG2dFont * NNS_G2dTextCanvasGetFont (const NNSG2dTextCanv
+     return pTxn->pFont;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE int NNS_G2dTextCanvasGetHSpace (const NNSG2dTextCanvas * pTxn)
+@@ -148,7 +148,7 @@ NNS_G2D_INLINE int NNS_G2dTextCanvasGetHSpace (const NNSG2dTextCanvas * pTxn)
+     return pTxn->hSpace;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE int NNS_G2dTextCanvasGetVSpace (const NNSG2dTextCanvas * pTxn)
+@@ -157,7 +157,7 @@ NNS_G2D_INLINE int NNS_G2dTextCanvasGetVSpace (const NNSG2dTextCanvas * pTxn)
+     return pTxn->vSpace;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dTextCanvasSetCharCanvas (NNSG2dTextCanvas * pTxn, const NNSG2dCharCanvas * pCC)
+@@ -167,7 +167,7 @@ NNS_G2D_INLINE void NNS_G2dTextCanvasSetCharCanvas (NNSG2dTextCanvas * pTxn, con
+     pTxn->pCanvas = pCC;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dTextCanvasSetFont (NNSG2dTextCanvas * pTxn, const NNSG2dFont * pFont)
+@@ -177,7 +177,7 @@ NNS_G2D_INLINE void NNS_G2dTextCanvasSetFont (NNSG2dTextCanvas * pTxn, const NNS
+     pTxn->pFont = pFont;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dTextCanvasSetHSpace (NNSG2dTextCanvas * pTxn, int hSpace)
+@@ -186,7 +186,7 @@ NNS_G2D_INLINE void NNS_G2dTextCanvasSetHSpace (NNSG2dTextCanvas * pTxn, int hSp
+     pTxn->hSpace = hSpace;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dTextCanvasSetVSpace (NNSG2dTextCanvas * pTxn, int vSpace)
+@@ -195,7 +195,7 @@ NNS_G2D_INLINE void NNS_G2dTextCanvasSetVSpace (NNSG2dTextCanvas * pTxn, int vSp
+     pTxn->vSpace = vSpace;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE int NNS_G2dTextCanvasGetStringWidth (const NNSG2dTextCanvas * pTxn, const NNSG2dChar * str, const NNSG2dChar ** pPos)
+@@ -207,7 +207,7 @@ NNS_G2D_INLINE int NNS_G2dTextCanvasGetStringWidth (const NNSG2dTextCanvas * pTx
+         pPos);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE int NNS_G2dTextCanvasGetTextHeight (const NNSG2dTextCanvas * pTxn, const NNSG2dChar * txt)
+@@ -218,7 +218,7 @@ NNS_G2D_INLINE int NNS_G2dTextCanvasGetTextHeight (const NNSG2dTextCanvas * pTxn
+         txt);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE int NNS_G2dTextCanvasGetTextWidth (const NNSG2dTextCanvas * pTxn, const NNSG2dChar * txt)
+@@ -229,7 +229,7 @@ NNS_G2D_INLINE int NNS_G2dTextCanvasGetTextWidth (const NNSG2dTextCanvas * pTxn,
+         txt);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE NNSG2dTextRect NNS_G2dTextCanvasGetTextRect (const NNSG2dTextCanvas * pTxn, const NNSG2dChar * txt)
+@@ -241,7 +241,7 @@ NNS_G2D_INLINE NNSG2dTextRect NNS_G2dTextCanvasGetTextRect (const NNSG2dTextCanv
+         txt);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE NNSiG2dTextDirection NNSi_G2dGetTextDirection (const NNSG2dFont * pFont)
+@@ -269,7 +269,7 @@ NNS_G2D_INLINE NNSiG2dTextDirection NNSi_G2dGetTextDirection (const NNSG2dFont *
+ }
+ 
+ #ifdef NNS_G2D_FONT_ENABLE_DIRECTION_SUPPORT
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dTextCanvasDrawString (const NNSG2dTextCanvas * pTxn, int x, int y, int cl, const NNSG2dChar * str, const NNSG2dChar ** pPos)
+@@ -278,7 +278,7 @@ NNS_G2D_INLINE void NNS_G2dTextCanvasDrawString (const NNSG2dTextCanvas * pTxn,
+                                  NNSi_G2dGetTextDirection(NNS_G2dTextCanvasGetFont(pTxn)));
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dTextCanvasDrawText (const NNSG2dTextCanvas * pTxn, int x, int y, int cl, u32 flags, const NNSG2dChar * txt)
+@@ -287,7 +287,7 @@ NNS_G2D_INLINE void NNS_G2dTextCanvasDrawText (const NNSG2dTextCanvas * pTxn, in
+                                NNSi_G2dGetTextDirection(NNS_G2dTextCanvasGetFont(pTxn)));
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dTextCanvasDrawTextRect (const NNSG2dTextCanvas * pTxn, int x, int y, int w, int h, int cl, u32 flags, const NNSG2dChar * txt)
+@@ -296,7 +296,7 @@ NNS_G2D_INLINE void NNS_G2dTextCanvasDrawTextRect (const NNSG2dTextCanvas * pTxn
+                                    NNSi_G2dGetTextDirection(NNS_G2dTextCanvasGetFont(pTxn)));
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dTextCanvasDrawTaggedText (const NNSG2dTextCanvas * pTxn, int x, int y, int cl, const NNSG2dChar * txt, NNSG2dTagCallback cbFunc, void * cbParam)
+@@ -305,7 +305,7 @@ NNS_G2D_INLINE void NNS_G2dTextCanvasDrawTaggedText (const NNSG2dTextCanvas * pT
+                                      NNSi_G2dGetTextDirection(NNS_G2dTextCanvasGetFont(pTxn)));
+ }
+ #else
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dTextCanvasDrawString (const NNSG2dTextCanvas * pTxn, int x, int y, int cl, const NNSG2dChar * str, const NNSG2dChar ** pPos)
+@@ -313,7 +313,7 @@ NNS_G2D_INLINE void NNS_G2dTextCanvasDrawString (const NNSG2dTextCanvas * pTxn,
+     NNSi_G2dTextCanvasDrawString(pTxn, x, y, cl, str, (const void **)pPos);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dTextCanvasDrawText (const NNSG2dTextCanvas * pTxn, int x, int y, int cl, u32 flags, const NNSG2dChar * txt)
+@@ -321,7 +321,7 @@ NNS_G2D_INLINE void NNS_G2dTextCanvasDrawText (const NNSG2dTextCanvas * pTxn, in
+     NNSi_G2dTextCanvasDrawText(pTxn, x, y, cl, flags, txt);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dTextCanvasDrawTextRect (const NNSG2dTextCanvas * pTxn, int x, int y, int w, int h, int cl, u32 flags, const NNSG2dChar * txt)
+@@ -329,7 +329,7 @@ NNS_G2D_INLINE void NNS_G2dTextCanvasDrawTextRect (const NNSG2dTextCanvas * pTxn
+     NNSi_G2dTextCanvasDrawTextRect(pTxn, x, y, w, h, cl, flags, txt);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE void NNS_G2dTextCanvasDrawTaggedText (const NNSG2dTextCanvas * pTxn, int x, int y, int cl, const NNSG2dChar * txt, NNSG2dTagCallback cbFunc, void * cbParam)
+diff --git a/include/nnsys/g2d/load/g2d_NAN_load.h b/include/nnsys/g2d/load/g2d_NAN_load.h
+index 7cbbc0d..7a8ba1f 100644
+--- a/include/nnsys/g2d/load/g2d_NAN_load.h
++++ b/include/nnsys/g2d/load/g2d_NAN_load.h
+@@ -21,7 +21,7 @@ NNSG2dAnimBankData* NNS_G2dUnpackNAN(NNSG2dAnimBankData* pData);
+ void NNS_G2dUnpackNAN(NNSG2dAnimBankData * pData);
+ #endif
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G2D_INLINE u16 NNS_G2dGetNumAnimSequence (const NNSG2dAnimBankData * pAnimBank)
+diff --git a/include/nnsys/g3d/binres/res_struct_accessor_inline.h b/include/nnsys/g3d/binres/res_struct_accessor_inline.h
+index 0ba5eb9..69d8c4f 100644
+--- a/include/nnsys/g3d/binres/res_struct_accessor_inline.h
++++ b/include/nnsys/g3d/binres/res_struct_accessor_inline.h
+@@ -5,7 +5,7 @@
+ extern "C" {
+ #endif
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE const NNSG3dResName * NNS_G3dGetResNameByIdx (const NNSG3dResDict * dict, u32 idx)
+@@ -24,7 +24,7 @@ NNS_G3D_RES_INLINE const NNSG3dResName * NNS_G3dGetResNameByIdx (const NNSG3dRes
+     }
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE void * NNS_G3dGetResDataByIdx (const NNSG3dResDict * dict, u32 idx)
+@@ -41,7 +41,7 @@ NNS_G3D_RES_INLINE void * NNS_G3dGetResDataByIdx (const NNSG3dResDict * dict, u3
+     }
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE const NNSG3dResName * NNS_G3dGetTexNameByIdx (const NNSG3dResTex * tex, u32 idx)
+@@ -54,7 +54,7 @@ NNS_G3D_RES_INLINE const NNSG3dResName * NNS_G3dGetTexNameByIdx (const NNSG3dRes
+         return NULL;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE int NNS_G3dGetTexIdxByName (const NNSG3dResTex * tex, const NNSG3dResName * name)
+@@ -67,7 +67,7 @@ NNS_G3D_RES_INLINE int NNS_G3dGetTexIdxByName (const NNSG3dResTex * tex, const N
+         return -1;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE const NNSG3dResName * NNS_G3dGetPlttNameByIdx (const NNSG3dResTex * tex, u32 idx)
+@@ -85,7 +85,7 @@ NNS_G3D_RES_INLINE const NNSG3dResName * NNS_G3dGetPlttNameByIdx (const NNSG3dRe
+     }
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE int NNS_G3dGetPlttIdxByName (const NNSG3dResTex * tex, const NNSG3dResName * name)
+@@ -103,7 +103,7 @@ NNS_G3D_RES_INLINE int NNS_G3dGetPlttIdxByName (const NNSG3dResTex * tex, const
+     }
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE const NNSG3dResName * NNS_G3dGetNodeNameByIdx (const NNSG3dResNodeInfo * nodeinfo, u32 idx)
+@@ -116,7 +116,7 @@ NNS_G3D_RES_INLINE const NNSG3dResName * NNS_G3dGetNodeNameByIdx (const NNSG3dRe
+         return NULL;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE int NNS_G3dGetNodeIdxByName (const NNSG3dResNodeInfo * nodeinfo, const NNSG3dResName * name)
+@@ -129,7 +129,7 @@ NNS_G3D_RES_INLINE int NNS_G3dGetNodeIdxByName (const NNSG3dResNodeInfo * nodein
+         return -1;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE const NNSG3dResName * NNS_G3dGetMatNameByIdx (const NNSG3dResMat * mat, u32 idx)
+@@ -142,7 +142,7 @@ NNS_G3D_RES_INLINE const NNSG3dResName * NNS_G3dGetMatNameByIdx (const NNSG3dRes
+         return NULL;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE int NNS_G3dGetMatIdxByName (const NNSG3dResMat * mat, const NNSG3dResName * name)
+@@ -155,7 +155,7 @@ NNS_G3D_RES_INLINE int NNS_G3dGetMatIdxByName (const NNSG3dResMat * mat, const N
+         return -1;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE const NNSG3dResName * NNS_G3dGetShpNameByIdx (const NNSG3dResShp * shp, u32 idx)
+@@ -168,7 +168,7 @@ NNS_G3D_RES_INLINE const NNSG3dResName * NNS_G3dGetShpNameByIdx (const NNSG3dRes
+         return NULL;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE int NNS_G3dGetShpIdxByName (const NNSG3dResShp * shp, const NNSG3dResName * name)
+@@ -181,7 +181,7 @@ NNS_G3D_RES_INLINE int NNS_G3dGetShpIdxByName (const NNSG3dResShp * shp, const N
+         return -1;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE NNSG3dResMdlInfo * NNS_G3dGetMdlInfo (const NNSG3dResMdl * mdl)
+@@ -194,7 +194,7 @@ NNS_G3D_RES_INLINE NNSG3dResMdlInfo * NNS_G3dGetMdlInfo (const NNSG3dResMdl * md
+         return NULL;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE NNSG3dResNodeInfo * NNS_G3dGetNodeInfo (const NNSG3dResMdl * mdl)
+@@ -207,7 +207,7 @@ NNS_G3D_RES_INLINE NNSG3dResNodeInfo * NNS_G3dGetNodeInfo (const NNSG3dResMdl *
+         return NULL;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE u8 * NNS_G3dGetSbc (const NNSG3dResMdl * mdl)
+@@ -220,7 +220,7 @@ NNS_G3D_RES_INLINE u8 * NNS_G3dGetSbc (const NNSG3dResMdl * mdl)
+         return NULL;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE NNSG3dResMat * NNS_G3dGetMat (const NNSG3dResMdl * mdl)
+@@ -234,7 +234,7 @@ NNS_G3D_RES_INLINE NNSG3dResMat * NNS_G3dGetMat (const NNSG3dResMdl * mdl)
+         return NULL;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE NNSG3dResShp * NNS_G3dGetShp (const NNSG3dResMdl * mdl)
+@@ -248,7 +248,7 @@ NNS_G3D_RES_INLINE NNSG3dResShp * NNS_G3dGetShp (const NNSG3dResMdl * mdl)
+         return NULL;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE NNSG3dResMdl * NNS_G3dGetMdlByIdx (const NNSG3dResMdlSet * mdlSet, u32 idx)
+@@ -266,7 +266,7 @@ NNS_G3D_RES_INLINE NNSG3dResMdl * NNS_G3dGetMdlByIdx (const NNSG3dResMdlSet * md
+     return NULL;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE const NNSG3dResName * NNS_G3dGetMdlNameByIdx (const NNSG3dResMdlSet * mdlSet, u32 idx)
+@@ -279,7 +279,7 @@ NNS_G3D_RES_INLINE const NNSG3dResName * NNS_G3dGetMdlNameByIdx (const NNSG3dRes
+         return NULL;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE NNSG3dResMdl * NNS_G3dGetMdlByName (const NNSG3dResMdlSet * mdlSet, const NNSG3dResName * name)
+@@ -298,7 +298,7 @@ NNS_G3D_RES_INLINE NNSG3dResMdl * NNS_G3dGetMdlByName (const NNSG3dResMdlSet * m
+     return NULL;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE int NNS_G3dGetMdlIdxByName (const NNSG3dResMdlSet * mdlSet, const NNSG3dResName * name)
+@@ -311,7 +311,7 @@ NNS_G3D_RES_INLINE int NNS_G3dGetMdlIdxByName (const NNSG3dResMdlSet * mdlSet, c
+         return -1;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE NNSG3dResMdlSet * NNS_G3dCheckMdlSet (const NNSG3dResDataBlockHeader * dataBlkHeader)
+@@ -325,7 +325,7 @@ NNS_G3D_RES_INLINE NNSG3dResMdlSet * NNS_G3dCheckMdlSet (const NNSG3dResDataBloc
+     }
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE NNSG3dResTex * NNS_G3dCheckTex (const NNSG3dResDataBlockHeader * dataBlkHeader)
+@@ -339,7 +339,7 @@ NNS_G3D_RES_INLINE NNSG3dResTex * NNS_G3dCheckTex (const NNSG3dResDataBlockHeade
+     }
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE NNSG3dResNodeData * NNS_G3dGetNodeDataByIdx (const NNSG3dResNodeInfo * info, u32 idx)
+@@ -358,7 +358,7 @@ NNS_G3D_RES_INLINE NNSG3dResNodeData * NNS_G3dGetNodeDataByIdx (const NNSG3dResN
+     return NULL;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE NNSG3dResMatData * NNS_G3dGetMatDataByIdx (const NNSG3dResMat * mat, u32 idx)
+@@ -377,7 +377,7 @@ NNS_G3D_RES_INLINE NNSG3dResMatData * NNS_G3dGetMatDataByIdx (const NNSG3dResMat
+     return NULL;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE NNSG3dResShpData * NNS_G3dGetShpDataByIdx (const NNSG3dResShp * shp, u32 idx)
+@@ -396,7 +396,7 @@ NNS_G3D_RES_INLINE NNSG3dResShpData * NNS_G3dGetShpDataByIdx (const NNSG3dResShp
+     return NULL;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE NNSG3dResDictTexData * NNS_G3dGetTexDataByName (const NNSG3dResTex * tex, const NNSG3dResName * name)
+@@ -409,7 +409,7 @@ NNS_G3D_RES_INLINE NNSG3dResDictTexData * NNS_G3dGetTexDataByName (const NNSG3dR
+         return NULL;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE NNSG3dResDictTexData * NNS_G3dGetTexDataByIdx (const NNSG3dResTex * tex, u32 idx)
+@@ -422,7 +422,7 @@ NNS_G3D_RES_INLINE NNSG3dResDictTexData * NNS_G3dGetTexDataByIdx (const NNSG3dRe
+         return NULL;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE NNSG3dResDictPlttData * NNS_G3dGetPlttDataByName (const NNSG3dResTex * tex, const NNSG3dResName * name)
+@@ -439,7 +439,7 @@ NNS_G3D_RES_INLINE NNSG3dResDictPlttData * NNS_G3dGetPlttDataByName (const NNSG3
+     }
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE NNSG3dResDictPlttData * NNS_G3dGetPlttDataByIdx (const NNSG3dResTex * tex, u32 idx)
+@@ -456,7 +456,7 @@ NNS_G3D_RES_INLINE NNSG3dResDictPlttData * NNS_G3dGetPlttDataByIdx (const NNSG3d
+     }
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE const void * NNS_G3dGetTexData (const NNSG3dResTex * tex)
+@@ -464,7 +464,7 @@ NNS_G3D_RES_INLINE const void * NNS_G3dGetTexData (const NNSG3dResTex * tex)
+     return (u8 *)tex + tex->texInfo.ofsTex;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE const void * NNS_G3dGetTex4x4Data (const NNSG3dResTex * tex)
+@@ -472,7 +472,7 @@ NNS_G3D_RES_INLINE const void * NNS_G3dGetTex4x4Data (const NNSG3dResTex * tex)
+     return (u8 *)tex + tex->tex4x4Info.ofsTex;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE const void * NNS_G3dGetTex4x4PlttIdxData (const NNSG3dResTex * tex)
+@@ -480,7 +480,7 @@ NNS_G3D_RES_INLINE const void * NNS_G3dGetTex4x4PlttIdxData (const NNSG3dResTex
+     return (u8 *)tex + tex->tex4x4Info.ofsTexPlttIdx;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE const void * NNS_G3dGetPlttData (const NNSG3dResTex * tex)
+@@ -488,7 +488,7 @@ NNS_G3D_RES_INLINE const void * NNS_G3dGetPlttData (const NNSG3dResTex * tex)
+     return (u8 *)tex + tex->plttInfo.ofsPlttData;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE const void * NNS_G3dGetShpDLPtr (const NNSG3dResShpData * shp)
+@@ -496,7 +496,7 @@ NNS_G3D_RES_INLINE const void * NNS_G3dGetShpDLPtr (const NNSG3dResShpData * shp
+     return (u8 *)shp + shp->ofsDL;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE u32 NNS_G3dGetShpDLSize (const NNSG3dResShpData * shp)
+@@ -504,7 +504,7 @@ NNS_G3D_RES_INLINE u32 NNS_G3dGetShpDLSize (const NNSG3dResShpData * shp)
+     return shp->sizeDL;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE BOOL NNS_G3dIsMatAnm (const void * pAnm)
+@@ -513,7 +513,7 @@ NNS_G3D_RES_INLINE BOOL NNS_G3dIsMatAnm (const void * pAnm)
+     return hdr != NULL && hdr->category0 == 'M';
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE BOOL NNS_G3dIsJntAnm (const void * pAnm)
+@@ -522,7 +522,7 @@ NNS_G3D_RES_INLINE BOOL NNS_G3dIsJntAnm (const void * pAnm)
+     return hdr != NULL && hdr->category0 == 'J';
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_RES_INLINE BOOL NNS_G3dIsVisAnm (const void * pAnm)
+diff --git a/include/nnsys/g3d/gecom_inline.h b/include/nnsys/g3d/gecom_inline.h
+index 28015cc..b5adf01 100644
+--- a/include/nnsys/g3d/gecom_inline.h
++++ b/include/nnsys/g3d/gecom_inline.h
+@@ -5,7 +5,7 @@
+ extern "C" {
+ #endif
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeBufferData_N (const u32 * args, u32 num)
+@@ -14,7 +14,7 @@ NNS_G3D_INLINE void NNS_G3dGeBufferData_N (const u32 * args, u32 num)
+     NNS_G3dGeBufferOP_N(*args, args + 1, num - 1);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeMtxMode (GXMtxMode mode)
+@@ -23,7 +23,7 @@ NNS_G3D_INLINE void NNS_G3dGeMtxMode (GXMtxMode mode)
+     NNS_G3dGeBufferOP_N(G3OP_MTX_MODE, (u32 *)&mode, G3OP_MTX_MODE_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGePushMtx (void)
+@@ -31,7 +31,7 @@ NNS_G3D_INLINE void NNS_G3dGePushMtx (void)
+     NNS_G3dGeBufferOP_N(G3OP_MTX_PUSH, NULL, G3OP_MTX_PUSH_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGePopMtx (int num)
+@@ -40,7 +40,7 @@ NNS_G3D_INLINE void NNS_G3dGePopMtx (int num)
+     NNS_G3dGeBufferOP_N(G3OP_MTX_POP, (u32 *)&num, G3OP_MTX_POP_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeStoreMtx (int num)
+@@ -49,7 +49,7 @@ NNS_G3D_INLINE void NNS_G3dGeStoreMtx (int num)
+     NNS_G3dGeBufferOP_N(G3OP_MTX_STORE, (u32 *)&num, G3OP_MTX_STORE_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeRestoreMtx (int num)
+@@ -58,7 +58,7 @@ NNS_G3D_INLINE void NNS_G3dGeRestoreMtx (int num)
+     NNS_G3dGeBufferOP_N(G3OP_MTX_RESTORE, (u32 *)&num, G3OP_MTX_RESTORE_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeIdentity (void)
+@@ -66,7 +66,7 @@ NNS_G3D_INLINE void NNS_G3dGeIdentity (void)
+     NNS_G3dGeBufferOP_N(G3OP_MTX_IDENTITY, NULL, G3OP_MTX_IDENTITY_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeScaleVec (const VecFx32 * vec)
+@@ -75,7 +75,7 @@ NNS_G3D_INLINE void NNS_G3dGeScaleVec (const VecFx32 * vec)
+     NNS_G3dGeBufferOP_N(G3OP_MTX_SCALE, (u32 *)vec, G3OP_MTX_SCALE_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeScale (fx32 x, fx32 y, fx32 z)
+@@ -87,7 +87,7 @@ NNS_G3D_INLINE void NNS_G3dGeScale (fx32 x, fx32 y, fx32 z)
+     NNS_G3dGeBufferOP_N(G3OP_MTX_SCALE, (u32 *)&vec, G3OP_MTX_SCALE_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeTranslateVec (const VecFx32 * vec)
+@@ -96,7 +96,7 @@ NNS_G3D_INLINE void NNS_G3dGeTranslateVec (const VecFx32 * vec)
+     NNS_G3dGeBufferOP_N(G3OP_MTX_TRANS, (u32 *)vec, G3OP_MTX_TRANS_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeTranslate (fx32 x, fx32 y, fx32 z)
+@@ -108,7 +108,7 @@ NNS_G3D_INLINE void NNS_G3dGeTranslate (fx32 x, fx32 y, fx32 z)
+     NNS_G3dGeBufferOP_N(G3OP_MTX_TRANS, (u32 *)&vec, G3OP_MTX_TRANS_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeColor (GXRgb rgb)
+@@ -119,7 +119,7 @@ NNS_G3D_INLINE void NNS_G3dGeColor (GXRgb rgb)
+     NNS_G3dGeBufferOP_N(G3OP_COLOR, (u32 *)&tmp, G3OP_COLOR_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeNormal (fx16 x, fx16 y, fx16 z)
+@@ -134,7 +134,7 @@ NNS_G3D_INLINE void NNS_G3dGeNormal (fx16 x, fx16 y, fx16 z)
+     NNS_G3dGeBufferOP_N(G3OP_NORMAL, (u32 *)&tmp, G3OP_NORMAL_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeTexCoord (fx32 s, fx32 t)
+@@ -148,7 +148,7 @@ NNS_G3D_INLINE void NNS_G3dGeTexCoord (fx32 s, fx32 t)
+     NNS_G3dGeBufferOP_N(G3OP_TEXCOORD, (u32 *)&tmp, G3OP_TEXCOORD_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeVtx (fx16 x, fx16 y, fx16 z)
+@@ -160,7 +160,7 @@ NNS_G3D_INLINE void NNS_G3dGeVtx (fx16 x, fx16 y, fx16 z)
+     NNS_G3dGeBufferOP_N(G3OP_VTX_16, tmp, G3OP_VTX_16_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeVtx10 (fx16 x, fx16 y, fx16 z)
+@@ -169,7 +169,7 @@ NNS_G3D_INLINE void NNS_G3dGeVtx10 (fx16 x, fx16 y, fx16 z)
+     NNS_G3dGeBufferOP_N(G3OP_VTX_10, &tmp, G3OP_VTX_10_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeVtxXY (fx16 x, fx16 y)
+@@ -178,7 +178,7 @@ NNS_G3D_INLINE void NNS_G3dGeVtxXY (fx16 x, fx16 y)
+     NNS_G3dGeBufferOP_N(G3OP_VTX_XY, &tmp, G3OP_VTX_XY_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeVtxXZ (fx16 x, fx16 z)
+@@ -187,7 +187,7 @@ NNS_G3D_INLINE void NNS_G3dGeVtxXZ (fx16 x, fx16 z)
+     NNS_G3dGeBufferOP_N(G3OP_VTX_XZ, &tmp, G3OP_VTX_XZ_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeVtxYZ (fx16 y, fx16 z)
+@@ -196,7 +196,7 @@ NNS_G3D_INLINE void NNS_G3dGeVtxYZ (fx16 y, fx16 z)
+     NNS_G3dGeBufferOP_N(G3OP_VTX_YZ, &tmp, G3OP_VTX_YZ_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeVtxDiff (fx16 x, fx16 y, fx16 z)
+@@ -211,7 +211,7 @@ NNS_G3D_INLINE void NNS_G3dGeVtxDiff (fx16 x, fx16 y, fx16 z)
+     NNS_G3dGeBufferOP_N(G3OP_VTX_DIFF, &tmp, G3OP_VTX_DIFF_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGePolygonAttr (int light, GXPolygonMode polyMode, GXCull cullMode, int polygonID, int alpha, int misc)
+@@ -235,7 +235,7 @@ NNS_G3D_INLINE void NNS_G3dGePolygonAttr (int light, GXPolygonMode polyMode, GXC
+                         G3OP_POLYGON_ATTR_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeTexImageParam (GXTexFmt texFmt, GXTexGen texGen, GXTexSizeS s, GXTexSizeT t, GXTexRepeat repeat, GXTexFlip flip, GXTexPlttColor0 pltt0, u32 addr)
+@@ -265,7 +265,7 @@ NNS_G3D_INLINE void NNS_G3dGeTexImageParam (GXTexFmt texFmt, GXTexGen texGen, GX
+                         G3OP_TEXIMAGE_PARAM_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeTexPlttBase (u32 addr, GXTexFmt texfmt)
+@@ -278,7 +278,7 @@ NNS_G3D_INLINE void NNS_G3dGeTexPlttBase (u32 addr, GXTexFmt texfmt)
+                         G3OP_TEXPLTT_BASE_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeMaterialColorDiffAmb (GXRgb diffuse, GXRgb ambient, BOOL IsSetVtxColor)
+@@ -294,7 +294,7 @@ NNS_G3D_INLINE void NNS_G3dGeMaterialColorDiffAmb (GXRgb diffuse, GXRgb ambient,
+                         G3OP_DIF_AMB_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeMaterialColorSpecEmi (GXRgb specular, GXRgb emission, BOOL IsShininess)
+@@ -310,7 +310,7 @@ NNS_G3D_INLINE void NNS_G3dGeMaterialColorSpecEmi (GXRgb specular, GXRgb emissio
+                         G3OP_SPE_EMI_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeLightVector (GXLightId lightID, fx16 x, fx16 y, fx16 z)
+@@ -328,7 +328,7 @@ NNS_G3D_INLINE void NNS_G3dGeLightVector (GXLightId lightID, fx16 x, fx16 y, fx1
+                         G3OP_LIGHT_VECTOR_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeLightColor (GXLightId lightID, GXRgb rgb)
+@@ -344,7 +344,7 @@ NNS_G3D_INLINE void NNS_G3dGeLightColor (GXLightId lightID, GXRgb rgb)
+                         G3OP_LIGHT_COLOR_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeBegin (GXBegin primitive)
+@@ -356,7 +356,7 @@ NNS_G3D_INLINE void NNS_G3dGeBegin (GXBegin primitive)
+                         G3OP_BEGIN_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeEnd (void)
+@@ -364,7 +364,7 @@ NNS_G3D_INLINE void NNS_G3dGeEnd (void)
+     NNS_G3dGeBufferOP_N(G3OP_END, NULL, G3OP_END_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeViewPort (int x1, int y1, int x2, int y2)
+@@ -376,7 +376,7 @@ NNS_G3D_INLINE void NNS_G3dGeViewPort (int x1, int y1, int x2, int y2)
+     NNS_G3dGeBufferOP_N(G3OP_VIEWPORT, &tmp, G3OP_VIEWPORT_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeBoxTest (const GXBoxTestParam * box)
+@@ -388,7 +388,7 @@ NNS_G3D_INLINE void NNS_G3dGeBoxTest (const GXBoxTestParam * box)
+                         G3OP_BOX_TEST_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGePositionTest (fx16 x, fx16 y, fx16 z)
+@@ -402,7 +402,7 @@ NNS_G3D_INLINE void NNS_G3dGePositionTest (fx16 x, fx16 y, fx16 z)
+                         G3OP_POS_TEST_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeVectorTest (fx16 x, fx16 y, fx16 z)
+@@ -419,7 +419,7 @@ NNS_G3D_INLINE void NNS_G3dGeVectorTest (fx16 x, fx16 y, fx16 z)
+                         G3OP_VEC_TEST_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeLoadMtx44 (const MtxFx44 * m)
+@@ -431,7 +431,7 @@ NNS_G3D_INLINE void NNS_G3dGeLoadMtx44 (const MtxFx44 * m)
+                         G3OP_MTX_LOAD_4x4_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeLoadMtx43 (const MtxFx43 * m)
+@@ -443,7 +443,7 @@ NNS_G3D_INLINE void NNS_G3dGeLoadMtx43 (const MtxFx43 * m)
+                         G3OP_MTX_LOAD_4x3_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeMultMtx44 (const MtxFx44 * m)
+@@ -455,7 +455,7 @@ NNS_G3D_INLINE void NNS_G3dGeMultMtx44 (const MtxFx44 * m)
+                         G3OP_MTX_MULT_4x4_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeMultMtx43 (const MtxFx43 * m)
+@@ -467,7 +467,7 @@ NNS_G3D_INLINE void NNS_G3dGeMultMtx43 (const MtxFx43 * m)
+                         G3OP_MTX_MULT_4x3_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeMultMtx33 (const MtxFx33 * m)
+@@ -479,7 +479,7 @@ NNS_G3D_INLINE void NNS_G3dGeMultMtx33 (const MtxFx33 * m)
+                         G3OP_MTX_MULT_3x3_NPARAMS);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGeShininess (const u32 * table)
+diff --git a/include/nnsys/g3d/glbstate_inline.h b/include/nnsys/g3d/glbstate_inline.h
+index a2da19c..79871ec 100644
+--- a/include/nnsys/g3d/glbstate_inline.h
++++ b/include/nnsys/g3d/glbstate_inline.h
+@@ -5,7 +5,7 @@
+ extern "C" {
+ #endif
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGlbLookAt (const VecFx32 * camPos, const VecFx32 * camUp, const VecFx32 * target)
+@@ -21,7 +21,7 @@ NNS_G3D_INLINE void NNS_G3dGlbLookAt (const VecFx32 * camPos, const VecFx32 * ca
+ 
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGlbFrustum (fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f)
+@@ -38,7 +38,7 @@ NNS_G3D_INLINE void NNS_G3dGlbFrustum (fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, f
+                          NNS_G3D_GLB_FLAG_INVCAMERAPROJ_UPTODATE);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGlbFrustumW (fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW)
+@@ -55,7 +55,7 @@ NNS_G3D_INLINE void NNS_G3dGlbFrustumW (fx32 t, fx32 b, fx32 l, fx32 r, fx32 n,
+                          NNS_G3D_GLB_FLAG_INVCAMERAPROJ_UPTODATE);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGlbPerspective (fx32 fovySin, fx32 fovyCos, fx32 aspect, fx32 n, fx32 f)
+@@ -70,7 +70,7 @@ NNS_G3D_INLINE void NNS_G3dGlbPerspective (fx32 fovySin, fx32 fovyCos, fx32 aspe
+                          NNS_G3D_GLB_FLAG_INVCAMERAPROJ_UPTODATE);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGlbPerspectiveW (fx32 fovySin, fx32 fovyCos, fx32 aspect, fx32 n, fx32 f, fx32 scaleW)
+@@ -86,7 +86,7 @@ NNS_G3D_INLINE void NNS_G3dGlbPerspectiveW (fx32 fovySin, fx32 fovyCos, fx32 asp
+                          NNS_G3D_GLB_FLAG_INVCAMERAPROJ_UPTODATE);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGlbOrtho (fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f)
+@@ -102,7 +102,7 @@ NNS_G3D_INLINE void NNS_G3dGlbOrtho (fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx3
+                          NNS_G3D_GLB_FLAG_INVCAMERAPROJ_UPTODATE);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGlbOrthoW (fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW)
+@@ -119,7 +119,7 @@ NNS_G3D_INLINE void NNS_G3dGlbOrthoW (fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx
+                          NNS_G3D_GLB_FLAG_INVCAMERAPROJ_UPTODATE);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGlbSetProjectionMtx (const MtxFx44 * m)
+@@ -130,7 +130,7 @@ NNS_G3D_INLINE void NNS_G3dGlbSetProjectionMtx (const MtxFx44 * m)
+                          NNS_G3D_GLB_FLAG_INVCAMERAPROJ_UPTODATE);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGlbSetBaseRot (const MtxFx33 * pRot)
+@@ -143,7 +143,7 @@ NNS_G3D_INLINE void NNS_G3dGlbSetBaseRot (const MtxFx33 * pRot)
+                          NNS_G3D_GLB_FLAG_INVBASECAMERA_UPTODATE);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGlbSetViewPort (int x1, int y1, int x2, int y2)
+@@ -153,7 +153,7 @@ NNS_G3D_INLINE void NNS_G3dGlbSetViewPort (int x1, int y1, int x2, int y2)
+     NNS_G3dGlb.prmViewPort = GX_PACK_VIEWPORT_PARAM(x1, y1, x2, y2);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE const MtxFx43 * NNS_G3dGlbGetCameraMtx (void)
+@@ -161,7 +161,7 @@ NNS_G3D_INLINE const MtxFx43 * NNS_G3dGlbGetCameraMtx (void)
+     return &NNS_G3dGlb.cameraMtx;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE const MtxFx44 * NNS_G3dGlbGetProjectionMtx (void)
+@@ -169,7 +169,7 @@ NNS_G3D_INLINE const MtxFx44 * NNS_G3dGlbGetProjectionMtx (void)
+     return &NNS_G3dGlb.projMtx;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE const MtxFx33 * NNS_G3dGlbGetBaseRot (void)
+@@ -177,7 +177,7 @@ NNS_G3D_INLINE const MtxFx33 * NNS_G3dGlbGetBaseRot (void)
+     return &NNS_G3dGlb.prmBaseRot;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE const VecFx32 * NNS_G3dGlbGetBaseScale (void)
+@@ -185,7 +185,7 @@ NNS_G3D_INLINE const VecFx32 * NNS_G3dGlbGetBaseScale (void)
+     return &NNS_G3dGlb.prmBaseScale;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE const VecFx32 * NNS_G3dGlbGetBaseTrans (void)
+@@ -193,7 +193,7 @@ NNS_G3D_INLINE const VecFx32 * NNS_G3dGlbGetBaseTrans (void)
+     return &NNS_G3dGlb.prmBaseTrans;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE const VecFx32 * NNS_G3dGlbGetCameraPos (void)
+@@ -201,7 +201,7 @@ NNS_G3D_INLINE const VecFx32 * NNS_G3dGlbGetCameraPos (void)
+     return &NNS_G3dGlb.camPos;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE const VecFx32 * NNS_G3dGlbGetCameraUp (void)
+@@ -209,7 +209,7 @@ NNS_G3D_INLINE const VecFx32 * NNS_G3dGlbGetCameraUp (void)
+     return &NNS_G3dGlb.camUp;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE const VecFx32 * NNS_G3dGlbGetCameraTarget (void)
+@@ -217,7 +217,7 @@ NNS_G3D_INLINE const VecFx32 * NNS_G3dGlbGetCameraTarget (void)
+     return &NNS_G3dGlb.camTarget;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGlbFlush (void)
+@@ -225,7 +225,7 @@ NNS_G3D_INLINE void NNS_G3dGlbFlush (void)
+     NNS_G3dGlbFlushP();
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dGlbFlushAlt (void)
+@@ -233,7 +233,7 @@ NNS_G3D_INLINE void NNS_G3dGlbFlushAlt (void)
+     NNS_G3dGlbFlushWVP();
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE const MtxFx43 * NNS_G3dGlbGetInvCameraMtx (void)
+@@ -241,7 +241,7 @@ NNS_G3D_INLINE const MtxFx43 * NNS_G3dGlbGetInvCameraMtx (void)
+     return NNS_G3dGlbGetInvV();
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE const MtxFx43 * NNS_G3dGlbGetSrtCameraMtx (void)
+@@ -249,7 +249,7 @@ NNS_G3D_INLINE const MtxFx43 * NNS_G3dGlbGetSrtCameraMtx (void)
+     return NNS_G3dGlbGetWV();
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE const MtxFx43 * NNS_G3dGlbGetInvSrtCameraMtx (void)
+diff --git a/include/nnsys/g3d/kernel_inline.h b/include/nnsys/g3d/kernel_inline.h
+index 72564e2..511d6f8 100644
+--- a/include/nnsys/g3d/kernel_inline.h
++++ b/include/nnsys/g3d/kernel_inline.h
+@@ -7,7 +7,7 @@
+ extern "C" {
+ #endif
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dAnmObjSetFrame (NNSG3dAnmObj * pAnmObj, fx32 frame)
+@@ -16,7 +16,7 @@ NNS_G3D_INLINE void NNS_G3dAnmObjSetFrame (NNSG3dAnmObj * pAnmObj, fx32 frame)
+     pAnmObj->frame = frame;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dAnmObjSetBlendRatio (NNSG3dAnmObj * pAnmObj, fx32 ratio)
+@@ -25,7 +25,7 @@ NNS_G3D_INLINE void NNS_G3dAnmObjSetBlendRatio (NNSG3dAnmObj * pAnmObj, fx32 rat
+     pAnmObj->ratio = ratio;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE fx32 NNS_G3dAnmObjGetNumFrame (const NNSG3dAnmObj * pAnmObj)
+@@ -38,7 +38,7 @@ NNS_G3D_INLINE fx32 NNS_G3dAnmObjGetNumFrame (const NNSG3dAnmObj * pAnmObj)
+     return p->numFrame * FX32_ONE;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dRenderObjSetFlag (NNSG3dRenderObj * pRenderObj, NNSG3dRenderObjFlag flag)
+@@ -47,7 +47,7 @@ NNS_G3D_INLINE void NNS_G3dRenderObjSetFlag (NNSG3dRenderObj * pRenderObj, NNSG3
+     pRenderObj->flag |= flag;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dRenderObjResetFlag (NNSG3dRenderObj * pRenderObj, NNSG3dRenderObjFlag flag)
+@@ -56,7 +56,7 @@ NNS_G3D_INLINE void NNS_G3dRenderObjResetFlag (NNSG3dRenderObj * pRenderObj, NNS
+     pRenderObj->flag &= ~flag;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE BOOL NNS_G3dRenderObjTestFlag (const NNSG3dRenderObj * pRenderObj, NNSG3dRenderObjFlag flag)
+@@ -65,7 +65,7 @@ NNS_G3D_INLINE BOOL NNS_G3dRenderObjTestFlag (const NNSG3dRenderObj * pRenderObj
+     return (pRenderObj->flag & flag) == flag;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE u8 * NNS_G3dRenderObjSetUserSbc (NNSG3dRenderObj * pRenderObj, u8 * sbc)
+@@ -78,7 +78,7 @@ NNS_G3D_INLINE u8 * NNS_G3dRenderObjSetUserSbc (NNSG3dRenderObj * pRenderObj, u8
+     return rval;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dRenderObjSetJntAnmBuffer (NNSG3dRenderObj * pRenderObj, struct NNSG3dJntAnmResult_ * buf)
+@@ -89,7 +89,7 @@ NNS_G3D_INLINE void NNS_G3dRenderObjSetJntAnmBuffer (NNSG3dRenderObj * pRenderOb
+     pRenderObj->recJntAnm = buf;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dRenderObjSetMatAnmBuffer (NNSG3dRenderObj * pRenderObj, struct NNSG3dMatAnmResult_ * buf)
+@@ -100,7 +100,7 @@ NNS_G3D_INLINE void NNS_G3dRenderObjSetMatAnmBuffer (NNSG3dRenderObj * pRenderOb
+     pRenderObj->recMatAnm = buf;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE struct NNSG3dJntAnmResult_ * NNS_G3dRenderObjReleaseJntAnmBuffer (NNSG3dRenderObj * pRenderObj)                                             {
+@@ -115,7 +115,7 @@ NNS_G3D_INLINE struct NNSG3dJntAnmResult_ * NNS_G3dRenderObjReleaseJntAnmBuffer
+     return rval;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE struct NNSG3dMatAnmResult_ * NNS_G3dRenderObjReleaseMatAnmBuffer (NNSG3dRenderObj * pRenderObj)                                             {
+@@ -130,7 +130,7 @@ NNS_G3D_INLINE struct NNSG3dMatAnmResult_ * NNS_G3dRenderObjReleaseMatAnmBuffer
+     return rval;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void * NNS_G3dRenderObjSetUserPtr (NNSG3dRenderObj * pRenderObj, void * ptr)
+@@ -140,7 +140,7 @@ NNS_G3D_INLINE void * NNS_G3dRenderObjSetUserPtr (NNSG3dRenderObj * pRenderObj,
+     return rval;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE NNSG3dResMdl * NNS_G3dRenderObjGetResMdl (NNSG3dRenderObj * pRenderObj)
+@@ -149,7 +149,7 @@ NNS_G3D_INLINE NNSG3dResMdl * NNS_G3dRenderObjGetResMdl (NNSG3dRenderObj * pRend
+     return pRenderObj->resMdl;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dRenderObjSetBlendFuncMat (NNSG3dRenderObj * pRenderObj, NNSG3dFuncAnmBlendMat func)
+@@ -160,7 +160,7 @@ NNS_G3D_INLINE void NNS_G3dRenderObjSetBlendFuncMat (NNSG3dRenderObj * pRenderOb
+     pRenderObj->funcBlendMat = func;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dRenderObjSetBlendFuncJnt (NNSG3dRenderObj * pRenderObj, NNSG3dFuncAnmBlendJnt func)
+@@ -171,7 +171,7 @@ NNS_G3D_INLINE void NNS_G3dRenderObjSetBlendFuncJnt (NNSG3dRenderObj * pRenderOb
+     pRenderObj->funcBlendJnt = func;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dRenderObjSetBlendFuncVis (NNSG3dRenderObj * pRenderObj, NNSG3dFuncAnmBlendVis func)
+diff --git a/include/nnsys/g3d/model_inline.h b/include/nnsys/g3d/model_inline.h
+index aa0adb2..69116c0 100644
+--- a/include/nnsys/g3d/model_inline.h
++++ b/include/nnsys/g3d/model_inline.h
+@@ -8,7 +8,7 @@ extern "C" {
+ void NNSi_G3dModifyMatFlag(NNSG3dResMdl * pMdl, BOOL isOn, NNSG3dMatFlag flag);
+ void NNSi_G3dModifyPolygonAttrMask(NNSG3dResMdl * pMdl, BOOL isOn, u32 mask);
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dMdlUseGlbDiff (NNSG3dResMdl * pMdl)
+@@ -18,7 +18,7 @@ NNS_G3D_INLINE void NNS_G3dMdlUseGlbDiff (NNSG3dResMdl * pMdl)
+                           NNS_G3D_MATFLAG_DIFFUSE);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dMdlUseGlbAmb (NNSG3dResMdl * pMdl)
+@@ -28,7 +28,7 @@ NNS_G3D_INLINE void NNS_G3dMdlUseGlbAmb (NNSG3dResMdl * pMdl)
+                           NNS_G3D_MATFLAG_AMBIENT);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dMdlUseGlbSpec (NNSG3dResMdl * pMdl)
+@@ -38,7 +38,7 @@ NNS_G3D_INLINE void NNS_G3dMdlUseGlbSpec (NNSG3dResMdl * pMdl)
+                           NNS_G3D_MATFLAG_SPECULAR);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dMdlUseGlbEmi (NNSG3dResMdl * pMdl)
+@@ -48,7 +48,7 @@ NNS_G3D_INLINE void NNS_G3dMdlUseGlbEmi (NNSG3dResMdl * pMdl)
+                           NNS_G3D_MATFLAG_EMISSION);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dMdlUseGlbLightEnableFlag (NNSG3dResMdl * pMdl)
+@@ -58,7 +58,7 @@ NNS_G3D_INLINE void NNS_G3dMdlUseGlbLightEnableFlag (NNSG3dResMdl * pMdl)
+                                   REG_G3_POLYGON_ATTR_LE_MASK);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dMdlUseGlbPolygonMode (NNSG3dResMdl * pMdl)
+@@ -68,7 +68,7 @@ NNS_G3D_INLINE void NNS_G3dMdlUseGlbPolygonMode (NNSG3dResMdl * pMdl)
+                                   REG_G3_POLYGON_ATTR_PM_MASK);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dMdlUseGlbCullMode (NNSG3dResMdl * pMdl)
+@@ -79,7 +79,7 @@ NNS_G3D_INLINE void NNS_G3dMdlUseGlbCullMode (NNSG3dResMdl * pMdl)
+                                   REG_G3_POLYGON_ATTR_FR_MASK);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dMdlUseGlbPolygonID (NNSG3dResMdl * pMdl)
+@@ -89,7 +89,7 @@ NNS_G3D_INLINE void NNS_G3dMdlUseGlbPolygonID (NNSG3dResMdl * pMdl)
+                                   REG_G3_POLYGON_ATTR_ID_MASK);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dMdlUseGlbAlpha (NNSG3dResMdl * pMdl)
+@@ -99,7 +99,7 @@ NNS_G3D_INLINE void NNS_G3dMdlUseGlbAlpha (NNSG3dResMdl * pMdl)
+                                   REG_G3_POLYGON_ATTR_ALPHA_MASK);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dMdlUseGlbFogEnableFlag (NNSG3dResMdl * pMdl)
+@@ -109,7 +109,7 @@ NNS_G3D_INLINE void NNS_G3dMdlUseGlbFogEnableFlag (NNSG3dResMdl * pMdl)
+                                   REG_G3_POLYGON_ATTR_FE_MASK);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dMdlUseGlbDepthTestCond (NNSG3dResMdl * pMdl)
+@@ -119,7 +119,7 @@ NNS_G3D_INLINE void NNS_G3dMdlUseGlbDepthTestCond (NNSG3dResMdl * pMdl)
+                                   REG_G3_POLYGON_ATTR_DT_MASK);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dMdlUseGlb1Dot (NNSG3dResMdl * pMdl)
+@@ -129,7 +129,7 @@ NNS_G3D_INLINE void NNS_G3dMdlUseGlb1Dot (NNSG3dResMdl * pMdl)
+                                   REG_G3_POLYGON_ATTR_D1_MASK);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dMdlUseGlbFarClip (NNSG3dResMdl * pMdl)
+@@ -139,7 +139,7 @@ NNS_G3D_INLINE void NNS_G3dMdlUseGlbFarClip (NNSG3dResMdl * pMdl)
+                                   REG_G3_POLYGON_ATTR_FC_MASK);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dMdlUseGlbXLDepthUpdate (NNSG3dResMdl * pMdl)
+@@ -149,7 +149,7 @@ NNS_G3D_INLINE void NNS_G3dMdlUseGlbXLDepthUpdate (NNSG3dResMdl * pMdl)
+                                   REG_G3_POLYGON_ATTR_XL_MASK);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dMdlUseMdlDiff (NNSG3dResMdl * pMdl)
+@@ -159,7 +159,7 @@ NNS_G3D_INLINE void NNS_G3dMdlUseMdlDiff (NNSG3dResMdl * pMdl)
+                           NNS_G3D_MATFLAG_DIFFUSE);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dMdlUseMdlAmb (NNSG3dResMdl * pMdl)
+@@ -169,7 +169,7 @@ NNS_G3D_INLINE void NNS_G3dMdlUseMdlAmb (NNSG3dResMdl * pMdl)
+                           NNS_G3D_MATFLAG_AMBIENT);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dMdlUseMdlSpec (NNSG3dResMdl * pMdl)
+@@ -179,7 +179,7 @@ NNS_G3D_INLINE void NNS_G3dMdlUseMdlSpec (NNSG3dResMdl * pMdl)
+                           NNS_G3D_MATFLAG_SPECULAR);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dMdlUseMdlEmi (NNSG3dResMdl * pMdl)
+@@ -189,7 +189,7 @@ NNS_G3D_INLINE void NNS_G3dMdlUseMdlEmi (NNSG3dResMdl * pMdl)
+                           NNS_G3D_MATFLAG_EMISSION);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dMdlUseMdlLightEnableFlag (NNSG3dResMdl * pMdl)
+@@ -199,7 +199,7 @@ NNS_G3D_INLINE void NNS_G3dMdlUseMdlLightEnableFlag (NNSG3dResMdl * pMdl)
+                                   REG_G3_POLYGON_ATTR_LE_MASK);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dMdlUseMdlPolygonMode (NNSG3dResMdl * pMdl)
+@@ -209,7 +209,7 @@ NNS_G3D_INLINE void NNS_G3dMdlUseMdlPolygonMode (NNSG3dResMdl * pMdl)
+                                   REG_G3_POLYGON_ATTR_PM_MASK);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dMdlUseMdlCullMode (NNSG3dResMdl * pMdl)
+@@ -220,7 +220,7 @@ NNS_G3D_INLINE void NNS_G3dMdlUseMdlCullMode (NNSG3dResMdl * pMdl)
+                                   REG_G3_POLYGON_ATTR_FR_MASK);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dMdlUseMdlPolygonID (NNSG3dResMdl * pMdl)
+@@ -230,7 +230,7 @@ NNS_G3D_INLINE void NNS_G3dMdlUseMdlPolygonID (NNSG3dResMdl * pMdl)
+                                   REG_G3_POLYGON_ATTR_ID_MASK);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dMdlUseMdlAlpha (NNSG3dResMdl * pMdl)
+@@ -240,7 +240,7 @@ NNS_G3D_INLINE void NNS_G3dMdlUseMdlAlpha (NNSG3dResMdl * pMdl)
+                                   REG_G3_POLYGON_ATTR_ALPHA_MASK);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dMdlUseMdlFogEnableFlag (NNSG3dResMdl * pMdl)
+@@ -250,7 +250,7 @@ NNS_G3D_INLINE void NNS_G3dMdlUseMdlFogEnableFlag (NNSG3dResMdl * pMdl)
+                                   REG_G3_POLYGON_ATTR_FE_MASK);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dMdlUseMdlDepthTestCond (NNSG3dResMdl * pMdl)
+@@ -260,7 +260,7 @@ NNS_G3D_INLINE void NNS_G3dMdlUseMdlDepthTestCond (NNSG3dResMdl * pMdl)
+                                   REG_G3_POLYGON_ATTR_DT_MASK);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dMdlUseMdl1Dot (NNSG3dResMdl * pMdl)
+@@ -270,7 +270,7 @@ NNS_G3D_INLINE void NNS_G3dMdlUseMdl1Dot (NNSG3dResMdl * pMdl)
+                                   REG_G3_POLYGON_ATTR_D1_MASK);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dMdlUseMdlFarClip (NNSG3dResMdl * pMdl)
+@@ -280,7 +280,7 @@ NNS_G3D_INLINE void NNS_G3dMdlUseMdlFarClip (NNSG3dResMdl * pMdl)
+                                   REG_G3_POLYGON_ATTR_FC_MASK);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dMdlUseMdlXLDepthUpdate (NNSG3dResMdl * pMdl)
+diff --git a/include/nnsys/g3d/sbc_inline.h b/include/nnsys/g3d/sbc_inline.h
+index eda0169..20a73dd 100644
+--- a/include/nnsys/g3d/sbc_inline.h
++++ b/include/nnsys/g3d/sbc_inline.h
+@@ -7,11 +7,14 @@ extern "C" {
+ 
+ #ifndef NNS_G3D_SBC_CALLBACK_TIMING_A_DISABLE
+ #ifdef SDK_PORT
+-static NNS_G3D_INLINE NNSG3dSbcCallBackTiming
++#ifndef __cplusplus
++static
++#endif
++NNS_G3D_INLINE NNSG3dSbcCallBackTiming
+ NNSi_CheckPossibilityOfCallBack(NNSG3dRS* rs, u8 cmd);
+ #endif
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE BOOL NNSi_G3dCallBackCheck_A (NNSG3dRS * rs, u8 cmd, NNSG3dSbcCallBackTiming * pTiming)
+@@ -28,7 +31,7 @@ NNS_G3D_INLINE BOOL NNSi_G3dCallBackCheck_A (NNSG3dRS * rs, u8 cmd, NNSG3dSbcCal
+     }
+ }
+ #else
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE BOOL NNSi_G3dCallBackCheck_A (NNSG3dRS * rs, u8 cmd, NNSG3dSbcCallBackTiming * pTiming)
+@@ -40,7 +43,7 @@ NNS_G3D_INLINE BOOL NNSi_G3dCallBackCheck_A (NNSG3dRS * rs, u8 cmd, NNSG3dSbcCal
+ #endif
+ 
+ #ifndef NNS_G3D_SBC_CALLBACK_TIMING_B_DISABLE
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE BOOL NNSi_G3dCallBackCheck_B (NNSG3dRS * rs, u8 cmd, NNSG3dSbcCallBackTiming * pTiming)
+@@ -56,7 +59,7 @@ NNS_G3D_INLINE BOOL NNSi_G3dCallBackCheck_B (NNSG3dRS * rs, u8 cmd, NNSG3dSbcCal
+     }
+ }
+ #else
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE BOOL NNSi_G3dCallBackCheck_B (NNSG3dRS *, u8, NNSG3dSbcCallBackTiming *) {
+@@ -65,7 +68,7 @@ NNS_G3D_INLINE BOOL NNSi_G3dCallBackCheck_B (NNSG3dRS *, u8, NNSG3dSbcCallBackTi
+ #endif
+ 
+ #ifndef NNS_G3D_SBC_CALLBACK_TIMING_C_DISABLE
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE BOOL NNSi_G3dCallBackCheck_C (NNSG3dRS * rs, u8 cmd, NNSG3dSbcCallBackTiming timing)
+@@ -80,7 +83,7 @@ NNS_G3D_INLINE BOOL NNSi_G3dCallBackCheck_C (NNSG3dRS * rs, u8 cmd, NNSG3dSbcCal
+     }
+ }
+ #else
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE BOOL NNSi_G3dCallBackCheck_C (NNSG3dRS *, u8, NNSG3dSbcCallBackTiming) {
+@@ -88,7 +91,7 @@ NNS_G3D_INLINE BOOL NNSi_G3dCallBackCheck_C (NNSG3dRS *, u8, NNSG3dSbcCallBackTi
+ }
+ #endif
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE NNSG3dSbcCallBackTiming NNSi_CheckPossibilityOfCallBack (NNSG3dRS * rs, u8 cmd)
+@@ -100,7 +103,7 @@ NNS_G3D_INLINE NNSG3dSbcCallBackTiming NNSi_CheckPossibilityOfCallBack (NNSG3dRS
+     }
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dRSSetCallBack (NNSG3dRS * rs, NNSG3dSbcCallBackFunc func, u8 cmd, NNSG3dSbcCallBackTiming timing)
+@@ -113,7 +116,7 @@ NNS_G3D_INLINE void NNS_G3dRSSetCallBack (NNSG3dRS * rs, NNSG3dSbcCallBackFunc f
+     rs->cbVecTiming[cmd] = timing;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dRSResetCallBack (NNSG3dRS * rs, u8 cmd)
+@@ -125,7 +128,7 @@ NNS_G3D_INLINE void NNS_G3dRSResetCallBack (NNSG3dRS * rs, u8 cmd)
+     rs->cbVecTiming[cmd] = (u8)NNS_G3D_SBC_CALLBACK_TIMING_NONE;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE NNSG3dRenderObj * NNS_G3dRSGetRenderObj (NNSG3dRS * rs)
+@@ -134,7 +137,7 @@ NNS_G3D_INLINE NNSG3dRenderObj * NNS_G3dRSGetRenderObj (NNSG3dRS * rs)
+     return rs->pRenderObj;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE NNSG3dMatAnmResult * NNS_G3dRSGetMatAnmResult (NNSG3dRS * rs)
+@@ -143,7 +146,7 @@ NNS_G3D_INLINE NNSG3dMatAnmResult * NNS_G3dRSGetMatAnmResult (NNSG3dRS * rs)
+     return rs->pMatAnmResult;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE NNSG3dJntAnmResult * NNS_G3dRSGetJntAnmResult (NNSG3dRS * rs)
+@@ -152,7 +155,7 @@ NNS_G3D_INLINE NNSG3dJntAnmResult * NNS_G3dRSGetJntAnmResult (NNSG3dRS * rs)
+     return rs->pJntAnmResult;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE NNSG3dVisAnmResult * NNS_G3dRSGetVisAnmResult (NNSG3dRS * rs)
+@@ -161,7 +164,7 @@ NNS_G3D_INLINE NNSG3dVisAnmResult * NNS_G3dRSGetVisAnmResult (NNSG3dRS * rs)
+     return rs->pVisAnmResult;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE u8 * NNS_G3dRSGetSbcPtr (NNSG3dRS * rs)
+@@ -170,7 +173,7 @@ NNS_G3D_INLINE u8 * NNS_G3dRSGetSbcPtr (NNSG3dRS * rs)
+     return rs->c;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dRSSetFlag (NNSG3dRS * rs, NNSG3dRSFlag flag)
+@@ -179,7 +182,7 @@ NNS_G3D_INLINE void NNS_G3dRSSetFlag (NNSG3dRS * rs, NNSG3dRSFlag flag)
+     rs->flag |= flag;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNS_G3dRSResetFlag (NNSG3dRS * rs, NNSG3dRSFlag flag)
+@@ -188,7 +191,7 @@ NNS_G3D_INLINE void NNS_G3dRSResetFlag (NNSG3dRS * rs, NNSG3dRSFlag flag)
+     rs->flag &= ~flag;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE int NNS_G3dRSGetCurrentMatID (const NNSG3dRS * rs)
+@@ -201,7 +204,7 @@ NNS_G3D_INLINE int NNS_G3dRSGetCurrentMatID (const NNSG3dRS * rs)
+     }
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE int NNS_G3dRSGetCurrentNodeID (const NNSG3dRS * rs)
+@@ -214,7 +217,7 @@ NNS_G3D_INLINE int NNS_G3dRSGetCurrentNodeID (const NNSG3dRS * rs)
+     }
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE int NNS_G3dRSGetCurrentNodeDescID (const NNSG3dRS * rs)
+@@ -227,7 +230,7 @@ NNS_G3D_INLINE int NNS_G3dRSGetCurrentNodeDescID (const NNSG3dRS * rs)
+     }
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE fx32 NNS_G3dRSGetPosScale (const NNSG3dRS * rs)
+@@ -236,7 +239,7 @@ NNS_G3D_INLINE fx32 NNS_G3dRSGetPosScale (const NNSG3dRS * rs)
+     return rs->posScale;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE fx32 NNS_G3dRSGetInvPosScale (const NNSG3dRS * rs)
+diff --git a/include/nnsys/g3d/util_inline.h b/include/nnsys/g3d/util_inline.h
+index b8e0f00..9fa1448 100644
+--- a/include/nnsys/g3d/util_inline.h
++++ b/include/nnsys/g3d/util_inline.h
+@@ -5,7 +5,7 @@
+ extern "C" {
+ #endif
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE BOOL NNSi_G3dBitVecCheck (const u32 * vec, u32 idx)
+@@ -14,7 +14,7 @@ NNS_G3D_INLINE BOOL NNSi_G3dBitVecCheck (const u32 * vec, u32 idx)
+     return (BOOL)(vec[idx >> 5] & (1 << (idx & 31)));
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNSi_G3dBitVecSet (u32 * vec, u32 idx)
+@@ -23,7 +23,7 @@ NNS_G3D_INLINE void NNSi_G3dBitVecSet (u32 * vec, u32 idx)
+     vec[idx >> 5] |= 1 << (idx & 31);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_G3D_INLINE void NNSi_G3dBitVecReset (u32 * vec, u32 idx)
+diff --git a/include/nnsys/gfd/VramManager/gfd_PlttVramMan_Types.h b/include/nnsys/gfd/VramManager/gfd_PlttVramMan_Types.h
+index 48dfb58..45d874a 100644
+--- a/include/nnsys/gfd/VramManager/gfd_PlttVramMan_Types.h
++++ b/include/nnsys/gfd/VramManager/gfd_PlttVramMan_Types.h
+@@ -28,7 +28,7 @@ typedef int (*NNSGfdFuncFreePlttVram)(NNSGfdPlttKey plttKey);
+ extern NNSGfdFuncAllocPlttVram NNS_GfdDefaultFuncAllocPlttVram;
+ extern NNSGfdFuncFreePlttVram NNS_GfdDefaultFuncFreePlttVram;
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_GFD_INLINE NNSGfdPlttKey NNS_GfdAllocPlttVram (u32 szByte, BOOL is4pltt, u32 opt)
+@@ -36,7 +36,7 @@ NNS_GFD_INLINE NNSGfdPlttKey NNS_GfdAllocPlttVram (u32 szByte, BOOL is4pltt, u32
+     return (*NNS_GfdDefaultFuncAllocPlttVram)(szByte, is4pltt, opt);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_GFD_INLINE int NNS_GfdFreePlttVram (NNSGfdPlttKey plttKey)
+@@ -44,7 +44,7 @@ NNS_GFD_INLINE int NNS_GfdFreePlttVram (NNSGfdPlttKey plttKey)
+     return (*NNS_GfdDefaultFuncFreePlttVram)(plttKey);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_GFD_INLINE u32 NNSi_GfdGetPlttKeyRoundupSize (u32 size)
+@@ -56,7 +56,7 @@ NNS_GFD_INLINE u32 NNSi_GfdGetPlttKeyRoundupSize (u32 size)
+     }
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_GFD_INLINE NNSGfdPlttKey NNS_GfdMakePlttKey (u32 addr, u32 size)
+@@ -71,7 +71,7 @@ NNS_GFD_INLINE NNSGfdPlttKey NNS_GfdMakePlttKey (u32 addr, u32 size)
+            | (0xFFFF & (addr >> NNS_GFD_PLTTKEY_ADDR_SHIFT));
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_GFD_INLINE u32 NNS_GfdGetPlttKeyAddr (NNSGfdPlttKey plttKey)
+@@ -79,7 +79,7 @@ NNS_GFD_INLINE u32 NNS_GfdGetPlttKeyAddr (NNSGfdPlttKey plttKey)
+     return (u32)((0x0000FFFF & plttKey) << NNS_GFD_PLTTKEY_ADDR_SHIFT);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_GFD_INLINE u32 NNS_GfdGetPlttKeySize (NNSGfdPlttKey plttKey)
+diff --git a/include/nnsys/gfd/VramManager/gfd_TexVramMan_Types.h b/include/nnsys/gfd/VramManager/gfd_TexVramMan_Types.h
+index a9ac635..9d5dc81 100644
+--- a/include/nnsys/gfd/VramManager/gfd_TexVramMan_Types.h
++++ b/include/nnsys/gfd/VramManager/gfd_TexVramMan_Types.h
+@@ -27,7 +27,7 @@ typedef int (*NNSGfdFuncFreeTexVram)(NNSGfdTexKey key);
+ extern NNSGfdFuncAllocTexVram NNS_GfdDefaultFuncAllocTexVram;
+ extern NNSGfdFuncFreeTexVram NNS_GfdDefaultFuncFreeTexVram;
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_GFD_INLINE NNSGfdTexKey NNS_GfdAllocTexVram (u32 szByte, BOOL is4x4comp, u32 opt)
+@@ -35,7 +35,7 @@ NNS_GFD_INLINE NNSGfdTexKey NNS_GfdAllocTexVram (u32 szByte, BOOL is4x4comp, u32
+     return (*NNS_GfdDefaultFuncAllocTexVram)(szByte, is4x4comp, opt);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_GFD_INLINE int NNS_GfdFreeTexVram (NNSGfdTexKey memKey)
+@@ -43,7 +43,7 @@ NNS_GFD_INLINE int NNS_GfdFreeTexVram (NNSGfdTexKey memKey)
+     return (*NNS_GfdDefaultFuncFreeTexVram)(memKey);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_GFD_INLINE u32 NNSi_GfdGetTexKeyRoundupSize (u32 size)
+@@ -56,7 +56,7 @@ NNS_GFD_INLINE u32 NNSi_GfdGetTexKeyRoundupSize (u32 size)
+     }
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_GFD_INLINE NNSGfdTexKey NNS_GfdMakeTexKey (u32 addr, u32 size, BOOL b4x4Comp)
+@@ -72,7 +72,7 @@ NNS_GFD_INLINE NNSGfdTexKey NNS_GfdMakeTexKey (u32 addr, u32 size, BOOL b4x4Comp
+            | b4x4Comp << 31;
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_GFD_INLINE u32 NNS_GfdGetTexKeyAddr (NNSGfdTexKey memKey)
+@@ -80,7 +80,7 @@ NNS_GFD_INLINE u32 NNS_GfdGetTexKeyAddr (NNSGfdTexKey memKey)
+     return (u32)(((0x0000FFFF & memKey)) << NNS_GFD_TEXKEY_ADDR_SHIFT);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_GFD_INLINE u32 NNS_GfdGetTexKeySize (NNSGfdTexKey memKey)
+@@ -88,7 +88,7 @@ NNS_GFD_INLINE u32 NNS_GfdGetTexKeySize (NNSGfdTexKey memKey)
+     return (u32)(((0x7FFF0000 & memKey) >> 16) << NNS_GFD_TEXKEY_SIZE_SHIFT);
+ }
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_GFD_INLINE BOOL NNS_GfdGetTexKey4x4Flag (NNSGfdTexKey memKey)
+diff --git a/include/nnsys/snd/main.h b/include/nnsys/snd/main.h
+index b63e6e6..3574a1f 100644
+--- a/include/nnsys/snd/main.h
++++ b/include/nnsys/snd/main.h
+@@ -23,12 +23,12 @@ BOOL NNS_SndReadDriverChannelInfo(int chNo, SNDChannelInfo * info);
+ BOOL NNSi_SndReadDriverPlayerInfo(int playerNo, SNDPlayerInfo * info);
+ BOOL NNSi_SndReadDriverTrackInfo(int playerNo, int trackNo, SNDTrackInfo * info);
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_SND_INLINE void NNS_SndBeginSleep (void) {
+ }
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_SND_INLINE void NNS_SndEndSleep (void) {
+diff --git a/include/nnsys/snd/player.h b/include/nnsys/snd/player.h
+index 375b679..261182a 100644
+--- a/include/nnsys/snd/player.h
++++ b/include/nnsys/snd/player.h
+@@ -97,7 +97,7 @@ typedef struct NNSSndPlayer {
+     u16 pad2_;
+ } NNSSndPlayer;
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_SND_INLINE BOOL NNS_SndHandleIsValid (const struct NNSSndHandle * handle)
+diff --git a/include/nnsys/snd/sndarc_stream.h b/include/nnsys/snd/sndarc_stream.h
+index 013a81b..1fc5e78 100644
+--- a/include/nnsys/snd/sndarc_stream.h
++++ b/include/nnsys/snd/sndarc_stream.h
+@@ -58,7 +58,7 @@ typedef struct NNSSndStrmThread {
+     NNSFndList commandList;
+ } NNSSndStrmThread;
+ 
+-#ifdef SDK_PORT
++#if defined(SDK_PORT) && !defined(__cplusplus)
+ static
+ #endif
+ NNS_SND_INLINE BOOL NNS_SndStrmHandleIsValid (const NNSSndStrmHandle * handle)

@@ -39,7 +39,7 @@ public:
     // Also used by COpeningDemoScene: its string literals are this inline's statics, so both TUs share them
     void Load(CGame *game)
     {
-        unk_00 = new BGLayer((int)game);
+        unk_00 = new BGLayer(PTR_CAST(int, game));
         unk_00->SetBG(5);
         unk_00->LoadArchive("menu/", "title000_bg_");
         unk_00->LoadChar("title000", 0, 0, 0);
@@ -48,7 +48,7 @@ public:
         unk_00->ReleaseArchive();
         unk_00->Setup(0x100, 0x100);
 
-        unk_04 = new BGLayer((int)game);
+        unk_04 = new BGLayer(PTR_CAST(int, game));
         unk_04->SetBG(5);
         unk_04->LoadArchive("menu/", "title004_bg_");
         unk_04->LoadChar("title004", 0, 0, 0);

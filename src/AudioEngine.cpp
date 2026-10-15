@@ -15,10 +15,18 @@ AudioEngine::AudioEngine()
     NNS_SndInit();
     unk_00 = Heap_AllocSecondary(0x64000);
     unk_04 = Heap_AllocSecondary(0x30000);
+#ifdef PC_PORT
+    // libntrsystem keeps the sound archive's FAT at twice its file size (64-bit entries)
+    unk_08 = Heap_AllocSecondary(0xC000 + 0x10000);
+    m_seHeap = NNS_SndHeapCreate(unk_00, 0x64000);
+    m_bgmHeap = NNS_SndHeapCreate(unk_04, 0x30000);
+    unk_A4 = NNS_SndHeapCreate(unk_08, 0xC000 + 0x10000);
+#else
     unk_08 = Heap_AllocSecondary(0xC000);
     m_seHeap = NNS_SndHeapCreate(unk_00, 0x64000);
     m_bgmHeap = NNS_SndHeapCreate(unk_04, 0x30000);
     unk_A4 = NNS_SndHeapCreate(unk_08, 0xC000);
+#endif
     NNS_SndArcInit((NNSSndArc *)unk_0C, "/data/Sound/sound_data.sdat", unk_A4, FALSE);
     NNS_SndArcPlayerSetup(m_seHeap);
     NNS_SndArcPlayerSetup(m_bgmHeap);

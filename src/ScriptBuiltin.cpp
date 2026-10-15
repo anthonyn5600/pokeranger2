@@ -10,6 +10,24 @@
 extern "C" {
 extern MATHRandContext16 MAIN_BSS_0210CEC8;
 
+#ifdef PC_PORT
+// The script passes its arguments as an int array, which the DS build hands to vprintf as a va_list (its va_list is
+// a plain pointer into the argument words). Forward them as varargs instead.
+// TODO(pc 64-bit): script values that hold pointers (%s) need the 64-bit script value scheme.
+static void Builtin_VPrint(const char *fmt, ...)
+{
+    va_list va;
+    va_start(va, fmt);
+    thunk_FUN_02044308(fmt, va);
+    va_end(va);
+}
+
+static void Builtin_PrintfArgs(const char *fmt, int *args)
+{
+    Builtin_VPrint(fmt, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7]);
+}
+#endif
+
 // System (ids 0x00..)
 
 int sub_02046618(int *args, int argc)
@@ -26,14 +44,22 @@ int Builtin_Puts(int *args, int argc)
 int Builtin_Printf(int *args, int argc)
 {
     const char *fmt = (const char *)*args++;
+#ifdef PC_PORT
+    Builtin_PrintfArgs(fmt, args);
+#else
     thunk_FUN_02044308(fmt, (va_list)args);
+#endif
     return 0;
 }
 
 int Builtin_Printf2(int *args, int argc)
 {
     const char *fmt = (const char *)*args++;
+#ifdef PC_PORT
+    Builtin_PrintfArgs(fmt, args);
+#else
     thunk_FUN_02044308(fmt, (va_list)args);
+#endif
     return 0;
 }
 

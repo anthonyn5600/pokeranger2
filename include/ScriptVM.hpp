@@ -3,6 +3,7 @@
 
 #include <nitro.h>
 
+#include "PtrCast.hpp"
 #include "common.hpp"
 
 typedef int (*ScriptSyscall)(int *args, int argc);
@@ -10,23 +11,31 @@ typedef int (*ScriptSyscall)(int *args, int argc);
 // fsc symbol: name packed into two base-40 words, then the code address (a word index until relocated)
 struct ScriptSymbol {
     u32 key[2];
-    u32 *code;
+    PTR32(u32)
+    code;
 };
 
 // fsc import: a symbol of another loaded script, resolved on first call
 struct ScriptImport {
     u32 key[2];
-    struct ScriptHeader *script;
-    ScriptSymbol *symbol;
+    PTR32(struct ScriptHeader)
+    script;
+    PTR32(ScriptSymbol)
+    symbol;
 };
 
 // Loaded .fsb file header (offsets relocated to pointers by Script_Link)
 struct ScriptHeader {
-    u32 *code;
-    ScriptSymbol *symbols; // up to imports
-    ScriptImport *imports;
-    u8 *data;
-    ScriptHeader *next;
+    PTR32(u32)
+    code;
+    PTR32(ScriptSymbol)
+    symbols; // up to imports
+    PTR32(ScriptImport)
+    imports;
+    PTR32(u8)
+    data;
+    PTR32(ScriptHeader)
+    next;
 };
 
 // Script interpreter state (arm9, around 0x02044464), embedded in CFieldMap and CFieldActorScript.

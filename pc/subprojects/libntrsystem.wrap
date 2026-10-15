@@ -1,0 +1,9 @@
+[wrap-git]
+url = https://github.com/cybervisi0n/libntrsystem.git
+revision = cd778c9d5e45869f8ecb8245b316ac20ea576958
+depth = 1
+directory = libntrsystem
+diff_files = libntrsystem_patch/0001-cxx-inline-linkage.patch, libntrsystem_patch/0002-g2d-anim-data-cxx-linkage-and-64bit-cast.patch, libntrsystem_patch/0003-ncl-native-palette-struct.patch
+
+[provide]
+dependency_names = NitroSystem

@@ -11,7 +11,9 @@
 // The TU's data order needs the emitter template's vtable made in the first TU-end pass (explicit instantiation; its
 // member copies are weak and dropped for CFieldEffectWaterGun's) and TFieldEffectParticle completed before the
 // particle classes (the size check does that without instantiating its members).
+#ifndef PC_PORT // data-order control for mwcc; implicit instantiation is enough on PC
 template class TFieldParticleEmitter<CSoftwareSprite>;
+#endif
 STATIC_SIZE_ASSERT(TFieldEffectParticle<CSoftwareSprite>, 0x28);
 
 // Bursts of 8..12 leaves from a rectangle, flying away from its centre. Defined before the animator: the weak D0s at

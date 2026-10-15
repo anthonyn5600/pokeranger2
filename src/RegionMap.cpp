@@ -129,7 +129,7 @@ void RegionMap::Load(int bg, u8 *oamIndex, int *charNo, int *paletteSlot, BOOL e
 {
     int i;
     SAFE_DELETE(unk_20);
-    unk_20 = new BGLayer((int)unk_64);
+    unk_20 = new BGLayer(PTR_CAST(int, unk_64));
     unk_20->SetBG(bg);
     unk_20->LoadArchive("menu/", "map000_");
     unk_20->LoadChar("map000", 0, 0, 0);
