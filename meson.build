@@ -212,6 +212,46 @@ pokeranger2_ov0_sprite_objs = custom_target('ov0_sprite_objs',
     command: [elfrename_py, '@INPUT@', '@OUTPUT@', '_ZN16CSimpleSpriteNTFC1Ev=ov0_02166794'],
 )
 
+# Fake (compiler + linker): CFieldEffectDarknessClear's .data. Two objects of the original TU took part in its size
+# sort but were dropped at link time, which left equal-size typeinfos/vtables in an order no source layout of ours
+# reproduces; the object's data sections are put in the original order after compiling. Its <CSimpleSpriteNTF>
+# template copies are also emitted by ov3's COPDTitleScreen and mwld keeps one weak copy per link, so overlay 0's
+# copies get their own (address) names, like ov0_02166794 above.
+pokeranger2_ov0_darkness = static_library('pokeranger2_ov0_darkness',
+    files('src/CFieldEffectDarknessClear.cpp'),
+    cpp_args: pokeranger2_args,
+    cpp_pch: 'include/pch/global_pch.hpp',
+    include_directories: public_includes,
+    dependencies: [
+        nitrosdk_dep,
+        nitrosystem_dep,
+    ],
+    pic: false,
+    native: false
+)
+pokeranger2_ov0_darkness_ordered = custom_target('ov0_darkness_ordered',
+    input: pokeranger2_ov0_darkness.extract_all_objects(recursive: false),
+    output: ['CFieldEffectDarknessClear.ordered.o'],
+    command: [elfdataorder_py, '@INPUT@', '@OUTPUT@', files('tools/elfdataorder/CFieldEffectDarknessClear.txt')],
+)
+pokeranger2_ov0_darkness_objs = custom_target('ov0_darkness_objs',
+    input: pokeranger2_ov0_darkness_ordered,
+    output: ['src_CFieldEffectDarknessClear.cpp.o'],
+    command: [elfrename_py, '@INPUT@', '@OUTPUT@',
+        '_ZN14TFieldParticleI16CSimpleSpriteNTFED1Ev=ov0_0216AD48',
+        '_ZN14TFieldParticleI16CSimpleSpriteNTFEC1Ev=ov0_0216AD5C',
+        '_ZN21TFieldParticleEmitterI16CSimpleSpriteNTFE5func2Ev=ov0_0216AE74',
+        '_ZN21TFieldParticleEmitterI16CSimpleSpriteNTFE6UpdateEi=ov0_0216BFFC',
+        '_ZN21TFieldParticleEmitterI16CSimpleSpriteNTFED0Ev=ov0_0216C6BC',
+        '_ZN21TFieldParticleEmitterI16CSimpleSpriteNTFED1Ev=ov0_0216CB50',
+        '_ZTI24TFieldParticleForceFieldI16CSimpleSpriteNTFE=ov0_02179EB4',
+        '_ZTI21TFieldParticleEmitterI16CSimpleSpriteNTFE=ov0_02179EBC',
+        '_ZTV21TFieldParticleEmitterI16CSimpleSpriteNTFE=ov0_02179F64',
+        '_ZTS21TFieldParticleEmitterI16CSimpleSpriteNTFE=ov0_0217A150',
+        '_ZTS24TFieldParticleForceFieldI16CSimpleSpriteNTFE=ov0_0217A17C',
+    ],
+)
+
 main = executable('main',
     sources: [
         pokeranger2_cxx,
@@ -239,8 +279,9 @@ main = executable('main',
         'ranger2.us/main.lcf',
         # Loaded after every other object, so its weak copies never win over the ones the other TUs provide.
         pokeranger2_ov0_sprite_objs.full_path(),
+        pokeranger2_ov0_darkness_objs.full_path(),
     ],
-    link_depends: [main_lcf, pokeranger2_ov0_sprite_objs],
+    link_depends: [main_lcf, pokeranger2_ov0_sprite_objs, pokeranger2_ov0_darkness_objs],
     native: false
 )
 
