@@ -5,17 +5,39 @@
 
 #include "field/CFieldEffectActor.hpp"
 #include "field/CFieldEffectFactory.hpp"
+#include "primitive/CSoftwareSprite.hpp"
 
-// size 0x13C, ctor ov0_0216D898
+// A beam from m_pos to m_end: a start sprite, a stretched middle sprite and a head sprite.
 class CFieldEffectLaser : public CFieldEffectActor {
 public:
+    CFieldEffectLaser(int kind);
     virtual ~CFieldEffectLaser();
-    virtual int GetEffectId();
+    virtual int GetEffectId()
+    {
+        return 3;
+    }
     virtual BOOL ov0_021421F0(int inTime, int holdTime, int outTime);
     virtual int ov0_02142264(int step);
     virtual int ov0_02142344(Camera2D *camera);
     virtual int SetParam(int param, int value);
+
+    void InitSprites();
+
+public:
+    Point2D m_pos;
+    Point2D m_end;
+    Point2D m_head;
+    Point2D m_vel;
+    fx32 m_length;
+    fx32 m_width;
+    fx32 m_widthIn;
+    fx32 m_widthOut;
+    fx32 m_midWidth;
+    CSoftwareSprite m_sprites[3];
+    u16 m_cacIds[3];
 };
+
+STATIC_SIZE_ASSERT(CFieldEffectLaser, 0x13C);
 
 class CFieldEffectLaserFactory : public CFieldEffectFactory {
 public:

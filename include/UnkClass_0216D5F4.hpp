@@ -6,16 +6,17 @@
 #include "common.hpp"
 #include "primitive/CPrimitiveRECT.hpp"
 
-// Defined in ov0
+class GraphicsSet;
+
+// The field's play-time display (mm:ss), drawn glyph by glyph with one textured rectangle.
 class UnkClass_0216D5F4 {
 public:
+    void Init(GraphicsSet *gfx);
+    void Draw(int time, fx32 z, Camera2D *camera);
+
     CPrimitiveRECT unk_00;
 };
 
 STATIC_SIZE_ASSERT(UnkClass_0216D5F4, 0x40);
-
-extern "C" {
-void ov0_0216D5F4(UnkClass_0216D5F4 *obj, void *arg1);
-}
 
 #endif // POKERANGER2_UNKCLASS_0216D5F4_HPP

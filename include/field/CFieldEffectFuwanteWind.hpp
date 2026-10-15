@@ -11,43 +11,75 @@
 #include "field/TFieldParticle.hpp"
 #include "primitive/CSoftwareSprite.hpp"
 
-// size 0x90, ctor ov0_0216F540
+class CellAnimController;
+
+// Wind gusts drifting left or right (param 0x17 picks the side), swirling after half their life.
 class CFieldEffectFuwanteWind : public TFieldEffectParticle<CSoftwareSprite> {
 public:
     class CEmitter : public TFieldParticleSmokeRectEmitter<CSoftwareSprite> {
     public:
-        virtual ~CEmitter();
+        CEmitter()
+            : TFieldParticleSmokeRectEmitter<CSoftwareSprite>(0)
+        {
+        }
         virtual void Emit(TFieldParticle<CSoftwareSprite> *p);
+
+        int m_dir;
     };
 
+    // Fades the gusts out and swaps their cell by the phase in the particle's flags (animIdx >> 16).
     class CAnimator : public TFieldParticleForceField<CSoftwareSprite> {
     public:
-        virtual ~CAnimator();
+        CAnimator()
+        {
+            m_cac = NULL;
+            m_cells = NULL;
+        }
         virtual void Apply(TFieldParticle<CSoftwareSprite> *p, int dt);
+
+        CellAnimController *m_cac;
+        u16 *m_cells;
     };
 
+    CFieldEffectFuwanteWind();
     virtual ~CFieldEffectFuwanteWind();
-    virtual int GetEffectId();
+    virtual int GetEffectId()
+    {
+        return 26;
+    }
     virtual int ov0_02142344(Camera2D *camera);
     virtual int SetParam(int param, int value);
-    virtual TFieldParticleForceField<CSoftwareSprite> *GetForceField();
-    virtual TFieldParticleEmitter<CSoftwareSprite> *GetEmitter();
+    virtual TFieldParticleEmitter<CSoftwareSprite> *GetEmitter()
+    {
+        return &m_emitter;
+    }
+    virtual TFieldParticleForceField<CSoftwareSprite> *GetForceField()
+    {
+        return &m_animator;
+    }
+
+    CEmitter m_emitter;
+    CAnimator m_animator;
 };
+
+STATIC_SIZE_ASSERT(CFieldEffectFuwanteWind, 0x90);
 
 class CFieldEffectFuwanteWindFactory : public CFieldEffectFactory {
 public:
     CFieldEffectFuwanteWindFactory()
     {
-        unk_38 = 0;
+        m_cells = NULL;
     }
     virtual ~CFieldEffectFuwanteWindFactory();
     virtual CFieldEffect *Create(int arg);
     virtual void Update(int frames);
     virtual void Reset();
+    BOOL Load();
+    void Release();
 
 public:
     CFieldEffectNormalActorData m_data;
-    int unk_38;
+    u16 *m_cells;
 };
 
 STATIC_SIZE_ASSERT(CFieldEffectFuwanteWindFactory, 0x3C);

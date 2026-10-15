@@ -9,11 +9,7 @@
 #include "scene/CFieldScene.hpp"
 
 extern CFieldScene *MAIN_BSS_0210CA40;
-extern ManpuBlockHeap *OVERLAY0_BSS_0217B0E0;
-
-// fake: an unreferenced global (own section, stripped by mwld) that only takes part in mwcc's size sort of the
-// TU's data; it orders the typeinfos ManpuSimple, Manpu, Actor like the original.
-u32 sFieldEffectManpuUnused;
+ManpuBlockHeap *OVERLAY0_BSS_0217B0E0;
 
 // A call in the dtor body (even an inlined one) makes mwcc store the class's own vptr first, like the original.
 inline void CFieldEffectManpu::Detach()

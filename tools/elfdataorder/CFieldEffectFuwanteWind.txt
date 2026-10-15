@@ -1,0 +1,10 @@
+# CFieldEffectFuwanteWind .data: the original order of each equal-size group (see src/CFieldEffectFuwanteWind.cpp).
+# 12 bytes
+_ZTIN23CFieldEffectFuwanteWind8CEmitterE
+_ZTI30CFieldEffectFuwanteWindFactory
+_ZTI23CFieldEffectFuwanteWind
+_ZTIN23CFieldEffectFuwanteWind9CAnimatorE
+
+# 32 bytes
+_ZTV30CFieldEffectFuwanteWindFactory
+_ZTVN23CFieldEffectFuwanteWind8CEmitterE
