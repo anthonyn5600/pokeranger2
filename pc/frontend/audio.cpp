@@ -1,6 +1,6 @@
 // Sound out of the computer's speakers: ntros's sound hardware output (NTROS_AUDIO_RATE) into an SDL audio device,
 // resampled to the device's rate. The sound card's clock, not the computer's, sets the pace: the frame limiter asks
-// SIM_ExtFrameNs for the frame length, which is up to 5 % shorter or longer than the DS's to keep about kTargetMs
+// Audio_FrameNs for the frame length, which is up to 5 % shorter or longer than the DS's to keep about kTargetMs
 // of sound queued (enough to ride out short stalls, like a window switch or a load).
 // PC_AUDIO_MUTE=1 sends silence to the device (same timing; for tests that must not be heard).
 // PC_AUDIO_DUMP=file.wav also writes the DS's own output (before resampling) to a file; PC_AUDIO_LOG=1 reports
@@ -14,6 +14,7 @@
 #include <time.h>
 #include <vector>
 
+#include "frontend.h"
 #include "ntros.h"
 
 namespace {
@@ -133,7 +134,7 @@ void Report(Uint32 queued)
     }
 }
 
-// The device opens with the first sound (SDL is up by then)
+// The device opens with the first sound (main has started SDL by then)
 void Samples(const short *frames, int count)
 {
     Dump(frames, count);
@@ -184,8 +185,7 @@ struct RegisterAudio {
 
 } // namespace
 
-// Frame length for libntr's frame limiter
-extern "C" long SIM_ExtFrameNs(void)
+long Audio_FrameNs()
 {
     if (sDevice == 0) {
         return 0;

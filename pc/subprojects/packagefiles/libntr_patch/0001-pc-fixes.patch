@@ -1952,7 +1952,7 @@ index f6741af..55eaa88 100644
  }
 \ No newline at end of file
 diff --git a/libraries/sim/src/sim_main.cpp b/libraries/sim/src/sim_main.cpp
-index d968038..b4e23d7 100644
+index d968038..3f4e7af 100644
 --- a/libraries/sim/src/sim_main.cpp
 +++ b/libraries/sim/src/sim_main.cpp
 @@ -3,6 +3,7 @@ extern "C" int NitroSpMain(void *arg);
@@ -2399,14 +2399,14 @@ index d968038..b4e23d7 100644
 +        (void)sTimerPeriod;
 +        if (-behindNs > 2000000) {
 +          Sleep((DWORD)((-behindNs - 1500000) / 1000000));
-         }
++        }
 +        for (;;) {
 +          struct timespec now;
 +          clock_gettime(CLOCK_MONOTONIC, &now);
 +          if (now.tv_sec > sDeadline.tv_sec || (now.tv_sec == sDeadline.tv_sec && now.tv_nsec >= sDeadline.tv_nsec)) {
 +            break;
 +          }
-+        }
+         }
 +#else
 +        clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &sDeadline, NULL);
 +#endif
@@ -2436,6 +2436,69 @@ index d968038..b4e23d7 100644
    SDL_SemPost(vcountResetSemaphore);
  }
  
+@@ -1410,16 +1613,9 @@ const char * SIM_GetProjectGitHash() {
+   return SIM_PROJECT_GIT_HASH;
+ }
+ 
+-#ifdef _WIN32
+-int main(int argc, char *argv[]);
+-
+-int APIENTRY WinMain(HINSTANCE hInst, HINSTANCE hInstPrev, PSTR cmdline,
+-                     int cmdshow) {
+-  return main(__argc, __argv);
+-}
+-#endif
+-
+-int main(int argc, char *argv[]) {
++// PC port: the port has its own main, window and frame loop (pc/frontend) and runs the game itself; this sets up
++// what it still takes from libntr (no window, OpenGL or ARM7 sound)
++extern "C" void SIM_PortInit(int argc, char *argv[]) {
+ #ifdef SDK_BUILD_NX
+   // Start up libnx sockets
+   socketInitializeDefault();
+@@ -1510,9 +1706,6 @@ int main(int argc, char *argv[]) {
+     }
+   }
+ 
+-  SND_ExChannelInit();
+-  SND_SeqInit();
+-
+   // Zero out some shared memory
+   memset(s_HW_BG_PLTT, 0, sizeof(s_HW_BG_PLTT));
+   memset(s_HW_OBJ_PLTT, 0, sizeof(s_HW_OBJ_PLTT));
+@@ -1546,16 +1739,13 @@ int main(int argc, char *argv[]) {
+   SetConsoleOutputCP(65001);
+ #endif
+ 
+-  SIM_RenderInit(NULL);
+-  G3SIM_DrawInit();
+-
+ // Init Sockets (only needed on windows)
+ #ifdef SDK_BUILD_WIN64
+   WSADATA wsa;
+ 
+   if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0) {
+     printf("Failed to initialize winsock. Error Code : %d", WSAGetLastError());
+-    return 1;
++    exit(1);
+   }
+ #endif
+ 
+@@ -1565,14 +1755,10 @@ int main(int argc, char *argv[]) {
+   if (argc >= 2) {
+     if (strcmp(argv[1], "--net-host") == 0) {
+       SIM_Net_StartHost();
+-      SDL_SetWindowTitle(window, "Host");
+     }
+     if (strcmp(argv[1], "--net-client") == 0) {
+       SIM_Net_StartClient(s_SIM_config.netSettings.serverIp);
+-      SDL_SetWindowTitle(window, "Client");
+     }
+   }
+ 
+-  NitroMain();
+-  return 0;
+ }
 diff --git a/libraries/sim7/include/nanotime.h b/libraries/sim7/include/nanotime.h
 index d6a1b8f..8d59024 100644
 --- a/libraries/sim7/include/nanotime.h

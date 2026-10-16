@@ -120,10 +120,11 @@ pokeranger2_pc_cxx = [
         'src/pc/SdkCompat.cpp',
         'src/pc/LayoutChecks.cpp',
         'src/pc/PcDebug.cpp',
-        # Our renderer, controls and game card inside libntr's window
-        'glue/audio_sdl.cpp',
+        # Our window, controls and sound
+        'frontend/audio.cpp',
+        'frontend/frontend.cpp',
+        # Our renderer and game card on libntr's state
         'glue/cartridge.cpp',
-        'glue/input_libntr.cpp',
         'glue/ntrgfx_libntr.cpp',
         'glue/pxi_libntr.cpp',
         'glue/vramtrack.cpp',
