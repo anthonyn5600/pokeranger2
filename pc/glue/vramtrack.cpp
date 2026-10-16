@@ -12,7 +12,9 @@
 
 #include "vramtrack.hpp"
 
-#include <execinfo.h>
+#ifndef _WIN32
+#include <execinfo.h> // no call stacks on Windows
+#endif
 #include <nitro.h>
 #include <simulator/simvariables.h>
 #include <stdio.h>
@@ -135,7 +137,11 @@ u32 InternSite(const char *func)
 {
     Site site;
     site.func = func;
+#ifdef _WIN32
+    site.depth = 0;
+#else
     site.depth = backtrace(site.stack, kStackDepth);
+#endif
     // frame 0 = this function, 1 = Record, 2 = the __wrap_ function: skip them
     std::string key(func);
     key.append((const char *)&site.stack[3], sizeof(void *) * (site.depth > 3 ? site.depth - 3 : 0));

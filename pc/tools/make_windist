@@ -1,0 +1,22 @@
+#!/bin/bash
+# Assemble the Windows build into a folder Windows can run from:
+#   tools/make_windist DEST [--with-save]
+# DEST gets Play.bat (start it with this), pokeranger2.exe (build-win), SDL2.dll + libwinpthread-1.dll, the run folder's settings (sim_config.ini,
+# firmware.bin, dwc/) and the game files as real copies (run/files holds Linux links into res/prebuilt: the ROM's
+# files from your own build, for your own use only). --with-save copies run/pokeranger2.sav unless DEST has one.
+set -e
+PC_DIR=$(cd "$(dirname "$0")/.." && pwd)
+DEST=${1:?usage: make_windist DEST [--with-save]}
+SYSROOT=${WIN_SYSROOT:-$HOME/scratch/pcport/win/sysroot}
+mkdir -p "$DEST"
+cp "$PC_DIR/build-win/pokeranger2.exe" "$DEST/"
+cp "$SYSROOT/bin/SDL2.dll" "$DEST/"
+cp /usr/x86_64-w64-mingw32/lib/libwinpthread-1.dll "$DEST/"
+cp "$PC_DIR/run/sim_config.ini" "$PC_DIR/run/firmware.bin" "$DEST/"
+cp -r "$PC_DIR/run/dwc" "$DEST/"
+sed "s/$/\r/" "$PC_DIR/tools/windist_play.bat" > "$DEST/Play.bat"
+rsync -rL --delete "$PC_DIR/run/files/" "$DEST/files/"
+if [ "$2" = "--with-save" ] && [ ! -e "$DEST/pokeranger2.sav" ]; then
+    cp "$PC_DIR/run/pokeranger2.sav" "$DEST/"
+fi
+echo "make_windist: $DEST ready"

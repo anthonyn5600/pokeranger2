@@ -30,7 +30,20 @@ pokeranger2_args = [
     '-fno-pie',
 ]
 
-pokeranger2_link_args = ['-no-pie', '-Wl,--version-script=' + meson.current_source_dir() / 'exe.map']
+if build_target == 'win64'
+    # Windows: a fixed image base below 2 GB without ASLR (the same reason as -no-pie), the C/C++ runtimes linked in,
+    # winmm for enet's timers
+    pokeranger2_link_args = [
+        '-Wl,--image-base=0x10000000',
+        '-Wl,--disable-dynamicbase',
+        '-Wl,--disable-high-entropy-va',
+        '-static-libgcc',
+        '-static-libstdc++',
+        '-lwinmm',
+    ]
+else
+    pokeranger2_link_args = ['-no-pie', '-Wl,--version-script=' + meson.current_source_dir() / 'exe.map']
+endif
 
 # "Who wrote this?" tracking of display memory (pc/glue/vramtrack.cpp): every SDK copy/fill goes through a wrapper
 vramtrack_wraps = [
@@ -116,6 +129,10 @@ pokeranger2_pc_cxx = [
         'glue/vramtrack.cpp',
     ),
 ]
+
+if build_target == 'win64'
+    pokeranger2_pc_cxx += files('glue/win32.cpp')
+endif
 
 main = executable('pokeranger2',
     sources: pokeranger2_pc_cxx,

@@ -1852,6 +1852,28 @@ index 7bb4e2c..7e7d162 100644
 +    nitrosdk_libs += librtc
      nitrosdk_arm7_libs += librtc_arm7
  endif
+diff --git a/libraries/sim/include/nanotime.h b/libraries/sim/include/nanotime.h
+index d6a1b8f..8d59024 100644
+--- a/libraries/sim/include/nanotime.h
++++ b/libraries/sim/include/nanotime.h
+@@ -186,7 +186,7 @@ bool nanotime_step(nanotime_step_data* const stepper);
+ #ifndef NOMINMAX
+ #define NOMINMAX
+ #endif
+-#include <Windows.h>
++#include <windows.h>
+ 
+ #ifndef NANOTIME_NOW_IMPLEMENTED
+ uint64_t nanotime_now() {
+@@ -285,7 +285,7 @@ void nanotime_sleep(uint64_t nsec_count) {
+ #ifndef NOMINMAX
+ #define NOMINMAX
+ #endif
+-#include <Windows.h>
++#include <windows.h>
+ void nanotime_yield() {
+ 	YieldProcessor();
+ }
 diff --git a/libraries/sim/src/g3_handler.cpp b/libraries/sim/src/g3_handler.cpp
 index 1ded67d..a5de24f 100644
 --- a/libraries/sim/src/g3_handler.cpp
@@ -1881,6 +1903,19 @@ index 1ded67d..a5de24f 100644
  
  
      return;
+diff --git a/libraries/sim/src/imgui/imgui.cpp b/libraries/sim/src/imgui/imgui.cpp
+index f7a3330..343d44e 100644
+--- a/libraries/sim/src/imgui/imgui.cpp
++++ b/libraries/sim/src/imgui/imgui.cpp
+@@ -1283,7 +1283,7 @@ static tm* localtime_r(const time_t* timep, tm* result) { return localtime_s(res
+ #define NOMINMAX
+ #endif
+ #ifndef __MINGW32__
+-#include <Windows.h>        // _wfopen, OpenClipboard
++#include <windows.h>        // _wfopen, OpenClipboard
+ #else
+ #include <windows.h>
+ #endif
 diff --git a/libraries/sim/src/sim_g2.cpp b/libraries/sim/src/sim_g2.cpp
 index 86cd85e..e86f72a 100644
 --- a/libraries/sim/src/sim_g2.cpp
@@ -1917,7 +1952,7 @@ index f6741af..55eaa88 100644
  }
 \ No newline at end of file
 diff --git a/libraries/sim/src/sim_main.cpp b/libraries/sim/src/sim_main.cpp
-index d968038..21aa7ff 100644
+index d968038..b4e23d7 100644
 --- a/libraries/sim/src/sim_main.cpp
 +++ b/libraries/sim/src/sim_main.cpp
 @@ -3,6 +3,7 @@ extern "C" int NitroSpMain(void *arg);
@@ -1928,7 +1963,20 @@ index d968038..21aa7ff 100644
  #include <string>
  #include <pthread.h>
  #include <SDL2/SDL.h>
-@@ -181,33 +182,7 @@ SNDSharedWork *win_SNDi_SharedWork;
+@@ -39,6 +40,12 @@ extern "C" int NitroSpMain(void *arg);
+ 
+ #include <math.h>
+ #include <time.h>
++#ifdef _WIN32
++// PC port: the frame limiter's wait (windows.h itself clashes with SDK names)
++extern "C" __declspec(dllimport) unsigned int __stdcall timeBeginPeriod(unsigned int period);
++extern "C" __declspec(dllimport) void __stdcall Sleep(unsigned long ms);
++typedef unsigned long DWORD;
++#endif
+ 
+ #include "screenquads.h"
+ 
+@@ -181,33 +188,7 @@ SNDSharedWork *win_SNDi_SharedWork;
  
  static bool sFastForward = false;
  
@@ -1963,7 +2011,7 @@ index d968038..21aa7ff 100644
  
  u8 s_mosaicTable[16][256];
  
-@@ -272,10 +247,6 @@ void SIM_u16ToRGB(u16 in, u8 *r, u8 *g, u8 *b) {
+@@ -272,10 +253,6 @@ void SIM_u16ToRGB(u16 in, u8 *r, u8 *g, u8 *b) {
    *b = ( ((in >> 10) & 0x1F) * 527 + 23 ) >> 6;
  }
  
@@ -1974,7 +2022,7 @@ index d968038..21aa7ff 100644
  
  void GLAPIENTRY MessageCallback(GLenum source, GLenum type, GLuint id,
                                  GLenum severity, GLsizei length,
-@@ -312,7 +283,7 @@ void *SIM_RenderInit(void *arg) {
+@@ -312,7 +289,7 @@ void *SIM_RenderInit(void *arg) {
  
    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER |
             SDL_INIT_JOYSTICK);
@@ -1983,7 +2031,7 @@ index d968038..21aa7ff 100644
  
    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
-@@ -380,6 +351,9 @@ void *SIM_RenderInit(void *arg) {
+@@ -380,6 +357,9 @@ void *SIM_RenderInit(void *arg) {
        windowTitle.c_str(), 100, 100, windowWidth, windowHeight,
        SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
    context = SDL_GL_CreateContext(window);
@@ -1993,7 +2041,7 @@ index d968038..21aa7ff 100644
  
    if(s_SIM_config.fullScreen) {
      SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
-@@ -705,7 +679,11 @@ static void DrawEngine(BOOL isSub) {
+@@ -705,7 +685,11 @@ static void DrawEngine(BOOL isSub) {
        u8 b;
        u8 a;
        for (int j = 0; j < 256; j++) {
@@ -2006,7 +2054,7 @@ index d968038..21aa7ff 100644
            u8 colorIdx = OBJLine[isSub][j] & 0xFF;
            if (colorIdx) {
              u16 *objPltt =
-@@ -941,6 +919,183 @@ static void HandleJoystickKeyUp(int aKey) {
+@@ -941,6 +925,183 @@ static void HandleJoystickKeyUp(int aKey) {
    }
  }
  
@@ -2190,7 +2238,7 @@ index d968038..21aa7ff 100644
  void *SIM_Render(void *arg) {
  
    SDL_Event Event;
-@@ -958,6 +1113,8 @@ void *SIM_Render(void *arg) {
+@@ -958,6 +1119,8 @@ void *SIM_Render(void *arg) {
    // Draw the translucent 3D stuff
    G3SIM_DrawItems();
  
@@ -2199,7 +2247,7 @@ index d968038..21aa7ff 100644
    do {
  #ifdef SDK_TRACY_ENABLE
      TracyCZone(SimRenderZone, 1);
-@@ -1117,19 +1274,26 @@ void *SIM_Render(void *arg) {
+@@ -1117,19 +1280,26 @@ void *SIM_Render(void *arg) {
          } else if (keyRead == s_SIM_config.padSettings.guiKey) {
            // Toggle Debug GUI
            SIM::GUI::Toggle();
@@ -2228,7 +2276,7 @@ index d968038..21aa7ff 100644
            sFastForward = true;
            SDL_GL_SetSwapInterval(0);
          }
-@@ -1175,8 +1339,11 @@ void *SIM_Render(void *arg) {
+@@ -1175,8 +1345,11 @@ void *SIM_Render(void *arg) {
            // Select button
            s_reg_PAD_KEYINPUT = s_reg_PAD_KEYINPUT | 0b0000000000000100;
          } else if(keyRead == s_SIM_config.padSettings.frameCapKey) {
@@ -2241,7 +2289,7 @@ index d968038..21aa7ff 100644
          }
        }
        if (Event.type == SDL_JOYBUTTONDOWN) {
-@@ -1266,38 +1433,39 @@ void *SIM_Render(void *arg) {
+@@ -1266,38 +1439,39 @@ void *SIM_Render(void *arg) {
      SIM::GUI::NewFrame();
      SIM::GUI::Main();
  
@@ -2313,7 +2361,7 @@ index d968038..21aa7ff 100644
  
      SIM::GUI::Render();
  
-@@ -1312,19 +1480,33 @@ void *SIM_Render(void *arg) {
+@@ -1312,19 +1486,49 @@ void *SIM_Render(void *arg) {
  #ifdef SDK_TRACY_ENABLE
      TracyCZoneEnd(SimRenderZone);
  #endif
@@ -2328,7 +2376,6 @@ index d968038..21aa7ff 100644
 -        u64 frameTimeRemainingMs = frameTimeRemaining / 1000000;
 -        if (frameTimeRemainingMs > 1) {
 -          SDL_Delay(frameTimeRemainingMs - 1);
--        }
 +      static struct timespec sDeadline;
 +      long kFrameNs = 16715260;
 +      if (SIM_ExtFrameNs != NULL && SIM_ExtFrameNs() > 0) {
@@ -2346,7 +2393,23 @@ index d968038..21aa7ff 100644
 +      if (behindNs > 100000000) {
 +        sDeadline = curTime;
 +      } else if (behindNs < 0) {
++#ifdef _WIN32
++        // No absolute-deadline sleep on Windows: Sleep (1 ms timer resolution) most of the way, then spin
++        static bool sTimerPeriod = (timeBeginPeriod(1), true);
++        (void)sTimerPeriod;
++        if (-behindNs > 2000000) {
++          Sleep((DWORD)((-behindNs - 1500000) / 1000000));
+         }
++        for (;;) {
++          struct timespec now;
++          clock_gettime(CLOCK_MONOTONIC, &now);
++          if (now.tv_sec > sDeadline.tv_sec || (now.tv_sec == sDeadline.tv_sec && now.tv_nsec >= sDeadline.tv_nsec)) {
++            break;
++          }
++        }
++#else
 +        clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &sDeadline, NULL);
++#endif
        }
      }
  
@@ -2356,7 +2419,7 @@ index d968038..21aa7ff 100644
      SDL_GL_SwapWindow(window);
  
      if(sChangeInternalResAfterRender) {
-@@ -1357,6 +1539,7 @@ void *SIM_Render(void *arg) {
+@@ -1357,6 +1561,7 @@ void *SIM_Render(void *arg) {
    glBindRenderbuffer(GL_RENDERBUFFER, g3RenderBufferId);
  
    // Setup 3D Viewport
@@ -2364,7 +2427,7 @@ index d968038..21aa7ff 100644
    if (s_reg_GX_POWCNT >> 15) {
      glViewport(0, SIM_NDS_SCREEN_HEIGHT * s_SIM_config.internalResolutionScale,
                 SIM_NDS_SCREEN_WIDTH * s_SIM_config.internalResolutionScale,
-@@ -1397,8 +1580,6 @@ void SIM_PostRenderVBlank() {
+@@ -1397,8 +1602,6 @@ void SIM_PostRenderVBlank() {
      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
      G3SIM_ResetSwapBuffersCall();
    }
@@ -2373,6 +2436,28 @@ index d968038..21aa7ff 100644
    SDL_SemPost(vcountResetSemaphore);
  }
  
+diff --git a/libraries/sim7/include/nanotime.h b/libraries/sim7/include/nanotime.h
+index d6a1b8f..8d59024 100644
+--- a/libraries/sim7/include/nanotime.h
++++ b/libraries/sim7/include/nanotime.h
+@@ -186,7 +186,7 @@ bool nanotime_step(nanotime_step_data* const stepper);
+ #ifndef NOMINMAX
+ #define NOMINMAX
+ #endif
+-#include <Windows.h>
++#include <windows.h>
+ 
+ #ifndef NANOTIME_NOW_IMPLEMENTED
+ uint64_t nanotime_now() {
+@@ -285,7 +285,7 @@ void nanotime_sleep(uint64_t nsec_count) {
+ #ifndef NOMINMAX
+ #define NOMINMAX
+ #endif
+-#include <Windows.h>
++#include <windows.h>
+ void nanotime_yield() {
+ 	YieldProcessor();
+ }
 diff --git a/libraries/snd/src/snd_bank.c b/libraries/snd/src/snd_bank.c
 index c85201b..84551f8 100644
 --- a/libraries/snd/src/snd_bank.c

@@ -29,7 +29,11 @@ struct tm Now()
 {
     time_t now = time(NULL) + sOffset;
     struct tm t;
+#ifdef _WIN32
+    localtime_s(&t, &now);
+#else
     localtime_r(&now, &t);
+#endif
     return t;
 }
 
@@ -109,7 +113,8 @@ s32 RTC_ConvertDateToDay(const RTCDate *date)
 
 void RTC_ConvertDayToDate(RTCDate *date, s32 day)
 {
-    day = day < 0 ? 0 : day > kLastDay ? kLastDay : day;
+    day = day < 0 ? 0 : day > kLastDay ? kLastDay
+                                       : day;
     date->week = (RTCWeek)((day + 6) % 7); // 2000-01-01 was a Saturday
     u32 year = 0;
     for (; year < 99; year++) {
@@ -150,7 +155,8 @@ s64 RTC_ConvertDateTimeToSecond(const RTCDate *date, const RTCTime *time)
 
 void RTC_ConvertSecondToDateTime(RTCDate *date, RTCTime *time, s64 sec)
 {
-    sec = sec < 0 ? 0 : sec > kLastSecond ? kLastSecond : sec;
+    sec = sec < 0 ? 0 : sec > kLastSecond ? kLastSecond
+                                          : sec;
     s32 inDay = (s32)(sec % 86400);
     time->second = (u32)(inDay % 60);
     time->minute = (u32)(inDay / 60 % 60);

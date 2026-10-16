@@ -14,10 +14,16 @@
 #include <mutex>
 #include <pthread.h>
 #include <stdlib.h>
-#include <sys/mman.h>
 #include <thread>
-#include <ucontext.h>
 #include <vector>
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
+#include <windows.h> // coroutines are Windows fibers
+#else
+#include <sys/mman.h>
+#include <ucontext.h> // coroutines are ucontext contexts on their own mmap'd stacks
+#endif
 
 #include "internal.hpp"
 
@@ -28,8 +34,12 @@ namespace {
 
     struct Fiber {
         bool host; // a host thread (libntr's ARM7 side) instead of a coroutine
+#ifdef _WIN32
+        void *winFiber;
+#else
         ucontext_t context;
         void *stack;
+#endif
         bool irqDisabled; // the thread's CPSR I flag while it is switched out
         void (*func)(void *);
         void *arg;
@@ -152,7 +162,11 @@ namespace {
     {
         for (size_t i = 0; i < sGraveyard.size();) {
             if (sGraveyard[i] != running) {
+#ifdef _WIN32
+                DeleteFiber(sGraveyard[i]->winFiber);
+#else
                 munmap(sGraveyard[i]->stack, kFiberStackSize);
+#endif
                 delete sGraveyard[i];
                 sGraveyard[i] = sGraveyard.back();
                 sGraveyard.pop_back();
@@ -180,7 +194,12 @@ namespace {
         fromFiber->irqDisabled = IrqDisabled();
         IrqDisabled() = toFiber->irqDisabled;
         sStartingFiber = toFiber;
+#ifdef _WIN32
+        (void)fromFiber;
+        SwitchToFiber(toFiber->winFiber);
+#else
         swapcontext(&fromFiber->context, &toFiber->context);
+#endif
         // Running again (as from)
         FreeGraveyard(fromFiber);
     }
@@ -382,6 +401,9 @@ void OS_InitThread(void)
     launcher->state = OS_THREAD_STATE_READY;
     launcher->next = NULL;
     launcher->win_sdlThread = reinterpret_cast<SDL_Thread *>(&sLauncherFiber);
+#ifdef _WIN32
+    sLauncherFiber.winFiber = ConvertThreadToFiber(NULL); // the host thread itself becomes the first fiber
+#endif
     OS_InitThreadQueue(&launcher->joinQueue);
     InsertToList(launcher);
     OSi_ThreadInfo.current = launcher;
@@ -443,12 +465,16 @@ void OS_CreateThreadReal(OSThread *thread, void (*func)(void *), void *arg, void
         std::thread(HostThreadMain, thread).detach();
         return;
     }
+#ifdef _WIN32
+    fiber->winFiber = CreateFiber(kFiberStackSize, [](void *) { FiberEntry(); }, NULL);
+#else
     fiber->stack = mmap(NULL, kFiberStackSize, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
     getcontext(&fiber->context);
     fiber->context.uc_stack.ss_sp = fiber->stack;
     fiber->context.uc_stack.ss_size = kFiberStackSize;
     fiber->context.uc_link = NULL;
     makecontext(&fiber->context, FiberEntry, 0);
+#endif
 }
 
 void OS_CreateThreadDebug(OSThread *thread, void (*func)(void *), void *arg, void *stack, u32 stackSize, u32 prio, const char *name, const char *filename, u32 line)

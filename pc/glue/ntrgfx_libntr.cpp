@@ -20,6 +20,7 @@
 //   NTRGFX_TRACE=bgA:0x4000-0x4100   print writes to that range as they happen (vramtrack.cpp)
 //   NTRGFX_G3LOG=N           print the geometry commands sent during frame N (command, parameters; FIFO words)
 
+#include <chrono>
 #include <nitro.h>
 #include <set>
 #include <simulator/simvariables.h>
@@ -178,7 +179,11 @@ std::string DumpPath(uint32_t frame)
 {
     const char *dir = getenv("NTRGFX_DUMP_DIR");
     std::string base = dir != NULL ? dir : "ntrgfx_dumps";
+#ifdef _WIN32
+    mkdir(base.c_str());
+#else
     mkdir(base.c_str(), 0755);
+#endif
     char name[64];
     snprintf(name, sizeof(name), "/frame_%06u", frame);
     return base + name;
@@ -326,7 +331,7 @@ extern "C" void SIM_ExtG3Command(u32 op, const u32 *params)
         }
         fprintf(stderr, "\n");
     }
-    NtrGfx_GeometryCommand(Geometry(), op, params);
+    NtrGfx_GeometryCommand(Geometry(), op, reinterpret_cast<const uint32_t *>(params)); // u32 is unsigned long on Windows
     // Matrix commands change the clip / vector matrices; the tests set their results
     if ((op >= 0x10 && op <= 0x1C) || (op >= 0x70 && op <= 0x72)) {
         WriteGeometryResults();
@@ -418,6 +423,21 @@ void DrawLine(int y)
     NtrGfx_RenderLine(sRenderer, y);
 }
 
+// PC_FPS_LOG=1: frames per second of real time, every 300 frames
+void ReportFrameRate()
+{
+    static const bool sLog = getenv("PC_FPS_LOG") != NULL;
+    static auto sStart = std::chrono::steady_clock::now();
+    static int sFrames;
+    if (!sLog || ++sFrames < 300) {
+        return;
+    }
+    auto now = std::chrono::steady_clock::now();
+    fprintf(stderr, "pc: %.2f frames/s\n", sFrames / std::chrono::duration<double>(now - sStart).count());
+    sStart = now;
+    sFrames = 0;
+}
+
 void EndFrame()
 {
     if (sRenderer != NULL) {
@@ -437,6 +457,7 @@ void EndFrame()
         }
     }
     sFrameNo++;
+    ReportFrameRate();
     // libntr shows the picture (ours via SIM_ExtRenderFrame, or its own), reads input and paces to 60 Hz
     SIM_PreRenderVBlank();
     SIM_Render(NULL);
